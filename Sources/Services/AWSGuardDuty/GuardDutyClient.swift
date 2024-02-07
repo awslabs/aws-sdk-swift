@@ -66,7 +66,7 @@ public struct GuardDutyClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension GuardDutyClient: GuardDutyClientProtocol {
+extension GuardDutyClient {
     /// Performs the `AcceptAdministratorInvitation` operation on the `GuardDutyAPIService` service.
     ///
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
@@ -80,8 +80,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutput
-    {
+    public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
-    {
+    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,8 +173,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func archiveFindings(input: ArchiveFindingsInput) async throws -> ArchiveFindingsOutput
-    {
+    public func archiveFindings(input: ArchiveFindingsInput) async throws -> ArchiveFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -222,8 +219,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createDetector(input: CreateDetectorInput) async throws -> CreateDetectorOutput
-    {
+    public func createDetector(input: CreateDetectorInput) async throws -> CreateDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -270,8 +266,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput
-    {
+    public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput
-    {
+    public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +360,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput
-    {
+    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +406,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createPublishingDestination(input: CreatePublishingDestinationInput) async throws -> CreatePublishingDestinationOutput
-    {
+    public func createPublishingDestination(input: CreatePublishingDestinationInput) async throws -> CreatePublishingDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -461,8 +453,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutput
-    {
+    public func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -508,8 +499,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func createThreatIntelSet(input: CreateThreatIntelSetInput) async throws -> CreateThreatIntelSetOutput
-    {
+    public func createThreatIntelSet(input: CreateThreatIntelSetInput) async throws -> CreateThreatIntelSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -556,8 +546,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput
-    {
+    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -603,8 +592,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutput
-    {
+    public func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -647,8 +635,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput
-    {
+    public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +678,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput
-    {
+    public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -735,8 +721,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput
-    {
+    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -782,8 +767,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput
-    {
+    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -829,8 +813,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deletePublishingDestination(input: DeletePublishingDestinationInput) async throws -> DeletePublishingDestinationOutput
-    {
+    public func deletePublishingDestination(input: DeletePublishingDestinationInput) async throws -> DeletePublishingDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -873,8 +856,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func deleteThreatIntelSet(input: DeleteThreatIntelSetInput) async throws -> DeleteThreatIntelSetOutput
-    {
+    public func deleteThreatIntelSet(input: DeleteThreatIntelSetInput) async throws -> DeleteThreatIntelSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -917,8 +899,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func describeMalwareScans(input: DescribeMalwareScansInput) async throws -> DescribeMalwareScansOutput
-    {
+    public func describeMalwareScans(input: DescribeMalwareScansInput) async throws -> DescribeMalwareScansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -964,8 +945,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-    {
+    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1009,8 +989,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func describePublishingDestination(input: DescribePublishingDestinationInput) async throws -> DescribePublishingDestinationOutput
-    {
+    public func describePublishingDestination(input: DescribePublishingDestinationInput) async throws -> DescribePublishingDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1032,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
-    {
+    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1100,8 +1078,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput
-    {
+    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1145,8 +1122,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput
-    {
+    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1189,8 +1165,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutput
-    {
+    public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1236,8 +1211,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
-    {
+    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1283,8 +1257,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput
-    {
+    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1327,8 +1300,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getCoverageStatistics(input: GetCoverageStatisticsInput) async throws -> GetCoverageStatisticsOutput
-    {
+    public func getCoverageStatistics(input: GetCoverageStatisticsInput) async throws -> GetCoverageStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1374,8 +1346,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutput
-    {
+    public func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1418,8 +1389,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getFilter(input: GetFilterInput) async throws -> GetFilterOutput
-    {
+    public func getFilter(input: GetFilterInput) async throws -> GetFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1462,8 +1432,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
-    {
+    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1509,8 +1478,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getFindingsStatistics(input: GetFindingsStatisticsInput) async throws -> GetFindingsStatisticsOutput
-    {
+    public func getFindingsStatistics(input: GetFindingsStatisticsInput) async throws -> GetFindingsStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1556,8 +1524,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput
-    {
+    public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1600,8 +1567,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput
-    {
+    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1644,8 +1610,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getMalwareScanSettings(input: GetMalwareScanSettingsInput) async throws -> GetMalwareScanSettingsOutput
-    {
+    public func getMalwareScanSettings(input: GetMalwareScanSettingsInput) async throws -> GetMalwareScanSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1689,8 +1654,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput
-    {
+    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1733,8 +1697,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getMemberDetectors(input: GetMemberDetectorsInput) async throws -> GetMemberDetectorsOutput
-    {
+    public func getMemberDetectors(input: GetMemberDetectorsInput) async throws -> GetMemberDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1780,8 +1743,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput
-    {
+    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1827,8 +1789,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getOrganizationStatistics(input: GetOrganizationStatisticsInput) async throws -> GetOrganizationStatisticsOutput
-    {
+    public func getOrganizationStatistics(input: GetOrganizationStatisticsInput) async throws -> GetOrganizationStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1871,8 +1832,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getRemainingFreeTrialDays(input: GetRemainingFreeTrialDaysInput) async throws -> GetRemainingFreeTrialDaysOutput
-    {
+    public func getRemainingFreeTrialDays(input: GetRemainingFreeTrialDaysInput) async throws -> GetRemainingFreeTrialDaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1918,8 +1878,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getThreatIntelSet(input: GetThreatIntelSetInput) async throws -> GetThreatIntelSetOutput
-    {
+    public func getThreatIntelSet(input: GetThreatIntelSetInput) async throws -> GetThreatIntelSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1962,8 +1921,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutput
-    {
+    public func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2009,8 +1967,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput
-    {
+    public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2056,8 +2013,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutput
-    {
+    public func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2103,8 +2059,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listDetectors(input: ListDetectorsInput) async throws -> ListDetectorsOutput
-    {
+    public func listDetectors(input: ListDetectorsInput) async throws -> ListDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2148,8 +2103,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput
-    {
+    public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2193,8 +2147,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
-    {
+    public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2240,8 +2193,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput
-    {
+    public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2285,8 +2237,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-    {
+    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2330,8 +2281,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2375,8 +2325,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
-    {
+    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2420,8 +2369,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listPublishingDestinations(input: ListPublishingDestinationsInput) async throws -> ListPublishingDestinationsOutput
-    {
+    public func listPublishingDestinations(input: ListPublishingDestinationsInput) async throws -> ListPublishingDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2466,8 +2414,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2510,8 +2457,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func listThreatIntelSets(input: ListThreatIntelSetsInput) async throws -> ListThreatIntelSetsOutput
-    {
+    public func listThreatIntelSets(input: ListThreatIntelSetsInput) async throws -> ListThreatIntelSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2556,8 +2502,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// - `BadRequestException` : A bad request exception object.
     /// - `ConflictException` : A request conflict exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func startMalwareScan(input: StartMalwareScanInput) async throws -> StartMalwareScanOutput
-    {
+    public func startMalwareScan(input: StartMalwareScanInput) async throws -> StartMalwareScanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2603,8 +2548,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func startMonitoringMembers(input: StartMonitoringMembersInput) async throws -> StartMonitoringMembersOutput
-    {
+    public func startMonitoringMembers(input: StartMonitoringMembersInput) async throws -> StartMonitoringMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2650,8 +2594,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func stopMonitoringMembers(input: StopMonitoringMembersInput) async throws -> StopMonitoringMembersOutput
-    {
+    public func stopMonitoringMembers(input: StopMonitoringMembersInput) async throws -> StopMonitoringMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2698,8 +2641,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2745,8 +2687,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func unarchiveFindings(input: UnarchiveFindingsInput) async throws -> UnarchiveFindingsOutput
-    {
+    public func unarchiveFindings(input: UnarchiveFindingsInput) async throws -> UnarchiveFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2793,8 +2734,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2838,8 +2778,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateDetector(input: UpdateDetectorInput) async throws -> UpdateDetectorOutput
-    {
+    public func updateDetector(input: UpdateDetectorInput) async throws -> UpdateDetectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2885,8 +2824,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutput
-    {
+    public func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2932,8 +2870,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateFindingsFeedback(input: UpdateFindingsFeedbackInput) async throws -> UpdateFindingsFeedbackOutput
-    {
+    public func updateFindingsFeedback(input: UpdateFindingsFeedbackInput) async throws -> UpdateFindingsFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2979,8 +2916,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput
-    {
+    public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3026,8 +2962,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateMalwareScanSettings(input: UpdateMalwareScanSettingsInput) async throws -> UpdateMalwareScanSettingsOutput
-    {
+    public func updateMalwareScanSettings(input: UpdateMalwareScanSettingsInput) async throws -> UpdateMalwareScanSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3073,8 +3008,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateMemberDetectors(input: UpdateMemberDetectorsInput) async throws -> UpdateMemberDetectorsOutput
-    {
+    public func updateMemberDetectors(input: UpdateMemberDetectorsInput) async throws -> UpdateMemberDetectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3120,8 +3054,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-    {
+    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3167,8 +3100,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updatePublishingDestination(input: UpdatePublishingDestinationInput) async throws -> UpdatePublishingDestinationOutput
-    {
+    public func updatePublishingDestination(input: UpdatePublishingDestinationInput) async throws -> UpdatePublishingDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3214,8 +3146,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
-    public func updateThreatIntelSet(input: UpdateThreatIntelSetInput) async throws -> UpdateThreatIntelSetOutput
-    {
+    public func updateThreatIntelSet(input: UpdateThreatIntelSetInput) async throws -> UpdateThreatIntelSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

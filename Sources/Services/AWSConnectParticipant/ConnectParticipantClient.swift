@@ -66,7 +66,7 @@ public struct ConnectParticipantClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension ConnectParticipantClient: ConnectParticipantClientProtocol {
+extension ConnectParticipantClient {
     /// Performs the `CompleteAttachmentUpload` operation on the `AmazonConnectParticipantServiceLambda` service.
     ///
     /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
@@ -84,8 +84,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of attachments per contact exceeds the quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func completeAttachmentUpload(input: CompleteAttachmentUploadInput) async throws -> CompleteAttachmentUploadOutput
-    {
+    public func completeAttachmentUpload(input: CompleteAttachmentUploadInput) async throws -> CompleteAttachmentUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func createParticipantConnection(input: CreateParticipantConnectionInput) async throws -> CreateParticipantConnectionOutput
-    {
+    public func createParticipantConnection(input: CreateParticipantConnectionInput) async throws -> CreateParticipantConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -186,8 +184,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func describeView(input: DescribeViewInput) async throws -> DescribeViewOutput
-    {
+    public func describeView(input: DescribeViewInput) async throws -> DescribeViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput
-    {
+    public func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func getAttachment(input: GetAttachmentInput) async throws -> GetAttachmentOutput
-    {
+    public func getAttachment(input: GetAttachmentInput) async throws -> GetAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func getTranscript(input: GetTranscriptInput) async throws -> GetTranscriptOutput
-    {
+    public func getTranscript(input: GetTranscriptInput) async throws -> GetTranscriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -385,8 +379,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func sendEvent(input: SendEventInput) async throws -> SendEventOutput
-    {
+    public func sendEvent(input: SendEventInput) async throws -> SendEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -436,8 +429,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput
-    {
+    public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +480,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of attachments per contact exceeds the quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
-    public func startAttachmentUpload(input: StartAttachmentUploadInput) async throws -> StartAttachmentUploadOutput
-    {
+    public func startAttachmentUpload(input: StartAttachmentUploadInput) async throws -> StartAttachmentUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct STSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension STSClient: STSClientProtocol {
+extension STSClient {
     /// Performs the `AssumeRole` operation on the `AWSSecurityTokenServiceV20110615` service.
     ///
     /// Returns a set of temporary security credentials that you can use to access Amazon Web Services resources. These temporary credentials consist of an access key ID, a secret access key, and a security token. Typically, you use AssumeRole within your account or for cross-account access. For a comparison of AssumeRole with other API operations that produce temporary credentials, see [Requesting Temporary Security Credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html) and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison) in the IAM User Guide. Permissions The temporary security credentials created by AssumeRole can be used to make API calls to any Amazon Web Services service with the following exception: You cannot call the Amazon Web Services STS GetFederationToken or GetSessionToken API operations. (Optional) You can pass inline or managed [session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. When you create a role, you create two policies: a role trust policy that specifies who can assume the role, and a permissions policy that specifies what can be done with the role. You specify the trusted principal that is allowed to assume the role in the role trust policy. To assume a role from a different account, your Amazon Web Services account must be trusted by the role. The trust relationship is defined in the role's trust policy when the role is created. That trust policy states which accounts are allowed to delegate that access to users in the account. A user who wants to access a role in a different account must also have permissions that are delegated from the account administrator. The administrator must attach a policy that allows the user to call AssumeRole for the ARN of the role in the other account. To allow a user to assume a role in the same account, you can do either of the following:
@@ -89,8 +89,7 @@ extension STSClient: STSClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
     /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
-    public func assumeRole(input: AssumeRoleInput) async throws -> AssumeRoleOutput
-    {
+    public func assumeRole(input: AssumeRoleInput) async throws -> AssumeRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -148,8 +147,7 @@ extension STSClient: STSClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
     /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
-    public func assumeRoleWithSAML(input: AssumeRoleWithSAMLInput) async throws -> AssumeRoleWithSAMLOutput
-    {
+    public func assumeRoleWithSAML(input: AssumeRoleWithSAMLInput) async throws -> AssumeRoleWithSAMLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -204,8 +202,7 @@ extension STSClient: STSClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
     /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
-    public func assumeRoleWithWebIdentity(input: AssumeRoleWithWebIdentityInput) async throws -> AssumeRoleWithWebIdentityOutput
-    {
+    public func assumeRoleWithWebIdentity(input: AssumeRoleWithWebIdentityInput) async throws -> AssumeRoleWithWebIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -256,8 +253,7 @@ extension STSClient: STSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidAuthorizationMessageException` : The error returned if the message passed to DecodeAuthorizationMessage was invalid. This can happen if the token contains invalid characters, such as linebreaks.
-    public func decodeAuthorizationMessage(input: DecodeAuthorizationMessageInput) async throws -> DecodeAuthorizationMessageOutput
-    {
+    public func decodeAuthorizationMessage(input: DecodeAuthorizationMessageInput) async throws -> DecodeAuthorizationMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -297,8 +293,7 @@ extension STSClient: STSClientProtocol {
     /// - Parameter GetAccessKeyInfoInput : [no documentation found]
     ///
     /// - Returns: `GetAccessKeyInfoOutput` : [no documentation found]
-    public func getAccessKeyInfo(input: GetAccessKeyInfoInput) async throws -> GetAccessKeyInfoOutput
-    {
+    public func getAccessKeyInfo(input: GetAccessKeyInfoInput) async throws -> GetAccessKeyInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,8 +333,7 @@ extension STSClient: STSClientProtocol {
     /// - Parameter GetCallerIdentityInput : [no documentation found]
     ///
     /// - Returns: `GetCallerIdentityOutput` : Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
-    public func getCallerIdentity(input: GetCallerIdentityInput) async throws -> GetCallerIdentityOutput
-    {
+    public func getCallerIdentity(input: GetCallerIdentityInput) async throws -> GetCallerIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -393,8 +387,7 @@ extension STSClient: STSClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `PackedPolicyTooLargeException` : The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
     /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
-    public func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutput
-    {
+    public func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +439,7 @@ extension STSClient: STSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `RegionDisabledException` : STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
-    public func getSessionToken(input: GetSessionTokenInput) async throws -> GetSessionTokenOutput
-    {
+    public func getSessionToken(input: GetSessionTokenInput) async throws -> GetSessionTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

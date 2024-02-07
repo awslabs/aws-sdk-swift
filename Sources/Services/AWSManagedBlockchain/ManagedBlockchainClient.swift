@@ -66,7 +66,7 @@ public struct ManagedBlockchainClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
+extension ManagedBlockchainClient {
     /// Performs the `CreateAccessor` operation on the `TaigaWebService` service.
     ///
     /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access.
@@ -85,8 +85,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceLimitExceededException` : The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
     /// - `TooManyTagsException` :
-    public func createAccessor(input: CreateAccessorInput) async throws -> CreateAccessorOutput
-    {
+    public func createAccessor(input: CreateAccessorInput) async throws -> CreateAccessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
     /// - `TooManyTagsException` :
-    public func createMember(input: CreateMemberInput) async throws -> CreateMemberOutput
-    {
+    public func createMember(input: CreateMemberInput) async throws -> CreateMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceLimitExceededException` : The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
     /// - `TooManyTagsException` :
-    public func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutput
-    {
+    public func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -248,8 +245,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
     /// - `TooManyTagsException` :
-    public func createNode(input: CreateNodeInput) async throws -> CreateNodeOutput
-    {
+    public func createNode(input: CreateNodeInput) async throws -> CreateNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -301,8 +297,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
     /// - `TooManyTagsException` :
-    public func createProposal(input: CreateProposalInput) async throws -> CreateProposalOutput
-    {
+    public func createProposal(input: CreateProposalInput) async throws -> CreateProposalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func deleteAccessor(input: DeleteAccessorInput) async throws -> DeleteAccessorOutput
-    {
+    public func deleteAccessor(input: DeleteAccessorInput) async throws -> DeleteAccessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +394,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput
-    {
+    public func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,8 +441,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func deleteNode(input: DeleteNodeInput) async throws -> DeleteNodeOutput
-    {
+    public func deleteNode(input: DeleteNodeInput) async throws -> DeleteNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +488,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func getAccessor(input: GetAccessorInput) async throws -> GetAccessorOutput
-    {
+    public func getAccessor(input: GetAccessorInput) async throws -> GetAccessorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -543,8 +534,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func getMember(input: GetMemberInput) async throws -> GetMemberOutput
-    {
+    public func getMember(input: GetMemberInput) async throws -> GetMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -590,8 +580,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutput
-    {
+    public func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -637,8 +626,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func getNode(input: GetNodeInput) async throws -> GetNodeOutput
-    {
+    public func getNode(input: GetNodeInput) async throws -> GetNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +673,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func getProposal(input: GetProposalInput) async throws -> GetProposalOutput
-    {
+    public func getProposal(input: GetProposalInput) async throws -> GetProposalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -731,8 +718,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InternalServiceErrorException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listAccessors(input: ListAccessorsInput) async throws -> ListAccessorsOutput
-    {
+    public func listAccessors(input: ListAccessorsInput) async throws -> ListAccessorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -780,8 +766,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceLimitExceededException` : The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-    {
+    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -827,8 +812,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InternalServiceErrorException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -874,8 +858,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InternalServiceErrorException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutput
-    {
+    public func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -921,8 +904,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InternalServiceErrorException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
-    {
+    public func listNodes(input: ListNodesInput) async throws -> ListNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -968,8 +950,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InternalServiceErrorException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listProposalVotes(input: ListProposalVotesInput) async throws -> ListProposalVotesOutput
-    {
+    public func listProposalVotes(input: ListProposalVotesInput) async throws -> ListProposalVotesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1016,8 +997,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func listProposals(input: ListProposalsInput) async throws -> ListProposalsOutput
-    {
+    public func listProposals(input: ListProposalsInput) async throws -> ListProposalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1063,8 +1043,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1111,8 +1090,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutput
-    {
+    public func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1158,8 +1136,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
     /// - `TooManyTagsException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1207,8 +1184,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ResourceNotReadyException` : The requested resource exists but isn't in a status that can complete the operation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1255,8 +1231,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func updateMember(input: UpdateMemberInput) async throws -> UpdateMemberOutput
-    {
+    public func updateMember(input: UpdateMemberInput) async throws -> UpdateMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1305,8 +1280,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func updateNode(input: UpdateNodeInput) async throws -> UpdateNodeOutput
-    {
+    public func updateNode(input: UpdateNodeInput) async throws -> UpdateNodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1356,8 +1330,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
     /// - `InvalidRequestException` : The action or operation requested is invalid. Verify that the action is typed correctly.
     /// - `ResourceNotFoundException` : A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-    public func voteOnProposal(input: VoteOnProposalInput) async throws -> VoteOnProposalOutput
-    {
+    public func voteOnProposal(input: VoteOnProposalInput) async throws -> VoteOnProposalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

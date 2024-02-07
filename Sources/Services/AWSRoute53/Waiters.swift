@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension Route53ClientProtocol {
+extension Route53Client {
 
     static func resourceRecordSetsChangedWaiterConfig() throws -> WaiterConfiguration<GetChangeInput, GetChangeOutput> {
         let acceptors: [WaiterConfiguration<GetChangeInput, GetChangeOutput>.Acceptor] = [

@@ -66,7 +66,7 @@ public struct QLDBSessionClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension QLDBSessionClient: QLDBSessionClientProtocol {
+extension QLDBSessionClient {
     /// Performs the `SendCommand` operation on the `QLDBSession` service.
     ///
     /// Sends a command to an Amazon QLDB ledger. Instead of interacting directly with this API, we recommend using the QLDB driver or the QLDB shell to execute data transactions on a ledger.
@@ -88,8 +88,7 @@ extension QLDBSessionClient: QLDBSessionClientProtocol {
     /// - `LimitExceededException` : Returned if a resource limit such as number of active sessions is exceeded.
     /// - `OccConflictException` : Returned when a transaction cannot be written to the journal due to a failure in the verification phase of optimistic concurrency control (OCC).
     /// - `RateExceededException` : Returned when the rate of requests exceeds the allowed throughput.
-    public func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput
-    {
+    public func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

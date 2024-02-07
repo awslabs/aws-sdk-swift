@@ -66,7 +66,7 @@ public struct AppFabricClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension AppFabricClient: AppFabricClientProtocol {
+extension AppFabricClient {
     /// Performs the `BatchGetUserAccessTasks` operation on the `FabricFrontEndService` service.
     ///
     /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action.
@@ -83,8 +83,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutput
-    {
+    public func batchGetUserAccessTasks(input: BatchGetUserAccessTasksInput) async throws -> BatchGetUserAccessTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutput
-    {
+    public func connectAppAuthorization(input: ConnectAppAuthorizationInput) async throws -> ConnectAppAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutput
-    {
+    public func createAppAuthorization(input: CreateAppAuthorizationInput) async throws -> CreateAppAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutput
-    {
+    public func createAppBundle(input: CreateAppBundleInput) async throws -> CreateAppBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput
-    {
+    public func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutput
-    {
+    public func createIngestionDestination(input: CreateIngestionDestinationInput) async throws -> CreateIngestionDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -392,8 +386,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutput
-    {
+    public func deleteAppAuthorization(input: DeleteAppAuthorizationInput) async throws -> DeleteAppAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -439,8 +432,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutput
-    {
+    public func deleteAppBundle(input: DeleteAppBundleInput) async throws -> DeleteAppBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -486,8 +478,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutput
-    {
+    public func deleteIngestion(input: DeleteIngestionInput) async throws -> DeleteIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -533,8 +524,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutput
-    {
+    public func deleteIngestionDestination(input: DeleteIngestionDestinationInput) async throws -> DeleteIngestionDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -580,8 +570,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutput
-    {
+    public func getAppAuthorization(input: GetAppAuthorizationInput) async throws -> GetAppAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -627,8 +616,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutput
-    {
+    public func getAppBundle(input: GetAppBundleInput) async throws -> GetAppBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutput
-    {
+    public func getIngestion(input: GetIngestionInput) async throws -> GetIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -721,8 +708,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutput
-    {
+    public func getIngestionDestination(input: GetIngestionDestinationInput) async throws -> GetIngestionDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -768,8 +754,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutput
-    {
+    public func listAppAuthorizations(input: ListAppAuthorizationsInput) async throws -> ListAppAuthorizationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -815,8 +800,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutput
-    {
+    public func listAppBundles(input: ListAppBundlesInput) async throws -> ListAppBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -863,8 +847,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutput
-    {
+    public func listIngestionDestinations(input: ListIngestionDestinationsInput) async throws -> ListIngestionDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -911,8 +894,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput
-    {
+    public func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -959,8 +941,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1007,8 +988,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutput
-    {
+    public func startIngestion(input: StartIngestionInput) async throws -> StartIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1034,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutput
-    {
+    public func startUserAccessTasks(input: StartUserAccessTasksInput) async throws -> StartUserAccessTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1105,8 +1084,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutput
-    {
+    public func stopIngestion(input: StopIngestionInput) async throws -> StopIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1152,8 +1130,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1179,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1250,8 +1226,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutput
-    {
+    public func updateAppAuthorization(input: UpdateAppAuthorizationInput) async throws -> UpdateAppAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1302,8 +1277,7 @@ extension AppFabricClient: AppFabricClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request rate exceeds the limit.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    public func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutput
-    {
+    public func updateIngestionDestination(input: UpdateIngestionDestinationInput) async throws -> UpdateIngestionDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

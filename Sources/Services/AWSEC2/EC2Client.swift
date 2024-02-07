@@ -62,7 +62,7 @@ public struct EC2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension EC2Client: EC2ClientProtocol {
+extension EC2Client {
     /// Performs the `AcceptAddressTransfer` operation on the `AmazonEC2` service.
     ///
     /// Accepts an Elastic IP address transfer. For more information, see [Accept a transferred Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#using-instance-addressing-eips-transfer-accept) in the Amazon Virtual Private Cloud User Guide.
@@ -70,8 +70,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptAddressTransferInput : [no documentation found]
     ///
     /// - Returns: `AcceptAddressTransferOutput` : [no documentation found]
-    public func acceptAddressTransfer(input: AcceptAddressTransferInput) async throws -> AcceptAddressTransferOutput
-    {
+    public func acceptAddressTransfer(input: AcceptAddressTransferInput) async throws -> AcceptAddressTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -111,8 +110,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptReservedInstancesExchangeQuoteInput : Contains the parameters for accepting the quote.
     ///
     /// - Returns: `AcceptReservedInstancesExchangeQuoteOutput` : The result of the exchange and whether it was successful.
-    public func acceptReservedInstancesExchangeQuote(input: AcceptReservedInstancesExchangeQuoteInput) async throws -> AcceptReservedInstancesExchangeQuoteOutput
-    {
+    public func acceptReservedInstancesExchangeQuote(input: AcceptReservedInstancesExchangeQuoteInput) async throws -> AcceptReservedInstancesExchangeQuoteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -152,8 +150,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptTransitGatewayMulticastDomainAssociationsInput : [no documentation found]
     ///
     /// - Returns: `AcceptTransitGatewayMulticastDomainAssociationsOutput` : [no documentation found]
-    public func acceptTransitGatewayMulticastDomainAssociations(input: AcceptTransitGatewayMulticastDomainAssociationsInput) async throws -> AcceptTransitGatewayMulticastDomainAssociationsOutput
-    {
+    public func acceptTransitGatewayMulticastDomainAssociations(input: AcceptTransitGatewayMulticastDomainAssociationsInput) async throws -> AcceptTransitGatewayMulticastDomainAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +190,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptTransitGatewayPeeringAttachmentInput : [no documentation found]
     ///
     /// - Returns: `AcceptTransitGatewayPeeringAttachmentOutput` : [no documentation found]
-    public func acceptTransitGatewayPeeringAttachment(input: AcceptTransitGatewayPeeringAttachmentInput) async throws -> AcceptTransitGatewayPeeringAttachmentOutput
-    {
+    public func acceptTransitGatewayPeeringAttachment(input: AcceptTransitGatewayPeeringAttachmentInput) async throws -> AcceptTransitGatewayPeeringAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +230,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptTransitGatewayVpcAttachmentInput : [no documentation found]
     ///
     /// - Returns: `AcceptTransitGatewayVpcAttachmentOutput` : [no documentation found]
-    public func acceptTransitGatewayVpcAttachment(input: AcceptTransitGatewayVpcAttachmentInput) async throws -> AcceptTransitGatewayVpcAttachmentOutput
-    {
+    public func acceptTransitGatewayVpcAttachment(input: AcceptTransitGatewayVpcAttachmentInput) async throws -> AcceptTransitGatewayVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +270,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptVpcEndpointConnectionsInput : [no documentation found]
     ///
     /// - Returns: `AcceptVpcEndpointConnectionsOutput` : [no documentation found]
-    public func acceptVpcEndpointConnections(input: AcceptVpcEndpointConnectionsInput) async throws -> AcceptVpcEndpointConnectionsOutput
-    {
+    public func acceptVpcEndpointConnections(input: AcceptVpcEndpointConnectionsInput) async throws -> AcceptVpcEndpointConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -316,8 +310,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AcceptVpcPeeringConnectionInput : [no documentation found]
     ///
     /// - Returns: `AcceptVpcPeeringConnectionOutput` : [no documentation found]
-    public func acceptVpcPeeringConnection(input: AcceptVpcPeeringConnectionInput) async throws -> AcceptVpcPeeringConnectionOutput
-    {
+    public func acceptVpcPeeringConnection(input: AcceptVpcPeeringConnectionInput) async throws -> AcceptVpcPeeringConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -357,8 +350,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
     ///
     /// - Returns: `AdvertiseByoipCidrOutput` : [no documentation found]
-    public func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput
-    {
+    public func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +390,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AllocateAddressInput : [no documentation found]
     ///
     /// - Returns: `AllocateAddressOutput` : [no documentation found]
-    public func allocateAddress(input: AllocateAddressInput) async throws -> AllocateAddressOutput
-    {
+    public func allocateAddress(input: AllocateAddressInput) async throws -> AllocateAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -439,8 +430,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AllocateHostsInput : [no documentation found]
     ///
     /// - Returns: `AllocateHostsOutput` : Contains the output of AllocateHosts.
-    public func allocateHosts(input: AllocateHostsInput) async throws -> AllocateHostsOutput
-    {
+    public func allocateHosts(input: AllocateHostsInput) async throws -> AllocateHostsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +470,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AllocateIpamPoolCidrInput : [no documentation found]
     ///
     /// - Returns: `AllocateIpamPoolCidrOutput` : [no documentation found]
-    public func allocateIpamPoolCidr(input: AllocateIpamPoolCidrInput) async throws -> AllocateIpamPoolCidrOutput
-    {
+    public func allocateIpamPoolCidr(input: AllocateIpamPoolCidrInput) async throws -> AllocateIpamPoolCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -522,8 +511,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ApplySecurityGroupsToClientVpnTargetNetworkInput : [no documentation found]
     ///
     /// - Returns: `ApplySecurityGroupsToClientVpnTargetNetworkOutput` : [no documentation found]
-    public func applySecurityGroupsToClientVpnTargetNetwork(input: ApplySecurityGroupsToClientVpnTargetNetworkInput) async throws -> ApplySecurityGroupsToClientVpnTargetNetworkOutput
-    {
+    public func applySecurityGroupsToClientVpnTargetNetwork(input: ApplySecurityGroupsToClientVpnTargetNetworkInput) async throws -> ApplySecurityGroupsToClientVpnTargetNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -563,8 +551,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssignIpv6AddressesInput : [no documentation found]
     ///
     /// - Returns: `AssignIpv6AddressesOutput` : [no documentation found]
-    public func assignIpv6Addresses(input: AssignIpv6AddressesInput) async throws -> AssignIpv6AddressesOutput
-    {
+    public func assignIpv6Addresses(input: AssignIpv6AddressesInput) async throws -> AssignIpv6AddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -604,8 +591,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssignPrivateIpAddressesInput : Contains the parameters for AssignPrivateIpAddresses.
     ///
     /// - Returns: `AssignPrivateIpAddressesOutput` : [no documentation found]
-    public func assignPrivateIpAddresses(input: AssignPrivateIpAddressesInput) async throws -> AssignPrivateIpAddressesOutput
-    {
+    public func assignPrivateIpAddresses(input: AssignPrivateIpAddressesInput) async throws -> AssignPrivateIpAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -645,8 +631,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssignPrivateNatGatewayAddressInput : [no documentation found]
     ///
     /// - Returns: `AssignPrivateNatGatewayAddressOutput` : [no documentation found]
-    public func assignPrivateNatGatewayAddress(input: AssignPrivateNatGatewayAddressInput) async throws -> AssignPrivateNatGatewayAddressOutput
-    {
+    public func assignPrivateNatGatewayAddress(input: AssignPrivateNatGatewayAddressInput) async throws -> AssignPrivateNatGatewayAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -686,8 +671,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateAddressInput : [no documentation found]
     ///
     /// - Returns: `AssociateAddressOutput` : [no documentation found]
-    public func associateAddress(input: AssociateAddressInput) async throws -> AssociateAddressOutput
-    {
+    public func associateAddress(input: AssociateAddressInput) async throws -> AssociateAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +711,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateClientVpnTargetNetworkInput : [no documentation found]
     ///
     /// - Returns: `AssociateClientVpnTargetNetworkOutput` : [no documentation found]
-    public func associateClientVpnTargetNetwork(input: AssociateClientVpnTargetNetworkInput) async throws -> AssociateClientVpnTargetNetworkOutput
-    {
+    public func associateClientVpnTargetNetwork(input: AssociateClientVpnTargetNetworkInput) async throws -> AssociateClientVpnTargetNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,8 +752,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateDhcpOptionsInput : [no documentation found]
     ///
     /// - Returns: `AssociateDhcpOptionsOutput` : [no documentation found]
-    public func associateDhcpOptions(input: AssociateDhcpOptionsInput) async throws -> AssociateDhcpOptionsOutput
-    {
+    public func associateDhcpOptions(input: AssociateDhcpOptionsInput) async throws -> AssociateDhcpOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -810,8 +792,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateEnclaveCertificateIamRoleInput : [no documentation found]
     ///
     /// - Returns: `AssociateEnclaveCertificateIamRoleOutput` : [no documentation found]
-    public func associateEnclaveCertificateIamRole(input: AssociateEnclaveCertificateIamRoleInput) async throws -> AssociateEnclaveCertificateIamRoleOutput
-    {
+    public func associateEnclaveCertificateIamRole(input: AssociateEnclaveCertificateIamRoleInput) async throws -> AssociateEnclaveCertificateIamRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -851,8 +832,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateIamInstanceProfileInput : [no documentation found]
     ///
     /// - Returns: `AssociateIamInstanceProfileOutput` : [no documentation found]
-    public func associateIamInstanceProfile(input: AssociateIamInstanceProfileInput) async throws -> AssociateIamInstanceProfileOutput
-    {
+    public func associateIamInstanceProfile(input: AssociateIamInstanceProfileInput) async throws -> AssociateIamInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +872,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateInstanceEventWindowInput : [no documentation found]
     ///
     /// - Returns: `AssociateInstanceEventWindowOutput` : [no documentation found]
-    public func associateInstanceEventWindow(input: AssociateInstanceEventWindowInput) async throws -> AssociateInstanceEventWindowOutput
-    {
+    public func associateInstanceEventWindow(input: AssociateInstanceEventWindowInput) async throws -> AssociateInstanceEventWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -933,8 +912,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateIpamByoasnInput : [no documentation found]
     ///
     /// - Returns: `AssociateIpamByoasnOutput` : [no documentation found]
-    public func associateIpamByoasn(input: AssociateIpamByoasnInput) async throws -> AssociateIpamByoasnOutput
-    {
+    public func associateIpamByoasn(input: AssociateIpamByoasnInput) async throws -> AssociateIpamByoasnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -974,8 +952,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateIpamResourceDiscoveryInput : [no documentation found]
     ///
     /// - Returns: `AssociateIpamResourceDiscoveryOutput` : [no documentation found]
-    public func associateIpamResourceDiscovery(input: AssociateIpamResourceDiscoveryInput) async throws -> AssociateIpamResourceDiscoveryOutput
-    {
+    public func associateIpamResourceDiscovery(input: AssociateIpamResourceDiscoveryInput) async throws -> AssociateIpamResourceDiscoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1016,8 +993,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateNatGatewayAddressInput : [no documentation found]
     ///
     /// - Returns: `AssociateNatGatewayAddressOutput` : [no documentation found]
-    public func associateNatGatewayAddress(input: AssociateNatGatewayAddressInput) async throws -> AssociateNatGatewayAddressOutput
-    {
+    public func associateNatGatewayAddress(input: AssociateNatGatewayAddressInput) async throws -> AssociateNatGatewayAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1057,8 +1033,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateRouteTableInput : [no documentation found]
     ///
     /// - Returns: `AssociateRouteTableOutput` : [no documentation found]
-    public func associateRouteTable(input: AssociateRouteTableInput) async throws -> AssociateRouteTableOutput
-    {
+    public func associateRouteTable(input: AssociateRouteTableInput) async throws -> AssociateRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1098,8 +1073,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateSubnetCidrBlockInput : [no documentation found]
     ///
     /// - Returns: `AssociateSubnetCidrBlockOutput` : [no documentation found]
-    public func associateSubnetCidrBlock(input: AssociateSubnetCidrBlockInput) async throws -> AssociateSubnetCidrBlockOutput
-    {
+    public func associateSubnetCidrBlock(input: AssociateSubnetCidrBlockInput) async throws -> AssociateSubnetCidrBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1139,8 +1113,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateTransitGatewayMulticastDomainInput : [no documentation found]
     ///
     /// - Returns: `AssociateTransitGatewayMulticastDomainOutput` : [no documentation found]
-    public func associateTransitGatewayMulticastDomain(input: AssociateTransitGatewayMulticastDomainInput) async throws -> AssociateTransitGatewayMulticastDomainOutput
-    {
+    public func associateTransitGatewayMulticastDomain(input: AssociateTransitGatewayMulticastDomainInput) async throws -> AssociateTransitGatewayMulticastDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1180,8 +1153,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateTransitGatewayPolicyTableInput : [no documentation found]
     ///
     /// - Returns: `AssociateTransitGatewayPolicyTableOutput` : [no documentation found]
-    public func associateTransitGatewayPolicyTable(input: AssociateTransitGatewayPolicyTableInput) async throws -> AssociateTransitGatewayPolicyTableOutput
-    {
+    public func associateTransitGatewayPolicyTable(input: AssociateTransitGatewayPolicyTableInput) async throws -> AssociateTransitGatewayPolicyTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1193,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateTransitGatewayRouteTableInput : [no documentation found]
     ///
     /// - Returns: `AssociateTransitGatewayRouteTableOutput` : [no documentation found]
-    public func associateTransitGatewayRouteTable(input: AssociateTransitGatewayRouteTableInput) async throws -> AssociateTransitGatewayRouteTableOutput
-    {
+    public func associateTransitGatewayRouteTable(input: AssociateTransitGatewayRouteTableInput) async throws -> AssociateTransitGatewayRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1262,8 +1233,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateTrunkInterfaceInput : [no documentation found]
     ///
     /// - Returns: `AssociateTrunkInterfaceOutput` : [no documentation found]
-    public func associateTrunkInterface(input: AssociateTrunkInterfaceInput) async throws -> AssociateTrunkInterfaceOutput
-    {
+    public func associateTrunkInterface(input: AssociateTrunkInterfaceInput) async throws -> AssociateTrunkInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1304,8 +1274,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AssociateVpcCidrBlockInput : [no documentation found]
     ///
     /// - Returns: `AssociateVpcCidrBlockOutput` : [no documentation found]
-    public func associateVpcCidrBlock(input: AssociateVpcCidrBlockInput) async throws -> AssociateVpcCidrBlockOutput
-    {
+    public func associateVpcCidrBlock(input: AssociateVpcCidrBlockInput) async throws -> AssociateVpcCidrBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1345,8 +1314,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AttachClassicLinkVpcInput : [no documentation found]
     ///
     /// - Returns: `AttachClassicLinkVpcOutput` : [no documentation found]
-    public func attachClassicLinkVpc(input: AttachClassicLinkVpcInput) async throws -> AttachClassicLinkVpcOutput
-    {
+    public func attachClassicLinkVpc(input: AttachClassicLinkVpcInput) async throws -> AttachClassicLinkVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1386,8 +1354,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AttachInternetGatewayInput : [no documentation found]
     ///
     /// - Returns: `AttachInternetGatewayOutput` : [no documentation found]
-    public func attachInternetGateway(input: AttachInternetGatewayInput) async throws -> AttachInternetGatewayOutput
-    {
+    public func attachInternetGateway(input: AttachInternetGatewayInput) async throws -> AttachInternetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1427,8 +1394,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AttachNetworkInterfaceInput : Contains the parameters for AttachNetworkInterface.
     ///
     /// - Returns: `AttachNetworkInterfaceOutput` : Contains the output of AttachNetworkInterface.
-    public func attachNetworkInterface(input: AttachNetworkInterfaceInput) async throws -> AttachNetworkInterfaceOutput
-    {
+    public func attachNetworkInterface(input: AttachNetworkInterfaceInput) async throws -> AttachNetworkInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1468,8 +1434,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AttachVerifiedAccessTrustProviderInput : [no documentation found]
     ///
     /// - Returns: `AttachVerifiedAccessTrustProviderOutput` : [no documentation found]
-    public func attachVerifiedAccessTrustProvider(input: AttachVerifiedAccessTrustProviderInput) async throws -> AttachVerifiedAccessTrustProviderOutput
-    {
+    public func attachVerifiedAccessTrustProvider(input: AttachVerifiedAccessTrustProviderInput) async throws -> AttachVerifiedAccessTrustProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1521,8 +1486,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AttachVolumeInput : [no documentation found]
     ///
     /// - Returns: `AttachVolumeOutput` : Describes volume attachment details.
-    public func attachVolume(input: AttachVolumeInput) async throws -> AttachVolumeOutput
-    {
+    public func attachVolume(input: AttachVolumeInput) async throws -> AttachVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1562,8 +1526,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AttachVpnGatewayInput : Contains the parameters for AttachVpnGateway.
     ///
     /// - Returns: `AttachVpnGatewayOutput` : Contains the output of AttachVpnGateway.
-    public func attachVpnGateway(input: AttachVpnGatewayInput) async throws -> AttachVpnGatewayOutput
-    {
+    public func attachVpnGateway(input: AttachVpnGatewayInput) async throws -> AttachVpnGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1603,8 +1566,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AuthorizeClientVpnIngressInput : [no documentation found]
     ///
     /// - Returns: `AuthorizeClientVpnIngressOutput` : [no documentation found]
-    public func authorizeClientVpnIngress(input: AuthorizeClientVpnIngressInput) async throws -> AuthorizeClientVpnIngressOutput
-    {
+    public func authorizeClientVpnIngress(input: AuthorizeClientVpnIngressInput) async throws -> AuthorizeClientVpnIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1645,8 +1607,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AuthorizeSecurityGroupEgressInput : [no documentation found]
     ///
     /// - Returns: `AuthorizeSecurityGroupEgressOutput` : [no documentation found]
-    public func authorizeSecurityGroupEgress(input: AuthorizeSecurityGroupEgressInput) async throws -> AuthorizeSecurityGroupEgressOutput
-    {
+    public func authorizeSecurityGroupEgress(input: AuthorizeSecurityGroupEgressInput) async throws -> AuthorizeSecurityGroupEgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1686,8 +1647,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter AuthorizeSecurityGroupIngressInput : [no documentation found]
     ///
     /// - Returns: `AuthorizeSecurityGroupIngressOutput` : [no documentation found]
-    public func authorizeSecurityGroupIngress(input: AuthorizeSecurityGroupIngressInput) async throws -> AuthorizeSecurityGroupIngressOutput
-    {
+    public func authorizeSecurityGroupIngress(input: AuthorizeSecurityGroupIngressInput) async throws -> AuthorizeSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1727,8 +1687,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter BundleInstanceInput : Contains the parameters for BundleInstance.
     ///
     /// - Returns: `BundleInstanceOutput` : Contains the output of BundleInstance.
-    public func bundleInstance(input: BundleInstanceInput) async throws -> BundleInstanceOutput
-    {
+    public func bundleInstance(input: BundleInstanceInput) async throws -> BundleInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1768,8 +1727,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelBundleTaskInput : Contains the parameters for CancelBundleTask.
     ///
     /// - Returns: `CancelBundleTaskOutput` : Contains the output of CancelBundleTask.
-    public func cancelBundleTask(input: CancelBundleTaskInput) async throws -> CancelBundleTaskOutput
-    {
+    public func cancelBundleTask(input: CancelBundleTaskInput) async throws -> CancelBundleTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1809,8 +1767,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelCapacityReservationInput : [no documentation found]
     ///
     /// - Returns: `CancelCapacityReservationOutput` : [no documentation found]
-    public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput
-    {
+    public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1856,8 +1813,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelCapacityReservationFleetsInput : [no documentation found]
     ///
     /// - Returns: `CancelCapacityReservationFleetsOutput` : [no documentation found]
-    public func cancelCapacityReservationFleets(input: CancelCapacityReservationFleetsInput) async throws -> CancelCapacityReservationFleetsOutput
-    {
+    public func cancelCapacityReservationFleets(input: CancelCapacityReservationFleetsInput) async throws -> CancelCapacityReservationFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1897,8 +1853,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelConversionTaskInput : [no documentation found]
     ///
     /// - Returns: `CancelConversionTaskOutput` : [no documentation found]
-    public func cancelConversionTask(input: CancelConversionTaskInput) async throws -> CancelConversionTaskOutput
-    {
+    public func cancelConversionTask(input: CancelConversionTaskInput) async throws -> CancelConversionTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1938,8 +1893,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelExportTaskInput : [no documentation found]
     ///
     /// - Returns: `CancelExportTaskOutput` : [no documentation found]
-    public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput
-    {
+    public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1979,8 +1933,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelImageLaunchPermissionInput : [no documentation found]
     ///
     /// - Returns: `CancelImageLaunchPermissionOutput` : [no documentation found]
-    public func cancelImageLaunchPermission(input: CancelImageLaunchPermissionInput) async throws -> CancelImageLaunchPermissionOutput
-    {
+    public func cancelImageLaunchPermission(input: CancelImageLaunchPermissionInput) async throws -> CancelImageLaunchPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2020,8 +1973,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelImportTaskInput : [no documentation found]
     ///
     /// - Returns: `CancelImportTaskOutput` : [no documentation found]
-    public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput
-    {
+    public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2061,8 +2013,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelReservedInstancesListingInput : Contains the parameters for CancelReservedInstancesListing.
     ///
     /// - Returns: `CancelReservedInstancesListingOutput` : Contains the output of CancelReservedInstancesListing.
-    public func cancelReservedInstancesListing(input: CancelReservedInstancesListingInput) async throws -> CancelReservedInstancesListingOutput
-    {
+    public func cancelReservedInstancesListing(input: CancelReservedInstancesListingInput) async throws -> CancelReservedInstancesListingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2102,8 +2053,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelSpotFleetRequestsInput : Contains the parameters for CancelSpotFleetRequests.
     ///
     /// - Returns: `CancelSpotFleetRequestsOutput` : Contains the output of CancelSpotFleetRequests.
-    public func cancelSpotFleetRequests(input: CancelSpotFleetRequestsInput) async throws -> CancelSpotFleetRequestsOutput
-    {
+    public func cancelSpotFleetRequests(input: CancelSpotFleetRequestsInput) async throws -> CancelSpotFleetRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2143,8 +2093,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CancelSpotInstanceRequestsInput : Contains the parameters for CancelSpotInstanceRequests.
     ///
     /// - Returns: `CancelSpotInstanceRequestsOutput` : Contains the output of CancelSpotInstanceRequests.
-    public func cancelSpotInstanceRequests(input: CancelSpotInstanceRequestsInput) async throws -> CancelSpotInstanceRequestsOutput
-    {
+    public func cancelSpotInstanceRequests(input: CancelSpotInstanceRequestsInput) async throws -> CancelSpotInstanceRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2184,8 +2133,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ConfirmProductInstanceInput : [no documentation found]
     ///
     /// - Returns: `ConfirmProductInstanceOutput` : [no documentation found]
-    public func confirmProductInstance(input: ConfirmProductInstanceInput) async throws -> ConfirmProductInstanceOutput
-    {
+    public func confirmProductInstance(input: ConfirmProductInstanceInput) async throws -> ConfirmProductInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2225,8 +2173,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CopyFpgaImageInput : [no documentation found]
     ///
     /// - Returns: `CopyFpgaImageOutput` : [no documentation found]
-    public func copyFpgaImage(input: CopyFpgaImageInput) async throws -> CopyFpgaImageOutput
-    {
+    public func copyFpgaImage(input: CopyFpgaImageInput) async throws -> CopyFpgaImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2266,8 +2213,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CopyImageInput : Contains the parameters for CopyImage.
     ///
     /// - Returns: `CopyImageOutput` : Contains the output of CopyImage.
-    public func copyImage(input: CopyImageInput) async throws -> CopyImageOutput
-    {
+    public func copyImage(input: CopyImageInput) async throws -> CopyImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2307,8 +2253,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CopySnapshotInput : [no documentation found]
     ///
     /// - Returns: `CopySnapshotOutput` : [no documentation found]
-    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
-    {
+    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2348,8 +2293,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateCapacityReservationInput : [no documentation found]
     ///
     /// - Returns: `CreateCapacityReservationOutput` : [no documentation found]
-    public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput
-    {
+    public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2389,8 +2333,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateCapacityReservationFleetInput : [no documentation found]
     ///
     /// - Returns: `CreateCapacityReservationFleetOutput` : [no documentation found]
-    public func createCapacityReservationFleet(input: CreateCapacityReservationFleetInput) async throws -> CreateCapacityReservationFleetOutput
-    {
+    public func createCapacityReservationFleet(input: CreateCapacityReservationFleetInput) async throws -> CreateCapacityReservationFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2431,8 +2374,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateCarrierGatewayInput : [no documentation found]
     ///
     /// - Returns: `CreateCarrierGatewayOutput` : [no documentation found]
-    public func createCarrierGateway(input: CreateCarrierGatewayInput) async throws -> CreateCarrierGatewayOutput
-    {
+    public func createCarrierGateway(input: CreateCarrierGatewayInput) async throws -> CreateCarrierGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2473,8 +2415,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateClientVpnEndpointInput : [no documentation found]
     ///
     /// - Returns: `CreateClientVpnEndpointOutput` : [no documentation found]
-    public func createClientVpnEndpoint(input: CreateClientVpnEndpointInput) async throws -> CreateClientVpnEndpointOutput
-    {
+    public func createClientVpnEndpoint(input: CreateClientVpnEndpointInput) async throws -> CreateClientVpnEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2515,8 +2456,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateClientVpnRouteInput : [no documentation found]
     ///
     /// - Returns: `CreateClientVpnRouteOutput` : [no documentation found]
-    public func createClientVpnRoute(input: CreateClientVpnRouteInput) async throws -> CreateClientVpnRouteOutput
-    {
+    public func createClientVpnRoute(input: CreateClientVpnRouteInput) async throws -> CreateClientVpnRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2557,8 +2497,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateCoipCidrInput : [no documentation found]
     ///
     /// - Returns: `CreateCoipCidrOutput` : [no documentation found]
-    public func createCoipCidr(input: CreateCoipCidrInput) async throws -> CreateCoipCidrOutput
-    {
+    public func createCoipCidr(input: CreateCoipCidrInput) async throws -> CreateCoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2598,8 +2537,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateCoipPoolInput : [no documentation found]
     ///
     /// - Returns: `CreateCoipPoolOutput` : [no documentation found]
-    public func createCoipPool(input: CreateCoipPoolInput) async throws -> CreateCoipPoolOutput
-    {
+    public func createCoipPool(input: CreateCoipPoolInput) async throws -> CreateCoipPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2639,8 +2577,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateCustomerGatewayInput : Contains the parameters for CreateCustomerGateway.
     ///
     /// - Returns: `CreateCustomerGatewayOutput` : Contains the output of CreateCustomerGateway.
-    public func createCustomerGateway(input: CreateCustomerGatewayInput) async throws -> CreateCustomerGatewayOutput
-    {
+    public func createCustomerGateway(input: CreateCustomerGatewayInput) async throws -> CreateCustomerGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2680,8 +2617,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateDefaultSubnetInput : [no documentation found]
     ///
     /// - Returns: `CreateDefaultSubnetOutput` : [no documentation found]
-    public func createDefaultSubnet(input: CreateDefaultSubnetInput) async throws -> CreateDefaultSubnetOutput
-    {
+    public func createDefaultSubnet(input: CreateDefaultSubnetInput) async throws -> CreateDefaultSubnetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2721,8 +2657,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateDefaultVpcInput : [no documentation found]
     ///
     /// - Returns: `CreateDefaultVpcOutput` : [no documentation found]
-    public func createDefaultVpc(input: CreateDefaultVpcInput) async throws -> CreateDefaultVpcOutput
-    {
+    public func createDefaultVpc(input: CreateDefaultVpcInput) async throws -> CreateDefaultVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2775,8 +2710,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateDhcpOptionsInput : [no documentation found]
     ///
     /// - Returns: `CreateDhcpOptionsOutput` : [no documentation found]
-    public func createDhcpOptions(input: CreateDhcpOptionsInput) async throws -> CreateDhcpOptionsOutput
-    {
+    public func createDhcpOptions(input: CreateDhcpOptionsInput) async throws -> CreateDhcpOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2816,8 +2750,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateEgressOnlyInternetGatewayInput : [no documentation found]
     ///
     /// - Returns: `CreateEgressOnlyInternetGatewayOutput` : [no documentation found]
-    public func createEgressOnlyInternetGateway(input: CreateEgressOnlyInternetGatewayInput) async throws -> CreateEgressOnlyInternetGatewayOutput
-    {
+    public func createEgressOnlyInternetGateway(input: CreateEgressOnlyInternetGatewayInput) async throws -> CreateEgressOnlyInternetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2857,8 +2790,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateFleetInput : [no documentation found]
     ///
     /// - Returns: `CreateFleetOutput` : [no documentation found]
-    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
-    {
+    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2898,8 +2830,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateFlowLogsInput : [no documentation found]
     ///
     /// - Returns: `CreateFlowLogsOutput` : [no documentation found]
-    public func createFlowLogs(input: CreateFlowLogsInput) async throws -> CreateFlowLogsOutput
-    {
+    public func createFlowLogs(input: CreateFlowLogsInput) async throws -> CreateFlowLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2939,8 +2870,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateFpgaImageInput : [no documentation found]
     ///
     /// - Returns: `CreateFpgaImageOutput` : [no documentation found]
-    public func createFpgaImage(input: CreateFpgaImageInput) async throws -> CreateFpgaImageOutput
-    {
+    public func createFpgaImage(input: CreateFpgaImageInput) async throws -> CreateFpgaImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2980,8 +2910,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateImageInput : [no documentation found]
     ///
     /// - Returns: `CreateImageOutput` : [no documentation found]
-    public func createImage(input: CreateImageInput) async throws -> CreateImageOutput
-    {
+    public func createImage(input: CreateImageInput) async throws -> CreateImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3021,8 +2950,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateInstanceConnectEndpointInput : [no documentation found]
     ///
     /// - Returns: `CreateInstanceConnectEndpointOutput` : [no documentation found]
-    public func createInstanceConnectEndpoint(input: CreateInstanceConnectEndpointInput) async throws -> CreateInstanceConnectEndpointOutput
-    {
+    public func createInstanceConnectEndpoint(input: CreateInstanceConnectEndpointInput) async throws -> CreateInstanceConnectEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3070,8 +2998,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateInstanceEventWindowInput : [no documentation found]
     ///
     /// - Returns: `CreateInstanceEventWindowOutput` : [no documentation found]
-    public func createInstanceEventWindow(input: CreateInstanceEventWindowInput) async throws -> CreateInstanceEventWindowOutput
-    {
+    public func createInstanceEventWindow(input: CreateInstanceEventWindowInput) async throws -> CreateInstanceEventWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3111,8 +3038,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateInstanceExportTaskInput : [no documentation found]
     ///
     /// - Returns: `CreateInstanceExportTaskOutput` : [no documentation found]
-    public func createInstanceExportTask(input: CreateInstanceExportTaskInput) async throws -> CreateInstanceExportTaskOutput
-    {
+    public func createInstanceExportTask(input: CreateInstanceExportTaskInput) async throws -> CreateInstanceExportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3152,8 +3078,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateInternetGatewayInput : [no documentation found]
     ///
     /// - Returns: `CreateInternetGatewayOutput` : [no documentation found]
-    public func createInternetGateway(input: CreateInternetGatewayInput) async throws -> CreateInternetGatewayOutput
-    {
+    public func createInternetGateway(input: CreateInternetGatewayInput) async throws -> CreateInternetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3193,8 +3118,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateIpamInput : [no documentation found]
     ///
     /// - Returns: `CreateIpamOutput` : [no documentation found]
-    public func createIpam(input: CreateIpamInput) async throws -> CreateIpamOutput
-    {
+    public func createIpam(input: CreateIpamInput) async throws -> CreateIpamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3235,8 +3159,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateIpamPoolInput : [no documentation found]
     ///
     /// - Returns: `CreateIpamPoolOutput` : [no documentation found]
-    public func createIpamPool(input: CreateIpamPoolInput) async throws -> CreateIpamPoolOutput
-    {
+    public func createIpamPool(input: CreateIpamPoolInput) async throws -> CreateIpamPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3277,8 +3200,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateIpamResourceDiscoveryInput : [no documentation found]
     ///
     /// - Returns: `CreateIpamResourceDiscoveryOutput` : [no documentation found]
-    public func createIpamResourceDiscovery(input: CreateIpamResourceDiscoveryInput) async throws -> CreateIpamResourceDiscoveryOutput
-    {
+    public func createIpamResourceDiscovery(input: CreateIpamResourceDiscoveryInput) async throws -> CreateIpamResourceDiscoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3319,8 +3241,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateIpamScopeInput : [no documentation found]
     ///
     /// - Returns: `CreateIpamScopeOutput` : [no documentation found]
-    public func createIpamScope(input: CreateIpamScopeInput) async throws -> CreateIpamScopeOutput
-    {
+    public func createIpamScope(input: CreateIpamScopeInput) async throws -> CreateIpamScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3361,8 +3282,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateKeyPairInput : [no documentation found]
     ///
     /// - Returns: `CreateKeyPairOutput` : Describes a key pair.
-    public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput
-    {
+    public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3402,8 +3322,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateLaunchTemplateInput : [no documentation found]
     ///
     /// - Returns: `CreateLaunchTemplateOutput` : [no documentation found]
-    public func createLaunchTemplate(input: CreateLaunchTemplateInput) async throws -> CreateLaunchTemplateOutput
-    {
+    public func createLaunchTemplate(input: CreateLaunchTemplateInput) async throws -> CreateLaunchTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3443,8 +3362,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateLaunchTemplateVersionInput : [no documentation found]
     ///
     /// - Returns: `CreateLaunchTemplateVersionOutput` : [no documentation found]
-    public func createLaunchTemplateVersion(input: CreateLaunchTemplateVersionInput) async throws -> CreateLaunchTemplateVersionOutput
-    {
+    public func createLaunchTemplateVersion(input: CreateLaunchTemplateVersionInput) async throws -> CreateLaunchTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3488,8 +3406,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateLocalGatewayRouteInput : [no documentation found]
     ///
     /// - Returns: `CreateLocalGatewayRouteOutput` : [no documentation found]
-    public func createLocalGatewayRoute(input: CreateLocalGatewayRouteInput) async throws -> CreateLocalGatewayRouteOutput
-    {
+    public func createLocalGatewayRoute(input: CreateLocalGatewayRouteInput) async throws -> CreateLocalGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3529,8 +3446,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateLocalGatewayRouteTableInput : [no documentation found]
     ///
     /// - Returns: `CreateLocalGatewayRouteTableOutput` : [no documentation found]
-    public func createLocalGatewayRouteTable(input: CreateLocalGatewayRouteTableInput) async throws -> CreateLocalGatewayRouteTableOutput
-    {
+    public func createLocalGatewayRouteTable(input: CreateLocalGatewayRouteTableInput) async throws -> CreateLocalGatewayRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3570,8 +3486,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput : [no documentation found]
     ///
     /// - Returns: `CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput` : [no documentation found]
-    public func createLocalGatewayRouteTableVirtualInterfaceGroupAssociation(input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput) async throws -> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput
-    {
+    public func createLocalGatewayRouteTableVirtualInterfaceGroupAssociation(input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput) async throws -> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3611,8 +3526,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateLocalGatewayRouteTableVpcAssociationInput : [no documentation found]
     ///
     /// - Returns: `CreateLocalGatewayRouteTableVpcAssociationOutput` : [no documentation found]
-    public func createLocalGatewayRouteTableVpcAssociation(input: CreateLocalGatewayRouteTableVpcAssociationInput) async throws -> CreateLocalGatewayRouteTableVpcAssociationOutput
-    {
+    public func createLocalGatewayRouteTableVpcAssociation(input: CreateLocalGatewayRouteTableVpcAssociationInput) async throws -> CreateLocalGatewayRouteTableVpcAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3652,8 +3566,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateManagedPrefixListInput : [no documentation found]
     ///
     /// - Returns: `CreateManagedPrefixListOutput` : [no documentation found]
-    public func createManagedPrefixList(input: CreateManagedPrefixListInput) async throws -> CreateManagedPrefixListOutput
-    {
+    public func createManagedPrefixList(input: CreateManagedPrefixListInput) async throws -> CreateManagedPrefixListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3694,8 +3607,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNatGatewayInput : [no documentation found]
     ///
     /// - Returns: `CreateNatGatewayOutput` : [no documentation found]
-    public func createNatGateway(input: CreateNatGatewayInput) async throws -> CreateNatGatewayOutput
-    {
+    public func createNatGateway(input: CreateNatGatewayInput) async throws -> CreateNatGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3736,8 +3648,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNetworkAclInput : [no documentation found]
     ///
     /// - Returns: `CreateNetworkAclOutput` : [no documentation found]
-    public func createNetworkAcl(input: CreateNetworkAclInput) async throws -> CreateNetworkAclOutput
-    {
+    public func createNetworkAcl(input: CreateNetworkAclInput) async throws -> CreateNetworkAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3777,8 +3688,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNetworkAclEntryInput : [no documentation found]
     ///
     /// - Returns: `CreateNetworkAclEntryOutput` : [no documentation found]
-    public func createNetworkAclEntry(input: CreateNetworkAclEntryInput) async throws -> CreateNetworkAclEntryOutput
-    {
+    public func createNetworkAclEntry(input: CreateNetworkAclEntryInput) async throws -> CreateNetworkAclEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3818,8 +3728,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNetworkInsightsAccessScopeInput : [no documentation found]
     ///
     /// - Returns: `CreateNetworkInsightsAccessScopeOutput` : [no documentation found]
-    public func createNetworkInsightsAccessScope(input: CreateNetworkInsightsAccessScopeInput) async throws -> CreateNetworkInsightsAccessScopeOutput
-    {
+    public func createNetworkInsightsAccessScope(input: CreateNetworkInsightsAccessScopeInput) async throws -> CreateNetworkInsightsAccessScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3860,8 +3769,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNetworkInsightsPathInput : [no documentation found]
     ///
     /// - Returns: `CreateNetworkInsightsPathOutput` : [no documentation found]
-    public func createNetworkInsightsPath(input: CreateNetworkInsightsPathInput) async throws -> CreateNetworkInsightsPathOutput
-    {
+    public func createNetworkInsightsPath(input: CreateNetworkInsightsPathInput) async throws -> CreateNetworkInsightsPathOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3902,8 +3810,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNetworkInterfaceInput : [no documentation found]
     ///
     /// - Returns: `CreateNetworkInterfaceOutput` : [no documentation found]
-    public func createNetworkInterface(input: CreateNetworkInterfaceInput) async throws -> CreateNetworkInterfaceOutput
-    {
+    public func createNetworkInterface(input: CreateNetworkInterfaceInput) async throws -> CreateNetworkInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3944,8 +3851,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateNetworkInterfacePermissionInput : Contains the parameters for CreateNetworkInterfacePermission.
     ///
     /// - Returns: `CreateNetworkInterfacePermissionOutput` : Contains the output of CreateNetworkInterfacePermission.
-    public func createNetworkInterfacePermission(input: CreateNetworkInterfacePermissionInput) async throws -> CreateNetworkInterfacePermissionOutput
-    {
+    public func createNetworkInterfacePermission(input: CreateNetworkInterfacePermissionInput) async throws -> CreateNetworkInterfacePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3985,8 +3891,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreatePlacementGroupInput : [no documentation found]
     ///
     /// - Returns: `CreatePlacementGroupOutput` : [no documentation found]
-    public func createPlacementGroup(input: CreatePlacementGroupInput) async throws -> CreatePlacementGroupOutput
-    {
+    public func createPlacementGroup(input: CreatePlacementGroupInput) async throws -> CreatePlacementGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4026,8 +3931,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreatePublicIpv4PoolInput : [no documentation found]
     ///
     /// - Returns: `CreatePublicIpv4PoolOutput` : [no documentation found]
-    public func createPublicIpv4Pool(input: CreatePublicIpv4PoolInput) async throws -> CreatePublicIpv4PoolOutput
-    {
+    public func createPublicIpv4Pool(input: CreatePublicIpv4PoolInput) async throws -> CreatePublicIpv4PoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4067,8 +3971,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateReplaceRootVolumeTaskInput : [no documentation found]
     ///
     /// - Returns: `CreateReplaceRootVolumeTaskOutput` : [no documentation found]
-    public func createReplaceRootVolumeTask(input: CreateReplaceRootVolumeTaskInput) async throws -> CreateReplaceRootVolumeTaskOutput
-    {
+    public func createReplaceRootVolumeTask(input: CreateReplaceRootVolumeTaskInput) async throws -> CreateReplaceRootVolumeTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4109,8 +4012,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateReservedInstancesListingInput : Contains the parameters for CreateReservedInstancesListing.
     ///
     /// - Returns: `CreateReservedInstancesListingOutput` : Contains the output of CreateReservedInstancesListing.
-    public func createReservedInstancesListing(input: CreateReservedInstancesListingInput) async throws -> CreateReservedInstancesListingOutput
-    {
+    public func createReservedInstancesListing(input: CreateReservedInstancesListingInput) async throws -> CreateReservedInstancesListingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4150,8 +4052,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateRestoreImageTaskInput : [no documentation found]
     ///
     /// - Returns: `CreateRestoreImageTaskOutput` : [no documentation found]
-    public func createRestoreImageTask(input: CreateRestoreImageTaskInput) async throws -> CreateRestoreImageTaskOutput
-    {
+    public func createRestoreImageTask(input: CreateRestoreImageTaskInput) async throws -> CreateRestoreImageTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4198,8 +4099,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateRouteInput : [no documentation found]
     ///
     /// - Returns: `CreateRouteOutput` : [no documentation found]
-    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
-    {
+    public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4239,8 +4139,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateRouteTableInput : [no documentation found]
     ///
     /// - Returns: `CreateRouteTableOutput` : [no documentation found]
-    public func createRouteTable(input: CreateRouteTableInput) async throws -> CreateRouteTableOutput
-    {
+    public func createRouteTable(input: CreateRouteTableInput) async throws -> CreateRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4280,8 +4179,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateSecurityGroupInput : [no documentation found]
     ///
     /// - Returns: `CreateSecurityGroupOutput` : [no documentation found]
-    public func createSecurityGroup(input: CreateSecurityGroupInput) async throws -> CreateSecurityGroupOutput
-    {
+    public func createSecurityGroup(input: CreateSecurityGroupInput) async throws -> CreateSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4321,8 +4219,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateSnapshotInput : [no documentation found]
     ///
     /// - Returns: `CreateSnapshotOutput` : Describes a snapshot.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4362,8 +4259,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateSnapshotsInput : [no documentation found]
     ///
     /// - Returns: `CreateSnapshotsOutput` : [no documentation found]
-    public func createSnapshots(input: CreateSnapshotsInput) async throws -> CreateSnapshotsOutput
-    {
+    public func createSnapshots(input: CreateSnapshotsInput) async throws -> CreateSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4403,8 +4299,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateSpotDatafeedSubscriptionInput : Contains the parameters for CreateSpotDatafeedSubscription.
     ///
     /// - Returns: `CreateSpotDatafeedSubscriptionOutput` : Contains the output of CreateSpotDatafeedSubscription.
-    public func createSpotDatafeedSubscription(input: CreateSpotDatafeedSubscriptionInput) async throws -> CreateSpotDatafeedSubscriptionOutput
-    {
+    public func createSpotDatafeedSubscription(input: CreateSpotDatafeedSubscriptionInput) async throws -> CreateSpotDatafeedSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4444,8 +4339,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateStoreImageTaskInput : [no documentation found]
     ///
     /// - Returns: `CreateStoreImageTaskOutput` : [no documentation found]
-    public func createStoreImageTask(input: CreateStoreImageTaskInput) async throws -> CreateStoreImageTaskOutput
-    {
+    public func createStoreImageTask(input: CreateStoreImageTaskInput) async throws -> CreateStoreImageTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4485,8 +4379,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateSubnetInput : [no documentation found]
     ///
     /// - Returns: `CreateSubnetOutput` : [no documentation found]
-    public func createSubnet(input: CreateSubnetInput) async throws -> CreateSubnetOutput
-    {
+    public func createSubnet(input: CreateSubnetInput) async throws -> CreateSubnetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4526,8 +4419,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateSubnetCidrReservationInput : [no documentation found]
     ///
     /// - Returns: `CreateSubnetCidrReservationOutput` : [no documentation found]
-    public func createSubnetCidrReservation(input: CreateSubnetCidrReservationInput) async throws -> CreateSubnetCidrReservationOutput
-    {
+    public func createSubnetCidrReservation(input: CreateSubnetCidrReservationInput) async throws -> CreateSubnetCidrReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4567,8 +4459,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTagsInput : [no documentation found]
     ///
     /// - Returns: `CreateTagsOutput` : [no documentation found]
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4608,8 +4499,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTrafficMirrorFilterInput : [no documentation found]
     ///
     /// - Returns: `CreateTrafficMirrorFilterOutput` : [no documentation found]
-    public func createTrafficMirrorFilter(input: CreateTrafficMirrorFilterInput) async throws -> CreateTrafficMirrorFilterOutput
-    {
+    public func createTrafficMirrorFilter(input: CreateTrafficMirrorFilterInput) async throws -> CreateTrafficMirrorFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4650,8 +4540,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTrafficMirrorFilterRuleInput : [no documentation found]
     ///
     /// - Returns: `CreateTrafficMirrorFilterRuleOutput` : [no documentation found]
-    public func createTrafficMirrorFilterRule(input: CreateTrafficMirrorFilterRuleInput) async throws -> CreateTrafficMirrorFilterRuleOutput
-    {
+    public func createTrafficMirrorFilterRule(input: CreateTrafficMirrorFilterRuleInput) async throws -> CreateTrafficMirrorFilterRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4692,8 +4581,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTrafficMirrorSessionInput : [no documentation found]
     ///
     /// - Returns: `CreateTrafficMirrorSessionOutput` : [no documentation found]
-    public func createTrafficMirrorSession(input: CreateTrafficMirrorSessionInput) async throws -> CreateTrafficMirrorSessionOutput
-    {
+    public func createTrafficMirrorSession(input: CreateTrafficMirrorSessionInput) async throws -> CreateTrafficMirrorSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4734,8 +4622,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTrafficMirrorTargetInput : [no documentation found]
     ///
     /// - Returns: `CreateTrafficMirrorTargetOutput` : [no documentation found]
-    public func createTrafficMirrorTarget(input: CreateTrafficMirrorTargetInput) async throws -> CreateTrafficMirrorTargetOutput
-    {
+    public func createTrafficMirrorTarget(input: CreateTrafficMirrorTargetInput) async throws -> CreateTrafficMirrorTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4776,8 +4663,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayOutput` : [no documentation found]
-    public func createTransitGateway(input: CreateTransitGatewayInput) async throws -> CreateTransitGatewayOutput
-    {
+    public func createTransitGateway(input: CreateTransitGatewayInput) async throws -> CreateTransitGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4817,8 +4703,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayConnectInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayConnectOutput` : [no documentation found]
-    public func createTransitGatewayConnect(input: CreateTransitGatewayConnectInput) async throws -> CreateTransitGatewayConnectOutput
-    {
+    public func createTransitGatewayConnect(input: CreateTransitGatewayConnectInput) async throws -> CreateTransitGatewayConnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4858,8 +4743,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayConnectPeerInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayConnectPeerOutput` : [no documentation found]
-    public func createTransitGatewayConnectPeer(input: CreateTransitGatewayConnectPeerInput) async throws -> CreateTransitGatewayConnectPeerOutput
-    {
+    public func createTransitGatewayConnectPeer(input: CreateTransitGatewayConnectPeerInput) async throws -> CreateTransitGatewayConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4899,8 +4783,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayMulticastDomainInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayMulticastDomainOutput` : [no documentation found]
-    public func createTransitGatewayMulticastDomain(input: CreateTransitGatewayMulticastDomainInput) async throws -> CreateTransitGatewayMulticastDomainOutput
-    {
+    public func createTransitGatewayMulticastDomain(input: CreateTransitGatewayMulticastDomainInput) async throws -> CreateTransitGatewayMulticastDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4940,8 +4823,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayPeeringAttachmentInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayPeeringAttachmentOutput` : [no documentation found]
-    public func createTransitGatewayPeeringAttachment(input: CreateTransitGatewayPeeringAttachmentInput) async throws -> CreateTransitGatewayPeeringAttachmentOutput
-    {
+    public func createTransitGatewayPeeringAttachment(input: CreateTransitGatewayPeeringAttachmentInput) async throws -> CreateTransitGatewayPeeringAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4981,8 +4863,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayPolicyTableInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayPolicyTableOutput` : [no documentation found]
-    public func createTransitGatewayPolicyTable(input: CreateTransitGatewayPolicyTableInput) async throws -> CreateTransitGatewayPolicyTableOutput
-    {
+    public func createTransitGatewayPolicyTable(input: CreateTransitGatewayPolicyTableInput) async throws -> CreateTransitGatewayPolicyTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5022,8 +4903,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayPrefixListReferenceInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayPrefixListReferenceOutput` : [no documentation found]
-    public func createTransitGatewayPrefixListReference(input: CreateTransitGatewayPrefixListReferenceInput) async throws -> CreateTransitGatewayPrefixListReferenceOutput
-    {
+    public func createTransitGatewayPrefixListReference(input: CreateTransitGatewayPrefixListReferenceInput) async throws -> CreateTransitGatewayPrefixListReferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5063,8 +4943,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayRouteInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayRouteOutput` : [no documentation found]
-    public func createTransitGatewayRoute(input: CreateTransitGatewayRouteInput) async throws -> CreateTransitGatewayRouteOutput
-    {
+    public func createTransitGatewayRoute(input: CreateTransitGatewayRouteInput) async throws -> CreateTransitGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5104,8 +4983,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayRouteTableInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayRouteTableOutput` : [no documentation found]
-    public func createTransitGatewayRouteTable(input: CreateTransitGatewayRouteTableInput) async throws -> CreateTransitGatewayRouteTableOutput
-    {
+    public func createTransitGatewayRouteTable(input: CreateTransitGatewayRouteTableInput) async throws -> CreateTransitGatewayRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5145,8 +5023,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayRouteTableAnnouncementInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayRouteTableAnnouncementOutput` : [no documentation found]
-    public func createTransitGatewayRouteTableAnnouncement(input: CreateTransitGatewayRouteTableAnnouncementInput) async throws -> CreateTransitGatewayRouteTableAnnouncementOutput
-    {
+    public func createTransitGatewayRouteTableAnnouncement(input: CreateTransitGatewayRouteTableAnnouncementInput) async throws -> CreateTransitGatewayRouteTableAnnouncementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5186,8 +5063,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateTransitGatewayVpcAttachmentInput : [no documentation found]
     ///
     /// - Returns: `CreateTransitGatewayVpcAttachmentOutput` : [no documentation found]
-    public func createTransitGatewayVpcAttachment(input: CreateTransitGatewayVpcAttachmentInput) async throws -> CreateTransitGatewayVpcAttachmentOutput
-    {
+    public func createTransitGatewayVpcAttachment(input: CreateTransitGatewayVpcAttachmentInput) async throws -> CreateTransitGatewayVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5227,8 +5103,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVerifiedAccessEndpointInput : [no documentation found]
     ///
     /// - Returns: `CreateVerifiedAccessEndpointOutput` : [no documentation found]
-    public func createVerifiedAccessEndpoint(input: CreateVerifiedAccessEndpointInput) async throws -> CreateVerifiedAccessEndpointOutput
-    {
+    public func createVerifiedAccessEndpoint(input: CreateVerifiedAccessEndpointInput) async throws -> CreateVerifiedAccessEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5269,8 +5144,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVerifiedAccessGroupInput : [no documentation found]
     ///
     /// - Returns: `CreateVerifiedAccessGroupOutput` : [no documentation found]
-    public func createVerifiedAccessGroup(input: CreateVerifiedAccessGroupInput) async throws -> CreateVerifiedAccessGroupOutput
-    {
+    public func createVerifiedAccessGroup(input: CreateVerifiedAccessGroupInput) async throws -> CreateVerifiedAccessGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5311,8 +5185,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVerifiedAccessInstanceInput : [no documentation found]
     ///
     /// - Returns: `CreateVerifiedAccessInstanceOutput` : [no documentation found]
-    public func createVerifiedAccessInstance(input: CreateVerifiedAccessInstanceInput) async throws -> CreateVerifiedAccessInstanceOutput
-    {
+    public func createVerifiedAccessInstance(input: CreateVerifiedAccessInstanceInput) async throws -> CreateVerifiedAccessInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5353,8 +5226,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVerifiedAccessTrustProviderInput : [no documentation found]
     ///
     /// - Returns: `CreateVerifiedAccessTrustProviderOutput` : [no documentation found]
-    public func createVerifiedAccessTrustProvider(input: CreateVerifiedAccessTrustProviderInput) async throws -> CreateVerifiedAccessTrustProviderOutput
-    {
+    public func createVerifiedAccessTrustProvider(input: CreateVerifiedAccessTrustProviderInput) async throws -> CreateVerifiedAccessTrustProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5395,8 +5267,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVolumeInput : [no documentation found]
     ///
     /// - Returns: `CreateVolumeOutput` : Describes a volume.
-    public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput
-    {
+    public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5437,8 +5308,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpcInput : [no documentation found]
     ///
     /// - Returns: `CreateVpcOutput` : [no documentation found]
-    public func createVpc(input: CreateVpcInput) async throws -> CreateVpcOutput
-    {
+    public func createVpc(input: CreateVpcInput) async throws -> CreateVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5478,8 +5348,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpcEndpointInput : [no documentation found]
     ///
     /// - Returns: `CreateVpcEndpointOutput` : [no documentation found]
-    public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput
-    {
+    public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5519,8 +5388,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpcEndpointConnectionNotificationInput : [no documentation found]
     ///
     /// - Returns: `CreateVpcEndpointConnectionNotificationOutput` : [no documentation found]
-    public func createVpcEndpointConnectionNotification(input: CreateVpcEndpointConnectionNotificationInput) async throws -> CreateVpcEndpointConnectionNotificationOutput
-    {
+    public func createVpcEndpointConnectionNotification(input: CreateVpcEndpointConnectionNotificationInput) async throws -> CreateVpcEndpointConnectionNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5567,8 +5435,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpcEndpointServiceConfigurationInput : [no documentation found]
     ///
     /// - Returns: `CreateVpcEndpointServiceConfigurationOutput` : [no documentation found]
-    public func createVpcEndpointServiceConfiguration(input: CreateVpcEndpointServiceConfigurationInput) async throws -> CreateVpcEndpointServiceConfigurationOutput
-    {
+    public func createVpcEndpointServiceConfiguration(input: CreateVpcEndpointServiceConfigurationInput) async throws -> CreateVpcEndpointServiceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5608,8 +5475,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpcPeeringConnectionInput : [no documentation found]
     ///
     /// - Returns: `CreateVpcPeeringConnectionOutput` : [no documentation found]
-    public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput
-    {
+    public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5649,8 +5515,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpnConnectionInput : Contains the parameters for CreateVpnConnection.
     ///
     /// - Returns: `CreateVpnConnectionOutput` : Contains the output of CreateVpnConnection.
-    public func createVpnConnection(input: CreateVpnConnectionInput) async throws -> CreateVpnConnectionOutput
-    {
+    public func createVpnConnection(input: CreateVpnConnectionInput) async throws -> CreateVpnConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5690,8 +5555,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpnConnectionRouteInput : Contains the parameters for CreateVpnConnectionRoute.
     ///
     /// - Returns: `CreateVpnConnectionRouteOutput` : [no documentation found]
-    public func createVpnConnectionRoute(input: CreateVpnConnectionRouteInput) async throws -> CreateVpnConnectionRouteOutput
-    {
+    public func createVpnConnectionRoute(input: CreateVpnConnectionRouteInput) async throws -> CreateVpnConnectionRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5731,8 +5595,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter CreateVpnGatewayInput : Contains the parameters for CreateVpnGateway.
     ///
     /// - Returns: `CreateVpnGatewayOutput` : Contains the output of CreateVpnGateway.
-    public func createVpnGateway(input: CreateVpnGatewayInput) async throws -> CreateVpnGatewayOutput
-    {
+    public func createVpnGateway(input: CreateVpnGatewayInput) async throws -> CreateVpnGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5772,8 +5635,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteCarrierGatewayInput : [no documentation found]
     ///
     /// - Returns: `DeleteCarrierGatewayOutput` : [no documentation found]
-    public func deleteCarrierGateway(input: DeleteCarrierGatewayInput) async throws -> DeleteCarrierGatewayOutput
-    {
+    public func deleteCarrierGateway(input: DeleteCarrierGatewayInput) async throws -> DeleteCarrierGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5813,8 +5675,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteClientVpnEndpointInput : [no documentation found]
     ///
     /// - Returns: `DeleteClientVpnEndpointOutput` : [no documentation found]
-    public func deleteClientVpnEndpoint(input: DeleteClientVpnEndpointInput) async throws -> DeleteClientVpnEndpointOutput
-    {
+    public func deleteClientVpnEndpoint(input: DeleteClientVpnEndpointInput) async throws -> DeleteClientVpnEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5854,8 +5715,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteClientVpnRouteInput : [no documentation found]
     ///
     /// - Returns: `DeleteClientVpnRouteOutput` : [no documentation found]
-    public func deleteClientVpnRoute(input: DeleteClientVpnRouteInput) async throws -> DeleteClientVpnRouteOutput
-    {
+    public func deleteClientVpnRoute(input: DeleteClientVpnRouteInput) async throws -> DeleteClientVpnRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5895,8 +5755,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteCoipCidrInput : [no documentation found]
     ///
     /// - Returns: `DeleteCoipCidrOutput` : [no documentation found]
-    public func deleteCoipCidr(input: DeleteCoipCidrInput) async throws -> DeleteCoipCidrOutput
-    {
+    public func deleteCoipCidr(input: DeleteCoipCidrInput) async throws -> DeleteCoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5936,8 +5795,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteCoipPoolInput : [no documentation found]
     ///
     /// - Returns: `DeleteCoipPoolOutput` : [no documentation found]
-    public func deleteCoipPool(input: DeleteCoipPoolInput) async throws -> DeleteCoipPoolOutput
-    {
+    public func deleteCoipPool(input: DeleteCoipPoolInput) async throws -> DeleteCoipPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5977,8 +5835,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteCustomerGatewayInput : Contains the parameters for DeleteCustomerGateway.
     ///
     /// - Returns: `DeleteCustomerGatewayOutput` : [no documentation found]
-    public func deleteCustomerGateway(input: DeleteCustomerGatewayInput) async throws -> DeleteCustomerGatewayOutput
-    {
+    public func deleteCustomerGateway(input: DeleteCustomerGatewayInput) async throws -> DeleteCustomerGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6018,8 +5875,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteDhcpOptionsInput : [no documentation found]
     ///
     /// - Returns: `DeleteDhcpOptionsOutput` : [no documentation found]
-    public func deleteDhcpOptions(input: DeleteDhcpOptionsInput) async throws -> DeleteDhcpOptionsOutput
-    {
+    public func deleteDhcpOptions(input: DeleteDhcpOptionsInput) async throws -> DeleteDhcpOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6059,8 +5915,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteEgressOnlyInternetGatewayInput : [no documentation found]
     ///
     /// - Returns: `DeleteEgressOnlyInternetGatewayOutput` : [no documentation found]
-    public func deleteEgressOnlyInternetGateway(input: DeleteEgressOnlyInternetGatewayInput) async throws -> DeleteEgressOnlyInternetGatewayOutput
-    {
+    public func deleteEgressOnlyInternetGateway(input: DeleteEgressOnlyInternetGatewayInput) async throws -> DeleteEgressOnlyInternetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6107,8 +5962,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteFleetsInput : [no documentation found]
     ///
     /// - Returns: `DeleteFleetsOutput` : [no documentation found]
-    public func deleteFleets(input: DeleteFleetsInput) async throws -> DeleteFleetsOutput
-    {
+    public func deleteFleets(input: DeleteFleetsInput) async throws -> DeleteFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6148,8 +6002,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteFlowLogsInput : [no documentation found]
     ///
     /// - Returns: `DeleteFlowLogsOutput` : [no documentation found]
-    public func deleteFlowLogs(input: DeleteFlowLogsInput) async throws -> DeleteFlowLogsOutput
-    {
+    public func deleteFlowLogs(input: DeleteFlowLogsInput) async throws -> DeleteFlowLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6189,8 +6042,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteFpgaImageInput : [no documentation found]
     ///
     /// - Returns: `DeleteFpgaImageOutput` : [no documentation found]
-    public func deleteFpgaImage(input: DeleteFpgaImageInput) async throws -> DeleteFpgaImageOutput
-    {
+    public func deleteFpgaImage(input: DeleteFpgaImageInput) async throws -> DeleteFpgaImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6230,8 +6082,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteInstanceConnectEndpointInput : [no documentation found]
     ///
     /// - Returns: `DeleteInstanceConnectEndpointOutput` : [no documentation found]
-    public func deleteInstanceConnectEndpoint(input: DeleteInstanceConnectEndpointInput) async throws -> DeleteInstanceConnectEndpointOutput
-    {
+    public func deleteInstanceConnectEndpoint(input: DeleteInstanceConnectEndpointInput) async throws -> DeleteInstanceConnectEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6271,8 +6122,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteInstanceEventWindowInput : [no documentation found]
     ///
     /// - Returns: `DeleteInstanceEventWindowOutput` : [no documentation found]
-    public func deleteInstanceEventWindow(input: DeleteInstanceEventWindowInput) async throws -> DeleteInstanceEventWindowOutput
-    {
+    public func deleteInstanceEventWindow(input: DeleteInstanceEventWindowInput) async throws -> DeleteInstanceEventWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6312,8 +6162,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteInternetGatewayInput : [no documentation found]
     ///
     /// - Returns: `DeleteInternetGatewayOutput` : [no documentation found]
-    public func deleteInternetGateway(input: DeleteInternetGatewayInput) async throws -> DeleteInternetGatewayOutput
-    {
+    public func deleteInternetGateway(input: DeleteInternetGatewayInput) async throws -> DeleteInternetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6353,8 +6202,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteIpamInput : [no documentation found]
     ///
     /// - Returns: `DeleteIpamOutput` : [no documentation found]
-    public func deleteIpam(input: DeleteIpamInput) async throws -> DeleteIpamOutput
-    {
+    public func deleteIpam(input: DeleteIpamInput) async throws -> DeleteIpamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6394,8 +6242,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteIpamPoolInput : [no documentation found]
     ///
     /// - Returns: `DeleteIpamPoolOutput` : [no documentation found]
-    public func deleteIpamPool(input: DeleteIpamPoolInput) async throws -> DeleteIpamPoolOutput
-    {
+    public func deleteIpamPool(input: DeleteIpamPoolInput) async throws -> DeleteIpamPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6435,8 +6282,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteIpamResourceDiscoveryInput : [no documentation found]
     ///
     /// - Returns: `DeleteIpamResourceDiscoveryOutput` : [no documentation found]
-    public func deleteIpamResourceDiscovery(input: DeleteIpamResourceDiscoveryInput) async throws -> DeleteIpamResourceDiscoveryOutput
-    {
+    public func deleteIpamResourceDiscovery(input: DeleteIpamResourceDiscoveryInput) async throws -> DeleteIpamResourceDiscoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6476,8 +6322,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteIpamScopeInput : [no documentation found]
     ///
     /// - Returns: `DeleteIpamScopeOutput` : [no documentation found]
-    public func deleteIpamScope(input: DeleteIpamScopeInput) async throws -> DeleteIpamScopeOutput
-    {
+    public func deleteIpamScope(input: DeleteIpamScopeInput) async throws -> DeleteIpamScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6517,8 +6362,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteKeyPairInput : [no documentation found]
     ///
     /// - Returns: `DeleteKeyPairOutput` : [no documentation found]
-    public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput
-    {
+    public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6558,8 +6402,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteLaunchTemplateInput : [no documentation found]
     ///
     /// - Returns: `DeleteLaunchTemplateOutput` : [no documentation found]
-    public func deleteLaunchTemplate(input: DeleteLaunchTemplateInput) async throws -> DeleteLaunchTemplateOutput
-    {
+    public func deleteLaunchTemplate(input: DeleteLaunchTemplateInput) async throws -> DeleteLaunchTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6599,8 +6442,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteLaunchTemplateVersionsInput : [no documentation found]
     ///
     /// - Returns: `DeleteLaunchTemplateVersionsOutput` : [no documentation found]
-    public func deleteLaunchTemplateVersions(input: DeleteLaunchTemplateVersionsInput) async throws -> DeleteLaunchTemplateVersionsOutput
-    {
+    public func deleteLaunchTemplateVersions(input: DeleteLaunchTemplateVersionsInput) async throws -> DeleteLaunchTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6640,8 +6482,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteLocalGatewayRouteInput : [no documentation found]
     ///
     /// - Returns: `DeleteLocalGatewayRouteOutput` : [no documentation found]
-    public func deleteLocalGatewayRoute(input: DeleteLocalGatewayRouteInput) async throws -> DeleteLocalGatewayRouteOutput
-    {
+    public func deleteLocalGatewayRoute(input: DeleteLocalGatewayRouteInput) async throws -> DeleteLocalGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6681,8 +6522,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteLocalGatewayRouteTableInput : [no documentation found]
     ///
     /// - Returns: `DeleteLocalGatewayRouteTableOutput` : [no documentation found]
-    public func deleteLocalGatewayRouteTable(input: DeleteLocalGatewayRouteTableInput) async throws -> DeleteLocalGatewayRouteTableOutput
-    {
+    public func deleteLocalGatewayRouteTable(input: DeleteLocalGatewayRouteTableInput) async throws -> DeleteLocalGatewayRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6722,8 +6562,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput : [no documentation found]
     ///
     /// - Returns: `DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput` : [no documentation found]
-    public func deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation(input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput) async throws -> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput
-    {
+    public func deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation(input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput) async throws -> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6763,8 +6602,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteLocalGatewayRouteTableVpcAssociationInput : [no documentation found]
     ///
     /// - Returns: `DeleteLocalGatewayRouteTableVpcAssociationOutput` : [no documentation found]
-    public func deleteLocalGatewayRouteTableVpcAssociation(input: DeleteLocalGatewayRouteTableVpcAssociationInput) async throws -> DeleteLocalGatewayRouteTableVpcAssociationOutput
-    {
+    public func deleteLocalGatewayRouteTableVpcAssociation(input: DeleteLocalGatewayRouteTableVpcAssociationInput) async throws -> DeleteLocalGatewayRouteTableVpcAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6804,8 +6642,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteManagedPrefixListInput : [no documentation found]
     ///
     /// - Returns: `DeleteManagedPrefixListOutput` : [no documentation found]
-    public func deleteManagedPrefixList(input: DeleteManagedPrefixListInput) async throws -> DeleteManagedPrefixListOutput
-    {
+    public func deleteManagedPrefixList(input: DeleteManagedPrefixListInput) async throws -> DeleteManagedPrefixListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6845,8 +6682,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNatGatewayInput : [no documentation found]
     ///
     /// - Returns: `DeleteNatGatewayOutput` : [no documentation found]
-    public func deleteNatGateway(input: DeleteNatGatewayInput) async throws -> DeleteNatGatewayOutput
-    {
+    public func deleteNatGateway(input: DeleteNatGatewayInput) async throws -> DeleteNatGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6886,8 +6722,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkAclInput : [no documentation found]
     ///
     /// - Returns: `DeleteNetworkAclOutput` : [no documentation found]
-    public func deleteNetworkAcl(input: DeleteNetworkAclInput) async throws -> DeleteNetworkAclOutput
-    {
+    public func deleteNetworkAcl(input: DeleteNetworkAclInput) async throws -> DeleteNetworkAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6927,8 +6762,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkAclEntryInput : [no documentation found]
     ///
     /// - Returns: `DeleteNetworkAclEntryOutput` : [no documentation found]
-    public func deleteNetworkAclEntry(input: DeleteNetworkAclEntryInput) async throws -> DeleteNetworkAclEntryOutput
-    {
+    public func deleteNetworkAclEntry(input: DeleteNetworkAclEntryInput) async throws -> DeleteNetworkAclEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6968,8 +6802,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkInsightsAccessScopeInput : [no documentation found]
     ///
     /// - Returns: `DeleteNetworkInsightsAccessScopeOutput` : [no documentation found]
-    public func deleteNetworkInsightsAccessScope(input: DeleteNetworkInsightsAccessScopeInput) async throws -> DeleteNetworkInsightsAccessScopeOutput
-    {
+    public func deleteNetworkInsightsAccessScope(input: DeleteNetworkInsightsAccessScopeInput) async throws -> DeleteNetworkInsightsAccessScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7009,8 +6842,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkInsightsAccessScopeAnalysisInput : [no documentation found]
     ///
     /// - Returns: `DeleteNetworkInsightsAccessScopeAnalysisOutput` : [no documentation found]
-    public func deleteNetworkInsightsAccessScopeAnalysis(input: DeleteNetworkInsightsAccessScopeAnalysisInput) async throws -> DeleteNetworkInsightsAccessScopeAnalysisOutput
-    {
+    public func deleteNetworkInsightsAccessScopeAnalysis(input: DeleteNetworkInsightsAccessScopeAnalysisInput) async throws -> DeleteNetworkInsightsAccessScopeAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7050,8 +6882,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkInsightsAnalysisInput : [no documentation found]
     ///
     /// - Returns: `DeleteNetworkInsightsAnalysisOutput` : [no documentation found]
-    public func deleteNetworkInsightsAnalysis(input: DeleteNetworkInsightsAnalysisInput) async throws -> DeleteNetworkInsightsAnalysisOutput
-    {
+    public func deleteNetworkInsightsAnalysis(input: DeleteNetworkInsightsAnalysisInput) async throws -> DeleteNetworkInsightsAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7091,8 +6922,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkInsightsPathInput : [no documentation found]
     ///
     /// - Returns: `DeleteNetworkInsightsPathOutput` : [no documentation found]
-    public func deleteNetworkInsightsPath(input: DeleteNetworkInsightsPathInput) async throws -> DeleteNetworkInsightsPathOutput
-    {
+    public func deleteNetworkInsightsPath(input: DeleteNetworkInsightsPathInput) async throws -> DeleteNetworkInsightsPathOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7132,8 +6962,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkInterfaceInput : Contains the parameters for DeleteNetworkInterface.
     ///
     /// - Returns: `DeleteNetworkInterfaceOutput` : [no documentation found]
-    public func deleteNetworkInterface(input: DeleteNetworkInterfaceInput) async throws -> DeleteNetworkInterfaceOutput
-    {
+    public func deleteNetworkInterface(input: DeleteNetworkInterfaceInput) async throws -> DeleteNetworkInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7173,8 +7002,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteNetworkInterfacePermissionInput : Contains the parameters for DeleteNetworkInterfacePermission.
     ///
     /// - Returns: `DeleteNetworkInterfacePermissionOutput` : Contains the output for DeleteNetworkInterfacePermission.
-    public func deleteNetworkInterfacePermission(input: DeleteNetworkInterfacePermissionInput) async throws -> DeleteNetworkInterfacePermissionOutput
-    {
+    public func deleteNetworkInterfacePermission(input: DeleteNetworkInterfacePermissionInput) async throws -> DeleteNetworkInterfacePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7214,8 +7042,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeletePlacementGroupInput : [no documentation found]
     ///
     /// - Returns: `DeletePlacementGroupOutput` : [no documentation found]
-    public func deletePlacementGroup(input: DeletePlacementGroupInput) async throws -> DeletePlacementGroupOutput
-    {
+    public func deletePlacementGroup(input: DeletePlacementGroupInput) async throws -> DeletePlacementGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7255,8 +7082,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeletePublicIpv4PoolInput : [no documentation found]
     ///
     /// - Returns: `DeletePublicIpv4PoolOutput` : [no documentation found]
-    public func deletePublicIpv4Pool(input: DeletePublicIpv4PoolInput) async throws -> DeletePublicIpv4PoolOutput
-    {
+    public func deletePublicIpv4Pool(input: DeletePublicIpv4PoolInput) async throws -> DeletePublicIpv4PoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7296,8 +7122,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteQueuedReservedInstancesInput : [no documentation found]
     ///
     /// - Returns: `DeleteQueuedReservedInstancesOutput` : [no documentation found]
-    public func deleteQueuedReservedInstances(input: DeleteQueuedReservedInstancesInput) async throws -> DeleteQueuedReservedInstancesOutput
-    {
+    public func deleteQueuedReservedInstances(input: DeleteQueuedReservedInstancesInput) async throws -> DeleteQueuedReservedInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7337,8 +7162,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteRouteInput : [no documentation found]
     ///
     /// - Returns: `DeleteRouteOutput` : [no documentation found]
-    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
-    {
+    public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7378,8 +7202,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteRouteTableInput : [no documentation found]
     ///
     /// - Returns: `DeleteRouteTableOutput` : [no documentation found]
-    public func deleteRouteTable(input: DeleteRouteTableInput) async throws -> DeleteRouteTableOutput
-    {
+    public func deleteRouteTable(input: DeleteRouteTableInput) async throws -> DeleteRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7419,8 +7242,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteSecurityGroupInput : [no documentation found]
     ///
     /// - Returns: `DeleteSecurityGroupOutput` : [no documentation found]
-    public func deleteSecurityGroup(input: DeleteSecurityGroupInput) async throws -> DeleteSecurityGroupOutput
-    {
+    public func deleteSecurityGroup(input: DeleteSecurityGroupInput) async throws -> DeleteSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7460,8 +7282,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteSnapshotInput : [no documentation found]
     ///
     /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-    {
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7501,8 +7322,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteSpotDatafeedSubscriptionInput : Contains the parameters for DeleteSpotDatafeedSubscription.
     ///
     /// - Returns: `DeleteSpotDatafeedSubscriptionOutput` : [no documentation found]
-    public func deleteSpotDatafeedSubscription(input: DeleteSpotDatafeedSubscriptionInput) async throws -> DeleteSpotDatafeedSubscriptionOutput
-    {
+    public func deleteSpotDatafeedSubscription(input: DeleteSpotDatafeedSubscriptionInput) async throws -> DeleteSpotDatafeedSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7542,8 +7362,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteSubnetInput : [no documentation found]
     ///
     /// - Returns: `DeleteSubnetOutput` : [no documentation found]
-    public func deleteSubnet(input: DeleteSubnetInput) async throws -> DeleteSubnetOutput
-    {
+    public func deleteSubnet(input: DeleteSubnetInput) async throws -> DeleteSubnetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7583,8 +7402,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteSubnetCidrReservationInput : [no documentation found]
     ///
     /// - Returns: `DeleteSubnetCidrReservationOutput` : [no documentation found]
-    public func deleteSubnetCidrReservation(input: DeleteSubnetCidrReservationInput) async throws -> DeleteSubnetCidrReservationOutput
-    {
+    public func deleteSubnetCidrReservation(input: DeleteSubnetCidrReservationInput) async throws -> DeleteSubnetCidrReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7624,8 +7442,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTagsInput : [no documentation found]
     ///
     /// - Returns: `DeleteTagsOutput` : [no documentation found]
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7665,8 +7482,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTrafficMirrorFilterInput : [no documentation found]
     ///
     /// - Returns: `DeleteTrafficMirrorFilterOutput` : [no documentation found]
-    public func deleteTrafficMirrorFilter(input: DeleteTrafficMirrorFilterInput) async throws -> DeleteTrafficMirrorFilterOutput
-    {
+    public func deleteTrafficMirrorFilter(input: DeleteTrafficMirrorFilterInput) async throws -> DeleteTrafficMirrorFilterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7706,8 +7522,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTrafficMirrorFilterRuleInput : [no documentation found]
     ///
     /// - Returns: `DeleteTrafficMirrorFilterRuleOutput` : [no documentation found]
-    public func deleteTrafficMirrorFilterRule(input: DeleteTrafficMirrorFilterRuleInput) async throws -> DeleteTrafficMirrorFilterRuleOutput
-    {
+    public func deleteTrafficMirrorFilterRule(input: DeleteTrafficMirrorFilterRuleInput) async throws -> DeleteTrafficMirrorFilterRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7747,8 +7562,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTrafficMirrorSessionInput : [no documentation found]
     ///
     /// - Returns: `DeleteTrafficMirrorSessionOutput` : [no documentation found]
-    public func deleteTrafficMirrorSession(input: DeleteTrafficMirrorSessionInput) async throws -> DeleteTrafficMirrorSessionOutput
-    {
+    public func deleteTrafficMirrorSession(input: DeleteTrafficMirrorSessionInput) async throws -> DeleteTrafficMirrorSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7788,8 +7602,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTrafficMirrorTargetInput : [no documentation found]
     ///
     /// - Returns: `DeleteTrafficMirrorTargetOutput` : [no documentation found]
-    public func deleteTrafficMirrorTarget(input: DeleteTrafficMirrorTargetInput) async throws -> DeleteTrafficMirrorTargetOutput
-    {
+    public func deleteTrafficMirrorTarget(input: DeleteTrafficMirrorTargetInput) async throws -> DeleteTrafficMirrorTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7829,8 +7642,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayOutput` : [no documentation found]
-    public func deleteTransitGateway(input: DeleteTransitGatewayInput) async throws -> DeleteTransitGatewayOutput
-    {
+    public func deleteTransitGateway(input: DeleteTransitGatewayInput) async throws -> DeleteTransitGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7870,8 +7682,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayConnectInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayConnectOutput` : [no documentation found]
-    public func deleteTransitGatewayConnect(input: DeleteTransitGatewayConnectInput) async throws -> DeleteTransitGatewayConnectOutput
-    {
+    public func deleteTransitGatewayConnect(input: DeleteTransitGatewayConnectInput) async throws -> DeleteTransitGatewayConnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7911,8 +7722,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayConnectPeerInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayConnectPeerOutput` : [no documentation found]
-    public func deleteTransitGatewayConnectPeer(input: DeleteTransitGatewayConnectPeerInput) async throws -> DeleteTransitGatewayConnectPeerOutput
-    {
+    public func deleteTransitGatewayConnectPeer(input: DeleteTransitGatewayConnectPeerInput) async throws -> DeleteTransitGatewayConnectPeerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7952,8 +7762,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayMulticastDomainInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayMulticastDomainOutput` : [no documentation found]
-    public func deleteTransitGatewayMulticastDomain(input: DeleteTransitGatewayMulticastDomainInput) async throws -> DeleteTransitGatewayMulticastDomainOutput
-    {
+    public func deleteTransitGatewayMulticastDomain(input: DeleteTransitGatewayMulticastDomainInput) async throws -> DeleteTransitGatewayMulticastDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7993,8 +7802,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayPeeringAttachmentInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayPeeringAttachmentOutput` : [no documentation found]
-    public func deleteTransitGatewayPeeringAttachment(input: DeleteTransitGatewayPeeringAttachmentInput) async throws -> DeleteTransitGatewayPeeringAttachmentOutput
-    {
+    public func deleteTransitGatewayPeeringAttachment(input: DeleteTransitGatewayPeeringAttachmentInput) async throws -> DeleteTransitGatewayPeeringAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8034,8 +7842,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayPolicyTableInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayPolicyTableOutput` : [no documentation found]
-    public func deleteTransitGatewayPolicyTable(input: DeleteTransitGatewayPolicyTableInput) async throws -> DeleteTransitGatewayPolicyTableOutput
-    {
+    public func deleteTransitGatewayPolicyTable(input: DeleteTransitGatewayPolicyTableInput) async throws -> DeleteTransitGatewayPolicyTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8075,8 +7882,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayPrefixListReferenceInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayPrefixListReferenceOutput` : [no documentation found]
-    public func deleteTransitGatewayPrefixListReference(input: DeleteTransitGatewayPrefixListReferenceInput) async throws -> DeleteTransitGatewayPrefixListReferenceOutput
-    {
+    public func deleteTransitGatewayPrefixListReference(input: DeleteTransitGatewayPrefixListReferenceInput) async throws -> DeleteTransitGatewayPrefixListReferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8116,8 +7922,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayRouteInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayRouteOutput` : [no documentation found]
-    public func deleteTransitGatewayRoute(input: DeleteTransitGatewayRouteInput) async throws -> DeleteTransitGatewayRouteOutput
-    {
+    public func deleteTransitGatewayRoute(input: DeleteTransitGatewayRouteInput) async throws -> DeleteTransitGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8157,8 +7962,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayRouteTableInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayRouteTableOutput` : [no documentation found]
-    public func deleteTransitGatewayRouteTable(input: DeleteTransitGatewayRouteTableInput) async throws -> DeleteTransitGatewayRouteTableOutput
-    {
+    public func deleteTransitGatewayRouteTable(input: DeleteTransitGatewayRouteTableInput) async throws -> DeleteTransitGatewayRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8198,8 +8002,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayRouteTableAnnouncementInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayRouteTableAnnouncementOutput` : [no documentation found]
-    public func deleteTransitGatewayRouteTableAnnouncement(input: DeleteTransitGatewayRouteTableAnnouncementInput) async throws -> DeleteTransitGatewayRouteTableAnnouncementOutput
-    {
+    public func deleteTransitGatewayRouteTableAnnouncement(input: DeleteTransitGatewayRouteTableAnnouncementInput) async throws -> DeleteTransitGatewayRouteTableAnnouncementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8239,8 +8042,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteTransitGatewayVpcAttachmentInput : [no documentation found]
     ///
     /// - Returns: `DeleteTransitGatewayVpcAttachmentOutput` : [no documentation found]
-    public func deleteTransitGatewayVpcAttachment(input: DeleteTransitGatewayVpcAttachmentInput) async throws -> DeleteTransitGatewayVpcAttachmentOutput
-    {
+    public func deleteTransitGatewayVpcAttachment(input: DeleteTransitGatewayVpcAttachmentInput) async throws -> DeleteTransitGatewayVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8280,8 +8082,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVerifiedAccessEndpointInput : [no documentation found]
     ///
     /// - Returns: `DeleteVerifiedAccessEndpointOutput` : [no documentation found]
-    public func deleteVerifiedAccessEndpoint(input: DeleteVerifiedAccessEndpointInput) async throws -> DeleteVerifiedAccessEndpointOutput
-    {
+    public func deleteVerifiedAccessEndpoint(input: DeleteVerifiedAccessEndpointInput) async throws -> DeleteVerifiedAccessEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8322,8 +8123,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVerifiedAccessGroupInput : [no documentation found]
     ///
     /// - Returns: `DeleteVerifiedAccessGroupOutput` : [no documentation found]
-    public func deleteVerifiedAccessGroup(input: DeleteVerifiedAccessGroupInput) async throws -> DeleteVerifiedAccessGroupOutput
-    {
+    public func deleteVerifiedAccessGroup(input: DeleteVerifiedAccessGroupInput) async throws -> DeleteVerifiedAccessGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8364,8 +8164,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVerifiedAccessInstanceInput : [no documentation found]
     ///
     /// - Returns: `DeleteVerifiedAccessInstanceOutput` : [no documentation found]
-    public func deleteVerifiedAccessInstance(input: DeleteVerifiedAccessInstanceInput) async throws -> DeleteVerifiedAccessInstanceOutput
-    {
+    public func deleteVerifiedAccessInstance(input: DeleteVerifiedAccessInstanceInput) async throws -> DeleteVerifiedAccessInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8406,8 +8205,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVerifiedAccessTrustProviderInput : [no documentation found]
     ///
     /// - Returns: `DeleteVerifiedAccessTrustProviderOutput` : [no documentation found]
-    public func deleteVerifiedAccessTrustProvider(input: DeleteVerifiedAccessTrustProviderInput) async throws -> DeleteVerifiedAccessTrustProviderOutput
-    {
+    public func deleteVerifiedAccessTrustProvider(input: DeleteVerifiedAccessTrustProviderInput) async throws -> DeleteVerifiedAccessTrustProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8448,8 +8246,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVolumeInput : [no documentation found]
     ///
     /// - Returns: `DeleteVolumeOutput` : [no documentation found]
-    public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput
-    {
+    public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8489,8 +8286,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpcInput : [no documentation found]
     ///
     /// - Returns: `DeleteVpcOutput` : [no documentation found]
-    public func deleteVpc(input: DeleteVpcInput) async throws -> DeleteVpcOutput
-    {
+    public func deleteVpc(input: DeleteVpcInput) async throws -> DeleteVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8530,8 +8326,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpcEndpointConnectionNotificationsInput : [no documentation found]
     ///
     /// - Returns: `DeleteVpcEndpointConnectionNotificationsOutput` : [no documentation found]
-    public func deleteVpcEndpointConnectionNotifications(input: DeleteVpcEndpointConnectionNotificationsInput) async throws -> DeleteVpcEndpointConnectionNotificationsOutput
-    {
+    public func deleteVpcEndpointConnectionNotifications(input: DeleteVpcEndpointConnectionNotificationsInput) async throws -> DeleteVpcEndpointConnectionNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8571,8 +8366,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpcEndpointServiceConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `DeleteVpcEndpointServiceConfigurationsOutput` : [no documentation found]
-    public func deleteVpcEndpointServiceConfigurations(input: DeleteVpcEndpointServiceConfigurationsInput) async throws -> DeleteVpcEndpointServiceConfigurationsOutput
-    {
+    public func deleteVpcEndpointServiceConfigurations(input: DeleteVpcEndpointServiceConfigurationsInput) async throws -> DeleteVpcEndpointServiceConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8612,8 +8406,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpcEndpointsInput : [no documentation found]
     ///
     /// - Returns: `DeleteVpcEndpointsOutput` : [no documentation found]
-    public func deleteVpcEndpoints(input: DeleteVpcEndpointsInput) async throws -> DeleteVpcEndpointsOutput
-    {
+    public func deleteVpcEndpoints(input: DeleteVpcEndpointsInput) async throws -> DeleteVpcEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8653,8 +8446,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpcPeeringConnectionInput : [no documentation found]
     ///
     /// - Returns: `DeleteVpcPeeringConnectionOutput` : [no documentation found]
-    public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput
-    {
+    public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8694,8 +8486,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpnConnectionInput : Contains the parameters for DeleteVpnConnection.
     ///
     /// - Returns: `DeleteVpnConnectionOutput` : [no documentation found]
-    public func deleteVpnConnection(input: DeleteVpnConnectionInput) async throws -> DeleteVpnConnectionOutput
-    {
+    public func deleteVpnConnection(input: DeleteVpnConnectionInput) async throws -> DeleteVpnConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8735,8 +8526,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpnConnectionRouteInput : Contains the parameters for DeleteVpnConnectionRoute.
     ///
     /// - Returns: `DeleteVpnConnectionRouteOutput` : [no documentation found]
-    public func deleteVpnConnectionRoute(input: DeleteVpnConnectionRouteInput) async throws -> DeleteVpnConnectionRouteOutput
-    {
+    public func deleteVpnConnectionRoute(input: DeleteVpnConnectionRouteInput) async throws -> DeleteVpnConnectionRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8776,8 +8566,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeleteVpnGatewayInput : Contains the parameters for DeleteVpnGateway.
     ///
     /// - Returns: `DeleteVpnGatewayOutput` : [no documentation found]
-    public func deleteVpnGateway(input: DeleteVpnGatewayInput) async throws -> DeleteVpnGatewayOutput
-    {
+    public func deleteVpnGateway(input: DeleteVpnGatewayInput) async throws -> DeleteVpnGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8817,8 +8606,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
     ///
     /// - Returns: `DeprovisionByoipCidrOutput` : [no documentation found]
-    public func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput
-    {
+    public func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8858,8 +8646,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeprovisionIpamByoasnInput : [no documentation found]
     ///
     /// - Returns: `DeprovisionIpamByoasnOutput` : [no documentation found]
-    public func deprovisionIpamByoasn(input: DeprovisionIpamByoasnInput) async throws -> DeprovisionIpamByoasnOutput
-    {
+    public func deprovisionIpamByoasn(input: DeprovisionIpamByoasnInput) async throws -> DeprovisionIpamByoasnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8899,8 +8686,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeprovisionIpamPoolCidrInput : [no documentation found]
     ///
     /// - Returns: `DeprovisionIpamPoolCidrOutput` : [no documentation found]
-    public func deprovisionIpamPoolCidr(input: DeprovisionIpamPoolCidrInput) async throws -> DeprovisionIpamPoolCidrOutput
-    {
+    public func deprovisionIpamPoolCidr(input: DeprovisionIpamPoolCidrInput) async throws -> DeprovisionIpamPoolCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8940,8 +8726,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeprovisionPublicIpv4PoolCidrInput : [no documentation found]
     ///
     /// - Returns: `DeprovisionPublicIpv4PoolCidrOutput` : [no documentation found]
-    public func deprovisionPublicIpv4PoolCidr(input: DeprovisionPublicIpv4PoolCidrInput) async throws -> DeprovisionPublicIpv4PoolCidrOutput
-    {
+    public func deprovisionPublicIpv4PoolCidr(input: DeprovisionPublicIpv4PoolCidrInput) async throws -> DeprovisionPublicIpv4PoolCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8981,8 +8766,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeregisterImageInput : Contains the parameters for DeregisterImage.
     ///
     /// - Returns: `DeregisterImageOutput` : [no documentation found]
-    public func deregisterImage(input: DeregisterImageInput) async throws -> DeregisterImageOutput
-    {
+    public func deregisterImage(input: DeregisterImageInput) async throws -> DeregisterImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9022,8 +8806,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeregisterInstanceEventNotificationAttributesInput : [no documentation found]
     ///
     /// - Returns: `DeregisterInstanceEventNotificationAttributesOutput` : [no documentation found]
-    public func deregisterInstanceEventNotificationAttributes(input: DeregisterInstanceEventNotificationAttributesInput) async throws -> DeregisterInstanceEventNotificationAttributesOutput
-    {
+    public func deregisterInstanceEventNotificationAttributes(input: DeregisterInstanceEventNotificationAttributesInput) async throws -> DeregisterInstanceEventNotificationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9063,8 +8846,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeregisterTransitGatewayMulticastGroupMembersInput : [no documentation found]
     ///
     /// - Returns: `DeregisterTransitGatewayMulticastGroupMembersOutput` : [no documentation found]
-    public func deregisterTransitGatewayMulticastGroupMembers(input: DeregisterTransitGatewayMulticastGroupMembersInput) async throws -> DeregisterTransitGatewayMulticastGroupMembersOutput
-    {
+    public func deregisterTransitGatewayMulticastGroupMembers(input: DeregisterTransitGatewayMulticastGroupMembersInput) async throws -> DeregisterTransitGatewayMulticastGroupMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9104,8 +8886,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DeregisterTransitGatewayMulticastGroupSourcesInput : [no documentation found]
     ///
     /// - Returns: `DeregisterTransitGatewayMulticastGroupSourcesOutput` : [no documentation found]
-    public func deregisterTransitGatewayMulticastGroupSources(input: DeregisterTransitGatewayMulticastGroupSourcesInput) async throws -> DeregisterTransitGatewayMulticastGroupSourcesOutput
-    {
+    public func deregisterTransitGatewayMulticastGroupSources(input: DeregisterTransitGatewayMulticastGroupSourcesInput) async throws -> DeregisterTransitGatewayMulticastGroupSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9157,8 +8938,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAccountAttributesInput : [no documentation found]
     ///
     /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9198,8 +8978,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAddressTransfersInput : [no documentation found]
     ///
     /// - Returns: `DescribeAddressTransfersOutput` : [no documentation found]
-    public func describeAddressTransfers(input: DescribeAddressTransfersInput) async throws -> DescribeAddressTransfersOutput
-    {
+    public func describeAddressTransfers(input: DescribeAddressTransfersInput) async throws -> DescribeAddressTransfersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9239,8 +9018,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAddressesInput : [no documentation found]
     ///
     /// - Returns: `DescribeAddressesOutput` : [no documentation found]
-    public func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput
-    {
+    public func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9280,8 +9058,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAddressesAttributeInput : [no documentation found]
     ///
     /// - Returns: `DescribeAddressesAttributeOutput` : [no documentation found]
-    public func describeAddressesAttribute(input: DescribeAddressesAttributeInput) async throws -> DescribeAddressesAttributeOutput
-    {
+    public func describeAddressesAttribute(input: DescribeAddressesAttributeInput) async throws -> DescribeAddressesAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9321,8 +9098,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAggregateIdFormatInput : [no documentation found]
     ///
     /// - Returns: `DescribeAggregateIdFormatOutput` : [no documentation found]
-    public func describeAggregateIdFormat(input: DescribeAggregateIdFormatInput) async throws -> DescribeAggregateIdFormatOutput
-    {
+    public func describeAggregateIdFormat(input: DescribeAggregateIdFormatInput) async throws -> DescribeAggregateIdFormatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9362,8 +9138,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAvailabilityZonesInput : [no documentation found]
     ///
     /// - Returns: `DescribeAvailabilityZonesOutput` : [no documentation found]
-    public func describeAvailabilityZones(input: DescribeAvailabilityZonesInput) async throws -> DescribeAvailabilityZonesOutput
-    {
+    public func describeAvailabilityZones(input: DescribeAvailabilityZonesInput) async throws -> DescribeAvailabilityZonesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9403,8 +9178,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeAwsNetworkPerformanceMetricSubscriptionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeAwsNetworkPerformanceMetricSubscriptionsOutput` : [no documentation found]
-    public func describeAwsNetworkPerformanceMetricSubscriptions(input: DescribeAwsNetworkPerformanceMetricSubscriptionsInput) async throws -> DescribeAwsNetworkPerformanceMetricSubscriptionsOutput
-    {
+    public func describeAwsNetworkPerformanceMetricSubscriptions(input: DescribeAwsNetworkPerformanceMetricSubscriptionsInput) async throws -> DescribeAwsNetworkPerformanceMetricSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9444,8 +9218,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeBundleTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeBundleTasksOutput` : [no documentation found]
-    public func describeBundleTasks(input: DescribeBundleTasksInput) async throws -> DescribeBundleTasksOutput
-    {
+    public func describeBundleTasks(input: DescribeBundleTasksInput) async throws -> DescribeBundleTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9485,8 +9258,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeByoipCidrsInput : [no documentation found]
     ///
     /// - Returns: `DescribeByoipCidrsOutput` : [no documentation found]
-    public func describeByoipCidrs(input: DescribeByoipCidrsInput) async throws -> DescribeByoipCidrsOutput
-    {
+    public func describeByoipCidrs(input: DescribeByoipCidrsInput) async throws -> DescribeByoipCidrsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9526,8 +9298,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeCapacityBlockOfferingsInput : [no documentation found]
     ///
     /// - Returns: `DescribeCapacityBlockOfferingsOutput` : [no documentation found]
-    public func describeCapacityBlockOfferings(input: DescribeCapacityBlockOfferingsInput) async throws -> DescribeCapacityBlockOfferingsOutput
-    {
+    public func describeCapacityBlockOfferings(input: DescribeCapacityBlockOfferingsInput) async throws -> DescribeCapacityBlockOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9567,8 +9338,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeCapacityReservationFleetsInput : [no documentation found]
     ///
     /// - Returns: `DescribeCapacityReservationFleetsOutput` : [no documentation found]
-    public func describeCapacityReservationFleets(input: DescribeCapacityReservationFleetsInput) async throws -> DescribeCapacityReservationFleetsOutput
-    {
+    public func describeCapacityReservationFleets(input: DescribeCapacityReservationFleetsInput) async throws -> DescribeCapacityReservationFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9608,8 +9378,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeCapacityReservationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeCapacityReservationsOutput` : [no documentation found]
-    public func describeCapacityReservations(input: DescribeCapacityReservationsInput) async throws -> DescribeCapacityReservationsOutput
-    {
+    public func describeCapacityReservations(input: DescribeCapacityReservationsInput) async throws -> DescribeCapacityReservationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9649,8 +9418,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeCarrierGatewaysInput : [no documentation found]
     ///
     /// - Returns: `DescribeCarrierGatewaysOutput` : [no documentation found]
-    public func describeCarrierGateways(input: DescribeCarrierGatewaysInput) async throws -> DescribeCarrierGatewaysOutput
-    {
+    public func describeCarrierGateways(input: DescribeCarrierGatewaysInput) async throws -> DescribeCarrierGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9690,8 +9458,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeClassicLinkInstancesInput : [no documentation found]
     ///
     /// - Returns: `DescribeClassicLinkInstancesOutput` : [no documentation found]
-    public func describeClassicLinkInstances(input: DescribeClassicLinkInstancesInput) async throws -> DescribeClassicLinkInstancesOutput
-    {
+    public func describeClassicLinkInstances(input: DescribeClassicLinkInstancesInput) async throws -> DescribeClassicLinkInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9731,8 +9498,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeClientVpnAuthorizationRulesInput : [no documentation found]
     ///
     /// - Returns: `DescribeClientVpnAuthorizationRulesOutput` : [no documentation found]
-    public func describeClientVpnAuthorizationRules(input: DescribeClientVpnAuthorizationRulesInput) async throws -> DescribeClientVpnAuthorizationRulesOutput
-    {
+    public func describeClientVpnAuthorizationRules(input: DescribeClientVpnAuthorizationRulesInput) async throws -> DescribeClientVpnAuthorizationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9772,8 +9538,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeClientVpnConnectionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeClientVpnConnectionsOutput` : [no documentation found]
-    public func describeClientVpnConnections(input: DescribeClientVpnConnectionsInput) async throws -> DescribeClientVpnConnectionsOutput
-    {
+    public func describeClientVpnConnections(input: DescribeClientVpnConnectionsInput) async throws -> DescribeClientVpnConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9813,8 +9578,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeClientVpnEndpointsInput : [no documentation found]
     ///
     /// - Returns: `DescribeClientVpnEndpointsOutput` : [no documentation found]
-    public func describeClientVpnEndpoints(input: DescribeClientVpnEndpointsInput) async throws -> DescribeClientVpnEndpointsOutput
-    {
+    public func describeClientVpnEndpoints(input: DescribeClientVpnEndpointsInput) async throws -> DescribeClientVpnEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9854,8 +9618,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeClientVpnRoutesInput : [no documentation found]
     ///
     /// - Returns: `DescribeClientVpnRoutesOutput` : [no documentation found]
-    public func describeClientVpnRoutes(input: DescribeClientVpnRoutesInput) async throws -> DescribeClientVpnRoutesOutput
-    {
+    public func describeClientVpnRoutes(input: DescribeClientVpnRoutesInput) async throws -> DescribeClientVpnRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9895,8 +9658,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeClientVpnTargetNetworksInput : [no documentation found]
     ///
     /// - Returns: `DescribeClientVpnTargetNetworksOutput` : [no documentation found]
-    public func describeClientVpnTargetNetworks(input: DescribeClientVpnTargetNetworksInput) async throws -> DescribeClientVpnTargetNetworksOutput
-    {
+    public func describeClientVpnTargetNetworks(input: DescribeClientVpnTargetNetworksInput) async throws -> DescribeClientVpnTargetNetworksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9936,8 +9698,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeCoipPoolsInput : [no documentation found]
     ///
     /// - Returns: `DescribeCoipPoolsOutput` : [no documentation found]
-    public func describeCoipPools(input: DescribeCoipPoolsInput) async throws -> DescribeCoipPoolsOutput
-    {
+    public func describeCoipPools(input: DescribeCoipPoolsInput) async throws -> DescribeCoipPoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9977,8 +9738,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeConversionTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeConversionTasksOutput` : [no documentation found]
-    public func describeConversionTasks(input: DescribeConversionTasksInput) async throws -> DescribeConversionTasksOutput
-    {
+    public func describeConversionTasks(input: DescribeConversionTasksInput) async throws -> DescribeConversionTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10018,8 +9778,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeCustomerGatewaysInput : Contains the parameters for DescribeCustomerGateways.
     ///
     /// - Returns: `DescribeCustomerGatewaysOutput` : Contains the output of DescribeCustomerGateways.
-    public func describeCustomerGateways(input: DescribeCustomerGatewaysInput) async throws -> DescribeCustomerGatewaysOutput
-    {
+    public func describeCustomerGateways(input: DescribeCustomerGatewaysInput) async throws -> DescribeCustomerGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10059,8 +9818,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeDhcpOptionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeDhcpOptionsOutput` : [no documentation found]
-    public func describeDhcpOptions(input: DescribeDhcpOptionsInput) async throws -> DescribeDhcpOptionsOutput
-    {
+    public func describeDhcpOptions(input: DescribeDhcpOptionsInput) async throws -> DescribeDhcpOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10100,8 +9858,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeEgressOnlyInternetGatewaysInput : [no documentation found]
     ///
     /// - Returns: `DescribeEgressOnlyInternetGatewaysOutput` : [no documentation found]
-    public func describeEgressOnlyInternetGateways(input: DescribeEgressOnlyInternetGatewaysInput) async throws -> DescribeEgressOnlyInternetGatewaysOutput
-    {
+    public func describeEgressOnlyInternetGateways(input: DescribeEgressOnlyInternetGatewaysInput) async throws -> DescribeEgressOnlyInternetGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10141,8 +9898,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeElasticGpusInput : [no documentation found]
     ///
     /// - Returns: `DescribeElasticGpusOutput` : [no documentation found]
-    public func describeElasticGpus(input: DescribeElasticGpusInput) async throws -> DescribeElasticGpusOutput
-    {
+    public func describeElasticGpus(input: DescribeElasticGpusInput) async throws -> DescribeElasticGpusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10182,8 +9938,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeExportImageTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeExportImageTasksOutput` : [no documentation found]
-    public func describeExportImageTasks(input: DescribeExportImageTasksInput) async throws -> DescribeExportImageTasksOutput
-    {
+    public func describeExportImageTasks(input: DescribeExportImageTasksInput) async throws -> DescribeExportImageTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10223,8 +9978,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeExportTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
-    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput
-    {
+    public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10264,8 +10018,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFastLaunchImagesInput : [no documentation found]
     ///
     /// - Returns: `DescribeFastLaunchImagesOutput` : [no documentation found]
-    public func describeFastLaunchImages(input: DescribeFastLaunchImagesInput) async throws -> DescribeFastLaunchImagesOutput
-    {
+    public func describeFastLaunchImages(input: DescribeFastLaunchImagesInput) async throws -> DescribeFastLaunchImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10305,8 +10058,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFastSnapshotRestoresInput : [no documentation found]
     ///
     /// - Returns: `DescribeFastSnapshotRestoresOutput` : [no documentation found]
-    public func describeFastSnapshotRestores(input: DescribeFastSnapshotRestoresInput) async throws -> DescribeFastSnapshotRestoresOutput
-    {
+    public func describeFastSnapshotRestores(input: DescribeFastSnapshotRestoresInput) async throws -> DescribeFastSnapshotRestoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10346,8 +10098,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFleetHistoryInput : [no documentation found]
     ///
     /// - Returns: `DescribeFleetHistoryOutput` : [no documentation found]
-    public func describeFleetHistory(input: DescribeFleetHistoryInput) async throws -> DescribeFleetHistoryOutput
-    {
+    public func describeFleetHistory(input: DescribeFleetHistoryInput) async throws -> DescribeFleetHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10387,8 +10138,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFleetInstancesInput : [no documentation found]
     ///
     /// - Returns: `DescribeFleetInstancesOutput` : [no documentation found]
-    public func describeFleetInstances(input: DescribeFleetInstancesInput) async throws -> DescribeFleetInstancesOutput
-    {
+    public func describeFleetInstances(input: DescribeFleetInstancesInput) async throws -> DescribeFleetInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10428,8 +10178,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFleetsInput : [no documentation found]
     ///
     /// - Returns: `DescribeFleetsOutput` : [no documentation found]
-    public func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput
-    {
+    public func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10469,8 +10218,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFlowLogsInput : [no documentation found]
     ///
     /// - Returns: `DescribeFlowLogsOutput` : [no documentation found]
-    public func describeFlowLogs(input: DescribeFlowLogsInput) async throws -> DescribeFlowLogsOutput
-    {
+    public func describeFlowLogs(input: DescribeFlowLogsInput) async throws -> DescribeFlowLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10510,8 +10258,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFpgaImageAttributeInput : [no documentation found]
     ///
     /// - Returns: `DescribeFpgaImageAttributeOutput` : [no documentation found]
-    public func describeFpgaImageAttribute(input: DescribeFpgaImageAttributeInput) async throws -> DescribeFpgaImageAttributeOutput
-    {
+    public func describeFpgaImageAttribute(input: DescribeFpgaImageAttributeInput) async throws -> DescribeFpgaImageAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10551,8 +10298,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeFpgaImagesInput : [no documentation found]
     ///
     /// - Returns: `DescribeFpgaImagesOutput` : [no documentation found]
-    public func describeFpgaImages(input: DescribeFpgaImagesInput) async throws -> DescribeFpgaImagesOutput
-    {
+    public func describeFpgaImages(input: DescribeFpgaImagesInput) async throws -> DescribeFpgaImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10592,8 +10338,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeHostReservationOfferingsInput : [no documentation found]
     ///
     /// - Returns: `DescribeHostReservationOfferingsOutput` : [no documentation found]
-    public func describeHostReservationOfferings(input: DescribeHostReservationOfferingsInput) async throws -> DescribeHostReservationOfferingsOutput
-    {
+    public func describeHostReservationOfferings(input: DescribeHostReservationOfferingsInput) async throws -> DescribeHostReservationOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10633,8 +10378,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeHostReservationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeHostReservationsOutput` : [no documentation found]
-    public func describeHostReservations(input: DescribeHostReservationsInput) async throws -> DescribeHostReservationsOutput
-    {
+    public func describeHostReservations(input: DescribeHostReservationsInput) async throws -> DescribeHostReservationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10674,8 +10418,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeHostsInput : [no documentation found]
     ///
     /// - Returns: `DescribeHostsOutput` : [no documentation found]
-    public func describeHosts(input: DescribeHostsInput) async throws -> DescribeHostsOutput
-    {
+    public func describeHosts(input: DescribeHostsInput) async throws -> DescribeHostsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10715,8 +10458,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIamInstanceProfileAssociationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeIamInstanceProfileAssociationsOutput` : [no documentation found]
-    public func describeIamInstanceProfileAssociations(input: DescribeIamInstanceProfileAssociationsInput) async throws -> DescribeIamInstanceProfileAssociationsOutput
-    {
+    public func describeIamInstanceProfileAssociations(input: DescribeIamInstanceProfileAssociationsInput) async throws -> DescribeIamInstanceProfileAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10756,8 +10498,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIdFormatInput : [no documentation found]
     ///
     /// - Returns: `DescribeIdFormatOutput` : [no documentation found]
-    public func describeIdFormat(input: DescribeIdFormatInput) async throws -> DescribeIdFormatOutput
-    {
+    public func describeIdFormat(input: DescribeIdFormatInput) async throws -> DescribeIdFormatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10797,8 +10538,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIdentityIdFormatInput : [no documentation found]
     ///
     /// - Returns: `DescribeIdentityIdFormatOutput` : [no documentation found]
-    public func describeIdentityIdFormat(input: DescribeIdentityIdFormatInput) async throws -> DescribeIdentityIdFormatOutput
-    {
+    public func describeIdentityIdFormat(input: DescribeIdentityIdFormatInput) async throws -> DescribeIdentityIdFormatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10838,8 +10578,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeImageAttributeInput : Contains the parameters for DescribeImageAttribute.
     ///
     /// - Returns: `DescribeImageAttributeOutput` : Describes an image attribute.
-    public func describeImageAttribute(input: DescribeImageAttributeInput) async throws -> DescribeImageAttributeOutput
-    {
+    public func describeImageAttribute(input: DescribeImageAttributeInput) async throws -> DescribeImageAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10879,8 +10618,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeImagesInput : [no documentation found]
     ///
     /// - Returns: `DescribeImagesOutput` : [no documentation found]
-    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
-    {
+    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10920,8 +10658,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeImportImageTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeImportImageTasksOutput` : [no documentation found]
-    public func describeImportImageTasks(input: DescribeImportImageTasksInput) async throws -> DescribeImportImageTasksOutput
-    {
+    public func describeImportImageTasks(input: DescribeImportImageTasksInput) async throws -> DescribeImportImageTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10961,8 +10698,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeImportSnapshotTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeImportSnapshotTasksOutput` : [no documentation found]
-    public func describeImportSnapshotTasks(input: DescribeImportSnapshotTasksInput) async throws -> DescribeImportSnapshotTasksOutput
-    {
+    public func describeImportSnapshotTasks(input: DescribeImportSnapshotTasksInput) async throws -> DescribeImportSnapshotTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11002,8 +10738,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceAttributeInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceAttributeOutput` : Describes an instance attribute.
-    public func describeInstanceAttribute(input: DescribeInstanceAttributeInput) async throws -> DescribeInstanceAttributeOutput
-    {
+    public func describeInstanceAttribute(input: DescribeInstanceAttributeInput) async throws -> DescribeInstanceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11043,8 +10778,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceConnectEndpointsInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceConnectEndpointsOutput` : [no documentation found]
-    public func describeInstanceConnectEndpoints(input: DescribeInstanceConnectEndpointsInput) async throws -> DescribeInstanceConnectEndpointsOutput
-    {
+    public func describeInstanceConnectEndpoints(input: DescribeInstanceConnectEndpointsInput) async throws -> DescribeInstanceConnectEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11084,8 +10818,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceCreditSpecificationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceCreditSpecificationsOutput` : [no documentation found]
-    public func describeInstanceCreditSpecifications(input: DescribeInstanceCreditSpecificationsInput) async throws -> DescribeInstanceCreditSpecificationsOutput
-    {
+    public func describeInstanceCreditSpecifications(input: DescribeInstanceCreditSpecificationsInput) async throws -> DescribeInstanceCreditSpecificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11125,8 +10858,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceEventNotificationAttributesInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceEventNotificationAttributesOutput` : [no documentation found]
-    public func describeInstanceEventNotificationAttributes(input: DescribeInstanceEventNotificationAttributesInput) async throws -> DescribeInstanceEventNotificationAttributesOutput
-    {
+    public func describeInstanceEventNotificationAttributes(input: DescribeInstanceEventNotificationAttributesInput) async throws -> DescribeInstanceEventNotificationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11166,8 +10898,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceEventWindowsInput : Describe instance event windows by InstanceEventWindow.
     ///
     /// - Returns: `DescribeInstanceEventWindowsOutput` : [no documentation found]
-    public func describeInstanceEventWindows(input: DescribeInstanceEventWindowsInput) async throws -> DescribeInstanceEventWindowsOutput
-    {
+    public func describeInstanceEventWindows(input: DescribeInstanceEventWindowsInput) async throws -> DescribeInstanceEventWindowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11213,8 +10944,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceStatusInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceStatusOutput` : [no documentation found]
-    public func describeInstanceStatus(input: DescribeInstanceStatusInput) async throws -> DescribeInstanceStatusOutput
-    {
+    public func describeInstanceStatus(input: DescribeInstanceStatusInput) async throws -> DescribeInstanceStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11277,8 +11007,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceTopologyInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceTopologyOutput` : [no documentation found]
-    public func describeInstanceTopology(input: DescribeInstanceTopologyInput) async throws -> DescribeInstanceTopologyOutput
-    {
+    public func describeInstanceTopology(input: DescribeInstanceTopologyInput) async throws -> DescribeInstanceTopologyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11318,8 +11047,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceTypeOfferingsInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceTypeOfferingsOutput` : [no documentation found]
-    public func describeInstanceTypeOfferings(input: DescribeInstanceTypeOfferingsInput) async throws -> DescribeInstanceTypeOfferingsOutput
-    {
+    public func describeInstanceTypeOfferings(input: DescribeInstanceTypeOfferingsInput) async throws -> DescribeInstanceTypeOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11359,8 +11087,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstanceTypesInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceTypesOutput` : [no documentation found]
-    public func describeInstanceTypes(input: DescribeInstanceTypesInput) async throws -> DescribeInstanceTypesOutput
-    {
+    public func describeInstanceTypes(input: DescribeInstanceTypesInput) async throws -> DescribeInstanceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11400,8 +11127,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInstancesInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstancesOutput` : [no documentation found]
-    public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput
-    {
+    public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11441,8 +11167,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeInternetGatewaysInput : [no documentation found]
     ///
     /// - Returns: `DescribeInternetGatewaysOutput` : [no documentation found]
-    public func describeInternetGateways(input: DescribeInternetGatewaysInput) async throws -> DescribeInternetGatewaysOutput
-    {
+    public func describeInternetGateways(input: DescribeInternetGatewaysInput) async throws -> DescribeInternetGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11482,8 +11207,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpamByoasnInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpamByoasnOutput` : [no documentation found]
-    public func describeIpamByoasn(input: DescribeIpamByoasnInput) async throws -> DescribeIpamByoasnOutput
-    {
+    public func describeIpamByoasn(input: DescribeIpamByoasnInput) async throws -> DescribeIpamByoasnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11523,8 +11247,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpamPoolsInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpamPoolsOutput` : [no documentation found]
-    public func describeIpamPools(input: DescribeIpamPoolsInput) async throws -> DescribeIpamPoolsOutput
-    {
+    public func describeIpamPools(input: DescribeIpamPoolsInput) async throws -> DescribeIpamPoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11564,8 +11287,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpamResourceDiscoveriesInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpamResourceDiscoveriesOutput` : [no documentation found]
-    public func describeIpamResourceDiscoveries(input: DescribeIpamResourceDiscoveriesInput) async throws -> DescribeIpamResourceDiscoveriesOutput
-    {
+    public func describeIpamResourceDiscoveries(input: DescribeIpamResourceDiscoveriesInput) async throws -> DescribeIpamResourceDiscoveriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11605,8 +11327,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpamResourceDiscoveryAssociationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpamResourceDiscoveryAssociationsOutput` : [no documentation found]
-    public func describeIpamResourceDiscoveryAssociations(input: DescribeIpamResourceDiscoveryAssociationsInput) async throws -> DescribeIpamResourceDiscoveryAssociationsOutput
-    {
+    public func describeIpamResourceDiscoveryAssociations(input: DescribeIpamResourceDiscoveryAssociationsInput) async throws -> DescribeIpamResourceDiscoveryAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11646,8 +11367,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpamScopesInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpamScopesOutput` : [no documentation found]
-    public func describeIpamScopes(input: DescribeIpamScopesInput) async throws -> DescribeIpamScopesOutput
-    {
+    public func describeIpamScopes(input: DescribeIpamScopesInput) async throws -> DescribeIpamScopesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11687,8 +11407,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpamsInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpamsOutput` : [no documentation found]
-    public func describeIpams(input: DescribeIpamsInput) async throws -> DescribeIpamsOutput
-    {
+    public func describeIpams(input: DescribeIpamsInput) async throws -> DescribeIpamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11728,8 +11447,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeIpv6PoolsInput : [no documentation found]
     ///
     /// - Returns: `DescribeIpv6PoolsOutput` : [no documentation found]
-    public func describeIpv6Pools(input: DescribeIpv6PoolsInput) async throws -> DescribeIpv6PoolsOutput
-    {
+    public func describeIpv6Pools(input: DescribeIpv6PoolsInput) async throws -> DescribeIpv6PoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11769,8 +11487,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeKeyPairsInput : [no documentation found]
     ///
     /// - Returns: `DescribeKeyPairsOutput` : [no documentation found]
-    public func describeKeyPairs(input: DescribeKeyPairsInput) async throws -> DescribeKeyPairsOutput
-    {
+    public func describeKeyPairs(input: DescribeKeyPairsInput) async throws -> DescribeKeyPairsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11810,8 +11527,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLaunchTemplateVersionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeLaunchTemplateVersionsOutput` : [no documentation found]
-    public func describeLaunchTemplateVersions(input: DescribeLaunchTemplateVersionsInput) async throws -> DescribeLaunchTemplateVersionsOutput
-    {
+    public func describeLaunchTemplateVersions(input: DescribeLaunchTemplateVersionsInput) async throws -> DescribeLaunchTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11851,8 +11567,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLaunchTemplatesInput : [no documentation found]
     ///
     /// - Returns: `DescribeLaunchTemplatesOutput` : [no documentation found]
-    public func describeLaunchTemplates(input: DescribeLaunchTemplatesInput) async throws -> DescribeLaunchTemplatesOutput
-    {
+    public func describeLaunchTemplates(input: DescribeLaunchTemplatesInput) async throws -> DescribeLaunchTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11892,8 +11607,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput` : [no documentation found]
-    public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput) async throws -> DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput
-    {
+    public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput) async throws -> DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11933,8 +11647,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLocalGatewayRouteTableVpcAssociationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeLocalGatewayRouteTableVpcAssociationsOutput` : [no documentation found]
-    public func describeLocalGatewayRouteTableVpcAssociations(input: DescribeLocalGatewayRouteTableVpcAssociationsInput) async throws -> DescribeLocalGatewayRouteTableVpcAssociationsOutput
-    {
+    public func describeLocalGatewayRouteTableVpcAssociations(input: DescribeLocalGatewayRouteTableVpcAssociationsInput) async throws -> DescribeLocalGatewayRouteTableVpcAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11974,8 +11687,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLocalGatewayRouteTablesInput : [no documentation found]
     ///
     /// - Returns: `DescribeLocalGatewayRouteTablesOutput` : [no documentation found]
-    public func describeLocalGatewayRouteTables(input: DescribeLocalGatewayRouteTablesInput) async throws -> DescribeLocalGatewayRouteTablesOutput
-    {
+    public func describeLocalGatewayRouteTables(input: DescribeLocalGatewayRouteTablesInput) async throws -> DescribeLocalGatewayRouteTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12015,8 +11727,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLocalGatewayVirtualInterfaceGroupsInput : [no documentation found]
     ///
     /// - Returns: `DescribeLocalGatewayVirtualInterfaceGroupsOutput` : [no documentation found]
-    public func describeLocalGatewayVirtualInterfaceGroups(input: DescribeLocalGatewayVirtualInterfaceGroupsInput) async throws -> DescribeLocalGatewayVirtualInterfaceGroupsOutput
-    {
+    public func describeLocalGatewayVirtualInterfaceGroups(input: DescribeLocalGatewayVirtualInterfaceGroupsInput) async throws -> DescribeLocalGatewayVirtualInterfaceGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12056,8 +11767,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLocalGatewayVirtualInterfacesInput : [no documentation found]
     ///
     /// - Returns: `DescribeLocalGatewayVirtualInterfacesOutput` : [no documentation found]
-    public func describeLocalGatewayVirtualInterfaces(input: DescribeLocalGatewayVirtualInterfacesInput) async throws -> DescribeLocalGatewayVirtualInterfacesOutput
-    {
+    public func describeLocalGatewayVirtualInterfaces(input: DescribeLocalGatewayVirtualInterfacesInput) async throws -> DescribeLocalGatewayVirtualInterfacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12097,8 +11807,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLocalGatewaysInput : [no documentation found]
     ///
     /// - Returns: `DescribeLocalGatewaysOutput` : [no documentation found]
-    public func describeLocalGateways(input: DescribeLocalGatewaysInput) async throws -> DescribeLocalGatewaysOutput
-    {
+    public func describeLocalGateways(input: DescribeLocalGatewaysInput) async throws -> DescribeLocalGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12138,8 +11847,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeLockedSnapshotsInput : [no documentation found]
     ///
     /// - Returns: `DescribeLockedSnapshotsOutput` : [no documentation found]
-    public func describeLockedSnapshots(input: DescribeLockedSnapshotsInput) async throws -> DescribeLockedSnapshotsOutput
-    {
+    public func describeLockedSnapshots(input: DescribeLockedSnapshotsInput) async throws -> DescribeLockedSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12179,8 +11887,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeManagedPrefixListsInput : [no documentation found]
     ///
     /// - Returns: `DescribeManagedPrefixListsOutput` : [no documentation found]
-    public func describeManagedPrefixLists(input: DescribeManagedPrefixListsInput) async throws -> DescribeManagedPrefixListsOutput
-    {
+    public func describeManagedPrefixLists(input: DescribeManagedPrefixListsInput) async throws -> DescribeManagedPrefixListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12220,8 +11927,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeMovingAddressesInput : [no documentation found]
     ///
     /// - Returns: `DescribeMovingAddressesOutput` : [no documentation found]
-    public func describeMovingAddresses(input: DescribeMovingAddressesInput) async throws -> DescribeMovingAddressesOutput
-    {
+    public func describeMovingAddresses(input: DescribeMovingAddressesInput) async throws -> DescribeMovingAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12261,8 +11967,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNatGatewaysInput : [no documentation found]
     ///
     /// - Returns: `DescribeNatGatewaysOutput` : [no documentation found]
-    public func describeNatGateways(input: DescribeNatGatewaysInput) async throws -> DescribeNatGatewaysOutput
-    {
+    public func describeNatGateways(input: DescribeNatGatewaysInput) async throws -> DescribeNatGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12302,8 +12007,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkAclsInput : [no documentation found]
     ///
     /// - Returns: `DescribeNetworkAclsOutput` : [no documentation found]
-    public func describeNetworkAcls(input: DescribeNetworkAclsInput) async throws -> DescribeNetworkAclsOutput
-    {
+    public func describeNetworkAcls(input: DescribeNetworkAclsInput) async throws -> DescribeNetworkAclsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12343,8 +12047,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInsightsAccessScopeAnalysesInput : [no documentation found]
     ///
     /// - Returns: `DescribeNetworkInsightsAccessScopeAnalysesOutput` : [no documentation found]
-    public func describeNetworkInsightsAccessScopeAnalyses(input: DescribeNetworkInsightsAccessScopeAnalysesInput) async throws -> DescribeNetworkInsightsAccessScopeAnalysesOutput
-    {
+    public func describeNetworkInsightsAccessScopeAnalyses(input: DescribeNetworkInsightsAccessScopeAnalysesInput) async throws -> DescribeNetworkInsightsAccessScopeAnalysesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12384,8 +12087,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInsightsAccessScopesInput : [no documentation found]
     ///
     /// - Returns: `DescribeNetworkInsightsAccessScopesOutput` : [no documentation found]
-    public func describeNetworkInsightsAccessScopes(input: DescribeNetworkInsightsAccessScopesInput) async throws -> DescribeNetworkInsightsAccessScopesOutput
-    {
+    public func describeNetworkInsightsAccessScopes(input: DescribeNetworkInsightsAccessScopesInput) async throws -> DescribeNetworkInsightsAccessScopesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12425,8 +12127,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInsightsAnalysesInput : [no documentation found]
     ///
     /// - Returns: `DescribeNetworkInsightsAnalysesOutput` : [no documentation found]
-    public func describeNetworkInsightsAnalyses(input: DescribeNetworkInsightsAnalysesInput) async throws -> DescribeNetworkInsightsAnalysesOutput
-    {
+    public func describeNetworkInsightsAnalyses(input: DescribeNetworkInsightsAnalysesInput) async throws -> DescribeNetworkInsightsAnalysesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12466,8 +12167,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInsightsPathsInput : [no documentation found]
     ///
     /// - Returns: `DescribeNetworkInsightsPathsOutput` : [no documentation found]
-    public func describeNetworkInsightsPaths(input: DescribeNetworkInsightsPathsInput) async throws -> DescribeNetworkInsightsPathsOutput
-    {
+    public func describeNetworkInsightsPaths(input: DescribeNetworkInsightsPathsInput) async throws -> DescribeNetworkInsightsPathsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12507,8 +12207,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInterfaceAttributeInput : Contains the parameters for DescribeNetworkInterfaceAttribute.
     ///
     /// - Returns: `DescribeNetworkInterfaceAttributeOutput` : Contains the output of DescribeNetworkInterfaceAttribute.
-    public func describeNetworkInterfaceAttribute(input: DescribeNetworkInterfaceAttributeInput) async throws -> DescribeNetworkInterfaceAttributeOutput
-    {
+    public func describeNetworkInterfaceAttribute(input: DescribeNetworkInterfaceAttributeInput) async throws -> DescribeNetworkInterfaceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12548,8 +12247,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInterfacePermissionsInput : Contains the parameters for DescribeNetworkInterfacePermissions.
     ///
     /// - Returns: `DescribeNetworkInterfacePermissionsOutput` : Contains the output for DescribeNetworkInterfacePermissions.
-    public func describeNetworkInterfacePermissions(input: DescribeNetworkInterfacePermissionsInput) async throws -> DescribeNetworkInterfacePermissionsOutput
-    {
+    public func describeNetworkInterfacePermissions(input: DescribeNetworkInterfacePermissionsInput) async throws -> DescribeNetworkInterfacePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12589,8 +12287,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeNetworkInterfacesInput : Contains the parameters for DescribeNetworkInterfaces.
     ///
     /// - Returns: `DescribeNetworkInterfacesOutput` : [no documentation found]
-    public func describeNetworkInterfaces(input: DescribeNetworkInterfacesInput) async throws -> DescribeNetworkInterfacesOutput
-    {
+    public func describeNetworkInterfaces(input: DescribeNetworkInterfacesInput) async throws -> DescribeNetworkInterfacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12630,8 +12327,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribePlacementGroupsInput : [no documentation found]
     ///
     /// - Returns: `DescribePlacementGroupsOutput` : [no documentation found]
-    public func describePlacementGroups(input: DescribePlacementGroupsInput) async throws -> DescribePlacementGroupsOutput
-    {
+    public func describePlacementGroups(input: DescribePlacementGroupsInput) async throws -> DescribePlacementGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12671,8 +12367,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribePrefixListsInput : [no documentation found]
     ///
     /// - Returns: `DescribePrefixListsOutput` : [no documentation found]
-    public func describePrefixLists(input: DescribePrefixListsInput) async throws -> DescribePrefixListsOutput
-    {
+    public func describePrefixLists(input: DescribePrefixListsInput) async throws -> DescribePrefixListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12712,8 +12407,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribePrincipalIdFormatInput : [no documentation found]
     ///
     /// - Returns: `DescribePrincipalIdFormatOutput` : [no documentation found]
-    public func describePrincipalIdFormat(input: DescribePrincipalIdFormatInput) async throws -> DescribePrincipalIdFormatOutput
-    {
+    public func describePrincipalIdFormat(input: DescribePrincipalIdFormatInput) async throws -> DescribePrincipalIdFormatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12753,8 +12447,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribePublicIpv4PoolsInput : [no documentation found]
     ///
     /// - Returns: `DescribePublicIpv4PoolsOutput` : [no documentation found]
-    public func describePublicIpv4Pools(input: DescribePublicIpv4PoolsInput) async throws -> DescribePublicIpv4PoolsOutput
-    {
+    public func describePublicIpv4Pools(input: DescribePublicIpv4PoolsInput) async throws -> DescribePublicIpv4PoolsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12794,8 +12487,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeRegionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeRegionsOutput` : [no documentation found]
-    public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput
-    {
+    public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12835,8 +12527,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeReplaceRootVolumeTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeReplaceRootVolumeTasksOutput` : [no documentation found]
-    public func describeReplaceRootVolumeTasks(input: DescribeReplaceRootVolumeTasksInput) async throws -> DescribeReplaceRootVolumeTasksOutput
-    {
+    public func describeReplaceRootVolumeTasks(input: DescribeReplaceRootVolumeTasksInput) async throws -> DescribeReplaceRootVolumeTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12876,8 +12567,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeReservedInstancesInput : Contains the parameters for DescribeReservedInstances.
     ///
     /// - Returns: `DescribeReservedInstancesOutput` : Contains the output for DescribeReservedInstances.
-    public func describeReservedInstances(input: DescribeReservedInstancesInput) async throws -> DescribeReservedInstancesOutput
-    {
+    public func describeReservedInstances(input: DescribeReservedInstancesInput) async throws -> DescribeReservedInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12917,8 +12607,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeReservedInstancesListingsInput : Contains the parameters for DescribeReservedInstancesListings.
     ///
     /// - Returns: `DescribeReservedInstancesListingsOutput` : Contains the output of DescribeReservedInstancesListings.
-    public func describeReservedInstancesListings(input: DescribeReservedInstancesListingsInput) async throws -> DescribeReservedInstancesListingsOutput
-    {
+    public func describeReservedInstancesListings(input: DescribeReservedInstancesListingsInput) async throws -> DescribeReservedInstancesListingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12958,8 +12647,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeReservedInstancesModificationsInput : Contains the parameters for DescribeReservedInstancesModifications.
     ///
     /// - Returns: `DescribeReservedInstancesModificationsOutput` : Contains the output of DescribeReservedInstancesModifications.
-    public func describeReservedInstancesModifications(input: DescribeReservedInstancesModificationsInput) async throws -> DescribeReservedInstancesModificationsOutput
-    {
+    public func describeReservedInstancesModifications(input: DescribeReservedInstancesModificationsInput) async throws -> DescribeReservedInstancesModificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12999,8 +12687,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeReservedInstancesOfferingsInput : Contains the parameters for DescribeReservedInstancesOfferings.
     ///
     /// - Returns: `DescribeReservedInstancesOfferingsOutput` : Contains the output of DescribeReservedInstancesOfferings.
-    public func describeReservedInstancesOfferings(input: DescribeReservedInstancesOfferingsInput) async throws -> DescribeReservedInstancesOfferingsOutput
-    {
+    public func describeReservedInstancesOfferings(input: DescribeReservedInstancesOfferingsInput) async throws -> DescribeReservedInstancesOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13040,8 +12727,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeRouteTablesInput : [no documentation found]
     ///
     /// - Returns: `DescribeRouteTablesOutput` : Contains the output of DescribeRouteTables.
-    public func describeRouteTables(input: DescribeRouteTablesInput) async throws -> DescribeRouteTablesOutput
-    {
+    public func describeRouteTables(input: DescribeRouteTablesInput) async throws -> DescribeRouteTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13081,8 +12767,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeScheduledInstanceAvailabilityInput : Contains the parameters for DescribeScheduledInstanceAvailability.
     ///
     /// - Returns: `DescribeScheduledInstanceAvailabilityOutput` : Contains the output of DescribeScheduledInstanceAvailability.
-    public func describeScheduledInstanceAvailability(input: DescribeScheduledInstanceAvailabilityInput) async throws -> DescribeScheduledInstanceAvailabilityOutput
-    {
+    public func describeScheduledInstanceAvailability(input: DescribeScheduledInstanceAvailabilityInput) async throws -> DescribeScheduledInstanceAvailabilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13122,8 +12807,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeScheduledInstancesInput : Contains the parameters for DescribeScheduledInstances.
     ///
     /// - Returns: `DescribeScheduledInstancesOutput` : Contains the output of DescribeScheduledInstances.
-    public func describeScheduledInstances(input: DescribeScheduledInstancesInput) async throws -> DescribeScheduledInstancesOutput
-    {
+    public func describeScheduledInstances(input: DescribeScheduledInstancesInput) async throws -> DescribeScheduledInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13163,8 +12847,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSecurityGroupReferencesInput : [no documentation found]
     ///
     /// - Returns: `DescribeSecurityGroupReferencesOutput` : [no documentation found]
-    public func describeSecurityGroupReferences(input: DescribeSecurityGroupReferencesInput) async throws -> DescribeSecurityGroupReferencesOutput
-    {
+    public func describeSecurityGroupReferences(input: DescribeSecurityGroupReferencesInput) async throws -> DescribeSecurityGroupReferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13204,8 +12887,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSecurityGroupRulesInput : [no documentation found]
     ///
     /// - Returns: `DescribeSecurityGroupRulesOutput` : [no documentation found]
-    public func describeSecurityGroupRules(input: DescribeSecurityGroupRulesInput) async throws -> DescribeSecurityGroupRulesOutput
-    {
+    public func describeSecurityGroupRules(input: DescribeSecurityGroupRulesInput) async throws -> DescribeSecurityGroupRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13245,8 +12927,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSecurityGroupsInput : [no documentation found]
     ///
     /// - Returns: `DescribeSecurityGroupsOutput` : [no documentation found]
-    public func describeSecurityGroups(input: DescribeSecurityGroupsInput) async throws -> DescribeSecurityGroupsOutput
-    {
+    public func describeSecurityGroups(input: DescribeSecurityGroupsInput) async throws -> DescribeSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13286,8 +12967,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSnapshotAttributeInput : [no documentation found]
     ///
     /// - Returns: `DescribeSnapshotAttributeOutput` : [no documentation found]
-    public func describeSnapshotAttribute(input: DescribeSnapshotAttributeInput) async throws -> DescribeSnapshotAttributeOutput
-    {
+    public func describeSnapshotAttribute(input: DescribeSnapshotAttributeInput) async throws -> DescribeSnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13327,8 +13007,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSnapshotTierStatusInput : [no documentation found]
     ///
     /// - Returns: `DescribeSnapshotTierStatusOutput` : [no documentation found]
-    public func describeSnapshotTierStatus(input: DescribeSnapshotTierStatusInput) async throws -> DescribeSnapshotTierStatusOutput
-    {
+    public func describeSnapshotTierStatus(input: DescribeSnapshotTierStatusInput) async throws -> DescribeSnapshotTierStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13377,8 +13056,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSnapshotsInput : [no documentation found]
     ///
     /// - Returns: `DescribeSnapshotsOutput` : [no documentation found]
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
-    {
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13418,8 +13096,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSpotDatafeedSubscriptionInput : Contains the parameters for DescribeSpotDatafeedSubscription.
     ///
     /// - Returns: `DescribeSpotDatafeedSubscriptionOutput` : Contains the output of DescribeSpotDatafeedSubscription.
-    public func describeSpotDatafeedSubscription(input: DescribeSpotDatafeedSubscriptionInput) async throws -> DescribeSpotDatafeedSubscriptionOutput
-    {
+    public func describeSpotDatafeedSubscription(input: DescribeSpotDatafeedSubscriptionInput) async throws -> DescribeSpotDatafeedSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13459,8 +13136,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSpotFleetInstancesInput : Contains the parameters for DescribeSpotFleetInstances.
     ///
     /// - Returns: `DescribeSpotFleetInstancesOutput` : Contains the output of DescribeSpotFleetInstances.
-    public func describeSpotFleetInstances(input: DescribeSpotFleetInstancesInput) async throws -> DescribeSpotFleetInstancesOutput
-    {
+    public func describeSpotFleetInstances(input: DescribeSpotFleetInstancesInput) async throws -> DescribeSpotFleetInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13500,8 +13176,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSpotFleetRequestHistoryInput : Contains the parameters for DescribeSpotFleetRequestHistory.
     ///
     /// - Returns: `DescribeSpotFleetRequestHistoryOutput` : Contains the output of DescribeSpotFleetRequestHistory.
-    public func describeSpotFleetRequestHistory(input: DescribeSpotFleetRequestHistoryInput) async throws -> DescribeSpotFleetRequestHistoryOutput
-    {
+    public func describeSpotFleetRequestHistory(input: DescribeSpotFleetRequestHistoryInput) async throws -> DescribeSpotFleetRequestHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13541,8 +13216,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSpotFleetRequestsInput : Contains the parameters for DescribeSpotFleetRequests.
     ///
     /// - Returns: `DescribeSpotFleetRequestsOutput` : Contains the output of DescribeSpotFleetRequests.
-    public func describeSpotFleetRequests(input: DescribeSpotFleetRequestsInput) async throws -> DescribeSpotFleetRequestsOutput
-    {
+    public func describeSpotFleetRequests(input: DescribeSpotFleetRequestsInput) async throws -> DescribeSpotFleetRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13582,8 +13256,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSpotInstanceRequestsInput : Contains the parameters for DescribeSpotInstanceRequests.
     ///
     /// - Returns: `DescribeSpotInstanceRequestsOutput` : Contains the output of DescribeSpotInstanceRequests.
-    public func describeSpotInstanceRequests(input: DescribeSpotInstanceRequestsInput) async throws -> DescribeSpotInstanceRequestsOutput
-    {
+    public func describeSpotInstanceRequests(input: DescribeSpotInstanceRequestsInput) async throws -> DescribeSpotInstanceRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13623,8 +13296,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSpotPriceHistoryInput : Contains the parameters for DescribeSpotPriceHistory.
     ///
     /// - Returns: `DescribeSpotPriceHistoryOutput` : Contains the output of DescribeSpotPriceHistory.
-    public func describeSpotPriceHistory(input: DescribeSpotPriceHistoryInput) async throws -> DescribeSpotPriceHistoryOutput
-    {
+    public func describeSpotPriceHistory(input: DescribeSpotPriceHistoryInput) async throws -> DescribeSpotPriceHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13664,8 +13336,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeStaleSecurityGroupsInput : [no documentation found]
     ///
     /// - Returns: `DescribeStaleSecurityGroupsOutput` : [no documentation found]
-    public func describeStaleSecurityGroups(input: DescribeStaleSecurityGroupsInput) async throws -> DescribeStaleSecurityGroupsOutput
-    {
+    public func describeStaleSecurityGroups(input: DescribeStaleSecurityGroupsInput) async throws -> DescribeStaleSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13705,8 +13376,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeStoreImageTasksInput : [no documentation found]
     ///
     /// - Returns: `DescribeStoreImageTasksOutput` : [no documentation found]
-    public func describeStoreImageTasks(input: DescribeStoreImageTasksInput) async throws -> DescribeStoreImageTasksOutput
-    {
+    public func describeStoreImageTasks(input: DescribeStoreImageTasksInput) async throws -> DescribeStoreImageTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13746,8 +13416,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeSubnetsInput : [no documentation found]
     ///
     /// - Returns: `DescribeSubnetsOutput` : [no documentation found]
-    public func describeSubnets(input: DescribeSubnetsInput) async throws -> DescribeSubnetsOutput
-    {
+    public func describeSubnets(input: DescribeSubnetsInput) async throws -> DescribeSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13787,8 +13456,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTagsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTagsOutput` : [no documentation found]
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13828,8 +13496,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTrafficMirrorFiltersInput : [no documentation found]
     ///
     /// - Returns: `DescribeTrafficMirrorFiltersOutput` : [no documentation found]
-    public func describeTrafficMirrorFilters(input: DescribeTrafficMirrorFiltersInput) async throws -> DescribeTrafficMirrorFiltersOutput
-    {
+    public func describeTrafficMirrorFilters(input: DescribeTrafficMirrorFiltersInput) async throws -> DescribeTrafficMirrorFiltersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13869,8 +13536,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTrafficMirrorSessionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTrafficMirrorSessionsOutput` : [no documentation found]
-    public func describeTrafficMirrorSessions(input: DescribeTrafficMirrorSessionsInput) async throws -> DescribeTrafficMirrorSessionsOutput
-    {
+    public func describeTrafficMirrorSessions(input: DescribeTrafficMirrorSessionsInput) async throws -> DescribeTrafficMirrorSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13910,8 +13576,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTrafficMirrorTargetsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTrafficMirrorTargetsOutput` : [no documentation found]
-    public func describeTrafficMirrorTargets(input: DescribeTrafficMirrorTargetsInput) async throws -> DescribeTrafficMirrorTargetsOutput
-    {
+    public func describeTrafficMirrorTargets(input: DescribeTrafficMirrorTargetsInput) async throws -> DescribeTrafficMirrorTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13951,8 +13616,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayAttachmentsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayAttachmentsOutput` : [no documentation found]
-    public func describeTransitGatewayAttachments(input: DescribeTransitGatewayAttachmentsInput) async throws -> DescribeTransitGatewayAttachmentsOutput
-    {
+    public func describeTransitGatewayAttachments(input: DescribeTransitGatewayAttachmentsInput) async throws -> DescribeTransitGatewayAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -13992,8 +13656,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayConnectPeersInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayConnectPeersOutput` : [no documentation found]
-    public func describeTransitGatewayConnectPeers(input: DescribeTransitGatewayConnectPeersInput) async throws -> DescribeTransitGatewayConnectPeersOutput
-    {
+    public func describeTransitGatewayConnectPeers(input: DescribeTransitGatewayConnectPeersInput) async throws -> DescribeTransitGatewayConnectPeersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14033,8 +13696,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayConnectsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayConnectsOutput` : [no documentation found]
-    public func describeTransitGatewayConnects(input: DescribeTransitGatewayConnectsInput) async throws -> DescribeTransitGatewayConnectsOutput
-    {
+    public func describeTransitGatewayConnects(input: DescribeTransitGatewayConnectsInput) async throws -> DescribeTransitGatewayConnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14074,8 +13736,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayMulticastDomainsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayMulticastDomainsOutput` : [no documentation found]
-    public func describeTransitGatewayMulticastDomains(input: DescribeTransitGatewayMulticastDomainsInput) async throws -> DescribeTransitGatewayMulticastDomainsOutput
-    {
+    public func describeTransitGatewayMulticastDomains(input: DescribeTransitGatewayMulticastDomainsInput) async throws -> DescribeTransitGatewayMulticastDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14115,8 +13776,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayPeeringAttachmentsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayPeeringAttachmentsOutput` : [no documentation found]
-    public func describeTransitGatewayPeeringAttachments(input: DescribeTransitGatewayPeeringAttachmentsInput) async throws -> DescribeTransitGatewayPeeringAttachmentsOutput
-    {
+    public func describeTransitGatewayPeeringAttachments(input: DescribeTransitGatewayPeeringAttachmentsInput) async throws -> DescribeTransitGatewayPeeringAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14156,8 +13816,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayPolicyTablesInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayPolicyTablesOutput` : [no documentation found]
-    public func describeTransitGatewayPolicyTables(input: DescribeTransitGatewayPolicyTablesInput) async throws -> DescribeTransitGatewayPolicyTablesOutput
-    {
+    public func describeTransitGatewayPolicyTables(input: DescribeTransitGatewayPolicyTablesInput) async throws -> DescribeTransitGatewayPolicyTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14197,8 +13856,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayRouteTableAnnouncementsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayRouteTableAnnouncementsOutput` : [no documentation found]
-    public func describeTransitGatewayRouteTableAnnouncements(input: DescribeTransitGatewayRouteTableAnnouncementsInput) async throws -> DescribeTransitGatewayRouteTableAnnouncementsOutput
-    {
+    public func describeTransitGatewayRouteTableAnnouncements(input: DescribeTransitGatewayRouteTableAnnouncementsInput) async throws -> DescribeTransitGatewayRouteTableAnnouncementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14238,8 +13896,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayRouteTablesInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayRouteTablesOutput` : [no documentation found]
-    public func describeTransitGatewayRouteTables(input: DescribeTransitGatewayRouteTablesInput) async throws -> DescribeTransitGatewayRouteTablesOutput
-    {
+    public func describeTransitGatewayRouteTables(input: DescribeTransitGatewayRouteTablesInput) async throws -> DescribeTransitGatewayRouteTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14279,8 +13936,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewayVpcAttachmentsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewayVpcAttachmentsOutput` : [no documentation found]
-    public func describeTransitGatewayVpcAttachments(input: DescribeTransitGatewayVpcAttachmentsInput) async throws -> DescribeTransitGatewayVpcAttachmentsOutput
-    {
+    public func describeTransitGatewayVpcAttachments(input: DescribeTransitGatewayVpcAttachmentsInput) async throws -> DescribeTransitGatewayVpcAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14320,8 +13976,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTransitGatewaysInput : [no documentation found]
     ///
     /// - Returns: `DescribeTransitGatewaysOutput` : [no documentation found]
-    public func describeTransitGateways(input: DescribeTransitGatewaysInput) async throws -> DescribeTransitGatewaysOutput
-    {
+    public func describeTransitGateways(input: DescribeTransitGatewaysInput) async throws -> DescribeTransitGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14361,8 +14016,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeTrunkInterfaceAssociationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeTrunkInterfaceAssociationsOutput` : [no documentation found]
-    public func describeTrunkInterfaceAssociations(input: DescribeTrunkInterfaceAssociationsInput) async throws -> DescribeTrunkInterfaceAssociationsOutput
-    {
+    public func describeTrunkInterfaceAssociations(input: DescribeTrunkInterfaceAssociationsInput) async throws -> DescribeTrunkInterfaceAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14402,8 +14056,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVerifiedAccessEndpointsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVerifiedAccessEndpointsOutput` : [no documentation found]
-    public func describeVerifiedAccessEndpoints(input: DescribeVerifiedAccessEndpointsInput) async throws -> DescribeVerifiedAccessEndpointsOutput
-    {
+    public func describeVerifiedAccessEndpoints(input: DescribeVerifiedAccessEndpointsInput) async throws -> DescribeVerifiedAccessEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14443,8 +14096,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVerifiedAccessGroupsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVerifiedAccessGroupsOutput` : [no documentation found]
-    public func describeVerifiedAccessGroups(input: DescribeVerifiedAccessGroupsInput) async throws -> DescribeVerifiedAccessGroupsOutput
-    {
+    public func describeVerifiedAccessGroups(input: DescribeVerifiedAccessGroupsInput) async throws -> DescribeVerifiedAccessGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14484,8 +14136,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVerifiedAccessInstanceLoggingConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVerifiedAccessInstanceLoggingConfigurationsOutput` : [no documentation found]
-    public func describeVerifiedAccessInstanceLoggingConfigurations(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsOutput
-    {
+    public func describeVerifiedAccessInstanceLoggingConfigurations(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14525,8 +14176,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVerifiedAccessInstancesInput : [no documentation found]
     ///
     /// - Returns: `DescribeVerifiedAccessInstancesOutput` : [no documentation found]
-    public func describeVerifiedAccessInstances(input: DescribeVerifiedAccessInstancesInput) async throws -> DescribeVerifiedAccessInstancesOutput
-    {
+    public func describeVerifiedAccessInstances(input: DescribeVerifiedAccessInstancesInput) async throws -> DescribeVerifiedAccessInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14566,8 +14216,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVerifiedAccessTrustProvidersInput : [no documentation found]
     ///
     /// - Returns: `DescribeVerifiedAccessTrustProvidersOutput` : [no documentation found]
-    public func describeVerifiedAccessTrustProviders(input: DescribeVerifiedAccessTrustProvidersInput) async throws -> DescribeVerifiedAccessTrustProvidersOutput
-    {
+    public func describeVerifiedAccessTrustProviders(input: DescribeVerifiedAccessTrustProvidersInput) async throws -> DescribeVerifiedAccessTrustProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14607,8 +14256,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVolumeAttributeInput : [no documentation found]
     ///
     /// - Returns: `DescribeVolumeAttributeOutput` : [no documentation found]
-    public func describeVolumeAttribute(input: DescribeVolumeAttributeInput) async throws -> DescribeVolumeAttributeOutput
-    {
+    public func describeVolumeAttribute(input: DescribeVolumeAttributeInput) async throws -> DescribeVolumeAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14648,8 +14296,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVolumeStatusInput : [no documentation found]
     ///
     /// - Returns: `DescribeVolumeStatusOutput` : [no documentation found]
-    public func describeVolumeStatus(input: DescribeVolumeStatusInput) async throws -> DescribeVolumeStatusOutput
-    {
+    public func describeVolumeStatus(input: DescribeVolumeStatusInput) async throws -> DescribeVolumeStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14689,8 +14336,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVolumesInput : [no documentation found]
     ///
     /// - Returns: `DescribeVolumesOutput` : [no documentation found]
-    public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput
-    {
+    public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14730,8 +14376,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVolumesModificationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVolumesModificationsOutput` : [no documentation found]
-    public func describeVolumesModifications(input: DescribeVolumesModificationsInput) async throws -> DescribeVolumesModificationsOutput
-    {
+    public func describeVolumesModifications(input: DescribeVolumesModificationsInput) async throws -> DescribeVolumesModificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14771,8 +14416,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcAttributeInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcAttributeOutput` : [no documentation found]
-    public func describeVpcAttribute(input: DescribeVpcAttributeInput) async throws -> DescribeVpcAttributeOutput
-    {
+    public func describeVpcAttribute(input: DescribeVpcAttributeInput) async throws -> DescribeVpcAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14812,8 +14456,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcClassicLinkInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcClassicLinkOutput` : [no documentation found]
-    public func describeVpcClassicLink(input: DescribeVpcClassicLinkInput) async throws -> DescribeVpcClassicLinkOutput
-    {
+    public func describeVpcClassicLink(input: DescribeVpcClassicLinkInput) async throws -> DescribeVpcClassicLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14853,8 +14496,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcClassicLinkDnsSupportInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcClassicLinkDnsSupportOutput` : [no documentation found]
-    public func describeVpcClassicLinkDnsSupport(input: DescribeVpcClassicLinkDnsSupportInput) async throws -> DescribeVpcClassicLinkDnsSupportOutput
-    {
+    public func describeVpcClassicLinkDnsSupport(input: DescribeVpcClassicLinkDnsSupportInput) async throws -> DescribeVpcClassicLinkDnsSupportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14894,8 +14536,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcEndpointConnectionNotificationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcEndpointConnectionNotificationsOutput` : [no documentation found]
-    public func describeVpcEndpointConnectionNotifications(input: DescribeVpcEndpointConnectionNotificationsInput) async throws -> DescribeVpcEndpointConnectionNotificationsOutput
-    {
+    public func describeVpcEndpointConnectionNotifications(input: DescribeVpcEndpointConnectionNotificationsInput) async throws -> DescribeVpcEndpointConnectionNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14935,8 +14576,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcEndpointConnectionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcEndpointConnectionsOutput` : [no documentation found]
-    public func describeVpcEndpointConnections(input: DescribeVpcEndpointConnectionsInput) async throws -> DescribeVpcEndpointConnectionsOutput
-    {
+    public func describeVpcEndpointConnections(input: DescribeVpcEndpointConnectionsInput) async throws -> DescribeVpcEndpointConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -14976,8 +14616,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcEndpointServiceConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcEndpointServiceConfigurationsOutput` : [no documentation found]
-    public func describeVpcEndpointServiceConfigurations(input: DescribeVpcEndpointServiceConfigurationsInput) async throws -> DescribeVpcEndpointServiceConfigurationsOutput
-    {
+    public func describeVpcEndpointServiceConfigurations(input: DescribeVpcEndpointServiceConfigurationsInput) async throws -> DescribeVpcEndpointServiceConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15017,8 +14656,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcEndpointServicePermissionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcEndpointServicePermissionsOutput` : [no documentation found]
-    public func describeVpcEndpointServicePermissions(input: DescribeVpcEndpointServicePermissionsInput) async throws -> DescribeVpcEndpointServicePermissionsOutput
-    {
+    public func describeVpcEndpointServicePermissions(input: DescribeVpcEndpointServicePermissionsInput) async throws -> DescribeVpcEndpointServicePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15058,8 +14696,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcEndpointServicesInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcEndpointServicesOutput` : [no documentation found]
-    public func describeVpcEndpointServices(input: DescribeVpcEndpointServicesInput) async throws -> DescribeVpcEndpointServicesOutput
-    {
+    public func describeVpcEndpointServices(input: DescribeVpcEndpointServicesInput) async throws -> DescribeVpcEndpointServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15099,8 +14736,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcEndpointsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcEndpointsOutput` : [no documentation found]
-    public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput
-    {
+    public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15140,8 +14776,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcPeeringConnectionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcPeeringConnectionsOutput` : [no documentation found]
-    public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput
-    {
+    public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15181,8 +14816,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpcsInput : [no documentation found]
     ///
     /// - Returns: `DescribeVpcsOutput` : [no documentation found]
-    public func describeVpcs(input: DescribeVpcsInput) async throws -> DescribeVpcsOutput
-    {
+    public func describeVpcs(input: DescribeVpcsInput) async throws -> DescribeVpcsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15222,8 +14856,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpnConnectionsInput : Contains the parameters for DescribeVpnConnections.
     ///
     /// - Returns: `DescribeVpnConnectionsOutput` : Contains the output of DescribeVpnConnections.
-    public func describeVpnConnections(input: DescribeVpnConnectionsInput) async throws -> DescribeVpnConnectionsOutput
-    {
+    public func describeVpnConnections(input: DescribeVpnConnectionsInput) async throws -> DescribeVpnConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15263,8 +14896,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DescribeVpnGatewaysInput : Contains the parameters for DescribeVpnGateways.
     ///
     /// - Returns: `DescribeVpnGatewaysOutput` : Contains the output of DescribeVpnGateways.
-    public func describeVpnGateways(input: DescribeVpnGatewaysInput) async throws -> DescribeVpnGatewaysOutput
-    {
+    public func describeVpnGateways(input: DescribeVpnGatewaysInput) async throws -> DescribeVpnGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15304,8 +14936,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DetachClassicLinkVpcInput : [no documentation found]
     ///
     /// - Returns: `DetachClassicLinkVpcOutput` : [no documentation found]
-    public func detachClassicLinkVpc(input: DetachClassicLinkVpcInput) async throws -> DetachClassicLinkVpcOutput
-    {
+    public func detachClassicLinkVpc(input: DetachClassicLinkVpcInput) async throws -> DetachClassicLinkVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15345,8 +14976,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DetachInternetGatewayInput : [no documentation found]
     ///
     /// - Returns: `DetachInternetGatewayOutput` : [no documentation found]
-    public func detachInternetGateway(input: DetachInternetGatewayInput) async throws -> DetachInternetGatewayOutput
-    {
+    public func detachInternetGateway(input: DetachInternetGatewayInput) async throws -> DetachInternetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15386,8 +15016,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DetachNetworkInterfaceInput : Contains the parameters for DetachNetworkInterface.
     ///
     /// - Returns: `DetachNetworkInterfaceOutput` : [no documentation found]
-    public func detachNetworkInterface(input: DetachNetworkInterfaceInput) async throws -> DetachNetworkInterfaceOutput
-    {
+    public func detachNetworkInterface(input: DetachNetworkInterfaceInput) async throws -> DetachNetworkInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15427,8 +15056,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DetachVerifiedAccessTrustProviderInput : [no documentation found]
     ///
     /// - Returns: `DetachVerifiedAccessTrustProviderOutput` : [no documentation found]
-    public func detachVerifiedAccessTrustProvider(input: DetachVerifiedAccessTrustProviderInput) async throws -> DetachVerifiedAccessTrustProviderOutput
-    {
+    public func detachVerifiedAccessTrustProvider(input: DetachVerifiedAccessTrustProviderInput) async throws -> DetachVerifiedAccessTrustProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15469,8 +15097,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DetachVolumeInput : [no documentation found]
     ///
     /// - Returns: `DetachVolumeOutput` : Describes volume attachment details.
-    public func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutput
-    {
+    public func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15510,8 +15137,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DetachVpnGatewayInput : Contains the parameters for DetachVpnGateway.
     ///
     /// - Returns: `DetachVpnGatewayOutput` : [no documentation found]
-    public func detachVpnGateway(input: DetachVpnGatewayInput) async throws -> DetachVpnGatewayOutput
-    {
+    public func detachVpnGateway(input: DetachVpnGatewayInput) async throws -> DetachVpnGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15551,8 +15177,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableAddressTransferInput : [no documentation found]
     ///
     /// - Returns: `DisableAddressTransferOutput` : [no documentation found]
-    public func disableAddressTransfer(input: DisableAddressTransferInput) async throws -> DisableAddressTransferOutput
-    {
+    public func disableAddressTransfer(input: DisableAddressTransferInput) async throws -> DisableAddressTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15592,8 +15217,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableAwsNetworkPerformanceMetricSubscriptionInput : [no documentation found]
     ///
     /// - Returns: `DisableAwsNetworkPerformanceMetricSubscriptionOutput` : [no documentation found]
-    public func disableAwsNetworkPerformanceMetricSubscription(input: DisableAwsNetworkPerformanceMetricSubscriptionInput) async throws -> DisableAwsNetworkPerformanceMetricSubscriptionOutput
-    {
+    public func disableAwsNetworkPerformanceMetricSubscription(input: DisableAwsNetworkPerformanceMetricSubscriptionInput) async throws -> DisableAwsNetworkPerformanceMetricSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15633,8 +15257,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableEbsEncryptionByDefaultInput : [no documentation found]
     ///
     /// - Returns: `DisableEbsEncryptionByDefaultOutput` : [no documentation found]
-    public func disableEbsEncryptionByDefault(input: DisableEbsEncryptionByDefaultInput) async throws -> DisableEbsEncryptionByDefaultOutput
-    {
+    public func disableEbsEncryptionByDefault(input: DisableEbsEncryptionByDefaultInput) async throws -> DisableEbsEncryptionByDefaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15674,8 +15297,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableFastLaunchInput : [no documentation found]
     ///
     /// - Returns: `DisableFastLaunchOutput` : [no documentation found]
-    public func disableFastLaunch(input: DisableFastLaunchInput) async throws -> DisableFastLaunchOutput
-    {
+    public func disableFastLaunch(input: DisableFastLaunchInput) async throws -> DisableFastLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15715,8 +15337,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableFastSnapshotRestoresInput : [no documentation found]
     ///
     /// - Returns: `DisableFastSnapshotRestoresOutput` : [no documentation found]
-    public func disableFastSnapshotRestores(input: DisableFastSnapshotRestoresInput) async throws -> DisableFastSnapshotRestoresOutput
-    {
+    public func disableFastSnapshotRestores(input: DisableFastSnapshotRestoresInput) async throws -> DisableFastSnapshotRestoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15756,8 +15377,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableImageInput : [no documentation found]
     ///
     /// - Returns: `DisableImageOutput` : [no documentation found]
-    public func disableImage(input: DisableImageInput) async throws -> DisableImageOutput
-    {
+    public func disableImage(input: DisableImageInput) async throws -> DisableImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15797,8 +15417,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableImageBlockPublicAccessInput : [no documentation found]
     ///
     /// - Returns: `DisableImageBlockPublicAccessOutput` : [no documentation found]
-    public func disableImageBlockPublicAccess(input: DisableImageBlockPublicAccessInput) async throws -> DisableImageBlockPublicAccessOutput
-    {
+    public func disableImageBlockPublicAccess(input: DisableImageBlockPublicAccessInput) async throws -> DisableImageBlockPublicAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15838,8 +15457,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableImageDeprecationInput : [no documentation found]
     ///
     /// - Returns: `DisableImageDeprecationOutput` : [no documentation found]
-    public func disableImageDeprecation(input: DisableImageDeprecationInput) async throws -> DisableImageDeprecationOutput
-    {
+    public func disableImageDeprecation(input: DisableImageDeprecationInput) async throws -> DisableImageDeprecationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15879,8 +15497,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableIpamOrganizationAdminAccountInput : [no documentation found]
     ///
     /// - Returns: `DisableIpamOrganizationAdminAccountOutput` : [no documentation found]
-    public func disableIpamOrganizationAdminAccount(input: DisableIpamOrganizationAdminAccountInput) async throws -> DisableIpamOrganizationAdminAccountOutput
-    {
+    public func disableIpamOrganizationAdminAccount(input: DisableIpamOrganizationAdminAccountInput) async throws -> DisableIpamOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15920,8 +15537,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableSerialConsoleAccessInput : [no documentation found]
     ///
     /// - Returns: `DisableSerialConsoleAccessOutput` : [no documentation found]
-    public func disableSerialConsoleAccess(input: DisableSerialConsoleAccessInput) async throws -> DisableSerialConsoleAccessOutput
-    {
+    public func disableSerialConsoleAccess(input: DisableSerialConsoleAccessInput) async throws -> DisableSerialConsoleAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -15961,8 +15577,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableSnapshotBlockPublicAccessInput : [no documentation found]
     ///
     /// - Returns: `DisableSnapshotBlockPublicAccessOutput` : [no documentation found]
-    public func disableSnapshotBlockPublicAccess(input: DisableSnapshotBlockPublicAccessInput) async throws -> DisableSnapshotBlockPublicAccessOutput
-    {
+    public func disableSnapshotBlockPublicAccess(input: DisableSnapshotBlockPublicAccessInput) async throws -> DisableSnapshotBlockPublicAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16002,8 +15617,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableTransitGatewayRouteTablePropagationInput : [no documentation found]
     ///
     /// - Returns: `DisableTransitGatewayRouteTablePropagationOutput` : [no documentation found]
-    public func disableTransitGatewayRouteTablePropagation(input: DisableTransitGatewayRouteTablePropagationInput) async throws -> DisableTransitGatewayRouteTablePropagationOutput
-    {
+    public func disableTransitGatewayRouteTablePropagation(input: DisableTransitGatewayRouteTablePropagationInput) async throws -> DisableTransitGatewayRouteTablePropagationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16043,8 +15657,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableVgwRoutePropagationInput : Contains the parameters for DisableVgwRoutePropagation.
     ///
     /// - Returns: `DisableVgwRoutePropagationOutput` : [no documentation found]
-    public func disableVgwRoutePropagation(input: DisableVgwRoutePropagationInput) async throws -> DisableVgwRoutePropagationOutput
-    {
+    public func disableVgwRoutePropagation(input: DisableVgwRoutePropagationInput) async throws -> DisableVgwRoutePropagationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16084,8 +15697,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableVpcClassicLinkInput : [no documentation found]
     ///
     /// - Returns: `DisableVpcClassicLinkOutput` : [no documentation found]
-    public func disableVpcClassicLink(input: DisableVpcClassicLinkInput) async throws -> DisableVpcClassicLinkOutput
-    {
+    public func disableVpcClassicLink(input: DisableVpcClassicLinkInput) async throws -> DisableVpcClassicLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16125,8 +15737,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisableVpcClassicLinkDnsSupportInput : [no documentation found]
     ///
     /// - Returns: `DisableVpcClassicLinkDnsSupportOutput` : [no documentation found]
-    public func disableVpcClassicLinkDnsSupport(input: DisableVpcClassicLinkDnsSupportInput) async throws -> DisableVpcClassicLinkDnsSupportOutput
-    {
+    public func disableVpcClassicLinkDnsSupport(input: DisableVpcClassicLinkDnsSupportInput) async throws -> DisableVpcClassicLinkDnsSupportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16166,8 +15777,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateAddressInput : [no documentation found]
     ///
     /// - Returns: `DisassociateAddressOutput` : [no documentation found]
-    public func disassociateAddress(input: DisassociateAddressInput) async throws -> DisassociateAddressOutput
-    {
+    public func disassociateAddress(input: DisassociateAddressInput) async throws -> DisassociateAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16215,8 +15825,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateClientVpnTargetNetworkInput : [no documentation found]
     ///
     /// - Returns: `DisassociateClientVpnTargetNetworkOutput` : [no documentation found]
-    public func disassociateClientVpnTargetNetwork(input: DisassociateClientVpnTargetNetworkInput) async throws -> DisassociateClientVpnTargetNetworkOutput
-    {
+    public func disassociateClientVpnTargetNetwork(input: DisassociateClientVpnTargetNetworkInput) async throws -> DisassociateClientVpnTargetNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16256,8 +15865,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateEnclaveCertificateIamRoleInput : [no documentation found]
     ///
     /// - Returns: `DisassociateEnclaveCertificateIamRoleOutput` : [no documentation found]
-    public func disassociateEnclaveCertificateIamRole(input: DisassociateEnclaveCertificateIamRoleInput) async throws -> DisassociateEnclaveCertificateIamRoleOutput
-    {
+    public func disassociateEnclaveCertificateIamRole(input: DisassociateEnclaveCertificateIamRoleInput) async throws -> DisassociateEnclaveCertificateIamRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16297,8 +15905,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateIamInstanceProfileInput : [no documentation found]
     ///
     /// - Returns: `DisassociateIamInstanceProfileOutput` : [no documentation found]
-    public func disassociateIamInstanceProfile(input: DisassociateIamInstanceProfileInput) async throws -> DisassociateIamInstanceProfileOutput
-    {
+    public func disassociateIamInstanceProfile(input: DisassociateIamInstanceProfileInput) async throws -> DisassociateIamInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16338,8 +15945,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateInstanceEventWindowInput : [no documentation found]
     ///
     /// - Returns: `DisassociateInstanceEventWindowOutput` : [no documentation found]
-    public func disassociateInstanceEventWindow(input: DisassociateInstanceEventWindowInput) async throws -> DisassociateInstanceEventWindowOutput
-    {
+    public func disassociateInstanceEventWindow(input: DisassociateInstanceEventWindowInput) async throws -> DisassociateInstanceEventWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16379,8 +15985,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateIpamByoasnInput : [no documentation found]
     ///
     /// - Returns: `DisassociateIpamByoasnOutput` : [no documentation found]
-    public func disassociateIpamByoasn(input: DisassociateIpamByoasnInput) async throws -> DisassociateIpamByoasnOutput
-    {
+    public func disassociateIpamByoasn(input: DisassociateIpamByoasnInput) async throws -> DisassociateIpamByoasnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16420,8 +16025,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateIpamResourceDiscoveryInput : [no documentation found]
     ///
     /// - Returns: `DisassociateIpamResourceDiscoveryOutput` : [no documentation found]
-    public func disassociateIpamResourceDiscovery(input: DisassociateIpamResourceDiscoveryInput) async throws -> DisassociateIpamResourceDiscoveryOutput
-    {
+    public func disassociateIpamResourceDiscovery(input: DisassociateIpamResourceDiscoveryInput) async throws -> DisassociateIpamResourceDiscoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16461,8 +16065,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateNatGatewayAddressInput : [no documentation found]
     ///
     /// - Returns: `DisassociateNatGatewayAddressOutput` : [no documentation found]
-    public func disassociateNatGatewayAddress(input: DisassociateNatGatewayAddressInput) async throws -> DisassociateNatGatewayAddressOutput
-    {
+    public func disassociateNatGatewayAddress(input: DisassociateNatGatewayAddressInput) async throws -> DisassociateNatGatewayAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16502,8 +16105,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateRouteTableInput : [no documentation found]
     ///
     /// - Returns: `DisassociateRouteTableOutput` : [no documentation found]
-    public func disassociateRouteTable(input: DisassociateRouteTableInput) async throws -> DisassociateRouteTableOutput
-    {
+    public func disassociateRouteTable(input: DisassociateRouteTableInput) async throws -> DisassociateRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16543,8 +16145,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateSubnetCidrBlockInput : [no documentation found]
     ///
     /// - Returns: `DisassociateSubnetCidrBlockOutput` : [no documentation found]
-    public func disassociateSubnetCidrBlock(input: DisassociateSubnetCidrBlockInput) async throws -> DisassociateSubnetCidrBlockOutput
-    {
+    public func disassociateSubnetCidrBlock(input: DisassociateSubnetCidrBlockInput) async throws -> DisassociateSubnetCidrBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16584,8 +16185,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateTransitGatewayMulticastDomainInput : [no documentation found]
     ///
     /// - Returns: `DisassociateTransitGatewayMulticastDomainOutput` : [no documentation found]
-    public func disassociateTransitGatewayMulticastDomain(input: DisassociateTransitGatewayMulticastDomainInput) async throws -> DisassociateTransitGatewayMulticastDomainOutput
-    {
+    public func disassociateTransitGatewayMulticastDomain(input: DisassociateTransitGatewayMulticastDomainInput) async throws -> DisassociateTransitGatewayMulticastDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16625,8 +16225,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateTransitGatewayPolicyTableInput : [no documentation found]
     ///
     /// - Returns: `DisassociateTransitGatewayPolicyTableOutput` : [no documentation found]
-    public func disassociateTransitGatewayPolicyTable(input: DisassociateTransitGatewayPolicyTableInput) async throws -> DisassociateTransitGatewayPolicyTableOutput
-    {
+    public func disassociateTransitGatewayPolicyTable(input: DisassociateTransitGatewayPolicyTableInput) async throws -> DisassociateTransitGatewayPolicyTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16666,8 +16265,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateTransitGatewayRouteTableInput : [no documentation found]
     ///
     /// - Returns: `DisassociateTransitGatewayRouteTableOutput` : [no documentation found]
-    public func disassociateTransitGatewayRouteTable(input: DisassociateTransitGatewayRouteTableInput) async throws -> DisassociateTransitGatewayRouteTableOutput
-    {
+    public func disassociateTransitGatewayRouteTable(input: DisassociateTransitGatewayRouteTableInput) async throws -> DisassociateTransitGatewayRouteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16707,8 +16305,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateTrunkInterfaceInput : [no documentation found]
     ///
     /// - Returns: `DisassociateTrunkInterfaceOutput` : [no documentation found]
-    public func disassociateTrunkInterface(input: DisassociateTrunkInterfaceInput) async throws -> DisassociateTrunkInterfaceOutput
-    {
+    public func disassociateTrunkInterface(input: DisassociateTrunkInterfaceInput) async throws -> DisassociateTrunkInterfaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16749,8 +16346,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter DisassociateVpcCidrBlockInput : [no documentation found]
     ///
     /// - Returns: `DisassociateVpcCidrBlockOutput` : [no documentation found]
-    public func disassociateVpcCidrBlock(input: DisassociateVpcCidrBlockInput) async throws -> DisassociateVpcCidrBlockOutput
-    {
+    public func disassociateVpcCidrBlock(input: DisassociateVpcCidrBlockInput) async throws -> DisassociateVpcCidrBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16790,8 +16386,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableAddressTransferInput : [no documentation found]
     ///
     /// - Returns: `EnableAddressTransferOutput` : [no documentation found]
-    public func enableAddressTransfer(input: EnableAddressTransferInput) async throws -> EnableAddressTransferOutput
-    {
+    public func enableAddressTransfer(input: EnableAddressTransferInput) async throws -> EnableAddressTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16831,8 +16426,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableAwsNetworkPerformanceMetricSubscriptionInput : [no documentation found]
     ///
     /// - Returns: `EnableAwsNetworkPerformanceMetricSubscriptionOutput` : [no documentation found]
-    public func enableAwsNetworkPerformanceMetricSubscription(input: EnableAwsNetworkPerformanceMetricSubscriptionInput) async throws -> EnableAwsNetworkPerformanceMetricSubscriptionOutput
-    {
+    public func enableAwsNetworkPerformanceMetricSubscription(input: EnableAwsNetworkPerformanceMetricSubscriptionInput) async throws -> EnableAwsNetworkPerformanceMetricSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16872,8 +16466,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableEbsEncryptionByDefaultInput : [no documentation found]
     ///
     /// - Returns: `EnableEbsEncryptionByDefaultOutput` : [no documentation found]
-    public func enableEbsEncryptionByDefault(input: EnableEbsEncryptionByDefaultInput) async throws -> EnableEbsEncryptionByDefaultOutput
-    {
+    public func enableEbsEncryptionByDefault(input: EnableEbsEncryptionByDefaultInput) async throws -> EnableEbsEncryptionByDefaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16913,8 +16506,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableFastLaunchInput : [no documentation found]
     ///
     /// - Returns: `EnableFastLaunchOutput` : [no documentation found]
-    public func enableFastLaunch(input: EnableFastLaunchInput) async throws -> EnableFastLaunchOutput
-    {
+    public func enableFastLaunch(input: EnableFastLaunchInput) async throws -> EnableFastLaunchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16954,8 +16546,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableFastSnapshotRestoresInput : [no documentation found]
     ///
     /// - Returns: `EnableFastSnapshotRestoresOutput` : [no documentation found]
-    public func enableFastSnapshotRestores(input: EnableFastSnapshotRestoresInput) async throws -> EnableFastSnapshotRestoresOutput
-    {
+    public func enableFastSnapshotRestores(input: EnableFastSnapshotRestoresInput) async throws -> EnableFastSnapshotRestoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -16995,8 +16586,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableImageInput : [no documentation found]
     ///
     /// - Returns: `EnableImageOutput` : [no documentation found]
-    public func enableImage(input: EnableImageInput) async throws -> EnableImageOutput
-    {
+    public func enableImage(input: EnableImageInput) async throws -> EnableImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17036,8 +16626,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableImageBlockPublicAccessInput : [no documentation found]
     ///
     /// - Returns: `EnableImageBlockPublicAccessOutput` : [no documentation found]
-    public func enableImageBlockPublicAccess(input: EnableImageBlockPublicAccessInput) async throws -> EnableImageBlockPublicAccessOutput
-    {
+    public func enableImageBlockPublicAccess(input: EnableImageBlockPublicAccessInput) async throws -> EnableImageBlockPublicAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17077,8 +16666,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableImageDeprecationInput : [no documentation found]
     ///
     /// - Returns: `EnableImageDeprecationOutput` : [no documentation found]
-    public func enableImageDeprecation(input: EnableImageDeprecationInput) async throws -> EnableImageDeprecationOutput
-    {
+    public func enableImageDeprecation(input: EnableImageDeprecationInput) async throws -> EnableImageDeprecationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17118,8 +16706,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableIpamOrganizationAdminAccountInput : [no documentation found]
     ///
     /// - Returns: `EnableIpamOrganizationAdminAccountOutput` : [no documentation found]
-    public func enableIpamOrganizationAdminAccount(input: EnableIpamOrganizationAdminAccountInput) async throws -> EnableIpamOrganizationAdminAccountOutput
-    {
+    public func enableIpamOrganizationAdminAccount(input: EnableIpamOrganizationAdminAccountInput) async throws -> EnableIpamOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17159,8 +16746,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableReachabilityAnalyzerOrganizationSharingInput : [no documentation found]
     ///
     /// - Returns: `EnableReachabilityAnalyzerOrganizationSharingOutput` : [no documentation found]
-    public func enableReachabilityAnalyzerOrganizationSharing(input: EnableReachabilityAnalyzerOrganizationSharingInput) async throws -> EnableReachabilityAnalyzerOrganizationSharingOutput
-    {
+    public func enableReachabilityAnalyzerOrganizationSharing(input: EnableReachabilityAnalyzerOrganizationSharingInput) async throws -> EnableReachabilityAnalyzerOrganizationSharingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17200,8 +16786,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableSerialConsoleAccessInput : [no documentation found]
     ///
     /// - Returns: `EnableSerialConsoleAccessOutput` : [no documentation found]
-    public func enableSerialConsoleAccess(input: EnableSerialConsoleAccessInput) async throws -> EnableSerialConsoleAccessOutput
-    {
+    public func enableSerialConsoleAccess(input: EnableSerialConsoleAccessInput) async throws -> EnableSerialConsoleAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17241,8 +16826,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableSnapshotBlockPublicAccessInput : [no documentation found]
     ///
     /// - Returns: `EnableSnapshotBlockPublicAccessOutput` : [no documentation found]
-    public func enableSnapshotBlockPublicAccess(input: EnableSnapshotBlockPublicAccessInput) async throws -> EnableSnapshotBlockPublicAccessOutput
-    {
+    public func enableSnapshotBlockPublicAccess(input: EnableSnapshotBlockPublicAccessInput) async throws -> EnableSnapshotBlockPublicAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17282,8 +16866,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableTransitGatewayRouteTablePropagationInput : [no documentation found]
     ///
     /// - Returns: `EnableTransitGatewayRouteTablePropagationOutput` : [no documentation found]
-    public func enableTransitGatewayRouteTablePropagation(input: EnableTransitGatewayRouteTablePropagationInput) async throws -> EnableTransitGatewayRouteTablePropagationOutput
-    {
+    public func enableTransitGatewayRouteTablePropagation(input: EnableTransitGatewayRouteTablePropagationInput) async throws -> EnableTransitGatewayRouteTablePropagationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17323,8 +16906,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableVgwRoutePropagationInput : Contains the parameters for EnableVgwRoutePropagation.
     ///
     /// - Returns: `EnableVgwRoutePropagationOutput` : [no documentation found]
-    public func enableVgwRoutePropagation(input: EnableVgwRoutePropagationInput) async throws -> EnableVgwRoutePropagationOutput
-    {
+    public func enableVgwRoutePropagation(input: EnableVgwRoutePropagationInput) async throws -> EnableVgwRoutePropagationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17364,8 +16946,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableVolumeIOInput : [no documentation found]
     ///
     /// - Returns: `EnableVolumeIOOutput` : [no documentation found]
-    public func enableVolumeIO(input: EnableVolumeIOInput) async throws -> EnableVolumeIOOutput
-    {
+    public func enableVolumeIO(input: EnableVolumeIOInput) async throws -> EnableVolumeIOOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17405,8 +16986,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableVpcClassicLinkInput : [no documentation found]
     ///
     /// - Returns: `EnableVpcClassicLinkOutput` : [no documentation found]
-    public func enableVpcClassicLink(input: EnableVpcClassicLinkInput) async throws -> EnableVpcClassicLinkOutput
-    {
+    public func enableVpcClassicLink(input: EnableVpcClassicLinkInput) async throws -> EnableVpcClassicLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17446,8 +17026,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter EnableVpcClassicLinkDnsSupportInput : [no documentation found]
     ///
     /// - Returns: `EnableVpcClassicLinkDnsSupportOutput` : [no documentation found]
-    public func enableVpcClassicLinkDnsSupport(input: EnableVpcClassicLinkDnsSupportInput) async throws -> EnableVpcClassicLinkDnsSupportOutput
-    {
+    public func enableVpcClassicLinkDnsSupport(input: EnableVpcClassicLinkDnsSupportInput) async throws -> EnableVpcClassicLinkDnsSupportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17487,8 +17066,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ExportClientVpnClientCertificateRevocationListInput : [no documentation found]
     ///
     /// - Returns: `ExportClientVpnClientCertificateRevocationListOutput` : [no documentation found]
-    public func exportClientVpnClientCertificateRevocationList(input: ExportClientVpnClientCertificateRevocationListInput) async throws -> ExportClientVpnClientCertificateRevocationListOutput
-    {
+    public func exportClientVpnClientCertificateRevocationList(input: ExportClientVpnClientCertificateRevocationListInput) async throws -> ExportClientVpnClientCertificateRevocationListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17528,8 +17106,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ExportClientVpnClientConfigurationInput : [no documentation found]
     ///
     /// - Returns: `ExportClientVpnClientConfigurationOutput` : [no documentation found]
-    public func exportClientVpnClientConfiguration(input: ExportClientVpnClientConfigurationInput) async throws -> ExportClientVpnClientConfigurationOutput
-    {
+    public func exportClientVpnClientConfiguration(input: ExportClientVpnClientConfigurationInput) async throws -> ExportClientVpnClientConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17569,8 +17146,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ExportImageInput : [no documentation found]
     ///
     /// - Returns: `ExportImageOutput` : [no documentation found]
-    public func exportImage(input: ExportImageInput) async throws -> ExportImageOutput
-    {
+    public func exportImage(input: ExportImageInput) async throws -> ExportImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17611,8 +17187,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ExportTransitGatewayRoutesInput : [no documentation found]
     ///
     /// - Returns: `ExportTransitGatewayRoutesOutput` : [no documentation found]
-    public func exportTransitGatewayRoutes(input: ExportTransitGatewayRoutesInput) async throws -> ExportTransitGatewayRoutesOutput
-    {
+    public func exportTransitGatewayRoutes(input: ExportTransitGatewayRoutesInput) async throws -> ExportTransitGatewayRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17652,8 +17227,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetAssociatedEnclaveCertificateIamRolesInput : [no documentation found]
     ///
     /// - Returns: `GetAssociatedEnclaveCertificateIamRolesOutput` : [no documentation found]
-    public func getAssociatedEnclaveCertificateIamRoles(input: GetAssociatedEnclaveCertificateIamRolesInput) async throws -> GetAssociatedEnclaveCertificateIamRolesOutput
-    {
+    public func getAssociatedEnclaveCertificateIamRoles(input: GetAssociatedEnclaveCertificateIamRolesInput) async throws -> GetAssociatedEnclaveCertificateIamRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17693,8 +17267,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetAssociatedIpv6PoolCidrsInput : [no documentation found]
     ///
     /// - Returns: `GetAssociatedIpv6PoolCidrsOutput` : [no documentation found]
-    public func getAssociatedIpv6PoolCidrs(input: GetAssociatedIpv6PoolCidrsInput) async throws -> GetAssociatedIpv6PoolCidrsOutput
-    {
+    public func getAssociatedIpv6PoolCidrs(input: GetAssociatedIpv6PoolCidrsInput) async throws -> GetAssociatedIpv6PoolCidrsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17734,8 +17307,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetAwsNetworkPerformanceDataInput : [no documentation found]
     ///
     /// - Returns: `GetAwsNetworkPerformanceDataOutput` : [no documentation found]
-    public func getAwsNetworkPerformanceData(input: GetAwsNetworkPerformanceDataInput) async throws -> GetAwsNetworkPerformanceDataOutput
-    {
+    public func getAwsNetworkPerformanceData(input: GetAwsNetworkPerformanceDataInput) async throws -> GetAwsNetworkPerformanceDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17775,8 +17347,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetCapacityReservationUsageInput : [no documentation found]
     ///
     /// - Returns: `GetCapacityReservationUsageOutput` : [no documentation found]
-    public func getCapacityReservationUsage(input: GetCapacityReservationUsageInput) async throws -> GetCapacityReservationUsageOutput
-    {
+    public func getCapacityReservationUsage(input: GetCapacityReservationUsageInput) async throws -> GetCapacityReservationUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17816,8 +17387,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetCoipPoolUsageInput : [no documentation found]
     ///
     /// - Returns: `GetCoipPoolUsageOutput` : [no documentation found]
-    public func getCoipPoolUsage(input: GetCoipPoolUsageInput) async throws -> GetCoipPoolUsageOutput
-    {
+    public func getCoipPoolUsage(input: GetCoipPoolUsageInput) async throws -> GetCoipPoolUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17857,8 +17427,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetConsoleOutputInput : [no documentation found]
     ///
     /// - Returns: `GetConsoleOutputOutput` : [no documentation found]
-    public func getConsoleOutput(input: GetConsoleOutputInput) async throws -> GetConsoleOutputOutput
-    {
+    public func getConsoleOutput(input: GetConsoleOutputInput) async throws -> GetConsoleOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17898,8 +17467,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetConsoleScreenshotInput : [no documentation found]
     ///
     /// - Returns: `GetConsoleScreenshotOutput` : [no documentation found]
-    public func getConsoleScreenshot(input: GetConsoleScreenshotInput) async throws -> GetConsoleScreenshotOutput
-    {
+    public func getConsoleScreenshot(input: GetConsoleScreenshotInput) async throws -> GetConsoleScreenshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17939,8 +17507,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetDefaultCreditSpecificationInput : [no documentation found]
     ///
     /// - Returns: `GetDefaultCreditSpecificationOutput` : [no documentation found]
-    public func getDefaultCreditSpecification(input: GetDefaultCreditSpecificationInput) async throws -> GetDefaultCreditSpecificationOutput
-    {
+    public func getDefaultCreditSpecification(input: GetDefaultCreditSpecificationInput) async throws -> GetDefaultCreditSpecificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -17980,8 +17547,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetEbsDefaultKmsKeyIdInput : [no documentation found]
     ///
     /// - Returns: `GetEbsDefaultKmsKeyIdOutput` : [no documentation found]
-    public func getEbsDefaultKmsKeyId(input: GetEbsDefaultKmsKeyIdInput) async throws -> GetEbsDefaultKmsKeyIdOutput
-    {
+    public func getEbsDefaultKmsKeyId(input: GetEbsDefaultKmsKeyIdInput) async throws -> GetEbsDefaultKmsKeyIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18021,8 +17587,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetEbsEncryptionByDefaultInput : [no documentation found]
     ///
     /// - Returns: `GetEbsEncryptionByDefaultOutput` : [no documentation found]
-    public func getEbsEncryptionByDefault(input: GetEbsEncryptionByDefaultInput) async throws -> GetEbsEncryptionByDefaultOutput
-    {
+    public func getEbsEncryptionByDefault(input: GetEbsEncryptionByDefaultInput) async throws -> GetEbsEncryptionByDefaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18073,8 +17638,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetFlowLogsIntegrationTemplateInput : [no documentation found]
     ///
     /// - Returns: `GetFlowLogsIntegrationTemplateOutput` : [no documentation found]
-    public func getFlowLogsIntegrationTemplate(input: GetFlowLogsIntegrationTemplateInput) async throws -> GetFlowLogsIntegrationTemplateOutput
-    {
+    public func getFlowLogsIntegrationTemplate(input: GetFlowLogsIntegrationTemplateInput) async throws -> GetFlowLogsIntegrationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18114,8 +17678,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetGroupsForCapacityReservationInput : [no documentation found]
     ///
     /// - Returns: `GetGroupsForCapacityReservationOutput` : [no documentation found]
-    public func getGroupsForCapacityReservation(input: GetGroupsForCapacityReservationInput) async throws -> GetGroupsForCapacityReservationOutput
-    {
+    public func getGroupsForCapacityReservation(input: GetGroupsForCapacityReservationInput) async throws -> GetGroupsForCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18155,8 +17718,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetHostReservationPurchasePreviewInput : [no documentation found]
     ///
     /// - Returns: `GetHostReservationPurchasePreviewOutput` : [no documentation found]
-    public func getHostReservationPurchasePreview(input: GetHostReservationPurchasePreviewInput) async throws -> GetHostReservationPurchasePreviewOutput
-    {
+    public func getHostReservationPurchasePreview(input: GetHostReservationPurchasePreviewInput) async throws -> GetHostReservationPurchasePreviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18196,8 +17758,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetImageBlockPublicAccessStateInput : [no documentation found]
     ///
     /// - Returns: `GetImageBlockPublicAccessStateOutput` : [no documentation found]
-    public func getImageBlockPublicAccessState(input: GetImageBlockPublicAccessStateInput) async throws -> GetImageBlockPublicAccessStateOutput
-    {
+    public func getImageBlockPublicAccessState(input: GetImageBlockPublicAccessStateInput) async throws -> GetImageBlockPublicAccessStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18237,8 +17798,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetInstanceTypesFromInstanceRequirementsInput : [no documentation found]
     ///
     /// - Returns: `GetInstanceTypesFromInstanceRequirementsOutput` : [no documentation found]
-    public func getInstanceTypesFromInstanceRequirements(input: GetInstanceTypesFromInstanceRequirementsInput) async throws -> GetInstanceTypesFromInstanceRequirementsOutput
-    {
+    public func getInstanceTypesFromInstanceRequirements(input: GetInstanceTypesFromInstanceRequirementsInput) async throws -> GetInstanceTypesFromInstanceRequirementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18278,8 +17838,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetInstanceUefiDataInput : [no documentation found]
     ///
     /// - Returns: `GetInstanceUefiDataOutput` : [no documentation found]
-    public func getInstanceUefiData(input: GetInstanceUefiDataInput) async throws -> GetInstanceUefiDataOutput
-    {
+    public func getInstanceUefiData(input: GetInstanceUefiDataInput) async throws -> GetInstanceUefiDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18319,8 +17878,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamAddressHistoryInput : [no documentation found]
     ///
     /// - Returns: `GetIpamAddressHistoryOutput` : [no documentation found]
-    public func getIpamAddressHistory(input: GetIpamAddressHistoryInput) async throws -> GetIpamAddressHistoryOutput
-    {
+    public func getIpamAddressHistory(input: GetIpamAddressHistoryInput) async throws -> GetIpamAddressHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18360,8 +17918,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamDiscoveredAccountsInput : [no documentation found]
     ///
     /// - Returns: `GetIpamDiscoveredAccountsOutput` : [no documentation found]
-    public func getIpamDiscoveredAccounts(input: GetIpamDiscoveredAccountsInput) async throws -> GetIpamDiscoveredAccountsOutput
-    {
+    public func getIpamDiscoveredAccounts(input: GetIpamDiscoveredAccountsInput) async throws -> GetIpamDiscoveredAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18401,8 +17958,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamDiscoveredPublicAddressesInput : [no documentation found]
     ///
     /// - Returns: `GetIpamDiscoveredPublicAddressesOutput` : [no documentation found]
-    public func getIpamDiscoveredPublicAddresses(input: GetIpamDiscoveredPublicAddressesInput) async throws -> GetIpamDiscoveredPublicAddressesOutput
-    {
+    public func getIpamDiscoveredPublicAddresses(input: GetIpamDiscoveredPublicAddressesInput) async throws -> GetIpamDiscoveredPublicAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18442,8 +17998,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamDiscoveredResourceCidrsInput : [no documentation found]
     ///
     /// - Returns: `GetIpamDiscoveredResourceCidrsOutput` : [no documentation found]
-    public func getIpamDiscoveredResourceCidrs(input: GetIpamDiscoveredResourceCidrsInput) async throws -> GetIpamDiscoveredResourceCidrsOutput
-    {
+    public func getIpamDiscoveredResourceCidrs(input: GetIpamDiscoveredResourceCidrsInput) async throws -> GetIpamDiscoveredResourceCidrsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18483,8 +18038,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamPoolAllocationsInput : [no documentation found]
     ///
     /// - Returns: `GetIpamPoolAllocationsOutput` : [no documentation found]
-    public func getIpamPoolAllocations(input: GetIpamPoolAllocationsInput) async throws -> GetIpamPoolAllocationsOutput
-    {
+    public func getIpamPoolAllocations(input: GetIpamPoolAllocationsInput) async throws -> GetIpamPoolAllocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18524,8 +18078,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamPoolCidrsInput : [no documentation found]
     ///
     /// - Returns: `GetIpamPoolCidrsOutput` : [no documentation found]
-    public func getIpamPoolCidrs(input: GetIpamPoolCidrsInput) async throws -> GetIpamPoolCidrsOutput
-    {
+    public func getIpamPoolCidrs(input: GetIpamPoolCidrsInput) async throws -> GetIpamPoolCidrsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18565,8 +18118,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetIpamResourceCidrsInput : [no documentation found]
     ///
     /// - Returns: `GetIpamResourceCidrsOutput` : [no documentation found]
-    public func getIpamResourceCidrs(input: GetIpamResourceCidrsInput) async throws -> GetIpamResourceCidrsOutput
-    {
+    public func getIpamResourceCidrs(input: GetIpamResourceCidrsInput) async throws -> GetIpamResourceCidrsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18606,8 +18158,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetLaunchTemplateDataInput : [no documentation found]
     ///
     /// - Returns: `GetLaunchTemplateDataOutput` : [no documentation found]
-    public func getLaunchTemplateData(input: GetLaunchTemplateDataInput) async throws -> GetLaunchTemplateDataOutput
-    {
+    public func getLaunchTemplateData(input: GetLaunchTemplateDataInput) async throws -> GetLaunchTemplateDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18647,8 +18198,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetManagedPrefixListAssociationsInput : [no documentation found]
     ///
     /// - Returns: `GetManagedPrefixListAssociationsOutput` : [no documentation found]
-    public func getManagedPrefixListAssociations(input: GetManagedPrefixListAssociationsInput) async throws -> GetManagedPrefixListAssociationsOutput
-    {
+    public func getManagedPrefixListAssociations(input: GetManagedPrefixListAssociationsInput) async throws -> GetManagedPrefixListAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18688,8 +18238,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetManagedPrefixListEntriesInput : [no documentation found]
     ///
     /// - Returns: `GetManagedPrefixListEntriesOutput` : [no documentation found]
-    public func getManagedPrefixListEntries(input: GetManagedPrefixListEntriesInput) async throws -> GetManagedPrefixListEntriesOutput
-    {
+    public func getManagedPrefixListEntries(input: GetManagedPrefixListEntriesInput) async throws -> GetManagedPrefixListEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18729,8 +18278,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetNetworkInsightsAccessScopeAnalysisFindingsInput : [no documentation found]
     ///
     /// - Returns: `GetNetworkInsightsAccessScopeAnalysisFindingsOutput` : [no documentation found]
-    public func getNetworkInsightsAccessScopeAnalysisFindings(input: GetNetworkInsightsAccessScopeAnalysisFindingsInput) async throws -> GetNetworkInsightsAccessScopeAnalysisFindingsOutput
-    {
+    public func getNetworkInsightsAccessScopeAnalysisFindings(input: GetNetworkInsightsAccessScopeAnalysisFindingsInput) async throws -> GetNetworkInsightsAccessScopeAnalysisFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18770,8 +18318,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetNetworkInsightsAccessScopeContentInput : [no documentation found]
     ///
     /// - Returns: `GetNetworkInsightsAccessScopeContentOutput` : [no documentation found]
-    public func getNetworkInsightsAccessScopeContent(input: GetNetworkInsightsAccessScopeContentInput) async throws -> GetNetworkInsightsAccessScopeContentOutput
-    {
+    public func getNetworkInsightsAccessScopeContent(input: GetNetworkInsightsAccessScopeContentInput) async throws -> GetNetworkInsightsAccessScopeContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18811,8 +18358,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetPasswordDataInput : [no documentation found]
     ///
     /// - Returns: `GetPasswordDataOutput` : [no documentation found]
-    public func getPasswordData(input: GetPasswordDataInput) async throws -> GetPasswordDataOutput
-    {
+    public func getPasswordData(input: GetPasswordDataInput) async throws -> GetPasswordDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18852,8 +18398,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetReservedInstancesExchangeQuoteInput : Contains the parameters for GetReservedInstanceExchangeQuote.
     ///
     /// - Returns: `GetReservedInstancesExchangeQuoteOutput` : Contains the output of GetReservedInstancesExchangeQuote.
-    public func getReservedInstancesExchangeQuote(input: GetReservedInstancesExchangeQuoteInput) async throws -> GetReservedInstancesExchangeQuoteOutput
-    {
+    public func getReservedInstancesExchangeQuote(input: GetReservedInstancesExchangeQuoteInput) async throws -> GetReservedInstancesExchangeQuoteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18893,8 +18438,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetSecurityGroupsForVpcInput : [no documentation found]
     ///
     /// - Returns: `GetSecurityGroupsForVpcOutput` : [no documentation found]
-    public func getSecurityGroupsForVpc(input: GetSecurityGroupsForVpcInput) async throws -> GetSecurityGroupsForVpcOutput
-    {
+    public func getSecurityGroupsForVpc(input: GetSecurityGroupsForVpcInput) async throws -> GetSecurityGroupsForVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18934,8 +18478,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetSerialConsoleAccessStatusInput : [no documentation found]
     ///
     /// - Returns: `GetSerialConsoleAccessStatusOutput` : [no documentation found]
-    public func getSerialConsoleAccessStatus(input: GetSerialConsoleAccessStatusInput) async throws -> GetSerialConsoleAccessStatusOutput
-    {
+    public func getSerialConsoleAccessStatus(input: GetSerialConsoleAccessStatusInput) async throws -> GetSerialConsoleAccessStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -18975,8 +18518,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetSnapshotBlockPublicAccessStateInput : [no documentation found]
     ///
     /// - Returns: `GetSnapshotBlockPublicAccessStateOutput` : [no documentation found]
-    public func getSnapshotBlockPublicAccessState(input: GetSnapshotBlockPublicAccessStateInput) async throws -> GetSnapshotBlockPublicAccessStateOutput
-    {
+    public func getSnapshotBlockPublicAccessState(input: GetSnapshotBlockPublicAccessStateInput) async throws -> GetSnapshotBlockPublicAccessStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19016,8 +18558,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetSpotPlacementScoresInput : [no documentation found]
     ///
     /// - Returns: `GetSpotPlacementScoresOutput` : [no documentation found]
-    public func getSpotPlacementScores(input: GetSpotPlacementScoresInput) async throws -> GetSpotPlacementScoresOutput
-    {
+    public func getSpotPlacementScores(input: GetSpotPlacementScoresInput) async throws -> GetSpotPlacementScoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19057,8 +18598,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetSubnetCidrReservationsInput : [no documentation found]
     ///
     /// - Returns: `GetSubnetCidrReservationsOutput` : [no documentation found]
-    public func getSubnetCidrReservations(input: GetSubnetCidrReservationsInput) async throws -> GetSubnetCidrReservationsOutput
-    {
+    public func getSubnetCidrReservations(input: GetSubnetCidrReservationsInput) async throws -> GetSubnetCidrReservationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19098,8 +18638,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayAttachmentPropagationsInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayAttachmentPropagationsOutput` : [no documentation found]
-    public func getTransitGatewayAttachmentPropagations(input: GetTransitGatewayAttachmentPropagationsInput) async throws -> GetTransitGatewayAttachmentPropagationsOutput
-    {
+    public func getTransitGatewayAttachmentPropagations(input: GetTransitGatewayAttachmentPropagationsInput) async throws -> GetTransitGatewayAttachmentPropagationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19139,8 +18678,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayMulticastDomainAssociationsInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayMulticastDomainAssociationsOutput` : [no documentation found]
-    public func getTransitGatewayMulticastDomainAssociations(input: GetTransitGatewayMulticastDomainAssociationsInput) async throws -> GetTransitGatewayMulticastDomainAssociationsOutput
-    {
+    public func getTransitGatewayMulticastDomainAssociations(input: GetTransitGatewayMulticastDomainAssociationsInput) async throws -> GetTransitGatewayMulticastDomainAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19180,8 +18718,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayPolicyTableAssociationsInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayPolicyTableAssociationsOutput` : [no documentation found]
-    public func getTransitGatewayPolicyTableAssociations(input: GetTransitGatewayPolicyTableAssociationsInput) async throws -> GetTransitGatewayPolicyTableAssociationsOutput
-    {
+    public func getTransitGatewayPolicyTableAssociations(input: GetTransitGatewayPolicyTableAssociationsInput) async throws -> GetTransitGatewayPolicyTableAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19221,8 +18758,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayPolicyTableEntriesInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayPolicyTableEntriesOutput` : [no documentation found]
-    public func getTransitGatewayPolicyTableEntries(input: GetTransitGatewayPolicyTableEntriesInput) async throws -> GetTransitGatewayPolicyTableEntriesOutput
-    {
+    public func getTransitGatewayPolicyTableEntries(input: GetTransitGatewayPolicyTableEntriesInput) async throws -> GetTransitGatewayPolicyTableEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19262,8 +18798,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayPrefixListReferencesInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayPrefixListReferencesOutput` : [no documentation found]
-    public func getTransitGatewayPrefixListReferences(input: GetTransitGatewayPrefixListReferencesInput) async throws -> GetTransitGatewayPrefixListReferencesOutput
-    {
+    public func getTransitGatewayPrefixListReferences(input: GetTransitGatewayPrefixListReferencesInput) async throws -> GetTransitGatewayPrefixListReferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19303,8 +18838,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayRouteTableAssociationsInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayRouteTableAssociationsOutput` : [no documentation found]
-    public func getTransitGatewayRouteTableAssociations(input: GetTransitGatewayRouteTableAssociationsInput) async throws -> GetTransitGatewayRouteTableAssociationsOutput
-    {
+    public func getTransitGatewayRouteTableAssociations(input: GetTransitGatewayRouteTableAssociationsInput) async throws -> GetTransitGatewayRouteTableAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19344,8 +18878,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetTransitGatewayRouteTablePropagationsInput : [no documentation found]
     ///
     /// - Returns: `GetTransitGatewayRouteTablePropagationsOutput` : [no documentation found]
-    public func getTransitGatewayRouteTablePropagations(input: GetTransitGatewayRouteTablePropagationsInput) async throws -> GetTransitGatewayRouteTablePropagationsOutput
-    {
+    public func getTransitGatewayRouteTablePropagations(input: GetTransitGatewayRouteTablePropagationsInput) async throws -> GetTransitGatewayRouteTablePropagationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19385,8 +18918,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetVerifiedAccessEndpointPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetVerifiedAccessEndpointPolicyOutput` : [no documentation found]
-    public func getVerifiedAccessEndpointPolicy(input: GetVerifiedAccessEndpointPolicyInput) async throws -> GetVerifiedAccessEndpointPolicyOutput
-    {
+    public func getVerifiedAccessEndpointPolicy(input: GetVerifiedAccessEndpointPolicyInput) async throws -> GetVerifiedAccessEndpointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19426,8 +18958,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetVerifiedAccessGroupPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetVerifiedAccessGroupPolicyOutput` : [no documentation found]
-    public func getVerifiedAccessGroupPolicy(input: GetVerifiedAccessGroupPolicyInput) async throws -> GetVerifiedAccessGroupPolicyOutput
-    {
+    public func getVerifiedAccessGroupPolicy(input: GetVerifiedAccessGroupPolicyInput) async throws -> GetVerifiedAccessGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19467,8 +18998,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetVpnConnectionDeviceSampleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetVpnConnectionDeviceSampleConfigurationOutput` : [no documentation found]
-    public func getVpnConnectionDeviceSampleConfiguration(input: GetVpnConnectionDeviceSampleConfigurationInput) async throws -> GetVpnConnectionDeviceSampleConfigurationOutput
-    {
+    public func getVpnConnectionDeviceSampleConfiguration(input: GetVpnConnectionDeviceSampleConfigurationInput) async throws -> GetVpnConnectionDeviceSampleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19508,8 +19038,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetVpnConnectionDeviceTypesInput : [no documentation found]
     ///
     /// - Returns: `GetVpnConnectionDeviceTypesOutput` : [no documentation found]
-    public func getVpnConnectionDeviceTypes(input: GetVpnConnectionDeviceTypesInput) async throws -> GetVpnConnectionDeviceTypesOutput
-    {
+    public func getVpnConnectionDeviceTypes(input: GetVpnConnectionDeviceTypesInput) async throws -> GetVpnConnectionDeviceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19549,8 +19078,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter GetVpnTunnelReplacementStatusInput : [no documentation found]
     ///
     /// - Returns: `GetVpnTunnelReplacementStatusOutput` : [no documentation found]
-    public func getVpnTunnelReplacementStatus(input: GetVpnTunnelReplacementStatusInput) async throws -> GetVpnTunnelReplacementStatusOutput
-    {
+    public func getVpnTunnelReplacementStatus(input: GetVpnTunnelReplacementStatusInput) async throws -> GetVpnTunnelReplacementStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19590,8 +19118,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ImportClientVpnClientCertificateRevocationListInput : [no documentation found]
     ///
     /// - Returns: `ImportClientVpnClientCertificateRevocationListOutput` : [no documentation found]
-    public func importClientVpnClientCertificateRevocationList(input: ImportClientVpnClientCertificateRevocationListInput) async throws -> ImportClientVpnClientCertificateRevocationListOutput
-    {
+    public func importClientVpnClientCertificateRevocationList(input: ImportClientVpnClientCertificateRevocationListInput) async throws -> ImportClientVpnClientCertificateRevocationListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19631,8 +19158,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ImportImageInput : [no documentation found]
     ///
     /// - Returns: `ImportImageOutput` : [no documentation found]
-    public func importImage(input: ImportImageInput) async throws -> ImportImageOutput
-    {
+    public func importImage(input: ImportImageInput) async throws -> ImportImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19672,8 +19198,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ImportInstanceInput : [no documentation found]
     ///
     /// - Returns: `ImportInstanceOutput` : [no documentation found]
-    public func importInstance(input: ImportInstanceInput) async throws -> ImportInstanceOutput
-    {
+    public func importInstance(input: ImportInstanceInput) async throws -> ImportInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19713,8 +19238,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ImportKeyPairInput : [no documentation found]
     ///
     /// - Returns: `ImportKeyPairOutput` : [no documentation found]
-    public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput
-    {
+    public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19754,8 +19278,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ImportSnapshotInput : [no documentation found]
     ///
     /// - Returns: `ImportSnapshotOutput` : [no documentation found]
-    public func importSnapshot(input: ImportSnapshotInput) async throws -> ImportSnapshotOutput
-    {
+    public func importSnapshot(input: ImportSnapshotInput) async throws -> ImportSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19795,8 +19318,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ImportVolumeInput : [no documentation found]
     ///
     /// - Returns: `ImportVolumeOutput` : [no documentation found]
-    public func importVolume(input: ImportVolumeInput) async throws -> ImportVolumeOutput
-    {
+    public func importVolume(input: ImportVolumeInput) async throws -> ImportVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19836,8 +19358,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ListImagesInRecycleBinInput : [no documentation found]
     ///
     /// - Returns: `ListImagesInRecycleBinOutput` : [no documentation found]
-    public func listImagesInRecycleBin(input: ListImagesInRecycleBinInput) async throws -> ListImagesInRecycleBinOutput
-    {
+    public func listImagesInRecycleBin(input: ListImagesInRecycleBinInput) async throws -> ListImagesInRecycleBinOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19877,8 +19398,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ListSnapshotsInRecycleBinInput : [no documentation found]
     ///
     /// - Returns: `ListSnapshotsInRecycleBinOutput` : [no documentation found]
-    public func listSnapshotsInRecycleBin(input: ListSnapshotsInRecycleBinInput) async throws -> ListSnapshotsInRecycleBinOutput
-    {
+    public func listSnapshotsInRecycleBin(input: ListSnapshotsInRecycleBinInput) async throws -> ListSnapshotsInRecycleBinOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19924,8 +19444,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter LockSnapshotInput : [no documentation found]
     ///
     /// - Returns: `LockSnapshotOutput` : [no documentation found]
-    public func lockSnapshot(input: LockSnapshotInput) async throws -> LockSnapshotOutput
-    {
+    public func lockSnapshot(input: LockSnapshotInput) async throws -> LockSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -19965,8 +19484,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyAddressAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifyAddressAttributeOutput` : [no documentation found]
-    public func modifyAddressAttribute(input: ModifyAddressAttributeInput) async throws -> ModifyAddressAttributeOutput
-    {
+    public func modifyAddressAttribute(input: ModifyAddressAttributeInput) async throws -> ModifyAddressAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20006,8 +19524,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyAvailabilityZoneGroupInput : [no documentation found]
     ///
     /// - Returns: `ModifyAvailabilityZoneGroupOutput` : [no documentation found]
-    public func modifyAvailabilityZoneGroup(input: ModifyAvailabilityZoneGroupInput) async throws -> ModifyAvailabilityZoneGroupOutput
-    {
+    public func modifyAvailabilityZoneGroup(input: ModifyAvailabilityZoneGroupInput) async throws -> ModifyAvailabilityZoneGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20047,8 +19564,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyCapacityReservationInput : [no documentation found]
     ///
     /// - Returns: `ModifyCapacityReservationOutput` : [no documentation found]
-    public func modifyCapacityReservation(input: ModifyCapacityReservationInput) async throws -> ModifyCapacityReservationOutput
-    {
+    public func modifyCapacityReservation(input: ModifyCapacityReservationInput) async throws -> ModifyCapacityReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20088,8 +19604,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyCapacityReservationFleetInput : [no documentation found]
     ///
     /// - Returns: `ModifyCapacityReservationFleetOutput` : [no documentation found]
-    public func modifyCapacityReservationFleet(input: ModifyCapacityReservationFleetInput) async throws -> ModifyCapacityReservationFleetOutput
-    {
+    public func modifyCapacityReservationFleet(input: ModifyCapacityReservationFleetInput) async throws -> ModifyCapacityReservationFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20129,8 +19644,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyClientVpnEndpointInput : [no documentation found]
     ///
     /// - Returns: `ModifyClientVpnEndpointOutput` : [no documentation found]
-    public func modifyClientVpnEndpoint(input: ModifyClientVpnEndpointInput) async throws -> ModifyClientVpnEndpointOutput
-    {
+    public func modifyClientVpnEndpoint(input: ModifyClientVpnEndpointInput) async throws -> ModifyClientVpnEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20170,8 +19684,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyDefaultCreditSpecificationInput : [no documentation found]
     ///
     /// - Returns: `ModifyDefaultCreditSpecificationOutput` : [no documentation found]
-    public func modifyDefaultCreditSpecification(input: ModifyDefaultCreditSpecificationInput) async throws -> ModifyDefaultCreditSpecificationOutput
-    {
+    public func modifyDefaultCreditSpecification(input: ModifyDefaultCreditSpecificationInput) async throws -> ModifyDefaultCreditSpecificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20211,8 +19724,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyEbsDefaultKmsKeyIdInput : [no documentation found]
     ///
     /// - Returns: `ModifyEbsDefaultKmsKeyIdOutput` : [no documentation found]
-    public func modifyEbsDefaultKmsKeyId(input: ModifyEbsDefaultKmsKeyIdInput) async throws -> ModifyEbsDefaultKmsKeyIdOutput
-    {
+    public func modifyEbsDefaultKmsKeyId(input: ModifyEbsDefaultKmsKeyIdInput) async throws -> ModifyEbsDefaultKmsKeyIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20252,8 +19764,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyFleetInput : [no documentation found]
     ///
     /// - Returns: `ModifyFleetOutput` : [no documentation found]
-    public func modifyFleet(input: ModifyFleetInput) async throws -> ModifyFleetOutput
-    {
+    public func modifyFleet(input: ModifyFleetInput) async throws -> ModifyFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20293,8 +19804,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyFpgaImageAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifyFpgaImageAttributeOutput` : [no documentation found]
-    public func modifyFpgaImageAttribute(input: ModifyFpgaImageAttributeInput) async throws -> ModifyFpgaImageAttributeOutput
-    {
+    public func modifyFpgaImageAttribute(input: ModifyFpgaImageAttributeInput) async throws -> ModifyFpgaImageAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20334,8 +19844,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyHostsInput : [no documentation found]
     ///
     /// - Returns: `ModifyHostsOutput` : [no documentation found]
-    public func modifyHosts(input: ModifyHostsInput) async throws -> ModifyHostsOutput
-    {
+    public func modifyHosts(input: ModifyHostsInput) async throws -> ModifyHostsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20375,8 +19884,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIdFormatInput : [no documentation found]
     ///
     /// - Returns: `ModifyIdFormatOutput` : [no documentation found]
-    public func modifyIdFormat(input: ModifyIdFormatInput) async throws -> ModifyIdFormatOutput
-    {
+    public func modifyIdFormat(input: ModifyIdFormatInput) async throws -> ModifyIdFormatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20416,8 +19924,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIdentityIdFormatInput : [no documentation found]
     ///
     /// - Returns: `ModifyIdentityIdFormatOutput` : [no documentation found]
-    public func modifyIdentityIdFormat(input: ModifyIdentityIdFormatInput) async throws -> ModifyIdentityIdFormatOutput
-    {
+    public func modifyIdentityIdFormat(input: ModifyIdentityIdFormatInput) async throws -> ModifyIdentityIdFormatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20457,8 +19964,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyImageAttributeInput : Contains the parameters for ModifyImageAttribute.
     ///
     /// - Returns: `ModifyImageAttributeOutput` : [no documentation found]
-    public func modifyImageAttribute(input: ModifyImageAttributeInput) async throws -> ModifyImageAttributeOutput
-    {
+    public func modifyImageAttribute(input: ModifyImageAttributeInput) async throws -> ModifyImageAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20498,8 +20004,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceAttributeOutput` : [no documentation found]
-    public func modifyInstanceAttribute(input: ModifyInstanceAttributeInput) async throws -> ModifyInstanceAttributeOutput
-    {
+    public func modifyInstanceAttribute(input: ModifyInstanceAttributeInput) async throws -> ModifyInstanceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20539,8 +20044,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceCapacityReservationAttributesInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceCapacityReservationAttributesOutput` : [no documentation found]
-    public func modifyInstanceCapacityReservationAttributes(input: ModifyInstanceCapacityReservationAttributesInput) async throws -> ModifyInstanceCapacityReservationAttributesOutput
-    {
+    public func modifyInstanceCapacityReservationAttributes(input: ModifyInstanceCapacityReservationAttributesInput) async throws -> ModifyInstanceCapacityReservationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20580,8 +20084,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceCreditSpecificationInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceCreditSpecificationOutput` : [no documentation found]
-    public func modifyInstanceCreditSpecification(input: ModifyInstanceCreditSpecificationInput) async throws -> ModifyInstanceCreditSpecificationOutput
-    {
+    public func modifyInstanceCreditSpecification(input: ModifyInstanceCreditSpecificationInput) async throws -> ModifyInstanceCreditSpecificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20621,8 +20124,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceEventStartTimeInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceEventStartTimeOutput` : [no documentation found]
-    public func modifyInstanceEventStartTime(input: ModifyInstanceEventStartTimeInput) async throws -> ModifyInstanceEventStartTimeOutput
-    {
+    public func modifyInstanceEventStartTime(input: ModifyInstanceEventStartTimeInput) async throws -> ModifyInstanceEventStartTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20662,8 +20164,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceEventWindowInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceEventWindowOutput` : [no documentation found]
-    public func modifyInstanceEventWindow(input: ModifyInstanceEventWindowInput) async throws -> ModifyInstanceEventWindowOutput
-    {
+    public func modifyInstanceEventWindow(input: ModifyInstanceEventWindowInput) async throws -> ModifyInstanceEventWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20703,8 +20204,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceMaintenanceOptionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceMaintenanceOptionsOutput` : [no documentation found]
-    public func modifyInstanceMaintenanceOptions(input: ModifyInstanceMaintenanceOptionsInput) async throws -> ModifyInstanceMaintenanceOptionsOutput
-    {
+    public func modifyInstanceMaintenanceOptions(input: ModifyInstanceMaintenanceOptionsInput) async throws -> ModifyInstanceMaintenanceOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20744,8 +20244,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstanceMetadataOptionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstanceMetadataOptionsOutput` : [no documentation found]
-    public func modifyInstanceMetadataOptions(input: ModifyInstanceMetadataOptionsInput) async throws -> ModifyInstanceMetadataOptionsOutput
-    {
+    public func modifyInstanceMetadataOptions(input: ModifyInstanceMetadataOptionsInput) async throws -> ModifyInstanceMetadataOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20796,8 +20295,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyInstancePlacementInput : [no documentation found]
     ///
     /// - Returns: `ModifyInstancePlacementOutput` : [no documentation found]
-    public func modifyInstancePlacement(input: ModifyInstancePlacementInput) async throws -> ModifyInstancePlacementOutput
-    {
+    public func modifyInstancePlacement(input: ModifyInstancePlacementInput) async throws -> ModifyInstancePlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20837,8 +20335,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIpamInput : [no documentation found]
     ///
     /// - Returns: `ModifyIpamOutput` : [no documentation found]
-    public func modifyIpam(input: ModifyIpamInput) async throws -> ModifyIpamOutput
-    {
+    public func modifyIpam(input: ModifyIpamInput) async throws -> ModifyIpamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20878,8 +20375,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIpamPoolInput : [no documentation found]
     ///
     /// - Returns: `ModifyIpamPoolOutput` : [no documentation found]
-    public func modifyIpamPool(input: ModifyIpamPoolInput) async throws -> ModifyIpamPoolOutput
-    {
+    public func modifyIpamPool(input: ModifyIpamPoolInput) async throws -> ModifyIpamPoolOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20919,8 +20415,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIpamResourceCidrInput : [no documentation found]
     ///
     /// - Returns: `ModifyIpamResourceCidrOutput` : [no documentation found]
-    public func modifyIpamResourceCidr(input: ModifyIpamResourceCidrInput) async throws -> ModifyIpamResourceCidrOutput
-    {
+    public func modifyIpamResourceCidr(input: ModifyIpamResourceCidrInput) async throws -> ModifyIpamResourceCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -20960,8 +20455,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIpamResourceDiscoveryInput : [no documentation found]
     ///
     /// - Returns: `ModifyIpamResourceDiscoveryOutput` : [no documentation found]
-    public func modifyIpamResourceDiscovery(input: ModifyIpamResourceDiscoveryInput) async throws -> ModifyIpamResourceDiscoveryOutput
-    {
+    public func modifyIpamResourceDiscovery(input: ModifyIpamResourceDiscoveryInput) async throws -> ModifyIpamResourceDiscoveryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21001,8 +20495,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyIpamScopeInput : [no documentation found]
     ///
     /// - Returns: `ModifyIpamScopeOutput` : [no documentation found]
-    public func modifyIpamScope(input: ModifyIpamScopeInput) async throws -> ModifyIpamScopeOutput
-    {
+    public func modifyIpamScope(input: ModifyIpamScopeInput) async throws -> ModifyIpamScopeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21042,8 +20535,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyLaunchTemplateInput : [no documentation found]
     ///
     /// - Returns: `ModifyLaunchTemplateOutput` : [no documentation found]
-    public func modifyLaunchTemplate(input: ModifyLaunchTemplateInput) async throws -> ModifyLaunchTemplateOutput
-    {
+    public func modifyLaunchTemplate(input: ModifyLaunchTemplateInput) async throws -> ModifyLaunchTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21083,8 +20575,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyLocalGatewayRouteInput : [no documentation found]
     ///
     /// - Returns: `ModifyLocalGatewayRouteOutput` : [no documentation found]
-    public func modifyLocalGatewayRoute(input: ModifyLocalGatewayRouteInput) async throws -> ModifyLocalGatewayRouteOutput
-    {
+    public func modifyLocalGatewayRoute(input: ModifyLocalGatewayRouteInput) async throws -> ModifyLocalGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21124,8 +20615,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyManagedPrefixListInput : [no documentation found]
     ///
     /// - Returns: `ModifyManagedPrefixListOutput` : [no documentation found]
-    public func modifyManagedPrefixList(input: ModifyManagedPrefixListInput) async throws -> ModifyManagedPrefixListOutput
-    {
+    public func modifyManagedPrefixList(input: ModifyManagedPrefixListInput) async throws -> ModifyManagedPrefixListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21165,8 +20655,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyNetworkInterfaceAttributeInput : Contains the parameters for ModifyNetworkInterfaceAttribute.
     ///
     /// - Returns: `ModifyNetworkInterfaceAttributeOutput` : [no documentation found]
-    public func modifyNetworkInterfaceAttribute(input: ModifyNetworkInterfaceAttributeInput) async throws -> ModifyNetworkInterfaceAttributeOutput
-    {
+    public func modifyNetworkInterfaceAttribute(input: ModifyNetworkInterfaceAttributeInput) async throws -> ModifyNetworkInterfaceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21206,8 +20695,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyPrivateDnsNameOptionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyPrivateDnsNameOptionsOutput` : [no documentation found]
-    public func modifyPrivateDnsNameOptions(input: ModifyPrivateDnsNameOptionsInput) async throws -> ModifyPrivateDnsNameOptionsOutput
-    {
+    public func modifyPrivateDnsNameOptions(input: ModifyPrivateDnsNameOptionsInput) async throws -> ModifyPrivateDnsNameOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21247,8 +20735,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyReservedInstancesInput : Contains the parameters for ModifyReservedInstances.
     ///
     /// - Returns: `ModifyReservedInstancesOutput` : Contains the output of ModifyReservedInstances.
-    public func modifyReservedInstances(input: ModifyReservedInstancesInput) async throws -> ModifyReservedInstancesOutput
-    {
+    public func modifyReservedInstances(input: ModifyReservedInstancesInput) async throws -> ModifyReservedInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21288,8 +20775,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifySecurityGroupRulesInput : [no documentation found]
     ///
     /// - Returns: `ModifySecurityGroupRulesOutput` : [no documentation found]
-    public func modifySecurityGroupRules(input: ModifySecurityGroupRulesInput) async throws -> ModifySecurityGroupRulesOutput
-    {
+    public func modifySecurityGroupRules(input: ModifySecurityGroupRulesInput) async throws -> ModifySecurityGroupRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21329,8 +20815,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifySnapshotAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifySnapshotAttributeOutput` : [no documentation found]
-    public func modifySnapshotAttribute(input: ModifySnapshotAttributeInput) async throws -> ModifySnapshotAttributeOutput
-    {
+    public func modifySnapshotAttribute(input: ModifySnapshotAttributeInput) async throws -> ModifySnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21370,8 +20855,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifySnapshotTierInput : [no documentation found]
     ///
     /// - Returns: `ModifySnapshotTierOutput` : [no documentation found]
-    public func modifySnapshotTier(input: ModifySnapshotTierInput) async throws -> ModifySnapshotTierOutput
-    {
+    public func modifySnapshotTier(input: ModifySnapshotTierInput) async throws -> ModifySnapshotTierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21411,8 +20895,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifySpotFleetRequestInput : Contains the parameters for ModifySpotFleetRequest.
     ///
     /// - Returns: `ModifySpotFleetRequestOutput` : Contains the output of ModifySpotFleetRequest.
-    public func modifySpotFleetRequest(input: ModifySpotFleetRequestInput) async throws -> ModifySpotFleetRequestOutput
-    {
+    public func modifySpotFleetRequest(input: ModifySpotFleetRequestInput) async throws -> ModifySpotFleetRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21463,8 +20946,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifySubnetAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifySubnetAttributeOutput` : [no documentation found]
-    public func modifySubnetAttribute(input: ModifySubnetAttributeInput) async throws -> ModifySubnetAttributeOutput
-    {
+    public func modifySubnetAttribute(input: ModifySubnetAttributeInput) async throws -> ModifySubnetAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21504,8 +20986,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyTrafficMirrorFilterNetworkServicesInput : [no documentation found]
     ///
     /// - Returns: `ModifyTrafficMirrorFilterNetworkServicesOutput` : [no documentation found]
-    public func modifyTrafficMirrorFilterNetworkServices(input: ModifyTrafficMirrorFilterNetworkServicesInput) async throws -> ModifyTrafficMirrorFilterNetworkServicesOutput
-    {
+    public func modifyTrafficMirrorFilterNetworkServices(input: ModifyTrafficMirrorFilterNetworkServicesInput) async throws -> ModifyTrafficMirrorFilterNetworkServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21545,8 +21026,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyTrafficMirrorFilterRuleInput : [no documentation found]
     ///
     /// - Returns: `ModifyTrafficMirrorFilterRuleOutput` : [no documentation found]
-    public func modifyTrafficMirrorFilterRule(input: ModifyTrafficMirrorFilterRuleInput) async throws -> ModifyTrafficMirrorFilterRuleOutput
-    {
+    public func modifyTrafficMirrorFilterRule(input: ModifyTrafficMirrorFilterRuleInput) async throws -> ModifyTrafficMirrorFilterRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21586,8 +21066,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyTrafficMirrorSessionInput : [no documentation found]
     ///
     /// - Returns: `ModifyTrafficMirrorSessionOutput` : [no documentation found]
-    public func modifyTrafficMirrorSession(input: ModifyTrafficMirrorSessionInput) async throws -> ModifyTrafficMirrorSessionOutput
-    {
+    public func modifyTrafficMirrorSession(input: ModifyTrafficMirrorSessionInput) async throws -> ModifyTrafficMirrorSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21627,8 +21106,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyTransitGatewayInput : [no documentation found]
     ///
     /// - Returns: `ModifyTransitGatewayOutput` : [no documentation found]
-    public func modifyTransitGateway(input: ModifyTransitGatewayInput) async throws -> ModifyTransitGatewayOutput
-    {
+    public func modifyTransitGateway(input: ModifyTransitGatewayInput) async throws -> ModifyTransitGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21668,8 +21146,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyTransitGatewayPrefixListReferenceInput : [no documentation found]
     ///
     /// - Returns: `ModifyTransitGatewayPrefixListReferenceOutput` : [no documentation found]
-    public func modifyTransitGatewayPrefixListReference(input: ModifyTransitGatewayPrefixListReferenceInput) async throws -> ModifyTransitGatewayPrefixListReferenceOutput
-    {
+    public func modifyTransitGatewayPrefixListReference(input: ModifyTransitGatewayPrefixListReferenceInput) async throws -> ModifyTransitGatewayPrefixListReferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21709,8 +21186,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyTransitGatewayVpcAttachmentInput : [no documentation found]
     ///
     /// - Returns: `ModifyTransitGatewayVpcAttachmentOutput` : [no documentation found]
-    public func modifyTransitGatewayVpcAttachment(input: ModifyTransitGatewayVpcAttachmentInput) async throws -> ModifyTransitGatewayVpcAttachmentOutput
-    {
+    public func modifyTransitGatewayVpcAttachment(input: ModifyTransitGatewayVpcAttachmentInput) async throws -> ModifyTransitGatewayVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21750,8 +21226,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessEndpointInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessEndpointOutput` : [no documentation found]
-    public func modifyVerifiedAccessEndpoint(input: ModifyVerifiedAccessEndpointInput) async throws -> ModifyVerifiedAccessEndpointOutput
-    {
+    public func modifyVerifiedAccessEndpoint(input: ModifyVerifiedAccessEndpointInput) async throws -> ModifyVerifiedAccessEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21792,8 +21267,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessEndpointPolicyInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessEndpointPolicyOutput` : [no documentation found]
-    public func modifyVerifiedAccessEndpointPolicy(input: ModifyVerifiedAccessEndpointPolicyInput) async throws -> ModifyVerifiedAccessEndpointPolicyOutput
-    {
+    public func modifyVerifiedAccessEndpointPolicy(input: ModifyVerifiedAccessEndpointPolicyInput) async throws -> ModifyVerifiedAccessEndpointPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21834,8 +21308,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessGroupInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessGroupOutput` : [no documentation found]
-    public func modifyVerifiedAccessGroup(input: ModifyVerifiedAccessGroupInput) async throws -> ModifyVerifiedAccessGroupOutput
-    {
+    public func modifyVerifiedAccessGroup(input: ModifyVerifiedAccessGroupInput) async throws -> ModifyVerifiedAccessGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21876,8 +21349,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessGroupPolicyInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessGroupPolicyOutput` : [no documentation found]
-    public func modifyVerifiedAccessGroupPolicy(input: ModifyVerifiedAccessGroupPolicyInput) async throws -> ModifyVerifiedAccessGroupPolicyOutput
-    {
+    public func modifyVerifiedAccessGroupPolicy(input: ModifyVerifiedAccessGroupPolicyInput) async throws -> ModifyVerifiedAccessGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21918,8 +21390,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessInstanceInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessInstanceOutput` : [no documentation found]
-    public func modifyVerifiedAccessInstance(input: ModifyVerifiedAccessInstanceInput) async throws -> ModifyVerifiedAccessInstanceOutput
-    {
+    public func modifyVerifiedAccessInstance(input: ModifyVerifiedAccessInstanceInput) async throws -> ModifyVerifiedAccessInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -21960,8 +21431,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessInstanceLoggingConfigurationInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessInstanceLoggingConfigurationOutput` : [no documentation found]
-    public func modifyVerifiedAccessInstanceLoggingConfiguration(input: ModifyVerifiedAccessInstanceLoggingConfigurationInput) async throws -> ModifyVerifiedAccessInstanceLoggingConfigurationOutput
-    {
+    public func modifyVerifiedAccessInstanceLoggingConfiguration(input: ModifyVerifiedAccessInstanceLoggingConfigurationInput) async throws -> ModifyVerifiedAccessInstanceLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22002,8 +21472,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVerifiedAccessTrustProviderInput : [no documentation found]
     ///
     /// - Returns: `ModifyVerifiedAccessTrustProviderOutput` : [no documentation found]
-    public func modifyVerifiedAccessTrustProvider(input: ModifyVerifiedAccessTrustProviderInput) async throws -> ModifyVerifiedAccessTrustProviderOutput
-    {
+    public func modifyVerifiedAccessTrustProvider(input: ModifyVerifiedAccessTrustProviderInput) async throws -> ModifyVerifiedAccessTrustProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22044,8 +21513,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVolumeInput : [no documentation found]
     ///
     /// - Returns: `ModifyVolumeOutput` : [no documentation found]
-    public func modifyVolume(input: ModifyVolumeInput) async throws -> ModifyVolumeOutput
-    {
+    public func modifyVolume(input: ModifyVolumeInput) async throws -> ModifyVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22085,8 +21553,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVolumeAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifyVolumeAttributeOutput` : [no documentation found]
-    public func modifyVolumeAttribute(input: ModifyVolumeAttributeInput) async throws -> ModifyVolumeAttributeOutput
-    {
+    public func modifyVolumeAttribute(input: ModifyVolumeAttributeInput) async throws -> ModifyVolumeAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22126,8 +21593,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcAttributeInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcAttributeOutput` : [no documentation found]
-    public func modifyVpcAttribute(input: ModifyVpcAttributeInput) async throws -> ModifyVpcAttributeOutput
-    {
+    public func modifyVpcAttribute(input: ModifyVpcAttributeInput) async throws -> ModifyVpcAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22167,8 +21633,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcEndpointInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcEndpointOutput` : [no documentation found]
-    public func modifyVpcEndpoint(input: ModifyVpcEndpointInput) async throws -> ModifyVpcEndpointOutput
-    {
+    public func modifyVpcEndpoint(input: ModifyVpcEndpointInput) async throws -> ModifyVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22208,8 +21673,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcEndpointConnectionNotificationInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcEndpointConnectionNotificationOutput` : [no documentation found]
-    public func modifyVpcEndpointConnectionNotification(input: ModifyVpcEndpointConnectionNotificationInput) async throws -> ModifyVpcEndpointConnectionNotificationOutput
-    {
+    public func modifyVpcEndpointConnectionNotification(input: ModifyVpcEndpointConnectionNotificationInput) async throws -> ModifyVpcEndpointConnectionNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22249,8 +21713,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcEndpointServiceConfigurationInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcEndpointServiceConfigurationOutput` : [no documentation found]
-    public func modifyVpcEndpointServiceConfiguration(input: ModifyVpcEndpointServiceConfigurationInput) async throws -> ModifyVpcEndpointServiceConfigurationOutput
-    {
+    public func modifyVpcEndpointServiceConfiguration(input: ModifyVpcEndpointServiceConfigurationInput) async throws -> ModifyVpcEndpointServiceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22290,8 +21753,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcEndpointServicePayerResponsibilityInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcEndpointServicePayerResponsibilityOutput` : [no documentation found]
-    public func modifyVpcEndpointServicePayerResponsibility(input: ModifyVpcEndpointServicePayerResponsibilityInput) async throws -> ModifyVpcEndpointServicePayerResponsibilityOutput
-    {
+    public func modifyVpcEndpointServicePayerResponsibility(input: ModifyVpcEndpointServicePayerResponsibilityInput) async throws -> ModifyVpcEndpointServicePayerResponsibilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22331,8 +21793,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcEndpointServicePermissionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcEndpointServicePermissionsOutput` : [no documentation found]
-    public func modifyVpcEndpointServicePermissions(input: ModifyVpcEndpointServicePermissionsInput) async throws -> ModifyVpcEndpointServicePermissionsOutput
-    {
+    public func modifyVpcEndpointServicePermissions(input: ModifyVpcEndpointServicePermissionsInput) async throws -> ModifyVpcEndpointServicePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22372,8 +21833,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcPeeringConnectionOptionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcPeeringConnectionOptionsOutput` : [no documentation found]
-    public func modifyVpcPeeringConnectionOptions(input: ModifyVpcPeeringConnectionOptionsInput) async throws -> ModifyVpcPeeringConnectionOptionsOutput
-    {
+    public func modifyVpcPeeringConnectionOptions(input: ModifyVpcPeeringConnectionOptionsInput) async throws -> ModifyVpcPeeringConnectionOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22413,8 +21873,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpcTenancyInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpcTenancyOutput` : [no documentation found]
-    public func modifyVpcTenancy(input: ModifyVpcTenancyInput) async throws -> ModifyVpcTenancyOutput
-    {
+    public func modifyVpcTenancy(input: ModifyVpcTenancyInput) async throws -> ModifyVpcTenancyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22465,8 +21924,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpnConnectionInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpnConnectionOutput` : [no documentation found]
-    public func modifyVpnConnection(input: ModifyVpnConnectionInput) async throws -> ModifyVpnConnectionOutput
-    {
+    public func modifyVpnConnection(input: ModifyVpnConnectionInput) async throws -> ModifyVpnConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22506,8 +21964,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpnConnectionOptionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpnConnectionOptionsOutput` : [no documentation found]
-    public func modifyVpnConnectionOptions(input: ModifyVpnConnectionOptionsInput) async throws -> ModifyVpnConnectionOptionsOutput
-    {
+    public func modifyVpnConnectionOptions(input: ModifyVpnConnectionOptionsInput) async throws -> ModifyVpnConnectionOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22547,8 +22004,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpnTunnelCertificateInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpnTunnelCertificateOutput` : [no documentation found]
-    public func modifyVpnTunnelCertificate(input: ModifyVpnTunnelCertificateInput) async throws -> ModifyVpnTunnelCertificateOutput
-    {
+    public func modifyVpnTunnelCertificate(input: ModifyVpnTunnelCertificateInput) async throws -> ModifyVpnTunnelCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22588,8 +22044,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ModifyVpnTunnelOptionsInput : [no documentation found]
     ///
     /// - Returns: `ModifyVpnTunnelOptionsOutput` : [no documentation found]
-    public func modifyVpnTunnelOptions(input: ModifyVpnTunnelOptionsInput) async throws -> ModifyVpnTunnelOptionsOutput
-    {
+    public func modifyVpnTunnelOptions(input: ModifyVpnTunnelOptionsInput) async throws -> ModifyVpnTunnelOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22629,8 +22084,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter MonitorInstancesInput : [no documentation found]
     ///
     /// - Returns: `MonitorInstancesOutput` : [no documentation found]
-    public func monitorInstances(input: MonitorInstancesInput) async throws -> MonitorInstancesOutput
-    {
+    public func monitorInstances(input: MonitorInstancesInput) async throws -> MonitorInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22670,8 +22124,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter MoveAddressToVpcInput : [no documentation found]
     ///
     /// - Returns: `MoveAddressToVpcOutput` : [no documentation found]
-    public func moveAddressToVpc(input: MoveAddressToVpcInput) async throws -> MoveAddressToVpcOutput
-    {
+    public func moveAddressToVpc(input: MoveAddressToVpcInput) async throws -> MoveAddressToVpcOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22711,8 +22164,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter MoveByoipCidrToIpamInput : [no documentation found]
     ///
     /// - Returns: `MoveByoipCidrToIpamOutput` : [no documentation found]
-    public func moveByoipCidrToIpam(input: MoveByoipCidrToIpamInput) async throws -> MoveByoipCidrToIpamOutput
-    {
+    public func moveByoipCidrToIpam(input: MoveByoipCidrToIpamInput) async throws -> MoveByoipCidrToIpamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22752,8 +22204,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ProvisionByoipCidrInput : [no documentation found]
     ///
     /// - Returns: `ProvisionByoipCidrOutput` : [no documentation found]
-    public func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput
-    {
+    public func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22793,8 +22244,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ProvisionIpamByoasnInput : [no documentation found]
     ///
     /// - Returns: `ProvisionIpamByoasnOutput` : [no documentation found]
-    public func provisionIpamByoasn(input: ProvisionIpamByoasnInput) async throws -> ProvisionIpamByoasnOutput
-    {
+    public func provisionIpamByoasn(input: ProvisionIpamByoasnInput) async throws -> ProvisionIpamByoasnOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22834,8 +22284,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ProvisionIpamPoolCidrInput : [no documentation found]
     ///
     /// - Returns: `ProvisionIpamPoolCidrOutput` : [no documentation found]
-    public func provisionIpamPoolCidr(input: ProvisionIpamPoolCidrInput) async throws -> ProvisionIpamPoolCidrOutput
-    {
+    public func provisionIpamPoolCidr(input: ProvisionIpamPoolCidrInput) async throws -> ProvisionIpamPoolCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22876,8 +22325,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ProvisionPublicIpv4PoolCidrInput : [no documentation found]
     ///
     /// - Returns: `ProvisionPublicIpv4PoolCidrOutput` : [no documentation found]
-    public func provisionPublicIpv4PoolCidr(input: ProvisionPublicIpv4PoolCidrInput) async throws -> ProvisionPublicIpv4PoolCidrOutput
-    {
+    public func provisionPublicIpv4PoolCidr(input: ProvisionPublicIpv4PoolCidrInput) async throws -> ProvisionPublicIpv4PoolCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22917,8 +22365,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter PurchaseCapacityBlockInput : [no documentation found]
     ///
     /// - Returns: `PurchaseCapacityBlockOutput` : [no documentation found]
-    public func purchaseCapacityBlock(input: PurchaseCapacityBlockInput) async throws -> PurchaseCapacityBlockOutput
-    {
+    public func purchaseCapacityBlock(input: PurchaseCapacityBlockInput) async throws -> PurchaseCapacityBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22958,8 +22405,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter PurchaseHostReservationInput : [no documentation found]
     ///
     /// - Returns: `PurchaseHostReservationOutput` : [no documentation found]
-    public func purchaseHostReservation(input: PurchaseHostReservationInput) async throws -> PurchaseHostReservationOutput
-    {
+    public func purchaseHostReservation(input: PurchaseHostReservationInput) async throws -> PurchaseHostReservationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -22999,8 +22445,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter PurchaseReservedInstancesOfferingInput : Contains the parameters for PurchaseReservedInstancesOffering.
     ///
     /// - Returns: `PurchaseReservedInstancesOfferingOutput` : Contains the output of PurchaseReservedInstancesOffering.
-    public func purchaseReservedInstancesOffering(input: PurchaseReservedInstancesOfferingInput) async throws -> PurchaseReservedInstancesOfferingOutput
-    {
+    public func purchaseReservedInstancesOffering(input: PurchaseReservedInstancesOfferingInput) async throws -> PurchaseReservedInstancesOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23040,8 +22485,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter PurchaseScheduledInstancesInput : Contains the parameters for PurchaseScheduledInstances.
     ///
     /// - Returns: `PurchaseScheduledInstancesOutput` : Contains the output of PurchaseScheduledInstances.
-    public func purchaseScheduledInstances(input: PurchaseScheduledInstancesInput) async throws -> PurchaseScheduledInstancesOutput
-    {
+    public func purchaseScheduledInstances(input: PurchaseScheduledInstancesInput) async throws -> PurchaseScheduledInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23082,8 +22526,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RebootInstancesInput : [no documentation found]
     ///
     /// - Returns: `RebootInstancesOutput` : [no documentation found]
-    public func rebootInstances(input: RebootInstancesInput) async throws -> RebootInstancesOutput
-    {
+    public func rebootInstances(input: RebootInstancesInput) async throws -> RebootInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23132,8 +22575,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RegisterImageInput : Contains the parameters for RegisterImage.
     ///
     /// - Returns: `RegisterImageOutput` : Contains the output of RegisterImage.
-    public func registerImage(input: RegisterImageInput) async throws -> RegisterImageOutput
-    {
+    public func registerImage(input: RegisterImageInput) async throws -> RegisterImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23173,8 +22615,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RegisterInstanceEventNotificationAttributesInput : [no documentation found]
     ///
     /// - Returns: `RegisterInstanceEventNotificationAttributesOutput` : [no documentation found]
-    public func registerInstanceEventNotificationAttributes(input: RegisterInstanceEventNotificationAttributesInput) async throws -> RegisterInstanceEventNotificationAttributesOutput
-    {
+    public func registerInstanceEventNotificationAttributes(input: RegisterInstanceEventNotificationAttributesInput) async throws -> RegisterInstanceEventNotificationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23214,8 +22655,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RegisterTransitGatewayMulticastGroupMembersInput : [no documentation found]
     ///
     /// - Returns: `RegisterTransitGatewayMulticastGroupMembersOutput` : [no documentation found]
-    public func registerTransitGatewayMulticastGroupMembers(input: RegisterTransitGatewayMulticastGroupMembersInput) async throws -> RegisterTransitGatewayMulticastGroupMembersOutput
-    {
+    public func registerTransitGatewayMulticastGroupMembers(input: RegisterTransitGatewayMulticastGroupMembersInput) async throws -> RegisterTransitGatewayMulticastGroupMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23255,8 +22695,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RegisterTransitGatewayMulticastGroupSourcesInput : [no documentation found]
     ///
     /// - Returns: `RegisterTransitGatewayMulticastGroupSourcesOutput` : [no documentation found]
-    public func registerTransitGatewayMulticastGroupSources(input: RegisterTransitGatewayMulticastGroupSourcesInput) async throws -> RegisterTransitGatewayMulticastGroupSourcesOutput
-    {
+    public func registerTransitGatewayMulticastGroupSources(input: RegisterTransitGatewayMulticastGroupSourcesInput) async throws -> RegisterTransitGatewayMulticastGroupSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23296,8 +22735,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RejectTransitGatewayMulticastDomainAssociationsInput : [no documentation found]
     ///
     /// - Returns: `RejectTransitGatewayMulticastDomainAssociationsOutput` : [no documentation found]
-    public func rejectTransitGatewayMulticastDomainAssociations(input: RejectTransitGatewayMulticastDomainAssociationsInput) async throws -> RejectTransitGatewayMulticastDomainAssociationsOutput
-    {
+    public func rejectTransitGatewayMulticastDomainAssociations(input: RejectTransitGatewayMulticastDomainAssociationsInput) async throws -> RejectTransitGatewayMulticastDomainAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23337,8 +22775,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RejectTransitGatewayPeeringAttachmentInput : [no documentation found]
     ///
     /// - Returns: `RejectTransitGatewayPeeringAttachmentOutput` : [no documentation found]
-    public func rejectTransitGatewayPeeringAttachment(input: RejectTransitGatewayPeeringAttachmentInput) async throws -> RejectTransitGatewayPeeringAttachmentOutput
-    {
+    public func rejectTransitGatewayPeeringAttachment(input: RejectTransitGatewayPeeringAttachmentInput) async throws -> RejectTransitGatewayPeeringAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23378,8 +22815,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RejectTransitGatewayVpcAttachmentInput : [no documentation found]
     ///
     /// - Returns: `RejectTransitGatewayVpcAttachmentOutput` : [no documentation found]
-    public func rejectTransitGatewayVpcAttachment(input: RejectTransitGatewayVpcAttachmentInput) async throws -> RejectTransitGatewayVpcAttachmentOutput
-    {
+    public func rejectTransitGatewayVpcAttachment(input: RejectTransitGatewayVpcAttachmentInput) async throws -> RejectTransitGatewayVpcAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23419,8 +22855,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RejectVpcEndpointConnectionsInput : [no documentation found]
     ///
     /// - Returns: `RejectVpcEndpointConnectionsOutput` : [no documentation found]
-    public func rejectVpcEndpointConnections(input: RejectVpcEndpointConnectionsInput) async throws -> RejectVpcEndpointConnectionsOutput
-    {
+    public func rejectVpcEndpointConnections(input: RejectVpcEndpointConnectionsInput) async throws -> RejectVpcEndpointConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23460,8 +22895,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RejectVpcPeeringConnectionInput : [no documentation found]
     ///
     /// - Returns: `RejectVpcPeeringConnectionOutput` : [no documentation found]
-    public func rejectVpcPeeringConnection(input: RejectVpcPeeringConnectionInput) async throws -> RejectVpcPeeringConnectionOutput
-    {
+    public func rejectVpcPeeringConnection(input: RejectVpcPeeringConnectionInput) async throws -> RejectVpcPeeringConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23501,8 +22935,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReleaseAddressInput : [no documentation found]
     ///
     /// - Returns: `ReleaseAddressOutput` : [no documentation found]
-    public func releaseAddress(input: ReleaseAddressInput) async throws -> ReleaseAddressOutput
-    {
+    public func releaseAddress(input: ReleaseAddressInput) async throws -> ReleaseAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23542,8 +22975,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReleaseHostsInput : [no documentation found]
     ///
     /// - Returns: `ReleaseHostsOutput` : [no documentation found]
-    public func releaseHosts(input: ReleaseHostsInput) async throws -> ReleaseHostsOutput
-    {
+    public func releaseHosts(input: ReleaseHostsInput) async throws -> ReleaseHostsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23583,8 +23015,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReleaseIpamPoolAllocationInput : [no documentation found]
     ///
     /// - Returns: `ReleaseIpamPoolAllocationOutput` : [no documentation found]
-    public func releaseIpamPoolAllocation(input: ReleaseIpamPoolAllocationInput) async throws -> ReleaseIpamPoolAllocationOutput
-    {
+    public func releaseIpamPoolAllocation(input: ReleaseIpamPoolAllocationInput) async throws -> ReleaseIpamPoolAllocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23624,8 +23055,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceIamInstanceProfileAssociationInput : [no documentation found]
     ///
     /// - Returns: `ReplaceIamInstanceProfileAssociationOutput` : [no documentation found]
-    public func replaceIamInstanceProfileAssociation(input: ReplaceIamInstanceProfileAssociationInput) async throws -> ReplaceIamInstanceProfileAssociationOutput
-    {
+    public func replaceIamInstanceProfileAssociation(input: ReplaceIamInstanceProfileAssociationInput) async throws -> ReplaceIamInstanceProfileAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23665,8 +23095,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceNetworkAclAssociationInput : [no documentation found]
     ///
     /// - Returns: `ReplaceNetworkAclAssociationOutput` : [no documentation found]
-    public func replaceNetworkAclAssociation(input: ReplaceNetworkAclAssociationInput) async throws -> ReplaceNetworkAclAssociationOutput
-    {
+    public func replaceNetworkAclAssociation(input: ReplaceNetworkAclAssociationInput) async throws -> ReplaceNetworkAclAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23706,8 +23135,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceNetworkAclEntryInput : [no documentation found]
     ///
     /// - Returns: `ReplaceNetworkAclEntryOutput` : [no documentation found]
-    public func replaceNetworkAclEntry(input: ReplaceNetworkAclEntryInput) async throws -> ReplaceNetworkAclEntryOutput
-    {
+    public func replaceNetworkAclEntry(input: ReplaceNetworkAclEntryInput) async throws -> ReplaceNetworkAclEntryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23747,8 +23175,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceRouteInput : [no documentation found]
     ///
     /// - Returns: `ReplaceRouteOutput` : [no documentation found]
-    public func replaceRoute(input: ReplaceRouteInput) async throws -> ReplaceRouteOutput
-    {
+    public func replaceRoute(input: ReplaceRouteInput) async throws -> ReplaceRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23788,8 +23215,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceRouteTableAssociationInput : [no documentation found]
     ///
     /// - Returns: `ReplaceRouteTableAssociationOutput` : [no documentation found]
-    public func replaceRouteTableAssociation(input: ReplaceRouteTableAssociationInput) async throws -> ReplaceRouteTableAssociationOutput
-    {
+    public func replaceRouteTableAssociation(input: ReplaceRouteTableAssociationInput) async throws -> ReplaceRouteTableAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23829,8 +23255,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceTransitGatewayRouteInput : [no documentation found]
     ///
     /// - Returns: `ReplaceTransitGatewayRouteOutput` : [no documentation found]
-    public func replaceTransitGatewayRoute(input: ReplaceTransitGatewayRouteInput) async throws -> ReplaceTransitGatewayRouteOutput
-    {
+    public func replaceTransitGatewayRoute(input: ReplaceTransitGatewayRouteInput) async throws -> ReplaceTransitGatewayRouteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23870,8 +23295,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReplaceVpnTunnelInput : [no documentation found]
     ///
     /// - Returns: `ReplaceVpnTunnelOutput` : [no documentation found]
-    public func replaceVpnTunnel(input: ReplaceVpnTunnelInput) async throws -> ReplaceVpnTunnelOutput
-    {
+    public func replaceVpnTunnel(input: ReplaceVpnTunnelInput) async throws -> ReplaceVpnTunnelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23911,8 +23335,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ReportInstanceStatusInput : [no documentation found]
     ///
     /// - Returns: `ReportInstanceStatusOutput` : [no documentation found]
-    public func reportInstanceStatus(input: ReportInstanceStatusInput) async throws -> ReportInstanceStatusOutput
-    {
+    public func reportInstanceStatus(input: ReportInstanceStatusInput) async throws -> ReportInstanceStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23952,8 +23375,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RequestSpotFleetInput : Contains the parameters for RequestSpotFleet.
     ///
     /// - Returns: `RequestSpotFleetOutput` : Contains the output of RequestSpotFleet.
-    public func requestSpotFleet(input: RequestSpotFleetInput) async throws -> RequestSpotFleetOutput
-    {
+    public func requestSpotFleet(input: RequestSpotFleetInput) async throws -> RequestSpotFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -23993,8 +23415,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RequestSpotInstancesInput : Contains the parameters for RequestSpotInstances.
     ///
     /// - Returns: `RequestSpotInstancesOutput` : Contains the output of RequestSpotInstances.
-    public func requestSpotInstances(input: RequestSpotInstancesInput) async throws -> RequestSpotInstancesOutput
-    {
+    public func requestSpotInstances(input: RequestSpotInstancesInput) async throws -> RequestSpotInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24034,8 +23455,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetAddressAttributeInput : [no documentation found]
     ///
     /// - Returns: `ResetAddressAttributeOutput` : [no documentation found]
-    public func resetAddressAttribute(input: ResetAddressAttributeInput) async throws -> ResetAddressAttributeOutput
-    {
+    public func resetAddressAttribute(input: ResetAddressAttributeInput) async throws -> ResetAddressAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24075,8 +23495,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetEbsDefaultKmsKeyIdInput : [no documentation found]
     ///
     /// - Returns: `ResetEbsDefaultKmsKeyIdOutput` : [no documentation found]
-    public func resetEbsDefaultKmsKeyId(input: ResetEbsDefaultKmsKeyIdInput) async throws -> ResetEbsDefaultKmsKeyIdOutput
-    {
+    public func resetEbsDefaultKmsKeyId(input: ResetEbsDefaultKmsKeyIdInput) async throws -> ResetEbsDefaultKmsKeyIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24116,8 +23535,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetFpgaImageAttributeInput : [no documentation found]
     ///
     /// - Returns: `ResetFpgaImageAttributeOutput` : [no documentation found]
-    public func resetFpgaImageAttribute(input: ResetFpgaImageAttributeInput) async throws -> ResetFpgaImageAttributeOutput
-    {
+    public func resetFpgaImageAttribute(input: ResetFpgaImageAttributeInput) async throws -> ResetFpgaImageAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24157,8 +23575,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetImageAttributeInput : Contains the parameters for ResetImageAttribute.
     ///
     /// - Returns: `ResetImageAttributeOutput` : [no documentation found]
-    public func resetImageAttribute(input: ResetImageAttributeInput) async throws -> ResetImageAttributeOutput
-    {
+    public func resetImageAttribute(input: ResetImageAttributeInput) async throws -> ResetImageAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24198,8 +23615,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetInstanceAttributeInput : [no documentation found]
     ///
     /// - Returns: `ResetInstanceAttributeOutput` : [no documentation found]
-    public func resetInstanceAttribute(input: ResetInstanceAttributeInput) async throws -> ResetInstanceAttributeOutput
-    {
+    public func resetInstanceAttribute(input: ResetInstanceAttributeInput) async throws -> ResetInstanceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24239,8 +23655,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetNetworkInterfaceAttributeInput : Contains the parameters for ResetNetworkInterfaceAttribute.
     ///
     /// - Returns: `ResetNetworkInterfaceAttributeOutput` : [no documentation found]
-    public func resetNetworkInterfaceAttribute(input: ResetNetworkInterfaceAttributeInput) async throws -> ResetNetworkInterfaceAttributeOutput
-    {
+    public func resetNetworkInterfaceAttribute(input: ResetNetworkInterfaceAttributeInput) async throws -> ResetNetworkInterfaceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24280,8 +23695,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter ResetSnapshotAttributeInput : [no documentation found]
     ///
     /// - Returns: `ResetSnapshotAttributeOutput` : [no documentation found]
-    public func resetSnapshotAttribute(input: ResetSnapshotAttributeInput) async throws -> ResetSnapshotAttributeOutput
-    {
+    public func resetSnapshotAttribute(input: ResetSnapshotAttributeInput) async throws -> ResetSnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24321,8 +23735,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RestoreAddressToClassicInput : [no documentation found]
     ///
     /// - Returns: `RestoreAddressToClassicOutput` : [no documentation found]
-    public func restoreAddressToClassic(input: RestoreAddressToClassicInput) async throws -> RestoreAddressToClassicOutput
-    {
+    public func restoreAddressToClassic(input: RestoreAddressToClassicInput) async throws -> RestoreAddressToClassicOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24362,8 +23775,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RestoreImageFromRecycleBinInput : [no documentation found]
     ///
     /// - Returns: `RestoreImageFromRecycleBinOutput` : [no documentation found]
-    public func restoreImageFromRecycleBin(input: RestoreImageFromRecycleBinInput) async throws -> RestoreImageFromRecycleBinOutput
-    {
+    public func restoreImageFromRecycleBin(input: RestoreImageFromRecycleBinInput) async throws -> RestoreImageFromRecycleBinOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24403,8 +23815,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RestoreManagedPrefixListVersionInput : [no documentation found]
     ///
     /// - Returns: `RestoreManagedPrefixListVersionOutput` : [no documentation found]
-    public func restoreManagedPrefixListVersion(input: RestoreManagedPrefixListVersionInput) async throws -> RestoreManagedPrefixListVersionOutput
-    {
+    public func restoreManagedPrefixListVersion(input: RestoreManagedPrefixListVersionInput) async throws -> RestoreManagedPrefixListVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24444,8 +23855,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RestoreSnapshotFromRecycleBinInput : [no documentation found]
     ///
     /// - Returns: `RestoreSnapshotFromRecycleBinOutput` : [no documentation found]
-    public func restoreSnapshotFromRecycleBin(input: RestoreSnapshotFromRecycleBinInput) async throws -> RestoreSnapshotFromRecycleBinOutput
-    {
+    public func restoreSnapshotFromRecycleBin(input: RestoreSnapshotFromRecycleBinInput) async throws -> RestoreSnapshotFromRecycleBinOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24485,8 +23895,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RestoreSnapshotTierInput : [no documentation found]
     ///
     /// - Returns: `RestoreSnapshotTierOutput` : [no documentation found]
-    public func restoreSnapshotTier(input: RestoreSnapshotTierInput) async throws -> RestoreSnapshotTierOutput
-    {
+    public func restoreSnapshotTier(input: RestoreSnapshotTierInput) async throws -> RestoreSnapshotTierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24526,8 +23935,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RevokeClientVpnIngressInput : [no documentation found]
     ///
     /// - Returns: `RevokeClientVpnIngressOutput` : [no documentation found]
-    public func revokeClientVpnIngress(input: RevokeClientVpnIngressInput) async throws -> RevokeClientVpnIngressOutput
-    {
+    public func revokeClientVpnIngress(input: RevokeClientVpnIngressInput) async throws -> RevokeClientVpnIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24567,8 +23975,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RevokeSecurityGroupEgressInput : [no documentation found]
     ///
     /// - Returns: `RevokeSecurityGroupEgressOutput` : [no documentation found]
-    public func revokeSecurityGroupEgress(input: RevokeSecurityGroupEgressInput) async throws -> RevokeSecurityGroupEgressOutput
-    {
+    public func revokeSecurityGroupEgress(input: RevokeSecurityGroupEgressInput) async throws -> RevokeSecurityGroupEgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24608,8 +24015,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RevokeSecurityGroupIngressInput : [no documentation found]
     ///
     /// - Returns: `RevokeSecurityGroupIngressOutput` : [no documentation found]
-    public func revokeSecurityGroupIngress(input: RevokeSecurityGroupIngressInput) async throws -> RevokeSecurityGroupIngressOutput
-    {
+    public func revokeSecurityGroupIngress(input: RevokeSecurityGroupIngressInput) async throws -> RevokeSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24662,8 +24068,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RunInstancesInput : [no documentation found]
     ///
     /// - Returns: `RunInstancesOutput` : Describes a launch request for one or more instances, and includes owner, requester, and security group information that applies to all instances in the launch request.
-    public func runInstances(input: RunInstancesInput) async throws -> RunInstancesOutput
-    {
+    public func runInstances(input: RunInstancesInput) async throws -> RunInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24704,8 +24109,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter RunScheduledInstancesInput : Contains the parameters for RunScheduledInstances.
     ///
     /// - Returns: `RunScheduledInstancesOutput` : Contains the output of RunScheduledInstances.
-    public func runScheduledInstances(input: RunScheduledInstancesInput) async throws -> RunScheduledInstancesOutput
-    {
+    public func runScheduledInstances(input: RunScheduledInstancesInput) async throws -> RunScheduledInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24746,8 +24150,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter SearchLocalGatewayRoutesInput : [no documentation found]
     ///
     /// - Returns: `SearchLocalGatewayRoutesOutput` : [no documentation found]
-    public func searchLocalGatewayRoutes(input: SearchLocalGatewayRoutesInput) async throws -> SearchLocalGatewayRoutesOutput
-    {
+    public func searchLocalGatewayRoutes(input: SearchLocalGatewayRoutesInput) async throws -> SearchLocalGatewayRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24787,8 +24190,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter SearchTransitGatewayMulticastGroupsInput : [no documentation found]
     ///
     /// - Returns: `SearchTransitGatewayMulticastGroupsOutput` : [no documentation found]
-    public func searchTransitGatewayMulticastGroups(input: SearchTransitGatewayMulticastGroupsInput) async throws -> SearchTransitGatewayMulticastGroupsOutput
-    {
+    public func searchTransitGatewayMulticastGroups(input: SearchTransitGatewayMulticastGroupsInput) async throws -> SearchTransitGatewayMulticastGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24828,8 +24230,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter SearchTransitGatewayRoutesInput : [no documentation found]
     ///
     /// - Returns: `SearchTransitGatewayRoutesOutput` : [no documentation found]
-    public func searchTransitGatewayRoutes(input: SearchTransitGatewayRoutesInput) async throws -> SearchTransitGatewayRoutesOutput
-    {
+    public func searchTransitGatewayRoutes(input: SearchTransitGatewayRoutesInput) async throws -> SearchTransitGatewayRoutesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24869,8 +24270,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter SendDiagnosticInterruptInput : [no documentation found]
     ///
     /// - Returns: `SendDiagnosticInterruptOutput` : [no documentation found]
-    public func sendDiagnosticInterrupt(input: SendDiagnosticInterruptInput) async throws -> SendDiagnosticInterruptOutput
-    {
+    public func sendDiagnosticInterrupt(input: SendDiagnosticInterruptInput) async throws -> SendDiagnosticInterruptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24910,8 +24310,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter StartInstancesInput : [no documentation found]
     ///
     /// - Returns: `StartInstancesOutput` : [no documentation found]
-    public func startInstances(input: StartInstancesInput) async throws -> StartInstancesOutput
-    {
+    public func startInstances(input: StartInstancesInput) async throws -> StartInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24951,8 +24350,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter StartNetworkInsightsAccessScopeAnalysisInput : [no documentation found]
     ///
     /// - Returns: `StartNetworkInsightsAccessScopeAnalysisOutput` : [no documentation found]
-    public func startNetworkInsightsAccessScopeAnalysis(input: StartNetworkInsightsAccessScopeAnalysisInput) async throws -> StartNetworkInsightsAccessScopeAnalysisOutput
-    {
+    public func startNetworkInsightsAccessScopeAnalysis(input: StartNetworkInsightsAccessScopeAnalysisInput) async throws -> StartNetworkInsightsAccessScopeAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -24993,8 +24391,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter StartNetworkInsightsAnalysisInput : [no documentation found]
     ///
     /// - Returns: `StartNetworkInsightsAnalysisOutput` : [no documentation found]
-    public func startNetworkInsightsAnalysis(input: StartNetworkInsightsAnalysisInput) async throws -> StartNetworkInsightsAnalysisOutput
-    {
+    public func startNetworkInsightsAnalysis(input: StartNetworkInsightsAnalysisInput) async throws -> StartNetworkInsightsAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25035,8 +24432,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter StartVpcEndpointServicePrivateDnsVerificationInput : [no documentation found]
     ///
     /// - Returns: `StartVpcEndpointServicePrivateDnsVerificationOutput` : [no documentation found]
-    public func startVpcEndpointServicePrivateDnsVerification(input: StartVpcEndpointServicePrivateDnsVerificationInput) async throws -> StartVpcEndpointServicePrivateDnsVerificationOutput
-    {
+    public func startVpcEndpointServicePrivateDnsVerification(input: StartVpcEndpointServicePrivateDnsVerificationInput) async throws -> StartVpcEndpointServicePrivateDnsVerificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25076,8 +24472,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter StopInstancesInput : [no documentation found]
     ///
     /// - Returns: `StopInstancesOutput` : [no documentation found]
-    public func stopInstances(input: StopInstancesInput) async throws -> StopInstancesOutput
-    {
+    public func stopInstances(input: StopInstancesInput) async throws -> StopInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25117,8 +24512,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter TerminateClientVpnConnectionsInput : [no documentation found]
     ///
     /// - Returns: `TerminateClientVpnConnectionsOutput` : [no documentation found]
-    public func terminateClientVpnConnections(input: TerminateClientVpnConnectionsInput) async throws -> TerminateClientVpnConnectionsOutput
-    {
+    public func terminateClientVpnConnections(input: TerminateClientVpnConnectionsInput) async throws -> TerminateClientVpnConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25183,8 +24577,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter TerminateInstancesInput : [no documentation found]
     ///
     /// - Returns: `TerminateInstancesOutput` : [no documentation found]
-    public func terminateInstances(input: TerminateInstancesInput) async throws -> TerminateInstancesOutput
-    {
+    public func terminateInstances(input: TerminateInstancesInput) async throws -> TerminateInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25224,8 +24617,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UnassignIpv6AddressesInput : [no documentation found]
     ///
     /// - Returns: `UnassignIpv6AddressesOutput` : [no documentation found]
-    public func unassignIpv6Addresses(input: UnassignIpv6AddressesInput) async throws -> UnassignIpv6AddressesOutput
-    {
+    public func unassignIpv6Addresses(input: UnassignIpv6AddressesInput) async throws -> UnassignIpv6AddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25265,8 +24657,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UnassignPrivateIpAddressesInput : Contains the parameters for UnassignPrivateIpAddresses.
     ///
     /// - Returns: `UnassignPrivateIpAddressesOutput` : [no documentation found]
-    public func unassignPrivateIpAddresses(input: UnassignPrivateIpAddressesInput) async throws -> UnassignPrivateIpAddressesOutput
-    {
+    public func unassignPrivateIpAddresses(input: UnassignPrivateIpAddressesInput) async throws -> UnassignPrivateIpAddressesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25306,8 +24697,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UnassignPrivateNatGatewayAddressInput : [no documentation found]
     ///
     /// - Returns: `UnassignPrivateNatGatewayAddressOutput` : [no documentation found]
-    public func unassignPrivateNatGatewayAddress(input: UnassignPrivateNatGatewayAddressInput) async throws -> UnassignPrivateNatGatewayAddressOutput
-    {
+    public func unassignPrivateNatGatewayAddress(input: UnassignPrivateNatGatewayAddressInput) async throws -> UnassignPrivateNatGatewayAddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25347,8 +24737,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UnlockSnapshotInput : [no documentation found]
     ///
     /// - Returns: `UnlockSnapshotOutput` : [no documentation found]
-    public func unlockSnapshot(input: UnlockSnapshotInput) async throws -> UnlockSnapshotOutput
-    {
+    public func unlockSnapshot(input: UnlockSnapshotInput) async throws -> UnlockSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25388,8 +24777,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UnmonitorInstancesInput : [no documentation found]
     ///
     /// - Returns: `UnmonitorInstancesOutput` : [no documentation found]
-    public func unmonitorInstances(input: UnmonitorInstancesInput) async throws -> UnmonitorInstancesOutput
-    {
+    public func unmonitorInstances(input: UnmonitorInstancesInput) async throws -> UnmonitorInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25429,8 +24817,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UpdateSecurityGroupRuleDescriptionsEgressInput : [no documentation found]
     ///
     /// - Returns: `UpdateSecurityGroupRuleDescriptionsEgressOutput` : [no documentation found]
-    public func updateSecurityGroupRuleDescriptionsEgress(input: UpdateSecurityGroupRuleDescriptionsEgressInput) async throws -> UpdateSecurityGroupRuleDescriptionsEgressOutput
-    {
+    public func updateSecurityGroupRuleDescriptionsEgress(input: UpdateSecurityGroupRuleDescriptionsEgressInput) async throws -> UpdateSecurityGroupRuleDescriptionsEgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25470,8 +24857,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter UpdateSecurityGroupRuleDescriptionsIngressInput : [no documentation found]
     ///
     /// - Returns: `UpdateSecurityGroupRuleDescriptionsIngressOutput` : [no documentation found]
-    public func updateSecurityGroupRuleDescriptionsIngress(input: UpdateSecurityGroupRuleDescriptionsIngressInput) async throws -> UpdateSecurityGroupRuleDescriptionsIngressOutput
-    {
+    public func updateSecurityGroupRuleDescriptionsIngress(input: UpdateSecurityGroupRuleDescriptionsIngressInput) async throws -> UpdateSecurityGroupRuleDescriptionsIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -25511,8 +24897,7 @@ extension EC2Client: EC2ClientProtocol {
     /// - Parameter WithdrawByoipCidrInput : [no documentation found]
     ///
     /// - Returns: `WithdrawByoipCidrOutput` : [no documentation found]
-    public func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutput
-    {
+    public func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

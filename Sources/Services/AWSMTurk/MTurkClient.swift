@@ -66,7 +66,7 @@ public struct MTurkClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension MTurkClient: MTurkClientProtocol {
+extension MTurkClient {
     /// Performs the `AcceptQualificationRequest` operation on the `MTurkRequesterServiceV20170117` service.
     ///
     /// The AcceptQualificationRequest operation approves a Worker's request for a Qualification. Only the owner of the Qualification type can grant a Qualification request for that type. A successful request for the AcceptQualificationRequest operation returns with no errors and an empty body.
@@ -80,8 +80,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func acceptQualificationRequest(input: AcceptQualificationRequestInput) async throws -> AcceptQualificationRequestOutput
-    {
+    public func acceptQualificationRequest(input: AcceptQualificationRequestInput) async throws -> AcceptQualificationRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func approveAssignment(input: ApproveAssignmentInput) async throws -> ApproveAssignmentOutput
-    {
+    public func approveAssignment(input: ApproveAssignmentInput) async throws -> ApproveAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func associateQualificationWithWorker(input: AssociateQualificationWithWorkerInput) async throws -> AssociateQualificationWithWorkerOutput
-    {
+    public func associateQualificationWithWorker(input: AssociateQualificationWithWorkerInput) async throws -> AssociateQualificationWithWorkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func createAdditionalAssignmentsForHIT(input: CreateAdditionalAssignmentsForHITInput) async throws -> CreateAdditionalAssignmentsForHITOutput
-    {
+    public func createAdditionalAssignmentsForHIT(input: CreateAdditionalAssignmentsForHITInput) async throws -> CreateAdditionalAssignmentsForHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func createHIT(input: CreateHITInput) async throws -> CreateHITOutput
-    {
+    public func createHIT(input: CreateHITInput) async throws -> CreateHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func createHITType(input: CreateHITTypeInput) async throws -> CreateHITTypeOutput
-    {
+    public func createHITType(input: CreateHITTypeInput) async throws -> CreateHITTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func createHITWithHITType(input: CreateHITWithHITTypeInput) async throws -> CreateHITWithHITTypeOutput
-    {
+    public func createHITWithHITType(input: CreateHITWithHITTypeInput) async throws -> CreateHITWithHITTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -427,8 +420,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func createQualificationType(input: CreateQualificationTypeInput) async throws -> CreateQualificationTypeOutput
-    {
+    public func createQualificationType(input: CreateQualificationTypeInput) async throws -> CreateQualificationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func createWorkerBlock(input: CreateWorkerBlockInput) async throws -> CreateWorkerBlockOutput
-    {
+    public func createWorkerBlock(input: CreateWorkerBlockInput) async throws -> CreateWorkerBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -531,8 +522,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func deleteHIT(input: DeleteHITInput) async throws -> DeleteHITOutput
-    {
+    public func deleteHIT(input: DeleteHITInput) async throws -> DeleteHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -579,8 +569,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func deleteQualificationType(input: DeleteQualificationTypeInput) async throws -> DeleteQualificationTypeOutput
-    {
+    public func deleteQualificationType(input: DeleteQualificationTypeInput) async throws -> DeleteQualificationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -627,8 +616,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func deleteWorkerBlock(input: DeleteWorkerBlockInput) async throws -> DeleteWorkerBlockOutput
-    {
+    public func deleteWorkerBlock(input: DeleteWorkerBlockInput) async throws -> DeleteWorkerBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -675,8 +663,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func disassociateQualificationFromWorker(input: DisassociateQualificationFromWorkerInput) async throws -> DisassociateQualificationFromWorkerOutput
-    {
+    public func disassociateQualificationFromWorker(input: DisassociateQualificationFromWorkerInput) async throws -> DisassociateQualificationFromWorkerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -723,8 +710,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func getAccountBalance(input: GetAccountBalanceInput) async throws -> GetAccountBalanceOutput
-    {
+    public func getAccountBalance(input: GetAccountBalanceInput) async throws -> GetAccountBalanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -771,8 +757,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func getAssignment(input: GetAssignmentInput) async throws -> GetAssignmentOutput
-    {
+    public func getAssignment(input: GetAssignmentInput) async throws -> GetAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,8 +807,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func getFileUploadURL(input: GetFileUploadURLInput) async throws -> GetFileUploadURLOutput
-    {
+    public func getFileUploadURL(input: GetFileUploadURLInput) async throws -> GetFileUploadURLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -870,8 +854,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func getHIT(input: GetHITInput) async throws -> GetHITOutput
-    {
+    public func getHIT(input: GetHITInput) async throws -> GetHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +901,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func getQualificationScore(input: GetQualificationScoreInput) async throws -> GetQualificationScoreOutput
-    {
+    public func getQualificationScore(input: GetQualificationScoreInput) async throws -> GetQualificationScoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -966,8 +948,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func getQualificationType(input: GetQualificationTypeInput) async throws -> GetQualificationTypeOutput
-    {
+    public func getQualificationType(input: GetQualificationTypeInput) async throws -> GetQualificationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1014,8 +995,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listAssignmentsForHIT(input: ListAssignmentsForHITInput) async throws -> ListAssignmentsForHITOutput
-    {
+    public func listAssignmentsForHIT(input: ListAssignmentsForHITInput) async throws -> ListAssignmentsForHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1062,8 +1042,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listBonusPayments(input: ListBonusPaymentsInput) async throws -> ListBonusPaymentsOutput
-    {
+    public func listBonusPayments(input: ListBonusPaymentsInput) async throws -> ListBonusPaymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1110,8 +1089,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listHITs(input: ListHITsInput) async throws -> ListHITsOutput
-    {
+    public func listHITs(input: ListHITsInput) async throws -> ListHITsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1158,8 +1136,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listHITsForQualificationType(input: ListHITsForQualificationTypeInput) async throws -> ListHITsForQualificationTypeOutput
-    {
+    public func listHITsForQualificationType(input: ListHITsForQualificationTypeInput) async throws -> ListHITsForQualificationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1206,8 +1183,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listQualificationRequests(input: ListQualificationRequestsInput) async throws -> ListQualificationRequestsOutput
-    {
+    public func listQualificationRequests(input: ListQualificationRequestsInput) async throws -> ListQualificationRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1254,8 +1230,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listQualificationTypes(input: ListQualificationTypesInput) async throws -> ListQualificationTypesOutput
-    {
+    public func listQualificationTypes(input: ListQualificationTypesInput) async throws -> ListQualificationTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1302,8 +1277,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listReviewPolicyResultsForHIT(input: ListReviewPolicyResultsForHITInput) async throws -> ListReviewPolicyResultsForHITOutput
-    {
+    public func listReviewPolicyResultsForHIT(input: ListReviewPolicyResultsForHITInput) async throws -> ListReviewPolicyResultsForHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1350,8 +1324,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listReviewableHITs(input: ListReviewableHITsInput) async throws -> ListReviewableHITsOutput
-    {
+    public func listReviewableHITs(input: ListReviewableHITsInput) async throws -> ListReviewableHITsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1398,8 +1371,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listWorkerBlocks(input: ListWorkerBlocksInput) async throws -> ListWorkerBlocksOutput
-    {
+    public func listWorkerBlocks(input: ListWorkerBlocksInput) async throws -> ListWorkerBlocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1446,8 +1418,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func listWorkersWithQualificationType(input: ListWorkersWithQualificationTypeInput) async throws -> ListWorkersWithQualificationTypeOutput
-    {
+    public func listWorkersWithQualificationType(input: ListWorkersWithQualificationTypeInput) async throws -> ListWorkersWithQualificationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1494,8 +1465,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func notifyWorkers(input: NotifyWorkersInput) async throws -> NotifyWorkersOutput
-    {
+    public func notifyWorkers(input: NotifyWorkersInput) async throws -> NotifyWorkersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1542,8 +1512,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func rejectAssignment(input: RejectAssignmentInput) async throws -> RejectAssignmentOutput
-    {
+    public func rejectAssignment(input: RejectAssignmentInput) async throws -> RejectAssignmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1590,8 +1559,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func rejectQualificationRequest(input: RejectQualificationRequestInput) async throws -> RejectQualificationRequestOutput
-    {
+    public func rejectQualificationRequest(input: RejectQualificationRequestInput) async throws -> RejectQualificationRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1638,8 +1606,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func sendBonus(input: SendBonusInput) async throws -> SendBonusOutput
-    {
+    public func sendBonus(input: SendBonusInput) async throws -> SendBonusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1686,8 +1653,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func sendTestEventNotification(input: SendTestEventNotificationInput) async throws -> SendTestEventNotificationOutput
-    {
+    public func sendTestEventNotification(input: SendTestEventNotificationInput) async throws -> SendTestEventNotificationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1734,8 +1700,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func updateExpirationForHIT(input: UpdateExpirationForHITInput) async throws -> UpdateExpirationForHITOutput
-    {
+    public func updateExpirationForHIT(input: UpdateExpirationForHITInput) async throws -> UpdateExpirationForHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1782,8 +1747,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func updateHITReviewStatus(input: UpdateHITReviewStatusInput) async throws -> UpdateHITReviewStatusOutput
-    {
+    public func updateHITReviewStatus(input: UpdateHITReviewStatusInput) async throws -> UpdateHITReviewStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1830,8 +1794,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func updateHITTypeOfHIT(input: UpdateHITTypeOfHITInput) async throws -> UpdateHITTypeOfHITOutput
-    {
+    public func updateHITTypeOfHIT(input: UpdateHITTypeOfHITInput) async throws -> UpdateHITTypeOfHITOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1878,8 +1841,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func updateNotificationSettings(input: UpdateNotificationSettingsInput) async throws -> UpdateNotificationSettingsOutput
-    {
+    public func updateNotificationSettings(input: UpdateNotificationSettingsInput) async throws -> UpdateNotificationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1926,8 +1888,7 @@ extension MTurkClient: MTurkClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestError` : Your request is invalid.
     /// - `ServiceFault` : Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
-    public func updateQualificationType(input: UpdateQualificationTypeInput) async throws -> UpdateQualificationTypeOutput
-    {
+    public func updateQualificationType(input: UpdateQualificationTypeInput) async throws -> UpdateQualificationTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct WorkSpacesClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension WorkSpacesClient: WorkSpacesClientProtocol {
+extension WorkSpacesClient {
     /// Performs the `AssociateConnectionAlias` operation on the `WorkspacesService` service.
     ///
     /// Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html) to make sure that the current state of the connection alias is CREATED.
@@ -84,8 +84,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func associateConnectionAlias(input: AssociateConnectionAliasInput) async throws -> AssociateConnectionAliasOutput
-    {
+    public func associateConnectionAlias(input: AssociateConnectionAliasInput) async throws -> AssociateConnectionAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func associateIpGroups(input: AssociateIpGroupsInput) async throws -> AssociateIpGroupsOutput
-    {
+    public func associateIpGroups(input: AssociateIpGroupsInput) async throws -> AssociateIpGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceInUseException` : The specified resource is currently in use.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func associateWorkspaceApplication(input: AssociateWorkspaceApplicationInput) async throws -> AssociateWorkspaceApplicationOutput
-    {
+    public func associateWorkspaceApplication(input: AssociateWorkspaceApplicationInput) async throws -> AssociateWorkspaceApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +240,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func authorizeIpRules(input: AuthorizeIpRulesInput) async throws -> AuthorizeIpRulesOutput
-    {
+    public func authorizeIpRules(input: AuthorizeIpRulesInput) async throws -> AuthorizeIpRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -296,8 +292,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func copyWorkspaceImage(input: CopyWorkspaceImageInput) async throws -> CopyWorkspaceImageOutput
-    {
+    public func copyWorkspaceImage(input: CopyWorkspaceImageInput) async throws -> CopyWorkspaceImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -347,8 +342,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceCreationFailedException` : The resource could not be created.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func createConnectClientAddIn(input: CreateConnectClientAddInInput) async throws -> CreateConnectClientAddInOutput
-    {
+    public func createConnectClientAddIn(input: CreateConnectClientAddInInput) async throws -> CreateConnectClientAddInOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -399,8 +393,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
-    public func createConnectionAlias(input: CreateConnectionAliasInput) async throws -> CreateConnectionAliasOutput
-    {
+    public func createConnectionAlias(input: CreateConnectionAliasInput) async throws -> CreateConnectionAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -450,8 +443,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceCreationFailedException` : The resource could not be created.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
-    public func createIpGroup(input: CreateIpGroupInput) async throws -> CreateIpGroupOutput
-    {
+    public func createIpGroup(input: CreateIpGroupInput) async throws -> CreateIpGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -501,8 +493,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func createStandbyWorkspaces(input: CreateStandbyWorkspacesInput) async throws -> CreateStandbyWorkspacesOutput
-    {
+    public func createStandbyWorkspaces(input: CreateStandbyWorkspacesInput) async throws -> CreateStandbyWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -550,8 +541,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +599,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func createUpdatedWorkspaceImage(input: CreateUpdatedWorkspaceImageInput) async throws -> CreateUpdatedWorkspaceImageOutput
-    {
+    public func createUpdatedWorkspaceImage(input: CreateUpdatedWorkspaceImageInput) async throws -> CreateUpdatedWorkspaceImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +650,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func createWorkspaceBundle(input: CreateWorkspaceBundleInput) async throws -> CreateWorkspaceBundleOutput
-    {
+    public func createWorkspaceBundle(input: CreateWorkspaceBundleInput) async throws -> CreateWorkspaceBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -714,8 +702,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func createWorkspaceImage(input: CreateWorkspaceImageInput) async throws -> CreateWorkspaceImageOutput
-    {
+    public func createWorkspaceImage(input: CreateWorkspaceImageInput) async throws -> CreateWorkspaceImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -766,8 +753,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
-    public func createWorkspaces(input: CreateWorkspacesInput) async throws -> CreateWorkspacesOutput
-    {
+    public func createWorkspaces(input: CreateWorkspacesInput) async throws -> CreateWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -815,8 +801,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteClientBranding(input: DeleteClientBrandingInput) async throws -> DeleteClientBrandingOutput
-    {
+    public func deleteClientBranding(input: DeleteClientBrandingInput) async throws -> DeleteClientBrandingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +849,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteConnectClientAddIn(input: DeleteConnectClientAddInInput) async throws -> DeleteConnectClientAddInOutput
-    {
+    public func deleteConnectClientAddIn(input: DeleteConnectClientAddInInput) async throws -> DeleteConnectClientAddInOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -916,8 +900,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteConnectionAlias(input: DeleteConnectionAliasInput) async throws -> DeleteConnectionAliasOutput
-    {
+    public func deleteConnectionAlias(input: DeleteConnectionAliasInput) async throws -> DeleteConnectionAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -966,8 +949,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteIpGroup(input: DeleteIpGroupInput) async throws -> DeleteIpGroupOutput
-    {
+    public func deleteIpGroup(input: DeleteIpGroupInput) async throws -> DeleteIpGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1014,8 +996,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,8 +1045,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deleteWorkspaceBundle(input: DeleteWorkspaceBundleInput) async throws -> DeleteWorkspaceBundleOutput
-    {
+    public func deleteWorkspaceBundle(input: DeleteWorkspaceBundleInput) async throws -> DeleteWorkspaceBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1113,8 +1093,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
-    public func deleteWorkspaceImage(input: DeleteWorkspaceImageInput) async throws -> DeleteWorkspaceImageOutput
-    {
+    public func deleteWorkspaceImage(input: DeleteWorkspaceImageInput) async throws -> DeleteWorkspaceImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1165,8 +1144,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceInUseException` : The specified resource is currently in use.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deployWorkspaceApplications(input: DeployWorkspaceApplicationsInput) async throws -> DeployWorkspaceApplicationsOutput
-    {
+    public func deployWorkspaceApplications(input: DeployWorkspaceApplicationsInput) async throws -> DeployWorkspaceApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1216,8 +1194,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func deregisterWorkspaceDirectory(input: DeregisterWorkspaceDirectoryInput) async throws -> DeregisterWorkspaceDirectoryOutput
-    {
+    public func deregisterWorkspaceDirectory(input: DeregisterWorkspaceDirectoryInput) async throws -> DeregisterWorkspaceDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1263,8 +1240,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
-    public func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput
-    {
+    public func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1310,8 +1286,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
-    public func describeAccountModifications(input: DescribeAccountModificationsInput) async throws -> DescribeAccountModificationsOutput
-    {
+    public func describeAccountModifications(input: DescribeAccountModificationsInput) async throws -> DescribeAccountModificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1360,8 +1335,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeApplicationAssociations(input: DescribeApplicationAssociationsInput) async throws -> DescribeApplicationAssociationsOutput
-    {
+    public func describeApplicationAssociations(input: DescribeApplicationAssociationsInput) async throws -> DescribeApplicationAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1410,8 +1384,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
-    {
+    public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1433,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeBundleAssociations(input: DescribeBundleAssociationsInput) async throws -> DescribeBundleAssociationsOutput
-    {
+    public func describeBundleAssociations(input: DescribeBundleAssociationsInput) async throws -> DescribeBundleAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1509,8 +1481,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeClientBranding(input: DescribeClientBrandingInput) async throws -> DescribeClientBrandingOutput
-    {
+    public func describeClientBranding(input: DescribeClientBrandingInput) async throws -> DescribeClientBrandingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1558,8 +1529,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeClientProperties(input: DescribeClientPropertiesInput) async throws -> DescribeClientPropertiesOutput
-    {
+    public func describeClientProperties(input: DescribeClientPropertiesInput) async throws -> DescribeClientPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1607,8 +1577,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeConnectClientAddIns(input: DescribeConnectClientAddInsInput) async throws -> DescribeConnectClientAddInsOutput
-    {
+    public func describeConnectClientAddIns(input: DescribeConnectClientAddInsInput) async throws -> DescribeConnectClientAddInsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1657,8 +1626,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeConnectionAliasPermissions(input: DescribeConnectionAliasPermissionsInput) async throws -> DescribeConnectionAliasPermissionsOutput
-    {
+    public func describeConnectionAliasPermissions(input: DescribeConnectionAliasPermissionsInput) async throws -> DescribeConnectionAliasPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1706,8 +1674,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
-    public func describeConnectionAliases(input: DescribeConnectionAliasesInput) async throws -> DescribeConnectionAliasesOutput
-    {
+    public func describeConnectionAliases(input: DescribeConnectionAliasesInput) async throws -> DescribeConnectionAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1756,8 +1723,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeImageAssociations(input: DescribeImageAssociationsInput) async throws -> DescribeImageAssociationsOutput
-    {
+    public func describeImageAssociations(input: DescribeImageAssociationsInput) async throws -> DescribeImageAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1804,8 +1770,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
-    public func describeIpGroups(input: DescribeIpGroupsInput) async throws -> DescribeIpGroupsOutput
-    {
+    public func describeIpGroups(input: DescribeIpGroupsInput) async throws -> DescribeIpGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1851,8 +1816,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1901,8 +1865,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeWorkspaceAssociations(input: DescribeWorkspaceAssociationsInput) async throws -> DescribeWorkspaceAssociationsOutput
-    {
+    public func describeWorkspaceAssociations(input: DescribeWorkspaceAssociationsInput) async throws -> DescribeWorkspaceAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1948,8 +1911,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
-    public func describeWorkspaceBundles(input: DescribeWorkspaceBundlesInput) async throws -> DescribeWorkspaceBundlesOutput
-    {
+    public func describeWorkspaceBundles(input: DescribeWorkspaceBundlesInput) async throws -> DescribeWorkspaceBundlesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1995,8 +1957,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
-    public func describeWorkspaceDirectories(input: DescribeWorkspaceDirectoriesInput) async throws -> DescribeWorkspaceDirectoriesOutput
-    {
+    public func describeWorkspaceDirectories(input: DescribeWorkspaceDirectoriesInput) async throws -> DescribeWorkspaceDirectoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2044,8 +2005,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeWorkspaceImagePermissions(input: DescribeWorkspaceImagePermissionsInput) async throws -> DescribeWorkspaceImagePermissionsOutput
-    {
+    public func describeWorkspaceImagePermissions(input: DescribeWorkspaceImagePermissionsInput) async throws -> DescribeWorkspaceImagePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2091,8 +2051,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
-    public func describeWorkspaceImages(input: DescribeWorkspaceImagesInput) async throws -> DescribeWorkspaceImagesOutput
-    {
+    public func describeWorkspaceImages(input: DescribeWorkspaceImagesInput) async throws -> DescribeWorkspaceImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2140,8 +2099,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func describeWorkspaceSnapshots(input: DescribeWorkspaceSnapshotsInput) async throws -> DescribeWorkspaceSnapshotsOutput
-    {
+    public func describeWorkspaceSnapshots(input: DescribeWorkspaceSnapshotsInput) async throws -> DescribeWorkspaceSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2188,8 +2146,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func describeWorkspaces(input: DescribeWorkspacesInput) async throws -> DescribeWorkspacesOutput
-    {
+    public func describeWorkspaces(input: DescribeWorkspacesInput) async throws -> DescribeWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2235,8 +2192,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
-    public func describeWorkspacesConnectionStatus(input: DescribeWorkspacesConnectionStatusInput) async throws -> DescribeWorkspacesConnectionStatusOutput
-    {
+    public func describeWorkspacesConnectionStatus(input: DescribeWorkspacesConnectionStatusInput) async throws -> DescribeWorkspacesConnectionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2286,8 +2242,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func disassociateConnectionAlias(input: DisassociateConnectionAliasInput) async throws -> DisassociateConnectionAliasOutput
-    {
+    public func disassociateConnectionAlias(input: DisassociateConnectionAliasInput) async throws -> DisassociateConnectionAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2336,8 +2291,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func disassociateIpGroups(input: DisassociateIpGroupsInput) async throws -> DisassociateIpGroupsOutput
-    {
+    public func disassociateIpGroups(input: DisassociateIpGroupsInput) async throws -> DisassociateIpGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2387,8 +2341,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceInUseException` : The specified resource is currently in use.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func disassociateWorkspaceApplication(input: DisassociateWorkspaceApplicationInput) async throws -> DisassociateWorkspaceApplicationOutput
-    {
+    public func disassociateWorkspaceApplication(input: DisassociateWorkspaceApplicationInput) async throws -> DisassociateWorkspaceApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2445,8 +2398,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func importClientBranding(input: ImportClientBrandingInput) async throws -> ImportClientBrandingOutput
-    {
+    public func importClientBranding(input: ImportClientBrandingInput) async throws -> ImportClientBrandingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2497,8 +2449,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func importWorkspaceImage(input: ImportWorkspaceImageInput) async throws -> ImportWorkspaceImageOutput
-    {
+    public func importWorkspaceImage(input: ImportWorkspaceImageInput) async throws -> ImportWorkspaceImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2545,8 +2496,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
-    public func listAvailableManagementCidrRanges(input: ListAvailableManagementCidrRangesInput) async throws -> ListAvailableManagementCidrRangesOutput
-    {
+    public func listAvailableManagementCidrRanges(input: ListAvailableManagementCidrRangesInput) async throws -> ListAvailableManagementCidrRangesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2597,8 +2547,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func migrateWorkspace(input: MigrateWorkspaceInput) async throws -> MigrateWorkspaceOutput
-    {
+    public func migrateWorkspace(input: MigrateWorkspaceInput) async throws -> MigrateWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2648,8 +2597,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func modifyAccount(input: ModifyAccountInput) async throws -> ModifyAccountOutput
-    {
+    public func modifyAccount(input: ModifyAccountInput) async throws -> ModifyAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2698,8 +2646,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifyCertificateBasedAuthProperties(input: ModifyCertificateBasedAuthPropertiesInput) async throws -> ModifyCertificateBasedAuthPropertiesOutput
-    {
+    public func modifyCertificateBasedAuthProperties(input: ModifyCertificateBasedAuthPropertiesInput) async throws -> ModifyCertificateBasedAuthPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2747,8 +2694,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifyClientProperties(input: ModifyClientPropertiesInput) async throws -> ModifyClientPropertiesOutput
-    {
+    public func modifyClientProperties(input: ModifyClientPropertiesInput) async throws -> ModifyClientPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2797,8 +2743,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifySamlProperties(input: ModifySamlPropertiesInput) async throws -> ModifySamlPropertiesOutput
-    {
+    public func modifySamlProperties(input: ModifySamlPropertiesInput) async throws -> ModifySamlPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2846,8 +2791,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifySelfservicePermissions(input: ModifySelfservicePermissionsInput) async throws -> ModifySelfservicePermissionsOutput
-    {
+    public func modifySelfservicePermissions(input: ModifySelfservicePermissionsInput) async throws -> ModifySelfservicePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2894,8 +2838,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifyWorkspaceAccessProperties(input: ModifyWorkspaceAccessPropertiesInput) async throws -> ModifyWorkspaceAccessPropertiesOutput
-    {
+    public func modifyWorkspaceAccessProperties(input: ModifyWorkspaceAccessPropertiesInput) async throws -> ModifyWorkspaceAccessPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2944,8 +2887,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifyWorkspaceCreationProperties(input: ModifyWorkspaceCreationPropertiesInput) async throws -> ModifyWorkspaceCreationPropertiesOutput
-    {
+    public func modifyWorkspaceCreationProperties(input: ModifyWorkspaceCreationPropertiesInput) async throws -> ModifyWorkspaceCreationPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3000,8 +2942,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     ///
     /// [Required Configuration and Service Components for WorkSpaces ](https://docs.aws.amazon.com/workspaces/latest/adminguide/required-service-components.html).
-    public func modifyWorkspaceProperties(input: ModifyWorkspacePropertiesInput) async throws -> ModifyWorkspacePropertiesOutput
-    {
+    public func modifyWorkspaceProperties(input: ModifyWorkspacePropertiesInput) async throws -> ModifyWorkspacePropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3050,8 +2991,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func modifyWorkspaceState(input: ModifyWorkspaceStateInput) async throws -> ModifyWorkspaceStateOutput
-    {
+    public func modifyWorkspaceState(input: ModifyWorkspaceStateInput) async throws -> ModifyWorkspaceStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3097,8 +3037,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotSupportedException` : This operation is not supported.
-    public func rebootWorkspaces(input: RebootWorkspacesInput) async throws -> RebootWorkspacesOutput
-    {
+    public func rebootWorkspaces(input: RebootWorkspacesInput) async throws -> RebootWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3144,8 +3083,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotSupportedException` : This operation is not supported.
-    public func rebuildWorkspaces(input: RebuildWorkspacesInput) async throws -> RebuildWorkspacesOutput
-    {
+    public func rebuildWorkspaces(input: RebuildWorkspacesInput) async throws -> RebuildWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3198,8 +3136,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `UnsupportedNetworkConfigurationException` : The configuration of this network is not supported for this operation, or your network configuration conflicts with the Amazon WorkSpaces management network IP range. For more information, see [ Configure a VPC for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html).
     /// - `WorkspacesDefaultRoleNotFoundException` : The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
-    public func registerWorkspaceDirectory(input: RegisterWorkspaceDirectoryInput) async throws -> RegisterWorkspaceDirectoryOutput
-    {
+    public func registerWorkspaceDirectory(input: RegisterWorkspaceDirectoryInput) async throws -> RegisterWorkspaceDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3248,8 +3185,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func restoreWorkspace(input: RestoreWorkspaceInput) async throws -> RestoreWorkspaceOutput
-    {
+    public func restoreWorkspace(input: RestoreWorkspaceInput) async throws -> RestoreWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3298,8 +3234,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func revokeIpRules(input: RevokeIpRulesInput) async throws -> RevokeIpRulesOutput
-    {
+    public func revokeIpRules(input: RevokeIpRulesInput) async throws -> RevokeIpRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3340,8 +3275,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - Parameter StartWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `StartWorkspacesOutput` : [no documentation found]
-    public func startWorkspaces(input: StartWorkspacesInput) async throws -> StartWorkspacesOutput
-    {
+    public func startWorkspaces(input: StartWorkspacesInput) async throws -> StartWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3382,8 +3316,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - Parameter StopWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `StopWorkspacesOutput` : [no documentation found]
-    public func stopWorkspaces(input: StopWorkspacesInput) async throws -> StopWorkspacesOutput
-    {
+    public func stopWorkspaces(input: StopWorkspacesInput) async throws -> StopWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3424,8 +3357,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - Parameter TerminateWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `TerminateWorkspacesOutput` : [no documentation found]
-    public func terminateWorkspaces(input: TerminateWorkspacesInput) async throws -> TerminateWorkspacesOutput
-    {
+    public func terminateWorkspaces(input: TerminateWorkspacesInput) async throws -> TerminateWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3473,8 +3405,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func updateConnectClientAddIn(input: UpdateConnectClientAddInInput) async throws -> UpdateConnectClientAddInOutput
-    {
+    public func updateConnectClientAddIn(input: UpdateConnectClientAddInInput) async throws -> UpdateConnectClientAddInOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3530,8 +3461,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func updateConnectionAliasPermission(input: UpdateConnectionAliasPermissionInput) async throws -> UpdateConnectionAliasPermissionOutput
-    {
+    public func updateConnectionAliasPermission(input: UpdateConnectionAliasPermissionInput) async throws -> UpdateConnectionAliasPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3581,8 +3511,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    public func updateRulesOfIpGroup(input: UpdateRulesOfIpGroupInput) async throws -> UpdateRulesOfIpGroupOutput
-    {
+    public func updateRulesOfIpGroup(input: UpdateRulesOfIpGroupInput) async throws -> UpdateRulesOfIpGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3632,8 +3561,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func updateWorkspaceBundle(input: UpdateWorkspaceBundleInput) async throws -> UpdateWorkspaceBundleOutput
-    {
+    public func updateWorkspaceBundle(input: UpdateWorkspaceBundleInput) async throws -> UpdateWorkspaceBundleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3687,8 +3615,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
-    public func updateWorkspaceImagePermission(input: UpdateWorkspaceImagePermissionInput) async throws -> UpdateWorkspaceImagePermissionOutput
-    {
+    public func updateWorkspaceImagePermission(input: UpdateWorkspaceImagePermissionInput) async throws -> UpdateWorkspaceImagePermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -2209,6 +2209,8 @@ enum ListProgressUpdateStreamsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+public enum MigrationHubClientTypes {}
+
 extension MigrationHubClientTypes.MigrationTask: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case migrationTaskName = "MigrationTaskName"

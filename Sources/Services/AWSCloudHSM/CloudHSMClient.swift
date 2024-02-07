@@ -66,7 +66,7 @@ public struct CloudHSMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension CloudHSMClient: CloudHSMClientProtocol {
+extension CloudHSMClient {
     /// Performs the `AddTagsToResource` operation on the `CloudHsmFrontendService` service.
     ///
     /// This is documentation for AWS CloudHSM Classic. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/), the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/), and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/). For information about the current version of AWS CloudHSM, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/), the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/). Adds or overwrites one or more tags for the specified AWS CloudHSM resource. Each tag consists of a key and a value. Tag keys must be unique to each resource.
@@ -82,8 +82,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func createHapg(input: CreateHapgInput) async throws -> CreateHapgOutput
-    {
+    public func createHapg(input: CreateHapgInput) async throws -> CreateHapgOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutput
-    {
+    public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func createLunaClient(input: CreateLunaClientInput) async throws -> CreateLunaClientOutput
-    {
+    public func createLunaClient(input: CreateLunaClientInput) async throws -> CreateLunaClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func deleteHapg(input: DeleteHapgInput) async throws -> DeleteHapgOutput
-    {
+    public func deleteHapg(input: DeleteHapgInput) async throws -> DeleteHapgOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutput
-    {
+    public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func deleteLunaClient(input: DeleteLunaClientInput) async throws -> DeleteLunaClientOutput
-    {
+    public func deleteLunaClient(input: DeleteLunaClientInput) async throws -> DeleteLunaClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func describeHapg(input: DescribeHapgInput) async throws -> DescribeHapgOutput
-    {
+    public func describeHapg(input: DescribeHapgInput) async throws -> DescribeHapgOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -482,8 +474,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func describeHsm(input: DescribeHsmInput) async throws -> DescribeHsmOutput
-    {
+    public func describeHsm(input: DescribeHsmInput) async throws -> DescribeHsmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -532,8 +523,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func describeLunaClient(input: DescribeLunaClientInput) async throws -> DescribeLunaClientOutput
-    {
+    public func describeLunaClient(input: DescribeLunaClientInput) async throws -> DescribeLunaClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -582,8 +572,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func getConfig(input: GetConfigInput) async throws -> GetConfigOutput
-    {
+    public func getConfig(input: GetConfigInput) async throws -> GetConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,8 +621,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listAvailableZones(input: ListAvailableZonesInput) async throws -> ListAvailableZonesOutput
-    {
+    public func listAvailableZones(input: ListAvailableZonesInput) async throws -> ListAvailableZonesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -682,8 +670,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listHapgs(input: ListHapgsInput) async throws -> ListHapgsOutput
-    {
+    public func listHapgs(input: ListHapgsInput) async throws -> ListHapgsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -732,8 +719,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listHsms(input: ListHsmsInput) async throws -> ListHsmsOutput
-    {
+    public func listHsms(input: ListHsmsInput) async throws -> ListHsmsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -782,8 +768,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listLunaClients(input: ListLunaClientsInput) async throws -> ListLunaClientsOutput
-    {
+    public func listLunaClients(input: ListLunaClientsInput) async throws -> ListLunaClientsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -832,8 +817,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -882,8 +866,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func modifyHapg(input: ModifyHapgInput) async throws -> ModifyHapgOutput
-    {
+    public func modifyHapg(input: ModifyHapgInput) async throws -> ModifyHapgOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -932,8 +915,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func modifyHsm(input: ModifyHsmInput) async throws -> ModifyHsmOutput
-    {
+    public func modifyHsm(input: ModifyHsmInput) async throws -> ModifyHsmOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -980,8 +962,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
-    public func modifyLunaClient(input: ModifyLunaClientInput) async throws -> ModifyLunaClientOutput
-    {
+    public func modifyLunaClient(input: ModifyLunaClientInput) async throws -> ModifyLunaClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1011,7 @@ extension CloudHSMClient: CloudHSMClientProtocol {
     /// - `CloudHsmInternalException` : Indicates that an internal error occurred.
     /// - `CloudHsmServiceException` : Indicates that an exception occurred in the AWS CloudHSM service.
     /// - `InvalidRequestException` : Indicates that one or more of the request parameters are not valid.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

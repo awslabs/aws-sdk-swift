@@ -66,7 +66,7 @@ public struct CodeartifactClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension CodeartifactClient: CodeartifactClientProtocol {
+extension CodeartifactClient {
     /// Performs the `AssociateExternalConnection` operation on the `CodeArtifactControlPlaneService` service.
     ///
     /// Adds an existing external connection to a repository. One external connection is allowed per repository. A repository can have one or more upstream repositories, or an external connection.
@@ -85,8 +85,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func associateExternalConnection(input: AssociateExternalConnectionInput) async throws -> AssociateExternalConnectionOutput
-    {
+    public func associateExternalConnection(input: AssociateExternalConnectionInput) async throws -> AssociateExternalConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func copyPackageVersions(input: CopyPackageVersionsInput) async throws -> CopyPackageVersionsOutput
-    {
+    public func copyPackageVersions(input: CopyPackageVersionsInput) async throws -> CopyPackageVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-    {
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
-    {
+    public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -292,8 +288,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-    {
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -341,8 +336,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func deleteDomainPermissionsPolicy(input: DeleteDomainPermissionsPolicyInput) async throws -> DeleteDomainPermissionsPolicyOutput
-    {
+    public func deleteDomainPermissionsPolicy(input: DeleteDomainPermissionsPolicyInput) async throws -> DeleteDomainPermissionsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -390,8 +384,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
-    {
+    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -439,8 +432,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func deletePackageVersions(input: DeletePackageVersionsInput) async throws -> DeletePackageVersionsOutput
-    {
+    public func deletePackageVersions(input: DeletePackageVersionsInput) async throws -> DeletePackageVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
-    {
+    public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +531,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func deleteRepositoryPermissionsPolicy(input: DeleteRepositoryPermissionsPolicyInput) async throws -> DeleteRepositoryPermissionsPolicyOutput
-    {
+    public func deleteRepositoryPermissionsPolicy(input: DeleteRepositoryPermissionsPolicyInput) async throws -> DeleteRepositoryPermissionsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
-    {
+    public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -636,8 +625,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput
-    {
+    public func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +673,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput
-    {
+    public func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -733,8 +720,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func describeRepository(input: DescribeRepositoryInput) async throws -> DescribeRepositoryOutput
-    {
+    public func describeRepository(input: DescribeRepositoryInput) async throws -> DescribeRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +769,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func disassociateExternalConnection(input: DisassociateExternalConnectionInput) async throws -> DisassociateExternalConnectionOutput
-    {
+    public func disassociateExternalConnection(input: DisassociateExternalConnectionInput) async throws -> DisassociateExternalConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -832,8 +817,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func disposePackageVersions(input: DisposePackageVersionsInput) async throws -> DisposePackageVersionsOutput
-    {
+    public func disposePackageVersions(input: DisposePackageVersionsInput) async throws -> DisposePackageVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -883,8 +867,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
-    {
+    public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -931,8 +914,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func getDomainPermissionsPolicy(input: GetDomainPermissionsPolicyInput) async throws -> GetDomainPermissionsPolicyOutput
-    {
+    public func getDomainPermissionsPolicy(input: GetDomainPermissionsPolicyInput) async throws -> GetDomainPermissionsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -980,8 +962,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func getPackageVersionAsset(input: GetPackageVersionAssetInput) async throws -> GetPackageVersionAssetOutput
-    {
+    public func getPackageVersionAsset(input: GetPackageVersionAssetInput) async throws -> GetPackageVersionAssetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1028,8 +1009,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func getPackageVersionReadme(input: GetPackageVersionReadmeInput) async throws -> GetPackageVersionReadmeOutput
-    {
+    public func getPackageVersionReadme(input: GetPackageVersionReadmeInput) async throws -> GetPackageVersionReadmeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1084,8 +1064,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func getRepositoryEndpoint(input: GetRepositoryEndpointInput) async throws -> GetRepositoryEndpointOutput
-    {
+    public func getRepositoryEndpoint(input: GetRepositoryEndpointInput) async throws -> GetRepositoryEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1132,8 +1111,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func getRepositoryPermissionsPolicy(input: GetRepositoryPermissionsPolicyInput) async throws -> GetRepositoryPermissionsPolicyOutput
-    {
+    public func getRepositoryPermissionsPolicy(input: GetRepositoryPermissionsPolicyInput) async throws -> GetRepositoryPermissionsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1179,8 +1157,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-    {
+    public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1229,8 +1206,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listPackageVersionAssets(input: ListPackageVersionAssetsInput) async throws -> ListPackageVersionAssetsOutput
-    {
+    public func listPackageVersionAssets(input: ListPackageVersionAssetsInput) async throws -> ListPackageVersionAssetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1277,8 +1253,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listPackageVersionDependencies(input: ListPackageVersionDependenciesInput) async throws -> ListPackageVersionDependenciesOutput
-    {
+    public func listPackageVersionDependencies(input: ListPackageVersionDependenciesInput) async throws -> ListPackageVersionDependenciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1325,8 +1300,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutput
-    {
+    public func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1373,8 +1347,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
-    {
+    public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1420,8 +1393,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `InternalServerException` : The operation did not succeed because of an error that occurred inside CodeArtifact.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput
-    {
+    public func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1468,8 +1440,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listRepositoriesInDomain(input: ListRepositoriesInDomainInput) async throws -> ListRepositoriesInDomainOutput
-    {
+    public func listRepositoriesInDomain(input: ListRepositoriesInDomainInput) async throws -> ListRepositoriesInDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1515,8 +1486,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1565,8 +1535,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func publishPackageVersion(input: PublishPackageVersionInput) async throws -> PublishPackageVersionOutput
-    {
+    public func publishPackageVersion(input: PublishPackageVersionInput) async throws -> PublishPackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1619,8 +1588,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func putDomainPermissionsPolicy(input: PutDomainPermissionsPolicyInput) async throws -> PutDomainPermissionsPolicyOutput
-    {
+    public func putDomainPermissionsPolicy(input: PutDomainPermissionsPolicyInput) async throws -> PutDomainPermissionsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1669,8 +1637,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func putPackageOriginConfiguration(input: PutPackageOriginConfigurationInput) async throws -> PutPackageOriginConfigurationOutput
-    {
+    public func putPackageOriginConfiguration(input: PutPackageOriginConfigurationInput) async throws -> PutPackageOriginConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1722,8 +1689,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func putRepositoryPermissionsPolicy(input: PutRepositoryPermissionsPolicyInput) async throws -> PutRepositoryPermissionsPolicyOutput
-    {
+    public func putRepositoryPermissionsPolicy(input: PutRepositoryPermissionsPolicyInput) async throws -> PutRepositoryPermissionsPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1773,8 +1739,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1823,8 +1788,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1875,8 +1839,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ResourceNotFoundException` : The operation did not succeed because the resource requested is not found in the service.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func updatePackageVersionsStatus(input: UpdatePackageVersionsStatusInput) async throws -> UpdatePackageVersionsStatusOutput
-    {
+    public func updatePackageVersionsStatus(input: UpdatePackageVersionsStatusInput) async throws -> UpdatePackageVersionsStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1928,8 +1891,7 @@ extension CodeartifactClient: CodeartifactClientProtocol {
     /// - `ServiceQuotaExceededException` : The operation did not succeed because it would have exceeded a service limit for your account.
     /// - `ThrottlingException` : The operation did not succeed because too many requests are sent to the service.
     /// - `ValidationException` : The operation did not succeed because a parameter in the request was sent with an invalid value.
-    public func updateRepository(input: UpdateRepositoryInput) async throws -> UpdateRepositoryOutput
-    {
+    public func updateRepository(input: UpdateRepositoryInput) async throws -> UpdateRepositoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

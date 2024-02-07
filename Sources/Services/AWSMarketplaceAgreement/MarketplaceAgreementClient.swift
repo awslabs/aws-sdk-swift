@@ -66,7 +66,7 @@ public struct MarketplaceAgreementClientLogHandlerFactory: ClientRuntime.SDKLogH
     }
 }
 
-extension MarketplaceAgreementClient: MarketplaceAgreementClientProtocol {
+extension MarketplaceAgreementClient {
     /// Performs the `DescribeAgreement` operation on the `AWSMPCommerceService_v20200301` service.
     ///
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
@@ -83,8 +83,7 @@ extension MarketplaceAgreementClient: MarketplaceAgreementClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
-    public func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput
-    {
+    public func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -145,8 +144,7 @@ extension MarketplaceAgreementClient: MarketplaceAgreementClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
-    public func getAgreementTerms(input: GetAgreementTermsInput) async throws -> GetAgreementTermsOutput
-    {
+    public func getAgreementTerms(input: GetAgreementTermsInput) async throws -> GetAgreementTermsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -223,8 +221,7 @@ extension MarketplaceAgreementClient: MarketplaceAgreementClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
-    public func searchAgreements(input: SearchAgreementsInput) async throws -> SearchAgreementsOutput
-    {
+    public func searchAgreements(input: SearchAgreementsInput) async throws -> SearchAgreementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

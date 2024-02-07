@@ -1777,6 +1777,8 @@ enum DescribeVirtualClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum EMRcontainersClientTypes {}
+
 extension EMRcontainersClientTypes.EksInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namespace

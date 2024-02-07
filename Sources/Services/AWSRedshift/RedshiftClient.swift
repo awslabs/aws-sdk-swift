@@ -62,7 +62,7 @@ public struct RedshiftClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension RedshiftClient: RedshiftClientProtocol {
+extension RedshiftClient {
     /// Performs the `AcceptReservedNodeExchange` operation on the `RedshiftServiceVersion20121201` service.
     ///
     /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs.
@@ -81,8 +81,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func acceptReservedNodeExchange(input: AcceptReservedNodeExchangeInput) async throws -> AcceptReservedNodeExchangeOutput
-    {
+    public func acceptReservedNodeExchange(input: AcceptReservedNodeExchangeInput) async throws -> AcceptReservedNodeExchangeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `PartnerNotFoundFault` : The name of the partner was not found.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func addPartner(input: AddPartnerInput) async throws -> AddPartnerOutput
-    {
+    public func addPartner(input: AddPartnerInput) async throws -> AddPartnerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -177,8 +175,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
-    public func associateDataShareConsumer(input: AssociateDataShareConsumerInput) async throws -> AssociateDataShareConsumerOutput
-    {
+    public func associateDataShareConsumer(input: AssociateDataShareConsumerInput) async throws -> AssociateDataShareConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `AuthorizationQuotaExceededFault` : The authorization quota for the cluster security group has been reached.
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
-    public func authorizeClusterSecurityGroupIngress(input: AuthorizeClusterSecurityGroupIngressInput) async throws -> AuthorizeClusterSecurityGroupIngressOutput
-    {
+    public func authorizeClusterSecurityGroupIngress(input: AuthorizeClusterSecurityGroupIngressInput) async throws -> AuthorizeClusterSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -272,8 +268,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
-    public func authorizeDataShare(input: AuthorizeDataShareInput) async throws -> AuthorizeDataShareOutput
-    {
+    public func authorizeDataShare(input: AuthorizeDataShareInput) async throws -> AuthorizeDataShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -323,8 +318,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidAuthorizationStateFault` : The status of the authorization is not valid.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func authorizeEndpointAccess(input: AuthorizeEndpointAccessInput) async throws -> AuthorizeEndpointAccessOutput
-    {
+    public func authorizeEndpointAccess(input: AuthorizeEndpointAccessInput) async throws -> AuthorizeEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +369,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func authorizeSnapshotAccess(input: AuthorizeSnapshotAccessInput) async throws -> AuthorizeSnapshotAccessOutput
-    {
+    public func authorizeSnapshotAccess(input: AuthorizeSnapshotAccessInput) async throws -> AuthorizeSnapshotAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -421,8 +414,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BatchDeleteRequestSizeExceededFault` : The maximum number for a batch delete of snapshots has been reached. The limit is 100.
-    public func batchDeleteClusterSnapshots(input: BatchDeleteClusterSnapshotsInput) async throws -> BatchDeleteClusterSnapshotsOutput
-    {
+    public func batchDeleteClusterSnapshots(input: BatchDeleteClusterSnapshotsInput) async throws -> BatchDeleteClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -468,8 +460,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `BatchModifyClusterSnapshotsLimitExceededFault` : The maximum number for snapshot identifiers has been reached. The limit is 100.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
-    public func batchModifyClusterSnapshots(input: BatchModifyClusterSnapshotsInput) async throws -> BatchModifyClusterSnapshotsOutput
-    {
+    public func batchModifyClusterSnapshots(input: BatchModifyClusterSnapshotsInput) async throws -> BatchModifyClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `ResizeNotFoundFault` : A resize operation for the specified cluster is not found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func cancelResize(input: CancelResizeInput) async throws -> CancelResizeOutput
-    {
+    public func cancelResize(input: CancelResizeInput) async throws -> CancelResizeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +558,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of cluster snapshots.
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
-    public func copyClusterSnapshot(input: CopyClusterSnapshotInput) async throws -> CopyClusterSnapshotOutput
-    {
+    public func copyClusterSnapshot(input: CopyClusterSnapshotInput) async throws -> CopyClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -616,8 +605,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `AuthenticationProfileAlreadyExistsFault` : The authentication profile already exists.
     /// - `AuthenticationProfileQuotaExceededFault` : The size or number of authentication profiles has exceeded the quota. The maximum length of the JSON string and maximum number of authentication profiles is determined by a quota for your account.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
-    public func createAuthenticationProfile(input: CreateAuthenticationProfileInput) async throws -> CreateAuthenticationProfileOutput
-    {
+    public func createAuthenticationProfile(input: CreateAuthenticationProfileInput) async throws -> CreateAuthenticationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -686,8 +674,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -735,8 +722,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterParameterGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of cluster parameter groups. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createClusterParameterGroup(input: CreateClusterParameterGroupInput) async throws -> CreateClusterParameterGroupOutput
-    {
+    public func createClusterParameterGroup(input: CreateClusterParameterGroupInput) async throws -> CreateClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -784,8 +770,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSecurityGroupQuotaExceededFault` : The request would result in the user exceeding the allowed number of cluster security groups. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createClusterSecurityGroup(input: CreateClusterSecurityGroupInput) async throws -> CreateClusterSecurityGroupOutput
-    {
+    public func createClusterSecurityGroup(input: CreateClusterSecurityGroupInput) async throws -> CreateClusterSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -836,8 +821,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
-    {
+    public func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -889,8 +873,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func createClusterSubnetGroup(input: CreateClusterSubnetGroupInput) async throws -> CreateClusterSubnetGroupOutput
-    {
+    public func createClusterSubnetGroup(input: CreateClusterSubnetGroupInput) async throws -> CreateClusterSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -937,8 +920,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `CustomCnameAssociationFault` : An error occurred when an attempt was made to change the custom domain association.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput
-    {
+    public func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -992,8 +974,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput
-    {
+    public func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1048,8 +1029,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `SubscriptionEventIdNotFoundFault` : An Amazon Redshift event with the specified event ID does not exist.
     /// - `SubscriptionSeverityNotFoundFault` : The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
-    {
+    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1097,8 +1077,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `HsmClientCertificateQuotaExceededFault` : The quota for HSM client certificates has been reached. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createHsmClientCertificate(input: CreateHsmClientCertificateInput) async throws -> CreateHsmClientCertificateOutput
-    {
+    public func createHsmClientCertificate(input: CreateHsmClientCertificateInput) async throws -> CreateHsmClientCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1125,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `HsmConfigurationQuotaExceededFault` : The quota for HSM configurations has been reached. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createHsmConfiguration(input: CreateHsmConfigurationInput) async throws -> CreateHsmConfigurationOutput
-    {
+    public func createHsmConfiguration(input: CreateHsmConfigurationInput) async throws -> CreateHsmConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1174,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `RedshiftIdcApplicationAlreadyExistsFault` : The application you attempted to add already exists.
     /// - `RedshiftIdcApplicationQuotaExceededFault` : The maximum number of Redshift IAM Identity Center applications was exceeded.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func createRedshiftIdcApplication(input: CreateRedshiftIdcApplicationInput) async throws -> CreateRedshiftIdcApplicationOutput
-    {
+    public func createRedshiftIdcApplication(input: CreateRedshiftIdcApplicationInput) async throws -> CreateRedshiftIdcApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1249,8 +1226,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ScheduledActionTypeUnsupportedFault` : The action type specified for a scheduled action is not supported.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput
-    {
+    public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1300,8 +1276,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `SnapshotCopyGrantAlreadyExistsFault` : The snapshot copy grant can't be created because a grant with the same name already exists.
     /// - `SnapshotCopyGrantQuotaExceededFault` : The Amazon Web Services account has exceeded the maximum number of snapshot copy grants in this region.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createSnapshotCopyGrant(input: CreateSnapshotCopyGrantInput) async throws -> CreateSnapshotCopyGrantOutput
-    {
+    public func createSnapshotCopyGrant(input: CreateSnapshotCopyGrantInput) async throws -> CreateSnapshotCopyGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1351,8 +1326,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `SnapshotScheduleAlreadyExistsFault` : The specified snapshot schedule already exists.
     /// - `SnapshotScheduleQuotaExceededFault` : You have exceeded the quota of snapshot schedules.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createSnapshotSchedule(input: CreateSnapshotScheduleInput) async throws -> CreateSnapshotScheduleOutput
-    {
+    public func createSnapshotSchedule(input: CreateSnapshotScheduleInput) async throws -> CreateSnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1400,8 +1374,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-    {
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1452,8 +1425,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UsageLimitAlreadyExistsFault` : The usage limit already exists.
-    public func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput
-    {
+    public func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1470,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
-    public func deauthorizeDataShare(input: DeauthorizeDataShareInput) async throws -> DeauthorizeDataShareOutput
-    {
+    public func deauthorizeDataShare(input: DeauthorizeDataShareInput) async throws -> DeauthorizeDataShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1545,8 +1516,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `AuthenticationProfileNotFoundFault` : The authentication profile can't be found.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
-    public func deleteAuthenticationProfile(input: DeleteAuthenticationProfileInput) async throws -> DeleteAuthenticationProfileOutput
-    {
+    public func deleteAuthenticationProfile(input: DeleteAuthenticationProfileInput) async throws -> DeleteAuthenticationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1595,8 +1565,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of cluster snapshots.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1642,8 +1611,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidClusterParameterGroupStateFault` : The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
-    public func deleteClusterParameterGroup(input: DeleteClusterParameterGroupInput) async throws -> DeleteClusterParameterGroupOutput
-    {
+    public func deleteClusterParameterGroup(input: DeleteClusterParameterGroupInput) async throws -> DeleteClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1689,8 +1657,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
-    public func deleteClusterSecurityGroup(input: DeleteClusterSecurityGroupInput) async throws -> DeleteClusterSecurityGroupOutput
-    {
+    public func deleteClusterSecurityGroup(input: DeleteClusterSecurityGroupInput) async throws -> DeleteClusterSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1736,8 +1703,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
-    public func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
-    {
+    public func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1784,8 +1750,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
     /// - `InvalidClusterSubnetGroupStateFault` : The cluster subnet group cannot be deleted because it is in use.
     /// - `InvalidClusterSubnetStateFault` : The state of the subnet is invalid.
-    public func deleteClusterSubnetGroup(input: DeleteClusterSubnetGroupInput) async throws -> DeleteClusterSubnetGroupOutput
-    {
+    public func deleteClusterSubnetGroup(input: DeleteClusterSubnetGroupInput) async throws -> DeleteClusterSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1833,8 +1798,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `CustomCnameAssociationFault` : An error occurred when an attempt was made to change the custom domain association.
     /// - `CustomDomainAssociationNotFoundFault` : An error occurred. The custom domain name couldn't be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput
-    {
+    public func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1883,8 +1847,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidEndpointStateFault` : The status of the endpoint is not valid.
-    public func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput
-    {
+    public func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1930,8 +1893,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidSubscriptionStateFault` : The subscription request is invalid because it is a duplicate request. This subscription request is already in progress.
     /// - `SubscriptionNotFoundFault` : An Amazon Redshift event notification subscription with the specified name does not exist.
-    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
-    {
+    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1977,8 +1939,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
     /// - `InvalidHsmClientCertificateStateFault` : The specified HSM client certificate is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
-    public func deleteHsmClientCertificate(input: DeleteHsmClientCertificateInput) async throws -> DeleteHsmClientCertificateOutput
-    {
+    public func deleteHsmClientCertificate(input: DeleteHsmClientCertificateInput) async throws -> DeleteHsmClientCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2024,8 +1985,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `HsmConfigurationNotFoundFault` : There is no Amazon Redshift HSM configuration with the specified identifier.
     /// - `InvalidHsmConfigurationStateFault` : The specified HSM configuration is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
-    public func deleteHsmConfiguration(input: DeleteHsmConfigurationInput) async throws -> DeleteHsmConfigurationOutput
-    {
+    public func deleteHsmConfiguration(input: DeleteHsmConfigurationInput) async throws -> DeleteHsmConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2073,8 +2033,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `PartnerNotFoundFault` : The name of the partner was not found.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func deletePartner(input: DeletePartnerInput) async throws -> DeletePartnerOutput
-    {
+    public func deletePartner(input: DeletePartnerInput) async throws -> DeletePartnerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2122,8 +2081,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func deleteRedshiftIdcApplication(input: DeleteRedshiftIdcApplicationInput) async throws -> DeleteRedshiftIdcApplicationOutput
-    {
+    public func deleteRedshiftIdcApplication(input: DeleteRedshiftIdcApplicationInput) async throws -> DeleteRedshiftIdcApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2169,8 +2127,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2216,8 +2173,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ScheduledActionNotFoundFault` : The scheduled action cannot be found.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput
-    {
+    public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2263,8 +2219,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidSnapshotCopyGrantStateFault` : The snapshot copy grant can't be deleted because it is used by one or more clusters.
     /// - `SnapshotCopyGrantNotFoundFault` : The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
-    public func deleteSnapshotCopyGrant(input: DeleteSnapshotCopyGrantInput) async throws -> DeleteSnapshotCopyGrantOutput
-    {
+    public func deleteSnapshotCopyGrant(input: DeleteSnapshotCopyGrantInput) async throws -> DeleteSnapshotCopyGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2310,8 +2265,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidClusterSnapshotScheduleStateFault` : The cluster snapshot schedule state is not valid.
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
-    public func deleteSnapshotSchedule(input: DeleteSnapshotScheduleInput) async throws -> DeleteSnapshotScheduleOutput
-    {
+    public func deleteSnapshotSchedule(input: DeleteSnapshotScheduleInput) async throws -> DeleteSnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2357,8 +2311,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2404,8 +2357,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UsageLimitNotFoundFault` : The usage limit identifier can't be found.
-    public func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput
-    {
+    public func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2445,8 +2397,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeAccountAttributesInput : [no documentation found]
     ///
     /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2492,8 +2443,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `AuthenticationProfileNotFoundFault` : The authentication profile can't be found.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
-    public func describeAuthenticationProfiles(input: DescribeAuthenticationProfilesInput) async throws -> DescribeAuthenticationProfilesOutput
-    {
+    public func describeAuthenticationProfiles(input: DescribeAuthenticationProfilesInput) async throws -> DescribeAuthenticationProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2539,8 +2489,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
-    public func describeClusterDbRevisions(input: DescribeClusterDbRevisionsInput) async throws -> DescribeClusterDbRevisionsOutput
-    {
+    public func describeClusterDbRevisions(input: DescribeClusterDbRevisionsInput) async throws -> DescribeClusterDbRevisionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2586,8 +2535,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidTagFault` : The tag is invalid.
-    public func describeClusterParameterGroups(input: DescribeClusterParameterGroupsInput) async throws -> DescribeClusterParameterGroupsOutput
-    {
+    public func describeClusterParameterGroups(input: DescribeClusterParameterGroupsInput) async throws -> DescribeClusterParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2632,8 +2580,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
-    public func describeClusterParameters(input: DescribeClusterParametersInput) async throws -> DescribeClusterParametersOutput
-    {
+    public func describeClusterParameters(input: DescribeClusterParametersInput) async throws -> DescribeClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2679,8 +2626,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidTagFault` : The tag is invalid.
-    public func describeClusterSecurityGroups(input: DescribeClusterSecurityGroupsInput) async throws -> DescribeClusterSecurityGroupsOutput
-    {
+    public func describeClusterSecurityGroups(input: DescribeClusterSecurityGroupsInput) async throws -> DescribeClusterSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2728,8 +2674,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeClusterSnapshots(input: DescribeClusterSnapshotsInput) async throws -> DescribeClusterSnapshotsOutput
-    {
+    public func describeClusterSnapshots(input: DescribeClusterSnapshotsInput) async throws -> DescribeClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2775,8 +2720,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
     /// - `InvalidTagFault` : The tag is invalid.
-    public func describeClusterSubnetGroups(input: DescribeClusterSubnetGroupsInput) async throws -> DescribeClusterSubnetGroupsOutput
-    {
+    public func describeClusterSubnetGroups(input: DescribeClusterSubnetGroupsInput) async throws -> DescribeClusterSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2822,8 +2766,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidClusterTrackFault` : The provided cluster track name is not valid.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func describeClusterTracks(input: DescribeClusterTracksInput) async throws -> DescribeClusterTracksOutput
-    {
+    public func describeClusterTracks(input: DescribeClusterTracksInput) async throws -> DescribeClusterTracksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2863,8 +2806,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeClusterVersionsInput :
     ///
     /// - Returns: `DescribeClusterVersionsOutput` : Contains the output from the [DescribeClusterVersions] action.
-    public func describeClusterVersions(input: DescribeClusterVersionsInput) async throws -> DescribeClusterVersionsOutput
-    {
+    public func describeClusterVersions(input: DescribeClusterVersionsInput) async throws -> DescribeClusterVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2910,8 +2852,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidTagFault` : The tag is invalid.
-    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
-    {
+    public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2957,8 +2898,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `CustomDomainAssociationNotFoundFault` : An error occurred. The custom domain name couldn't be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeCustomDomainAssociations(input: DescribeCustomDomainAssociationsInput) async throws -> DescribeCustomDomainAssociationsOutput
-    {
+    public func describeCustomDomainAssociations(input: DescribeCustomDomainAssociationsInput) async throws -> DescribeCustomDomainAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3003,8 +2943,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
-    public func describeDataShares(input: DescribeDataSharesInput) async throws -> DescribeDataSharesOutput
-    {
+    public func describeDataShares(input: DescribeDataSharesInput) async throws -> DescribeDataSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3049,8 +2988,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
-    public func describeDataSharesForConsumer(input: DescribeDataSharesForConsumerInput) async throws -> DescribeDataSharesForConsumerOutput
-    {
+    public func describeDataSharesForConsumer(input: DescribeDataSharesForConsumerInput) async throws -> DescribeDataSharesForConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3095,8 +3033,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
-    public func describeDataSharesForProducer(input: DescribeDataSharesForProducerInput) async throws -> DescribeDataSharesForProducerOutput
-    {
+    public func describeDataSharesForProducer(input: DescribeDataSharesForProducerInput) async throws -> DescribeDataSharesForProducerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3136,8 +3073,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeDefaultClusterParametersInput :
     ///
     /// - Returns: `DescribeDefaultClusterParametersOutput` : [no documentation found]
-    public func describeDefaultClusterParameters(input: DescribeDefaultClusterParametersInput) async throws -> DescribeDefaultClusterParametersOutput
-    {
+    public func describeDefaultClusterParameters(input: DescribeDefaultClusterParametersInput) async throws -> DescribeDefaultClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3184,8 +3120,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `EndpointNotFoundFault` : The endpoint name doesn't refer to an existing endpoint.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
-    public func describeEndpointAccess(input: DescribeEndpointAccessInput) async throws -> DescribeEndpointAccessOutput
-    {
+    public func describeEndpointAccess(input: DescribeEndpointAccessInput) async throws -> DescribeEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3231,8 +3166,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeEndpointAuthorization(input: DescribeEndpointAuthorizationInput) async throws -> DescribeEndpointAuthorizationOutput
-    {
+    public func describeEndpointAuthorization(input: DescribeEndpointAuthorizationInput) async throws -> DescribeEndpointAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3272,8 +3206,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeEventCategoriesInput :
     ///
     /// - Returns: `DescribeEventCategoriesOutput` :
-    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
-    {
+    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3319,8 +3252,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `SubscriptionNotFoundFault` : An Amazon Redshift event notification subscription with the specified name does not exist.
-    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
-    {
+    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3360,8 +3292,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeEventsInput :
     ///
     /// - Returns: `DescribeEventsOutput` :
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3407,8 +3338,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
     /// - `InvalidTagFault` : The tag is invalid.
-    public func describeHsmClientCertificates(input: DescribeHsmClientCertificatesInput) async throws -> DescribeHsmClientCertificatesOutput
-    {
+    public func describeHsmClientCertificates(input: DescribeHsmClientCertificatesInput) async throws -> DescribeHsmClientCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3454,8 +3384,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `HsmConfigurationNotFoundFault` : There is no Amazon Redshift HSM configuration with the specified identifier.
     /// - `InvalidTagFault` : The tag is invalid.
-    public func describeHsmConfigurations(input: DescribeHsmConfigurationsInput) async throws -> DescribeHsmConfigurationsOutput
-    {
+    public func describeHsmConfigurations(input: DescribeHsmConfigurationsInput) async throws -> DescribeHsmConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3502,8 +3431,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `IntegrationNotFoundFault` : The integration can't be found.
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeInboundIntegrations(input: DescribeInboundIntegrationsInput) async throws -> DescribeInboundIntegrationsOutput
-    {
+    public func describeInboundIntegrations(input: DescribeInboundIntegrationsInput) async throws -> DescribeInboundIntegrationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3549,8 +3477,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeLoggingStatus(input: DescribeLoggingStatusInput) async throws -> DescribeLoggingStatusOutput
-    {
+    public func describeLoggingStatus(input: DescribeLoggingStatusInput) async throws -> DescribeLoggingStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3599,8 +3526,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeNodeConfigurationOptions(input: DescribeNodeConfigurationOptionsInput) async throws -> DescribeNodeConfigurationOptionsOutput
-    {
+    public func describeNodeConfigurationOptions(input: DescribeNodeConfigurationOptionsInput) async throws -> DescribeNodeConfigurationOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3640,8 +3566,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeOrderableClusterOptionsInput :
     ///
     /// - Returns: `DescribeOrderableClusterOptionsOutput` : Contains the output from the [DescribeOrderableClusterOptions] action.
-    public func describeOrderableClusterOptions(input: DescribeOrderableClusterOptionsInput) async throws -> DescribeOrderableClusterOptionsOutput
-    {
+    public func describeOrderableClusterOptions(input: DescribeOrderableClusterOptionsInput) async throws -> DescribeOrderableClusterOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3688,8 +3613,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describePartners(input: DescribePartnersInput) async throws -> DescribePartnersOutput
-    {
+    public func describePartners(input: DescribePartnersInput) async throws -> DescribePartnersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3737,8 +3661,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeRedshiftIdcApplications(input: DescribeRedshiftIdcApplicationsInput) async throws -> DescribeRedshiftIdcApplicationsOutput
-    {
+    public func describeRedshiftIdcApplications(input: DescribeRedshiftIdcApplicationsInput) async throws -> DescribeRedshiftIdcApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3785,8 +3708,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ReservedNodeExchangeNotFoundFault` : The reserved-node exchange status wasn't found.
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeReservedNodeExchangeStatus(input: DescribeReservedNodeExchangeStatusInput) async throws -> DescribeReservedNodeExchangeStatusOutput
-    {
+    public func describeReservedNodeExchangeStatus(input: DescribeReservedNodeExchangeStatusInput) async throws -> DescribeReservedNodeExchangeStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3833,8 +3755,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeReservedNodeOfferings(input: DescribeReservedNodeOfferingsInput) async throws -> DescribeReservedNodeOfferingsOutput
-    {
+    public func describeReservedNodeOfferings(input: DescribeReservedNodeOfferingsInput) async throws -> DescribeReservedNodeOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3880,8 +3801,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
-    public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput
-    {
+    public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3928,8 +3848,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `ResizeNotFoundFault` : A resize operation for the specified cluster is not found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeResize(input: DescribeResizeInput) async throws -> DescribeResizeOutput
-    {
+    public func describeResize(input: DescribeResizeInput) async throws -> DescribeResizeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3975,8 +3894,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ScheduledActionNotFoundFault` : The scheduled action cannot be found.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput
-    {
+    public func describeScheduledActions(input: DescribeScheduledActionsInput) async throws -> DescribeScheduledActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4022,8 +3940,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `SnapshotCopyGrantNotFoundFault` : The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
-    public func describeSnapshotCopyGrants(input: DescribeSnapshotCopyGrantsInput) async throws -> DescribeSnapshotCopyGrantsOutput
-    {
+    public func describeSnapshotCopyGrants(input: DescribeSnapshotCopyGrantsInput) async throws -> DescribeSnapshotCopyGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4063,8 +3980,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeSnapshotSchedulesInput : [no documentation found]
     ///
     /// - Returns: `DescribeSnapshotSchedulesOutput` : [no documentation found]
-    public func describeSnapshotSchedules(input: DescribeSnapshotSchedulesInput) async throws -> DescribeSnapshotSchedulesOutput
-    {
+    public func describeSnapshotSchedules(input: DescribeSnapshotSchedulesInput) async throws -> DescribeSnapshotSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4104,8 +4020,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - Parameter DescribeStorageInput : [no documentation found]
     ///
     /// - Returns: `DescribeStorageOutput` : [no documentation found]
-    public func describeStorage(input: DescribeStorageInput) async throws -> DescribeStorageOutput
-    {
+    public func describeStorage(input: DescribeStorageInput) async throws -> DescribeStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4151,8 +4066,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `TableRestoreNotFoundFault` : The specified TableRestoreRequestId value was not found.
-    public func describeTableRestoreStatus(input: DescribeTableRestoreStatusInput) async throws -> DescribeTableRestoreStatusOutput
-    {
+    public func describeTableRestoreStatus(input: DescribeTableRestoreStatusInput) async throws -> DescribeTableRestoreStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4207,8 +4121,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidTagFault` : The tag is invalid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4262,8 +4175,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func describeUsageLimits(input: DescribeUsageLimitsInput) async throws -> DescribeUsageLimitsOutput
-    {
+    public func describeUsageLimits(input: DescribeUsageLimitsInput) async throws -> DescribeUsageLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4310,8 +4222,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func disableLogging(input: DisableLoggingInput) async throws -> DisableLoggingOutput
-    {
+    public func disableLogging(input: DisableLoggingInput) async throws -> DisableLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4360,8 +4271,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `SnapshotCopyAlreadyDisabledFault` : The cluster already has cross-region snapshot copy disabled.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func disableSnapshotCopy(input: DisableSnapshotCopyInput) async throws -> DisableSnapshotCopyOutput
-    {
+    public func disableSnapshotCopy(input: DisableSnapshotCopyInput) async throws -> DisableSnapshotCopyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4407,8 +4317,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
     /// - `InvalidNamespaceFault` : The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
-    public func disassociateDataShareConsumer(input: DisassociateDataShareConsumerInput) async throws -> DisassociateDataShareConsumerOutput
-    {
+    public func disassociateDataShareConsumer(input: DisassociateDataShareConsumerInput) async throws -> DisassociateDataShareConsumerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4459,8 +4368,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidS3BucketNameFault` : The S3 bucket name is invalid. For more information about naming rules, go to [Bucket Restrictions and Limitations](https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html) in the Amazon Simple Storage Service (S3) Developer Guide.
     /// - `InvalidS3KeyPrefixFault` : The string specified for the logging S3 key prefix does not comply with the documented constraints.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func enableLogging(input: EnableLoggingInput) async throws -> EnableLoggingOutput
-    {
+    public func enableLogging(input: EnableLoggingInput) async throws -> EnableLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4515,8 +4423,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `SnapshotCopyGrantNotFoundFault` : The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnknownSnapshotCopyRegionFault` : The specified region is incorrect or does not exist.
-    public func enableSnapshotCopy(input: EnableSnapshotCopyInput) async throws -> EnableSnapshotCopyOutput
-    {
+    public func enableSnapshotCopy(input: EnableSnapshotCopyInput) async throws -> EnableSnapshotCopyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4564,8 +4471,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func failoverPrimaryCompute(input: FailoverPrimaryComputeInput) async throws -> FailoverPrimaryComputeOutput
-    {
+    public func failoverPrimaryCompute(input: FailoverPrimaryComputeInput) async throws -> FailoverPrimaryComputeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4611,8 +4517,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func getClusterCredentials(input: GetClusterCredentialsInput) async throws -> GetClusterCredentialsOutput
-    {
+    public func getClusterCredentials(input: GetClusterCredentialsInput) async throws -> GetClusterCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4658,8 +4563,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func getClusterCredentialsWithIAM(input: GetClusterCredentialsWithIAMInput) async throws -> GetClusterCredentialsWithIAMOutput
-    {
+    public func getClusterCredentialsWithIAM(input: GetClusterCredentialsWithIAMInput) async throws -> GetClusterCredentialsWithIAMOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4711,8 +4615,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func getReservedNodeExchangeConfigurationOptions(input: GetReservedNodeExchangeConfigurationOptionsInput) async throws -> GetReservedNodeExchangeConfigurationOptionsOutput
-    {
+    public func getReservedNodeExchangeConfigurationOptions(input: GetReservedNodeExchangeConfigurationOptionsInput) async throws -> GetReservedNodeExchangeConfigurationOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4762,8 +4665,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func getReservedNodeExchangeOfferings(input: GetReservedNodeExchangeOfferingsInput) async throws -> GetReservedNodeExchangeOfferingsOutput
-    {
+    public func getReservedNodeExchangeOfferings(input: GetReservedNodeExchangeOfferingsInput) async throws -> GetReservedNodeExchangeOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4810,8 +4712,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidPolicyFault` : The resource policy isn't valid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4858,8 +4759,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func modifyAquaConfiguration(input: ModifyAquaConfigurationInput) async throws -> ModifyAquaConfigurationOutput
-    {
+    public func modifyAquaConfiguration(input: ModifyAquaConfigurationInput) async throws -> ModifyAquaConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4906,8 +4806,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `AuthenticationProfileNotFoundFault` : The authentication profile can't be found.
     /// - `AuthenticationProfileQuotaExceededFault` : The size or number of authentication profiles has exceeded the quota. The maximum length of the JSON string and maximum number of authentication profiles is determined by a quota for your account.
     /// - `InvalidAuthenticationProfileRequestFault` : The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
-    public func modifyAuthenticationProfile(input: ModifyAuthenticationProfileInput) async throws -> ModifyAuthenticationProfileOutput
-    {
+    public func modifyAuthenticationProfile(input: ModifyAuthenticationProfileInput) async throws -> ModifyAuthenticationProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4973,8 +4872,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UnsupportedOptionFault` : A request option was specified that is not supported.
-    public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput
-    {
+    public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5022,8 +4920,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterOnLatestRevisionFault` : Cluster is already on the latest database revision.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func modifyClusterDbRevision(input: ModifyClusterDbRevisionInput) async throws -> ModifyClusterDbRevisionOutput
-    {
+    public func modifyClusterDbRevision(input: ModifyClusterDbRevisionInput) async throws -> ModifyClusterDbRevisionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5069,8 +4966,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
-    public func modifyClusterIamRoles(input: ModifyClusterIamRolesInput) async throws -> ModifyClusterIamRolesOutput
-    {
+    public func modifyClusterIamRoles(input: ModifyClusterIamRolesInput) async throws -> ModifyClusterIamRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5116,8 +5012,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
-    public func modifyClusterMaintenance(input: ModifyClusterMaintenanceInput) async throws -> ModifyClusterMaintenanceOutput
-    {
+    public func modifyClusterMaintenance(input: ModifyClusterMaintenanceInput) async throws -> ModifyClusterMaintenanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5163,8 +5058,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidClusterParameterGroupStateFault` : The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
-    public func modifyClusterParameterGroup(input: ModifyClusterParameterGroupInput) async throws -> ModifyClusterParameterGroupOutput
-    {
+    public func modifyClusterParameterGroup(input: ModifyClusterParameterGroupInput) async throws -> ModifyClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5211,8 +5105,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `InvalidClusterSnapshotStateFault` : The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
-    public func modifyClusterSnapshot(input: ModifyClusterSnapshotInput) async throws -> ModifyClusterSnapshotOutput
-    {
+    public func modifyClusterSnapshot(input: ModifyClusterSnapshotInput) async throws -> ModifyClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5259,8 +5152,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterSnapshotScheduleStateFault` : The cluster snapshot schedule state is not valid.
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
-    public func modifyClusterSnapshotSchedule(input: ModifyClusterSnapshotScheduleInput) async throws -> ModifyClusterSnapshotScheduleOutput
-    {
+    public func modifyClusterSnapshotSchedule(input: ModifyClusterSnapshotScheduleInput) async throws -> ModifyClusterSnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5310,8 +5202,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidSubnet` : The requested subnet is not valid, or not all of the subnets are in the same VPC.
     /// - `SubnetAlreadyInUse` : A specified subnet is already in use by another cluster.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func modifyClusterSubnetGroup(input: ModifyClusterSubnetGroupInput) async throws -> ModifyClusterSubnetGroupOutput
-    {
+    public func modifyClusterSubnetGroup(input: ModifyClusterSubnetGroupInput) async throws -> ModifyClusterSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5359,8 +5250,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `CustomCnameAssociationFault` : An error occurred when an attempt was made to change the custom domain association.
     /// - `CustomDomainAssociationNotFoundFault` : An error occurred. The custom domain name couldn't be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func modifyCustomDomainAssociation(input: ModifyCustomDomainAssociationInput) async throws -> ModifyCustomDomainAssociationOutput
-    {
+    public func modifyCustomDomainAssociation(input: ModifyCustomDomainAssociationInput) async throws -> ModifyCustomDomainAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5410,8 +5300,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidEndpointStateFault` : The status of the endpoint is not valid.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func modifyEndpointAccess(input: ModifyEndpointAccessInput) async throws -> ModifyEndpointAccessOutput
-    {
+    public func modifyEndpointAccess(input: ModifyEndpointAccessInput) async throws -> ModifyEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5464,8 +5353,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `SubscriptionEventIdNotFoundFault` : An Amazon Redshift event with the specified event ID does not exist.
     /// - `SubscriptionNotFoundFault` : An Amazon Redshift event notification subscription with the specified name does not exist.
     /// - `SubscriptionSeverityNotFoundFault` : The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.
-    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
-    {
+    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5513,8 +5401,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func modifyRedshiftIdcApplication(input: ModifyRedshiftIdcApplicationInput) async throws -> ModifyRedshiftIdcApplicationOutput
-    {
+    public func modifyRedshiftIdcApplication(input: ModifyRedshiftIdcApplicationInput) async throws -> ModifyRedshiftIdcApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5565,8 +5452,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ScheduledActionTypeUnsupportedFault` : The action type specified for a scheduled action is not supported.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func modifyScheduledAction(input: ModifyScheduledActionInput) async throws -> ModifyScheduledActionOutput
-    {
+    public func modifyScheduledAction(input: ModifyScheduledActionInput) async throws -> ModifyScheduledActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5615,8 +5501,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidRetentionPeriodFault` : The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
     /// - `SnapshotCopyDisabledFault` : Cross-region snapshot copy was temporarily disabled. Try your request again.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
-    public func modifySnapshotCopyRetentionPeriod(input: ModifySnapshotCopyRetentionPeriodInput) async throws -> ModifySnapshotCopyRetentionPeriodOutput
-    {
+    public func modifySnapshotCopyRetentionPeriod(input: ModifySnapshotCopyRetentionPeriodInput) async throws -> ModifySnapshotCopyRetentionPeriodOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5663,8 +5548,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidScheduleFault` : The schedule you submitted isn't valid.
     /// - `SnapshotScheduleNotFoundFault` : We could not find the specified snapshot schedule.
     /// - `SnapshotScheduleUpdateInProgressFault` : The specified snapshot schedule is already being updated.
-    public func modifySnapshotSchedule(input: ModifySnapshotScheduleInput) async throws -> ModifySnapshotScheduleOutput
-    {
+    public func modifySnapshotSchedule(input: ModifySnapshotScheduleInput) async throws -> ModifySnapshotScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5711,8 +5595,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidUsageLimitFault` : The usage limit is not valid.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UsageLimitNotFoundFault` : The usage limit identifier can't be found.
-    public func modifyUsageLimit(input: ModifyUsageLimitInput) async throws -> ModifyUsageLimitOutput
-    {
+    public func modifyUsageLimit(input: ModifyUsageLimitInput) async throws -> ModifyUsageLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5759,8 +5642,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func pauseCluster(input: PauseClusterInput) async throws -> PauseClusterOutput
-    {
+    public func pauseCluster(input: PauseClusterInput) async throws -> PauseClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5808,8 +5690,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `ReservedNodeOfferingNotFoundFault` : Specified offering does not exist.
     /// - `ReservedNodeQuotaExceededFault` : Request would exceed the user's compute node quota. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func purchaseReservedNodeOffering(input: PurchaseReservedNodeOfferingInput) async throws -> PurchaseReservedNodeOfferingOutput
-    {
+    public func purchaseReservedNodeOffering(input: PurchaseReservedNodeOfferingInput) async throws -> PurchaseReservedNodeOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5857,8 +5738,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidPolicyFault` : The resource policy isn't valid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5904,8 +5784,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
-    public func rebootCluster(input: RebootClusterInput) async throws -> RebootClusterOutput
-    {
+    public func rebootCluster(input: RebootClusterInput) async throws -> RebootClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5950,8 +5829,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidDataShareFault` : There is an error with the datashare.
-    public func rejectDataShare(input: RejectDataShareInput) async throws -> RejectDataShareOutput
-    {
+    public func rejectDataShare(input: RejectDataShareInput) async throws -> RejectDataShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5997,8 +5875,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClusterParameterGroupNotFoundFault` : The parameter group name does not refer to an existing parameter group.
     /// - `InvalidClusterParameterGroupStateFault` : The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
-    public func resetClusterParameterGroup(input: ResetClusterParameterGroupInput) async throws -> ResetClusterParameterGroupOutput
-    {
+    public func resetClusterParameterGroup(input: ResetClusterParameterGroupInput) async throws -> ResetClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6082,8 +5959,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     /// - `UnsupportedOptionFault` : A request option was specified that is not supported.
-    public func resizeCluster(input: ResizeClusterInput) async throws -> ResizeClusterOutput
-    {
+    public func resizeCluster(input: ResizeClusterInput) async throws -> ResizeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6160,8 +6036,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func restoreFromClusterSnapshot(input: RestoreFromClusterSnapshotInput) async throws -> RestoreFromClusterSnapshotOutput
-    {
+    public func restoreFromClusterSnapshot(input: RestoreFromClusterSnapshotInput) async throws -> RestoreFromClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6212,8 +6087,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidTableRestoreArgumentFault` : The value specified for the sourceDatabaseName, sourceSchemaName, or sourceTableName parameter, or a combination of these, doesn't exist in the snapshot.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func restoreTableFromClusterSnapshot(input: RestoreTableFromClusterSnapshotInput) async throws -> RestoreTableFromClusterSnapshotOutput
-    {
+    public func restoreTableFromClusterSnapshot(input: RestoreTableFromClusterSnapshotInput) async throws -> RestoreTableFromClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6261,8 +6135,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InsufficientClusterCapacityFault` : The number of nodes specified exceeds the allotted capacity of the cluster.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func resumeCluster(input: ResumeClusterInput) async throws -> ResumeClusterOutput
-    {
+    public func resumeCluster(input: ResumeClusterInput) async throws -> ResumeClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6309,8 +6182,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or EC2 security group is not authorized for the specified cluster security group.
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
-    public func revokeClusterSecurityGroupIngress(input: RevokeClusterSecurityGroupIngressInput) async throws -> RevokeClusterSecurityGroupIngressOutput
-    {
+    public func revokeClusterSecurityGroupIngress(input: RevokeClusterSecurityGroupIngressInput) async throws -> RevokeClusterSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6361,8 +6233,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `InvalidClusterSecurityGroupStateFault` : The state of the cluster security group is not available.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `InvalidEndpointStateFault` : The status of the endpoint is not valid.
-    public func revokeEndpointAccess(input: RevokeEndpointAccessInput) async throws -> RevokeEndpointAccessOutput
-    {
+    public func revokeEndpointAccess(input: RevokeEndpointAccessInput) async throws -> RevokeEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6410,8 +6281,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or EC2 security group is not authorized for the specified cluster security group.
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func revokeSnapshotAccess(input: RevokeSnapshotAccessInput) async throws -> RevokeSnapshotAccessOutput
-    {
+    public func revokeSnapshotAccess(input: RevokeSnapshotAccessInput) async throws -> RevokeSnapshotAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6459,8 +6329,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `DependentServiceRequestThrottlingFault` : The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func rotateEncryptionKey(input: RotateEncryptionKeyInput) async throws -> RotateEncryptionKeyOutput
-    {
+    public func rotateEncryptionKey(input: RotateEncryptionKeyInput) async throws -> RotateEncryptionKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6508,8 +6377,7 @@ extension RedshiftClient: RedshiftClientProtocol {
     /// - `PartnerNotFoundFault` : The name of the partner was not found.
     /// - `UnauthorizedPartnerIntegrationFault` : The partner integration is not authorized.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
-    public func updatePartnerStatus(input: UpdatePartnerStatusInput) async throws -> UpdatePartnerStatusOutput
-    {
+    public func updatePartnerStatus(input: UpdatePartnerStatusInput) async throws -> UpdatePartnerStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

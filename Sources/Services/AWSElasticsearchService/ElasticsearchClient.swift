@@ -66,7 +66,7 @@ public struct ElasticsearchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension ElasticsearchClient: ElasticsearchClientProtocol {
+extension ElasticsearchClient {
     /// Performs the `AcceptInboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
     ///
     /// Allows the destination domain owner to accept an inbound cross-cluster search connection request.
@@ -81,8 +81,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func acceptInboundCrossClusterSearchConnection(input: AcceptInboundCrossClusterSearchConnectionInput) async throws -> AcceptInboundCrossClusterSearchConnectionOutput
-    {
+    public func acceptInboundCrossClusterSearchConnection(input: AcceptInboundCrossClusterSearchConnectionInput) async throws -> AcceptInboundCrossClusterSearchConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutput
-    {
+    public func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutput
-    {
+    public func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +271,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func cancelElasticsearchServiceSoftwareUpdate(input: CancelElasticsearchServiceSoftwareUpdateInput) async throws -> CancelElasticsearchServiceSoftwareUpdateOutput
-    {
+    public func cancelElasticsearchServiceSoftwareUpdate(input: CancelElasticsearchServiceSoftwareUpdateInput) async throws -> CancelElasticsearchServiceSoftwareUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +322,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func createElasticsearchDomain(input: CreateElasticsearchDomainInput) async throws -> CreateElasticsearchDomainOutput
-    {
+    public func createElasticsearchDomain(input: CreateElasticsearchDomainInput) async throws -> CreateElasticsearchDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
-    public func createOutboundCrossClusterSearchConnection(input: CreateOutboundCrossClusterSearchConnectionInput) async throws -> CreateOutboundCrossClusterSearchConnectionOutput
-    {
+    public func createOutboundCrossClusterSearchConnection(input: CreateOutboundCrossClusterSearchConnectionInput) async throws -> CreateOutboundCrossClusterSearchConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
-    {
+    public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput
-    {
+    public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func deleteElasticsearchDomain(input: DeleteElasticsearchDomainInput) async throws -> DeleteElasticsearchDomainOutput
-    {
+    public func deleteElasticsearchDomain(input: DeleteElasticsearchDomainInput) async throws -> DeleteElasticsearchDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func deleteElasticsearchServiceRole(input: DeleteElasticsearchServiceRoleInput) async throws -> DeleteElasticsearchServiceRoleOutput
-    {
+    public func deleteElasticsearchServiceRole(input: DeleteElasticsearchServiceRoleInput) async throws -> DeleteElasticsearchServiceRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -617,8 +606,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func deleteInboundCrossClusterSearchConnection(input: DeleteInboundCrossClusterSearchConnectionInput) async throws -> DeleteInboundCrossClusterSearchConnectionOutput
-    {
+    public func deleteInboundCrossClusterSearchConnection(input: DeleteInboundCrossClusterSearchConnectionInput) async throws -> DeleteInboundCrossClusterSearchConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +649,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func deleteOutboundCrossClusterSearchConnection(input: DeleteOutboundCrossClusterSearchConnectionInput) async throws -> DeleteOutboundCrossClusterSearchConnectionOutput
-    {
+    public func deleteOutboundCrossClusterSearchConnection(input: DeleteOutboundCrossClusterSearchConnectionInput) async throws -> DeleteOutboundCrossClusterSearchConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -709,8 +696,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
-    {
+    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,8 +741,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutput
-    {
+    public func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -801,8 +786,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutput
-    {
+    public func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -850,8 +834,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutput
-    {
+    public func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -897,8 +880,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeElasticsearchDomain(input: DescribeElasticsearchDomainInput) async throws -> DescribeElasticsearchDomainOutput
-    {
+    public func describeElasticsearchDomain(input: DescribeElasticsearchDomainInput) async throws -> DescribeElasticsearchDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -943,8 +925,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeElasticsearchDomainConfig(input: DescribeElasticsearchDomainConfigInput) async throws -> DescribeElasticsearchDomainConfigOutput
-    {
+    public func describeElasticsearchDomainConfig(input: DescribeElasticsearchDomainConfigInput) async throws -> DescribeElasticsearchDomainConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -988,8 +969,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeElasticsearchDomains(input: DescribeElasticsearchDomainsInput) async throws -> DescribeElasticsearchDomainsOutput
-    {
+    public func describeElasticsearchDomains(input: DescribeElasticsearchDomainsInput) async throws -> DescribeElasticsearchDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1039,8 +1019,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeElasticsearchInstanceTypeLimits(input: DescribeElasticsearchInstanceTypeLimitsInput) async throws -> DescribeElasticsearchInstanceTypeLimitsOutput
-    {
+    public func describeElasticsearchInstanceTypeLimits(input: DescribeElasticsearchInstanceTypeLimitsInput) async throws -> DescribeElasticsearchInstanceTypeLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1084,8 +1063,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InvalidPaginationTokenException` : The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
-    public func describeInboundCrossClusterSearchConnections(input: DescribeInboundCrossClusterSearchConnectionsInput) async throws -> DescribeInboundCrossClusterSearchConnectionsOutput
-    {
+    public func describeInboundCrossClusterSearchConnections(input: DescribeInboundCrossClusterSearchConnectionsInput) async throws -> DescribeInboundCrossClusterSearchConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1131,8 +1109,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InvalidPaginationTokenException` : The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
-    public func describeOutboundCrossClusterSearchConnections(input: DescribeOutboundCrossClusterSearchConnectionsInput) async throws -> DescribeOutboundCrossClusterSearchConnectionsOutput
-    {
+    public func describeOutboundCrossClusterSearchConnections(input: DescribeOutboundCrossClusterSearchConnectionsInput) async throws -> DescribeOutboundCrossClusterSearchConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1181,8 +1158,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describePackages(input: DescribePackagesInput) async throws -> DescribePackagesOutput
-    {
+    public func describePackages(input: DescribePackagesInput) async throws -> DescribePackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1230,8 +1206,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeReservedElasticsearchInstanceOfferings(input: DescribeReservedElasticsearchInstanceOfferingsInput) async throws -> DescribeReservedElasticsearchInstanceOfferingsOutput
-    {
+    public func describeReservedElasticsearchInstanceOfferings(input: DescribeReservedElasticsearchInstanceOfferingsInput) async throws -> DescribeReservedElasticsearchInstanceOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1277,8 +1252,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeReservedElasticsearchInstances(input: DescribeReservedElasticsearchInstancesInput) async throws -> DescribeReservedElasticsearchInstancesOutput
-    {
+    public func describeReservedElasticsearchInstances(input: DescribeReservedElasticsearchInstancesInput) async throws -> DescribeReservedElasticsearchInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1324,8 +1298,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput
-    {
+    public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1375,8 +1348,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutput
-    {
+    public func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1422,8 +1394,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func getCompatibleElasticsearchVersions(input: GetCompatibleElasticsearchVersionsInput) async throws -> GetCompatibleElasticsearchVersionsOutput
-    {
+    public func getCompatibleElasticsearchVersions(input: GetCompatibleElasticsearchVersionsInput) async throws -> GetCompatibleElasticsearchVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1470,8 +1441,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutput
-    {
+    public func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1518,8 +1488,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutput
-    {
+    public func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1566,8 +1535,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutput
-    {
+    public func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1610,8 +1578,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
-    {
+    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1658,8 +1625,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func listDomainsForPackage(input: ListDomainsForPackageInput) async throws -> ListDomainsForPackageOutput
-    {
+    public func listDomainsForPackage(input: ListDomainsForPackageInput) async throws -> ListDomainsForPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1705,8 +1671,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func listElasticsearchInstanceTypes(input: ListElasticsearchInstanceTypesInput) async throws -> ListElasticsearchInstanceTypesOutput
-    {
+    public func listElasticsearchInstanceTypes(input: ListElasticsearchInstanceTypesInput) async throws -> ListElasticsearchInstanceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1752,8 +1717,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func listElasticsearchVersions(input: ListElasticsearchVersionsInput) async throws -> ListElasticsearchVersionsOutput
-    {
+    public func listElasticsearchVersions(input: ListElasticsearchVersionsInput) async throws -> ListElasticsearchVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1800,8 +1764,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutput
-    {
+    public func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1847,8 +1810,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1894,8 +1856,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutput
-    {
+    public func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1940,8 +1901,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
-    public func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutput
-    {
+    public func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1987,8 +1947,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutput
-    {
+    public func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2036,8 +1995,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func purchaseReservedElasticsearchInstanceOffering(input: PurchaseReservedElasticsearchInstanceOfferingInput) async throws -> PurchaseReservedElasticsearchInstanceOfferingOutput
-    {
+    public func purchaseReservedElasticsearchInstanceOffering(input: PurchaseReservedElasticsearchInstanceOfferingInput) async throws -> PurchaseReservedElasticsearchInstanceOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2083,8 +2041,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-    public func rejectInboundCrossClusterSearchConnection(input: RejectInboundCrossClusterSearchConnectionInput) async throws -> RejectInboundCrossClusterSearchConnectionOutput
-    {
+    public func rejectInboundCrossClusterSearchConnection(input: RejectInboundCrossClusterSearchConnectionInput) async throws -> RejectInboundCrossClusterSearchConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2128,8 +2085,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    {
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2178,8 +2134,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutput
-    {
+    public func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2227,8 +2182,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func startElasticsearchServiceSoftwareUpdate(input: StartElasticsearchServiceSoftwareUpdateInput) async throws -> StartElasticsearchServiceSoftwareUpdateOutput
-    {
+    public func startElasticsearchServiceSoftwareUpdate(input: StartElasticsearchServiceSoftwareUpdateInput) async throws -> StartElasticsearchServiceSoftwareUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2232,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func updateElasticsearchDomainConfig(input: UpdateElasticsearchDomainConfigInput) async throws -> UpdateElasticsearchDomainConfigOutput
-    {
+    public func updateElasticsearchDomainConfig(input: UpdateElasticsearchDomainConfigInput) async throws -> UpdateElasticsearchDomainConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2329,8 +2282,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput
-    {
+    public func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2380,8 +2332,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput
-    {
+    public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2431,8 +2382,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
-    public func upgradeElasticsearchDomain(input: UpgradeElasticsearchDomainInput) async throws -> UpgradeElasticsearchDomainOutput
-    {
+    public func upgradeElasticsearchDomain(input: UpgradeElasticsearchDomainInput) async throws -> UpgradeElasticsearchDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

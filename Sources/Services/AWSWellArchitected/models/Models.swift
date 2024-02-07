@@ -16417,6 +16417,8 @@ extension WellArchitectedClientTypes {
 
 }
 
+public enum WellArchitectedClientTypes {}
+
 extension WellArchitectedClientTypes.Workload: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "AccountIds"

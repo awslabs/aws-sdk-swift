@@ -66,7 +66,7 @@ public struct SecretsManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension SecretsManagerClient: SecretsManagerClientProtocol {
+extension SecretsManagerClient {
     /// Performs the `BatchGetSecretValue` operation on the `secretsmanager` service.
     ///
     /// Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets. To retrieve a single secret, call [GetSecretValue]. To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for each secret you request when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:BatchGetSecretValue, and you must have secretsmanager:GetSecretValue for each secret. If you use filters, you must also have secretsmanager:ListSecrets. If the secrets are encrypted using customer-managed keys instead of the Amazon Web Services managed key aws/secretsmanager, then you also need kms:Decrypt permissions for the keys. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
@@ -90,8 +90,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func batchGetSecretValue(input: BatchGetSecretValueInput) async throws -> BatchGetSecretValueOutput
-    {
+    public func batchGetSecretValue(input: BatchGetSecretValueInput) async throws -> BatchGetSecretValueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -146,8 +145,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func cancelRotateSecret(input: CancelRotateSecretInput) async throws -> CancelRotateSecretOutput
-    {
+    public func cancelRotateSecret(input: CancelRotateSecretInput) async throws -> CancelRotateSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -208,8 +206,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// - `PreconditionNotMetException` : The request failed because you did not complete all the prerequisite steps.
     /// - `ResourceExistsException` : A resource with the ID you requested already exists.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func createSecret(input: CreateSecretInput) async throws -> CreateSecretOutput
-    {
+    public func createSecret(input: CreateSecretInput) async throws -> CreateSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -265,8 +262,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -321,8 +317,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func deleteSecret(input: DeleteSecretInput) async throws -> DeleteSecretOutput
-    {
+    public func deleteSecret(input: DeleteSecretInput) async throws -> DeleteSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -370,8 +365,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// - `InternalServiceError` : An error occurred on the server side.
     /// - `InvalidParameterException` : The parameter name or value is invalid.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func describeSecret(input: DescribeSecretInput) async throws -> DescribeSecretOutput
-    {
+    public func describeSecret(input: DescribeSecretInput) async throws -> DescribeSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +419,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// * You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
-    public func getRandomPassword(input: GetRandomPasswordInput) async throws -> GetRandomPasswordOutput
-    {
+    public func getRandomPassword(input: GetRandomPasswordInput) async throws -> GetRandomPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -481,8 +474,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +530,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func getSecretValue(input: GetSecretValueInput) async throws -> GetSecretValueOutput
-    {
+    public func getSecretValue(input: GetSecretValueInput) async throws -> GetSecretValueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +579,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value is invalid.
     /// - `InvalidParameterException` : The parameter name or value is invalid.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func listSecretVersionIds(input: ListSecretVersionIdsInput) async throws -> ListSecretVersionIdsOutput
-    {
+    public func listSecretVersionIds(input: ListSecretVersionIdsInput) async throws -> ListSecretVersionIdsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -644,8 +634,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// * You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
-    public func listSecrets(input: ListSecretsInput) async throws -> ListSecretsOutput
-    {
+    public func listSecrets(input: ListSecretsInput) async throws -> ListSecretsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -702,8 +691,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// - `MalformedPolicyDocumentException` : The resource policy has syntax errors.
     /// - `PublicPolicyException` : The BlockPublicPolicy parameter is set to true, and the resource policy did not prevent broad access to the secret.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +750,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// - `LimitExceededException` : The request failed because it would exceed one of the Secrets Manager quotas.
     /// - `ResourceExistsException` : A resource with the ID you requested already exists.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func putSecretValue(input: PutSecretValueInput) async throws -> PutSecretValueOutput
-    {
+    public func putSecretValue(input: PutSecretValueInput) async throws -> PutSecretValueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +806,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func removeRegionsFromReplication(input: RemoveRegionsFromReplicationInput) async throws -> RemoveRegionsFromReplicationOutput
-    {
+    public func removeRegionsFromReplication(input: RemoveRegionsFromReplicationInput) async throws -> RemoveRegionsFromReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +861,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func replicateSecretToRegions(input: ReplicateSecretToRegionsInput) async throws -> ReplicateSecretToRegionsOutput
-    {
+    public func replicateSecretToRegions(input: ReplicateSecretToRegionsInput) async throws -> ReplicateSecretToRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -931,8 +916,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func restoreSecret(input: RestoreSecretInput) async throws -> RestoreSecretOutput
-    {
+    public func restoreSecret(input: RestoreSecretInput) async throws -> RestoreSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -987,8 +971,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func rotateSecret(input: RotateSecretInput) async throws -> RotateSecretOutput
-    {
+    public func rotateSecret(input: RotateSecretInput) async throws -> RotateSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1044,8 +1027,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func stopReplicationToReplica(input: StopReplicationToReplicaInput) async throws -> StopReplicationToReplicaOutput
-    {
+    public func stopReplicationToReplica(input: StopReplicationToReplicaInput) async throws -> StopReplicationToReplicaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1100,8 +1082,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1156,8 +1137,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1218,8 +1198,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// - `PreconditionNotMetException` : The request failed because you did not complete all the prerequisite steps.
     /// - `ResourceExistsException` : A resource with the ID you requested already exists.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func updateSecret(input: UpdateSecretInput) async throws -> UpdateSecretOutput
-    {
+    public func updateSecret(input: UpdateSecretInput) async throws -> UpdateSecretOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1276,8 +1255,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `LimitExceededException` : The request failed because it would exceed one of the Secrets Manager quotas.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func updateSecretVersionStage(input: UpdateSecretVersionStageInput) async throws -> UpdateSecretVersionStageOutput
-    {
+    public func updateSecretVersionStage(input: UpdateSecretVersionStageInput) async throws -> UpdateSecretVersionStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1342,8 +1320,7 @@ extension SecretsManagerClient: SecretsManagerClientProtocol {
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `MalformedPolicyDocumentException` : The resource policy has syntax errors.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func validateResourcePolicy(input: ValidateResourcePolicyInput) async throws -> ValidateResourcePolicyOutput
-    {
+    public func validateResourcePolicy(input: ValidateResourcePolicyInput) async throws -> ValidateResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

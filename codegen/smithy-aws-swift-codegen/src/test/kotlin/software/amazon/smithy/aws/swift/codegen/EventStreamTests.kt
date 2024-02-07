@@ -188,8 +188,7 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
         val context = setupTests("eventstream.smithy", "aws.protocoltests.restjson#TestService")
         val contents = getFileContents(context.manifest, "/Example/EventStreamTestClient.swift")
         var expected = """
-    public func testStreamOp(input: TestStreamOpInput) async throws -> TestStreamOpOutput
-    {
+    public func testStreamOp(input: TestStreamOpInput) async throws -> TestStreamOpOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

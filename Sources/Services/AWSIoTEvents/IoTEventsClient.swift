@@ -66,7 +66,7 @@ public struct IoTEventsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension IoTEventsClient: IoTEventsClientProtocol {
+extension IoTEventsClient {
     /// Performs the `CreateAlarmModel` operation on the `IotColumboService` service.
     ///
     /// Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see [Create an alarm model](https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html) in the AWS IoT Events Developer Guide.
@@ -85,8 +85,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceInUseException` : The resource is in use.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func createAlarmModel(input: CreateAlarmModelInput) async throws -> CreateAlarmModelOutput
-    {
+    public func createAlarmModel(input: CreateAlarmModelInput) async throws -> CreateAlarmModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceInUseException` : The resource is in use.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func createDetectorModel(input: CreateDetectorModelInput) async throws -> CreateDetectorModelOutput
-    {
+    public func createDetectorModel(input: CreateDetectorModelInput) async throws -> CreateDetectorModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func createInput(input: CreateInputInput) async throws -> CreateInputOutput
-    {
+    public func createInput(input: CreateInputInput) async throws -> CreateInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func deleteAlarmModel(input: DeleteAlarmModelInput) async throws -> DeleteAlarmModelOutput
-    {
+    public func deleteAlarmModel(input: DeleteAlarmModelInput) async throws -> DeleteAlarmModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func deleteDetectorModel(input: DeleteDetectorModelInput) async throws -> DeleteDetectorModelOutput
-    {
+    public func deleteDetectorModel(input: DeleteDetectorModelInput) async throws -> DeleteDetectorModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput
-    {
+    public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -381,8 +375,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func describeAlarmModel(input: DescribeAlarmModelInput) async throws -> DescribeAlarmModelOutput
-    {
+    public func describeAlarmModel(input: DescribeAlarmModelInput) async throws -> DescribeAlarmModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -429,8 +422,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func describeDetectorModel(input: DescribeDetectorModelInput) async throws -> DescribeDetectorModelOutput
-    {
+    public func describeDetectorModel(input: DescribeDetectorModelInput) async throws -> DescribeDetectorModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -477,8 +469,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func describeDetectorModelAnalysis(input: DescribeDetectorModelAnalysisInput) async throws -> DescribeDetectorModelAnalysisOutput
-    {
+    public func describeDetectorModelAnalysis(input: DescribeDetectorModelAnalysisInput) async throws -> DescribeDetectorModelAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -524,8 +515,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput
-    {
+    public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +562,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     /// - `UnsupportedOperationException` : The requested operation is not supported.
-    public func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput
-    {
+    public func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -619,8 +608,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func getDetectorModelAnalysisResults(input: GetDetectorModelAnalysisResultsInput) async throws -> GetDetectorModelAnalysisResultsOutput
-    {
+    public func getDetectorModelAnalysisResults(input: GetDetectorModelAnalysisResultsInput) async throws -> GetDetectorModelAnalysisResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +655,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listAlarmModelVersions(input: ListAlarmModelVersionsInput) async throws -> ListAlarmModelVersionsOutput
-    {
+    public func listAlarmModelVersions(input: ListAlarmModelVersionsInput) async throws -> ListAlarmModelVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -714,8 +701,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listAlarmModels(input: ListAlarmModelsInput) async throws -> ListAlarmModelsOutput
-    {
+    public func listAlarmModels(input: ListAlarmModelsInput) async throws -> ListAlarmModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +748,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listDetectorModelVersions(input: ListDetectorModelVersionsInput) async throws -> ListDetectorModelVersionsOutput
-    {
+    public func listDetectorModelVersions(input: ListDetectorModelVersionsInput) async throws -> ListDetectorModelVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -809,8 +794,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listDetectorModels(input: ListDetectorModelsInput) async throws -> ListDetectorModelsOutput
-    {
+    public func listDetectorModels(input: ListDetectorModelsInput) async throws -> ListDetectorModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -857,8 +841,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listInputRoutings(input: ListInputRoutingsInput) async throws -> ListInputRoutingsOutput
-    {
+    public func listInputRoutings(input: ListInputRoutingsInput) async throws -> ListInputRoutingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -906,8 +889,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `InvalidRequestException` : The request was invalid.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listInputs(input: ListInputsInput) async throws -> ListInputsOutput
-    {
+    public func listInputs(input: ListInputsInput) async throws -> ListInputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +936,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceInUseException` : The resource is in use.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1003,8 +984,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     /// - `UnsupportedOperationException` : The requested operation is not supported.
-    public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
-    {
+    public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1033,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func startDetectorModelAnalysis(input: StartDetectorModelAnalysisInput) async throws -> StartDetectorModelAnalysisOutput
-    {
+    public func startDetectorModelAnalysis(input: StartDetectorModelAnalysisInput) async throws -> StartDetectorModelAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1104,8 +1083,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceInUseException` : The resource is in use.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1155,8 +1133,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceInUseException` : The resource is in use.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1204,8 +1181,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func updateAlarmModel(input: UpdateAlarmModelInput) async throws -> UpdateAlarmModelOutput
-    {
+    public func updateAlarmModel(input: UpdateAlarmModelInput) async throws -> UpdateAlarmModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1255,8 +1231,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func updateDetectorModel(input: UpdateDetectorModelInput) async throws -> UpdateDetectorModelOutput
-    {
+    public func updateDetectorModel(input: UpdateDetectorModelInput) async throws -> UpdateDetectorModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1306,8 +1281,7 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
-    public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput
-    {
+    public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

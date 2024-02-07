@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension CloudFrontClientProtocol {
+extension CloudFrontClient {
 
     static func distributionDeployedWaiterConfig() throws -> WaiterConfiguration<GetDistributionInput, GetDistributionOutput> {
         let acceptors: [WaiterConfiguration<GetDistributionInput, GetDistributionOutput>.Acceptor] = [

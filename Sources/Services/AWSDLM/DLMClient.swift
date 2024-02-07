@@ -66,7 +66,7 @@ public struct DLMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension DLMClient: DLMClientProtocol {
+extension DLMClient {
     /// Performs the `CreateLifecyclePolicy` operation on the `dlm_20180112` service.
     ///
     /// Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager supports the following policy types:
@@ -94,8 +94,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
-    public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput
-    {
+    public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -142,8 +141,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
-    {
+    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func getLifecyclePolicies(input: GetLifecyclePoliciesInput) async throws -> GetLifecyclePoliciesOutput
-    {
+    public func getLifecyclePolicies(input: GetLifecyclePoliciesInput) async throws -> GetLifecyclePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
-    {
+    public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -324,8 +319,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -372,8 +366,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -419,8 +412,7 @@ extension DLMClient: DLMClientProtocol {
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput
-    {
+    public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

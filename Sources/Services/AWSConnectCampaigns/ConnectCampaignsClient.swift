@@ -66,7 +66,7 @@ public struct ConnectCampaignsClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
+extension ConnectCampaignsClient {
     /// Performs the `CreateCampaign` operation on the `AmazonConnectCampaignService` service.
     ///
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
@@ -85,8 +85,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
-    {
+    public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
-    {
+    public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteConnectInstanceConfig(input: DeleteConnectInstanceConfigInput) async throws -> DeleteConnectInstanceConfigOutput
-    {
+    public func deleteConnectInstanceConfig(input: DeleteConnectInstanceConfigInput) async throws -> DeleteConnectInstanceConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InvalidStateException` : The request could not be processed because of conflict in the current state.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteInstanceOnboardingJob(input: DeleteInstanceOnboardingJobInput) async throws -> DeleteInstanceOnboardingJobOutput
-    {
+    public func deleteInstanceOnboardingJob(input: DeleteInstanceOnboardingJobInput) async throws -> DeleteInstanceOnboardingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +271,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput
-    {
+    public func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -322,8 +317,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getCampaignState(input: GetCampaignStateInput) async throws -> GetCampaignStateOutput
-    {
+    public func getCampaignState(input: GetCampaignStateInput) async throws -> GetCampaignStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -368,8 +362,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getCampaignStateBatch(input: GetCampaignStateBatchInput) async throws -> GetCampaignStateBatchOutput
-    {
+    public func getCampaignStateBatch(input: GetCampaignStateBatchInput) async throws -> GetCampaignStateBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -417,8 +410,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getConnectInstanceConfig(input: GetConnectInstanceConfigInput) async throws -> GetConnectInstanceConfigOutput
-    {
+    public func getConnectInstanceConfig(input: GetConnectInstanceConfigInput) async throws -> GetConnectInstanceConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -463,8 +455,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getInstanceOnboardingJobStatus(input: GetInstanceOnboardingJobStatusInput) async throws -> GetInstanceOnboardingJobStatusOutput
-    {
+    public func getInstanceOnboardingJobStatus(input: GetInstanceOnboardingJobStatusInput) async throws -> GetInstanceOnboardingJobStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -508,8 +499,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput
-    {
+    public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -558,8 +548,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -607,8 +596,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func pauseCampaign(input: PauseCampaignInput) async throws -> PauseCampaignOutput
-    {
+    public func pauseCampaign(input: PauseCampaignInput) async throws -> PauseCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -656,8 +644,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func putDialRequestBatch(input: PutDialRequestBatchInput) async throws -> PutDialRequestBatchOutput
-    {
+    public func putDialRequestBatch(input: PutDialRequestBatchInput) async throws -> PutDialRequestBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -708,8 +695,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func resumeCampaign(input: ResumeCampaignInput) async throws -> ResumeCampaignOutput
-    {
+    public func resumeCampaign(input: ResumeCampaignInput) async throws -> ResumeCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +743,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startCampaign(input: StartCampaignInput) async throws -> StartCampaignOutput
-    {
+    public func startCampaign(input: StartCampaignInput) async throws -> StartCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +790,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startInstanceOnboardingJob(input: StartInstanceOnboardingJobInput) async throws -> StartInstanceOnboardingJobOutput
-    {
+    public func startInstanceOnboardingJob(input: StartInstanceOnboardingJobInput) async throws -> StartInstanceOnboardingJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -857,8 +841,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func stopCampaign(input: StopCampaignInput) async throws -> StopCampaignOutput
-    {
+    public func stopCampaign(input: StopCampaignInput) async throws -> StopCampaignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -904,8 +887,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +936,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1002,8 +983,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateCampaignDialerConfig(input: UpdateCampaignDialerConfigInput) async throws -> UpdateCampaignDialerConfigOutput
-    {
+    public func updateCampaignDialerConfig(input: UpdateCampaignDialerConfigInput) async throws -> UpdateCampaignDialerConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1052,8 +1032,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateCampaignName(input: UpdateCampaignNameInput) async throws -> UpdateCampaignNameOutput
-    {
+    public func updateCampaignName(input: UpdateCampaignNameInput) async throws -> UpdateCampaignNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1082,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateCampaignOutboundCallConfig(input: UpdateCampaignOutboundCallConfigInput) async throws -> UpdateCampaignOutboundCallConfigOutput
-    {
+    public func updateCampaignOutboundCallConfig(input: UpdateCampaignOutboundCallConfigInput) async throws -> UpdateCampaignOutboundCallConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

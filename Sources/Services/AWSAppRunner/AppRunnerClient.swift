@@ -66,7 +66,7 @@ public struct AppRunnerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension AppRunnerClient: AppRunnerClientProtocol {
+extension AppRunnerClient {
     /// Performs the `AssociateCustomDomain` operation on the `AppRunner` service.
     ///
     /// Associate your own domain name with the App Runner subdomain URL of your App Runner service. After you call AssociateCustomDomain and receive a successful response, use the information in the [CustomDomain] record that's returned to add CNAME records to your Domain Name System (DNS). For each mapped domain name, add a mapping to the target App Runner subdomain and one or more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks domain validity in a certificate stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide).
@@ -81,8 +81,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
-    public func associateCustomDomain(input: AssociateCustomDomainInput) async throws -> AssociateCustomDomainOutput
-    {
+    public func associateCustomDomain(input: AssociateCustomDomainInput) async throws -> AssociateCustomDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    public func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput) async throws -> CreateAutoScalingConfigurationOutput
-    {
+    public func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput) async throws -> CreateAutoScalingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    {
+    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    public func createObservabilityConfiguration(input: CreateObservabilityConfigurationInput) async throws -> CreateObservabilityConfigurationOutput
-    {
+    public func createObservabilityConfiguration(input: CreateObservabilityConfigurationInput) async throws -> CreateObservabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
-    {
+    public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    public func createVpcConnector(input: CreateVpcConnectorInput) async throws -> CreateVpcConnectorOutput
-    {
+    public func createVpcConnector(input: CreateVpcConnectorInput) async throws -> CreateVpcConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    public func createVpcIngressConnection(input: CreateVpcIngressConnectionInput) async throws -> CreateVpcIngressConnectionOutput
-    {
+    public func createVpcIngressConnection(input: CreateVpcIngressConnectionInput) async throws -> CreateVpcIngressConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfigurationInput) async throws -> DeleteAutoScalingConfigurationOutput
-    {
+    public func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfigurationInput) async throws -> DeleteAutoScalingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -474,8 +466,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -523,8 +514,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func deleteObservabilityConfiguration(input: DeleteObservabilityConfigurationInput) async throws -> DeleteObservabilityConfigurationOutput
-    {
+    public func deleteObservabilityConfiguration(input: DeleteObservabilityConfigurationInput) async throws -> DeleteObservabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,8 +563,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
-    {
+    public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -622,8 +611,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func deleteVpcConnector(input: DeleteVpcConnectorInput) async throws -> DeleteVpcConnectorOutput
-    {
+    public func deleteVpcConnector(input: DeleteVpcConnectorInput) async throws -> DeleteVpcConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +668,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func deleteVpcIngressConnection(input: DeleteVpcIngressConnectionInput) async throws -> DeleteVpcIngressConnectionOutput
-    {
+    public func deleteVpcIngressConnection(input: DeleteVpcIngressConnectionInput) async throws -> DeleteVpcIngressConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func describeAutoScalingConfiguration(input: DescribeAutoScalingConfigurationInput) async throws -> DescribeAutoScalingConfigurationOutput
-    {
+    public func describeAutoScalingConfiguration(input: DescribeAutoScalingConfigurationInput) async throws -> DescribeAutoScalingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func describeCustomDomains(input: DescribeCustomDomainsInput) async throws -> DescribeCustomDomainsOutput
-    {
+    public func describeCustomDomains(input: DescribeCustomDomainsInput) async throws -> DescribeCustomDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -827,8 +812,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func describeObservabilityConfiguration(input: DescribeObservabilityConfigurationInput) async throws -> DescribeObservabilityConfigurationOutput
-    {
+    public func describeObservabilityConfiguration(input: DescribeObservabilityConfigurationInput) async throws -> DescribeObservabilityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -876,8 +860,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func describeService(input: DescribeServiceInput) async throws -> DescribeServiceOutput
-    {
+    public func describeService(input: DescribeServiceInput) async throws -> DescribeServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -925,8 +908,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func describeVpcConnector(input: DescribeVpcConnectorInput) async throws -> DescribeVpcConnectorOutput
-    {
+    public func describeVpcConnector(input: DescribeVpcConnectorInput) async throws -> DescribeVpcConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -974,8 +956,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func describeVpcIngressConnection(input: DescribeVpcIngressConnectionInput) async throws -> DescribeVpcIngressConnectionOutput
-    {
+    public func describeVpcIngressConnection(input: DescribeVpcIngressConnectionInput) async throws -> DescribeVpcIngressConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1024,8 +1005,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func disassociateCustomDomain(input: DisassociateCustomDomainInput) async throws -> DisassociateCustomDomainOutput
-    {
+    public func disassociateCustomDomain(input: DisassociateCustomDomainInput) async throws -> DisassociateCustomDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1072,8 +1052,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    public func listAutoScalingConfigurations(input: ListAutoScalingConfigurationsInput) async throws -> ListAutoScalingConfigurationsOutput
-    {
+    public func listAutoScalingConfigurations(input: ListAutoScalingConfigurationsInput) async throws -> ListAutoScalingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1120,8 +1099,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
-    {
+    public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1168,8 +1146,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    public func listObservabilityConfigurations(input: ListObservabilityConfigurationsInput) async throws -> ListObservabilityConfigurationsOutput
-    {
+    public func listObservabilityConfigurations(input: ListObservabilityConfigurationsInput) async throws -> ListObservabilityConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1217,8 +1194,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
-    {
+    public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1265,8 +1241,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput
-    {
+    public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1314,8 +1289,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func listServicesForAutoScalingConfiguration(input: ListServicesForAutoScalingConfigurationInput) async throws -> ListServicesForAutoScalingConfigurationOutput
-    {
+    public func listServicesForAutoScalingConfiguration(input: ListServicesForAutoScalingConfigurationInput) async throws -> ListServicesForAutoScalingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1364,8 +1338,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1412,8 +1385,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    public func listVpcConnectors(input: ListVpcConnectorsInput) async throws -> ListVpcConnectorsOutput
-    {
+    public func listVpcConnectors(input: ListVpcConnectorsInput) async throws -> ListVpcConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1432,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    public func listVpcIngressConnections(input: ListVpcIngressConnectionsInput) async throws -> ListVpcIngressConnectionsOutput
-    {
+    public func listVpcIngressConnections(input: ListVpcIngressConnectionsInput) async throws -> ListVpcIngressConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1510,8 +1481,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func pauseService(input: PauseServiceInput) async throws -> PauseServiceOutput
-    {
+    public func pauseService(input: PauseServiceInput) async throws -> PauseServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1560,8 +1530,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func resumeService(input: ResumeServiceInput) async throws -> ResumeServiceOutput
-    {
+    public func resumeService(input: ResumeServiceInput) async throws -> ResumeServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1609,8 +1578,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput
-    {
+    public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1659,8 +1627,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1709,8 +1676,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1758,8 +1724,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func updateDefaultAutoScalingConfiguration(input: UpdateDefaultAutoScalingConfigurationInput) async throws -> UpdateDefaultAutoScalingConfigurationOutput
-    {
+    public func updateDefaultAutoScalingConfiguration(input: UpdateDefaultAutoScalingConfigurationInput) async throws -> UpdateDefaultAutoScalingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1808,8 +1773,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
-    {
+    public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1864,8 +1828,7 @@ extension AppRunnerClient: AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    public func updateVpcIngressConnection(input: UpdateVpcIngressConnectionInput) async throws -> UpdateVpcIngressConnectionOutput
-    {
+    public func updateVpcIngressConnection(input: UpdateVpcIngressConnectionInput) async throws -> UpdateVpcIngressConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

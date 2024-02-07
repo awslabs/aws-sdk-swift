@@ -66,7 +66,7 @@ public struct LicenseManagerLinuxSubscriptionsClientLogHandlerFactory: ClientRun
     }
 }
 
-extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptionsClientProtocol {
+extension LicenseManagerLinuxSubscriptionsClient {
     /// Performs the `GetServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
     ///
     /// Lists the Linux subscriptions service settings.
@@ -81,8 +81,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput
-    {
+    public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutput
-    {
+    public func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutput
-    {
+    public func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -222,8 +219,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
-    public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput
-    {
+    public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

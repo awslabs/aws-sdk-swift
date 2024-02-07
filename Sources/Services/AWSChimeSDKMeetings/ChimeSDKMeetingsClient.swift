@@ -66,7 +66,7 @@ public struct ChimeSDKMeetingsClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
+extension ChimeSDKMeetingsClient {
     /// Performs the `BatchCreateAttendee` operation on the `ChimeMeetingsSDKService` service.
     ///
     /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
@@ -87,8 +87,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    public func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutput
-    {
+    public func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -151,8 +150,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func batchUpdateAttendeeCapabilitiesExcept(input: BatchUpdateAttendeeCapabilitiesExceptInput) async throws -> BatchUpdateAttendeeCapabilitiesExceptOutput
-    {
+    public func batchUpdateAttendeeCapabilitiesExcept(input: BatchUpdateAttendeeCapabilitiesExceptInput) async throws -> BatchUpdateAttendeeCapabilitiesExceptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -206,8 +204,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    public func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutput
-    {
+    public func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -259,8 +256,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutput
-    {
+    public func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -313,8 +309,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutput
-    {
+    public func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +362,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutput
-    {
+    public func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -416,8 +410,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutput
-    {
+    public func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -465,8 +458,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutput
-    {
+    public func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -514,8 +506,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutput
-    {
+    public func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -563,8 +554,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutput
-    {
+    public func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +604,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +655,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    public func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutput
-    {
+    public func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -720,8 +708,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    public func stopMeetingTranscription(input: StopMeetingTranscriptionInput) async throws -> StopMeetingTranscriptionOutput
-    {
+    public func stopMeetingTranscription(input: StopMeetingTranscriptionInput) async throws -> StopMeetingTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +759,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `TooManyTagsException` : Too many tags were added to the specified resource.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -834,8 +820,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +883,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    public func updateAttendeeCapabilities(input: UpdateAttendeeCapabilitiesInput) async throws -> UpdateAttendeeCapabilitiesOutput
-    {
+    public func updateAttendeeCapabilities(input: UpdateAttendeeCapabilitiesInput) async throws -> UpdateAttendeeCapabilitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

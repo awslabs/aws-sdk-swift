@@ -66,7 +66,7 @@ public struct LaunchWizardClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension LaunchWizardClient: LaunchWizardClientProtocol {
+extension LaunchWizardClient {
     /// Performs the `CreateDeployment` operation on the `LaunchWizard` service.
     ///
     /// Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the Clone deployment action on.
@@ -82,8 +82,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// - `ResourceLimitException` : You have exceeded an Launch Wizard resource limit. For example, you might have too many deployments in progress.
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-    {
+    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -178,8 +176,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutput
-    {
+    public func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -274,8 +270,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDeploymentEvents(input: ListDeploymentEventsInput) async throws -> ListDeploymentEventsOutput
-    {
+    public func listDeploymentEvents(input: ListDeploymentEventsInput) async throws -> ListDeploymentEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -321,8 +316,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-    {
+    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -369,8 +363,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listWorkloadDeploymentPatterns(input: ListWorkloadDeploymentPatternsInput) async throws -> ListWorkloadDeploymentPatternsOutput
-    {
+    public func listWorkloadDeploymentPatterns(input: ListWorkloadDeploymentPatternsInput) async throws -> ListWorkloadDeploymentPatternsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -416,8 +409,7 @@ extension LaunchWizardClient: LaunchWizardClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput
-    {
+    public func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

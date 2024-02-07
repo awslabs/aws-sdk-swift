@@ -66,7 +66,7 @@ public struct KMSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension KMSClient: KMSClientProtocol {
+extension KMSClient {
     /// Performs the `CancelKeyDeletion` operation on the `TrentService` service.
     ///
     /// Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS key is Disabled. To enable the KMS key, use [EnableKey]. For more information about scheduling and canceling deletion of a KMS key, see [Deleting KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:CancelKeyDeletion](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [ScheduleKeyDeletion] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html).
@@ -87,8 +87,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func cancelKeyDeletion(input: CancelKeyDeletionInput) async throws -> CancelKeyDeletionOutput
-    {
+    public func cancelKeyDeletion(input: CancelKeyDeletionInput) async throws -> CancelKeyDeletionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -170,8 +169,7 @@ extension KMSClient: KMSClientProtocol {
     /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func connectCustomKeyStore(input: ConnectCustomKeyStoreInput) async throws -> ConnectCustomKeyStoreOutput
-    {
+    public func connectCustomKeyStore(input: ConnectCustomKeyStoreInput) async throws -> ConnectCustomKeyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -243,8 +241,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    {
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +332,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `XksProxyVpcEndpointServiceInUseException` : The request was rejected because the specified Amazon VPC endpoint service is already associated with another external key store in this Amazon Web Services Region. Each external key store in a Region must use a different Amazon VPC endpoint service.
     /// - `XksProxyVpcEndpointServiceInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store. To identify the cause, see the error message that accompanies the exception and [review the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/vpc-connectivity.html#xks-vpc-requirements) for Amazon VPC endpoint service connectivity for an external key store.
     /// - `XksProxyVpcEndpointServiceNotFoundException` : The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
-    public func createCustomKeyStore(input: CreateCustomKeyStoreInput) async throws -> CreateCustomKeyStoreOutput
-    {
+    public func createCustomKeyStore(input: CreateCustomKeyStoreInput) async throws -> CreateCustomKeyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -412,8 +408,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput
-    {
+    public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -499,8 +494,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `XksKeyAlreadyInUseException` : The request was rejected because the (XksKeyId) is already associated with another KMS key in this external key store. Each KMS key in an external key store must be associated with a different external key.
     /// - `XksKeyInvalidConfigurationException` : The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
     /// - `XksKeyNotFoundException` : The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
-    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput
-    {
+    public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +585,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func decrypt(input: DecryptInput) async throws -> DecryptOutput
-    {
+    public func decrypt(input: DecryptInput) async throws -> DecryptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +654,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
-    {
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +726,7 @@ extension KMSClient: KMSClientProtocol {
     /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func deleteCustomKeyStore(input: DeleteCustomKeyStoreInput) async throws -> DeleteCustomKeyStoreOutput
-    {
+    public func deleteCustomKeyStore(input: DeleteCustomKeyStoreInput) async throws -> DeleteCustomKeyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +788,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func deleteImportedKeyMaterial(input: DeleteImportedKeyMaterialInput) async throws -> DeleteImportedKeyMaterialOutput
-    {
+    public func deleteImportedKeyMaterial(input: DeleteImportedKeyMaterialInput) async throws -> DeleteImportedKeyMaterialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -859,8 +849,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func describeCustomKeyStores(input: DescribeCustomKeyStoresInput) async throws -> DescribeCustomKeyStoresOutput
-    {
+    public func describeCustomKeyStores(input: DescribeCustomKeyStoresInput) async throws -> DescribeCustomKeyStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -937,8 +926,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutput
-    {
+    public func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -992,8 +980,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func disableKey(input: DisableKeyInput) async throws -> DisableKeyOutput
-    {
+    public func disableKey(input: DisableKeyInput) async throws -> DisableKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1056,8 +1043,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func disableKeyRotation(input: DisableKeyRotationInput) async throws -> DisableKeyRotationOutput
-    {
+    public func disableKeyRotation(input: DisableKeyRotationInput) async throws -> DisableKeyRotationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1128,8 +1114,7 @@ extension KMSClient: KMSClientProtocol {
     /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     /// - `CustomKeyStoreNotFoundException` : The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func disconnectCustomKeyStore(input: DisconnectCustomKeyStoreInput) async throws -> DisconnectCustomKeyStoreOutput
-    {
+    public func disconnectCustomKeyStore(input: DisconnectCustomKeyStoreInput) async throws -> DisconnectCustomKeyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1184,8 +1169,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func enableKey(input: EnableKeyInput) async throws -> EnableKeyOutput
-    {
+    public func enableKey(input: EnableKeyInput) async throws -> EnableKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1248,8 +1232,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func enableKeyRotation(input: EnableKeyRotationInput) async throws -> EnableKeyRotationOutput
-    {
+    public func enableKeyRotation(input: EnableKeyRotationInput) async throws -> EnableKeyRotationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1362,8 +1345,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func encrypt(input: EncryptInput) async throws -> EncryptOutput
-    {
+    public func encrypt(input: EncryptInput) async throws -> EncryptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1457,8 +1439,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func generateDataKey(input: GenerateDataKeyInput) async throws -> GenerateDataKeyOutput
-    {
+    public func generateDataKey(input: GenerateDataKeyInput) async throws -> GenerateDataKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1537,8 +1518,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func generateDataKeyPair(input: GenerateDataKeyPairInput) async throws -> GenerateDataKeyPairOutput
-    {
+    public func generateDataKeyPair(input: GenerateDataKeyPairInput) async throws -> GenerateDataKeyPairOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1617,8 +1597,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func generateDataKeyPairWithoutPlaintext(input: GenerateDataKeyPairWithoutPlaintextInput) async throws -> GenerateDataKeyPairWithoutPlaintextOutput
-    {
+    public func generateDataKeyPairWithoutPlaintext(input: GenerateDataKeyPairWithoutPlaintextInput) async throws -> GenerateDataKeyPairWithoutPlaintextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1696,8 +1675,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func generateDataKeyWithoutPlaintext(input: GenerateDataKeyWithoutPlaintextInput) async throws -> GenerateDataKeyWithoutPlaintextOutput
-    {
+    public func generateDataKeyWithoutPlaintext(input: GenerateDataKeyWithoutPlaintextInput) async throws -> GenerateDataKeyWithoutPlaintextOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1761,8 +1739,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutput
-    {
+    public func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1822,8 +1799,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func generateRandom(input: GenerateRandomInput) async throws -> GenerateRandomOutput
-    {
+    public func generateRandom(input: GenerateRandomInput) async throws -> GenerateRandomOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1877,8 +1853,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func getKeyPolicy(input: GetKeyPolicyInput) async throws -> GetKeyPolicyOutput
-    {
+    public func getKeyPolicy(input: GetKeyPolicyInput) async throws -> GetKeyPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1947,8 +1922,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func getKeyRotationStatus(input: GetKeyRotationStatusInput) async throws -> GetKeyRotationStatusOutput
-    {
+    public func getKeyRotationStatus(input: GetKeyRotationStatusInput) async throws -> GetKeyRotationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2026,8 +2000,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput
-    {
+    public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2102,8 +2075,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput
-    {
+    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2191,8 +2163,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func importKeyMaterial(input: ImportKeyMaterialInput) async throws -> ImportKeyMaterialOutput
-    {
+    public func importKeyMaterial(input: ImportKeyMaterialInput) async throws -> ImportKeyMaterialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2251,8 +2222,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    {
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2319,8 +2289,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listGrants(input: ListGrantsInput) async throws -> ListGrantsOutput
-    {
+    public func listGrants(input: ListGrantsInput) async throws -> ListGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2381,8 +2350,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listKeyPolicies(input: ListKeyPoliciesInput) async throws -> ListKeyPoliciesOutput
-    {
+    public func listKeyPolicies(input: ListKeyPoliciesInput) async throws -> ListKeyPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2441,8 +2409,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
-    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
-    {
+    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2502,8 +2469,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listResourceTags(input: ListResourceTagsInput) async throws -> ListResourceTagsOutput
-    {
+    public func listResourceTags(input: ListResourceTagsInput) async throws -> ListResourceTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2564,8 +2530,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `InvalidMarkerException` : The request was rejected because the marker that specifies where pagination should next begin is not valid.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func listRetirableGrants(input: ListRetirableGrantsInput) async throws -> ListRetirableGrantsOutput
-    {
+    public func listRetirableGrants(input: ListRetirableGrantsInput) async throws -> ListRetirableGrantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2622,8 +2587,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the specified policy is not syntactically or semantically correct.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func putKeyPolicy(input: PutKeyPolicyInput) async throws -> PutKeyPolicyOutput
-    {
+    public func putKeyPolicy(input: PutKeyPolicyInput) async throws -> PutKeyPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2717,8 +2681,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func reEncrypt(input: ReEncryptInput) async throws -> ReEncryptOutput
-    {
+    public func reEncrypt(input: ReEncryptInput) async throws -> ReEncryptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2793,8 +2756,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `TagException` : The request was rejected because one or more tags are not valid.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func replicateKey(input: ReplicateKeyInput) async throws -> ReplicateKeyOutput
-    {
+    public func replicateKey(input: ReplicateKeyInput) async throws -> ReplicateKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2862,8 +2824,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func retireGrant(input: RetireGrantInput) async throws -> RetireGrantOutput
-    {
+    public func retireGrant(input: RetireGrantInput) async throws -> RetireGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2930,8 +2891,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func revokeGrant(input: RevokeGrantInput) async throws -> RevokeGrantOutput
-    {
+    public func revokeGrant(input: RevokeGrantInput) async throws -> RevokeGrantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2992,8 +2952,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func scheduleKeyDeletion(input: ScheduleKeyDeletionInput) async throws -> ScheduleKeyDeletionOutput
-    {
+    public func scheduleKeyDeletion(input: ScheduleKeyDeletionInput) async throws -> ScheduleKeyDeletionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3067,8 +3026,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func sign(input: SignInput) async throws -> SignOutput
-    {
+    public func sign(input: SignInput) async throws -> SignOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3134,8 +3092,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `TagException` : The request was rejected because one or more tags are not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3200,8 +3157,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `TagException` : The request was rejected because one or more tags are not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3273,8 +3229,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `LimitExceededException` : The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
-    {
+    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3368,8 +3323,7 @@ extension KMSClient: KMSClientProtocol {
     /// - `XksProxyVpcEndpointServiceInUseException` : The request was rejected because the specified Amazon VPC endpoint service is already associated with another external key store in this Amazon Web Services Region. Each external key store in a Region must use a different Amazon VPC endpoint service.
     /// - `XksProxyVpcEndpointServiceInvalidConfigurationException` : The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store. To identify the cause, see the error message that accompanies the exception and [review the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/vpc-connectivity.html#xks-vpc-requirements) for Amazon VPC endpoint service connectivity for an external key store.
     /// - `XksProxyVpcEndpointServiceNotFoundException` : The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
-    public func updateCustomKeyStore(input: UpdateCustomKeyStoreInput) async throws -> UpdateCustomKeyStoreOutput
-    {
+    public func updateCustomKeyStore(input: UpdateCustomKeyStoreInput) async throws -> UpdateCustomKeyStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3430,8 +3384,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func updateKeyDescription(input: UpdateKeyDescriptionInput) async throws -> UpdateKeyDescriptionOutput
-    {
+    public func updateKeyDescription(input: UpdateKeyDescriptionInput) async throws -> UpdateKeyDescriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3500,8 +3453,7 @@ extension KMSClient: KMSClientProtocol {
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-    public func updatePrimaryRegion(input: UpdatePrimaryRegionInput) async throws -> UpdatePrimaryRegionOutput
-    {
+    public func updatePrimaryRegion(input: UpdatePrimaryRegionInput) async throws -> UpdatePrimaryRegionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3567,8 +3519,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func verify(input: VerifyInput) async throws -> VerifyOutput
-    {
+    public func verify(input: VerifyInput) async throws -> VerifyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3633,8 +3584,7 @@ extension KMSClient: KMSClientProtocol {
     ///
     /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
     /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
-    public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutput
-    {
+    public func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

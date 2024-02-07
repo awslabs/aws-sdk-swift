@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension CodeGuruReviewerClientProtocol {
+extension CodeGuruReviewerClient {
 
     static func codeReviewCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutput> {
         let acceptors: [WaiterConfiguration<DescribeCodeReviewInput, DescribeCodeReviewOutput>.Acceptor] = [

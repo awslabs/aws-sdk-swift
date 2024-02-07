@@ -66,7 +66,7 @@ public struct GlueClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension GlueClient: GlueClientProtocol {
+extension GlueClient {
     /// Performs the `BatchCreatePartition` operation on the `AWSGlue` service.
     ///
     /// Creates one or more partitions in a batch operation.
@@ -85,8 +85,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func batchCreatePartition(input: BatchCreatePartitionInput) async throws -> BatchCreatePartitionOutput
-    {
+    public func batchCreatePartition(input: BatchCreatePartitionInput) async throws -> BatchCreatePartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchDeleteConnection(input: BatchDeleteConnectionInput) async throws -> BatchDeleteConnectionOutput
-    {
+    public func batchDeleteConnection(input: BatchDeleteConnectionInput) async throws -> BatchDeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchDeletePartition(input: BatchDeletePartitionInput) async throws -> BatchDeletePartitionOutput
-    {
+    public func batchDeletePartition(input: BatchDeletePartitionInput) async throws -> BatchDeletePartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
-    public func batchDeleteTable(input: BatchDeleteTableInput) async throws -> BatchDeleteTableOutput
-    {
+    public func batchDeleteTable(input: BatchDeleteTableInput) async throws -> BatchDeleteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -285,8 +281,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchDeleteTableVersion(input: BatchDeleteTableVersionInput) async throws -> BatchDeleteTableVersionOutput
-    {
+    public func batchDeleteTableVersion(input: BatchDeleteTableVersionInput) async throws -> BatchDeleteTableVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetBlueprints(input: BatchGetBlueprintsInput) async throws -> BatchGetBlueprintsOutput
-    {
+    public func batchGetBlueprints(input: BatchGetBlueprintsInput) async throws -> BatchGetBlueprintsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutput
-    {
+    public func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -431,8 +424,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutput
-    {
+    public func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutput
-    {
+    public func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +521,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutput
-    {
+    public func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -579,8 +569,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetJobs(input: BatchGetJobsInput) async throws -> BatchGetJobsOutput
-    {
+    public func batchGetJobs(input: BatchGetJobsInput) async throws -> BatchGetJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -633,8 +622,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetPartition(input: BatchGetPartitionInput) async throws -> BatchGetPartitionOutput
-    {
+    public func batchGetPartition(input: BatchGetPartitionInput) async throws -> BatchGetPartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -680,8 +668,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
-    public func batchGetTableOptimizer(input: BatchGetTableOptimizerInput) async throws -> BatchGetTableOptimizerOutput
-    {
+    public func batchGetTableOptimizer(input: BatchGetTableOptimizerInput) async throws -> BatchGetTableOptimizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +716,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetTriggers(input: BatchGetTriggersInput) async throws -> BatchGetTriggersOutput
-    {
+    public func batchGetTriggers(input: BatchGetTriggersInput) async throws -> BatchGetTriggersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +764,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchGetWorkflows(input: BatchGetWorkflowsInput) async throws -> BatchGetWorkflowsOutput
-    {
+    public func batchGetWorkflows(input: BatchGetWorkflowsInput) async throws -> BatchGetWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -827,8 +812,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutput
-    {
+    public func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -878,8 +862,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutput
-    {
+    public func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -928,8 +911,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutput
-    {
+    public func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -978,8 +960,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutput
-    {
+    public func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1028,8 +1009,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutput
-    {
+    public func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1060,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput
-    {
+    public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1108,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func checkSchemaVersionValidity(input: CheckSchemaVersionValidityInput) async throws -> CheckSchemaVersionValidityOutput
-    {
+    public func checkSchemaVersionValidity(input: CheckSchemaVersionValidityInput) async throws -> CheckSchemaVersionValidityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1180,8 +1158,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createBlueprint(input: CreateBlueprintInput) async throws -> CreateBlueprintOutput
-    {
+    public func createBlueprint(input: CreateBlueprintInput) async throws -> CreateBlueprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1229,8 +1206,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `AlreadyExistsException` : A resource to be created or added already exists.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func createClassifier(input: CreateClassifierInput) async throws -> CreateClassifierOutput
-    {
+    public func createClassifier(input: CreateClassifierInput) async throws -> CreateClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1256,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
-    {
+    public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1330,8 +1305,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createCrawler(input: CreateCrawlerInput) async throws -> CreateCrawlerOutput
-    {
+    public func createCrawler(input: CreateCrawlerInput) async throws -> CreateCrawlerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1383,8 +1357,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutput
-    {
+    public func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1434,8 +1407,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutput
-    {
+    public func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1488,8 +1460,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutput
-    {
+    public func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1542,8 +1513,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
-    public func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutput
-    {
+    public func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1595,8 +1565,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1648,8 +1617,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createMLTransform(input: CreateMLTransformInput) async throws -> CreateMLTransformOutput
-    {
+    public func createMLTransform(input: CreateMLTransformInput) async throws -> CreateMLTransformOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1701,8 +1669,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createPartition(input: CreatePartitionInput) async throws -> CreatePartitionOutput
-    {
+    public func createPartition(input: CreatePartitionInput) async throws -> CreatePartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1754,8 +1721,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createPartitionIndex(input: CreatePartitionIndexInput) async throws -> CreatePartitionIndexOutput
-    {
+    public func createPartitionIndex(input: CreatePartitionIndexInput) async throws -> CreatePartitionIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1806,8 +1772,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput
-    {
+    public func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1859,8 +1824,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
-    {
+    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1908,8 +1872,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput
-    {
+    public func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1959,8 +1922,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutput
-    {
+    public func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2013,8 +1975,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
-    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
-    {
+    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2068,8 +2029,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createTable(input: CreateTableInput) async throws -> CreateTableOutput
-    {
+    public func createTable(input: CreateTableInput) async throws -> CreateTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2119,8 +2079,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func createTableOptimizer(input: CreateTableOptimizerInput) async throws -> CreateTableOptimizerOutput
-    {
+    public func createTableOptimizer(input: CreateTableOptimizerInput) async throws -> CreateTableOptimizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2173,8 +2132,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createTrigger(input: CreateTriggerInput) async throws -> CreateTriggerOutput
-    {
+    public func createTrigger(input: CreateTriggerInput) async throws -> CreateTriggerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2226,8 +2184,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createUserDefinedFunction(input: CreateUserDefinedFunctionInput) async throws -> CreateUserDefinedFunctionOutput
-    {
+    public func createUserDefinedFunction(input: CreateUserDefinedFunctionInput) async throws -> CreateUserDefinedFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2235,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
-    {
+    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2327,8 +2283,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteBlueprint(input: DeleteBlueprintInput) async throws -> DeleteBlueprintOutput
-    {
+    public func deleteBlueprint(input: DeleteBlueprintInput) async throws -> DeleteBlueprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2375,8 +2330,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteClassifier(input: DeleteClassifierInput) async throws -> DeleteClassifierOutput
-    {
+    public func deleteClassifier(input: DeleteClassifierInput) async throws -> DeleteClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2426,8 +2380,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteColumnStatisticsForPartition(input: DeleteColumnStatisticsForPartitionInput) async throws -> DeleteColumnStatisticsForPartitionOutput
-    {
+    public func deleteColumnStatisticsForPartition(input: DeleteColumnStatisticsForPartitionInput) async throws -> DeleteColumnStatisticsForPartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2477,8 +2430,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteColumnStatisticsForTable(input: DeleteColumnStatisticsForTableInput) async throws -> DeleteColumnStatisticsForTableOutput
-    {
+    public func deleteColumnStatisticsForTable(input: DeleteColumnStatisticsForTableInput) async throws -> DeleteColumnStatisticsForTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2525,8 +2477,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2575,8 +2526,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
-    public func deleteCrawler(input: DeleteCrawlerInput) async throws -> DeleteCrawlerOutput
-    {
+    public func deleteCrawler(input: DeleteCrawlerInput) async throws -> DeleteCrawlerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2626,8 +2576,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutput
-    {
+    public func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2676,8 +2625,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutput
-    {
+    public func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2727,8 +2675,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutput
-    {
+    public func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2777,8 +2724,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutput
-    {
+    public func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2826,8 +2772,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-    {
+    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2876,8 +2821,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteMLTransform(input: DeleteMLTransformInput) async throws -> DeleteMLTransformOutput
-    {
+    public func deleteMLTransform(input: DeleteMLTransformInput) async throws -> DeleteMLTransformOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2926,8 +2870,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deletePartition(input: DeletePartitionInput) async throws -> DeletePartitionOutput
-    {
+    public func deletePartition(input: DeletePartitionInput) async throws -> DeletePartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2978,8 +2921,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deletePartitionIndex(input: DeletePartitionIndexInput) async throws -> DeletePartitionIndexOutput
-    {
+    public func deletePartitionIndex(input: DeletePartitionIndexInput) async throws -> DeletePartitionIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3028,8 +2970,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
-    public func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput
-    {
+    public func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3079,8 +3020,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3129,8 +3069,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
-    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
-    {
+    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3179,8 +3118,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
-    public func deleteSchemaVersions(input: DeleteSchemaVersionsInput) async throws -> DeleteSchemaVersionsOutput
-    {
+    public func deleteSchemaVersions(input: DeleteSchemaVersionsInput) async throws -> DeleteSchemaVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3229,8 +3167,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutput
-    {
+    public func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3281,8 +3218,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput
-    {
+    public func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3333,8 +3269,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
-    public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput
-    {
+    public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3383,8 +3318,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func deleteTableOptimizer(input: DeleteTableOptimizerInput) async throws -> DeleteTableOptimizerOutput
-    {
+    public func deleteTableOptimizer(input: DeleteTableOptimizerInput) async throws -> DeleteTableOptimizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3433,8 +3367,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteTableVersion(input: DeleteTableVersionInput) async throws -> DeleteTableVersionOutput
-    {
+    public func deleteTableVersion(input: DeleteTableVersionInput) async throws -> DeleteTableVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3483,8 +3416,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteTrigger(input: DeleteTriggerInput) async throws -> DeleteTriggerOutput
-    {
+    public func deleteTrigger(input: DeleteTriggerInput) async throws -> DeleteTriggerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3533,8 +3465,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteUserDefinedFunction(input: DeleteUserDefinedFunctionInput) async throws -> DeleteUserDefinedFunctionOutput
-    {
+    public func deleteUserDefinedFunction(input: DeleteUserDefinedFunctionInput) async throws -> DeleteUserDefinedFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3583,8 +3514,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
-    {
+    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3633,8 +3563,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getBlueprint(input: GetBlueprintInput) async throws -> GetBlueprintOutput
-    {
+    public func getBlueprint(input: GetBlueprintInput) async throws -> GetBlueprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3682,8 +3611,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getBlueprintRun(input: GetBlueprintRunInput) async throws -> GetBlueprintRunOutput
-    {
+    public func getBlueprintRun(input: GetBlueprintRunInput) async throws -> GetBlueprintRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3732,8 +3660,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getBlueprintRuns(input: GetBlueprintRunsInput) async throws -> GetBlueprintRunsOutput
-    {
+    public func getBlueprintRuns(input: GetBlueprintRunsInput) async throws -> GetBlueprintRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3780,8 +3707,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getCatalogImportStatus(input: GetCatalogImportStatusInput) async throws -> GetCatalogImportStatusOutput
-    {
+    public func getCatalogImportStatus(input: GetCatalogImportStatusInput) async throws -> GetCatalogImportStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3828,8 +3754,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getClassifier(input: GetClassifierInput) async throws -> GetClassifierOutput
-    {
+    public func getClassifier(input: GetClassifierInput) async throws -> GetClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3875,8 +3800,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getClassifiers(input: GetClassifiersInput) async throws -> GetClassifiersOutput
-    {
+    public func getClassifiers(input: GetClassifiersInput) async throws -> GetClassifiersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3926,8 +3850,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getColumnStatisticsForPartition(input: GetColumnStatisticsForPartitionInput) async throws -> GetColumnStatisticsForPartitionOutput
-    {
+    public func getColumnStatisticsForPartition(input: GetColumnStatisticsForPartitionInput) async throws -> GetColumnStatisticsForPartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3977,8 +3900,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getColumnStatisticsForTable(input: GetColumnStatisticsForTableInput) async throws -> GetColumnStatisticsForTableOutput
-    {
+    public func getColumnStatisticsForTable(input: GetColumnStatisticsForTableInput) async throws -> GetColumnStatisticsForTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4026,8 +3948,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getColumnStatisticsTaskRun(input: GetColumnStatisticsTaskRunInput) async throws -> GetColumnStatisticsTaskRunOutput
-    {
+    public func getColumnStatisticsTaskRun(input: GetColumnStatisticsTaskRunInput) async throws -> GetColumnStatisticsTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4073,8 +3994,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getColumnStatisticsTaskRuns(input: GetColumnStatisticsTaskRunsInput) async throws -> GetColumnStatisticsTaskRunsOutput
-    {
+    public func getColumnStatisticsTaskRuns(input: GetColumnStatisticsTaskRunsInput) async throws -> GetColumnStatisticsTaskRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4123,8 +4043,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
-    {
+    public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4173,8 +4092,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput
-    {
+    public func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4221,8 +4139,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getCrawler(input: GetCrawlerInput) async throws -> GetCrawlerOutput
-    {
+    public func getCrawler(input: GetCrawlerInput) async throws -> GetCrawlerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4268,8 +4185,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getCrawlerMetrics(input: GetCrawlerMetricsInput) async throws -> GetCrawlerMetricsOutput
-    {
+    public func getCrawlerMetrics(input: GetCrawlerMetricsInput) async throws -> GetCrawlerMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4315,8 +4231,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getCrawlers(input: GetCrawlersInput) async throws -> GetCrawlersOutput
-    {
+    public func getCrawlers(input: GetCrawlersInput) async throws -> GetCrawlersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4366,8 +4281,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getCustomEntityType(input: GetCustomEntityTypeInput) async throws -> GetCustomEntityTypeOutput
-    {
+    public func getCustomEntityType(input: GetCustomEntityTypeInput) async throws -> GetCustomEntityTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4415,8 +4329,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutput
-    {
+    public func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4465,8 +4378,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutput
-    {
+    public func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4515,8 +4427,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutput
-    {
+    public func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4565,8 +4476,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutput
-    {
+    public func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4615,8 +4525,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutput
-    {
+    public func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4667,8 +4576,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput
-    {
+    public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4717,8 +4625,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDatabases(input: GetDatabasesInput) async throws -> GetDatabasesOutput
-    {
+    public func getDatabases(input: GetDatabasesInput) async throws -> GetDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4766,8 +4673,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutput
-    {
+    public func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4816,8 +4722,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutput
-    {
+    public func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4866,8 +4771,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutput
-    {
+    public func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4916,8 +4820,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutput
-    {
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4973,8 +4876,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
-    public func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutput
-    {
+    public func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5023,8 +4925,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput
-    {
+    public func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5073,8 +4974,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getJobRuns(input: GetJobRunsInput) async throws -> GetJobRunsOutput
-    {
+    public func getJobRuns(input: GetJobRunsInput) async throws -> GetJobRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5123,8 +5023,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getJobs(input: GetJobsInput) async throws -> GetJobsOutput
-    {
+    public func getJobs(input: GetJobsInput) async throws -> GetJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5173,8 +5072,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getMLTaskRun(input: GetMLTaskRunInput) async throws -> GetMLTaskRunOutput
-    {
+    public func getMLTaskRun(input: GetMLTaskRunInput) async throws -> GetMLTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5223,8 +5121,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getMLTaskRuns(input: GetMLTaskRunsInput) async throws -> GetMLTaskRunsOutput
-    {
+    public func getMLTaskRuns(input: GetMLTaskRunsInput) async throws -> GetMLTaskRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5273,8 +5170,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getMLTransform(input: GetMLTransformInput) async throws -> GetMLTransformOutput
-    {
+    public func getMLTransform(input: GetMLTransformInput) async throws -> GetMLTransformOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5323,8 +5219,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getMLTransforms(input: GetMLTransformsInput) async throws -> GetMLTransformsOutput
-    {
+    public func getMLTransforms(input: GetMLTransformsInput) async throws -> GetMLTransformsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5373,8 +5268,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getMapping(input: GetMappingInput) async throws -> GetMappingOutput
-    {
+    public func getMapping(input: GetMappingInput) async throws -> GetMappingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5426,8 +5320,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getPartition(input: GetPartitionInput) async throws -> GetPartitionOutput
-    {
+    public func getPartition(input: GetPartitionInput) async throws -> GetPartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5477,8 +5370,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getPartitionIndexes(input: GetPartitionIndexesInput) async throws -> GetPartitionIndexesOutput
-    {
+    public func getPartitionIndexes(input: GetPartitionIndexesInput) async throws -> GetPartitionIndexesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5532,8 +5424,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
-    public func getPartitions(input: GetPartitionsInput) async throws -> GetPartitionsOutput
-    {
+    public func getPartitions(input: GetPartitionsInput) async throws -> GetPartitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5581,8 +5472,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getPlan(input: GetPlanInput) async throws -> GetPlanOutput
-    {
+    public func getPlan(input: GetPlanInput) async throws -> GetPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5631,8 +5521,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getRegistry(input: GetRegistryInput) async throws -> GetRegistryOutput
-    {
+    public func getRegistry(input: GetRegistryInput) async throws -> GetRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5681,8 +5570,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
-    {
+    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5731,8 +5619,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5781,8 +5668,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput
-    {
+    public func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5831,8 +5717,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getSchemaByDefinition(input: GetSchemaByDefinitionInput) async throws -> GetSchemaByDefinitionOutput
-    {
+    public func getSchemaByDefinition(input: GetSchemaByDefinitionInput) async throws -> GetSchemaByDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5881,8 +5766,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getSchemaVersion(input: GetSchemaVersionInput) async throws -> GetSchemaVersionOutput
-    {
+    public func getSchemaVersion(input: GetSchemaVersionInput) async throws -> GetSchemaVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5931,8 +5815,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getSchemaVersionsDiff(input: GetSchemaVersionsDiffInput) async throws -> GetSchemaVersionsDiffOutput
-    {
+    public func getSchemaVersionsDiff(input: GetSchemaVersionsDiffInput) async throws -> GetSchemaVersionsDiffOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5981,8 +5864,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getSecurityConfiguration(input: GetSecurityConfigurationInput) async throws -> GetSecurityConfigurationOutput
-    {
+    public func getSecurityConfiguration(input: GetSecurityConfigurationInput) async throws -> GetSecurityConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6031,8 +5913,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getSecurityConfigurations(input: GetSecurityConfigurationsInput) async throws -> GetSecurityConfigurationsOutput
-    {
+    public func getSecurityConfigurations(input: GetSecurityConfigurationsInput) async throws -> GetSecurityConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6082,8 +5963,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput
-    {
+    public func getSession(input: GetSessionInput) async throws -> GetSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6134,8 +6014,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getStatement(input: GetStatementInput) async throws -> GetStatementOutput
-    {
+    public func getStatement(input: GetStatementInput) async throws -> GetStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6188,8 +6067,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
-    public func getTable(input: GetTableInput) async throws -> GetTableOutput
-    {
+    public func getTable(input: GetTableInput) async throws -> GetTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6238,8 +6116,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func getTableOptimizer(input: GetTableOptimizerInput) async throws -> GetTableOptimizerOutput
-    {
+    public func getTableOptimizer(input: GetTableOptimizerInput) async throws -> GetTableOptimizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6289,8 +6166,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getTableVersion(input: GetTableVersionInput) async throws -> GetTableVersionOutput
-    {
+    public func getTableVersion(input: GetTableVersionInput) async throws -> GetTableVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6340,8 +6216,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getTableVersions(input: GetTableVersionsInput) async throws -> GetTableVersionsOutput
-    {
+    public func getTableVersions(input: GetTableVersionsInput) async throws -> GetTableVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6393,8 +6268,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getTables(input: GetTablesInput) async throws -> GetTablesOutput
-    {
+    public func getTables(input: GetTablesInput) async throws -> GetTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6443,8 +6317,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-    {
+    public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6493,8 +6366,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutput
-    {
+    public func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6543,8 +6415,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutput
-    {
+    public func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6597,8 +6468,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The operation timed out.
-    public func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutput
-    {
+    public func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6651,8 +6521,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The operation timed out.
-    public func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutput
-    {
+    public func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6705,8 +6574,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The operation timed out.
-    public func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutput
-    {
+    public func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6756,8 +6624,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutput
-    {
+    public func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6807,8 +6674,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getUserDefinedFunctions(input: GetUserDefinedFunctionsInput) async throws -> GetUserDefinedFunctionsOutput
-    {
+    public func getUserDefinedFunctions(input: GetUserDefinedFunctionsInput) async throws -> GetUserDefinedFunctionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6857,8 +6723,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
-    {
+    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6907,8 +6772,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutput
-    {
+    public func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6957,8 +6821,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getWorkflowRunProperties(input: GetWorkflowRunPropertiesInput) async throws -> GetWorkflowRunPropertiesOutput
-    {
+    public func getWorkflowRunProperties(input: GetWorkflowRunPropertiesInput) async throws -> GetWorkflowRunPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7007,8 +6870,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func getWorkflowRuns(input: GetWorkflowRunsInput) async throws -> GetWorkflowRunsOutput
-    {
+    public func getWorkflowRuns(input: GetWorkflowRunsInput) async throws -> GetWorkflowRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7055,8 +6917,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func importCatalogToGlue(input: ImportCatalogToGlueInput) async throws -> ImportCatalogToGlueOutput
-    {
+    public func importCatalogToGlue(input: ImportCatalogToGlueInput) async throws -> ImportCatalogToGlueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7104,8 +6965,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listBlueprints(input: ListBlueprintsInput) async throws -> ListBlueprintsOutput
-    {
+    public func listBlueprints(input: ListBlueprintsInput) async throws -> ListBlueprintsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7151,8 +7011,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listColumnStatisticsTaskRuns(input: ListColumnStatisticsTaskRunsInput) async throws -> ListColumnStatisticsTaskRunsOutput
-    {
+    public func listColumnStatisticsTaskRuns(input: ListColumnStatisticsTaskRunsInput) async throws -> ListColumnStatisticsTaskRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7198,8 +7057,7 @@ extension GlueClient: GlueClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listCrawlers(input: ListCrawlersInput) async throws -> ListCrawlersOutput
-    {
+    public func listCrawlers(input: ListCrawlersInput) async throws -> ListCrawlersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7255,8 +7113,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutput
-    {
+    public func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7304,8 +7161,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutput
-    {
+    public func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7353,8 +7209,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutput
-    {
+    public func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7402,8 +7257,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutput
-    {
+    public func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7451,8 +7305,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutput
-    {
+    public func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7501,8 +7354,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutput
-    {
+    public func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7551,8 +7403,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutput
-    {
+    public func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7601,8 +7452,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7651,8 +7501,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listMLTransforms(input: ListMLTransformsInput) async throws -> ListMLTransformsOutput
-    {
+    public func listMLTransforms(input: ListMLTransformsInput) async throws -> ListMLTransformsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7700,8 +7549,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput
-    {
+    public func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7750,8 +7598,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput
-    {
+    public func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7800,8 +7647,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
-    {
+    public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7850,8 +7696,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput
-    {
+    public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7902,8 +7747,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput
-    {
+    public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7952,8 +7796,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func listTableOptimizerRuns(input: ListTableOptimizerRunsInput) async throws -> ListTableOptimizerRunsOutput
-    {
+    public func listTableOptimizerRuns(input: ListTableOptimizerRunsInput) async throws -> ListTableOptimizerRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8002,8 +7845,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listTriggers(input: ListTriggersInput) async throws -> ListTriggersOutput
-    {
+    public func listTriggers(input: ListTriggersInput) async throws -> ListTriggersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8051,8 +7893,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-    {
+    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8100,8 +7941,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func putDataCatalogEncryptionSettings(input: PutDataCatalogEncryptionSettingsInput) async throws -> PutDataCatalogEncryptionSettingsOutput
-    {
+    public func putDataCatalogEncryptionSettings(input: PutDataCatalogEncryptionSettingsInput) async throws -> PutDataCatalogEncryptionSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8151,8 +7991,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8202,8 +8041,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func putSchemaVersionMetadata(input: PutSchemaVersionMetadataInput) async throws -> PutSchemaVersionMetadataOutput
-    {
+    public func putSchemaVersionMetadata(input: PutSchemaVersionMetadataInput) async throws -> PutSchemaVersionMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8255,8 +8093,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func putWorkflowRunProperties(input: PutWorkflowRunPropertiesInput) async throws -> PutWorkflowRunPropertiesOutput
-    {
+    public func putWorkflowRunProperties(input: PutWorkflowRunPropertiesInput) async throws -> PutWorkflowRunPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8304,8 +8141,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
-    public func querySchemaVersionMetadata(input: QuerySchemaVersionMetadataInput) async throws -> QuerySchemaVersionMetadataOutput
-    {
+    public func querySchemaVersionMetadata(input: QuerySchemaVersionMetadataInput) async throws -> QuerySchemaVersionMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8356,8 +8192,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutput
-    {
+    public func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8405,8 +8240,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InvalidInputException` : The input provided was not valid.
-    public func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutput
-    {
+    public func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8461,8 +8295,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutput
-    {
+    public func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8513,8 +8346,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutput
-    {
+    public func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8567,8 +8399,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     /// - `ValidationException` : A value could not be validated.
-    public func runStatement(input: RunStatementInput) async throws -> RunStatementOutput
-    {
+    public func runStatement(input: RunStatementInput) async throws -> RunStatementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8616,8 +8447,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func searchTables(input: SearchTablesInput) async throws -> SearchTablesOutput
-    {
+    public func searchTables(input: SearchTablesInput) async throws -> SearchTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8668,8 +8498,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func startBlueprintRun(input: StartBlueprintRunInput) async throws -> StartBlueprintRunOutput
-    {
+    public func startBlueprintRun(input: StartBlueprintRunInput) async throws -> StartBlueprintRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8720,8 +8549,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func startColumnStatisticsTaskRun(input: StartColumnStatisticsTaskRunInput) async throws -> StartColumnStatisticsTaskRunOutput
-    {
+    public func startColumnStatisticsTaskRun(input: StartColumnStatisticsTaskRunInput) async throws -> StartColumnStatisticsTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8769,8 +8597,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutput
-    {
+    public func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8820,8 +8647,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `SchedulerRunningException` : The specified scheduler is already running.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
-    public func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutput
-    {
+    public func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8870,8 +8696,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutput
-    {
+    public func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8921,8 +8746,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutput
-    {
+    public func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8971,8 +8795,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutput
-    {
+    public func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9022,8 +8845,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func startImportLabelsTaskRun(input: StartImportLabelsTaskRunInput) async throws -> StartImportLabelsTaskRunOutput
-    {
+    public func startImportLabelsTaskRun(input: StartImportLabelsTaskRunInput) async throws -> StartImportLabelsTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9074,8 +8896,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
-    {
+    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9126,8 +8947,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `MLTransformNotReadyException` : The machine learning transform is not ready to run.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startMLEvaluationTaskRun(input: StartMLEvaluationTaskRunInput) async throws -> StartMLEvaluationTaskRunOutput
-    {
+    public func startMLEvaluationTaskRun(input: StartMLEvaluationTaskRunInput) async throws -> StartMLEvaluationTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9177,8 +8997,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func startMLLabelingSetGenerationTaskRun(input: StartMLLabelingSetGenerationTaskRunInput) async throws -> StartMLLabelingSetGenerationTaskRunOutput
-    {
+    public func startMLLabelingSetGenerationTaskRun(input: StartMLLabelingSetGenerationTaskRunInput) async throws -> StartMLLabelingSetGenerationTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9229,8 +9048,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func startTrigger(input: StartTriggerInput) async throws -> StartTriggerOutput
-    {
+    public func startTrigger(input: StartTriggerInput) async throws -> StartTriggerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9281,8 +9099,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutput
-    {
+    public func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9331,8 +9148,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `ColumnStatisticsTaskStoppingException` : An exception thrown when you try to stop a task run.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func stopColumnStatisticsTaskRun(input: StopColumnStatisticsTaskRunInput) async throws -> StopColumnStatisticsTaskRunOutput
-    {
+    public func stopColumnStatisticsTaskRun(input: StopColumnStatisticsTaskRunInput) async throws -> StopColumnStatisticsTaskRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9381,8 +9197,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `CrawlerStoppingException` : The specified crawler is stopping.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `OperationTimeoutException` : The operation timed out.
-    public func stopCrawler(input: StopCrawlerInput) async throws -> StopCrawlerOutput
-    {
+    public func stopCrawler(input: StopCrawlerInput) async throws -> StopCrawlerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9431,8 +9246,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `SchedulerNotRunningException` : The specified scheduler is not running.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
-    public func stopCrawlerSchedule(input: StopCrawlerScheduleInput) async throws -> StopCrawlerScheduleOutput
-    {
+    public func stopCrawlerSchedule(input: StopCrawlerScheduleInput) async throws -> StopCrawlerScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9483,8 +9297,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func stopSession(input: StopSessionInput) async throws -> StopSessionOutput
-    {
+    public func stopSession(input: StopSessionInput) async throws -> StopSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9534,8 +9347,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func stopTrigger(input: StopTriggerInput) async throws -> StopTriggerOutput
-    {
+    public func stopTrigger(input: StopTriggerInput) async throws -> StopTriggerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9585,8 +9397,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func stopWorkflowRun(input: StopWorkflowRunInput) async throws -> StopWorkflowRunOutput
-    {
+    public func stopWorkflowRun(input: StopWorkflowRunInput) async throws -> StopWorkflowRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9635,8 +9446,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9685,8 +9495,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9737,8 +9546,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateBlueprint(input: UpdateBlueprintInput) async throws -> UpdateBlueprintOutput
-    {
+    public func updateBlueprint(input: UpdateBlueprintInput) async throws -> UpdateBlueprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9787,8 +9595,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `VersionMismatchException` : There was a version conflict.
-    public func updateClassifier(input: UpdateClassifierInput) async throws -> UpdateClassifierOutput
-    {
+    public func updateClassifier(input: UpdateClassifierInput) async throws -> UpdateClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9838,8 +9645,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateColumnStatisticsForPartition(input: UpdateColumnStatisticsForPartitionInput) async throws -> UpdateColumnStatisticsForPartitionOutput
-    {
+    public func updateColumnStatisticsForPartition(input: UpdateColumnStatisticsForPartitionInput) async throws -> UpdateColumnStatisticsForPartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9889,8 +9695,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateColumnStatisticsForTable(input: UpdateColumnStatisticsForTableInput) async throws -> UpdateColumnStatisticsForTableOutput
-    {
+    public func updateColumnStatisticsForTable(input: UpdateColumnStatisticsForTableInput) async throws -> UpdateColumnStatisticsForTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9939,8 +9744,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput
-    {
+    public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9990,8 +9794,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `VersionMismatchException` : There was a version conflict.
-    public func updateCrawler(input: UpdateCrawlerInput) async throws -> UpdateCrawlerOutput
-    {
+    public func updateCrawler(input: UpdateCrawlerInput) async throws -> UpdateCrawlerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10041,8 +9844,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     /// - `VersionMismatchException` : There was a version conflict.
-    public func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutput
-    {
+    public func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10094,8 +9896,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutput
-    {
+    public func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10146,8 +9947,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutput
-    {
+    public func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10197,8 +9997,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
-    public func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutput
-    {
+    public func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10248,8 +10047,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
-    {
+    public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10301,8 +10099,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
-    public func updateJobFromSourceControl(input: UpdateJobFromSourceControlInput) async throws -> UpdateJobFromSourceControlOutput
-    {
+    public func updateJobFromSourceControl(input: UpdateJobFromSourceControlInput) async throws -> UpdateJobFromSourceControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10352,8 +10149,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateMLTransform(input: UpdateMLTransformInput) async throws -> UpdateMLTransformOutput
-    {
+    public func updateMLTransform(input: UpdateMLTransformInput) async throws -> UpdateMLTransformOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10403,8 +10199,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updatePartition(input: UpdatePartitionInput) async throws -> UpdatePartitionOutput
-    {
+    public func updatePartition(input: UpdatePartitionInput) async throws -> UpdatePartitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10454,8 +10249,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput
-    {
+    public func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10505,8 +10299,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
-    {
+    public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10558,8 +10351,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ValidationException` : A value could not be validated.
-    public func updateSourceControlFromJob(input: UpdateSourceControlFromJobInput) async throws -> UpdateSourceControlFromJobOutput
-    {
+    public func updateSourceControlFromJob(input: UpdateSourceControlFromJobInput) async throws -> UpdateSourceControlFromJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10612,8 +10404,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    public func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput
-    {
+    public func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10662,8 +10453,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    public func updateTableOptimizer(input: UpdateTableOptimizerInput) async throws -> UpdateTableOptimizerOutput
-    {
+    public func updateTableOptimizer(input: UpdateTableOptimizerInput) async throws -> UpdateTableOptimizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10713,8 +10503,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateTrigger(input: UpdateTriggerInput) async throws -> UpdateTriggerOutput
-    {
+    public func updateTrigger(input: UpdateTriggerInput) async throws -> UpdateTriggerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10764,8 +10553,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateUserDefinedFunction(input: UpdateUserDefinedFunctionInput) async throws -> UpdateUserDefinedFunctionOutput
-    {
+    public func updateUserDefinedFunction(input: UpdateUserDefinedFunctionInput) async throws -> UpdateUserDefinedFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10815,8 +10603,7 @@ extension GlueClient: GlueClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
-    {
+    public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

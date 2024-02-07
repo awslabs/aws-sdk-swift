@@ -66,7 +66,7 @@ public struct FinspacedataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension FinspacedataClient: FinspacedataClientProtocol {
+extension FinspacedataClient {
     /// Performs the `AssociateUserToPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
     ///
     /// Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
@@ -85,8 +85,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func associateUserToPermissionGroup(input: AssociateUserToPermissionGroupInput) async throws -> AssociateUserToPermissionGroupOutput
-    {
+    public func associateUserToPermissionGroup(input: AssociateUserToPermissionGroupInput) async throws -> AssociateUserToPermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createChangeset(input: CreateChangesetInput) async throws -> CreateChangesetOutput
-    {
+    public func createChangeset(input: CreateChangesetInput) async throws -> CreateChangesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createDataView(input: CreateDataViewInput) async throws -> CreateDataViewOutput
-    {
+    public func createDataView(input: CreateDataViewInput) async throws -> CreateDataViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -246,8 +243,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -299,8 +295,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `LimitExceededException` : A limit has exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createPermissionGroup(input: CreatePermissionGroupInput) async throws -> CreatePermissionGroupOutput
-    {
+    public func createPermissionGroup(input: CreatePermissionGroupInput) async throws -> CreatePermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `LimitExceededException` : A limit has exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -406,8 +400,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +451,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deletePermissionGroup(input: DeletePermissionGroupInput) async throws -> DeletePermissionGroupOutput
-    {
+    public func deletePermissionGroup(input: DeletePermissionGroupInput) async throws -> DeletePermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +501,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func disableUser(input: DisableUserInput) async throws -> DisableUserOutput
-    {
+    public func disableUser(input: DisableUserInput) async throws -> DisableUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -562,8 +553,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func disassociateUserFromPermissionGroup(input: DisassociateUserFromPermissionGroupInput) async throws -> DisassociateUserFromPermissionGroupOutput
-    {
+    public func disassociateUserFromPermissionGroup(input: DisassociateUserFromPermissionGroupInput) async throws -> DisassociateUserFromPermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +604,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func enableUser(input: EnableUserInput) async throws -> EnableUserOutput
-    {
+    public func enableUser(input: EnableUserInput) async throws -> EnableUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -667,8 +656,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getChangeset(input: GetChangesetInput) async throws -> GetChangesetOutput
-    {
+    public func getChangeset(input: GetChangesetInput) async throws -> GetChangesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -715,8 +703,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getDataView(input: GetDataViewInput) async throws -> GetDataViewOutput
-    {
+    public func getDataView(input: GetDataViewInput) async throws -> GetDataViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -764,8 +751,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getDataset(input: GetDatasetInput) async throws -> GetDatasetOutput
-    {
+    public func getDataset(input: GetDatasetInput) async throws -> GetDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -816,8 +802,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getExternalDataViewAccessDetails(input: GetExternalDataViewAccessDetailsInput) async throws -> GetExternalDataViewAccessDetailsOutput
-    {
+    public func getExternalDataViewAccessDetails(input: GetExternalDataViewAccessDetailsInput) async throws -> GetExternalDataViewAccessDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +849,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getPermissionGroup(input: GetPermissionGroupInput) async throws -> GetPermissionGroupOutput
-    {
+    public func getPermissionGroup(input: GetPermissionGroupInput) async throws -> GetPermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -911,8 +895,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getProgrammaticAccessCredentials(input: GetProgrammaticAccessCredentialsInput) async throws -> GetProgrammaticAccessCredentialsOutput
-    {
+    public func getProgrammaticAccessCredentials(input: GetProgrammaticAccessCredentialsInput) async throws -> GetProgrammaticAccessCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -960,8 +943,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getUser(input: GetUserInput) async throws -> GetUserOutput
-    {
+    public func getUser(input: GetUserInput) async throws -> GetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1007,8 +989,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getWorkingLocation(input: GetWorkingLocationInput) async throws -> GetWorkingLocationOutput
-    {
+    public func getWorkingLocation(input: GetWorkingLocationInput) async throws -> GetWorkingLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1059,8 +1040,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listChangesets(input: ListChangesetsInput) async throws -> ListChangesetsOutput
-    {
+    public func listChangesets(input: ListChangesetsInput) async throws -> ListChangesetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1088,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listDataViews(input: ListDataViewsInput) async throws -> ListDataViewsOutput
-    {
+    public func listDataViews(input: ListDataViewsInput) async throws -> ListDataViewsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1157,8 +1136,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1205,8 +1183,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listPermissionGroups(input: ListPermissionGroupsInput) async throws -> ListPermissionGroupsOutput
-    {
+    public func listPermissionGroups(input: ListPermissionGroupsInput) async throws -> ListPermissionGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1254,8 +1231,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listPermissionGroupsByUser(input: ListPermissionGroupsByUserInput) async throws -> ListPermissionGroupsByUserOutput
-    {
+    public func listPermissionGroupsByUser(input: ListPermissionGroupsByUserInput) async throws -> ListPermissionGroupsByUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1302,8 +1278,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1351,8 +1326,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listUsersByPermissionGroup(input: ListUsersByPermissionGroupInput) async throws -> ListUsersByPermissionGroupOutput
-    {
+    public func listUsersByPermissionGroup(input: ListUsersByPermissionGroupInput) async throws -> ListUsersByPermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1401,8 +1375,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput
-    {
+    public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1427,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateChangeset(input: UpdateChangesetInput) async throws -> UpdateChangesetOutput
-    {
+    public func updateChangeset(input: UpdateChangesetInput) async throws -> UpdateChangesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1479,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
-    {
+    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1560,8 +1531,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updatePermissionGroup(input: UpdatePermissionGroupInput) async throws -> UpdatePermissionGroupOutput
-    {
+    public func updatePermissionGroup(input: UpdatePermissionGroupInput) async throws -> UpdatePermissionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1613,8 +1583,7 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

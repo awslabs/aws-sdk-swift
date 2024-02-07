@@ -66,7 +66,7 @@ public struct TranscribeStreamingClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
+extension TranscribeStreamingClient {
     /// Performs the `StartCallAnalyticsStreamTranscription` operation on the `Transcribe` service.
     ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. Use this operation for [Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html) transcriptions. The following parameters are required:
@@ -92,8 +92,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    public func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput
-    {
+    public func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -153,8 +152,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    public func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput
-    {
+    public func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -214,8 +212,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    public func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput
-    {
+    public func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

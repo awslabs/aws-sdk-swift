@@ -66,7 +66,7 @@ public struct GreengrassV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension GreengrassV2Client: GreengrassV2ClientProtocol {
+extension GreengrassV2Client {
     /// Performs the `AssociateServiceRoleToAccount` operation on the `GreengrassV2` service.
     ///
     /// Associates a Greengrass service role with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. The role must include the [AWSGreengrassResourceAccessRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:awsiam::aws:policy/service-role/AWSGreengrassResourceAccessRolePolicy) managed policy or a custom policy that defines equivalent permissions for the IoT Greengrass features that you use. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html) in the IoT Greengrass Version 2 Developer Guide.
@@ -80,8 +80,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput
-    {
+    public func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func batchAssociateClientDeviceWithCoreDevice(input: BatchAssociateClientDeviceWithCoreDeviceInput) async throws -> BatchAssociateClientDeviceWithCoreDeviceOutput
-    {
+    public func batchAssociateClientDeviceWithCoreDevice(input: BatchAssociateClientDeviceWithCoreDeviceInput) async throws -> BatchAssociateClientDeviceWithCoreDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func batchDisassociateClientDeviceFromCoreDevice(input: BatchDisassociateClientDeviceFromCoreDeviceInput) async throws -> BatchDisassociateClientDeviceFromCoreDeviceOutput
-    {
+    public func batchDisassociateClientDeviceFromCoreDevice(input: BatchDisassociateClientDeviceFromCoreDeviceInput) async throws -> BatchDisassociateClientDeviceFromCoreDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -231,8 +228,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func cancelDeployment(input: CancelDeploymentInput) async throws -> CancelDeploymentOutput
-    {
+    public func cancelDeployment(input: CancelDeploymentInput) async throws -> CancelDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -305,8 +301,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota. For example, you might have the maximum number of components that you can create.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func createComponentVersion(input: CreateComponentVersionInput) async throws -> CreateComponentVersionOutput
-    {
+    public func createComponentVersion(input: CreateComponentVersionInput) async throws -> CreateComponentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -358,8 +353,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +404,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
-    {
+    public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +451,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func deleteCoreDevice(input: DeleteCoreDeviceInput) async throws -> DeleteCoreDeviceOutput
-    {
+    public func deleteCoreDevice(input: DeleteCoreDeviceInput) async throws -> DeleteCoreDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -506,8 +498,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-    {
+    public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutput
-    {
+    public func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +586,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
-    public func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput
-    {
+    public func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -643,8 +632,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
-    {
+    public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +679,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func getComponentVersionArtifact(input: GetComponentVersionArtifactInput) async throws -> GetComponentVersionArtifactOutput
-    {
+    public func getComponentVersionArtifact(input: GetComponentVersionArtifactInput) async throws -> GetComponentVersionArtifactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -735,8 +722,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput
-    {
+    public func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -792,8 +778,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func getCoreDevice(input: GetCoreDeviceInput) async throws -> GetCoreDeviceOutput
-    {
+    public func getCoreDevice(input: GetCoreDeviceInput) async throws -> GetCoreDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -839,8 +824,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-    {
+    public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -882,8 +866,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
-    public func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput
-    {
+    public func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -929,8 +912,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listClientDevicesAssociatedWithCoreDevice(input: ListClientDevicesAssociatedWithCoreDeviceInput) async throws -> ListClientDevicesAssociatedWithCoreDeviceOutput
-    {
+    public func listClientDevicesAssociatedWithCoreDevice(input: ListClientDevicesAssociatedWithCoreDeviceInput) async throws -> ListClientDevicesAssociatedWithCoreDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -977,8 +959,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listComponentVersions(input: ListComponentVersionsInput) async throws -> ListComponentVersionsOutput
-    {
+    public func listComponentVersions(input: ListComponentVersionsInput) async throws -> ListComponentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1025,8 +1006,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
-    {
+    public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1062,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listCoreDevices(input: ListCoreDevicesInput) async throws -> ListCoreDevicesOutput
-    {
+    public func listCoreDevices(input: ListCoreDevicesInput) async throws -> ListCoreDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1108,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-    {
+    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1177,8 +1155,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listEffectiveDeployments(input: ListEffectiveDeploymentsInput) async throws -> ListEffectiveDeploymentsOutput
-    {
+    public func listEffectiveDeployments(input: ListEffectiveDeploymentsInput) async throws -> ListEffectiveDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1235,8 +1212,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listInstalledComponents(input: ListInstalledComponentsInput) async throws -> ListInstalledComponentsOutput
-    {
+    public func listInstalledComponents(input: ListInstalledComponentsInput) async throws -> ListInstalledComponentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1281,8 +1257,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1329,8 +1304,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func resolveComponentCandidates(input: ResolveComponentCandidatesInput) async throws -> ResolveComponentCandidatesOutput
-    {
+    public func resolveComponentCandidates(input: ResolveComponentCandidatesInput) async throws -> ResolveComponentCandidatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1351,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1425,8 +1398,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1470,8 +1442,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    public func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput
-    {
+    public func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -1960,6 +1960,8 @@ extension NotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum RDSDataClientTypes {}
+
 extension RDSDataClientTypes.Record: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case values

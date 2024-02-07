@@ -66,7 +66,7 @@ public struct KinesisVideoSignalingClientLogHandlerFactory: ClientRuntime.SDKLog
     }
 }
 
-extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
+extension KinesisVideoSignalingClient {
     /// Performs the `GetIceServerConfig` operation on the `AWSAcuitySignalingService` service.
     ///
     /// Gets the Interactive Connectivity Establishment (ICE) server configuration information, including URIs, username, and password which can be used to configure the WebRTC connection. The ICE component uses this configuration information to setup the WebRTC connection, including authenticating with the Traversal Using Relays around NAT (TURN) relay server. TURN is a protocol that is used to improve the connectivity of peer-to-peer applications. By providing a cloud-based relay service, TURN ensures that a connection can be established even when one or more peers are incapable of a direct peer-to-peer connection. For more information, see [A REST API For Access To TURN Services](https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00). You can invoke this API to establish a fallback mechanism in case either of the peers is unable to establish a direct peer-to-peer connection over a signaling channel. You must specify either a signaling channel ARN or the client ID in order to invoke this API.
@@ -84,8 +84,7 @@ extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : The specified resource is not found.
     /// - `SessionExpiredException` : If the client session is expired. Once the client is connected, the session is valid for 45 minutes. Client should reconnect to the channel to continue sending/receiving messages.
-    public func getIceServerConfig(input: GetIceServerConfigInput) async throws -> GetIceServerConfigOutput
-    {
+    public func getIceServerConfig(input: GetIceServerConfigInput) async throws -> GetIceServerConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : The specified resource is not found.
-    public func sendAlexaOfferToMaster(input: SendAlexaOfferToMasterInput) async throws -> SendAlexaOfferToMasterOutput
-    {
+    public func sendAlexaOfferToMaster(input: SendAlexaOfferToMasterInput) async throws -> SendAlexaOfferToMasterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

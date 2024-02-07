@@ -66,7 +66,7 @@ public struct GameLiftClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension GameLiftClient: GameLiftClientProtocol {
+extension GameLiftClient {
     /// Performs the `AcceptMatch` operation on the `GameLift` service.
     ///
     /// Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed unless all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE. This is a trigger for your game to get acceptance from all players in each ticket. Calls to this action are only valid for tickets that are in this status; calls for tickets not in this status result in an error. To register acceptance, specify the ticket ID, one or more players, and an acceptance response. When all players have accepted, Amazon GameLift advances the matchmaking tickets to status PLACING, and attempts to create a new game session for the match. If any player rejects the match, or if acceptances are not received before a specified timeout, the proposed match is dropped. Each matchmaking ticket in the failed match is handled as follows:
@@ -89,8 +89,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func acceptMatch(input: AcceptMatchInput) async throws -> AcceptMatchOutput
-    {
+    public func acceptMatch(input: AcceptMatchInput) async throws -> AcceptMatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -150,8 +149,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `OutOfCapacityException` : The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func claimGameServer(input: ClaimGameServerInput) async throws -> ClaimGameServerOutput
-    {
+    public func claimGameServer(input: ClaimGameServerInput) async throws -> ClaimGameServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -202,8 +200,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
-    {
+    public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -260,8 +257,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createBuild(input: CreateBuildInput) async throws -> CreateBuildOutput
-    {
+    public func createBuild(input: CreateBuildInput) async throws -> CreateBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -314,8 +310,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
-    {
+    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -368,8 +363,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func createFleetLocations(input: CreateFleetLocationsInput) async throws -> CreateFleetLocationsOutput
-    {
+    public func createFleetLocations(input: CreateFleetLocationsInput) async throws -> CreateFleetLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +420,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createGameServerGroup(input: CreateGameServerGroupInput) async throws -> CreateGameServerGroupOutput
-    {
+    public func createGameServerGroup(input: CreateGameServerGroupInput) async throws -> CreateGameServerGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +485,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func createGameSession(input: CreateGameSessionInput) async throws -> CreateGameSessionOutput
-    {
+    public func createGameSession(input: CreateGameSessionInput) async throws -> CreateGameSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -544,8 +536,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createGameSessionQueue(input: CreateGameSessionQueueInput) async throws -> CreateGameSessionQueueOutput
-    {
+    public func createGameSessionQueue(input: CreateGameSessionQueueInput) async throws -> CreateGameSessionQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +587,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createLocation(input: CreateLocationInput) async throws -> CreateLocationOutput
-    {
+    public func createLocation(input: CreateLocationInput) async throws -> CreateLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -648,8 +638,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func createMatchmakingConfiguration(input: CreateMatchmakingConfigurationInput) async throws -> CreateMatchmakingConfigurationOutput
-    {
+    public func createMatchmakingConfiguration(input: CreateMatchmakingConfigurationInput) async throws -> CreateMatchmakingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -705,8 +694,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func createMatchmakingRuleSet(input: CreateMatchmakingRuleSetInput) async throws -> CreateMatchmakingRuleSetOutput
-    {
+    public func createMatchmakingRuleSet(input: CreateMatchmakingRuleSetInput) async throws -> CreateMatchmakingRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -758,8 +746,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createPlayerSession(input: CreatePlayerSessionInput) async throws -> CreatePlayerSessionOutput
-    {
+    public func createPlayerSession(input: CreatePlayerSessionInput) async throws -> CreatePlayerSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -811,8 +798,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createPlayerSessions(input: CreatePlayerSessionsInput) async throws -> CreatePlayerSessionsOutput
-    {
+    public func createPlayerSessions(input: CreatePlayerSessionsInput) async throws -> CreatePlayerSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +855,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput
-    {
+    public func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -919,8 +904,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createVpcPeeringAuthorization(input: CreateVpcPeeringAuthorizationInput) async throws -> CreateVpcPeeringAuthorizationOutput
-    {
+    public func createVpcPeeringAuthorization(input: CreateVpcPeeringAuthorizationInput) async throws -> CreateVpcPeeringAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -969,8 +953,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput
-    {
+    public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1020,8 +1003,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
-    {
+    public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1053,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteBuild(input: DeleteBuildInput) async throws -> DeleteBuildOutput
-    {
+    public func deleteBuild(input: DeleteBuildInput) async throws -> DeleteBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1123,8 +1104,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
-    {
+    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1174,8 +1154,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func deleteFleetLocations(input: DeleteFleetLocationsInput) async throws -> DeleteFleetLocationsOutput
-    {
+    public func deleteFleetLocations(input: DeleteFleetLocationsInput) async throws -> DeleteFleetLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1233,8 +1212,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteGameServerGroup(input: DeleteGameServerGroupInput) async throws -> DeleteGameServerGroupOutput
-    {
+    public func deleteGameServerGroup(input: DeleteGameServerGroupInput) async throws -> DeleteGameServerGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1284,8 +1262,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteGameSessionQueue(input: DeleteGameSessionQueueInput) async throws -> DeleteGameSessionQueueOutput
-    {
+    public func deleteGameSessionQueue(input: DeleteGameSessionQueueInput) async throws -> DeleteGameSessionQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1334,8 +1311,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput
-    {
+    public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1385,8 +1361,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func deleteMatchmakingConfiguration(input: DeleteMatchmakingConfigurationInput) async throws -> DeleteMatchmakingConfigurationOutput
-    {
+    public func deleteMatchmakingConfiguration(input: DeleteMatchmakingConfigurationInput) async throws -> DeleteMatchmakingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1438,8 +1413,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func deleteMatchmakingRuleSet(input: DeleteMatchmakingRuleSetInput) async throws -> DeleteMatchmakingRuleSetOutput
-    {
+    public func deleteMatchmakingRuleSet(input: DeleteMatchmakingRuleSetInput) async throws -> DeleteMatchmakingRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1488,8 +1462,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput
-    {
+    public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1539,8 +1512,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteScript(input: DeleteScriptInput) async throws -> DeleteScriptOutput
-    {
+    public func deleteScript(input: DeleteScriptInput) async throws -> DeleteScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1589,8 +1561,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteVpcPeeringAuthorization(input: DeleteVpcPeeringAuthorizationInput) async throws -> DeleteVpcPeeringAuthorizationOutput
-    {
+    public func deleteVpcPeeringAuthorization(input: DeleteVpcPeeringAuthorizationInput) async throws -> DeleteVpcPeeringAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1639,8 +1610,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput
-    {
+    public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1689,8 +1659,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deregisterCompute(input: DeregisterComputeInput) async throws -> DeregisterComputeOutput
-    {
+    public func deregisterCompute(input: DeregisterComputeInput) async throws -> DeregisterComputeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1739,8 +1708,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func deregisterGameServer(input: DeregisterGameServerInput) async throws -> DeregisterGameServerOutput
-    {
+    public func deregisterGameServer(input: DeregisterGameServerInput) async throws -> DeregisterGameServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1789,8 +1757,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeAlias(input: DescribeAliasInput) async throws -> DescribeAliasOutput
-    {
+    public func describeAlias(input: DescribeAliasInput) async throws -> DescribeAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1839,8 +1806,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeBuild(input: DescribeBuildInput) async throws -> DescribeBuildOutput
-    {
+    public func describeBuild(input: DescribeBuildInput) async throws -> DescribeBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1855,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeCompute(input: DescribeComputeInput) async throws -> DescribeComputeOutput
-    {
+    public func describeCompute(input: DescribeComputeInput) async throws -> DescribeComputeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1955,8 +1920,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeEC2InstanceLimits(input: DescribeEC2InstanceLimitsInput) async throws -> DescribeEC2InstanceLimitsOutput
-    {
+    public func describeEC2InstanceLimits(input: DescribeEC2InstanceLimitsInput) async throws -> DescribeEC2InstanceLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2012,8 +1976,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeFleetAttributes(input: DescribeFleetAttributesInput) async throws -> DescribeFleetAttributesOutput
-    {
+    public func describeFleetAttributes(input: DescribeFleetAttributesInput) async throws -> DescribeFleetAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2069,8 +2032,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeFleetCapacity(input: DescribeFleetCapacityInput) async throws -> DescribeFleetCapacityOutput
-    {
+    public func describeFleetCapacity(input: DescribeFleetCapacityInput) async throws -> DescribeFleetCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2119,8 +2081,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeFleetEvents(input: DescribeFleetEventsInput) async throws -> DescribeFleetEventsOutput
-    {
+    public func describeFleetEvents(input: DescribeFleetEventsInput) async throws -> DescribeFleetEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2177,8 +2138,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeFleetLocationAttributes(input: DescribeFleetLocationAttributesInput) async throws -> DescribeFleetLocationAttributesOutput
-    {
+    public func describeFleetLocationAttributes(input: DescribeFleetLocationAttributesInput) async throws -> DescribeFleetLocationAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2228,8 +2188,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeFleetLocationCapacity(input: DescribeFleetLocationCapacityInput) async throws -> DescribeFleetLocationCapacityOutput
-    {
+    public func describeFleetLocationCapacity(input: DescribeFleetLocationCapacityInput) async throws -> DescribeFleetLocationCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2279,8 +2238,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeFleetLocationUtilization(input: DescribeFleetLocationUtilizationInput) async throws -> DescribeFleetLocationUtilizationOutput
-    {
+    public func describeFleetLocationUtilization(input: DescribeFleetLocationUtilizationInput) async throws -> DescribeFleetLocationUtilizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2337,8 +2295,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeFleetPortSettings(input: DescribeFleetPortSettingsInput) async throws -> DescribeFleetPortSettingsOutput
-    {
+    public func describeFleetPortSettings(input: DescribeFleetPortSettingsInput) async throws -> DescribeFleetPortSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2394,8 +2351,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeFleetUtilization(input: DescribeFleetUtilizationInput) async throws -> DescribeFleetUtilizationOutput
-    {
+    public func describeFleetUtilization(input: DescribeFleetUtilizationInput) async throws -> DescribeFleetUtilizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2444,8 +2400,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeGameServer(input: DescribeGameServerInput) async throws -> DescribeGameServerOutput
-    {
+    public func describeGameServer(input: DescribeGameServerInput) async throws -> DescribeGameServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2494,8 +2449,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeGameServerGroup(input: DescribeGameServerGroupInput) async throws -> DescribeGameServerGroupOutput
-    {
+    public func describeGameServerGroup(input: DescribeGameServerGroupInput) async throws -> DescribeGameServerGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2544,8 +2498,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeGameServerInstances(input: DescribeGameServerInstancesInput) async throws -> DescribeGameServerInstancesOutput
-    {
+    public func describeGameServerInstances(input: DescribeGameServerInstancesInput) async throws -> DescribeGameServerInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2605,8 +2558,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeGameSessionDetails(input: DescribeGameSessionDetailsInput) async throws -> DescribeGameSessionDetailsOutput
-    {
+    public func describeGameSessionDetails(input: DescribeGameSessionDetailsInput) async throws -> DescribeGameSessionDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2655,8 +2607,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeGameSessionPlacement(input: DescribeGameSessionPlacementInput) async throws -> DescribeGameSessionPlacementOutput
-    {
+    public func describeGameSessionPlacement(input: DescribeGameSessionPlacementInput) async throws -> DescribeGameSessionPlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2705,8 +2656,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeGameSessionQueues(input: DescribeGameSessionQueuesInput) async throws -> DescribeGameSessionQueuesOutput
-    {
+    public func describeGameSessionQueues(input: DescribeGameSessionQueuesInput) async throws -> DescribeGameSessionQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2766,8 +2716,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeGameSessions(input: DescribeGameSessionsInput) async throws -> DescribeGameSessionsOutput
-    {
+    public func describeGameSessions(input: DescribeGameSessionsInput) async throws -> DescribeGameSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2826,8 +2775,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput
-    {
+    public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2875,8 +2823,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeMatchmaking(input: DescribeMatchmakingInput) async throws -> DescribeMatchmakingOutput
-    {
+    public func describeMatchmaking(input: DescribeMatchmakingInput) async throws -> DescribeMatchmakingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2924,8 +2871,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeMatchmakingConfigurations(input: DescribeMatchmakingConfigurationsInput) async throws -> DescribeMatchmakingConfigurationsOutput
-    {
+    public func describeMatchmakingConfigurations(input: DescribeMatchmakingConfigurationsInput) async throws -> DescribeMatchmakingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2976,8 +2922,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeMatchmakingRuleSets(input: DescribeMatchmakingRuleSetsInput) async throws -> DescribeMatchmakingRuleSetsOutput
-    {
+    public func describeMatchmakingRuleSets(input: DescribeMatchmakingRuleSetsInput) async throws -> DescribeMatchmakingRuleSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3035,8 +2980,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describePlayerSessions(input: DescribePlayerSessionsInput) async throws -> DescribePlayerSessionsOutput
-    {
+    public func describePlayerSessions(input: DescribePlayerSessionsInput) async throws -> DescribePlayerSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3085,8 +3029,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeRuntimeConfiguration(input: DescribeRuntimeConfigurationInput) async throws -> DescribeRuntimeConfigurationOutput
-    {
+    public func describeRuntimeConfiguration(input: DescribeRuntimeConfigurationInput) async throws -> DescribeRuntimeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3136,8 +3079,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput
-    {
+    public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3186,8 +3128,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeScript(input: DescribeScriptInput) async throws -> DescribeScriptOutput
-    {
+    public func describeScript(input: DescribeScriptInput) async throws -> DescribeScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3235,8 +3176,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeVpcPeeringAuthorizations(input: DescribeVpcPeeringAuthorizationsInput) async throws -> DescribeVpcPeeringAuthorizationsOutput
-    {
+    public func describeVpcPeeringAuthorizations(input: DescribeVpcPeeringAuthorizationsInput) async throws -> DescribeVpcPeeringAuthorizationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3285,8 +3225,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput
-    {
+    public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3335,8 +3274,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func getComputeAccess(input: GetComputeAccessInput) async throws -> GetComputeAccessOutput
-    {
+    public func getComputeAccess(input: GetComputeAccessInput) async throws -> GetComputeAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3391,8 +3329,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func getComputeAuthToken(input: GetComputeAuthTokenInput) async throws -> GetComputeAuthTokenOutput
-    {
+    public func getComputeAuthToken(input: GetComputeAuthTokenInput) async throws -> GetComputeAuthTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3441,8 +3378,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func getGameSessionLogUrl(input: GetGameSessionLogUrlInput) async throws -> GetGameSessionLogUrlOutput
-    {
+    public func getGameSessionLogUrl(input: GetGameSessionLogUrlInput) async throws -> GetGameSessionLogUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3498,8 +3434,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func getInstanceAccess(input: GetInstanceAccessInput) async throws -> GetInstanceAccessOutput
-    {
+    public func getInstanceAccess(input: GetInstanceAccessInput) async throws -> GetInstanceAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3547,8 +3482,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
-    {
+    public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3596,8 +3530,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput
-    {
+    public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3645,8 +3578,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listCompute(input: ListComputeInput) async throws -> ListComputeOutput
-    {
+    public func listCompute(input: ListComputeInput) async throws -> ListComputeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3704,8 +3636,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput
-    {
+    public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3753,8 +3684,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listGameServerGroups(input: ListGameServerGroupsInput) async throws -> ListGameServerGroupsOutput
-    {
+    public func listGameServerGroups(input: ListGameServerGroupsInput) async throws -> ListGameServerGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3802,8 +3732,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listGameServers(input: ListGameServersInput) async throws -> ListGameServersOutput
-    {
+    public func listGameServers(input: ListGameServersInput) async throws -> ListGameServersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3851,8 +3780,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutput
-    {
+    public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3900,8 +3828,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func listScripts(input: ListScriptsInput) async throws -> ListScriptsOutput
-    {
+    public func listScripts(input: ListScriptsInput) async throws -> ListScriptsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3950,8 +3877,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4000,8 +3926,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput
-    {
+    public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4057,8 +3982,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func registerCompute(input: RegisterComputeInput) async throws -> RegisterComputeOutput
-    {
+    public func registerCompute(input: RegisterComputeInput) async throws -> RegisterComputeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4108,8 +4032,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func registerGameServer(input: RegisterGameServerInput) async throws -> RegisterGameServerOutput
-    {
+    public func registerGameServer(input: RegisterGameServerInput) async throws -> RegisterGameServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4158,8 +4081,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func requestUploadCredentials(input: RequestUploadCredentialsInput) async throws -> RequestUploadCredentialsOutput
-    {
+    public func requestUploadCredentials(input: RequestUploadCredentialsInput) async throws -> RequestUploadCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4209,8 +4131,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func resolveAlias(input: ResolveAliasInput) async throws -> ResolveAliasOutput
-    {
+    public func resolveAlias(input: ResolveAliasInput) async throws -> ResolveAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4259,8 +4180,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func resumeGameServerGroup(input: ResumeGameServerGroupInput) async throws -> ResumeGameServerGroupOutput
-    {
+    public func resumeGameServerGroup(input: ResumeGameServerGroupInput) async throws -> ResumeGameServerGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4335,8 +4255,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func searchGameSessions(input: SearchGameSessionsInput) async throws -> SearchGameSessionsOutput
-    {
+    public func searchGameSessions(input: SearchGameSessionsInput) async throws -> SearchGameSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4393,8 +4312,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func startFleetActions(input: StartFleetActionsInput) async throws -> StartFleetActionsOutput
-    {
+    public func startFleetActions(input: StartFleetActionsInput) async throws -> StartFleetActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4454,8 +4372,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput
-    {
+    public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4504,8 +4421,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func startMatchBackfill(input: StartMatchBackfillInput) async throws -> StartMatchBackfillOutput
-    {
+    public func startMatchBackfill(input: StartMatchBackfillInput) async throws -> StartMatchBackfillOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4554,8 +4470,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func startMatchmaking(input: StartMatchmakingInput) async throws -> StartMatchmakingOutput
-    {
+    public func startMatchmaking(input: StartMatchmakingInput) async throws -> StartMatchmakingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4612,8 +4527,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func stopFleetActions(input: StopFleetActionsInput) async throws -> StopFleetActionsOutput
-    {
+    public func stopFleetActions(input: StopFleetActionsInput) async throws -> StopFleetActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4662,8 +4576,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func stopGameSessionPlacement(input: StopGameSessionPlacementInput) async throws -> StopGameSessionPlacementOutput
-    {
+    public func stopGameSessionPlacement(input: StopGameSessionPlacementInput) async throws -> StopGameSessionPlacementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4712,8 +4625,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func stopMatchmaking(input: StopMatchmakingInput) async throws -> StopMatchmakingOutput
-    {
+    public func stopMatchmaking(input: StopMatchmakingInput) async throws -> StopMatchmakingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4767,8 +4679,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func suspendGameServerGroup(input: SuspendGameServerGroupInput) async throws -> SuspendGameServerGroupOutput
-    {
+    public func suspendGameServerGroup(input: SuspendGameServerGroupInput) async throws -> SuspendGameServerGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4817,8 +4728,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4867,8 +4777,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4917,8 +4826,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
-    {
+    public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4967,8 +4875,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateBuild(input: UpdateBuildInput) async throws -> UpdateBuildOutput
-    {
+    public func updateBuild(input: UpdateBuildInput) async throws -> UpdateBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5020,8 +4927,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateFleetAttributes(input: UpdateFleetAttributesInput) async throws -> UpdateFleetAttributesOutput
-    {
+    public func updateFleetAttributes(input: UpdateFleetAttributesInput) async throws -> UpdateFleetAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5088,8 +4994,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func updateFleetCapacity(input: UpdateFleetCapacityInput) async throws -> UpdateFleetCapacityOutput
-    {
+    public func updateFleetCapacity(input: UpdateFleetCapacityInput) async throws -> UpdateFleetCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5141,8 +5046,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateFleetPortSettings(input: UpdateFleetPortSettingsInput) async throws -> UpdateFleetPortSettingsOutput
-    {
+    public func updateFleetPortSettings(input: UpdateFleetPortSettingsInput) async throws -> UpdateFleetPortSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5200,8 +5104,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateGameServer(input: UpdateGameServerInput) async throws -> UpdateGameServerOutput
-    {
+    public func updateGameServer(input: UpdateGameServerInput) async throws -> UpdateGameServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5250,8 +5153,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateGameServerGroup(input: UpdateGameServerGroupInput) async throws -> UpdateGameServerGroupOutput
-    {
+    public func updateGameServerGroup(input: UpdateGameServerGroupInput) async throws -> UpdateGameServerGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5302,8 +5204,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateGameSession(input: UpdateGameSessionInput) async throws -> UpdateGameSessionOutput
-    {
+    public func updateGameSession(input: UpdateGameSessionInput) async throws -> UpdateGameSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5352,8 +5253,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateGameSessionQueue(input: UpdateGameSessionQueueInput) async throws -> UpdateGameSessionQueueOutput
-    {
+    public func updateGameSessionQueue(input: UpdateGameSessionQueueInput) async throws -> UpdateGameSessionQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5402,8 +5302,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func updateMatchmakingConfiguration(input: UpdateMatchmakingConfigurationInput) async throws -> UpdateMatchmakingConfigurationOutput
-    {
+    public func updateMatchmakingConfiguration(input: UpdateMatchmakingConfigurationInput) async throws -> UpdateMatchmakingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5453,8 +5352,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateRuntimeConfiguration(input: UpdateRuntimeConfigurationInput) async throws -> UpdateRuntimeConfigurationOutput
-    {
+    public func updateRuntimeConfiguration(input: UpdateRuntimeConfigurationInput) async throws -> UpdateRuntimeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5503,8 +5401,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `NotFoundException` : THe requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
-    public func updateScript(input: UpdateScriptInput) async throws -> UpdateScriptOutput
-    {
+    public func updateScript(input: UpdateScriptInput) async throws -> UpdateScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5554,8 +5451,7 @@ extension GameLiftClient: GameLiftClientProtocol {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
-    public func validateMatchmakingRuleSet(input: ValidateMatchmakingRuleSetInput) async throws -> ValidateMatchmakingRuleSetOutput
-    {
+    public func validateMatchmakingRuleSet(input: ValidateMatchmakingRuleSetInput) async throws -> ValidateMatchmakingRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

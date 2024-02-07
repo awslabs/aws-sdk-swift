@@ -66,7 +66,7 @@ public struct DatabaseMigrationClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
+extension DatabaseMigrationClient {
     /// Performs the `AddTagsToResource` operation on the `AmazonDMSv20160101` service.
     ///
     /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
@@ -79,8 +79,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput
-    {
+    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,8 +173,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func batchStartRecommendations(input: BatchStartRecommendationsInput) async throws -> BatchStartRecommendationsOutput
-    {
+    public func batchStartRecommendations(input: BatchStartRecommendationsInput) async throws -> BatchStartRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func cancelReplicationTaskAssessmentRun(input: CancelReplicationTaskAssessmentRunInput) async throws -> CancelReplicationTaskAssessmentRunOutput
-    {
+    public func cancelReplicationTaskAssessmentRun(input: CancelReplicationTaskAssessmentRunInput) async throws -> CancelReplicationTaskAssessmentRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func createDataProvider(input: CreateDataProviderInput) async throws -> CreateDataProviderOutput
-    {
+    public func createDataProvider(input: CreateDataProviderInput) async throws -> CreateDataProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
-    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
-    {
+    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -382,8 +376,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `SNSInvalidTopicFault` : The SNS topic is invalid.
     /// - `SNSNoAuthorizationFault` : You are not authorized for the SNS subscription.
-    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
-    {
+    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -433,8 +426,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func createFleetAdvisorCollector(input: CreateFleetAdvisorCollectorInput) async throws -> CreateFleetAdvisorCollectorOutput
-    {
+    public func createFleetAdvisorCollector(input: CreateFleetAdvisorCollectorInput) async throws -> CreateFleetAdvisorCollectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -487,8 +479,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput
-    {
+    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +530,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func createMigrationProject(input: CreateMigrationProjectInput) async throws -> CreateMigrationProjectOutput
-    {
+    public func createMigrationProject(input: CreateMigrationProjectInput) async throws -> CreateMigrationProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +583,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func createReplicationConfig(input: CreateReplicationConfigInput) async throws -> CreateReplicationConfigOutput
-    {
+    public func createReplicationConfig(input: CreateReplicationConfigInput) async throws -> CreateReplicationConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -649,8 +638,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `StorageQuotaExceededFault` : The storage quota has been exceeded.
-    public func createReplicationInstance(input: CreateReplicationInstanceInput) async throws -> CreateReplicationInstanceOutput
-    {
+    public func createReplicationInstance(input: CreateReplicationInstanceInput) async throws -> CreateReplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -701,8 +689,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func createReplicationSubnetGroup(input: CreateReplicationSubnetGroupInput) async throws -> CreateReplicationSubnetGroupOutput
-    {
+    public func createReplicationSubnetGroup(input: CreateReplicationSubnetGroupInput) async throws -> CreateReplicationSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -753,8 +740,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func createReplicationTask(input: CreateReplicationTaskInput) async throws -> CreateReplicationTaskOutput
-    {
+    public func createReplicationTask(input: CreateReplicationTaskInput) async throws -> CreateReplicationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -801,8 +787,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
-    {
+    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -850,8 +835,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-    {
+    public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -899,8 +883,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteDataProvider(input: DeleteDataProviderInput) async throws -> DeleteDataProviderOutput
-    {
+    public func deleteDataProvider(input: DeleteDataProviderInput) async throws -> DeleteDataProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -947,8 +930,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -995,8 +977,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
-    {
+    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1043,8 +1024,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `CollectorNotFoundFault` : The specified collector doesn't exist.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func deleteFleetAdvisorCollector(input: DeleteFleetAdvisorCollectorInput) async throws -> DeleteFleetAdvisorCollectorOutput
-    {
+    public func deleteFleetAdvisorCollector(input: DeleteFleetAdvisorCollectorInput) async throws -> DeleteFleetAdvisorCollectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1091,8 +1071,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidOperationFault` : The action or operation requested isn't valid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteFleetAdvisorDatabases(input: DeleteFleetAdvisorDatabasesInput) async throws -> DeleteFleetAdvisorDatabasesOutput
-    {
+    public func deleteFleetAdvisorDatabases(input: DeleteFleetAdvisorDatabasesInput) async throws -> DeleteFleetAdvisorDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1119,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput
-    {
+    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1189,8 +1167,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteMigrationProject(input: DeleteMigrationProjectInput) async throws -> DeleteMigrationProjectOutput
-    {
+    public func deleteMigrationProject(input: DeleteMigrationProjectInput) async throws -> DeleteMigrationProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1238,8 +1215,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteReplicationConfig(input: DeleteReplicationConfigInput) async throws -> DeleteReplicationConfigOutput
-    {
+    public func deleteReplicationConfig(input: DeleteReplicationConfigInput) async throws -> DeleteReplicationConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1286,8 +1262,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteReplicationInstance(input: DeleteReplicationInstanceInput) async throws -> DeleteReplicationInstanceOutput
-    {
+    public func deleteReplicationInstance(input: DeleteReplicationInstanceInput) async throws -> DeleteReplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1334,8 +1309,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteReplicationSubnetGroup(input: DeleteReplicationSubnetGroupInput) async throws -> DeleteReplicationSubnetGroupOutput
-    {
+    public func deleteReplicationSubnetGroup(input: DeleteReplicationSubnetGroupInput) async throws -> DeleteReplicationSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1382,8 +1356,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteReplicationTask(input: DeleteReplicationTaskInput) async throws -> DeleteReplicationTaskOutput
-    {
+    public func deleteReplicationTask(input: DeleteReplicationTaskInput) async throws -> DeleteReplicationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1404,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func deleteReplicationTaskAssessmentRun(input: DeleteReplicationTaskAssessmentRunInput) async throws -> DeleteReplicationTaskAssessmentRunOutput
-    {
+    public func deleteReplicationTaskAssessmentRun(input: DeleteReplicationTaskAssessmentRunInput) async throws -> DeleteReplicationTaskAssessmentRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1473,8 +1445,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeAccountAttributesInput :
     ///
     /// - Returns: `DescribeAccountAttributesOutput` :
-    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
-    {
+    public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1522,8 +1493,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeApplicableIndividualAssessments(input: DescribeApplicableIndividualAssessmentsInput) async throws -> DescribeApplicableIndividualAssessmentsOutput
-    {
+    public func describeApplicableIndividualAssessments(input: DescribeApplicableIndividualAssessmentsInput) async throws -> DescribeApplicableIndividualAssessmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1569,8 +1539,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput
-    {
+    public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1616,8 +1585,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutput
-    {
+    public func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1663,8 +1631,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeConversionConfiguration(input: DescribeConversionConfigurationInput) async throws -> DescribeConversionConfigurationOutput
-    {
+    public func describeConversionConfiguration(input: DescribeConversionConfigurationInput) async throws -> DescribeConversionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1711,8 +1678,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeDataProviders(input: DescribeDataProvidersInput) async throws -> DescribeDataProvidersOutput
-    {
+    public func describeDataProviders(input: DescribeDataProvidersInput) async throws -> DescribeDataProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1753,8 +1719,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeEndpointSettingsInput : [no documentation found]
     ///
     /// - Returns: `DescribeEndpointSettingsOutput` : [no documentation found]
-    public func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutput
-    {
+    public func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1795,8 +1760,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeEndpointTypesInput :
     ///
     /// - Returns: `DescribeEndpointTypesOutput` :
-    public func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutput
-    {
+    public func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1842,8 +1806,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
-    {
+    public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1884,8 +1847,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeEngineVersionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeEngineVersionsOutput` : [no documentation found]
-    public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput
-    {
+    public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1926,8 +1888,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeEventCategoriesInput :
     ///
     /// - Returns: `DescribeEventCategoriesOutput` :
-    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
-    {
+    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1973,8 +1934,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
-    {
+    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2015,8 +1975,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeEventsInput :
     ///
     /// - Returns: `DescribeEventsOutput` :
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2057,8 +2016,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeExtensionPackAssociationsInput : [no documentation found]
     ///
     /// - Returns: `DescribeExtensionPackAssociationsOutput` : [no documentation found]
-    public func describeExtensionPackAssociations(input: DescribeExtensionPackAssociationsInput) async throws -> DescribeExtensionPackAssociationsOutput
-    {
+    public func describeExtensionPackAssociations(input: DescribeExtensionPackAssociationsInput) async throws -> DescribeExtensionPackAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2104,8 +2062,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeFleetAdvisorCollectors(input: DescribeFleetAdvisorCollectorsInput) async throws -> DescribeFleetAdvisorCollectorsOutput
-    {
+    public func describeFleetAdvisorCollectors(input: DescribeFleetAdvisorCollectorsInput) async throws -> DescribeFleetAdvisorCollectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2151,8 +2108,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeFleetAdvisorDatabases(input: DescribeFleetAdvisorDatabasesInput) async throws -> DescribeFleetAdvisorDatabasesOutput
-    {
+    public func describeFleetAdvisorDatabases(input: DescribeFleetAdvisorDatabasesInput) async throws -> DescribeFleetAdvisorDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2198,8 +2154,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeFleetAdvisorLsaAnalysis(input: DescribeFleetAdvisorLsaAnalysisInput) async throws -> DescribeFleetAdvisorLsaAnalysisOutput
-    {
+    public func describeFleetAdvisorLsaAnalysis(input: DescribeFleetAdvisorLsaAnalysisInput) async throws -> DescribeFleetAdvisorLsaAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2245,8 +2200,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeFleetAdvisorSchemaObjectSummary(input: DescribeFleetAdvisorSchemaObjectSummaryInput) async throws -> DescribeFleetAdvisorSchemaObjectSummaryOutput
-    {
+    public func describeFleetAdvisorSchemaObjectSummary(input: DescribeFleetAdvisorSchemaObjectSummaryInput) async throws -> DescribeFleetAdvisorSchemaObjectSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2292,8 +2246,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeFleetAdvisorSchemas(input: DescribeFleetAdvisorSchemasInput) async throws -> DescribeFleetAdvisorSchemasOutput
-    {
+    public func describeFleetAdvisorSchemas(input: DescribeFleetAdvisorSchemasInput) async throws -> DescribeFleetAdvisorSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2340,8 +2293,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeInstanceProfiles(input: DescribeInstanceProfilesInput) async throws -> DescribeInstanceProfilesOutput
-    {
+    public func describeInstanceProfiles(input: DescribeInstanceProfilesInput) async throws -> DescribeInstanceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2387,8 +2339,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeMetadataModelAssessments(input: DescribeMetadataModelAssessmentsInput) async throws -> DescribeMetadataModelAssessmentsOutput
-    {
+    public func describeMetadataModelAssessments(input: DescribeMetadataModelAssessmentsInput) async throws -> DescribeMetadataModelAssessmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2434,8 +2385,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeMetadataModelConversions(input: DescribeMetadataModelConversionsInput) async throws -> DescribeMetadataModelConversionsOutput
-    {
+    public func describeMetadataModelConversions(input: DescribeMetadataModelConversionsInput) async throws -> DescribeMetadataModelConversionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2481,8 +2431,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeMetadataModelExportsAsScript(input: DescribeMetadataModelExportsAsScriptInput) async throws -> DescribeMetadataModelExportsAsScriptOutput
-    {
+    public func describeMetadataModelExportsAsScript(input: DescribeMetadataModelExportsAsScriptInput) async throws -> DescribeMetadataModelExportsAsScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2528,8 +2477,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeMetadataModelExportsToTarget(input: DescribeMetadataModelExportsToTargetInput) async throws -> DescribeMetadataModelExportsToTargetOutput
-    {
+    public func describeMetadataModelExportsToTarget(input: DescribeMetadataModelExportsToTargetInput) async throws -> DescribeMetadataModelExportsToTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2575,8 +2523,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeMetadataModelImports(input: DescribeMetadataModelImportsInput) async throws -> DescribeMetadataModelImportsOutput
-    {
+    public func describeMetadataModelImports(input: DescribeMetadataModelImportsInput) async throws -> DescribeMetadataModelImportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2623,8 +2570,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeMigrationProjects(input: DescribeMigrationProjectsInput) async throws -> DescribeMigrationProjectsOutput
-    {
+    public func describeMigrationProjects(input: DescribeMigrationProjectsInput) async throws -> DescribeMigrationProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2665,8 +2611,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - Parameter DescribeOrderableReplicationInstancesInput :
     ///
     /// - Returns: `DescribeOrderableReplicationInstancesOutput` :
-    public func describeOrderableReplicationInstances(input: DescribeOrderableReplicationInstancesInput) async throws -> DescribeOrderableReplicationInstancesOutput
-    {
+    public func describeOrderableReplicationInstances(input: DescribeOrderableReplicationInstancesInput) async throws -> DescribeOrderableReplicationInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2712,8 +2657,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput
-    {
+    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2760,8 +2704,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeRecommendationLimitations(input: DescribeRecommendationLimitationsInput) async throws -> DescribeRecommendationLimitationsOutput
-    {
+    public func describeRecommendationLimitations(input: DescribeRecommendationLimitationsInput) async throws -> DescribeRecommendationLimitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2808,8 +2751,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func describeRecommendations(input: DescribeRecommendationsInput) async throws -> DescribeRecommendationsOutput
-    {
+    public func describeRecommendations(input: DescribeRecommendationsInput) async throws -> DescribeRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2856,8 +2798,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeRefreshSchemasStatus(input: DescribeRefreshSchemasStatusInput) async throws -> DescribeRefreshSchemasStatusOutput
-    {
+    public func describeRefreshSchemasStatus(input: DescribeRefreshSchemasStatusInput) async throws -> DescribeRefreshSchemasStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2903,8 +2844,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationConfigs(input: DescribeReplicationConfigsInput) async throws -> DescribeReplicationConfigsOutput
-    {
+    public func describeReplicationConfigs(input: DescribeReplicationConfigsInput) async throws -> DescribeReplicationConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2951,8 +2891,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationInstanceTaskLogs(input: DescribeReplicationInstanceTaskLogsInput) async throws -> DescribeReplicationInstanceTaskLogsOutput
-    {
+    public func describeReplicationInstanceTaskLogs(input: DescribeReplicationInstanceTaskLogsInput) async throws -> DescribeReplicationInstanceTaskLogsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2998,8 +2937,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationInstances(input: DescribeReplicationInstancesInput) async throws -> DescribeReplicationInstancesOutput
-    {
+    public func describeReplicationInstances(input: DescribeReplicationInstancesInput) async throws -> DescribeReplicationInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3045,8 +2983,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationSubnetGroups(input: DescribeReplicationSubnetGroupsInput) async throws -> DescribeReplicationSubnetGroupsOutput
-    {
+    public func describeReplicationSubnetGroups(input: DescribeReplicationSubnetGroupsInput) async throws -> DescribeReplicationSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3093,8 +3030,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationTableStatistics(input: DescribeReplicationTableStatisticsInput) async throws -> DescribeReplicationTableStatisticsOutput
-    {
+    public func describeReplicationTableStatistics(input: DescribeReplicationTableStatisticsInput) async throws -> DescribeReplicationTableStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3140,8 +3076,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationTaskAssessmentResults(input: DescribeReplicationTaskAssessmentResultsInput) async throws -> DescribeReplicationTaskAssessmentResultsOutput
-    {
+    public func describeReplicationTaskAssessmentResults(input: DescribeReplicationTaskAssessmentResultsInput) async throws -> DescribeReplicationTaskAssessmentResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3187,8 +3122,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationTaskAssessmentRuns(input: DescribeReplicationTaskAssessmentRunsInput) async throws -> DescribeReplicationTaskAssessmentRunsOutput
-    {
+    public func describeReplicationTaskAssessmentRuns(input: DescribeReplicationTaskAssessmentRunsInput) async throws -> DescribeReplicationTaskAssessmentRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3234,8 +3168,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationTaskIndividualAssessments(input: DescribeReplicationTaskIndividualAssessmentsInput) async throws -> DescribeReplicationTaskIndividualAssessmentsOutput
-    {
+    public func describeReplicationTaskIndividualAssessments(input: DescribeReplicationTaskIndividualAssessmentsInput) async throws -> DescribeReplicationTaskIndividualAssessmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3281,8 +3214,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplicationTasks(input: DescribeReplicationTasksInput) async throws -> DescribeReplicationTasksOutput
-    {
+    public func describeReplicationTasks(input: DescribeReplicationTasksInput) async throws -> DescribeReplicationTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3328,8 +3260,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeReplications(input: DescribeReplicationsInput) async throws -> DescribeReplicationsOutput
-    {
+    public func describeReplications(input: DescribeReplicationsInput) async throws -> DescribeReplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3376,8 +3307,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeSchemas(input: DescribeSchemasInput) async throws -> DescribeSchemasOutput
-    {
+    public func describeSchemas(input: DescribeSchemasInput) async throws -> DescribeSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3424,8 +3354,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func describeTableStatistics(input: DescribeTableStatisticsInput) async throws -> DescribeTableStatisticsOutput
-    {
+    public func describeTableStatistics(input: DescribeTableStatisticsInput) async throws -> DescribeTableStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3471,8 +3400,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func exportMetadataModelAssessment(input: ExportMetadataModelAssessmentInput) async throws -> ExportMetadataModelAssessmentOutput
-    {
+    public func exportMetadataModelAssessment(input: ExportMetadataModelAssessmentInput) async throws -> ExportMetadataModelAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3520,8 +3448,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `InvalidCertificateFault` : The certificate was not valid.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput
-    {
+    public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3567,8 +3494,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3615,8 +3541,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func modifyConversionConfiguration(input: ModifyConversionConfigurationInput) async throws -> ModifyConversionConfigurationOutput
-    {
+    public func modifyConversionConfiguration(input: ModifyConversionConfigurationInput) async throws -> ModifyConversionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3664,8 +3589,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func modifyDataProvider(input: ModifyDataProviderInput) async throws -> ModifyDataProviderOutput
-    {
+    public func modifyDataProvider(input: ModifyDataProviderInput) async throws -> ModifyDataProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3715,8 +3639,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func modifyEndpoint(input: ModifyEndpointInput) async throws -> ModifyEndpointOutput
-    {
+    public func modifyEndpoint(input: ModifyEndpointInput) async throws -> ModifyEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3770,8 +3693,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `SNSInvalidTopicFault` : The SNS topic is invalid.
     /// - `SNSNoAuthorizationFault` : You are not authorized for the SNS subscription.
-    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
-    {
+    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3822,8 +3744,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func modifyInstanceProfile(input: ModifyInstanceProfileInput) async throws -> ModifyInstanceProfileOutput
-    {
+    public func modifyInstanceProfile(input: ModifyInstanceProfileInput) async throws -> ModifyInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3873,8 +3794,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func modifyMigrationProject(input: ModifyMigrationProjectInput) async throws -> ModifyMigrationProjectOutput
-    {
+    public func modifyMigrationProject(input: ModifyMigrationProjectInput) async throws -> ModifyMigrationProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3925,8 +3845,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ReplicationSubnetGroupDoesNotCoverEnoughAZs` : The replication subnet group does not cover enough Availability Zones (AZs). Edit the replication subnet group and add more AZs.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func modifyReplicationConfig(input: ModifyReplicationConfigInput) async throws -> ModifyReplicationConfigOutput
-    {
+    public func modifyReplicationConfig(input: ModifyReplicationConfigInput) async throws -> ModifyReplicationConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3978,8 +3897,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `StorageQuotaExceededFault` : The storage quota has been exceeded.
     /// - `UpgradeDependencyFailureFault` : An upgrade dependency is preventing the database migration.
-    public func modifyReplicationInstance(input: ModifyReplicationInstanceInput) async throws -> ModifyReplicationInstanceOutput
-    {
+    public func modifyReplicationInstance(input: ModifyReplicationInstanceInput) async throws -> ModifyReplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4030,8 +3948,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `SubnetAlreadyInUse` : The specified subnet is already in use.
-    public func modifyReplicationSubnetGroup(input: ModifyReplicationSubnetGroupInput) async throws -> ModifyReplicationSubnetGroupOutput
-    {
+    public func modifyReplicationSubnetGroup(input: ModifyReplicationSubnetGroupInput) async throws -> ModifyReplicationSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4080,8 +3997,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func modifyReplicationTask(input: ModifyReplicationTaskInput) async throws -> ModifyReplicationTaskOutput
-    {
+    public func modifyReplicationTask(input: ModifyReplicationTaskInput) async throws -> ModifyReplicationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4131,8 +4047,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func moveReplicationTask(input: MoveReplicationTaskInput) async throws -> MoveReplicationTaskOutput
-    {
+    public func moveReplicationTask(input: MoveReplicationTaskInput) async throws -> MoveReplicationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4179,8 +4094,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func rebootReplicationInstance(input: RebootReplicationInstanceInput) async throws -> RebootReplicationInstanceOutput
-    {
+    public func rebootReplicationInstance(input: RebootReplicationInstanceInput) async throws -> RebootReplicationInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4229,8 +4143,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func refreshSchemas(input: RefreshSchemasInput) async throws -> RefreshSchemasOutput
-    {
+    public func refreshSchemas(input: RefreshSchemasInput) async throws -> RefreshSchemasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4277,8 +4190,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func reloadReplicationTables(input: ReloadReplicationTablesInput) async throws -> ReloadReplicationTablesOutput
-    {
+    public func reloadReplicationTables(input: ReloadReplicationTablesInput) async throws -> ReloadReplicationTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4325,8 +4237,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func reloadTables(input: ReloadTablesInput) async throws -> ReloadTablesOutput
-    {
+    public func reloadTables(input: ReloadTablesInput) async throws -> ReloadTablesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4372,8 +4283,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4420,8 +4330,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func runFleetAdvisorLsaAnalysis(input: RunFleetAdvisorLsaAnalysisInput) async throws -> RunFleetAdvisorLsaAnalysisOutput
-    {
+    public func runFleetAdvisorLsaAnalysis(input: RunFleetAdvisorLsaAnalysisInput) async throws -> RunFleetAdvisorLsaAnalysisOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4474,8 +4383,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startExtensionPackAssociation(input: StartExtensionPackAssociationInput) async throws -> StartExtensionPackAssociationOutput
-    {
+    public func startExtensionPackAssociation(input: StartExtensionPackAssociationInput) async throws -> StartExtensionPackAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4528,8 +4436,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startMetadataModelAssessment(input: StartMetadataModelAssessmentInput) async throws -> StartMetadataModelAssessmentOutput
-    {
+    public func startMetadataModelAssessment(input: StartMetadataModelAssessmentInput) async throws -> StartMetadataModelAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4582,8 +4489,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startMetadataModelConversion(input: StartMetadataModelConversionInput) async throws -> StartMetadataModelConversionOutput
-    {
+    public func startMetadataModelConversion(input: StartMetadataModelConversionInput) async throws -> StartMetadataModelConversionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4636,8 +4542,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startMetadataModelExportAsScript(input: StartMetadataModelExportAsScriptInput) async throws -> StartMetadataModelExportAsScriptOutput
-    {
+    public func startMetadataModelExportAsScript(input: StartMetadataModelExportAsScriptInput) async throws -> StartMetadataModelExportAsScriptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4690,8 +4595,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startMetadataModelExportToTarget(input: StartMetadataModelExportToTargetInput) async throws -> StartMetadataModelExportToTargetOutput
-    {
+    public func startMetadataModelExportToTarget(input: StartMetadataModelExportToTargetInput) async throws -> StartMetadataModelExportToTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4744,8 +4648,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startMetadataModelImport(input: StartMetadataModelImportInput) async throws -> StartMetadataModelImportOutput
-    {
+    public func startMetadataModelImport(input: StartMetadataModelImportInput) async throws -> StartMetadataModelImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4793,8 +4696,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func startRecommendations(input: StartRecommendationsInput) async throws -> StartRecommendationsOutput
-    {
+    public func startRecommendations(input: StartRecommendationsInput) async throws -> StartRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4842,8 +4744,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
-    {
+    public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4891,8 +4792,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func startReplicationTask(input: StartReplicationTaskInput) async throws -> StartReplicationTaskOutput
-    {
+    public func startReplicationTask(input: StartReplicationTaskInput) async throws -> StartReplicationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4946,8 +4846,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func startReplicationTaskAssessment(input: StartReplicationTaskAssessmentInput) async throws -> StartReplicationTaskAssessmentOutput
-    {
+    public func startReplicationTaskAssessment(input: StartReplicationTaskAssessmentInput) async throws -> StartReplicationTaskAssessmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5004,8 +4903,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    public func startReplicationTaskAssessmentRun(input: StartReplicationTaskAssessmentRunInput) async throws -> StartReplicationTaskAssessmentRunOutput
-    {
+    public func startReplicationTaskAssessmentRun(input: StartReplicationTaskAssessmentRunInput) async throws -> StartReplicationTaskAssessmentRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5053,8 +4951,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
-    {
+    public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5101,8 +4998,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    public func stopReplicationTask(input: StopReplicationTaskInput) async throws -> StopReplicationTaskOutput
-    {
+    public func stopReplicationTask(input: StopReplicationTaskInput) async throws -> StopReplicationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5152,8 +5048,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    public func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput
-    {
+    public func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5200,8 +5095,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    public func updateSubscriptionsToEventBridge(input: UpdateSubscriptionsToEventBridgeInput) async throws -> UpdateSubscriptionsToEventBridgeOutput
-    {
+    public func updateSubscriptionsToEventBridge(input: UpdateSubscriptionsToEventBridgeInput) async throws -> UpdateSubscriptionsToEventBridgeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

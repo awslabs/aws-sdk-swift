@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension EKSClientProtocol {
+extension EKSClient {
 
     static func addonActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput> {
         let acceptors: [WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput>.Acceptor] = [

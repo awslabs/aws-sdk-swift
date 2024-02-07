@@ -66,7 +66,7 @@ public struct ARCZonalShiftClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
+extension ARCZonalShiftClient {
     /// Performs the `CancelZonalShift` operation on the `PercDataPlane` service.
     ///
     /// Cancel a zonal shift in Amazon Route 53 Application Recovery Controller. To cancel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift.
@@ -84,8 +84,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func cancelZonalShift(input: CancelZonalShiftInput) async throws -> CancelZonalShiftOutput
-    {
+    public func cancelZonalShift(input: CancelZonalShiftInput) async throws -> CancelZonalShiftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func createPracticeRunConfiguration(input: CreatePracticeRunConfigurationInput) async throws -> CreatePracticeRunConfigurationOutput
-    {
+    public func createPracticeRunConfiguration(input: CreatePracticeRunConfigurationInput) async throws -> CreatePracticeRunConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deletePracticeRunConfiguration(input: DeletePracticeRunConfigurationInput) async throws -> DeletePracticeRunConfigurationOutput
-    {
+    public func deletePracticeRunConfiguration(input: DeletePracticeRunConfigurationInput) async throws -> DeletePracticeRunConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getManagedResource(input: GetManagedResourceInput) async throws -> GetManagedResourceOutput
-    {
+    public func getManagedResource(input: GetManagedResourceInput) async throws -> GetManagedResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -276,8 +272,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listAutoshifts(input: ListAutoshiftsInput) async throws -> ListAutoshiftsOutput
-    {
+    public func listAutoshifts(input: ListAutoshiftsInput) async throws -> ListAutoshiftsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -323,8 +318,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listManagedResources(input: ListManagedResourcesInput) async throws -> ListManagedResourcesOutput
-    {
+    public func listManagedResources(input: ListManagedResourcesInput) async throws -> ListManagedResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -370,8 +364,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listZonalShifts(input: ListZonalShiftsInput) async throws -> ListZonalShiftsOutput
-    {
+    public func listZonalShifts(input: ListZonalShiftsInput) async throws -> ListZonalShiftsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -419,8 +412,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func startZonalShift(input: StartZonalShiftInput) async throws -> StartZonalShiftOutput
-    {
+    public func startZonalShift(input: StartZonalShiftInput) async throws -> StartZonalShiftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -470,8 +462,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updatePracticeRunConfiguration(input: UpdatePracticeRunConfigurationInput) async throws -> UpdatePracticeRunConfigurationOutput
-    {
+    public func updatePracticeRunConfiguration(input: UpdatePracticeRunConfigurationInput) async throws -> UpdatePracticeRunConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -521,8 +512,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateZonalAutoshiftConfiguration(input: UpdateZonalAutoshiftConfigurationInput) async throws -> UpdateZonalAutoshiftConfigurationOutput
-    {
+    public func updateZonalAutoshiftConfiguration(input: UpdateZonalAutoshiftConfigurationInput) async throws -> UpdateZonalAutoshiftConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -572,8 +562,7 @@ extension ARCZonalShiftClient: ARCZonalShiftClientProtocol {
     /// - `ResourceNotFoundException` : The input requested a resource that was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateZonalShift(input: UpdateZonalShiftInput) async throws -> UpdateZonalShiftOutput
-    {
+    public func updateZonalShift(input: UpdateZonalShiftInput) async throws -> UpdateZonalShiftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

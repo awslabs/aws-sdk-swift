@@ -66,7 +66,7 @@ public struct MWAAClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension MWAAClient: MWAAClientProtocol {
+extension MWAAClient {
     /// Performs the `CreateCliToken` operation on the `AmazonMWAA` service.
     ///
     /// Creates a CLI token for the Airflow CLI. To learn more, see [Creating an Apache Airflow CLI token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-cli.html).
@@ -79,8 +79,7 @@ extension MWAAClient: MWAAClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
-    public func createCliToken(input: CreateCliTokenInput) async throws -> CreateCliTokenOutput
-    {
+    public func createCliToken(input: CreateCliTokenInput) async throws -> CreateCliTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -123,8 +122,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func createWebLoginToken(input: CreateWebLoginTokenInput) async throws -> CreateWebLoginTokenOutput
-    {
+    public func createWebLoginToken(input: CreateWebLoginTokenInput) async throws -> CreateWebLoginTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -217,8 +214,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -262,8 +258,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-    {
+    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -306,8 +301,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +346,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -397,8 +390,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func publishMetrics(input: PublishMetricsInput) async throws -> PublishMetricsOutput
-    {
+    public func publishMetrics(input: PublishMetricsInput) async throws -> PublishMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -445,8 +437,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +484,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +529,7 @@ extension MWAAClient: MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

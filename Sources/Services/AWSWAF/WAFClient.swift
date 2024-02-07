@@ -66,7 +66,7 @@ public struct WAFClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension WAFClient: WAFClientProtocol {
+extension WAFClient {
     /// Performs the `CreateByteMatchSet` operation on the `AWSWAF_20150824` service.
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a ByteMatchSet. You then use [UpdateByteMatchSet] to identify the part of a web request that you want AWS WAF to inspect, such as the values of the User-Agent header or the query string. For example, you can create a ByteMatchSet that matches any requests with User-Agent headers that contain the string BadBot. You can then configure AWS WAF to reject those requests. To create and configure a ByteMatchSet, perform the following steps:
@@ -113,8 +113,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createByteMatchSet(input: CreateByteMatchSetInput) async throws -> CreateByteMatchSetOutput
-    {
+    public func createByteMatchSet(input: CreateByteMatchSetInput) async throws -> CreateByteMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -194,8 +193,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createGeoMatchSet(input: CreateGeoMatchSetInput) async throws -> CreateGeoMatchSetOutput
-    {
+    public func createGeoMatchSet(input: CreateGeoMatchSetInput) async throws -> CreateGeoMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +273,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput
-    {
+    public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +375,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func createRateBasedRule(input: CreateRateBasedRuleInput) async throws -> CreateRateBasedRuleOutput
-    {
+    public func createRateBasedRule(input: CreateRateBasedRuleInput) async throws -> CreateRateBasedRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -439,8 +435,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createRegexMatchSet(input: CreateRegexMatchSetInput) async throws -> CreateRegexMatchSetOutput
-    {
+    public func createRegexMatchSet(input: CreateRegexMatchSetInput) async throws -> CreateRegexMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -500,8 +495,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput
-    {
+    public func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -594,8 +588,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-    {
+    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -656,8 +649,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput
-    {
+    public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -737,8 +729,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createSizeConstraintSet(input: CreateSizeConstraintSetInput) async throws -> CreateSizeConstraintSetOutput
-    {
+    public func createSizeConstraintSet(input: CreateSizeConstraintSetInput) async throws -> CreateSizeConstraintSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -818,8 +809,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createSqlInjectionMatchSet(input: CreateSqlInjectionMatchSetInput) async throws -> CreateSqlInjectionMatchSetOutput
-    {
+    public func createSqlInjectionMatchSet(input: CreateSqlInjectionMatchSetInput) async throws -> CreateSqlInjectionMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -906,8 +896,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput
-    {
+    public func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -999,8 +988,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func createWebACLMigrationStack(input: CreateWebACLMigrationStackInput) async throws -> CreateWebACLMigrationStackOutput
-    {
+    public func createWebACLMigrationStack(input: CreateWebACLMigrationStackInput) async throws -> CreateWebACLMigrationStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1068,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func createXssMatchSet(input: CreateXssMatchSetInput) async throws -> CreateXssMatchSetOutput
-    {
+    public func createXssMatchSet(input: CreateXssMatchSetInput) async throws -> CreateXssMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1150,8 +1137,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteByteMatchSet(input: DeleteByteMatchSetInput) async throws -> DeleteByteMatchSetOutput
-    {
+    public func deleteByteMatchSet(input: DeleteByteMatchSetInput) async throws -> DeleteByteMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1220,8 +1206,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteGeoMatchSet(input: DeleteGeoMatchSetInput) async throws -> DeleteGeoMatchSetOutput
-    {
+    public func deleteGeoMatchSet(input: DeleteGeoMatchSetInput) async throws -> DeleteGeoMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1290,8 +1275,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput
-    {
+    public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1339,8 +1323,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
-    {
+    public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1388,8 +1371,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput
-    {
+    public func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1442,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func deleteRateBasedRule(input: DeleteRateBasedRuleInput) async throws -> DeleteRateBasedRuleOutput
-    {
+    public func deleteRateBasedRule(input: DeleteRateBasedRuleInput) async throws -> DeleteRateBasedRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1530,8 +1511,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteRegexMatchSet(input: DeleteRegexMatchSetInput) async throws -> DeleteRegexMatchSetOutput
-    {
+    public func deleteRegexMatchSet(input: DeleteRegexMatchSetInput) async throws -> DeleteRegexMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1594,8 +1574,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput
-    {
+    public func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1666,8 +1645,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1748,8 +1726,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput
-    {
+    public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1818,8 +1795,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteSizeConstraintSet(input: DeleteSizeConstraintSetInput) async throws -> DeleteSizeConstraintSetOutput
-    {
+    public func deleteSizeConstraintSet(input: DeleteSizeConstraintSetInput) async throws -> DeleteSizeConstraintSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1888,8 +1864,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteSqlInjectionMatchSet(input: DeleteSqlInjectionMatchSetInput) async throws -> DeleteSqlInjectionMatchSetOutput
-    {
+    public func deleteSqlInjectionMatchSet(input: DeleteSqlInjectionMatchSetInput) async throws -> DeleteSqlInjectionMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1960,8 +1935,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput
-    {
+    public func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2030,8 +2004,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func deleteXssMatchSet(input: DeleteXssMatchSetInput) async throws -> DeleteXssMatchSetOutput
-    {
+    public func deleteXssMatchSet(input: DeleteXssMatchSetInput) async throws -> DeleteXssMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2079,8 +2052,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getByteMatchSet(input: GetByteMatchSetInput) async throws -> GetByteMatchSetOutput
-    {
+    public func getByteMatchSet(input: GetByteMatchSetInput) async throws -> GetByteMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2126,8 +2098,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
-    public func getChangeToken(input: GetChangeTokenInput) async throws -> GetChangeTokenOutput
-    {
+    public func getChangeToken(input: GetChangeTokenInput) async throws -> GetChangeTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2180,8 +2151,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getChangeTokenStatus(input: GetChangeTokenStatusInput) async throws -> GetChangeTokenStatusOutput
-    {
+    public func getChangeTokenStatus(input: GetChangeTokenStatusInput) async throws -> GetChangeTokenStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2229,8 +2199,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getGeoMatchSet(input: GetGeoMatchSetInput) async throws -> GetGeoMatchSetOutput
-    {
+    public func getGeoMatchSet(input: GetGeoMatchSetInput) async throws -> GetGeoMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2247,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput
-    {
+    public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2326,8 +2294,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput
-    {
+    public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2374,8 +2341,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput
-    {
+    public func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2423,8 +2389,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getRateBasedRule(input: GetRateBasedRuleInput) async throws -> GetRateBasedRuleOutput
-    {
+    public func getRateBasedRule(input: GetRateBasedRuleInput) async throws -> GetRateBasedRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2491,8 +2456,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getRateBasedRuleManagedKeys(input: GetRateBasedRuleManagedKeysInput) async throws -> GetRateBasedRuleManagedKeysOutput
-    {
+    public func getRateBasedRuleManagedKeys(input: GetRateBasedRuleManagedKeysInput) async throws -> GetRateBasedRuleManagedKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2540,8 +2504,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getRegexMatchSet(input: GetRegexMatchSetInput) async throws -> GetRegexMatchSetOutput
-    {
+    public func getRegexMatchSet(input: GetRegexMatchSetInput) async throws -> GetRegexMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2589,8 +2552,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput
-    {
+    public func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2638,8 +2600,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getRule(input: GetRuleInput) async throws -> GetRuleOutput
-    {
+    public func getRule(input: GetRuleInput) async throws -> GetRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2686,8 +2647,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput
-    {
+    public func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2734,8 +2694,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput
-    {
+    public func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2783,8 +2742,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getSizeConstraintSet(input: GetSizeConstraintSetInput) async throws -> GetSizeConstraintSetOutput
-    {
+    public func getSizeConstraintSet(input: GetSizeConstraintSetInput) async throws -> GetSizeConstraintSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2832,8 +2790,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getSqlInjectionMatchSet(input: GetSqlInjectionMatchSetInput) async throws -> GetSqlInjectionMatchSetOutput
-    {
+    public func getSqlInjectionMatchSet(input: GetSqlInjectionMatchSetInput) async throws -> GetSqlInjectionMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2881,8 +2838,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput
-    {
+    public func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2930,8 +2886,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func getXssMatchSet(input: GetXssMatchSetInput) async throws -> GetXssMatchSetOutput
-    {
+    public func getXssMatchSet(input: GetXssMatchSetInput) async throws -> GetXssMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2997,8 +2952,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func listActivatedRulesInRuleGroup(input: ListActivatedRulesInRuleGroupInput) async throws -> ListActivatedRulesInRuleGroupOutput
-    {
+    public func listActivatedRulesInRuleGroup(input: ListActivatedRulesInRuleGroupInput) async throws -> ListActivatedRulesInRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3045,8 +2999,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listByteMatchSets(input: ListByteMatchSetsInput) async throws -> ListByteMatchSetsOutput
-    {
+    public func listByteMatchSets(input: ListByteMatchSetsInput) async throws -> ListByteMatchSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3093,8 +3046,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listGeoMatchSets(input: ListGeoMatchSetsInput) async throws -> ListGeoMatchSetsOutput
-    {
+    public func listGeoMatchSets(input: ListGeoMatchSetsInput) async throws -> ListGeoMatchSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3141,8 +3093,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput
-    {
+    public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3208,8 +3159,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput
-    {
+    public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3256,8 +3206,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listRateBasedRules(input: ListRateBasedRulesInput) async throws -> ListRateBasedRulesOutput
-    {
+    public func listRateBasedRules(input: ListRateBasedRulesInput) async throws -> ListRateBasedRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3304,8 +3253,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listRegexMatchSets(input: ListRegexMatchSetsInput) async throws -> ListRegexMatchSetsOutput
-    {
+    public func listRegexMatchSets(input: ListRegexMatchSetsInput) async throws -> ListRegexMatchSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3352,8 +3300,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput
-    {
+    public func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3399,8 +3346,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
-    public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput
-    {
+    public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3447,8 +3393,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-    {
+    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3495,8 +3440,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listSizeConstraintSets(input: ListSizeConstraintSetsInput) async throws -> ListSizeConstraintSetsOutput
-    {
+    public func listSizeConstraintSets(input: ListSizeConstraintSetsInput) async throws -> ListSizeConstraintSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3543,8 +3487,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listSqlInjectionMatchSets(input: ListSqlInjectionMatchSetsInput) async throws -> ListSqlInjectionMatchSetsOutput
-    {
+    public func listSqlInjectionMatchSets(input: ListSqlInjectionMatchSetsInput) async throws -> ListSqlInjectionMatchSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3591,8 +3534,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
-    public func listSubscribedRuleGroups(input: ListSubscribedRuleGroupsInput) async throws -> ListSubscribedRuleGroupsOutput
-    {
+    public func listSubscribedRuleGroups(input: ListSubscribedRuleGroupsInput) async throws -> ListSubscribedRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3661,8 +3603,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3709,8 +3650,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput
-    {
+    public func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3757,8 +3697,7 @@ extension WAFClient: WAFClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-    public func listXssMatchSets(input: ListXssMatchSetsInput) async throws -> ListXssMatchSetsOutput
-    {
+    public func listXssMatchSets(input: ListXssMatchSetsInput) async throws -> ListXssMatchSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3814,8 +3753,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFServiceLinkedRoleErrorException` : AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput
-    {
+    public func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3902,8 +3840,7 @@ extension WAFClient: WAFClientProtocol {
     /// * Your policy must be composed using IAM Policy version 2012-10-17.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput
-    {
+    public func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3973,8 +3910,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4043,8 +3979,7 @@ extension WAFClient: WAFClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4155,8 +4090,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateByteMatchSet(input: UpdateByteMatchSetInput) async throws -> UpdateByteMatchSetOutput
-    {
+    public func updateByteMatchSet(input: UpdateByteMatchSetInput) async throws -> UpdateByteMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4268,8 +4202,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateGeoMatchSet(input: UpdateGeoMatchSetInput) async throws -> UpdateGeoMatchSetOutput
-    {
+    public func updateGeoMatchSet(input: UpdateGeoMatchSetInput) async throws -> UpdateGeoMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4392,8 +4325,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput
-    {
+    public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4503,8 +4435,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateRateBasedRule(input: UpdateRateBasedRuleInput) async throws -> UpdateRateBasedRuleOutput
-    {
+    public func updateRateBasedRule(input: UpdateRateBasedRuleInput) async throws -> UpdateRateBasedRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4595,8 +4526,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateRegexMatchSet(input: UpdateRegexMatchSetInput) async throws -> UpdateRegexMatchSetOutput
-    {
+    public func updateRegexMatchSet(input: UpdateRegexMatchSetInput) async throws -> UpdateRegexMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4694,8 +4624,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput
-    {
+    public func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4809,8 +4738,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput
-    {
+    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4909,8 +4837,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput
-    {
+    public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5026,8 +4953,7 @@ extension WAFClient: WAFClientProtocol {
     ///
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateSizeConstraintSet(input: UpdateSizeConstraintSetInput) async throws -> UpdateSizeConstraintSetOutput
-    {
+    public func updateSizeConstraintSet(input: UpdateSizeConstraintSetInput) async throws -> UpdateSizeConstraintSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5134,8 +5060,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateSqlInjectionMatchSet(input: UpdateSqlInjectionMatchSetInput) async throws -> UpdateSqlInjectionMatchSetOutput
-    {
+    public func updateSqlInjectionMatchSet(input: UpdateSqlInjectionMatchSetInput) async throws -> UpdateSqlInjectionMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5254,8 +5179,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFSubscriptionNotFoundException` : The specified subscription does not exist.
-    public func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput
-    {
+    public func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5362,8 +5286,7 @@ extension WAFClient: WAFClientProtocol {
     /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-    public func updateXssMatchSet(input: UpdateXssMatchSetInput) async throws -> UpdateXssMatchSetOutput
-    {
+    public func updateXssMatchSet(input: UpdateXssMatchSetInput) async throws -> UpdateXssMatchSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

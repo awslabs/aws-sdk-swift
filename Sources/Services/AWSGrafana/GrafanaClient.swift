@@ -66,7 +66,7 @@ public struct GrafanaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension GrafanaClient: GrafanaClientProtocol {
+extension GrafanaClient {
     /// Performs the `AssociateLicense` operation on the `AWSGrafanaControlPlane` service.
     ///
     /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs additional fees. For more information, see [Upgrade a workspace to Grafana Enterprise](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html).
@@ -83,8 +83,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func associateLicense(input: AssociateLicenseInput) async throws -> AssociateLicenseOutput
-    {
+    public func associateLicense(input: AssociateLicenseInput) async throws -> AssociateLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput
-    {
+    public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func createWorkspaceApiKey(input: CreateWorkspaceApiKeyInput) async throws -> CreateWorkspaceApiKeyOutput
-    {
+    public func createWorkspaceApiKey(input: CreateWorkspaceApiKeyInput) async throws -> CreateWorkspaceApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput
-    {
+    public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func deleteWorkspaceApiKey(input: DeleteWorkspaceApiKeyInput) async throws -> DeleteWorkspaceApiKeyOutput
-    {
+    public func deleteWorkspaceApiKey(input: DeleteWorkspaceApiKeyInput) async throws -> DeleteWorkspaceApiKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutput
-    {
+    public func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func describeWorkspaceAuthentication(input: DescribeWorkspaceAuthenticationInput) async throws -> DescribeWorkspaceAuthenticationOutput
-    {
+    public func describeWorkspaceAuthentication(input: DescribeWorkspaceAuthenticationInput) async throws -> DescribeWorkspaceAuthenticationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -423,8 +416,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
-    public func describeWorkspaceConfiguration(input: DescribeWorkspaceConfigurationInput) async throws -> DescribeWorkspaceConfigurationOutput
-    {
+    public func describeWorkspaceConfiguration(input: DescribeWorkspaceConfigurationInput) async throws -> DescribeWorkspaceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -470,8 +462,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func disassociateLicense(input: DisassociateLicenseInput) async throws -> DisassociateLicenseOutput
-    {
+    public func disassociateLicense(input: DisassociateLicenseInput) async throws -> DisassociateLicenseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
-    {
+    public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -565,8 +555,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -612,8 +601,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutput
-    {
+    public func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -658,8 +646,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
-    public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput
-    {
+    public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -706,8 +693,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -756,8 +742,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -804,8 +789,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updatePermissions(input: UpdatePermissionsInput) async throws -> UpdatePermissionsOutput
-    {
+    public func updatePermissions(input: UpdatePermissionsInput) async throws -> UpdatePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -855,8 +839,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutput
-    {
+    public func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -906,8 +889,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateWorkspaceAuthentication(input: UpdateWorkspaceAuthenticationInput) async throws -> UpdateWorkspaceAuthenticationOutput
-    {
+    public func updateWorkspaceAuthentication(input: UpdateWorkspaceAuthenticationInput) async throws -> UpdateWorkspaceAuthenticationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +939,7 @@ extension GrafanaClient: GrafanaClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
-    public func updateWorkspaceConfiguration(input: UpdateWorkspaceConfigurationInput) async throws -> UpdateWorkspaceConfigurationOutput
-    {
+    public func updateWorkspaceConfiguration(input: UpdateWorkspaceConfigurationInput) async throws -> UpdateWorkspaceConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

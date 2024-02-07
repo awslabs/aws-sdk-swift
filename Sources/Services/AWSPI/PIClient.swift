@@ -66,7 +66,7 @@ public struct PIClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension PIClient: PIClientProtocol {
+extension PIClient {
     /// Performs the `CreatePerformanceAnalysisReport` operation on the `PerformanceInsightsv20180227` service.
     ///
     /// Creates a new performance analysis report for a specific time period for the DB instance.
@@ -81,8 +81,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func createPerformanceAnalysisReport(input: CreatePerformanceAnalysisReportInput) async throws -> CreatePerformanceAnalysisReportOutput
-    {
+    public func createPerformanceAnalysisReport(input: CreatePerformanceAnalysisReportInput) async throws -> CreatePerformanceAnalysisReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -130,8 +129,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func deletePerformanceAnalysisReport(input: DeletePerformanceAnalysisReportInput) async throws -> DeletePerformanceAnalysisReportOutput
-    {
+    public func deletePerformanceAnalysisReport(input: DeletePerformanceAnalysisReportInput) async throws -> DeletePerformanceAnalysisReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutput
-    {
+    public func describeDimensionKeys(input: DescribeDimensionKeysInput) async throws -> DescribeDimensionKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -228,8 +225,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutput
-    {
+    public func getDimensionKeyDetails(input: GetDimensionKeyDetailsInput) async throws -> GetDimensionKeyDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func getPerformanceAnalysisReport(input: GetPerformanceAnalysisReportInput) async throws -> GetPerformanceAnalysisReportOutput
-    {
+    public func getPerformanceAnalysisReport(input: GetPerformanceAnalysisReportInput) async throws -> GetPerformanceAnalysisReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutput
-    {
+    public func getResourceMetadata(input: GetResourceMetadataInput) async throws -> GetResourceMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -375,8 +369,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutput
-    {
+    public func getResourceMetrics(input: GetResourceMetricsInput) async throws -> GetResourceMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +417,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutput
-    {
+    public func listAvailableResourceDimensions(input: ListAvailableResourceDimensionsInput) async throws -> ListAvailableResourceDimensionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -473,8 +465,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutput
-    {
+    public func listAvailableResourceMetrics(input: ListAvailableResourceMetricsInput) async throws -> ListAvailableResourceMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -522,8 +513,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func listPerformanceAnalysisReports(input: ListPerformanceAnalysisReportsInput) async throws -> ListPerformanceAnalysisReportsOutput
-    {
+    public func listPerformanceAnalysisReports(input: ListPerformanceAnalysisReportsInput) async throws -> ListPerformanceAnalysisReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -571,8 +561,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -620,8 +609,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -669,8 +657,7 @@ extension PIClient: PIClientProtocol {
     /// - `InternalServiceError` : The request failed due to an unknown error.
     /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
     /// - `NotAuthorizedException` : The user is not authorized to perform this request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

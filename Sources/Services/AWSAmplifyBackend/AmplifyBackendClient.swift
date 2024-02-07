@@ -66,7 +66,7 @@ public struct AmplifyBackendClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension AmplifyBackendClient: AmplifyBackendClientProtocol {
+extension AmplifyBackendClient {
     /// Performs the `CloneBackend` operation on the `AmplifyBackend` service.
     ///
     /// This operation clones an existing backend.
@@ -82,8 +82,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutput
-    {
+    public func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -131,8 +130,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutput
-    {
+    public func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutput
-    {
+    public func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutput
-    {
+    public func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -278,8 +274,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutput
-    {
+    public func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +322,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutput
-    {
+    public func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
-    {
+    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -422,8 +415,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutput
-    {
+    public func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -468,8 +460,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutput
-    {
+    public func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutput
-    {
+    public func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +556,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutput
-    {
+    public func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput
-    {
+    public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +649,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutput
-    {
+    public func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -710,8 +697,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackend(input: GetBackendInput) async throws -> GetBackendOutput
-    {
+    public func getBackend(input: GetBackendInput) async throws -> GetBackendOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -759,8 +745,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutput
-    {
+    public func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -808,8 +793,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutput
-    {
+    public func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -857,8 +841,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutput
-    {
+    public func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -906,8 +889,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutput
-    {
+    public func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -952,8 +934,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutput
-    {
+    public func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1001,8 +982,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getToken(input: GetTokenInput) async throws -> GetTokenOutput
-    {
+    public func getToken(input: GetTokenInput) async throws -> GetTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1047,8 +1027,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutput
-    {
+    public func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1096,8 +1075,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutput
-    {
+    public func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1145,8 +1123,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutput
-    {
+    public func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1194,8 +1171,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutput
-    {
+    public func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1243,8 +1219,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutput
-    {
+    public func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1292,8 +1267,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutput
-    {
+    public func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1338,8 +1312,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutput
-    {
+    public func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1387,8 +1360,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutput
-    {
+    public func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1436,8 +1408,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutput
-    {
+    public func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1485,8 +1456,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutput
-    {
+    public func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1534,8 +1504,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendStorage(input: UpdateBackendStorageInput) async throws -> UpdateBackendStorageOutput
-    {
+    public func updateBackendStorage(input: UpdateBackendStorageInput) async throws -> UpdateBackendStorageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

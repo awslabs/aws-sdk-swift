@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension IoTSiteWiseClientProtocol {
+extension IoTSiteWiseClient {
 
     static func assetActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput> {
         let acceptors: [WaiterConfiguration<DescribeAssetInput, DescribeAssetOutput>.Acceptor] = [

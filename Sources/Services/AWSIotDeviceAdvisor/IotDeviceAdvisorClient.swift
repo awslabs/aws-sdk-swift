@@ -66,7 +66,7 @@ public struct IotDeviceAdvisorClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
+extension IotDeviceAdvisorClient {
     /// Performs the `CreateSuiteDefinition` operation on the `IotSenateService` service.
     ///
     /// Creates a Device Advisor test suite. Requires permission to access the [CreateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -80,8 +80,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func createSuiteDefinition(input: CreateSuiteDefinitionInput) async throws -> CreateSuiteDefinitionOutput
-    {
+    public func createSuiteDefinition(input: CreateSuiteDefinitionInput) async throws -> CreateSuiteDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func deleteSuiteDefinition(input: DeleteSuiteDefinitionInput) async throws -> DeleteSuiteDefinitionOutput
-    {
+    public func deleteSuiteDefinition(input: DeleteSuiteDefinitionInput) async throws -> DeleteSuiteDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutput
-    {
+    public func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -218,8 +215,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func getSuiteDefinition(input: GetSuiteDefinitionInput) async throws -> GetSuiteDefinitionOutput
-    {
+    public func getSuiteDefinition(input: GetSuiteDefinitionInput) async throws -> GetSuiteDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -264,8 +260,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func getSuiteRun(input: GetSuiteRunInput) async throws -> GetSuiteRunOutput
-    {
+    public func getSuiteRun(input: GetSuiteRunInput) async throws -> GetSuiteRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -309,8 +304,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func getSuiteRunReport(input: GetSuiteRunReportInput) async throws -> GetSuiteRunReportOutput
-    {
+    public func getSuiteRunReport(input: GetSuiteRunReportInput) async throws -> GetSuiteRunReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -353,8 +347,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func listSuiteDefinitions(input: ListSuiteDefinitionsInput) async throws -> ListSuiteDefinitionsOutput
-    {
+    public func listSuiteDefinitions(input: ListSuiteDefinitionsInput) async throws -> ListSuiteDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -398,8 +391,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func listSuiteRuns(input: ListSuiteRunsInput) async throws -> ListSuiteRunsOutput
-    {
+    public func listSuiteRuns(input: ListSuiteRunsInput) async throws -> ListSuiteRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +436,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -489,8 +480,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `ConflictException` : Sends a Conflict Exception.
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func startSuiteRun(input: StartSuiteRunInput) async throws -> StartSuiteRunOutput
-    {
+    public func startSuiteRun(input: StartSuiteRunInput) async throws -> StartSuiteRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +527,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func stopSuiteRun(input: StopSuiteRunInput) async throws -> StopSuiteRunOutput
-    {
+    public func stopSuiteRun(input: StopSuiteRunInput) async throws -> StopSuiteRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -582,8 +571,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +618,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -675,8 +662,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
-    public func updateSuiteDefinition(input: UpdateSuiteDefinitionInput) async throws -> UpdateSuiteDefinitionOutput
-    {
+    public func updateSuiteDefinition(input: UpdateSuiteDefinitionInput) async throws -> UpdateSuiteDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

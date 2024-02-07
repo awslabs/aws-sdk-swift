@@ -12136,6 +12136,8 @@ extension OpenSearchClientTypes {
 
 }
 
+public enum OpenSearchClientTypes {}
+
 extension OpenSearchClientTypes {
     public enum OpenSearchPartitionInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case c42xlargeSearch

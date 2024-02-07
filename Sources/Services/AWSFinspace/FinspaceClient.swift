@@ -66,7 +66,7 @@ public struct FinspaceClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension FinspaceClient: FinspaceClientProtocol {
+extension FinspaceClient {
     /// Performs the `CreateEnvironment` operation on the `AWSHabaneroManagementService` service.
     ///
     /// Create a new FinSpace environment.
@@ -85,8 +85,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-    {
+    public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxChangeset(input: CreateKxChangesetInput) async throws -> CreateKxChangesetOutput
-    {
+    public func createKxChangeset(input: CreateKxChangesetInput) async throws -> CreateKxChangesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxCluster(input: CreateKxClusterInput) async throws -> CreateKxClusterOutput
-    {
+    public func createKxCluster(input: CreateKxClusterInput) async throws -> CreateKxClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -244,8 +241,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxDatabase(input: CreateKxDatabaseInput) async throws -> CreateKxDatabaseOutput
-    {
+    public func createKxDatabase(input: CreateKxDatabaseInput) async throws -> CreateKxDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -298,8 +294,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxDataview(input: CreateKxDataviewInput) async throws -> CreateKxDataviewOutput
-    {
+    public func createKxDataview(input: CreateKxDataviewInput) async throws -> CreateKxDataviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -351,8 +346,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxEnvironment(input: CreateKxEnvironmentInput) async throws -> CreateKxEnvironmentOutput
-    {
+    public func createKxEnvironment(input: CreateKxEnvironmentInput) async throws -> CreateKxEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -404,8 +398,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxScalingGroup(input: CreateKxScalingGroupInput) async throws -> CreateKxScalingGroupOutput
-    {
+    public func createKxScalingGroup(input: CreateKxScalingGroupInput) async throws -> CreateKxScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +451,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxUser(input: CreateKxUserInput) async throws -> CreateKxUserOutput
-    {
+    public func createKxUser(input: CreateKxUserInput) async throws -> CreateKxUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -512,8 +504,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createKxVolume(input: CreateKxVolumeInput) async throws -> CreateKxVolumeOutput
-    {
+    public func createKxVolume(input: CreateKxVolumeInput) async throws -> CreateKxVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -564,8 +555,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-    {
+    public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -613,8 +603,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxCluster(input: DeleteKxClusterInput) async throws -> DeleteKxClusterOutput
-    {
+    public func deleteKxCluster(input: DeleteKxClusterInput) async throws -> DeleteKxClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -663,8 +652,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxDatabase(input: DeleteKxDatabaseInput) async throws -> DeleteKxDatabaseOutput
-    {
+    public func deleteKxDatabase(input: DeleteKxDatabaseInput) async throws -> DeleteKxDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -713,8 +701,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxDataview(input: DeleteKxDataviewInput) async throws -> DeleteKxDataviewOutput
-    {
+    public func deleteKxDataview(input: DeleteKxDataviewInput) async throws -> DeleteKxDataviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -763,8 +750,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxEnvironment(input: DeleteKxEnvironmentInput) async throws -> DeleteKxEnvironmentOutput
-    {
+    public func deleteKxEnvironment(input: DeleteKxEnvironmentInput) async throws -> DeleteKxEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -814,8 +800,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxScalingGroup(input: DeleteKxScalingGroupInput) async throws -> DeleteKxScalingGroupOutput
-    {
+    public func deleteKxScalingGroup(input: DeleteKxScalingGroupInput) async throws -> DeleteKxScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -864,8 +849,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxUser(input: DeleteKxUserInput) async throws -> DeleteKxUserOutput
-    {
+    public func deleteKxUser(input: DeleteKxUserInput) async throws -> DeleteKxUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +899,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteKxVolume(input: DeleteKxVolumeInput) async throws -> DeleteKxVolumeOutput
-    {
+    public func deleteKxVolume(input: DeleteKxVolumeInput) async throws -> DeleteKxVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -964,8 +947,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-    {
+    public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +993,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxChangeset(input: GetKxChangesetInput) async throws -> GetKxChangesetOutput
-    {
+    public func getKxChangeset(input: GetKxChangesetInput) async throws -> GetKxChangesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1060,8 +1041,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxCluster(input: GetKxClusterInput) async throws -> GetKxClusterOutput
-    {
+    public func getKxCluster(input: GetKxClusterInput) async throws -> GetKxClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1107,8 +1087,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxConnectionString(input: GetKxConnectionStringInput) async throws -> GetKxConnectionStringOutput
-    {
+    public func getKxConnectionString(input: GetKxConnectionStringInput) async throws -> GetKxConnectionStringOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1155,8 +1134,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxDatabase(input: GetKxDatabaseInput) async throws -> GetKxDatabaseOutput
-    {
+    public func getKxDatabase(input: GetKxDatabaseInput) async throws -> GetKxDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1180,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxDataview(input: GetKxDataviewInput) async throws -> GetKxDataviewOutput
-    {
+    public func getKxDataview(input: GetKxDataviewInput) async throws -> GetKxDataviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1249,8 +1226,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxEnvironment(input: GetKxEnvironmentInput) async throws -> GetKxEnvironmentOutput
-    {
+    public func getKxEnvironment(input: GetKxEnvironmentInput) async throws -> GetKxEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1298,8 +1274,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxScalingGroup(input: GetKxScalingGroupInput) async throws -> GetKxScalingGroupOutput
-    {
+    public func getKxScalingGroup(input: GetKxScalingGroupInput) async throws -> GetKxScalingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1345,8 +1320,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxUser(input: GetKxUserInput) async throws -> GetKxUserOutput
-    {
+    public func getKxUser(input: GetKxUserInput) async throws -> GetKxUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1394,8 +1368,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getKxVolume(input: GetKxVolumeInput) async throws -> GetKxVolumeOutput
-    {
+    public func getKxVolume(input: GetKxVolumeInput) async throws -> GetKxVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1440,8 +1413,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-    {
+    public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1488,8 +1460,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxChangesets(input: ListKxChangesetsInput) async throws -> ListKxChangesetsOutput
-    {
+    public func listKxChangesets(input: ListKxChangesetsInput) async throws -> ListKxChangesetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1537,8 +1508,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxClusterNodes(input: ListKxClusterNodesInput) async throws -> ListKxClusterNodesOutput
-    {
+    public func listKxClusterNodes(input: ListKxClusterNodesInput) async throws -> ListKxClusterNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1587,8 +1557,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxClusters(input: ListKxClustersInput) async throws -> ListKxClustersOutput
-    {
+    public func listKxClusters(input: ListKxClustersInput) async throws -> ListKxClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1635,8 +1604,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxDatabases(input: ListKxDatabasesInput) async throws -> ListKxDatabasesOutput
-    {
+    public func listKxDatabases(input: ListKxDatabasesInput) async throws -> ListKxDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1683,8 +1651,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxDataviews(input: ListKxDataviewsInput) async throws -> ListKxDataviewsOutput
-    {
+    public func listKxDataviews(input: ListKxDataviewsInput) async throws -> ListKxDataviewsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1729,8 +1696,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxEnvironments(input: ListKxEnvironmentsInput) async throws -> ListKxEnvironmentsOutput
-    {
+    public func listKxEnvironments(input: ListKxEnvironmentsInput) async throws -> ListKxEnvironmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1779,8 +1745,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxScalingGroups(input: ListKxScalingGroupsInput) async throws -> ListKxScalingGroupsOutput
-    {
+    public func listKxScalingGroups(input: ListKxScalingGroupsInput) async throws -> ListKxScalingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1827,8 +1792,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxUsers(input: ListKxUsersInput) async throws -> ListKxUsersOutput
-    {
+    public func listKxUsers(input: ListKxUsersInput) async throws -> ListKxUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1877,8 +1841,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listKxVolumes(input: ListKxVolumesInput) async throws -> ListKxVolumesOutput
-    {
+    public func listKxVolumes(input: ListKxVolumesInput) async throws -> ListKxVolumesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1923,8 +1886,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1968,8 +1930,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2016,8 +1977,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2065,8 +2025,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
-    {
+    public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2117,8 +2076,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxClusterCodeConfiguration(input: UpdateKxClusterCodeConfigurationInput) async throws -> UpdateKxClusterCodeConfigurationOutput
-    {
+    public func updateKxClusterCodeConfiguration(input: UpdateKxClusterCodeConfigurationInput) async throws -> UpdateKxClusterCodeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2170,8 +2128,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxClusterDatabases(input: UpdateKxClusterDatabasesInput) async throws -> UpdateKxClusterDatabasesOutput
-    {
+    public func updateKxClusterDatabases(input: UpdateKxClusterDatabasesInput) async throws -> UpdateKxClusterDatabasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2222,8 +2179,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxDatabase(input: UpdateKxDatabaseInput) async throws -> UpdateKxDatabaseOutput
-    {
+    public func updateKxDatabase(input: UpdateKxDatabaseInput) async throws -> UpdateKxDatabaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2275,8 +2231,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxDataview(input: UpdateKxDataviewInput) async throws -> UpdateKxDataviewOutput
-    {
+    public func updateKxDataview(input: UpdateKxDataviewInput) async throws -> UpdateKxDataviewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2327,8 +2282,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxEnvironment(input: UpdateKxEnvironmentInput) async throws -> UpdateKxEnvironmentOutput
-    {
+    public func updateKxEnvironment(input: UpdateKxEnvironmentInput) async throws -> UpdateKxEnvironmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2379,8 +2333,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxEnvironmentNetwork(input: UpdateKxEnvironmentNetworkInput) async throws -> UpdateKxEnvironmentNetworkOutput
-    {
+    public func updateKxEnvironmentNetwork(input: UpdateKxEnvironmentNetworkInput) async throws -> UpdateKxEnvironmentNetworkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2432,8 +2385,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxUser(input: UpdateKxUserInput) async throws -> UpdateKxUserOutput
-    {
+    public func updateKxUser(input: UpdateKxUserInput) async throws -> UpdateKxUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2485,8 +2437,7 @@ extension FinspaceClient: FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateKxVolume(input: UpdateKxVolumeInput) async throws -> UpdateKxVolumeOutput
-    {
+    public func updateKxVolume(input: UpdateKxVolumeInput) async throws -> UpdateKxVolumeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

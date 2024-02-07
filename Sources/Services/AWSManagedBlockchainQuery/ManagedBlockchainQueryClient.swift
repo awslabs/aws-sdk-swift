@@ -66,7 +66,7 @@ public struct ManagedBlockchainQueryClientLogHandlerFactory: ClientRuntime.SDKLo
     }
 }
 
-extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
+extension ManagedBlockchainQueryClient {
     /// Performs the `BatchGetTokenBalance` operation on the `TietonChainQueryService` service.
     ///
     /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
@@ -84,8 +84,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func batchGetTokenBalance(input: BatchGetTokenBalanceInput) async throws -> BatchGetTokenBalanceOutput
-    {
+    public func batchGetTokenBalance(input: BatchGetTokenBalanceInput) async throws -> BatchGetTokenBalanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func getAssetContract(input: GetAssetContractInput) async throws -> GetAssetContractOutput
-    {
+    public func getAssetContract(input: GetAssetContractInput) async throws -> GetAssetContractOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func getTokenBalance(input: GetTokenBalanceInput) async throws -> GetTokenBalanceOutput
-    {
+    public func getTokenBalance(input: GetTokenBalanceInput) async throws -> GetTokenBalanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func getTransaction(input: GetTransactionInput) async throws -> GetTransactionOutput
-    {
+    public func getTransaction(input: GetTransactionInput) async throws -> GetTransactionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +287,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func listAssetContracts(input: ListAssetContractsInput) async throws -> ListAssetContractsOutput
-    {
+    public func listAssetContracts(input: ListAssetContractsInput) async throws -> ListAssetContractsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -350,8 +345,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func listTokenBalances(input: ListTokenBalancesInput) async throws -> ListTokenBalancesOutput
-    {
+    public func listTokenBalances(input: ListTokenBalancesInput) async throws -> ListTokenBalancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -400,8 +394,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func listTransactionEvents(input: ListTransactionEventsInput) async throws -> ListTransactionEventsOutput
-    {
+    public func listTransactionEvents(input: ListTransactionEventsInput) async throws -> ListTransactionEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -450,8 +443,7 @@ extension ManagedBlockchainQueryClient: ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    public func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput
-    {
+    public func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

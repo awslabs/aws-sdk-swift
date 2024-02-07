@@ -76,7 +76,7 @@ public struct S3ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension S3Client: S3ClientProtocol {
+extension S3Client {
     /// Performs the `AbortMultipartUpload` operation on the `AmazonS3` service.
     ///
     /// This operation aborts a multipart upload. After a multipart upload is aborted, no additional parts can be uploaded using that upload ID. The storage consumed by any previously uploaded parts will be freed. However, if any part uploads are currently in progress, those part uploads might or might not succeed. As a result, it might be necessary to abort a given multipart upload multiple times in order to completely free all storage consumed by all parts. To verify that all parts have been removed and prevent getting charged for the part storage, you should call the [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html) API operation and ensure that the parts list is empty. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are not supported. For more information, see [Regional and Zonal endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html) in the Amazon S3 User Guide. Permissions
@@ -106,8 +106,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
-    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput
-    {
+    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +202,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter CompleteMultipartUploadInput : [no documentation found]
     ///
     /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
-    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput
-    {
+    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -291,8 +289,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
-    public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput
-    {
+    public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +364,7 @@ extension S3Client: S3ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BucketAlreadyExists` : The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
-    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
-    {
+    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -477,8 +473,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter CreateMultipartUploadInput : [no documentation found]
     ///
     /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
-    public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput
-    {
+    public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -532,8 +527,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
-    {
+    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +585,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketOutput` : [no documentation found]
-    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
-    {
+    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -637,8 +630,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketAnalyticsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
-    public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput
-    {
+    public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -682,8 +674,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketCorsInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
-    public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput
-    {
+    public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +718,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketEncryptionInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
-    public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput
-    {
+    public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -774,8 +764,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
-    public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput
-    {
+    public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +809,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketInventoryConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
-    public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput
-    {
+    public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -865,8 +853,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketLifecycleInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
-    public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput
-    {
+    public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -914,8 +901,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketMetricsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
-    public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput
-    {
+    public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -959,8 +945,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketOwnershipControlsInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
-    public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput
-    {
+    public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1011,8 +996,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
-    public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput
-    {
+    public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1056,8 +1040,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
-    public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput
-    {
+    public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1084,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
-    public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput
-    {
+    public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1146,8 +1128,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketWebsiteInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
-    public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput
-    {
+    public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1217,8 +1198,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteObjectInput : [no documentation found]
     ///
     /// - Returns: `DeleteObjectOutput` : [no documentation found]
-    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
-    {
+    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1262,8 +1242,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteObjectTaggingInput : [no documentation found]
     ///
     /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
-    public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput
-    {
+    public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1341,8 +1320,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteObjectsInput : [no documentation found]
     ///
     /// - Returns: `DeleteObjectsOutput` : [no documentation found]
-    public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput
-    {
+    public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1394,8 +1372,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
-    public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput
-    {
+    public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1437,8 +1414,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketAccelerateConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
-    public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput
-    {
+    public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1480,8 +1456,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketAclInput : [no documentation found]
     ///
     /// - Returns: `GetBucketAclOutput` : [no documentation found]
-    public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput
-    {
+    public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1527,8 +1502,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketAnalyticsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
-    public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput
-    {
+    public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1572,8 +1546,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketCorsInput : [no documentation found]
     ///
     /// - Returns: `GetBucketCorsOutput` : [no documentation found]
-    public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput
-    {
+    public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1617,8 +1590,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketEncryptionInput : [no documentation found]
     ///
     /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
-    public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput
-    {
+    public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1664,8 +1636,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
-    public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput
-    {
+    public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,8 +1681,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketInventoryConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
-    public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput
-    {
+    public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1771,8 +1741,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput
-    {
+    public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1816,8 +1785,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketLocationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLocationOutput` : [no documentation found]
-    public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput
-    {
+    public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1861,8 +1829,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketLoggingInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
-    public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput
-    {
+    public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1910,8 +1877,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketMetricsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
-    public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput
-    {
+    public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1953,8 +1919,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketNotificationConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
-    public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput
-    {
+    public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1998,8 +1963,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketOwnershipControlsInput : [no documentation found]
     ///
     /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
-    public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput
-    {
+    public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2048,8 +2012,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
-    public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput
-    {
+    public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2097,8 +2060,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketPolicyStatusInput : [no documentation found]
     ///
     /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
-    public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput
-    {
+    public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2142,8 +2104,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
-    public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput
-    {
+    public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2185,8 +2146,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketRequestPaymentInput : [no documentation found]
     ///
     /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
-    public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput
-    {
+    public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2240,8 +2200,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
-    public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput
-    {
+    public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2287,8 +2246,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
-    public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput
-    {
+    public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2332,8 +2290,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketWebsiteInput : [no documentation found]
     ///
     /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
-    public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput
-    {
+    public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2412,8 +2369,7 @@ extension S3Client: S3ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidObjectState` : Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html). Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see [Restoring Archived Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html) in the Amazon S3 User Guide.
     /// - `NoSuchKey` : The specified key does not exist.
-    public func getObject(input: GetObjectInput) async throws -> GetObjectOutput
-    {
+    public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2465,8 +2421,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput
-    {
+    public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2571,8 +2526,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput
-    {
+    public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2614,8 +2568,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectLegalHoldInput : [no documentation found]
     ///
     /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
-    public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput
-    {
+    public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2657,8 +2610,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectLockConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
-    public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput
-    {
+    public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2700,8 +2652,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectRetentionInput : [no documentation found]
     ///
     /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
-    public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput
-    {
+    public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2747,8 +2698,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectTaggingInput : [no documentation found]
     ///
     /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
-    public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput
-    {
+    public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2790,8 +2740,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectTorrentInput : [no documentation found]
     ///
     /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
-    public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput
-    {
+    public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2838,8 +2787,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
-    public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput
-    {
+    public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2891,8 +2839,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
-    public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput
-    {
+    public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2977,8 +2924,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
-    public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput
-    {
+    public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3024,8 +2970,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketAnalyticsConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
-    public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput
-    {
+    public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3071,8 +3016,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketIntelligentTieringConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
-    public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput
-    {
+    public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3117,8 +3061,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketInventoryConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
-    public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput
-    {
+    public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3164,8 +3107,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketMetricsConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
-    public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput
-    {
+    public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3205,8 +3147,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketsOutput` : [no documentation found]
-    public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput
-    {
+    public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3245,8 +3186,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListDirectoryBucketsInput : [no documentation found]
     ///
     /// - Returns: `ListDirectoryBucketsOutput` : [no documentation found]
-    public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput
-    {
+    public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3316,8 +3256,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListMultipartUploadsInput : [no documentation found]
     ///
     /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
-    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput
-    {
+    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3365,8 +3304,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListObjectVersionsInput : [no documentation found]
     ///
     /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
-    public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput
-    {
+    public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3421,8 +3359,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput
-    {
+    public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3487,8 +3424,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output
-    {
+    public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3547,8 +3483,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListPartsInput : [no documentation found]
     ///
     /// - Returns: `ListPartsOutput` : [no documentation found]
-    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput
-    {
+    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3599,8 +3534,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketAccelerateConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
-    public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput
-    {
+    public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3719,8 +3653,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketAclInput : [no documentation found]
     ///
     /// - Returns: `PutBucketAclOutput` : [no documentation found]
-    public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput
-    {
+    public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3803,8 +3736,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketAnalyticsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
-    public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput
-    {
+    public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3862,8 +3794,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketCorsInput : [no documentation found]
     ///
     /// - Returns: `PutBucketCorsOutput` : [no documentation found]
-    public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput
-    {
+    public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3911,8 +3842,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketEncryptionInput : [no documentation found]
     ///
     /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
-    public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput
-    {
+    public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3965,8 +3895,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
-    public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput
-    {
+    public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4014,8 +3943,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketInventoryConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
-    public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput
-    {
+    public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4082,8 +4010,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput
-    {
+    public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4144,8 +4071,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketLoggingInput : [no documentation found]
     ///
     /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
-    public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput
-    {
+    public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4204,8 +4130,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketMetricsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
-    public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput
-    {
+    public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4250,8 +4175,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketNotificationConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
-    public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput
-    {
+    public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4298,8 +4222,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketOwnershipControlsInput : [no documentation found]
     ///
     /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
-    public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput
-    {
+    public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4354,8 +4277,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
-    public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput
-    {
+    public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4403,8 +4325,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
-    public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput
-    {
+    public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4452,8 +4373,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketRequestPaymentInput : [no documentation found]
     ///
     /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
-    public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput
-    {
+    public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4512,8 +4432,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
-    public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput
-    {
+    public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4563,8 +4482,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
-    public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput
-    {
+    public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4654,8 +4572,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketWebsiteInput : [no documentation found]
     ///
     /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
-    public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput
-    {
+    public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4742,8 +4659,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectInput : [no documentation found]
     ///
     /// - Returns: `PutObjectOutput` : [no documentation found]
-    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput
-    {
+    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4858,8 +4774,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput
-    {
+    public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4903,8 +4818,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectLegalHoldInput : [no documentation found]
     ///
     /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
-    public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput
-    {
+    public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4954,8 +4868,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectLockConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
-    public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput
-    {
+    public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4999,8 +4912,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectRetentionInput : [no documentation found]
     ///
     /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
-    public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput
-    {
+    public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5059,8 +4971,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
-    public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput
-    {
+    public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5112,8 +5023,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
-    public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput
-    {
+    public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5251,8 +5161,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
-    public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput
-    {
+    public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5319,8 +5228,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter SelectObjectContentInput : Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
     ///
     /// - Returns: `SelectObjectContentOutput` : [no documentation found]
-    public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput
-    {
+    public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5409,8 +5317,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter UploadPartInput : [no documentation found]
     ///
     /// - Returns: `UploadPartOutput` : [no documentation found]
-    public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput
-    {
+    public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5514,8 +5421,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter UploadPartCopyInput : [no documentation found]
     ///
     /// - Returns: `UploadPartCopyOutput` : [no documentation found]
-    public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput
-    {
+    public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5555,8 +5461,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter WriteGetObjectResponseInput : [no documentation found]
     ///
     /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
-    public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput
-    {
+    public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

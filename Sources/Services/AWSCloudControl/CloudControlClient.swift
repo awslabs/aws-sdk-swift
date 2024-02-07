@@ -66,7 +66,7 @@ public struct CloudControlClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension CloudControlClient: CloudControlClientProtocol {
+extension CloudControlClient {
     /// Performs the `CancelResourceRequest` operation on the `CloudApiService` service.
     ///
     /// Cancels the specified resource operation request. For more information, see [Canceling resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-cancel) in the Amazon Web Services Cloud Control API User Guide. Only resource operations requests with a status of PENDING or IN_PROGRESS can be canceled.
@@ -80,8 +80,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : The resource is currently being modified by another operation.
     /// - `RequestTokenNotFoundException` : A resource operation with the specified request token can't be found.
-    public func cancelResourceRequest(input: CancelResourceRequestInput) async throws -> CancelResourceRequestOutput
-    {
+    public func cancelResourceRequest(input: CancelResourceRequestInput) async throws -> CancelResourceRequestOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -145,8 +144,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
-    {
+    public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -211,8 +209,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
-    {
+    public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +272,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    public func getResource(input: GetResourceInput) async throws -> GetResourceOutput
-    {
+    public func getResource(input: GetResourceInput) async throws -> GetResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -322,8 +318,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `RequestTokenNotFoundException` : A resource operation with the specified request token can't be found.
-    public func getResourceRequestStatus(input: GetResourceRequestStatusInput) async throws -> GetResourceRequestStatusOutput
-    {
+    public func getResourceRequestStatus(input: GetResourceRequestStatusInput) async throws -> GetResourceRequestStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -364,8 +359,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// - Parameter ListResourceRequestsInput : [no documentation found]
     ///
     /// - Returns: `ListResourceRequestsOutput` : [no documentation found]
-    public func listResourceRequests(input: ListResourceRequestsInput) async throws -> ListResourceRequestsOutput
-    {
+    public func listResourceRequests(input: ListResourceRequestsInput) async throws -> ListResourceRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -427,8 +421,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-    {
+    public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -492,8 +485,7 @@ extension CloudControlClient: CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
-    {
+    public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct CloudTrailClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension CloudTrailClient: CloudTrailClientProtocol {
+extension CloudTrailClient {
     /// Performs the `AddTags` operation on the `CloudTrail_20131101` service.
     ///
     /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
@@ -104,8 +104,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -160,8 +159,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput
-    {
+    public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -218,8 +216,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
-    {
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -290,8 +287,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func createEventDataStore(input: CreateEventDataStoreInput) async throws -> CreateEventDataStoreOutput
-    {
+    public func createEventDataStore(input: CreateEventDataStoreInput) async throws -> CreateEventDataStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +374,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `TrailAlreadyExistsException` : This exception is thrown when the specified trail already exists.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func createTrail(input: CreateTrailInput) async throws -> CreateTrailOutput
-    {
+    public func createTrail(input: CreateTrailInput) async throws -> CreateTrailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +423,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ChannelNotFoundException` : This exception is thrown when CloudTrail cannot find the specified channel.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
-    {
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +482,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteEventDataStore(input: DeleteEventDataStoreInput) async throws -> DeleteEventDataStoreOutput
-    {
+    public func deleteEventDataStore(input: DeleteEventDataStoreInput) async throws -> DeleteEventDataStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +533,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourcePolicyNotFoundException` : This exception is thrown when the specified resource policy is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -607,8 +599,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutput
-    {
+    public func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -664,8 +655,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func deregisterOrganizationDelegatedAdmin(input: DeregisterOrganizationDelegatedAdminInput) async throws -> DeregisterOrganizationDelegatedAdminOutput
-    {
+    public func deregisterOrganizationDelegatedAdmin(input: DeregisterOrganizationDelegatedAdminInput) async throws -> DeregisterOrganizationDelegatedAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +708,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func describeQuery(input: DescribeQueryInput) async throws -> DescribeQueryOutput
-    {
+    public func describeQuery(input: DescribeQueryInput) async throws -> DescribeQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +767,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func describeTrails(input: DescribeTrailsInput) async throws -> DescribeTrailsOutput
-    {
+    public func describeTrails(input: DescribeTrailsInput) async throws -> DescribeTrailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +826,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func disableFederation(input: DisableFederationInput) async throws -> DisableFederationOutput
-    {
+    public func disableFederation(input: DisableFederationInput) async throws -> DisableFederationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -899,8 +886,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func enableFederation(input: EnableFederationInput) async throws -> EnableFederationOutput
-    {
+    public func enableFederation(input: EnableFederationInput) async throws -> EnableFederationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -949,8 +935,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ChannelNotFoundException` : This exception is thrown when CloudTrail cannot find the specified channel.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
-    {
+    public func getChannel(input: GetChannelInput) async throws -> GetChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1001,8 +986,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getEventDataStore(input: GetEventDataStoreInput) async throws -> GetEventDataStoreOutput
-    {
+    public func getEventDataStore(input: GetEventDataStoreInput) async throws -> GetEventDataStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1076,8 +1060,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getEventSelectors(input: GetEventSelectorsInput) async throws -> GetEventSelectorsOutput
-    {
+    public func getEventSelectors(input: GetEventSelectorsInput) async throws -> GetEventSelectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1126,8 +1109,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getImport(input: GetImportInput) async throws -> GetImportOutput
-    {
+    public func getImport(input: GetImportInput) async throws -> GetImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1192,8 +1174,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutput
-    {
+    public func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1249,8 +1230,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `QueryIdNotFoundException` : The query ID does not exist or does not map to a query.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
-    {
+    public func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1301,8 +1281,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourcePolicyNotFoundException` : This exception is thrown when the specified resource policy is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1362,8 +1341,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getTrail(input: GetTrailInput) async throws -> GetTrailOutput
-    {
+    public func getTrail(input: GetTrailInput) async throws -> GetTrailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1423,8 +1401,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func getTrailStatus(input: GetTrailStatusInput) async throws -> GetTrailStatusOutput
-    {
+    public func getTrailStatus(input: GetTrailStatusInput) async throws -> GetTrailStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1472,8 +1449,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidNextTokenException` : A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
-    {
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1523,8 +1499,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listEventDataStores(input: ListEventDataStoresInput) async throws -> ListEventDataStoresOutput
-    {
+    public func listEventDataStores(input: ListEventDataStoresInput) async throws -> ListEventDataStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1572,8 +1547,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidNextTokenException` : A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listImportFailures(input: ListImportFailuresInput) async throws -> ListImportFailuresOutput
-    {
+    public func listImportFailures(input: ListImportFailuresInput) async throws -> ListImportFailuresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1623,8 +1597,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput
-    {
+    public func listImports(input: ListImportsInput) async throws -> ListImportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1673,8 +1646,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidTokenException` : Reserved for future use.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput
-    {
+    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1730,8 +1702,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listQueries(input: ListQueriesInput) async throws -> ListQueriesOutput
-    {
+    public func listQueries(input: ListQueriesInput) async throws -> ListQueriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1798,8 +1769,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-    {
+    public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1846,8 +1816,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func listTrails(input: ListTrailsInput) async throws -> ListTrailsOutput
-    {
+    public func listTrails(input: ListTrailsInput) async throws -> ListTrailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1927,8 +1896,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidTimeRangeException` : Occurs if the timestamp values are not valid. Either the start time occurs after the end time, or the time range is outside the range of possible values.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func lookupEvents(input: LookupEventsInput) async throws -> LookupEventsOutput
-    {
+    public func lookupEvents(input: LookupEventsInput) async throws -> LookupEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2016,8 +1984,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutput
-    {
+    public func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2088,8 +2055,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutput
-    {
+    public func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2146,8 +2112,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2205,8 +2170,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func registerOrganizationDelegatedAdmin(input: RegisterOrganizationDelegatedAdminInput) async throws -> RegisterOrganizationDelegatedAdminOutput
-    {
+    public func registerOrganizationDelegatedAdmin(input: RegisterOrganizationDelegatedAdminInput) async throws -> RegisterOrganizationDelegatedAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2275,8 +2239,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    {
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2334,8 +2297,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func restoreEventDataStore(input: RestoreEventDataStoreInput) async throws -> RestoreEventDataStoreOutput
-    {
+    public func restoreEventDataStore(input: RestoreEventDataStoreInput) async throws -> RestoreEventDataStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2390,8 +2352,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startEventDataStoreIngestion(input: StartEventDataStoreIngestionInput) async throws -> StartEventDataStoreIngestionOutput
-    {
+    public func startEventDataStoreIngestion(input: StartEventDataStoreIngestionInput) async throws -> StartEventDataStoreIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2448,8 +2409,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startImport(input: StartImportInput) async throws -> StartImportOutput
-    {
+    public func startImport(input: StartImportInput) async throws -> StartImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2515,8 +2475,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutput
-    {
+    public func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2575,8 +2534,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput
-    {
+    public func startQuery(input: StartQueryInput) async throws -> StartQueryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2631,8 +2589,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func stopEventDataStoreIngestion(input: StopEventDataStoreIngestionInput) async throws -> StopEventDataStoreIngestionOutput
-    {
+    public func stopEventDataStoreIngestion(input: StopEventDataStoreIngestionInput) async throws -> StopEventDataStoreIngestionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2681,8 +2638,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func stopImport(input: StopImportInput) async throws -> StopImportOutput
-    {
+    public func stopImport(input: StopImportInput) async throws -> StopImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2748,8 +2704,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutput
-    {
+    public func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2804,8 +2759,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
-    {
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2878,8 +2832,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func updateEventDataStore(input: UpdateEventDataStoreInput) async throws -> UpdateEventDataStoreOutput
-    {
+    public func updateEventDataStore(input: UpdateEventDataStoreInput) async throws -> UpdateEventDataStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2975,8 +2928,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
-    public func updateTrail(input: UpdateTrailInput) async throws -> UpdateTrailOutput
-    {
+    public func updateTrail(input: UpdateTrailInput) async throws -> UpdateTrailOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -67,7 +67,7 @@ public struct Route53ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension Route53Client: Route53ClientProtocol {
+extension Route53Client {
     /// Performs the `ActivateKeySigningKey` operation on the `AWSDnsV20130401` service.
     ///
     /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
@@ -85,8 +85,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
     /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
-    public func activateKeySigningKey(input: ActivateKeySigningKeyInput) async throws -> ActivateKeySigningKeyOutput
-    {
+    public func activateKeySigningKey(input: ActivateKeySigningKeyInput) async throws -> ActivateKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -151,8 +150,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NotAuthorizedException` : Associating the specified VPC with the specified hosted zone has not been authorized.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `PublicZoneVPCAssociation` : You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't support associating a VPC with a public hosted zone.
-    public func associateVPCWithHostedZone(input: AssociateVPCWithHostedZoneInput) async throws -> AssociateVPCWithHostedZoneOutput
-    {
+    public func associateVPCWithHostedZone(input: AssociateVPCWithHostedZoneInput) async throws -> AssociateVPCWithHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -207,8 +205,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
-    public func changeCidrCollection(input: ChangeCidrCollectionInput) async throws -> ChangeCidrCollectionOutput
-    {
+    public func changeCidrCollection(input: ChangeCidrCollectionInput) async throws -> ChangeCidrCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -266,8 +263,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
-    public func changeResourceRecordSets(input: ChangeResourceRecordSetsInput) async throws -> ChangeResourceRecordSetsOutput
-    {
+    public func changeResourceRecordSets(input: ChangeResourceRecordSetsInput) async throws -> ChangeResourceRecordSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -317,8 +313,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func changeTagsForResource(input: ChangeTagsForResourceInput) async throws -> ChangeTagsForResourceOutput
-    {
+    public func changeTagsForResource(input: ChangeTagsForResourceInput) async throws -> ChangeTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +361,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
     /// - `InvalidInput` : The input is not valid.
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
-    public func createCidrCollection(input: CreateCidrCollectionInput) async throws -> CreateCidrCollectionOutput
-    {
+    public func createCidrCollection(input: CreateCidrCollectionInput) async throws -> CreateCidrCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -424,8 +418,7 @@ extension Route53Client: Route53ClientProtocol {
     /// * The same value for CallerReference as a health check that you created and later deleted, regardless of the other settings in the request.
     /// - `InvalidInput` : The input is not valid.
     /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
-    public func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutput
-    {
+    public func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -502,8 +495,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     /// - `TooManyHostedZones` : This operation can't be completed either because the current account has reached the limit on the number of hosted zones or because you've reached the limit on the number of hosted zones that can be associated with a reusable delegation set. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit on hosted zones that can be created by an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To get the current limit on hosted zones that can be associated with a reusable delegation set, see [GetReusableDelegationSetLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSetLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
-    public func createHostedZone(input: CreateHostedZoneInput) async throws -> CreateHostedZoneOutput
-    {
+    public func createHostedZone(input: CreateHostedZoneInput) async throws -> CreateHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +549,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `KeySigningKeyAlreadyExists` : You've already created a key-signing key (KSK) with this name or with the same customer managed key ARN.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `TooManyKeySigningKeys` : You've reached the limit for the number of key-signing keys (KSKs). Remove at least one KSK, and then try again.
-    public func createKeySigningKey(input: CreateKeySigningKeyInput) async throws -> CreateKeySigningKeyOutput
-    {
+    public func createKeySigningKey(input: CreateKeySigningKeyInput) async throws -> CreateKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -659,8 +650,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchCloudWatchLogsLogGroup` : There is no CloudWatch Logs log group with the specified ARN.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `QueryLoggingConfigAlreadyExists` : You can create only one query logging configuration for a hosted zone, and a query logging configuration already exists for this hosted zone.
-    public func createQueryLoggingConfig(input: CreateQueryLoggingConfigInput) async throws -> CreateQueryLoggingConfigOutput
-    {
+    public func createQueryLoggingConfig(input: CreateQueryLoggingConfigInput) async throws -> CreateQueryLoggingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -732,8 +722,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidArgument` : Parameter name is not valid.
     /// - `InvalidInput` : The input is not valid.
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
-    public func createReusableDelegationSet(input: CreateReusableDelegationSetInput) async throws -> CreateReusableDelegationSetOutput
-    {
+    public func createReusableDelegationSet(input: CreateReusableDelegationSetInput) async throws -> CreateReusableDelegationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -781,8 +770,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidTrafficPolicyDocument` : The format of the traffic policy document that you specified in the Document element is not valid.
     /// - `TooManyTrafficPolicies` : This traffic policy can't be created because the current account has reached the limit on the number of traffic policies. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     /// - `TrafficPolicyAlreadyExists` : A traffic policy that has the same value for Name already exists.
-    public func createTrafficPolicy(input: CreateTrafficPolicyInput) async throws -> CreateTrafficPolicyOutput
-    {
+    public func createTrafficPolicy(input: CreateTrafficPolicyInput) async throws -> CreateTrafficPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -831,8 +819,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `TooManyTrafficPolicyInstances` : This traffic policy instance can't be created because the current account has reached the limit on the number of traffic policy instances. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     /// - `TrafficPolicyInstanceAlreadyExists` : There is already a traffic policy instance with the specified ID.
-    public func createTrafficPolicyInstance(input: CreateTrafficPolicyInstanceInput) async throws -> CreateTrafficPolicyInstanceOutput
-    {
+    public func createTrafficPolicyInstance(input: CreateTrafficPolicyInstanceInput) async throws -> CreateTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -881,8 +868,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidTrafficPolicyDocument` : The format of the traffic policy document that you specified in the Document element is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `TooManyTrafficPolicyVersionsForCurrentPolicy` : This traffic policy version can't be created because you've reached the limit of 1000 on the number of versions that you can create for the current traffic policy. To create more traffic policy versions, you can use [GetTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html) to get the traffic policy document for a specified traffic policy version, and then use [CreateTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html) to create a new traffic policy using the traffic policy document.
-    public func createTrafficPolicyVersion(input: CreateTrafficPolicyVersionInput) async throws -> CreateTrafficPolicyVersionOutput
-    {
+    public func createTrafficPolicyVersion(input: CreateTrafficPolicyVersionInput) async throws -> CreateTrafficPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -931,8 +917,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `TooManyVPCAssociationAuthorizations` : You've created the maximum number of authorizations that can be created for the specified hosted zone. To authorize another VPC to be associated with the hosted zone, submit a DeleteVPCAssociationAuthorization request to remove an existing authorization. To get a list of existing authorizations, submit a ListVPCAssociationAuthorizations request.
-    public func createVPCAssociationAuthorization(input: CreateVPCAssociationAuthorizationInput) async throws -> CreateVPCAssociationAuthorizationOutput
-    {
+    public func createVPCAssociationAuthorization(input: CreateVPCAssociationAuthorizationInput) async throws -> CreateVPCAssociationAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -984,8 +969,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `KeySigningKeyInParentDSRecord` : The key-signing key (KSK) is specified in a parent DS record.
     /// - `KeySigningKeyInUse` : The key-signing key (KSK) that you specified can't be deactivated because it's the only KSK for a currently-enabled DNSSEC. Disable DNSSEC signing, or add or enable another KSK.
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
-    public func deactivateKeySigningKey(input: DeactivateKeySigningKeyInput) async throws -> DeactivateKeySigningKeyOutput
-    {
+    public func deactivateKeySigningKey(input: DeactivateKeySigningKeyInput) async throws -> DeactivateKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1031,8 +1015,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
-    public func deleteCidrCollection(input: DeleteCidrCollectionInput) async throws -> DeleteCidrCollectionOutput
-    {
+    public func deleteCidrCollection(input: DeleteCidrCollectionInput) async throws -> DeleteCidrCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1076,8 +1059,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `HealthCheckInUse` : This error code is not in use.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
-    public func deleteHealthCheck(input: DeleteHealthCheckInput) async throws -> DeleteHealthCheckOutput
-    {
+    public func deleteHealthCheck(input: DeleteHealthCheckInput) async throws -> DeleteHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1127,8 +1109,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
-    public func deleteHostedZone(input: DeleteHostedZoneInput) async throws -> DeleteHostedZoneOutput
-    {
+    public func deleteHostedZone(input: DeleteHostedZoneInput) async throws -> DeleteHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1175,8 +1156,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
     /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
-    public func deleteKeySigningKey(input: DeleteKeySigningKeyInput) async throws -> DeleteKeySigningKeyOutput
-    {
+    public func deleteKeySigningKey(input: DeleteKeySigningKeyInput) async throws -> DeleteKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1221,8 +1201,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
-    public func deleteQueryLoggingConfig(input: DeleteQueryLoggingConfigInput) async throws -> DeleteQueryLoggingConfigOutput
-    {
+    public func deleteQueryLoggingConfig(input: DeleteQueryLoggingConfigInput) async throws -> DeleteQueryLoggingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1267,8 +1246,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
-    public func deleteReusableDelegationSet(input: DeleteReusableDelegationSetInput) async throws -> DeleteReusableDelegationSetOutput
-    {
+    public func deleteReusableDelegationSet(input: DeleteReusableDelegationSetInput) async throws -> DeleteReusableDelegationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1297,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `TrafficPolicyInUse` : One or more traffic policy instances were created by using the specified traffic policy.
-    public func deleteTrafficPolicy(input: DeleteTrafficPolicyInput) async throws -> DeleteTrafficPolicyOutput
-    {
+    public func deleteTrafficPolicy(input: DeleteTrafficPolicyInput) async throws -> DeleteTrafficPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1364,8 +1341,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
-    public func deleteTrafficPolicyInstance(input: DeleteTrafficPolicyInstanceInput) async throws -> DeleteTrafficPolicyInstanceOutput
-    {
+    public func deleteTrafficPolicyInstance(input: DeleteTrafficPolicyInstanceInput) async throws -> DeleteTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1411,8 +1387,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `VPCAssociationAuthorizationNotFound` : The VPC that you specified is not authorized to be associated with the hosted zone.
-    public func deleteVPCAssociationAuthorization(input: DeleteVPCAssociationAuthorizationInput) async throws -> DeleteVPCAssociationAuthorizationOutput
-    {
+    public func deleteVPCAssociationAuthorization(input: DeleteVPCAssociationAuthorizationInput) async throws -> DeleteVPCAssociationAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1465,8 +1440,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
     /// - `KeySigningKeyInParentDSRecord` : The key-signing key (KSK) is specified in a parent DS record.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func disableHostedZoneDNSSEC(input: DisableHostedZoneDNSSECInput) async throws -> DisableHostedZoneDNSSECOutput
-    {
+    public func disableHostedZoneDNSSEC(input: DisableHostedZoneDNSSECInput) async throws -> DisableHostedZoneDNSSECOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1533,8 +1507,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `LastVPCAssociation` : The VPC that you're trying to disassociate from the private hosted zone is the last VPC that is associated with the hosted zone. Amazon Route 53 doesn't support disassociating the last VPC from a hosted zone.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `VPCAssociationNotFound` : The specified VPC and hosted zone are not currently associated.
-    public func disassociateVPCFromHostedZone(input: DisassociateVPCFromHostedZoneInput) async throws -> DisassociateVPCFromHostedZoneOutput
-    {
+    public func disassociateVPCFromHostedZone(input: DisassociateVPCFromHostedZoneInput) async throws -> DisassociateVPCFromHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1588,8 +1561,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
     /// - `KeySigningKeyWithActiveStatusNotFound` : A key-signing key (KSK) with ACTIVE status wasn't found.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func enableHostedZoneDNSSEC(input: EnableHostedZoneDNSSECInput) async throws -> EnableHostedZoneDNSSECOutput
-    {
+    public func enableHostedZoneDNSSEC(input: EnableHostedZoneDNSSECInput) async throws -> EnableHostedZoneDNSSECOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1632,8 +1604,7 @@ extension Route53Client: Route53ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
-    public func getAccountLimit(input: GetAccountLimitInput) async throws -> GetAccountLimitOutput
-    {
+    public func getAccountLimit(input: GetAccountLimitInput) async throws -> GetAccountLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1680,8 +1651,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchChange` : A change with the specified change ID does not exist.
-    public func getChange(input: GetChangeInput) async throws -> GetChangeOutput
-    {
+    public func getChange(input: GetChangeInput) async throws -> GetChangeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1718,8 +1688,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - Parameter GetCheckerIpRangesInput : Empty request.
     ///
     /// - Returns: `GetCheckerIpRangesOutput` : A complex type that contains the CheckerIpRanges element.
-    public func getCheckerIpRanges(input: GetCheckerIpRangesInput) async throws -> GetCheckerIpRangesOutput
-    {
+    public func getCheckerIpRanges(input: GetCheckerIpRangesInput) async throws -> GetCheckerIpRangesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1763,8 +1732,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidArgument` : Parameter name is not valid.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func getDNSSEC(input: GetDNSSECInput) async throws -> GetDNSSECOutput
-    {
+    public func getDNSSEC(input: GetDNSSECInput) async throws -> GetDNSSECOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1808,8 +1776,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchGeoLocation` : Amazon Route 53 doesn't support the specified geographic location. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
-    public func getGeoLocation(input: GetGeoLocationInput) async throws -> GetGeoLocationOutput
-    {
+    public func getGeoLocation(input: GetGeoLocationInput) async throws -> GetGeoLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1854,8 +1821,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `IncompatibleVersion` : The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
-    public func getHealthCheck(input: GetHealthCheckInput) async throws -> GetHealthCheckOutput
-    {
+    public func getHealthCheck(input: GetHealthCheckInput) async throws -> GetHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1892,8 +1858,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - Parameter GetHealthCheckCountInput : A request for the number of health checks that are associated with the current Amazon Web Services account.
     ///
     /// - Returns: `GetHealthCheckCountOutput` : A complex type that contains the response to a GetHealthCheckCount request.
-    public func getHealthCheckCount(input: GetHealthCheckCountInput) async throws -> GetHealthCheckCountOutput
-    {
+    public func getHealthCheckCount(input: GetHealthCheckCountInput) async throws -> GetHealthCheckCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1936,8 +1901,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
-    public func getHealthCheckLastFailureReason(input: GetHealthCheckLastFailureReasonInput) async throws -> GetHealthCheckLastFailureReasonOutput
-    {
+    public func getHealthCheckLastFailureReason(input: GetHealthCheckLastFailureReasonInput) async throws -> GetHealthCheckLastFailureReasonOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1980,8 +1944,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
-    public func getHealthCheckStatus(input: GetHealthCheckStatusInput) async throws -> GetHealthCheckStatusOutput
-    {
+    public func getHealthCheckStatus(input: GetHealthCheckStatusInput) async throws -> GetHealthCheckStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2024,8 +1987,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func getHostedZone(input: GetHostedZoneInput) async throws -> GetHostedZoneOutput
-    {
+    public func getHostedZone(input: GetHostedZoneInput) async throws -> GetHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2067,8 +2029,7 @@ extension Route53Client: Route53ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
-    public func getHostedZoneCount(input: GetHostedZoneCountInput) async throws -> GetHostedZoneCountOutput
-    {
+    public func getHostedZoneCount(input: GetHostedZoneCountInput) async throws -> GetHostedZoneCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2112,8 +2073,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `HostedZoneNotPrivate` : The specified hosted zone is a public hosted zone, not a private hosted zone.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func getHostedZoneLimit(input: GetHostedZoneLimitInput) async throws -> GetHostedZoneLimitOutput
-    {
+    public func getHostedZoneLimit(input: GetHostedZoneLimitInput) async throws -> GetHostedZoneLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2157,8 +2117,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
-    public func getQueryLoggingConfig(input: GetQueryLoggingConfigInput) async throws -> GetQueryLoggingConfigOutput
-    {
+    public func getQueryLoggingConfig(input: GetQueryLoggingConfigInput) async throws -> GetQueryLoggingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2202,8 +2161,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
-    public func getReusableDelegationSet(input: GetReusableDelegationSetInput) async throws -> GetReusableDelegationSetOutput
-    {
+    public func getReusableDelegationSet(input: GetReusableDelegationSetInput) async throws -> GetReusableDelegationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2246,8 +2204,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
-    public func getReusableDelegationSetLimit(input: GetReusableDelegationSetLimitInput) async throws -> GetReusableDelegationSetLimitOutput
-    {
+    public func getReusableDelegationSetLimit(input: GetReusableDelegationSetLimitInput) async throws -> GetReusableDelegationSetLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2290,8 +2247,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
-    public func getTrafficPolicy(input: GetTrafficPolicyInput) async throws -> GetTrafficPolicyOutput
-    {
+    public func getTrafficPolicy(input: GetTrafficPolicyInput) async throws -> GetTrafficPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2334,8 +2290,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
-    public func getTrafficPolicyInstance(input: GetTrafficPolicyInstanceInput) async throws -> GetTrafficPolicyInstanceOutput
-    {
+    public func getTrafficPolicyInstance(input: GetTrafficPolicyInstanceInput) async throws -> GetTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2327,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - Parameter GetTrafficPolicyInstanceCountInput : Request to get the number of traffic policy instances that are associated with the current Amazon Web Services account.
     ///
     /// - Returns: `GetTrafficPolicyInstanceCountOutput` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
-    public func getTrafficPolicyInstanceCount(input: GetTrafficPolicyInstanceCountInput) async throws -> GetTrafficPolicyInstanceCountOutput
-    {
+    public func getTrafficPolicyInstanceCount(input: GetTrafficPolicyInstanceCountInput) async throws -> GetTrafficPolicyInstanceCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2417,8 +2371,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     /// - `NoSuchCidrLocationException` : The CIDR collection location doesn't match any locations in your account.
-    public func listCidrBlocks(input: ListCidrBlocksInput) async throws -> ListCidrBlocksOutput
-    {
+    public func listCidrBlocks(input: ListCidrBlocksInput) async throws -> ListCidrBlocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2461,8 +2414,7 @@ extension Route53Client: Route53ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
-    public func listCidrCollections(input: ListCidrCollectionsInput) async throws -> ListCidrCollectionsOutput
-    {
+    public func listCidrCollections(input: ListCidrCollectionsInput) async throws -> ListCidrCollectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2506,8 +2458,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
-    public func listCidrLocations(input: ListCidrLocationsInput) async throws -> ListCidrLocationsOutput
-    {
+    public func listCidrLocations(input: ListCidrLocationsInput) async throws -> ListCidrLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2550,8 +2501,7 @@ extension Route53Client: Route53ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
-    public func listGeoLocations(input: ListGeoLocationsInput) async throws -> ListGeoLocationsOutput
-    {
+    public func listGeoLocations(input: ListGeoLocationsInput) async throws -> ListGeoLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2595,8 +2545,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `IncompatibleVersion` : The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
     /// - `InvalidInput` : The input is not valid.
-    public func listHealthChecks(input: ListHealthChecksInput) async throws -> ListHealthChecksOutput
-    {
+    public func listHealthChecks(input: ListHealthChecksInput) async throws -> ListHealthChecksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2641,8 +2590,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
-    public func listHostedZones(input: ListHostedZonesInput) async throws -> ListHostedZonesOutput
-    {
+    public func listHostedZones(input: ListHostedZonesInput) async throws -> ListHostedZonesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2694,8 +2642,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidDomainName` : The specified domain name is not valid.
     /// - `InvalidInput` : The input is not valid.
-    public func listHostedZonesByName(input: ListHostedZonesByNameInput) async throws -> ListHostedZonesByNameOutput
-    {
+    public func listHostedZonesByName(input: ListHostedZonesByNameInput) async throws -> ListHostedZonesByNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2755,8 +2702,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
-    public func listHostedZonesByVPC(input: ListHostedZonesByVPCInput) async throws -> ListHostedZonesByVPCOutput
-    {
+    public func listHostedZonesByVPC(input: ListHostedZonesByVPCInput) async throws -> ListHostedZonesByVPCOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2801,8 +2747,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func listQueryLoggingConfigs(input: ListQueryLoggingConfigsInput) async throws -> ListQueryLoggingConfigsOutput
-    {
+    public func listQueryLoggingConfigs(input: ListQueryLoggingConfigsInput) async throws -> ListQueryLoggingConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2846,8 +2791,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func listResourceRecordSets(input: ListResourceRecordSetsInput) async throws -> ListResourceRecordSetsOutput
-    {
+    public func listResourceRecordSets(input: ListResourceRecordSetsInput) async throws -> ListResourceRecordSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2891,8 +2835,7 @@ extension Route53Client: Route53ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
-    public func listReusableDelegationSets(input: ListReusableDelegationSetsInput) async throws -> ListReusableDelegationSetsOutput
-    {
+    public func listReusableDelegationSets(input: ListReusableDelegationSetsInput) async throws -> ListReusableDelegationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2939,8 +2882,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2986,8 +2928,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutput
-    {
+    public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3032,8 +2973,7 @@ extension Route53Client: Route53ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
-    public func listTrafficPolicies(input: ListTrafficPoliciesInput) async throws -> ListTrafficPoliciesOutput
-    {
+    public func listTrafficPolicies(input: ListTrafficPoliciesInput) async throws -> ListTrafficPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3077,8 +3017,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
-    public func listTrafficPolicyInstances(input: ListTrafficPolicyInstancesInput) async throws -> ListTrafficPolicyInstancesOutput
-    {
+    public func listTrafficPolicyInstances(input: ListTrafficPolicyInstancesInput) async throws -> ListTrafficPolicyInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3123,8 +3062,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
-    public func listTrafficPolicyInstancesByHostedZone(input: ListTrafficPolicyInstancesByHostedZoneInput) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput
-    {
+    public func listTrafficPolicyInstancesByHostedZone(input: ListTrafficPolicyInstancesByHostedZoneInput) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3169,8 +3107,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
-    public func listTrafficPolicyInstancesByPolicy(input: ListTrafficPolicyInstancesByPolicyInput) async throws -> ListTrafficPolicyInstancesByPolicyOutput
-    {
+    public func listTrafficPolicyInstancesByPolicy(input: ListTrafficPolicyInstancesByPolicyInput) async throws -> ListTrafficPolicyInstancesByPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3214,8 +3151,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
-    public func listTrafficPolicyVersions(input: ListTrafficPolicyVersionsInput) async throws -> ListTrafficPolicyVersionsOutput
-    {
+    public func listTrafficPolicyVersions(input: ListTrafficPolicyVersionsInput) async throws -> ListTrafficPolicyVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3260,8 +3196,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func listVPCAssociationAuthorizations(input: ListVPCAssociationAuthorizationsInput) async throws -> ListVPCAssociationAuthorizationsOutput
-    {
+    public func listVPCAssociationAuthorizations(input: ListVPCAssociationAuthorizationsInput) async throws -> ListVPCAssociationAuthorizationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3306,8 +3241,7 @@ extension Route53Client: Route53ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
-    public func testDNSAnswer(input: TestDNSAnswerInput) async throws -> TestDNSAnswerOutput
-    {
+    public func testDNSAnswer(input: TestDNSAnswerInput) async throws -> TestDNSAnswerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3352,8 +3286,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `HealthCheckVersionMismatch` : The value of HealthCheckVersion in the request doesn't match the value of HealthCheckVersion in the health check.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
-    public func updateHealthCheck(input: UpdateHealthCheckInput) async throws -> UpdateHealthCheckOutput
-    {
+    public func updateHealthCheck(input: UpdateHealthCheckInput) async throws -> UpdateHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3400,8 +3333,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
-    public func updateHostedZoneComment(input: UpdateHostedZoneCommentInput) async throws -> UpdateHostedZoneCommentOutput
-    {
+    public func updateHostedZoneComment(input: UpdateHostedZoneCommentInput) async throws -> UpdateHostedZoneCommentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3448,8 +3380,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
-    public func updateTrafficPolicyComment(input: UpdateTrafficPolicyCommentInput) async throws -> UpdateTrafficPolicyCommentOutput
-    {
+    public func updateTrafficPolicyComment(input: UpdateTrafficPolicyCommentInput) async throws -> UpdateTrafficPolicyCommentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3504,8 +3435,7 @@ extension Route53Client: Route53ClientProtocol {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
-    public func updateTrafficPolicyInstance(input: UpdateTrafficPolicyInstanceInput) async throws -> UpdateTrafficPolicyInstanceOutput
-    {
+    public func updateTrafficPolicyInstance(input: UpdateTrafficPolicyInstanceInput) async throws -> UpdateTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

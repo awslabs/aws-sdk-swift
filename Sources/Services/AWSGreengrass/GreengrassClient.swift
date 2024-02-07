@@ -66,7 +66,7 @@ public struct GreengrassClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension GreengrassClient: GreengrassClientProtocol {
+extension GreengrassClient {
     /// Performs the `AssociateRoleToGroup` operation on the `Greengrass` service.
     ///
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
@@ -80,8 +80,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func associateRoleToGroup(input: AssociateRoleToGroupInput) async throws -> AssociateRoleToGroupOutput
-    {
+    public func associateRoleToGroup(input: AssociateRoleToGroupInput) async throws -> AssociateRoleToGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput
-    {
+    public func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -173,8 +171,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createConnectorDefinition(input: CreateConnectorDefinitionInput) async throws -> CreateConnectorDefinitionOutput
-    {
+    public func createConnectorDefinition(input: CreateConnectorDefinitionInput) async throws -> CreateConnectorDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +217,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createConnectorDefinitionVersion(input: CreateConnectorDefinitionVersionInput) async throws -> CreateConnectorDefinitionVersionOutput
-    {
+    public func createConnectorDefinitionVersion(input: CreateConnectorDefinitionVersionInput) async throws -> CreateConnectorDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -267,8 +263,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createCoreDefinition(input: CreateCoreDefinitionInput) async throws -> CreateCoreDefinitionOutput
-    {
+    public func createCoreDefinition(input: CreateCoreDefinitionInput) async throws -> CreateCoreDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -314,8 +309,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createCoreDefinitionVersion(input: CreateCoreDefinitionVersionInput) async throws -> CreateCoreDefinitionVersionOutput
-    {
+    public func createCoreDefinitionVersion(input: CreateCoreDefinitionVersionInput) async throws -> CreateCoreDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -361,8 +355,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-    {
+    public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -408,8 +401,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createDeviceDefinition(input: CreateDeviceDefinitionInput) async throws -> CreateDeviceDefinitionOutput
-    {
+    public func createDeviceDefinition(input: CreateDeviceDefinitionInput) async throws -> CreateDeviceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -455,8 +447,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createDeviceDefinitionVersion(input: CreateDeviceDefinitionVersionInput) async throws -> CreateDeviceDefinitionVersionOutput
-    {
+    public func createDeviceDefinitionVersion(input: CreateDeviceDefinitionVersionInput) async throws -> CreateDeviceDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -502,8 +493,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createFunctionDefinition(input: CreateFunctionDefinitionInput) async throws -> CreateFunctionDefinitionOutput
-    {
+    public func createFunctionDefinition(input: CreateFunctionDefinitionInput) async throws -> CreateFunctionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -549,8 +539,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersionInput) async throws -> CreateFunctionDefinitionVersionOutput
-    {
+    public func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersionInput) async throws -> CreateFunctionDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +585,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -644,8 +632,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func createGroupCertificateAuthority(input: CreateGroupCertificateAuthorityInput) async throws -> CreateGroupCertificateAuthorityOutput
-    {
+    public func createGroupCertificateAuthority(input: CreateGroupCertificateAuthorityInput) async throws -> CreateGroupCertificateAuthorityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -688,8 +675,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createGroupVersion(input: CreateGroupVersionInput) async throws -> CreateGroupVersionOutput
-    {
+    public func createGroupVersion(input: CreateGroupVersionInput) async throws -> CreateGroupVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -735,8 +721,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createLoggerDefinition(input: CreateLoggerDefinitionInput) async throws -> CreateLoggerDefinitionOutput
-    {
+    public func createLoggerDefinition(input: CreateLoggerDefinitionInput) async throws -> CreateLoggerDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -782,8 +767,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createLoggerDefinitionVersion(input: CreateLoggerDefinitionVersionInput) async throws -> CreateLoggerDefinitionVersionOutput
-    {
+    public func createLoggerDefinitionVersion(input: CreateLoggerDefinitionVersionInput) async throws -> CreateLoggerDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -829,8 +813,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createResourceDefinition(input: CreateResourceDefinitionInput) async throws -> CreateResourceDefinitionOutput
-    {
+    public func createResourceDefinition(input: CreateResourceDefinitionInput) async throws -> CreateResourceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -876,8 +859,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createResourceDefinitionVersion(input: CreateResourceDefinitionVersionInput) async throws -> CreateResourceDefinitionVersionOutput
-    {
+    public func createResourceDefinitionVersion(input: CreateResourceDefinitionVersionInput) async throws -> CreateResourceDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +906,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func createSoftwareUpdateJob(input: CreateSoftwareUpdateJobInput) async throws -> CreateSoftwareUpdateJobOutput
-    {
+    public func createSoftwareUpdateJob(input: CreateSoftwareUpdateJobInput) async throws -> CreateSoftwareUpdateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -971,8 +952,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createSubscriptionDefinition(input: CreateSubscriptionDefinitionInput) async throws -> CreateSubscriptionDefinitionOutput
-    {
+    public func createSubscriptionDefinition(input: CreateSubscriptionDefinitionInput) async throws -> CreateSubscriptionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1018,8 +998,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func createSubscriptionDefinitionVersion(input: CreateSubscriptionDefinitionVersionInput) async throws -> CreateSubscriptionDefinitionVersionOutput
-    {
+    public func createSubscriptionDefinitionVersion(input: CreateSubscriptionDefinitionVersionInput) async throws -> CreateSubscriptionDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1044,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteConnectorDefinition(input: DeleteConnectorDefinitionInput) async throws -> DeleteConnectorDefinitionOutput
-    {
+    public func deleteConnectorDefinition(input: DeleteConnectorDefinitionInput) async throws -> DeleteConnectorDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1108,8 +1086,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteCoreDefinition(input: DeleteCoreDefinitionInput) async throws -> DeleteCoreDefinitionOutput
-    {
+    public func deleteCoreDefinition(input: DeleteCoreDefinitionInput) async throws -> DeleteCoreDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1151,8 +1128,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteDeviceDefinition(input: DeleteDeviceDefinitionInput) async throws -> DeleteDeviceDefinitionOutput
-    {
+    public func deleteDeviceDefinition(input: DeleteDeviceDefinitionInput) async throws -> DeleteDeviceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1194,8 +1170,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteFunctionDefinition(input: DeleteFunctionDefinitionInput) async throws -> DeleteFunctionDefinitionOutput
-    {
+    public func deleteFunctionDefinition(input: DeleteFunctionDefinitionInput) async throws -> DeleteFunctionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1237,8 +1212,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1254,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteLoggerDefinition(input: DeleteLoggerDefinitionInput) async throws -> DeleteLoggerDefinitionOutput
-    {
+    public func deleteLoggerDefinition(input: DeleteLoggerDefinitionInput) async throws -> DeleteLoggerDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1323,8 +1296,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteResourceDefinition(input: DeleteResourceDefinitionInput) async throws -> DeleteResourceDefinitionOutput
-    {
+    public func deleteResourceDefinition(input: DeleteResourceDefinitionInput) async throws -> DeleteResourceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1366,8 +1338,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func deleteSubscriptionDefinition(input: DeleteSubscriptionDefinitionInput) async throws -> DeleteSubscriptionDefinitionOutput
-    {
+    public func deleteSubscriptionDefinition(input: DeleteSubscriptionDefinitionInput) async throws -> DeleteSubscriptionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1410,8 +1381,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func disassociateRoleFromGroup(input: DisassociateRoleFromGroupInput) async throws -> DisassociateRoleFromGroupOutput
-    {
+    public func disassociateRoleFromGroup(input: DisassociateRoleFromGroupInput) async throws -> DisassociateRoleFromGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1453,8 +1423,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerErrorException` : General error information.
-    public func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput
-    {
+    public func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1497,8 +1466,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func getAssociatedRole(input: GetAssociatedRoleInput) async throws -> GetAssociatedRoleOutput
-    {
+    public func getAssociatedRole(input: GetAssociatedRoleInput) async throws -> GetAssociatedRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1540,8 +1508,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getBulkDeploymentStatus(input: GetBulkDeploymentStatusInput) async throws -> GetBulkDeploymentStatusOutput
-    {
+    public func getBulkDeploymentStatus(input: GetBulkDeploymentStatusInput) async throws -> GetBulkDeploymentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1584,8 +1551,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput
-    {
+    public func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1627,8 +1593,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getConnectorDefinition(input: GetConnectorDefinitionInput) async throws -> GetConnectorDefinitionOutput
-    {
+    public func getConnectorDefinition(input: GetConnectorDefinitionInput) async throws -> GetConnectorDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1670,8 +1635,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getConnectorDefinitionVersion(input: GetConnectorDefinitionVersionInput) async throws -> GetConnectorDefinitionVersionOutput
-    {
+    public func getConnectorDefinitionVersion(input: GetConnectorDefinitionVersionInput) async throws -> GetConnectorDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1714,8 +1678,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getCoreDefinition(input: GetCoreDefinitionInput) async throws -> GetCoreDefinitionOutput
-    {
+    public func getCoreDefinition(input: GetCoreDefinitionInput) async throws -> GetCoreDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1757,8 +1720,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getCoreDefinitionVersion(input: GetCoreDefinitionVersionInput) async throws -> GetCoreDefinitionVersionOutput
-    {
+    public func getCoreDefinitionVersion(input: GetCoreDefinitionVersionInput) async throws -> GetCoreDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1800,8 +1762,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getDeploymentStatus(input: GetDeploymentStatusInput) async throws -> GetDeploymentStatusOutput
-    {
+    public func getDeploymentStatus(input: GetDeploymentStatusInput) async throws -> GetDeploymentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1843,8 +1804,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getDeviceDefinition(input: GetDeviceDefinitionInput) async throws -> GetDeviceDefinitionOutput
-    {
+    public func getDeviceDefinition(input: GetDeviceDefinitionInput) async throws -> GetDeviceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1886,8 +1846,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getDeviceDefinitionVersion(input: GetDeviceDefinitionVersionInput) async throws -> GetDeviceDefinitionVersionOutput
-    {
+    public func getDeviceDefinitionVersion(input: GetDeviceDefinitionVersionInput) async throws -> GetDeviceDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1930,8 +1889,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getFunctionDefinition(input: GetFunctionDefinitionInput) async throws -> GetFunctionDefinitionOutput
-    {
+    public func getFunctionDefinition(input: GetFunctionDefinitionInput) async throws -> GetFunctionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1973,8 +1931,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getFunctionDefinitionVersion(input: GetFunctionDefinitionVersionInput) async throws -> GetFunctionDefinitionVersionOutput
-    {
+    public func getFunctionDefinitionVersion(input: GetFunctionDefinitionVersionInput) async throws -> GetFunctionDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2017,8 +1974,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2061,8 +2017,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func getGroupCertificateAuthority(input: GetGroupCertificateAuthorityInput) async throws -> GetGroupCertificateAuthorityOutput
-    {
+    public func getGroupCertificateAuthority(input: GetGroupCertificateAuthorityInput) async throws -> GetGroupCertificateAuthorityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2105,8 +2060,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func getGroupCertificateConfiguration(input: GetGroupCertificateConfigurationInput) async throws -> GetGroupCertificateConfigurationOutput
-    {
+    public func getGroupCertificateConfiguration(input: GetGroupCertificateConfigurationInput) async throws -> GetGroupCertificateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2148,8 +2102,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getGroupVersion(input: GetGroupVersionInput) async throws -> GetGroupVersionOutput
-    {
+    public func getGroupVersion(input: GetGroupVersionInput) async throws -> GetGroupVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2191,8 +2144,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getLoggerDefinition(input: GetLoggerDefinitionInput) async throws -> GetLoggerDefinitionOutput
-    {
+    public func getLoggerDefinition(input: GetLoggerDefinitionInput) async throws -> GetLoggerDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2234,8 +2186,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getLoggerDefinitionVersion(input: GetLoggerDefinitionVersionInput) async throws -> GetLoggerDefinitionVersionOutput
-    {
+    public func getLoggerDefinitionVersion(input: GetLoggerDefinitionVersionInput) async throws -> GetLoggerDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2229,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getResourceDefinition(input: GetResourceDefinitionInput) async throws -> GetResourceDefinitionOutput
-    {
+    public func getResourceDefinition(input: GetResourceDefinitionInput) async throws -> GetResourceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2321,8 +2271,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getResourceDefinitionVersion(input: GetResourceDefinitionVersionInput) async throws -> GetResourceDefinitionVersionOutput
-    {
+    public func getResourceDefinitionVersion(input: GetResourceDefinitionVersionInput) async throws -> GetResourceDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2364,8 +2313,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerErrorException` : General error information.
-    public func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput
-    {
+    public func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2407,8 +2355,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getSubscriptionDefinition(input: GetSubscriptionDefinitionInput) async throws -> GetSubscriptionDefinitionOutput
-    {
+    public func getSubscriptionDefinition(input: GetSubscriptionDefinitionInput) async throws -> GetSubscriptionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2450,8 +2397,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func getSubscriptionDefinitionVersion(input: GetSubscriptionDefinitionVersionInput) async throws -> GetSubscriptionDefinitionVersionOutput
-    {
+    public func getSubscriptionDefinitionVersion(input: GetSubscriptionDefinitionVersionInput) async throws -> GetSubscriptionDefinitionVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2495,8 +2441,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func getThingRuntimeConfiguration(input: GetThingRuntimeConfigurationInput) async throws -> GetThingRuntimeConfigurationOutput
-    {
+    public func getThingRuntimeConfiguration(input: GetThingRuntimeConfigurationInput) async throws -> GetThingRuntimeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2538,8 +2483,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listBulkDeploymentDetailedReports(input: ListBulkDeploymentDetailedReportsInput) async throws -> ListBulkDeploymentDetailedReportsOutput
-    {
+    public func listBulkDeploymentDetailedReports(input: ListBulkDeploymentDetailedReportsInput) async throws -> ListBulkDeploymentDetailedReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2582,8 +2526,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listBulkDeployments(input: ListBulkDeploymentsInput) async throws -> ListBulkDeploymentsOutput
-    {
+    public func listBulkDeployments(input: ListBulkDeploymentsInput) async throws -> ListBulkDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2626,8 +2569,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listConnectorDefinitionVersions(input: ListConnectorDefinitionVersionsInput) async throws -> ListConnectorDefinitionVersionsOutput
-    {
+    public func listConnectorDefinitionVersions(input: ListConnectorDefinitionVersionsInput) async throws -> ListConnectorDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2665,8 +2607,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListConnectorDefinitionsOutput` : [no documentation found]
-    public func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutput
-    {
+    public func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2709,8 +2650,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listCoreDefinitionVersions(input: ListCoreDefinitionVersionsInput) async throws -> ListCoreDefinitionVersionsOutput
-    {
+    public func listCoreDefinitionVersions(input: ListCoreDefinitionVersionsInput) async throws -> ListCoreDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2748,8 +2688,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListCoreDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListCoreDefinitionsOutput` : [no documentation found]
-    public func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutput
-    {
+    public func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2792,8 +2731,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-    {
+    public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2836,8 +2774,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listDeviceDefinitionVersions(input: ListDeviceDefinitionVersionsInput) async throws -> ListDeviceDefinitionVersionsOutput
-    {
+    public func listDeviceDefinitionVersions(input: ListDeviceDefinitionVersionsInput) async throws -> ListDeviceDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2875,8 +2812,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListDeviceDefinitionsOutput` : [no documentation found]
-    public func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutput
-    {
+    public func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2919,8 +2855,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listFunctionDefinitionVersions(input: ListFunctionDefinitionVersionsInput) async throws -> ListFunctionDefinitionVersionsOutput
-    {
+    public func listFunctionDefinitionVersions(input: ListFunctionDefinitionVersionsInput) async throws -> ListFunctionDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2958,8 +2893,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListFunctionDefinitionsOutput` : [no documentation found]
-    public func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutput
-    {
+    public func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3003,8 +2937,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func listGroupCertificateAuthorities(input: ListGroupCertificateAuthoritiesInput) async throws -> ListGroupCertificateAuthoritiesOutput
-    {
+    public func listGroupCertificateAuthorities(input: ListGroupCertificateAuthoritiesInput) async throws -> ListGroupCertificateAuthoritiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3046,8 +2979,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listGroupVersions(input: ListGroupVersionsInput) async throws -> ListGroupVersionsOutput
-    {
+    public func listGroupVersions(input: ListGroupVersionsInput) async throws -> ListGroupVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3085,8 +3017,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListGroupsOutput` : [no documentation found]
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3129,8 +3060,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listLoggerDefinitionVersions(input: ListLoggerDefinitionVersionsInput) async throws -> ListLoggerDefinitionVersionsOutput
-    {
+    public func listLoggerDefinitionVersions(input: ListLoggerDefinitionVersionsInput) async throws -> ListLoggerDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3168,8 +3098,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListLoggerDefinitionsOutput` : [no documentation found]
-    public func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutput
-    {
+    public func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3212,8 +3141,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listResourceDefinitionVersions(input: ListResourceDefinitionVersionsInput) async throws -> ListResourceDefinitionVersionsOutput
-    {
+    public func listResourceDefinitionVersions(input: ListResourceDefinitionVersionsInput) async throws -> ListResourceDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3251,8 +3179,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListResourceDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListResourceDefinitionsOutput` : [no documentation found]
-    public func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutput
-    {
+    public func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3295,8 +3222,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listSubscriptionDefinitionVersions(input: ListSubscriptionDefinitionVersionsInput) async throws -> ListSubscriptionDefinitionVersionsOutput
-    {
+    public func listSubscriptionDefinitionVersions(input: ListSubscriptionDefinitionVersionsInput) async throws -> ListSubscriptionDefinitionVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3334,8 +3260,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListSubscriptionDefinitionsOutput` : [no documentation found]
-    public func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutput
-    {
+    public func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3378,8 +3303,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3421,8 +3345,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func resetDeployments(input: ResetDeploymentsInput) async throws -> ResetDeploymentsOutput
-    {
+    public func resetDeployments(input: ResetDeploymentsInput) async throws -> ResetDeploymentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3468,8 +3391,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func startBulkDeployment(input: StartBulkDeploymentInput) async throws -> StartBulkDeploymentOutput
-    {
+    public func startBulkDeployment(input: StartBulkDeploymentInput) async throws -> StartBulkDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3515,8 +3437,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func stopBulkDeployment(input: StopBulkDeploymentInput) async throws -> StopBulkDeploymentOutput
-    {
+    public func stopBulkDeployment(input: StopBulkDeploymentInput) async throws -> StopBulkDeploymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3558,8 +3479,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3604,8 +3524,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3649,8 +3568,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput
-    {
+    public func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3695,8 +3613,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateConnectorDefinition(input: UpdateConnectorDefinitionInput) async throws -> UpdateConnectorDefinitionOutput
-    {
+    public func updateConnectorDefinition(input: UpdateConnectorDefinitionInput) async throws -> UpdateConnectorDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3741,8 +3658,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateCoreDefinition(input: UpdateCoreDefinitionInput) async throws -> UpdateCoreDefinitionOutput
-    {
+    public func updateCoreDefinition(input: UpdateCoreDefinitionInput) async throws -> UpdateCoreDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3787,8 +3703,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateDeviceDefinition(input: UpdateDeviceDefinitionInput) async throws -> UpdateDeviceDefinitionOutput
-    {
+    public func updateDeviceDefinition(input: UpdateDeviceDefinitionInput) async throws -> UpdateDeviceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3833,8 +3748,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateFunctionDefinition(input: UpdateFunctionDefinitionInput) async throws -> UpdateFunctionDefinitionOutput
-    {
+    public func updateFunctionDefinition(input: UpdateFunctionDefinitionInput) async throws -> UpdateFunctionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3879,8 +3793,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3926,8 +3839,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func updateGroupCertificateConfiguration(input: UpdateGroupCertificateConfigurationInput) async throws -> UpdateGroupCertificateConfigurationOutput
-    {
+    public func updateGroupCertificateConfiguration(input: UpdateGroupCertificateConfigurationInput) async throws -> UpdateGroupCertificateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3972,8 +3884,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateLoggerDefinition(input: UpdateLoggerDefinitionInput) async throws -> UpdateLoggerDefinitionOutput
-    {
+    public func updateLoggerDefinition(input: UpdateLoggerDefinitionInput) async throws -> UpdateLoggerDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4018,8 +3929,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateResourceDefinition(input: UpdateResourceDefinitionInput) async throws -> UpdateResourceDefinitionOutput
-    {
+    public func updateResourceDefinition(input: UpdateResourceDefinitionInput) async throws -> UpdateResourceDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4064,8 +3974,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    public func updateSubscriptionDefinition(input: UpdateSubscriptionDefinitionInput) async throws -> UpdateSubscriptionDefinitionOutput
-    {
+    public func updateSubscriptionDefinition(input: UpdateSubscriptionDefinitionInput) async throws -> UpdateSubscriptionDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4111,8 +4020,7 @@ extension GreengrassClient: GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    public func updateThingRuntimeConfiguration(input: UpdateThingRuntimeConfigurationInput) async throws -> UpdateThingRuntimeConfigurationOutput
-    {
+    public func updateThingRuntimeConfiguration(input: UpdateThingRuntimeConfigurationInput) async throws -> UpdateThingRuntimeConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

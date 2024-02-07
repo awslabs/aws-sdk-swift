@@ -3845,6 +3845,8 @@ extension ServiceQuotaTemplateNotInUseExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ServiceQuotasClientTypes {}
+
 extension ServiceQuotasClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"

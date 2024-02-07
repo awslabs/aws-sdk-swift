@@ -66,7 +66,7 @@ public struct CodeBuildClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension CodeBuildClient: CodeBuildClientProtocol {
+extension CodeBuildClient {
     /// Performs the `BatchDeleteBuilds` operation on the `CodeBuild_20161006` service.
     ///
     /// Deletes one or more builds.
@@ -79,8 +79,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchDeleteBuilds(input: BatchDeleteBuildsInput) async throws -> BatchDeleteBuildsOutput
-    {
+    public func batchDeleteBuilds(input: BatchDeleteBuildsInput) async throws -> BatchDeleteBuildsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetBuildBatches(input: BatchGetBuildBatchesInput) async throws -> BatchGetBuildBatchesOutput
-    {
+    public func batchGetBuildBatches(input: BatchGetBuildBatchesInput) async throws -> BatchGetBuildBatchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -173,8 +171,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetBuilds(input: BatchGetBuildsInput) async throws -> BatchGetBuildsOutput
-    {
+    public func batchGetBuilds(input: BatchGetBuildsInput) async throws -> BatchGetBuildsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +217,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetProjects(input: BatchGetProjectsInput) async throws -> BatchGetProjectsOutput
-    {
+    public func batchGetProjects(input: BatchGetProjectsInput) async throws -> BatchGetProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -267,8 +263,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetReportGroups(input: BatchGetReportGroupsInput) async throws -> BatchGetReportGroupsOutput
-    {
+    public func batchGetReportGroups(input: BatchGetReportGroupsInput) async throws -> BatchGetReportGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -314,8 +309,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func batchGetReports(input: BatchGetReportsInput) async throws -> BatchGetReportsOutput
-    {
+    public func batchGetReports(input: BatchGetReportsInput) async throws -> BatchGetReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -363,8 +357,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -412,8 +405,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-    public func createReportGroup(input: CreateReportGroupInput) async throws -> CreateReportGroupOutput
-    {
+    public func createReportGroup(input: CreateReportGroupInput) async throws -> CreateReportGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -462,8 +454,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput
-    {
+    public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,8 +500,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteBuildBatch(input: DeleteBuildBatchInput) async throws -> DeleteBuildBatchOutput
-    {
+    public func deleteBuildBatch(input: DeleteBuildBatchInput) async throws -> DeleteBuildBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -556,8 +546,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -603,8 +592,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteReport(input: DeleteReportInput) async throws -> DeleteReportOutput
-    {
+    public func deleteReport(input: DeleteReportInput) async throws -> DeleteReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -650,8 +638,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteReportGroup(input: DeleteReportGroupInput) async throws -> DeleteReportGroupOutput
-    {
+    public func deleteReportGroup(input: DeleteReportGroupInput) async throws -> DeleteReportGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +684,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -745,8 +731,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func deleteSourceCredentials(input: DeleteSourceCredentialsInput) async throws -> DeleteSourceCredentialsOutput
-    {
+    public func deleteSourceCredentials(input: DeleteSourceCredentialsInput) async throws -> DeleteSourceCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -794,8 +779,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
-    {
+    public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -841,8 +825,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func describeCodeCoverages(input: DescribeCodeCoveragesInput) async throws -> DescribeCodeCoveragesOutput
-    {
+    public func describeCodeCoverages(input: DescribeCodeCoveragesInput) async throws -> DescribeCodeCoveragesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -889,8 +872,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func describeTestCases(input: DescribeTestCasesInput) async throws -> DescribeTestCasesOutput
-    {
+    public func describeTestCases(input: DescribeTestCasesInput) async throws -> DescribeTestCasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -937,8 +919,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func getReportGroupTrend(input: GetReportGroupTrendInput) async throws -> GetReportGroupTrendOutput
-    {
+    public func getReportGroupTrend(input: GetReportGroupTrendInput) async throws -> GetReportGroupTrendOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -985,8 +966,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    {
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1034,8 +1014,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-    public func importSourceCredentials(input: ImportSourceCredentialsInput) async throws -> ImportSourceCredentialsOutput
-    {
+    public func importSourceCredentials(input: ImportSourceCredentialsInput) async throws -> ImportSourceCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1061,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func invalidateProjectCache(input: InvalidateProjectCacheInput) async throws -> InvalidateProjectCacheOutput
-    {
+    public func invalidateProjectCache(input: InvalidateProjectCacheInput) async throws -> InvalidateProjectCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1129,8 +1107,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listBuildBatches(input: ListBuildBatchesInput) async throws -> ListBuildBatchesOutput
-    {
+    public func listBuildBatches(input: ListBuildBatchesInput) async throws -> ListBuildBatchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1177,8 +1154,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput) async throws -> ListBuildBatchesForProjectOutput
-    {
+    public func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput) async throws -> ListBuildBatchesForProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1224,8 +1200,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput
-    {
+    public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1272,8 +1247,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func listBuildsForProject(input: ListBuildsForProjectInput) async throws -> ListBuildsForProjectOutput
-    {
+    public func listBuildsForProject(input: ListBuildsForProjectInput) async throws -> ListBuildsForProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1314,8 +1288,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - Parameter ListCuratedEnvironmentImagesInput : [no documentation found]
     ///
     /// - Returns: `ListCuratedEnvironmentImagesOutput` : [no documentation found]
-    public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput
-    {
+    public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1361,8 +1334,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1380,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listReportGroups(input: ListReportGroupsInput) async throws -> ListReportGroupsOutput
-    {
+    public func listReportGroups(input: ListReportGroupsInput) async throws -> ListReportGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1455,8 +1426,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listReports(input: ListReportsInput) async throws -> ListReportsOutput
-    {
+    public func listReports(input: ListReportsInput) async throws -> ListReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1503,8 +1473,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func listReportsForReportGroup(input: ListReportsForReportGroupInput) async throws -> ListReportsForReportGroupOutput
-    {
+    public func listReportsForReportGroup(input: ListReportsForReportGroupInput) async throws -> ListReportsForReportGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1550,8 +1519,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listSharedProjects(input: ListSharedProjectsInput) async throws -> ListSharedProjectsOutput
-    {
+    public func listSharedProjects(input: ListSharedProjectsInput) async throws -> ListSharedProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1597,8 +1565,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listSharedReportGroups(input: ListSharedReportGroupsInput) async throws -> ListSharedReportGroupsOutput
-    {
+    public func listSharedReportGroups(input: ListSharedReportGroupsInput) async throws -> ListSharedReportGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1644,8 +1611,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
-    public func listSourceCredentials(input: ListSourceCredentialsInput) async throws -> ListSourceCredentialsOutput
-    {
+    public func listSourceCredentials(input: ListSourceCredentialsInput) async throws -> ListSourceCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1692,8 +1658,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1741,8 +1706,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func retryBuild(input: RetryBuildInput) async throws -> RetryBuildOutput
-    {
+    public func retryBuild(input: RetryBuildInput) async throws -> RetryBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1789,8 +1753,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func retryBuildBatch(input: RetryBuildBatchInput) async throws -> RetryBuildBatchOutput
-    {
+    public func retryBuildBatch(input: RetryBuildBatchInput) async throws -> RetryBuildBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1838,8 +1801,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `AccountLimitExceededException` : An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func startBuild(input: StartBuildInput) async throws -> StartBuildOutput
-    {
+    public func startBuild(input: StartBuildInput) async throws -> StartBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1886,8 +1848,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func startBuildBatch(input: StartBuildBatchInput) async throws -> StartBuildBatchOutput
-    {
+    public func startBuildBatch(input: StartBuildBatchInput) async throws -> StartBuildBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1934,8 +1895,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func stopBuild(input: StopBuildInput) async throws -> StopBuildOutput
-    {
+    public func stopBuild(input: StopBuildInput) async throws -> StopBuildOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1982,8 +1942,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func stopBuildBatch(input: StopBuildBatchInput) async throws -> StopBuildBatchOutput
-    {
+    public func stopBuildBatch(input: StopBuildBatchInput) async throws -> StopBuildBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2030,8 +1989,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2091,8 +2049,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateProjectVisibility(input: UpdateProjectVisibilityInput) async throws -> UpdateProjectVisibilityOutput
-    {
+    public func updateProjectVisibility(input: UpdateProjectVisibilityInput) async throws -> UpdateProjectVisibilityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2139,8 +2096,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateReportGroup(input: UpdateReportGroupInput) async throws -> UpdateReportGroupOutput
-    {
+    public func updateReportGroup(input: UpdateReportGroupInput) async throws -> UpdateReportGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2188,8 +2144,7 @@ extension CodeBuildClient: CodeBuildClientProtocol {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
-    public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput
-    {
+    public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct AppStreamClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
     }
 }
 
-extension AppStreamClient: AppStreamClientProtocol {
+extension AppStreamClient {
     /// Performs the `AssociateAppBlockBuilderAppBlock` operation on the `PhotonAdminProxyService` service.
     ///
     /// Associates the specified app block builder with the specified app block.
@@ -83,8 +83,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutput
-    {
+    public func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutput
-    {
+    public func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateApplicationToEntitlement(input: AssociateApplicationToEntitlementInput) async throws -> AssociateApplicationToEntitlementOutput
-    {
+    public func associateApplicationToEntitlement(input: AssociateApplicationToEntitlementInput) async throws -> AssociateApplicationToEntitlementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateFleet(input: AssociateFleetInput) async throws -> AssociateFleetOutput
-    {
+    public func associateFleet(input: AssociateFleetInput) async throws -> AssociateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    public func batchAssociateUserStack(input: BatchAssociateUserStackInput) async throws -> BatchAssociateUserStackOutput
-    {
+    public func batchAssociateUserStack(input: BatchAssociateUserStackInput) async throws -> BatchAssociateUserStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -332,8 +327,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    public func batchDisassociateUserStack(input: BatchDisassociateUserStackInput) async throws -> BatchDisassociateUserStackOutput
-    {
+    public func batchDisassociateUserStack(input: BatchDisassociateUserStackInput) async throws -> BatchDisassociateUserStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -384,8 +378,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func copyImage(input: CopyImageInput) async throws -> CopyImageOutput
-    {
+    public func copyImage(input: CopyImageInput) async throws -> CopyImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -434,8 +427,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
-    public func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutput
-    {
+    public func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -490,8 +482,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutput
-    {
+    public func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +529,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutput
-    {
+    public func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -589,8 +579,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createDirectoryConfig(input: CreateDirectoryConfigInput) async throws -> CreateDirectoryConfigOutput
-    {
+    public func createDirectoryConfig(input: CreateDirectoryConfigInput) async throws -> CreateDirectoryConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +679,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutput
-    {
+    public func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -748,8 +735,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
-    {
+    public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -805,8 +791,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createImageBuilder(input: CreateImageBuilderInput) async throws -> CreateImageBuilderOutput
-    {
+    public func createImageBuilder(input: CreateImageBuilderInput) async throws -> CreateImageBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +838,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createImageBuilderStreamingURL(input: CreateImageBuilderStreamingURLInput) async throws -> CreateImageBuilderStreamingURLOutput
-    {
+    public func createImageBuilderStreamingURL(input: CreateImageBuilderStreamingURLInput) async throws -> CreateImageBuilderStreamingURLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +891,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createStack(input: CreateStackInput) async throws -> CreateStackOutput
-    {
+    public func createStack(input: CreateStackInput) async throws -> CreateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +940,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createStreamingURL(input: CreateStreamingURLInput) async throws -> CreateStreamingURLOutput
-    {
+    public func createStreamingURL(input: CreateStreamingURLInput) async throws -> CreateStreamingURLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1010,8 +992,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createUpdatedImage(input: CreateUpdatedImageInput) async throws -> CreateUpdatedImageOutput
-    {
+    public func createUpdatedImage(input: CreateUpdatedImageInput) async throws -> CreateUpdatedImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1059,8 +1040,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
-    public func createUsageReportSubscription(input: CreateUsageReportSubscriptionInput) async throws -> CreateUsageReportSubscriptionOutput
-    {
+    public func createUsageReportSubscription(input: CreateUsageReportSubscriptionInput) async throws -> CreateUsageReportSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1110,8 +1090,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1159,8 +1138,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutput
-    {
+    public func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1209,8 +1187,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutput
-    {
+    public func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1259,8 +1236,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1307,8 +1283,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteDirectoryConfig(input: DeleteDirectoryConfigInput) async throws -> DeleteDirectoryConfigOutput
-    {
+    public func deleteDirectoryConfig(input: DeleteDirectoryConfigInput) async throws -> DeleteDirectoryConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1357,8 +1332,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutput
-    {
+    public func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1406,8 +1380,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
-    {
+    public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1456,8 +1429,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
-    {
+    public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1505,8 +1477,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteImageBuilder(input: DeleteImageBuilderInput) async throws -> DeleteImageBuilderOutput
-    {
+    public func deleteImageBuilder(input: DeleteImageBuilderInput) async throws -> DeleteImageBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1553,8 +1524,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteImagePermissions(input: DeleteImagePermissionsInput) async throws -> DeleteImagePermissionsOutput
-    {
+    public func deleteImagePermissions(input: DeleteImagePermissionsInput) async throws -> DeleteImagePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1603,8 +1573,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
-    {
+    public func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1651,8 +1620,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutput
-    {
+    public func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1698,8 +1666,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1746,8 +1713,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    public func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutput
-    {
+    public func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1794,8 +1760,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutput
-    {
+    public func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1842,8 +1807,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutput
-    {
+    public func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1890,8 +1854,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    public func describeApplicationFleetAssociations(input: DescribeApplicationFleetAssociationsInput) async throws -> DescribeApplicationFleetAssociationsOutput
-    {
+    public func describeApplicationFleetAssociations(input: DescribeApplicationFleetAssociationsInput) async throws -> DescribeApplicationFleetAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1938,8 +1901,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
-    {
+    public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1985,8 +1947,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput) async throws -> DescribeDirectoryConfigsOutput
-    {
+    public func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput) async throws -> DescribeDirectoryConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2034,8 +1995,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeEntitlements(input: DescribeEntitlementsInput) async throws -> DescribeEntitlementsOutput
-    {
+    public func describeEntitlements(input: DescribeEntitlementsInput) async throws -> DescribeEntitlementsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2081,8 +2041,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput
-    {
+    public func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2128,8 +2087,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeImageBuilders(input: DescribeImageBuildersInput) async throws -> DescribeImageBuildersOutput
-    {
+    public func describeImageBuilders(input: DescribeImageBuildersInput) async throws -> DescribeImageBuildersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2175,8 +2133,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeImagePermissions(input: DescribeImagePermissionsInput) async throws -> DescribeImagePermissionsOutput
-    {
+    public func describeImagePermissions(input: DescribeImagePermissionsInput) async throws -> DescribeImagePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2223,8 +2180,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
-    {
+    public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2270,8 +2226,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
-    public func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput
-    {
+    public func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2317,8 +2272,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
-    {
+    public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2365,8 +2319,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeUsageReportSubscriptions(input: DescribeUsageReportSubscriptionsInput) async throws -> DescribeUsageReportSubscriptionsOutput
-    {
+    public func describeUsageReportSubscriptions(input: DescribeUsageReportSubscriptionsInput) async throws -> DescribeUsageReportSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2417,8 +2370,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    public func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutput
-    {
+    public func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2466,8 +2418,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
-    {
+    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2513,8 +2464,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disableUser(input: DisableUserInput) async throws -> DisableUserOutput
-    {
+    public func disableUser(input: DisableUserInput) async throws -> DisableUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2563,8 +2513,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutput
-    {
+    public func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2612,8 +2561,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    public func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutput
-    {
+    public func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2661,8 +2609,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateApplicationFromEntitlement(input: DisassociateApplicationFromEntitlementInput) async throws -> DisassociateApplicationFromEntitlementOutput
-    {
+    public func disassociateApplicationFromEntitlement(input: DisassociateApplicationFromEntitlementInput) async throws -> DisassociateApplicationFromEntitlementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2711,8 +2658,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateFleet(input: DisassociateFleetInput) async throws -> DisassociateFleetOutput
-    {
+    public func disassociateFleet(input: DisassociateFleetInput) async throws -> DisassociateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2759,8 +2705,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func enableUser(input: EnableUserInput) async throws -> EnableUserOutput
-    {
+    public func enableUser(input: EnableUserInput) async throws -> EnableUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2801,8 +2746,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - Parameter ExpireSessionInput : [no documentation found]
     ///
     /// - Returns: `ExpireSessionOutput` : [no documentation found]
-    public func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput
-    {
+    public func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2843,8 +2787,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - Parameter ListAssociatedFleetsInput : [no documentation found]
     ///
     /// - Returns: `ListAssociatedFleetsOutput` : [no documentation found]
-    public func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput
-    {
+    public func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2885,8 +2828,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - Parameter ListAssociatedStacksInput : [no documentation found]
     ///
     /// - Returns: `ListAssociatedStacksOutput` : [no documentation found]
-    public func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput
-    {
+    public func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2934,8 +2876,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutput
-    {
+    public func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2981,8 +2922,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3034,8 +2974,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput
-    {
+    public func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3088,8 +3027,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startFleet(input: StartFleetInput) async throws -> StartFleetOutput
-    {
+    public func startFleet(input: StartFleetInput) async throws -> StartFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3139,8 +3077,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutput
-    {
+    public func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3188,8 +3125,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutput
-    {
+    public func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3236,8 +3172,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func stopFleet(input: StopFleetInput) async throws -> StopFleetOutput
-    {
+    public func stopFleet(input: StopFleetInput) async throws -> StopFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3285,8 +3220,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func stopImageBuilder(input: StopImageBuilderInput) async throws -> StopImageBuilderOutput
-    {
+    public func stopImageBuilder(input: StopImageBuilderInput) async throws -> StopImageBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3334,8 +3268,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3381,8 +3314,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3437,8 +3369,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutput
-    {
+    public func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3486,8 +3417,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3537,8 +3467,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateDirectoryConfig(input: UpdateDirectoryConfigInput) async throws -> UpdateDirectoryConfigOutput
-    {
+    public func updateDirectoryConfig(input: UpdateDirectoryConfigInput) async throws -> UpdateDirectoryConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3587,8 +3516,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateEntitlement(input: UpdateEntitlementInput) async throws -> UpdateEntitlementOutput
-    {
+    public func updateEntitlement(input: UpdateEntitlementInput) async throws -> UpdateEntitlementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3651,8 +3579,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput
-    {
+    public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3700,8 +3627,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateImagePermissions(input: UpdateImagePermissionsInput) async throws -> UpdateImagePermissionsOutput
-    {
+    public func updateImagePermissions(input: UpdateImagePermissionsInput) async throws -> UpdateImagePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3755,8 +3681,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput
-    {
+    public func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

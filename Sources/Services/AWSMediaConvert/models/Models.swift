@@ -24409,6 +24409,8 @@ extension MediaConvertClientTypes {
 
 }
 
+public enum MediaConvertClientTypes {}
+
 extension MediaConvertClientTypes.MinBottomRenditionSize: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case height = "height"

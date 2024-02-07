@@ -62,7 +62,7 @@ public struct NeptuneClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension NeptuneClient: NeptuneClientProtocol {
+extension NeptuneClient {
     /// Performs the `AddRoleToDBCluster` operation on the `AmazonRDSv19` service.
     ///
     /// Associates an Identity and Access Management (IAM) role with an Neptune DB cluster.
@@ -78,8 +78,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterRoleAlreadyExistsFault` : The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
     /// - `DBClusterRoleQuotaExceededFault` : You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
-    public func addRoleToDBCluster(input: AddRoleToDBClusterInput) async throws -> AddRoleToDBClusterOutput
-    {
+    public func addRoleToDBCluster(input: AddRoleToDBClusterInput) async throws -> AddRoleToDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -125,8 +124,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `SourceNotFoundFault` : The source could not be found.
     /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
-    public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutput
-    {
+    public func addSourceIdentifierToSubscription(input: AddSourceIdentifierToSubscriptionInput) async throws -> AddSourceIdentifierToSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -173,8 +171,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -219,8 +216,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput
-    {
+    public func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -267,8 +263,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
-    public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutput
-    {
+    public func copyDBClusterParameterGroup(input: CopyDBClusterParameterGroupInput) async throws -> CopyDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
     /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
-    public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutput
-    {
+    public func copyDBClusterSnapshot(input: CopyDBClusterSnapshotInput) async throws -> CopyDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +360,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
-    public func copyDBParameterGroup(input: CopyDBParameterGroupInput) async throws -> CopyDBParameterGroupOutput
-    {
+    public func copyDBParameterGroup(input: CopyDBParameterGroupInput) async throws -> CopyDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
-    public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput
-    {
+    public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -490,8 +482,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func createDBClusterEndpoint(input: CreateDBClusterEndpointInput) async throws -> CreateDBClusterEndpointOutput
-    {
+    public func createDBClusterEndpoint(input: CreateDBClusterEndpointInput) async throws -> CreateDBClusterEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +528,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
-    public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutput
-    {
+    public func createDBClusterParameterGroup(input: CreateDBClusterParameterGroupInput) async throws -> CreateDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +577,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
-    public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutput
-    {
+    public func createDBClusterSnapshot(input: CreateDBClusterSnapshotInput) async throws -> CreateDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -650,8 +639,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
-    public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput
-    {
+    public func createDBInstance(input: CreateDBInstanceInput) async throws -> CreateDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +685,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupAlreadyExistsFault` : A DB parameter group with the same name exists.
     /// - `DBParameterGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB parameter groups.
-    public func createDBParameterGroup(input: CreateDBParameterGroupInput) async throws -> CreateDBParameterGroupOutput
-    {
+    public func createDBParameterGroup(input: CreateDBParameterGroupInput) async throws -> CreateDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -747,8 +734,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBSubnetGroupQuotaExceededFault` : Request would result in user exceeding the allowed number of DB subnet groups.
     /// - `DBSubnetQuotaExceededFault` : Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-    public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutput
-    {
+    public func createDBSubnetGroup(input: CreateDBSubnetGroupInput) async throws -> CreateDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -799,8 +785,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `SourceNotFoundFault` : The source could not be found.
     /// - `SubscriptionAlreadyExistFault` : This subscription already exists.
     /// - `SubscriptionCategoryNotFoundFault` : The designated subscription category could not be found.
-    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
-    {
+    public func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -848,8 +833,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
     /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
-    public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput
-    {
+    public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,8 +882,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
-    public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput
-    {
+    public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -957,8 +940,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterEndpointNotFoundFault` : The specified custom endpoint doesn't exist.
     /// - `InvalidDBClusterEndpointStateFault` : The requested operation cannot be performed on the endpoint while the endpoint is in this state.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
-    public func deleteDBClusterEndpoint(input: DeleteDBClusterEndpointInput) async throws -> DeleteDBClusterEndpointOutput
-    {
+    public func deleteDBClusterEndpoint(input: DeleteDBClusterEndpointInput) async throws -> DeleteDBClusterEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1004,8 +986,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-    public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutput
-    {
+    public func deleteDBClusterParameterGroup(input: DeleteDBClusterParameterGroupInput) async throws -> DeleteDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1051,8 +1032,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
-    public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutput
-    {
+    public func deleteDBClusterSnapshot(input: DeleteDBClusterSnapshotInput) async throws -> DeleteDBClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1081,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
     /// - `SnapshotQuotaExceededFault` : Request would result in user exceeding the allowed number of DB snapshots.
-    public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput
-    {
+    public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1127,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-    public func deleteDBParameterGroup(input: DeleteDBParameterGroupInput) async throws -> DeleteDBParameterGroupOutput
-    {
+    public func deleteDBParameterGroup(input: DeleteDBParameterGroupInput) async throws -> DeleteDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1174,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
     /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it is in use.
     /// - `InvalidDBSubnetStateFault` : The DB subnet is not in the available state.
-    public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutput
-    {
+    public func deleteDBSubnetGroup(input: DeleteDBSubnetGroupInput) async throws -> DeleteDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1243,8 +1220,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidEventSubscriptionStateFault` : The event subscription is in an invalid state.
     /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
-    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
-    {
+    public func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1290,8 +1266,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput
-    {
+    public func deleteGlobalCluster(input: DeleteGlobalClusterInput) async throws -> DeleteGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1311,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
-    public func describeDBClusterEndpoints(input: DescribeDBClusterEndpointsInput) async throws -> DescribeDBClusterEndpointsOutput
-    {
+    public func describeDBClusterEndpoints(input: DescribeDBClusterEndpointsInput) async throws -> DescribeDBClusterEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1382,8 +1356,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
-    public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutput
-    {
+    public func describeDBClusterParameterGroups(input: DescribeDBClusterParameterGroupsInput) async throws -> DescribeDBClusterParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1428,8 +1401,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
-    public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutput
-    {
+    public func describeDBClusterParameters(input: DescribeDBClusterParametersInput) async throws -> DescribeDBClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1474,8 +1446,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
-    public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutput
-    {
+    public func describeDBClusterSnapshotAttributes(input: DescribeDBClusterSnapshotAttributesInput) async throws -> DescribeDBClusterSnapshotAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1520,8 +1491,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
-    public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutput
-    {
+    public func describeDBClusterSnapshots(input: DescribeDBClusterSnapshotsInput) async throws -> DescribeDBClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1566,8 +1536,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
-    public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutput
-    {
+    public func describeDBClusters(input: DescribeDBClustersInput) async throws -> DescribeDBClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1607,8 +1576,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - Parameter DescribeDBEngineVersionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeDBEngineVersionsOutput` : [no documentation found]
-    public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput
-    {
+    public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1653,8 +1621,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
-    public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutput
-    {
+    public func describeDBInstances(input: DescribeDBInstancesInput) async throws -> DescribeDBInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1699,8 +1666,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
-    public func describeDBParameterGroups(input: DescribeDBParameterGroupsInput) async throws -> DescribeDBParameterGroupsOutput
-    {
+    public func describeDBParameterGroups(input: DescribeDBParameterGroupsInput) async throws -> DescribeDBParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1745,8 +1711,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
-    public func describeDBParameters(input: DescribeDBParametersInput) async throws -> DescribeDBParametersOutput
-    {
+    public func describeDBParameters(input: DescribeDBParametersInput) async throws -> DescribeDBParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1791,8 +1756,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName does not refer to an existing DB subnet group.
-    public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutput
-    {
+    public func describeDBSubnetGroups(input: DescribeDBSubnetGroupsInput) async throws -> DescribeDBSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1832,8 +1796,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - Parameter DescribeEngineDefaultClusterParametersInput : [no documentation found]
     ///
     /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
-    public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput
-    {
+    public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1873,8 +1836,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - Parameter DescribeEngineDefaultParametersInput : [no documentation found]
     ///
     /// - Returns: `DescribeEngineDefaultParametersOutput` : [no documentation found]
-    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput
-    {
+    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1914,8 +1876,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - Parameter DescribeEventCategoriesInput : [no documentation found]
     ///
     /// - Returns: `DescribeEventCategoriesOutput` : [no documentation found]
-    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
-    {
+    public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1960,8 +1921,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
-    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
-    {
+    public func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2001,8 +1961,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - Parameter DescribeEventsInput : [no documentation found]
     ///
     /// - Returns: `DescribeEventsOutput` : [no documentation found]
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2047,8 +2006,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
-    public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput
-    {
+    public func describeGlobalClusters(input: DescribeGlobalClustersInput) async throws -> DescribeGlobalClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2088,8 +2046,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - Parameter DescribeOrderableDBInstanceOptionsInput : [no documentation found]
     ///
     /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : [no documentation found]
-    public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput
-    {
+    public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2134,8 +2091,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The specified resource ID was not found.
-    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput
-    {
+    public func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2181,8 +2137,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutput
-    {
+    public func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2229,8 +2184,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutput
-    {
+    public func failoverDBCluster(input: FailoverDBClusterInput) async throws -> FailoverDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2278,8 +2232,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func failoverGlobalCluster(input: FailoverGlobalClusterInput) async throws -> FailoverGlobalClusterOutput
-    {
+    public func failoverGlobalCluster(input: FailoverGlobalClusterInput) async throws -> FailoverGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2326,8 +2279,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2383,8 +2335,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
-    public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput
-    {
+    public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2444,8 +2395,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `InvalidDBClusterEndpointStateFault` : The requested operation cannot be performed on the endpoint while the endpoint is in this state.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func modifyDBClusterEndpoint(input: ModifyDBClusterEndpointInput) async throws -> ModifyDBClusterEndpointOutput
-    {
+    public func modifyDBClusterEndpoint(input: ModifyDBClusterEndpointInput) async throws -> ModifyDBClusterEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2491,8 +2441,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-    public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutput
-    {
+    public func modifyDBClusterParameterGroup(input: ModifyDBClusterParameterGroupInput) async throws -> ModifyDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2539,8 +2488,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value is not a valid DB cluster snapshot state.
     /// - `SharedSnapshotQuotaExceededFault` : You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-    public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutput
-    {
+    public func modifyDBClusterSnapshotAttribute(input: ModifyDBClusterSnapshotAttributeInput) async throws -> ModifyDBClusterSnapshotAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2600,8 +2548,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `ProvisionedIopsNotAvailableInAZFault` : Provisioned IOPS not available in the specified Availability Zone.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
-    public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput
-    {
+    public func modifyDBInstance(input: ModifyDBInstanceInput) async throws -> ModifyDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2647,8 +2594,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-    public func modifyDBParameterGroup(input: ModifyDBParameterGroupInput) async throws -> ModifyDBParameterGroupOutput
-    {
+    public func modifyDBParameterGroup(input: ModifyDBParameterGroupInput) async throws -> ModifyDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2697,8 +2643,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBSubnetQuotaExceededFault` : Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `SubnetAlreadyInUse` : The DB subnet is already in use in the Availability Zone.
-    public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput
-    {
+    public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2748,8 +2693,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `SNSTopicArnNotFoundFault` : The ARN of the SNS topic could not be found.
     /// - `SubscriptionCategoryNotFoundFault` : The designated subscription category could not be found.
     /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
-    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
-    {
+    public func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2795,8 +2739,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutput
-    {
+    public func modifyGlobalCluster(input: ModifyGlobalClusterInput) async throws -> ModifyGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2842,8 +2785,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
-    public func promoteReadReplicaDBCluster(input: PromoteReadReplicaDBClusterInput) async throws -> PromoteReadReplicaDBClusterOutput
-    {
+    public func promoteReadReplicaDBCluster(input: PromoteReadReplicaDBClusterInput) async throws -> PromoteReadReplicaDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2889,8 +2831,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput
-    {
+    public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2937,8 +2878,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
-    public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput
-    {
+    public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2985,8 +2925,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `DBClusterRoleNotFoundFault` : The specified IAM role Amazon Resource Name (ARN) is not associated with the specified DB cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
-    public func removeRoleFromDBCluster(input: RemoveRoleFromDBClusterInput) async throws -> RemoveRoleFromDBClusterOutput
-    {
+    public func removeRoleFromDBCluster(input: RemoveRoleFromDBClusterInput) async throws -> RemoveRoleFromDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3032,8 +2971,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `SourceNotFoundFault` : The source could not be found.
     /// - `SubscriptionNotFoundFault` : The designated subscription could not be found.
-    public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutput
-    {
+    public func removeSourceIdentifierFromSubscription(input: RemoveSourceIdentifierFromSubscriptionInput) async throws -> RemoveSourceIdentifierFromSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3080,8 +3018,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier does not refer to an existing DB instance.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier does not refer to an existing DB snapshot.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3127,8 +3064,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-    public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutput
-    {
+    public func resetDBClusterParameterGroup(input: ResetDBClusterParameterGroupInput) async throws -> ResetDBClusterParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3174,8 +3110,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// __Possible Exceptions:__
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName does not refer to an existing DB parameter group.
     /// - `InvalidDBParameterGroupStateFault` : The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-    public func resetDBParameterGroup(input: ResetDBParameterGroupInput) async throws -> ResetDBParameterGroupOutput
-    {
+    public func resetDBParameterGroup(input: ResetDBParameterGroupInput) async throws -> ResetDBParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3235,8 +3170,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
     /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
-    public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput
-    {
+    public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3297,8 +3231,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
     /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
-    public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput
-    {
+    public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3345,8 +3278,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput
-    {
+    public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3393,8 +3325,7 @@ extension NeptuneClient: NeptuneClientProtocol {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier does not refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The DB cluster is not in a valid state.
     /// - `InvalidDBInstanceStateFault` : The specified DB instance is not in the available state.
-    public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput
-    {
+    public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

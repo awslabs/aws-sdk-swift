@@ -66,7 +66,7 @@ public struct BackupStorageClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension BackupStorageClient: BackupStorageClientProtocol {
+extension BackupStorageClient {
     /// Performs the `DeleteObject` operation on the `CryoStorageFrontendService` service.
     ///
     /// Delete Object from the incremental base Backup.
@@ -85,8 +85,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
-    {
+    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func getChunk(input: GetChunkInput) async throws -> GetChunkOutput
-    {
+    public func getChunk(input: GetChunkInput) async throws -> GetChunkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func getObjectMetadata(input: GetObjectMetadataInput) async throws -> GetObjectMetadataOutput
-    {
+    public func getObjectMetadata(input: GetObjectMetadataInput) async throws -> GetObjectMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
-    public func listChunks(input: ListChunksInput) async throws -> ListChunksOutput
-    {
+    public func listChunks(input: ListChunksInput) async throws -> ListChunksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput
-    {
+    public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +329,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func notifyObjectComplete(input: NotifyObjectCompleteInput) async throws -> NotifyObjectCompleteOutput
-    {
+    public func notifyObjectComplete(input: NotifyObjectCompleteInput) async throws -> NotifyObjectCompleteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -388,8 +382,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func putChunk(input: PutChunkInput) async throws -> PutChunkOutput
-    {
+    public func putChunk(input: PutChunkInput) async throws -> PutChunkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -442,8 +435,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput
-    {
+    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -496,8 +488,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     /// - `ServiceInternalException` : Deprecated. To be removed from the model.
     /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
-    public func startObject(input: StartObjectInput) async throws -> StartObjectOutput
-    {
+    public func startObject(input: StartObjectInput) async throws -> StartObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

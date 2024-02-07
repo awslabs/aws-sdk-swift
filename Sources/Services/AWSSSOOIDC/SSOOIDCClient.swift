@@ -66,7 +66,7 @@ public struct SSOOIDCClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension SSOOIDCClient: SSOOIDCClientProtocol {
+extension SSOOIDCClient {
     /// Performs the `CreateToken` operation on the `AWSSSOOIDCService` service.
     ///
     /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-term credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
@@ -89,8 +89,7 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
     /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
-    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
-    {
+    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -142,8 +141,7 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
     /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
-    public func createTokenWithIAM(input: CreateTokenWithIAMInput) async throws -> CreateTokenWithIAMOutput
-    {
+    public func createTokenWithIAM(input: CreateTokenWithIAMInput) async throws -> CreateTokenWithIAMOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -192,8 +190,7 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
     /// - `InvalidClientMetadataException` : Indicates that the client information sent in the request during registration is invalid.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
-    public func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput
-    {
+    public func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
-    public func startDeviceAuthorization(input: StartDeviceAuthorizationInput) async throws -> StartDeviceAuthorizationOutput
-    {
+    public func startDeviceAuthorization(input: StartDeviceAuthorizationInput) async throws -> StartDeviceAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

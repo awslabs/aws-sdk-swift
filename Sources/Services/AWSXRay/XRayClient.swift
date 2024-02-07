@@ -66,7 +66,7 @@ public struct XRayClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension XRayClient: XRayClientProtocol {
+extension XRayClient {
     /// Performs the `BatchGetTraces` operation on the `AWSXRay` service.
     ///
     /// Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
@@ -80,8 +80,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func batchGetTraces(input: BatchGetTracesInput) async throws -> BatchGetTracesOutput
-    {
+    public func batchGetTraces(input: BatchGetTracesInput) async throws -> BatchGetTracesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,8 +173,7 @@ extension XRayClient: XRayClientProtocol {
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `RuleLimitExceededException` : You have reached the maximum number of sampling rules.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func createSamplingRule(input: CreateSamplingRuleInput) async throws -> CreateSamplingRuleOutput
-    {
+    public func createSamplingRule(input: CreateSamplingRuleInput) async throws -> CreateSamplingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -222,8 +219,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -270,8 +266,7 @@ extension XRayClient: XRayClientProtocol {
     /// - `InvalidPolicyRevisionIdException` : A policy revision id was provided which does not match the latest policy revision. This exception is also if a policy revision id of 0 is provided via PutResourcePolicy and a policy with the same name already exists.
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -317,8 +312,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func deleteSamplingRule(input: DeleteSamplingRuleInput) async throws -> DeleteSamplingRuleOutput
-    {
+    public func deleteSamplingRule(input: DeleteSamplingRuleInput) async throws -> DeleteSamplingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -364,8 +358,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getEncryptionConfig(input: GetEncryptionConfigInput) async throws -> GetEncryptionConfigOutput
-    {
+    public func getEncryptionConfig(input: GetEncryptionConfigInput) async throws -> GetEncryptionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -408,8 +401,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -455,8 +447,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getGroups(input: GetGroupsInput) async throws -> GetGroupsOutput
-    {
+    public func getGroups(input: GetGroupsInput) async throws -> GetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -502,8 +493,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getInsight(input: GetInsightInput) async throws -> GetInsightOutput
-    {
+    public func getInsight(input: GetInsightInput) async throws -> GetInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -549,8 +539,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getInsightEvents(input: GetInsightEventsInput) async throws -> GetInsightEventsOutput
-    {
+    public func getInsightEvents(input: GetInsightEventsInput) async throws -> GetInsightEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -596,8 +585,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getInsightImpactGraph(input: GetInsightImpactGraphInput) async throws -> GetInsightImpactGraphOutput
-    {
+    public func getInsightImpactGraph(input: GetInsightImpactGraphInput) async throws -> GetInsightImpactGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -643,8 +631,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getInsightSummaries(input: GetInsightSummariesInput) async throws -> GetInsightSummariesOutput
-    {
+    public func getInsightSummaries(input: GetInsightSummariesInput) async throws -> GetInsightSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -690,8 +677,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getSamplingRules(input: GetSamplingRulesInput) async throws -> GetSamplingRulesOutput
-    {
+    public func getSamplingRules(input: GetSamplingRulesInput) async throws -> GetSamplingRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -737,8 +723,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getSamplingStatisticSummaries(input: GetSamplingStatisticSummariesInput) async throws -> GetSamplingStatisticSummariesOutput
-    {
+    public func getSamplingStatisticSummaries(input: GetSamplingStatisticSummariesInput) async throws -> GetSamplingStatisticSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -784,8 +769,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getSamplingTargets(input: GetSamplingTargetsInput) async throws -> GetSamplingTargetsOutput
-    {
+    public func getSamplingTargets(input: GetSamplingTargetsInput) async throws -> GetSamplingTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -831,8 +815,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getServiceGraph(input: GetServiceGraphInput) async throws -> GetServiceGraphOutput
-    {
+    public func getServiceGraph(input: GetServiceGraphInput) async throws -> GetServiceGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -878,8 +861,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getTimeSeriesServiceStatistics(input: GetTimeSeriesServiceStatisticsInput) async throws -> GetTimeSeriesServiceStatisticsOutput
-    {
+    public func getTimeSeriesServiceStatistics(input: GetTimeSeriesServiceStatisticsInput) async throws -> GetTimeSeriesServiceStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -925,8 +907,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getTraceGraph(input: GetTraceGraphInput) async throws -> GetTraceGraphOutput
-    {
+    public func getTraceGraph(input: GetTraceGraphInput) async throws -> GetTraceGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -972,8 +953,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func getTraceSummaries(input: GetTraceSummariesInput) async throws -> GetTraceSummariesOutput
-    {
+    public func getTraceSummaries(input: GetTraceSummariesInput) async throws -> GetTraceSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1019,8 +999,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func listResourcePolicies(input: ListResourcePoliciesInput) async throws -> ListResourcePoliciesOutput
-    {
+    public func listResourcePolicies(input: ListResourcePoliciesInput) async throws -> ListResourcePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1067,8 +1046,7 @@ extension XRayClient: XRayClientProtocol {
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1114,8 +1092,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func putEncryptionConfig(input: PutEncryptionConfigInput) async throws -> PutEncryptionConfigOutput
-    {
+    public func putEncryptionConfig(input: PutEncryptionConfigInput) async throws -> PutEncryptionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1165,8 +1142,7 @@ extension XRayClient: XRayClientProtocol {
     /// - `PolicyCountLimitExceededException` : Exceeded the maximum number of resource policies for a target Amazon Web Services account.
     /// - `PolicySizeLimitExceededException` : Exceeded the maximum size for a resource policy.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1188,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func putTelemetryRecords(input: PutTelemetryRecordsInput) async throws -> PutTelemetryRecordsOutput
-    {
+    public func putTelemetryRecords(input: PutTelemetryRecordsInput) async throws -> PutTelemetryRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1255,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func putTraceSegments(input: PutTraceSegmentsInput) async throws -> PutTraceSegmentsOutput
-    {
+    public func putTraceSegments(input: PutTraceSegmentsInput) async throws -> PutTraceSegmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1329,8 +1303,7 @@ extension XRayClient: XRayClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1350,7 @@ extension XRayClient: XRayClientProtocol {
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1424,8 +1396,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1471,8 +1442,7 @@ extension XRayClient: XRayClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : The request is missing required parameters or has invalid parameters.
     /// - `ThrottledException` : The request exceeds the maximum number of requests per second.
-    public func updateSamplingRule(input: UpdateSamplingRuleInput) async throws -> UpdateSamplingRuleOutput
-    {
+    public func updateSamplingRule(input: UpdateSamplingRuleInput) async throws -> UpdateSamplingRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

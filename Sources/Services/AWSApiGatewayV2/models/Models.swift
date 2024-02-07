@@ -325,6 +325,8 @@ extension ApiGatewayV2ClientTypes {
 
 }
 
+public enum ApiGatewayV2ClientTypes {}
+
 extension ApiGatewayV2ClientTypes.ApiMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiId = "apiId"

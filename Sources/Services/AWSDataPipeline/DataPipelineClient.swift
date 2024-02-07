@@ -66,7 +66,7 @@ public struct DataPipelineClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension DataPipelineClient: DataPipelineClientProtocol {
+extension DataPipelineClient {
     /// Performs the `ActivatePipeline` operation on the `DataPipeline` service.
     ///
     /// Validates the specified pipeline and starts processing pipeline tasks. If the pipeline does not pass validation, activation fails. If you need to pause the pipeline to investigate an issue with a component, such as a data source or script, call [DeactivatePipeline]. To activate a finished pipeline, modify the end date for the pipeline and then activate it. POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ActivatePipeline Content-Length: 39 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE"} HTTP/1.1 200 x-amzn-RequestId: ee19d5bf-074e-11e2-af6f-6bc7a6be60d9 Content-Type: application/x-amz-json-1.1 Content-Length: 2 Date: Mon, 12 Nov 2012 17:50:53 GMT {}
@@ -82,8 +82,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func activatePipeline(input: ActivatePipelineInput) async throws -> ActivatePipelineOutput
-    {
+    public func activatePipeline(input: ActivatePipelineInput) async throws -> ActivatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
-    {
+    public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func deactivatePipeline(input: DeactivatePipelineInput) async throws -> DeactivatePipelineOutput
-    {
+    public func deactivatePipeline(input: DeactivatePipelineInput) async throws -> DeactivatePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
-    {
+    public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -329,8 +324,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func describeObjects(input: DescribeObjectsInput) async throws -> DescribeObjectsOutput
-    {
+    public func describeObjects(input: DescribeObjectsInput) async throws -> DescribeObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func describePipelines(input: DescribePipelinesInput) async throws -> DescribePipelinesOutput
-    {
+    public func describePipelines(input: DescribePipelinesInput) async throws -> DescribePipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     /// - `TaskNotFoundException` : The specified task was not found.
-    public func evaluateExpression(input: EvaluateExpressionInput) async throws -> EvaluateExpressionOutput
-    {
+    public func evaluateExpression(input: EvaluateExpressionInput) async throws -> EvaluateExpressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -480,8 +472,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func getPipelineDefinition(input: GetPipelineDefinitionInput) async throws -> GetPipelineDefinitionOutput
-    {
+    public func getPipelineDefinition(input: GetPipelineDefinitionInput) async throws -> GetPipelineDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
-    {
+    public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -577,8 +567,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `TaskNotFoundException` : The specified task was not found.
-    public func pollForTask(input: PollForTaskInput) async throws -> PollForTaskOutput
-    {
+    public func pollForTask(input: PollForTaskInput) async throws -> PollForTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -638,8 +627,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func putPipelineDefinition(input: PutPipelineDefinitionInput) async throws -> PutPipelineDefinitionOutput
-    {
+    public func putPipelineDefinition(input: PutPipelineDefinitionInput) async throws -> PutPipelineDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -688,8 +676,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func queryObjects(input: QueryObjectsInput) async throws -> QueryObjectsOutput
-    {
+    public func queryObjects(input: QueryObjectsInput) async throws -> QueryObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -738,8 +725,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-    {
+    public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -789,8 +775,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     /// - `TaskNotFoundException` : The specified task was not found.
-    public func reportTaskProgress(input: ReportTaskProgressInput) async throws -> ReportTaskProgressOutput
-    {
+    public func reportTaskProgress(input: ReportTaskProgressInput) async throws -> ReportTaskProgressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -837,8 +822,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-    public func reportTaskRunnerHeartbeat(input: ReportTaskRunnerHeartbeatInput) async throws -> ReportTaskRunnerHeartbeatOutput
-    {
+    public func reportTaskRunnerHeartbeat(input: ReportTaskRunnerHeartbeatInput) async throws -> ReportTaskRunnerHeartbeatOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -887,8 +871,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func setStatus(input: SetStatusInput) async throws -> SetStatusOutput
-    {
+    public func setStatus(input: SetStatusInput) async throws -> SetStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -938,8 +921,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     /// - `TaskNotFoundException` : The specified task was not found.
-    public func setTaskStatus(input: SetTaskStatusInput) async throws -> SetTaskStatusOutput
-    {
+    public func setTaskStatus(input: SetTaskStatusInput) async throws -> SetTaskStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -988,8 +970,7 @@ extension DataPipelineClient: DataPipelineClientProtocol {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-    public func validatePipelineDefinition(input: ValidatePipelineDefinitionInput) async throws -> ValidatePipelineDefinitionOutput
-    {
+    public func validatePipelineDefinition(input: ValidatePipelineDefinitionInput) async throws -> ValidatePipelineDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct FisClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension FisClient: FisClientProtocol {
+extension FisClient {
     /// Performs the `CreateExperimentTemplate` operation on the `FaultInjectionSimulator` service.
     ///
     /// Creates an experiment template. An experiment template includes the following components:
@@ -91,8 +91,7 @@ extension FisClient: FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func createExperimentTemplate(input: CreateExperimentTemplateInput) async throws -> CreateExperimentTemplateOutput
-    {
+    public func createExperimentTemplate(input: CreateExperimentTemplateInput) async throws -> CreateExperimentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -141,8 +140,7 @@ extension FisClient: FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func createTargetAccountConfiguration(input: CreateTargetAccountConfigurationInput) async throws -> CreateTargetAccountConfigurationOutput
-    {
+    public func createTargetAccountConfiguration(input: CreateTargetAccountConfigurationInput) async throws -> CreateTargetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +187,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func deleteExperimentTemplate(input: DeleteExperimentTemplateInput) async throws -> DeleteExperimentTemplateOutput
-    {
+    public func deleteExperimentTemplate(input: DeleteExperimentTemplateInput) async throws -> DeleteExperimentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func deleteTargetAccountConfiguration(input: DeleteTargetAccountConfigurationInput) async throws -> DeleteTargetAccountConfigurationOutput
-    {
+    public func deleteTargetAccountConfiguration(input: DeleteTargetAccountConfigurationInput) async throws -> DeleteTargetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func getAction(input: GetActionInput) async throws -> GetActionOutput
-    {
+    public func getAction(input: GetActionInput) async throws -> GetActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -321,8 +316,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutput
-    {
+    public func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -365,8 +359,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func getExperimentTargetAccountConfiguration(input: GetExperimentTargetAccountConfigurationInput) async throws -> GetExperimentTargetAccountConfigurationOutput
-    {
+    public func getExperimentTargetAccountConfiguration(input: GetExperimentTargetAccountConfigurationInput) async throws -> GetExperimentTargetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -409,8 +402,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func getExperimentTemplate(input: GetExperimentTemplateInput) async throws -> GetExperimentTemplateOutput
-    {
+    public func getExperimentTemplate(input: GetExperimentTemplateInput) async throws -> GetExperimentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -453,8 +445,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func getTargetAccountConfiguration(input: GetTargetAccountConfigurationInput) async throws -> GetTargetAccountConfigurationOutput
-    {
+    public func getTargetAccountConfiguration(input: GetTargetAccountConfigurationInput) async throws -> GetTargetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -497,8 +488,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func getTargetResourceType(input: GetTargetResourceTypeInput) async throws -> GetTargetResourceTypeOutput
-    {
+    public func getTargetResourceType(input: GetTargetResourceTypeInput) async throws -> GetTargetResourceTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +530,7 @@ extension FisClient: FisClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listActions(input: ListActionsInput) async throws -> ListActionsOutput
-    {
+    public func listActions(input: ListActionsInput) async throws -> ListActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -585,8 +574,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listExperimentResolvedTargets(input: ListExperimentResolvedTargetsInput) async throws -> ListExperimentResolvedTargetsOutput
-    {
+    public func listExperimentResolvedTargets(input: ListExperimentResolvedTargetsInput) async throws -> ListExperimentResolvedTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +618,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listExperimentTargetAccountConfigurations(input: ListExperimentTargetAccountConfigurationsInput) async throws -> ListExperimentTargetAccountConfigurationsOutput
-    {
+    public func listExperimentTargetAccountConfigurations(input: ListExperimentTargetAccountConfigurationsInput) async throws -> ListExperimentTargetAccountConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +661,7 @@ extension FisClient: FisClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listExperimentTemplates(input: ListExperimentTemplatesInput) async throws -> ListExperimentTemplatesOutput
-    {
+    public func listExperimentTemplates(input: ListExperimentTemplatesInput) async throws -> ListExperimentTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -718,8 +704,7 @@ extension FisClient: FisClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput
-    {
+    public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -757,8 +742,7 @@ extension FisClient: FisClientProtocol {
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -801,8 +785,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listTargetAccountConfigurations(input: ListTargetAccountConfigurationsInput) async throws -> ListTargetAccountConfigurationsOutput
-    {
+    public func listTargetAccountConfigurations(input: ListTargetAccountConfigurationsInput) async throws -> ListTargetAccountConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -845,8 +828,7 @@ extension FisClient: FisClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func listTargetResourceTypes(input: ListTargetResourceTypesInput) async throws -> ListTargetResourceTypesOutput
-    {
+    public func listTargetResourceTypes(input: ListTargetResourceTypesInput) async throws -> ListTargetResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +874,7 @@ extension FisClient: FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutput
-    {
+    public func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -940,8 +921,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutput
-    {
+    public func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -978,8 +958,7 @@ extension FisClient: FisClientProtocol {
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1019,8 +998,7 @@ extension FisClient: FisClientProtocol {
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1065,8 +1043,7 @@ extension FisClient: FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func updateExperimentTemplate(input: UpdateExperimentTemplateInput) async throws -> UpdateExperimentTemplateOutput
-    {
+    public func updateExperimentTemplate(input: UpdateExperimentTemplateInput) async throws -> UpdateExperimentTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1112,8 +1089,7 @@ extension FisClient: FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
-    public func updateTargetAccountConfiguration(input: UpdateTargetAccountConfigurationInput) async throws -> UpdateTargetAccountConfigurationOutput
-    {
+    public func updateTargetAccountConfiguration(input: UpdateTargetAccountConfigurationInput) async throws -> UpdateTargetAccountConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

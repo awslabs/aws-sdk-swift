@@ -66,7 +66,7 @@ public struct OrganizationsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension OrganizationsClient: OrganizationsClientProtocol {
+extension OrganizationsClient {
     /// Performs the `AcceptHandshake` operation on the `AWSOrganizationsV20161128` service.
     ///
     /// Sends a response to the originator of a handshake agreeing to the action proposed by the handshake request. You can only call this operation by the following principals when they also have the relevant IAM permissions:
@@ -162,8 +162,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func acceptHandshake(input: AcceptHandshakeInput) async throws -> AcceptHandshakeOutput
-    {
+    public func acceptHandshake(input: AcceptHandshakeInput) async throws -> AcceptHandshakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -348,8 +347,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput
-    {
+    public func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -450,8 +448,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func cancelHandshake(input: CancelHandshakeInput) async throws -> CancelHandshakeOutput
-    {
+    public func cancelHandshake(input: CancelHandshakeInput) async throws -> CancelHandshakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -636,8 +633,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func closeAccount(input: CloseAccountInput) async throws -> CloseAccountOutput
-    {
+    public func closeAccount(input: CloseAccountInput) async throws -> CloseAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -825,8 +821,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func createAccount(input: CreateAccountInput) async throws -> CreateAccountOutput
-    {
+    public func createAccount(input: CreateAccountInput) async throws -> CreateAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1032,8 +1027,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func createGovCloudAccount(input: CreateGovCloudAccountInput) async throws -> CreateGovCloudAccountOutput
-    {
+    public func createGovCloudAccount(input: CreateGovCloudAccountInput) async throws -> CreateGovCloudAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1196,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput
-    {
+    public func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1373,8 +1366,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func createOrganizationalUnit(input: CreateOrganizationalUnitInput) async throws -> CreateOrganizationalUnitOutput
-    {
+    public func createOrganizationalUnit(input: CreateOrganizationalUnitInput) async throws -> CreateOrganizationalUnitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1546,8 +1538,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
-    {
+    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1648,8 +1639,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func declineHandshake(input: DeclineHandshakeInput) async throws -> DeclineHandshakeOutput
-    {
+    public func declineHandshake(input: DeclineHandshakeInput) async throws -> DeclineHandshakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1749,8 +1739,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `OrganizationNotEmptyException` : The organization isn't empty. To delete an organization, you must first remove all accounts except the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutput
-    {
+    public func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1851,8 +1840,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func deleteOrganizationalUnit(input: DeleteOrganizationalUnitInput) async throws -> DeleteOrganizationalUnitOutput
-    {
+    public func deleteOrganizationalUnit(input: DeleteOrganizationalUnitInput) async throws -> DeleteOrganizationalUnitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1954,8 +1942,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2076,8 +2063,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2248,8 +2234,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func deregisterDelegatedAdministrator(input: DeregisterDelegatedAdministratorInput) async throws -> DeregisterDelegatedAdministratorOutput
-    {
+    public func deregisterDelegatedAdministrator(input: DeregisterDelegatedAdministratorInput) async throws -> DeregisterDelegatedAdministratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2348,8 +2333,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput
-    {
+    public func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2449,8 +2433,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func describeCreateAccountStatus(input: DescribeCreateAccountStatusInput) async throws -> DescribeCreateAccountStatusOutput
-    {
+    public func describeCreateAccountStatus(input: DescribeCreateAccountStatusInput) async throws -> DescribeCreateAccountStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2620,8 +2603,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func describeEffectivePolicy(input: DescribeEffectivePolicyInput) async throws -> DescribeEffectivePolicyOutput
-    {
+    public func describeEffectivePolicy(input: DescribeEffectivePolicyInput) async throws -> DescribeEffectivePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2720,8 +2702,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func describeHandshake(input: DescribeHandshakeInput) async throws -> DescribeHandshakeOutput
-    {
+    public func describeHandshake(input: DescribeHandshakeInput) async throws -> DescribeHandshakeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2771,8 +2752,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutput
-    {
+    public func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2871,8 +2851,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func describeOrganizationalUnit(input: DescribeOrganizationalUnitInput) async throws -> DescribeOrganizationalUnitOutput
-    {
+    public func describeOrganizationalUnit(input: DescribeOrganizationalUnitInput) async throws -> DescribeOrganizationalUnitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2972,8 +2951,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func describePolicy(input: DescribePolicyInput) async throws -> DescribePolicyOutput
-    {
+    public func describePolicy(input: DescribePolicyInput) async throws -> DescribePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3093,8 +3071,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
-    {
+    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3267,8 +3244,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput
-    {
+    public func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3446,8 +3422,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func disableAWSServiceAccess(input: DisableAWSServiceAccessInput) async throws -> DisableAWSServiceAccessOutput
-    {
+    public func disableAWSServiceAccess(input: DisableAWSServiceAccessInput) async throws -> DisableAWSServiceAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3619,8 +3594,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func disablePolicyType(input: DisablePolicyTypeInput) async throws -> DisablePolicyTypeOutput
-    {
+    public func disablePolicyType(input: DisablePolicyTypeInput) async throws -> DisablePolicyTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3789,8 +3763,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func enableAWSServiceAccess(input: EnableAWSServiceAccessInput) async throws -> EnableAWSServiceAccessOutput
-    {
+    public func enableAWSServiceAccess(input: EnableAWSServiceAccessInput) async throws -> EnableAWSServiceAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3908,8 +3881,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func enableAllFeatures(input: EnableAllFeaturesInput) async throws -> EnableAllFeaturesOutput
-    {
+    public func enableAllFeatures(input: EnableAllFeaturesInput) async throws -> EnableAllFeaturesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4082,8 +4054,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func enablePolicyType(input: EnablePolicyTypeInput) async throws -> EnablePolicyTypeOutput
-    {
+    public func enablePolicyType(input: EnablePolicyTypeInput) async throws -> EnablePolicyTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4280,8 +4251,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func inviteAccountToOrganization(input: InviteAccountToOrganizationInput) async throws -> InviteAccountToOrganizationOutput
-    {
+    public func inviteAccountToOrganization(input: InviteAccountToOrganizationInput) async throws -> InviteAccountToOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4474,8 +4444,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func leaveOrganization(input: LeaveOrganizationInput) async throws -> LeaveOrganizationOutput
-    {
+    public func leaveOrganization(input: LeaveOrganizationInput) async throws -> LeaveOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4643,8 +4612,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listAWSServiceAccessForOrganization(input: ListAWSServiceAccessForOrganizationInput) async throws -> ListAWSServiceAccessForOrganizationOutput
-    {
+    public func listAWSServiceAccessForOrganization(input: ListAWSServiceAccessForOrganizationInput) async throws -> ListAWSServiceAccessForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4742,8 +4710,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput
-    {
+    public func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4842,8 +4809,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listAccountsForParent(input: ListAccountsForParentInput) async throws -> ListAccountsForParentOutput
-    {
+    public func listAccountsForParent(input: ListAccountsForParentInput) async throws -> ListAccountsForParentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4942,8 +4908,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listChildren(input: ListChildrenInput) async throws -> ListChildrenOutput
-    {
+    public func listChildren(input: ListChildrenInput) async throws -> ListChildrenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5042,8 +5007,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listCreateAccountStatus(input: ListCreateAccountStatusInput) async throws -> ListCreateAccountStatusOutput
-    {
+    public func listCreateAccountStatus(input: ListCreateAccountStatusInput) async throws -> ListCreateAccountStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5211,8 +5175,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listDelegatedAdministrators(input: ListDelegatedAdministratorsInput) async throws -> ListDelegatedAdministratorsOutput
-    {
+    public func listDelegatedAdministrators(input: ListDelegatedAdministratorsInput) async throws -> ListDelegatedAdministratorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5382,8 +5345,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listDelegatedServicesForAccount(input: ListDelegatedServicesForAccountInput) async throws -> ListDelegatedServicesForAccountOutput
-    {
+    public func listDelegatedServicesForAccount(input: ListDelegatedServicesForAccountInput) async throws -> ListDelegatedServicesForAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5481,8 +5443,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listHandshakesForAccount(input: ListHandshakesForAccountInput) async throws -> ListHandshakesForAccountOutput
-    {
+    public func listHandshakesForAccount(input: ListHandshakesForAccountInput) async throws -> ListHandshakesForAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5581,8 +5542,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listHandshakesForOrganization(input: ListHandshakesForOrganizationInput) async throws -> ListHandshakesForOrganizationOutput
-    {
+    public func listHandshakesForOrganization(input: ListHandshakesForOrganizationInput) async throws -> ListHandshakesForOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5681,8 +5641,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listOrganizationalUnitsForParent(input: ListOrganizationalUnitsForParentInput) async throws -> ListOrganizationalUnitsForParentOutput
-    {
+    public func listOrganizationalUnitsForParent(input: ListOrganizationalUnitsForParentInput) async throws -> ListOrganizationalUnitsForParentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5781,8 +5740,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listParents(input: ListParentsInput) async throws -> ListParentsOutput
-    {
+    public func listParents(input: ListParentsInput) async throws -> ListParentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5881,8 +5839,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
-    {
+    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5982,8 +5939,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listPoliciesForTarget(input: ListPoliciesForTargetInput) async throws -> ListPoliciesForTargetOutput
-    {
+    public func listPoliciesForTarget(input: ListPoliciesForTargetInput) async throws -> ListPoliciesForTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6081,8 +6037,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listRoots(input: ListRootsInput) async throws -> ListRootsOutput
-    {
+    public func listRoots(input: ListRootsInput) async throws -> ListRootsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6192,8 +6147,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6293,8 +6247,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutput
-    {
+    public func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6397,8 +6350,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `SourceParentNotFoundException` : We can't find a source root or OU with the ParentId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func moveAccount(input: MoveAccountInput) async throws -> MoveAccountOutput
-    {
+    public func moveAccount(input: MoveAccountInput) async throws -> MoveAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6567,8 +6519,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6739,8 +6690,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func registerDelegatedAdministrator(input: RegisterDelegatedAdministratorInput) async throws -> RegisterDelegatedAdministratorOutput
-    {
+    public func registerDelegatedAdministrator(input: RegisterDelegatedAdministratorInput) async throws -> RegisterDelegatedAdministratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6916,8 +6866,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func removeAccountFromOrganization(input: RemoveAccountFromOrganizationInput) async throws -> RemoveAccountFromOrganizationOutput
-    {
+    public func removeAccountFromOrganization(input: RemoveAccountFromOrganizationInput) async throws -> RemoveAccountFromOrganizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7097,8 +7046,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7278,8 +7226,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7380,8 +7327,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    public func updateOrganizationalUnit(input: UpdateOrganizationalUnitInput) async throws -> UpdateOrganizationalUnitOutput
-    {
+    public func updateOrganizationalUnit(input: UpdateOrganizationalUnitInput) async throws -> UpdateOrganizationalUnitOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7554,8 +7500,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput
-    {
+    public func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

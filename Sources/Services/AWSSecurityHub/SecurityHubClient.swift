@@ -66,7 +66,7 @@ public struct SecurityHubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension SecurityHubClient: SecurityHubClientProtocol {
+extension SecurityHubClient {
     /// Performs the `AcceptAdministratorInvitation` operation on the `SecurityHubAPIService` service.
     ///
     /// Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
@@ -83,8 +83,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutput
-    {
+    public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
-    {
+    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchDeleteAutomationRules(input: BatchDeleteAutomationRulesInput) async throws -> BatchDeleteAutomationRulesOutput
-    {
+    public func batchDeleteAutomationRules(input: BatchDeleteAutomationRulesInput) async throws -> BatchDeleteAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchDisableStandards(input: BatchDisableStandardsInput) async throws -> BatchDisableStandardsOutput
-    {
+    public func batchDisableStandards(input: BatchDisableStandardsInput) async throws -> BatchDisableStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchEnableStandards(input: BatchEnableStandardsInput) async throws -> BatchEnableStandardsOutput
-    {
+    public func batchEnableStandards(input: BatchEnableStandardsInput) async throws -> BatchEnableStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +330,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchGetAutomationRules(input: BatchGetAutomationRulesInput) async throws -> BatchGetAutomationRulesOutput
-    {
+    public func batchGetAutomationRules(input: BatchGetAutomationRulesInput) async throws -> BatchGetAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -386,8 +380,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchGetConfigurationPolicyAssociations(input: BatchGetConfigurationPolicyAssociationsInput) async throws -> BatchGetConfigurationPolicyAssociationsOutput
-    {
+    public func batchGetConfigurationPolicyAssociations(input: BatchGetConfigurationPolicyAssociationsInput) async throws -> BatchGetConfigurationPolicyAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -435,8 +428,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchGetSecurityControls(input: BatchGetSecurityControlsInput) async throws -> BatchGetSecurityControlsOutput
-    {
+    public func batchGetSecurityControls(input: BatchGetSecurityControlsInput) async throws -> BatchGetSecurityControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +476,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchGetStandardsControlAssociations(input: BatchGetStandardsControlAssociationsInput) async throws -> BatchGetStandardsControlAssociationsOutput
-    {
+    public func batchGetStandardsControlAssociations(input: BatchGetStandardsControlAssociationsInput) async throws -> BatchGetStandardsControlAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -564,8 +555,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchImportFindings(input: BatchImportFindingsInput) async throws -> BatchImportFindingsOutput
-    {
+    public func batchImportFindings(input: BatchImportFindingsInput) async throws -> BatchImportFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -614,8 +604,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchUpdateAutomationRules(input: BatchUpdateAutomationRulesInput) async throws -> BatchUpdateAutomationRulesOutput
-    {
+    public func batchUpdateAutomationRules(input: BatchUpdateAutomationRulesInput) async throws -> BatchUpdateAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -684,8 +673,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchUpdateFindings(input: BatchUpdateFindingsInput) async throws -> BatchUpdateFindingsOutput
-    {
+    public func batchUpdateFindings(input: BatchUpdateFindingsInput) async throws -> BatchUpdateFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +722,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchUpdateStandardsControlAssociations(input: BatchUpdateStandardsControlAssociationsInput) async throws -> BatchUpdateStandardsControlAssociationsOutput
-    {
+    public func batchUpdateStandardsControlAssociations(input: BatchUpdateStandardsControlAssociationsInput) async throws -> BatchUpdateStandardsControlAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -784,8 +771,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createActionTarget(input: CreateActionTargetInput) async throws -> CreateActionTargetOutput
-    {
+    public func createActionTarget(input: CreateActionTargetInput) async throws -> CreateActionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -834,8 +820,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func createAutomationRule(input: CreateAutomationRuleInput) async throws -> CreateAutomationRuleOutput
-    {
+    public func createAutomationRule(input: CreateAutomationRuleInput) async throws -> CreateAutomationRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -885,8 +870,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createConfigurationPolicy(input: CreateConfigurationPolicyInput) async throws -> CreateConfigurationPolicyOutput
-    {
+    public func createConfigurationPolicy(input: CreateConfigurationPolicyInput) async throws -> CreateConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -935,8 +919,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func createFindingAggregator(input: CreateFindingAggregatorInput) async throws -> CreateFindingAggregatorOutput
-    {
+    public func createFindingAggregator(input: CreateFindingAggregatorInput) async throws -> CreateFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -985,8 +968,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createInsight(input: CreateInsightInput) async throws -> CreateInsightOutput
-    {
+    public func createInsight(input: CreateInsightInput) async throws -> CreateInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1050,8 +1032,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput
-    {
+    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1080,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput
-    {
+    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1128,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteActionTarget(input: DeleteActionTargetInput) async throws -> DeleteActionTargetOutput
-    {
+    public func deleteActionTarget(input: DeleteActionTargetInput) async throws -> DeleteActionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1197,8 +1176,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteConfigurationPolicy(input: DeleteConfigurationPolicyInput) async throws -> DeleteConfigurationPolicyOutput
-    {
+    public func deleteConfigurationPolicy(input: DeleteConfigurationPolicyInput) async throws -> DeleteConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1245,8 +1223,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteFindingAggregator(input: DeleteFindingAggregatorInput) async throws -> DeleteFindingAggregatorOutput
-    {
+    public func deleteFindingAggregator(input: DeleteFindingAggregatorInput) async throws -> DeleteFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1292,8 +1269,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput
-    {
+    public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1339,8 +1315,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput
-    {
+    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1389,8 +1364,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput
-    {
+    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1438,8 +1412,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func describeActionTargets(input: DescribeActionTargetsInput) async throws -> DescribeActionTargetsOutput
-    {
+    public func describeActionTargets(input: DescribeActionTargetsInput) async throws -> DescribeActionTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1488,8 +1461,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput
-    {
+    public func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1535,8 +1507,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-    {
+    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1581,8 +1552,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func describeProducts(input: DescribeProductsInput) async throws -> DescribeProductsOutput
-    {
+    public func describeProducts(input: DescribeProductsInput) async throws -> DescribeProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1627,8 +1597,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    public func describeStandards(input: DescribeStandardsInput) async throws -> DescribeStandardsOutput
-    {
+    public func describeStandards(input: DescribeStandardsInput) async throws -> DescribeStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1674,8 +1643,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func describeStandardsControls(input: DescribeStandardsControlsInput) async throws -> DescribeStandardsControlsOutput
-    {
+    public func describeStandardsControls(input: DescribeStandardsControlsInput) async throws -> DescribeStandardsControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1722,8 +1690,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disableImportFindingsForProduct(input: DisableImportFindingsForProductInput) async throws -> DisableImportFindingsForProductOutput
-    {
+    public func disableImportFindingsForProduct(input: DisableImportFindingsForProductInput) async throws -> DisableImportFindingsForProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1769,8 +1736,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
-    {
+    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1819,8 +1785,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disableSecurityHub(input: DisableSecurityHubInput) async throws -> DisableSecurityHubOutput
-    {
+    public func disableSecurityHub(input: DisableSecurityHubInput) async throws -> DisableSecurityHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1866,8 +1831,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput
-    {
+    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1914,8 +1878,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput
-    {
+    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1962,8 +1925,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutput
-    {
+    public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2012,8 +1974,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func enableImportFindingsForProduct(input: EnableImportFindingsForProductInput) async throws -> EnableImportFindingsForProductOutput
-    {
+    public func enableImportFindingsForProduct(input: EnableImportFindingsForProductInput) async throws -> EnableImportFindingsForProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2062,8 +2023,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
-    {
+    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2119,8 +2079,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func enableSecurityHub(input: EnableSecurityHubInput) async throws -> EnableSecurityHubOutput
-    {
+    public func enableSecurityHub(input: EnableSecurityHubInput) async throws -> EnableSecurityHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2169,8 +2128,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput
-    {
+    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2217,8 +2175,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getConfigurationPolicy(input: GetConfigurationPolicyInput) async throws -> GetConfigurationPolicyOutput
-    {
+    public func getConfigurationPolicy(input: GetConfigurationPolicyInput) async throws -> GetConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2265,8 +2222,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getConfigurationPolicyAssociation(input: GetConfigurationPolicyAssociationInput) async throws -> GetConfigurationPolicyAssociationOutput
-    {
+    public func getConfigurationPolicyAssociation(input: GetConfigurationPolicyAssociationInput) async throws -> GetConfigurationPolicyAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2314,8 +2270,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getEnabledStandards(input: GetEnabledStandardsInput) async throws -> GetEnabledStandardsOutput
-    {
+    public func getEnabledStandards(input: GetEnabledStandardsInput) async throws -> GetEnabledStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2365,8 +2320,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getFindingAggregator(input: GetFindingAggregatorInput) async throws -> GetFindingAggregatorOutput
-    {
+    public func getFindingAggregator(input: GetFindingAggregatorInput) async throws -> GetFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2411,8 +2365,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getFindingHistory(input: GetFindingHistoryInput) async throws -> GetFindingHistoryOutput
-    {
+    public func getFindingHistory(input: GetFindingHistoryInput) async throws -> GetFindingHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2460,8 +2413,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
-    {
+    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2510,8 +2462,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getInsightResults(input: GetInsightResultsInput) async throws -> GetInsightResultsOutput
-    {
+    public func getInsightResults(input: GetInsightResultsInput) async throws -> GetInsightResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2557,8 +2508,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput
-    {
+    public func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2606,8 +2556,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput
-    {
+    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2654,8 +2603,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput
-    {
+    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2701,8 +2649,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput
-    {
+    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2751,8 +2698,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getSecurityControlDefinition(input: GetSecurityControlDefinitionInput) async throws -> GetSecurityControlDefinitionOutput
-    {
+    public func getSecurityControlDefinition(input: GetSecurityControlDefinitionInput) async throws -> GetSecurityControlDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2799,8 +2745,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput
-    {
+    public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2849,8 +2794,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listAutomationRules(input: ListAutomationRulesInput) async throws -> ListAutomationRulesOutput
-    {
+    public func listAutomationRules(input: ListAutomationRulesInput) async throws -> ListAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2897,8 +2841,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listConfigurationPolicies(input: ListConfigurationPoliciesInput) async throws -> ListConfigurationPoliciesOutput
-    {
+    public func listConfigurationPolicies(input: ListConfigurationPoliciesInput) async throws -> ListConfigurationPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2945,8 +2888,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listConfigurationPolicyAssociations(input: ListConfigurationPolicyAssociationsInput) async throws -> ListConfigurationPolicyAssociationsOutput
-    {
+    public func listConfigurationPolicyAssociations(input: ListConfigurationPolicyAssociationsInput) async throws -> ListConfigurationPolicyAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2993,8 +2935,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listEnabledProductsForImport(input: ListEnabledProductsForImportInput) async throws -> ListEnabledProductsForImportOutput
-    {
+    public func listEnabledProductsForImport(input: ListEnabledProductsForImportInput) async throws -> ListEnabledProductsForImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3041,8 +2982,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listFindingAggregators(input: ListFindingAggregatorsInput) async throws -> ListFindingAggregatorsOutput
-    {
+    public func listFindingAggregators(input: ListFindingAggregatorsInput) async throws -> ListFindingAggregatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3088,8 +3028,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-    {
+    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3135,8 +3074,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3182,8 +3120,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
-    {
+    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3229,8 +3166,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listSecurityControlDefinitions(input: ListSecurityControlDefinitionsInput) async throws -> ListSecurityControlDefinitionsOutput
-    {
+    public func listSecurityControlDefinitions(input: ListSecurityControlDefinitionsInput) async throws -> ListSecurityControlDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3276,8 +3212,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listStandardsControlAssociations(input: ListStandardsControlAssociationsInput) async throws -> ListStandardsControlAssociationsOutput
-    {
+    public func listStandardsControlAssociations(input: ListStandardsControlAssociationsInput) async throws -> ListStandardsControlAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3322,8 +3257,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3370,8 +3304,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func startConfigurationPolicyAssociation(input: StartConfigurationPolicyAssociationInput) async throws -> StartConfigurationPolicyAssociationOutput
-    {
+    public func startConfigurationPolicyAssociation(input: StartConfigurationPolicyAssociationInput) async throws -> StartConfigurationPolicyAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3421,8 +3354,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func startConfigurationPolicyDisassociation(input: StartConfigurationPolicyDisassociationInput) async throws -> StartConfigurationPolicyDisassociationOutput
-    {
+    public func startConfigurationPolicyDisassociation(input: StartConfigurationPolicyDisassociationInput) async throws -> StartConfigurationPolicyDisassociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3469,8 +3401,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3517,8 +3448,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3564,8 +3494,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateActionTarget(input: UpdateActionTargetInput) async throws -> UpdateActionTargetOutput
-    {
+    public func updateActionTarget(input: UpdateActionTargetInput) async throws -> UpdateActionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3616,8 +3545,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateConfigurationPolicy(input: UpdateConfigurationPolicyInput) async throws -> UpdateConfigurationPolicyOutput
-    {
+    public func updateConfigurationPolicy(input: UpdateConfigurationPolicyInput) async throws -> UpdateConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3667,8 +3595,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateFindingAggregator(input: UpdateFindingAggregatorInput) async throws -> UpdateFindingAggregatorOutput
-    {
+    public func updateFindingAggregator(input: UpdateFindingAggregatorInput) async throws -> UpdateFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3717,8 +3644,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput
-    {
+    public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3767,8 +3693,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateInsight(input: UpdateInsightInput) async throws -> UpdateInsightOutput
-    {
+    public func updateInsight(input: UpdateInsightInput) async throws -> UpdateInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3819,8 +3744,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-    {
+    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3871,8 +3795,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceInUseException` : The request was rejected because it conflicts with the resource's availability. For example, you tried to update a security control that's currently in the UPDATING state.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateSecurityControl(input: UpdateSecurityControlInput) async throws -> UpdateSecurityControlOutput
-    {
+    public func updateSecurityControl(input: UpdateSecurityControlInput) async throws -> UpdateSecurityControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3922,8 +3845,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateSecurityHubConfiguration(input: UpdateSecurityHubConfigurationInput) async throws -> UpdateSecurityHubConfigurationOutput
-    {
+    public func updateSecurityHubConfiguration(input: UpdateSecurityHubConfigurationInput) async throws -> UpdateSecurityHubConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3972,8 +3894,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateStandardsControl(input: UpdateStandardsControlInput) async throws -> UpdateStandardsControlOutput
-    {
+    public func updateStandardsControl(input: UpdateStandardsControlInput) async throws -> UpdateStandardsControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

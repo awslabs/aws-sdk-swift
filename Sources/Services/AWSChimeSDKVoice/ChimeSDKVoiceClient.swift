@@ -66,7 +66,7 @@ public struct ChimeSDKVoiceClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
+extension ChimeSDKVoiceClient {
     /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
@@ -86,8 +86,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput
-    {
+    public func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput
-    {
+    public func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -193,8 +191,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput) async throws -> BatchDeletePhoneNumberOutput
-    {
+    public func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput) async throws -> BatchDeletePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -246,8 +243,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput) async throws -> BatchUpdatePhoneNumberOutput
-    {
+    public func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput) async throws -> BatchUpdatePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -300,8 +296,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput) async throws -> CreatePhoneNumberOrderOutput
-    {
+    public func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput) async throws -> CreatePhoneNumberOrderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -352,8 +347,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutput
-    {
+    public func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -406,8 +400,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutput
-    {
+    public func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +452,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutput
-    {
+    public func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -513,8 +505,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutput
-    {
+    public func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -566,8 +557,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutput
-    {
+    public func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -619,8 +609,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutput
-    {
+    public func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -675,8 +664,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createVoiceProfile(input: CreateVoiceProfileInput) async throws -> CreateVoiceProfileOutput
-    {
+    public func createVoiceProfile(input: CreateVoiceProfileInput) async throws -> CreateVoiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -729,8 +717,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func createVoiceProfileDomain(input: CreateVoiceProfileDomainInput) async throws -> CreateVoiceProfileDomainOutput
-    {
+    public func createVoiceProfileDomain(input: CreateVoiceProfileDomainInput) async throws -> CreateVoiceProfileDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -781,8 +768,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deletePhoneNumber(input: DeletePhoneNumberInput) async throws -> DeletePhoneNumberOutput
-    {
+    public func deletePhoneNumber(input: DeletePhoneNumberInput) async throws -> DeletePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -830,8 +816,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutput
-    {
+    public func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -880,8 +865,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutput
-    {
+    public func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +914,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutput
-    {
+    public func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -980,8 +963,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutput
-    {
+    public func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,8 +1011,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput
-    {
+    public func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1079,8 +1060,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutput
-    {
+    public func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1128,8 +1108,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutput
-    {
+    public func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1177,8 +1156,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutput
-    {
+    public func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1226,8 +1204,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput
-    {
+    public func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1275,8 +1252,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutput
-    {
+    public func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1324,8 +1300,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput
-    {
+    public func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1379,8 +1354,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceProfile(input: DeleteVoiceProfileInput) async throws -> DeleteVoiceProfileOutput
-    {
+    public func deleteVoiceProfile(input: DeleteVoiceProfileInput) async throws -> DeleteVoiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1430,8 +1404,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func deleteVoiceProfileDomain(input: DeleteVoiceProfileDomainInput) async throws -> DeleteVoiceProfileDomainOutput
-    {
+    public func deleteVoiceProfileDomain(input: DeleteVoiceProfileDomainInput) async throws -> DeleteVoiceProfileDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1479,8 +1452,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput
-    {
+    public func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1532,8 +1504,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput
-    {
+    public func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1584,8 +1555,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutput
-    {
+    public func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1633,8 +1603,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getPhoneNumber(input: GetPhoneNumberInput) async throws -> GetPhoneNumberOutput
-    {
+    public func getPhoneNumber(input: GetPhoneNumberInput) async throws -> GetPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1682,8 +1651,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getPhoneNumberOrder(input: GetPhoneNumberOrderInput) async throws -> GetPhoneNumberOrderOutput
-    {
+    public func getPhoneNumberOrder(input: GetPhoneNumberOrderInput) async throws -> GetPhoneNumberOrderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1730,8 +1698,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getPhoneNumberSettings(input: GetPhoneNumberSettingsInput) async throws -> GetPhoneNumberSettingsOutput
-    {
+    public func getPhoneNumberSettings(input: GetPhoneNumberSettingsInput) async throws -> GetPhoneNumberSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1779,8 +1746,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutput
-    {
+    public func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1828,8 +1794,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutput
-    {
+    public func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1877,8 +1842,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getSipMediaApplicationAlexaSkillConfiguration(input: GetSipMediaApplicationAlexaSkillConfigurationInput) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutput
-    {
+    public func getSipMediaApplicationAlexaSkillConfiguration(input: GetSipMediaApplicationAlexaSkillConfigurationInput) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1926,8 +1890,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutput
-    {
+    public func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1975,8 +1938,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutput
-    {
+    public func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2026,8 +1988,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutput
-    {
+    public func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2075,8 +2036,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutput
-    {
+    public func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2124,8 +2084,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput
-    {
+    public func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2173,8 +2132,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutput
-    {
+    public func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2222,8 +2180,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutput
-    {
+    public func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2271,8 +2228,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutput
-    {
+    public func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2320,8 +2276,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutput
-    {
+    public func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2369,8 +2324,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutput
-    {
+    public func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2418,8 +2372,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutput
-    {
+    public func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2467,8 +2420,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutput
-    {
+    public func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2517,8 +2469,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceProfile(input: GetVoiceProfileInput) async throws -> GetVoiceProfileOutput
-    {
+    public func getVoiceProfile(input: GetVoiceProfileInput) async throws -> GetVoiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2567,8 +2518,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceProfileDomain(input: GetVoiceProfileDomainInput) async throws -> GetVoiceProfileDomainOutput
-    {
+    public func getVoiceProfileDomain(input: GetVoiceProfileDomainInput) async throws -> GetVoiceProfileDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2618,8 +2568,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutput
-    {
+    public func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2667,8 +2616,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listAvailableVoiceConnectorRegions(input: ListAvailableVoiceConnectorRegionsInput) async throws -> ListAvailableVoiceConnectorRegionsOutput
-    {
+    public func listAvailableVoiceConnectorRegions(input: ListAvailableVoiceConnectorRegionsInput) async throws -> ListAvailableVoiceConnectorRegionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2715,8 +2663,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listPhoneNumberOrders(input: ListPhoneNumberOrdersInput) async throws -> ListPhoneNumberOrdersOutput
-    {
+    public func listPhoneNumberOrders(input: ListPhoneNumberOrdersInput) async throws -> ListPhoneNumberOrdersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2765,8 +2712,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput
-    {
+    public func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2815,8 +2761,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutput
-    {
+    public func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2864,8 +2809,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutput
-    {
+    public func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2913,8 +2857,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutput
-    {
+    public func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2963,8 +2906,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listSupportedPhoneNumberCountries(input: ListSupportedPhoneNumberCountriesInput) async throws -> ListSupportedPhoneNumberCountriesOutput
-    {
+    public func listSupportedPhoneNumberCountries(input: ListSupportedPhoneNumberCountriesInput) async throws -> ListSupportedPhoneNumberCountriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3012,8 +2954,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3061,8 +3002,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutput
-    {
+    public func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3111,8 +3051,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutput
-    {
+    public func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3159,8 +3098,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutput
-    {
+    public func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3209,8 +3147,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listVoiceProfileDomains(input: ListVoiceProfileDomainsInput) async throws -> ListVoiceProfileDomainsOutput
-    {
+    public func listVoiceProfileDomains(input: ListVoiceProfileDomainsInput) async throws -> ListVoiceProfileDomainsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3259,8 +3196,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func listVoiceProfiles(input: ListVoiceProfilesInput) async throws -> ListVoiceProfilesOutput
-    {
+    public func listVoiceProfiles(input: ListVoiceProfilesInput) async throws -> ListVoiceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3309,8 +3245,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putSipMediaApplicationAlexaSkillConfiguration(input: PutSipMediaApplicationAlexaSkillConfigurationInput) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutput
-    {
+    public func putSipMediaApplicationAlexaSkillConfiguration(input: PutSipMediaApplicationAlexaSkillConfigurationInput) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3361,8 +3296,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutput
-    {
+    public func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3413,8 +3347,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput
-    {
+    public func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3465,8 +3398,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutput
-    {
+    public func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3517,8 +3449,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutput
-    {
+    public func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3570,8 +3501,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutput
-    {
+    public func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3622,8 +3552,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutput
-    {
+    public func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3675,8 +3604,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutput
-    {
+    public func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3727,8 +3655,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutput
-    {
+    public func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3781,8 +3708,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func restorePhoneNumber(input: RestorePhoneNumberInput) async throws -> RestorePhoneNumberOutput
-    {
+    public func restorePhoneNumber(input: RestorePhoneNumberInput) async throws -> RestorePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3831,8 +3757,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput
-    {
+    public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3886,8 +3811,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
-    public func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutput
-    {
+    public func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3943,8 +3867,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
-    public func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutput
-    {
+    public func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3998,8 +3921,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
-    public func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutput
-    {
+    public func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4051,8 +3973,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : A well-formed request couldn't be followed due to semantic errors.
-    public func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutput
-    {
+    public func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4101,8 +4022,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4153,8 +4073,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceFailureException` : The service encountered an unexpected error.
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4205,8 +4124,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
-    {
+    public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4258,8 +4176,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
-    {
+    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4309,8 +4226,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput) async throws -> UpdatePhoneNumberSettingsOutput
-    {
+    public func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput) async throws -> UpdatePhoneNumberSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4361,8 +4277,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutput
-    {
+    public func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4414,8 +4329,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutput
-    {
+    public func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4467,8 +4381,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutput
-    {
+    public func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4521,8 +4434,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutput
-    {
+    public func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4573,8 +4485,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutput
-    {
+    public func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4626,8 +4537,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutput
-    {
+    public func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4681,8 +4591,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateVoiceProfile(input: UpdateVoiceProfileInput) async throws -> UpdateVoiceProfileOutput
-    {
+    public func updateVoiceProfile(input: UpdateVoiceProfileInput) async throws -> UpdateVoiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4734,8 +4643,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func updateVoiceProfileDomain(input: UpdateVoiceProfileDomainInput) async throws -> UpdateVoiceProfileDomainOutput
-    {
+    public func updateVoiceProfileDomain(input: UpdateVoiceProfileDomainInput) async throws -> UpdateVoiceProfileDomainOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4786,8 +4694,7 @@ extension ChimeSDKVoiceClient: ChimeSDKVoiceClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
-    public func validateE911Address(input: ValidateE911AddressInput) async throws -> ValidateE911AddressOutput
-    {
+    public func validateE911Address(input: ValidateE911AddressInput) async throws -> ValidateE911AddressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

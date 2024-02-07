@@ -66,7 +66,7 @@ public struct PipesClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension PipesClient: PipesClientProtocol {
+extension PipesClient {
     /// Performs the `CreatePipe` operation on the `Pipes` service.
     ///
     /// Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces the need for specialized knowledge and integration code.
@@ -84,8 +84,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota has been exceeded.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func createPipe(input: CreatePipeInput) async throws -> CreatePipeOutput
-    {
+    public func createPipe(input: CreatePipeInput) async throws -> CreatePipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func deletePipe(input: DeletePipeInput) async throws -> DeletePipeOutput
-    {
+    public func deletePipe(input: DeletePipeInput) async throws -> DeletePipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -180,8 +178,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func describePipe(input: DescribePipeInput) async throws -> DescribePipeOutput
-    {
+    public func describePipe(input: DescribePipeInput) async throws -> DescribePipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -225,8 +222,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func listPipes(input: ListPipesInput) async throws -> ListPipesOutput
-    {
+    public func listPipes(input: ListPipesInput) async throws -> ListPipesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -271,8 +267,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -318,8 +313,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func startPipe(input: StartPipeInput) async throws -> StartPipeOutput
-    {
+    public func startPipe(input: StartPipeInput) async throws -> StartPipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -365,8 +359,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func stopPipe(input: StopPipeInput) async throws -> StopPipeOutput
-    {
+    public func stopPipe(input: StopPipeInput) async throws -> StopPipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -410,8 +403,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +450,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -506,8 +497,7 @@ extension PipesClient: PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
-    public func updatePipe(input: UpdatePipeInput) async throws -> UpdatePipeOutput
-    {
+    public func updatePipe(input: UpdatePipeInput) async throws -> UpdatePipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -18006,6 +18006,8 @@ enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum NeptuneClientTypes {}
+
 extension NeptuneClientTypes.OptionGroupMembership: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case optionGroupName = "OptionGroupName"

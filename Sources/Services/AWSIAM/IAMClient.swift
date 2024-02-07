@@ -62,7 +62,7 @@ public struct IAMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension IAMClient: IAMClientProtocol {
+extension IAMClient {
     /// Performs the `AddClientIDToOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
     ///
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
@@ -78,8 +78,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func addClientIDToOpenIDConnectProvider(input: AddClientIDToOpenIDConnectProviderInput) async throws -> AddClientIDToOpenIDConnectProviderOutput
-    {
+    public func addClientIDToOpenIDConnectProvider(input: AddClientIDToOpenIDConnectProviderInput) async throws -> AddClientIDToOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func addRoleToInstanceProfile(input: AddRoleToInstanceProfileInput) async throws -> AddRoleToInstanceProfileOutput
-    {
+    public func addRoleToInstanceProfile(input: AddRoleToInstanceProfileInput) async throws -> AddRoleToInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func addUserToGroup(input: AddUserToGroupInput) async throws -> AddUserToGroupOutput
-    {
+    public func addUserToGroup(input: AddUserToGroupInput) async throws -> AddUserToGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PolicyNotAttachableException` : The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func attachGroupPolicy(input: AttachGroupPolicyInput) async throws -> AttachGroupPolicyOutput
-    {
+    public func attachGroupPolicy(input: AttachGroupPolicyInput) async throws -> AttachGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -277,8 +273,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `PolicyNotAttachableException` : The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func attachRolePolicy(input: AttachRolePolicyInput) async throws -> AttachRolePolicyOutput
-    {
+    public func attachRolePolicy(input: AttachRolePolicyInput) async throws -> AttachRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -327,8 +322,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PolicyNotAttachableException` : The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func attachUserPolicy(input: AttachUserPolicyInput) async throws -> AttachUserPolicyOutput
-    {
+    public func attachUserPolicy(input: AttachUserPolicyInput) async throws -> AttachUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PasswordPolicyViolationException` : The request was rejected because the provided password did not meet the requirements imposed by the account password policy.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func changePassword(input: ChangePasswordInput) async throws -> ChangePasswordOutput
-    {
+    public func changePassword(input: ChangePasswordInput) async throws -> ChangePasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createAccessKey(input: CreateAccessKeyInput) async throws -> CreateAccessKeyOutput
-    {
+    public func createAccessKey(input: CreateAccessKeyInput) async throws -> CreateAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,8 +467,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `EntityAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createAccountAlias(input: CreateAccountAliasInput) async throws -> CreateAccountAliasOutput
-    {
+    public func createAccountAlias(input: CreateAccountAliasInput) async throws -> CreateAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -524,8 +515,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,8 +564,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput
-    {
+    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +613,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PasswordPolicyViolationException` : The request was rejected because the provided password did not meet the requirements imposed by the account password policy.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createLoginProfile(input: CreateLoginProfileInput) async throws -> CreateLoginProfileOutput
-    {
+    public func createLoginProfile(input: CreateLoginProfileInput) async throws -> CreateLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -685,8 +673,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createOpenIDConnectProvider(input: CreateOpenIDConnectProviderInput) async throws -> CreateOpenIDConnectProviderOutput
-    {
+    public func createOpenIDConnectProvider(input: CreateOpenIDConnectProviderInput) async throws -> CreateOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -736,8 +723,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
-    {
+    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -786,8 +772,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutput
-    {
+    public func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -837,8 +822,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createRole(input: CreateRoleInput) async throws -> CreateRoleOutput
-    {
+    public func createRole(input: CreateRoleInput) async throws -> CreateRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -887,8 +871,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createSAMLProvider(input: CreateSAMLProviderInput) async throws -> CreateSAMLProviderOutput
-    {
+    public func createSAMLProvider(input: CreateSAMLProviderInput) async throws -> CreateSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -936,8 +919,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createServiceLinkedRole(input: CreateServiceLinkedRoleInput) async throws -> CreateServiceLinkedRoleOutput
-    {
+    public func createServiceLinkedRole(input: CreateServiceLinkedRoleInput) async throws -> CreateServiceLinkedRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -984,8 +966,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceNotSupportedException` : The specified service does not support service-specific credentials.
-    public func createServiceSpecificCredential(input: CreateServiceSpecificCredentialInput) async throws -> CreateServiceSpecificCredentialOutput
-    {
+    public func createServiceSpecificCredential(input: CreateServiceSpecificCredentialInput) async throws -> CreateServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1035,8 +1016,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1085,8 +1065,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func createVirtualMFADevice(input: CreateVirtualMFADeviceInput) async throws -> CreateVirtualMFADeviceOutput
-    {
+    public func createVirtualMFADevice(input: CreateVirtualMFADeviceInput) async throws -> CreateVirtualMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1135,8 +1114,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deactivateMFADevice(input: DeactivateMFADeviceInput) async throws -> DeactivateMFADeviceOutput
-    {
+    public func deactivateMFADevice(input: DeactivateMFADeviceInput) async throws -> DeactivateMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1183,8 +1161,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteAccessKey(input: DeleteAccessKeyInput) async throws -> DeleteAccessKeyOutput
-    {
+    public func deleteAccessKey(input: DeleteAccessKeyInput) async throws -> DeleteAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1232,8 +1209,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutput
-    {
+    public func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1256,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteAccountPasswordPolicy(input: DeleteAccountPasswordPolicyInput) async throws -> DeleteAccountPasswordPolicyOutput
-    {
+    public func deleteAccountPasswordPolicy(input: DeleteAccountPasswordPolicyInput) async throws -> DeleteAccountPasswordPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1329,8 +1304,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1377,8 +1351,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteGroupPolicy(input: DeleteGroupPolicyInput) async throws -> DeleteGroupPolicyOutput
-    {
+    public func deleteGroupPolicy(input: DeleteGroupPolicyInput) async throws -> DeleteGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1426,8 +1399,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput
-    {
+    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1475,8 +1447,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteLoginProfile(input: DeleteLoginProfileInput) async throws -> DeleteLoginProfileOutput
-    {
+    public func deleteLoginProfile(input: DeleteLoginProfileInput) async throws -> DeleteLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1523,8 +1494,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteOpenIDConnectProvider(input: DeleteOpenIDConnectProviderInput) async throws -> DeleteOpenIDConnectProviderOutput
-    {
+    public func deleteOpenIDConnectProvider(input: DeleteOpenIDConnectProviderInput) async throws -> DeleteOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1582,8 +1552,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1632,8 +1601,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutput
-    {
+    public func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1694,8 +1662,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func deleteRole(input: DeleteRoleInput) async throws -> DeleteRoleOutput
-    {
+    public func deleteRole(input: DeleteRoleInput) async throws -> DeleteRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1742,8 +1709,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func deleteRolePermissionsBoundary(input: DeleteRolePermissionsBoundaryInput) async throws -> DeleteRolePermissionsBoundaryOutput
-    {
+    public func deleteRolePermissionsBoundary(input: DeleteRolePermissionsBoundaryInput) async throws -> DeleteRolePermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1791,8 +1757,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func deleteRolePolicy(input: DeleteRolePolicyInput) async throws -> DeleteRolePolicyOutput
-    {
+    public func deleteRolePolicy(input: DeleteRolePolicyInput) async throws -> DeleteRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1840,8 +1805,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteSAMLProvider(input: DeleteSAMLProviderInput) async throws -> DeleteSAMLProviderOutput
-    {
+    public func deleteSAMLProvider(input: DeleteSAMLProviderInput) async throws -> DeleteSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1886,8 +1850,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func deleteSSHPublicKey(input: DeleteSSHPublicKeyInput) async throws -> DeleteSSHPublicKeyOutput
-    {
+    public func deleteSSHPublicKey(input: DeleteSSHPublicKeyInput) async throws -> DeleteSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1935,8 +1898,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteServerCertificate(input: DeleteServerCertificateInput) async throws -> DeleteServerCertificateOutput
-    {
+    public func deleteServerCertificate(input: DeleteServerCertificateInput) async throws -> DeleteServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1983,8 +1945,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteServiceLinkedRole(input: DeleteServiceLinkedRoleInput) async throws -> DeleteServiceLinkedRoleOutput
-    {
+    public func deleteServiceLinkedRole(input: DeleteServiceLinkedRoleInput) async throws -> DeleteServiceLinkedRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2029,8 +1990,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func deleteServiceSpecificCredential(input: DeleteServiceSpecificCredentialInput) async throws -> DeleteServiceSpecificCredentialOutput
-    {
+    public func deleteServiceSpecificCredential(input: DeleteServiceSpecificCredentialInput) async throws -> DeleteServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2078,8 +2038,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteSigningCertificate(input: DeleteSigningCertificateInput) async throws -> DeleteSigningCertificateOutput
-    {
+    public func deleteSigningCertificate(input: DeleteSigningCertificateInput) async throws -> DeleteSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2146,8 +2105,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2193,8 +2151,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteUserPermissionsBoundary(input: DeleteUserPermissionsBoundaryInput) async throws -> DeleteUserPermissionsBoundaryOutput
-    {
+    public func deleteUserPermissionsBoundary(input: DeleteUserPermissionsBoundaryInput) async throws -> DeleteUserPermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2241,8 +2198,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteUserPolicy(input: DeleteUserPolicyInput) async throws -> DeleteUserPolicyOutput
-    {
+    public func deleteUserPolicy(input: DeleteUserPolicyInput) async throws -> DeleteUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2291,8 +2247,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func deleteVirtualMFADevice(input: DeleteVirtualMFADeviceInput) async throws -> DeleteVirtualMFADeviceOutput
-    {
+    public func deleteVirtualMFADevice(input: DeleteVirtualMFADeviceInput) async throws -> DeleteVirtualMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2340,8 +2295,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func detachGroupPolicy(input: DetachGroupPolicyInput) async throws -> DetachGroupPolicyOutput
-    {
+    public func detachGroupPolicy(input: DetachGroupPolicyInput) async throws -> DetachGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2390,8 +2344,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func detachRolePolicy(input: DetachRolePolicyInput) async throws -> DetachRolePolicyOutput
-    {
+    public func detachRolePolicy(input: DetachRolePolicyInput) async throws -> DetachRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2439,8 +2392,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func detachUserPolicy(input: DetachUserPolicyInput) async throws -> DetachUserPolicyOutput
-    {
+    public func detachUserPolicy(input: DetachUserPolicyInput) async throws -> DetachUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2491,8 +2443,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func enableMFADevice(input: EnableMFADeviceInput) async throws -> EnableMFADeviceOutput
-    {
+    public func enableMFADevice(input: EnableMFADeviceInput) async throws -> EnableMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2538,8 +2489,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func generateCredentialReport(input: GenerateCredentialReportInput) async throws -> GenerateCredentialReportOutput
-    {
+    public func generateCredentialReport(input: GenerateCredentialReportInput) async throws -> GenerateCredentialReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2606,8 +2556,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ReportGenerationLimitExceededException` : The request failed because the maximum number of concurrent requests for this account are already running.
-    public func generateOrganizationsAccessReport(input: GenerateOrganizationsAccessReportInput) async throws -> GenerateOrganizationsAccessReportOutput
-    {
+    public func generateOrganizationsAccessReport(input: GenerateOrganizationsAccessReportInput) async throws -> GenerateOrganizationsAccessReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2660,8 +2609,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func generateServiceLastAccessedDetails(input: GenerateServiceLastAccessedDetailsInput) async throws -> GenerateServiceLastAccessedDetailsOutput
-    {
+    public func generateServiceLastAccessedDetails(input: GenerateServiceLastAccessedDetailsInput) async throws -> GenerateServiceLastAccessedDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2701,8 +2649,7 @@ extension IAMClient: IAMClientProtocol {
     /// - Parameter GetAccessKeyLastUsedInput : [no documentation found]
     ///
     /// - Returns: `GetAccessKeyLastUsedOutput` : Contains the response to a successful [GetAccessKeyLastUsed] request. It is also returned as a member of the [AccessKeyMetaData] structure returned by the [ListAccessKeys] action.
-    public func getAccessKeyLastUsed(input: GetAccessKeyLastUsedInput) async throws -> GetAccessKeyLastUsedOutput
-    {
+    public func getAccessKeyLastUsed(input: GetAccessKeyLastUsedInput) async throws -> GetAccessKeyLastUsedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2747,8 +2694,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getAccountAuthorizationDetails(input: GetAccountAuthorizationDetailsInput) async throws -> GetAccountAuthorizationDetailsOutput
-    {
+    public func getAccountAuthorizationDetails(input: GetAccountAuthorizationDetailsInput) async throws -> GetAccountAuthorizationDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2794,8 +2740,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getAccountPasswordPolicy(input: GetAccountPasswordPolicyInput) async throws -> GetAccountPasswordPolicyOutput
-    {
+    public func getAccountPasswordPolicy(input: GetAccountPasswordPolicyInput) async throws -> GetAccountPasswordPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2840,8 +2785,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getAccountSummary(input: GetAccountSummaryInput) async throws -> GetAccountSummaryOutput
-    {
+    public func getAccountSummary(input: GetAccountSummaryInput) async throws -> GetAccountSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2886,8 +2830,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    public func getContextKeysForCustomPolicy(input: GetContextKeysForCustomPolicyInput) async throws -> GetContextKeysForCustomPolicyOutput
-    {
+    public func getContextKeysForCustomPolicy(input: GetContextKeysForCustomPolicyInput) async throws -> GetContextKeysForCustomPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2933,8 +2876,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func getContextKeysForPrincipalPolicy(input: GetContextKeysForPrincipalPolicyInput) async throws -> GetContextKeysForPrincipalPolicyOutput
-    {
+    public func getContextKeysForPrincipalPolicy(input: GetContextKeysForPrincipalPolicyInput) async throws -> GetContextKeysForPrincipalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2982,8 +2924,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `CredentialReportNotPresentException` : The request was rejected because the credential report does not exist. To generate a credential report, use [GenerateCredentialReport].
     /// - `CredentialReportNotReadyException` : The request was rejected because the credential report is still being generated.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getCredentialReport(input: GetCredentialReportInput) async throws -> GetCredentialReportOutput
-    {
+    public func getCredentialReport(input: GetCredentialReportInput) async throws -> GetCredentialReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3029,8 +2970,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
-    {
+    public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3076,8 +3016,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getGroupPolicy(input: GetGroupPolicyInput) async throws -> GetGroupPolicyOutput
-    {
+    public func getGroupPolicy(input: GetGroupPolicyInput) async throws -> GetGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3123,8 +3062,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput
-    {
+    public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3170,8 +3108,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getLoginProfile(input: GetLoginProfileInput) async throws -> GetLoginProfileOutput
-    {
+    public func getLoginProfile(input: GetLoginProfileInput) async throws -> GetLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3217,8 +3154,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getMFADevice(input: GetMFADeviceInput) async throws -> GetMFADeviceOutput
-    {
+    public func getMFADevice(input: GetMFADeviceInput) async throws -> GetMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3265,8 +3201,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getOpenIDConnectProvider(input: GetOpenIDConnectProviderInput) async throws -> GetOpenIDConnectProviderOutput
-    {
+    public func getOpenIDConnectProvider(input: GetOpenIDConnectProviderInput) async throws -> GetOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3311,8 +3246,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func getOrganizationsAccessReport(input: GetOrganizationsAccessReportInput) async throws -> GetOrganizationsAccessReportOutput
-    {
+    public func getOrganizationsAccessReport(input: GetOrganizationsAccessReportInput) async throws -> GetOrganizationsAccessReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3359,8 +3293,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3407,8 +3340,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutput
-    {
+    public func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3454,8 +3386,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getRole(input: GetRoleInput) async throws -> GetRoleOutput
-    {
+    public func getRole(input: GetRoleInput) async throws -> GetRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3501,8 +3432,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getRolePolicy(input: GetRolePolicyInput) async throws -> GetRolePolicyOutput
-    {
+    public func getRolePolicy(input: GetRolePolicyInput) async throws -> GetRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3549,8 +3479,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getSAMLProvider(input: GetSAMLProviderInput) async throws -> GetSAMLProviderOutput
-    {
+    public func getSAMLProvider(input: GetSAMLProviderInput) async throws -> GetSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3596,8 +3525,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `UnrecognizedPublicKeyEncodingException` : The request was rejected because the public key encoding format is unsupported or unrecognized.
-    public func getSSHPublicKey(input: GetSSHPublicKeyInput) async throws -> GetSSHPublicKeyOutput
-    {
+    public func getSSHPublicKey(input: GetSSHPublicKeyInput) async throws -> GetSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3643,8 +3571,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getServerCertificate(input: GetServerCertificateInput) async throws -> GetServerCertificateOutput
-    {
+    public func getServerCertificate(input: GetServerCertificateInput) async throws -> GetServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3701,8 +3628,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func getServiceLastAccessedDetails(input: GetServiceLastAccessedDetailsInput) async throws -> GetServiceLastAccessedDetailsOutput
-    {
+    public func getServiceLastAccessedDetails(input: GetServiceLastAccessedDetailsInput) async throws -> GetServiceLastAccessedDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3755,8 +3681,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func getServiceLastAccessedDetailsWithEntities(input: GetServiceLastAccessedDetailsWithEntitiesInput) async throws -> GetServiceLastAccessedDetailsWithEntitiesOutput
-    {
+    public func getServiceLastAccessedDetailsWithEntities(input: GetServiceLastAccessedDetailsWithEntitiesInput) async throws -> GetServiceLastAccessedDetailsWithEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3803,8 +3728,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getServiceLinkedRoleDeletionStatus(input: GetServiceLinkedRoleDeletionStatusInput) async throws -> GetServiceLinkedRoleDeletionStatusOutput
-    {
+    public func getServiceLinkedRoleDeletionStatus(input: GetServiceLinkedRoleDeletionStatusInput) async throws -> GetServiceLinkedRoleDeletionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3850,8 +3774,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getUser(input: GetUserInput) async throws -> GetUserOutput
-    {
+    public func getUser(input: GetUserInput) async throws -> GetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3897,8 +3820,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func getUserPolicy(input: GetUserPolicyInput) async throws -> GetUserPolicyOutput
-    {
+    public func getUserPolicy(input: GetUserPolicyInput) async throws -> GetUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3944,8 +3866,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listAccessKeys(input: ListAccessKeysInput) async throws -> ListAccessKeysOutput
-    {
+    public func listAccessKeys(input: ListAccessKeysInput) async throws -> ListAccessKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3990,8 +3911,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listAccountAliases(input: ListAccountAliasesInput) async throws -> ListAccountAliasesOutput
-    {
+    public func listAccountAliases(input: ListAccountAliasesInput) async throws -> ListAccountAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4038,8 +3958,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listAttachedGroupPolicies(input: ListAttachedGroupPoliciesInput) async throws -> ListAttachedGroupPoliciesOutput
-    {
+    public func listAttachedGroupPolicies(input: ListAttachedGroupPoliciesInput) async throws -> ListAttachedGroupPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4086,8 +4005,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listAttachedRolePolicies(input: ListAttachedRolePoliciesInput) async throws -> ListAttachedRolePoliciesOutput
-    {
+    public func listAttachedRolePolicies(input: ListAttachedRolePoliciesInput) async throws -> ListAttachedRolePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4134,8 +4052,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listAttachedUserPolicies(input: ListAttachedUserPoliciesInput) async throws -> ListAttachedUserPoliciesOutput
-    {
+    public func listAttachedUserPolicies(input: ListAttachedUserPoliciesInput) async throws -> ListAttachedUserPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4182,8 +4099,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listEntitiesForPolicy(input: ListEntitiesForPolicyInput) async throws -> ListEntitiesForPolicyOutput
-    {
+    public func listEntitiesForPolicy(input: ListEntitiesForPolicyInput) async throws -> ListEntitiesForPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4229,8 +4145,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listGroupPolicies(input: ListGroupPoliciesInput) async throws -> ListGroupPoliciesOutput
-    {
+    public func listGroupPolicies(input: ListGroupPoliciesInput) async throws -> ListGroupPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4275,8 +4190,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4322,8 +4236,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listGroupsForUser(input: ListGroupsForUserInput) async throws -> ListGroupsForUserOutput
-    {
+    public func listGroupsForUser(input: ListGroupsForUserInput) async throws -> ListGroupsForUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4369,8 +4282,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listInstanceProfileTags(input: ListInstanceProfileTagsInput) async throws -> ListInstanceProfileTagsOutput
-    {
+    public func listInstanceProfileTags(input: ListInstanceProfileTagsInput) async throws -> ListInstanceProfileTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4415,8 +4327,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput
-    {
+    public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4462,8 +4373,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listInstanceProfilesForRole(input: ListInstanceProfilesForRoleInput) async throws -> ListInstanceProfilesForRoleOutput
-    {
+    public func listInstanceProfilesForRole(input: ListInstanceProfilesForRoleInput) async throws -> ListInstanceProfilesForRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4510,8 +4420,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listMFADeviceTags(input: ListMFADeviceTagsInput) async throws -> ListMFADeviceTagsOutput
-    {
+    public func listMFADeviceTags(input: ListMFADeviceTagsInput) async throws -> ListMFADeviceTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4557,8 +4466,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listMFADevices(input: ListMFADevicesInput) async throws -> ListMFADevicesOutput
-    {
+    public func listMFADevices(input: ListMFADevicesInput) async throws -> ListMFADevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4605,8 +4513,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listOpenIDConnectProviderTags(input: ListOpenIDConnectProviderTagsInput) async throws -> ListOpenIDConnectProviderTagsOutput
-    {
+    public func listOpenIDConnectProviderTags(input: ListOpenIDConnectProviderTagsInput) async throws -> ListOpenIDConnectProviderTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4651,8 +4558,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listOpenIDConnectProviders(input: ListOpenIDConnectProvidersInput) async throws -> ListOpenIDConnectProvidersOutput
-    {
+    public func listOpenIDConnectProviders(input: ListOpenIDConnectProvidersInput) async throws -> ListOpenIDConnectProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4697,8 +4603,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
-    {
+    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4753,8 +4658,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func listPoliciesGrantingServiceAccess(input: ListPoliciesGrantingServiceAccessInput) async throws -> ListPoliciesGrantingServiceAccessOutput
-    {
+    public func listPoliciesGrantingServiceAccess(input: ListPoliciesGrantingServiceAccessInput) async throws -> ListPoliciesGrantingServiceAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4801,8 +4705,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listPolicyTags(input: ListPolicyTagsInput) async throws -> ListPolicyTagsOutput
-    {
+    public func listPolicyTags(input: ListPolicyTagsInput) async throws -> ListPolicyTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4849,8 +4752,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutput
-    {
+    public func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4896,8 +4798,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listRolePolicies(input: ListRolePoliciesInput) async throws -> ListRolePoliciesOutput
-    {
+    public func listRolePolicies(input: ListRolePoliciesInput) async throws -> ListRolePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4943,8 +4844,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listRoleTags(input: ListRoleTagsInput) async throws -> ListRoleTagsOutput
-    {
+    public func listRoleTags(input: ListRoleTagsInput) async throws -> ListRoleTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4998,8 +4898,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listRoles(input: ListRolesInput) async throws -> ListRolesOutput
-    {
+    public func listRoles(input: ListRolesInput) async throws -> ListRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5046,8 +4945,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listSAMLProviderTags(input: ListSAMLProviderTagsInput) async throws -> ListSAMLProviderTagsOutput
-    {
+    public func listSAMLProviderTags(input: ListSAMLProviderTagsInput) async throws -> ListSAMLProviderTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5092,8 +4990,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listSAMLProviders(input: ListSAMLProvidersInput) async throws -> ListSAMLProvidersOutput
-    {
+    public func listSAMLProviders(input: ListSAMLProvidersInput) async throws -> ListSAMLProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5138,8 +5035,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func listSSHPublicKeys(input: ListSSHPublicKeysInput) async throws -> ListSSHPublicKeysOutput
-    {
+    public func listSSHPublicKeys(input: ListSSHPublicKeysInput) async throws -> ListSSHPublicKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5185,8 +5081,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listServerCertificateTags(input: ListServerCertificateTagsInput) async throws -> ListServerCertificateTagsOutput
-    {
+    public func listServerCertificateTags(input: ListServerCertificateTagsInput) async throws -> ListServerCertificateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5231,8 +5126,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listServerCertificates(input: ListServerCertificatesInput) async throws -> ListServerCertificatesOutput
-    {
+    public func listServerCertificates(input: ListServerCertificatesInput) async throws -> ListServerCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5278,8 +5172,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceNotSupportedException` : The specified service does not support service-specific credentials.
-    public func listServiceSpecificCredentials(input: ListServiceSpecificCredentialsInput) async throws -> ListServiceSpecificCredentialsOutput
-    {
+    public func listServiceSpecificCredentials(input: ListServiceSpecificCredentialsInput) async throws -> ListServiceSpecificCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5325,8 +5218,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listSigningCertificates(input: ListSigningCertificatesInput) async throws -> ListSigningCertificatesOutput
-    {
+    public func listSigningCertificates(input: ListSigningCertificatesInput) async throws -> ListSigningCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5372,8 +5264,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listUserPolicies(input: ListUserPoliciesInput) async throws -> ListUserPoliciesOutput
-    {
+    public func listUserPolicies(input: ListUserPoliciesInput) async throws -> ListUserPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5419,8 +5310,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listUserTags(input: ListUserTagsInput) async throws -> ListUserTagsOutput
-    {
+    public func listUserTags(input: ListUserTagsInput) async throws -> ListUserTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5472,8 +5362,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5513,8 +5402,7 @@ extension IAMClient: IAMClientProtocol {
     /// - Parameter ListVirtualMFADevicesInput : [no documentation found]
     ///
     /// - Returns: `ListVirtualMFADevicesOutput` : Contains the response to a successful [ListVirtualMFADevices] request.
-    public func listVirtualMFADevices(input: ListVirtualMFADevicesInput) async throws -> ListVirtualMFADevicesOutput
-    {
+    public func listVirtualMFADevices(input: ListVirtualMFADevicesInput) async throws -> ListVirtualMFADevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5562,8 +5450,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func putGroupPolicy(input: PutGroupPolicyInput) async throws -> PutGroupPolicyOutput
-    {
+    public func putGroupPolicy(input: PutGroupPolicyInput) async throws -> PutGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5612,8 +5499,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `PolicyNotAttachableException` : The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func putRolePermissionsBoundary(input: PutRolePermissionsBoundaryInput) async throws -> PutRolePermissionsBoundaryOutput
-    {
+    public func putRolePermissionsBoundary(input: PutRolePermissionsBoundaryInput) async throws -> PutRolePermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5662,8 +5548,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func putRolePolicy(input: PutRolePolicyInput) async throws -> PutRolePolicyOutput
-    {
+    public func putRolePolicy(input: PutRolePolicyInput) async throws -> PutRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5711,8 +5596,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PolicyNotAttachableException` : The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func putUserPermissionsBoundary(input: PutUserPermissionsBoundaryInput) async throws -> PutUserPermissionsBoundaryOutput
-    {
+    public func putUserPermissionsBoundary(input: PutUserPermissionsBoundaryInput) async throws -> PutUserPermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5760,8 +5644,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func putUserPolicy(input: PutUserPolicyInput) async throws -> PutUserPolicyOutput
-    {
+    public func putUserPolicy(input: PutUserPolicyInput) async throws -> PutUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5808,8 +5691,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func removeClientIDFromOpenIDConnectProvider(input: RemoveClientIDFromOpenIDConnectProviderInput) async throws -> RemoveClientIDFromOpenIDConnectProviderOutput
-    {
+    public func removeClientIDFromOpenIDConnectProvider(input: RemoveClientIDFromOpenIDConnectProviderInput) async throws -> RemoveClientIDFromOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5857,8 +5739,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func removeRoleFromInstanceProfile(input: RemoveRoleFromInstanceProfileInput) async throws -> RemoveRoleFromInstanceProfileOutput
-    {
+    public func removeRoleFromInstanceProfile(input: RemoveRoleFromInstanceProfileInput) async throws -> RemoveRoleFromInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5905,8 +5786,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func removeUserFromGroup(input: RemoveUserFromGroupInput) async throws -> RemoveUserFromGroupOutput
-    {
+    public func removeUserFromGroup(input: RemoveUserFromGroupInput) async throws -> RemoveUserFromGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5951,8 +5831,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func resetServiceSpecificCredential(input: ResetServiceSpecificCredentialInput) async throws -> ResetServiceSpecificCredentialOutput
-    {
+    public func resetServiceSpecificCredential(input: ResetServiceSpecificCredentialInput) async throws -> ResetServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6001,8 +5880,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func resyncMFADevice(input: ResyncMFADeviceInput) async throws -> ResyncMFADeviceOutput
-    {
+    public func resyncMFADevice(input: ResyncMFADeviceInput) async throws -> ResyncMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6050,8 +5928,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutput
-    {
+    public func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6096,8 +5973,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func setSecurityTokenServicePreferences(input: SetSecurityTokenServicePreferencesInput) async throws -> SetSecurityTokenServicePreferencesOutput
-    {
+    public func setSecurityTokenServicePreferences(input: SetSecurityTokenServicePreferencesInput) async throws -> SetSecurityTokenServicePreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6143,8 +6019,7 @@ extension IAMClient: IAMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `PolicyEvaluationException` : The request failed because a provided policy could not be successfully evaluated. An additional detailed message indicates the source of the failure.
-    public func simulateCustomPolicy(input: SimulateCustomPolicyInput) async throws -> SimulateCustomPolicyOutput
-    {
+    public func simulateCustomPolicy(input: SimulateCustomPolicyInput) async throws -> SimulateCustomPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6191,8 +6066,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PolicyEvaluationException` : The request failed because a provided policy could not be successfully evaluated. An additional detailed message indicates the source of the failure.
-    public func simulatePrincipalPolicy(input: SimulatePrincipalPolicyInput) async throws -> SimulatePrincipalPolicyOutput
-    {
+    public func simulatePrincipalPolicy(input: SimulatePrincipalPolicyInput) async throws -> SimulatePrincipalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6252,8 +6126,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagInstanceProfile(input: TagInstanceProfileInput) async throws -> TagInstanceProfileOutput
-    {
+    public func tagInstanceProfile(input: TagInstanceProfileInput) async throws -> TagInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6313,8 +6186,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagMFADevice(input: TagMFADeviceInput) async throws -> TagMFADeviceOutput
-    {
+    public func tagMFADevice(input: TagMFADeviceInput) async throws -> TagMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6374,8 +6246,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagOpenIDConnectProvider(input: TagOpenIDConnectProviderInput) async throws -> TagOpenIDConnectProviderOutput
-    {
+    public func tagOpenIDConnectProvider(input: TagOpenIDConnectProviderInput) async throws -> TagOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6435,8 +6306,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagPolicy(input: TagPolicyInput) async throws -> TagPolicyOutput
-    {
+    public func tagPolicy(input: TagPolicyInput) async throws -> TagPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6501,8 +6371,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagRole(input: TagRoleInput) async throws -> TagRoleOutput
-    {
+    public func tagRole(input: TagRoleInput) async throws -> TagRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6562,8 +6431,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagSAMLProvider(input: TagSAMLProviderInput) async throws -> TagSAMLProviderOutput
-    {
+    public func tagSAMLProvider(input: TagSAMLProviderInput) async throws -> TagSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6625,8 +6493,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagServerCertificate(input: TagServerCertificateInput) async throws -> TagServerCertificateOutput
-    {
+    public func tagServerCertificate(input: TagServerCertificateInput) async throws -> TagServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6691,8 +6558,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func tagUser(input: TagUserInput) async throws -> TagUserOutput
-    {
+    public func tagUser(input: TagUserInput) async throws -> TagUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6740,8 +6606,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagInstanceProfile(input: UntagInstanceProfileInput) async throws -> UntagInstanceProfileOutput
-    {
+    public func untagInstanceProfile(input: UntagInstanceProfileInput) async throws -> UntagInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6789,8 +6654,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagMFADevice(input: UntagMFADeviceInput) async throws -> UntagMFADeviceOutput
-    {
+    public func untagMFADevice(input: UntagMFADeviceInput) async throws -> UntagMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6838,8 +6702,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagOpenIDConnectProvider(input: UntagOpenIDConnectProviderInput) async throws -> UntagOpenIDConnectProviderOutput
-    {
+    public func untagOpenIDConnectProvider(input: UntagOpenIDConnectProviderInput) async throws -> UntagOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6887,8 +6750,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagPolicy(input: UntagPolicyInput) async throws -> UntagPolicyOutput
-    {
+    public func untagPolicy(input: UntagPolicyInput) async throws -> UntagPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6935,8 +6797,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagRole(input: UntagRoleInput) async throws -> UntagRoleOutput
-    {
+    public func untagRole(input: UntagRoleInput) async throws -> UntagRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6984,8 +6845,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagSAMLProvider(input: UntagSAMLProviderInput) async throws -> UntagSAMLProviderOutput
-    {
+    public func untagSAMLProvider(input: UntagSAMLProviderInput) async throws -> UntagSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7033,8 +6893,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagServerCertificate(input: UntagServerCertificateInput) async throws -> UntagServerCertificateOutput
-    {
+    public func untagServerCertificate(input: UntagServerCertificateInput) async throws -> UntagServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7081,8 +6940,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func untagUser(input: UntagUserInput) async throws -> UntagUserOutput
-    {
+    public func untagUser(input: UntagUserInput) async throws -> UntagUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7129,8 +6987,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateAccessKey(input: UpdateAccessKeyInput) async throws -> UpdateAccessKeyOutput
-    {
+    public func updateAccessKey(input: UpdateAccessKeyInput) async throws -> UpdateAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7178,8 +7035,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateAccountPasswordPolicy(input: UpdateAccountPasswordPolicyInput) async throws -> UpdateAccountPasswordPolicyOutput
-    {
+    public func updateAccountPasswordPolicy(input: UpdateAccountPasswordPolicyInput) async throws -> UpdateAccountPasswordPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7228,8 +7084,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func updateAssumeRolePolicy(input: UpdateAssumeRolePolicyInput) async throws -> UpdateAssumeRolePolicyOutput
-    {
+    public func updateAssumeRolePolicy(input: UpdateAssumeRolePolicyInput) async throws -> UpdateAssumeRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7277,8 +7132,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7327,8 +7181,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `PasswordPolicyViolationException` : The request was rejected because the provided password did not meet the requirements imposed by the account password policy.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateLoginProfile(input: UpdateLoginProfileInput) async throws -> UpdateLoginProfileOutput
-    {
+    public func updateLoginProfile(input: UpdateLoginProfileInput) async throws -> UpdateLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7375,8 +7228,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateOpenIDConnectProviderThumbprint(input: UpdateOpenIDConnectProviderThumbprintInput) async throws -> UpdateOpenIDConnectProviderThumbprintOutput
-    {
+    public func updateOpenIDConnectProviderThumbprint(input: UpdateOpenIDConnectProviderThumbprintInput) async throws -> UpdateOpenIDConnectProviderThumbprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7423,8 +7275,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func updateRole(input: UpdateRoleInput) async throws -> UpdateRoleOutput
-    {
+    public func updateRole(input: UpdateRoleInput) async throws -> UpdateRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7471,8 +7322,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `UnmodifiableEntityException` : The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-    public func updateRoleDescription(input: UpdateRoleDescriptionInput) async throws -> UpdateRoleDescriptionOutput
-    {
+    public func updateRoleDescription(input: UpdateRoleDescriptionInput) async throws -> UpdateRoleDescriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7520,8 +7370,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateSAMLProvider(input: UpdateSAMLProviderInput) async throws -> UpdateSAMLProviderOutput
-    {
+    public func updateSAMLProvider(input: UpdateSAMLProviderInput) async throws -> UpdateSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7566,8 +7415,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func updateSSHPublicKey(input: UpdateSSHPublicKeyInput) async throws -> UpdateSSHPublicKeyOutput
-    {
+    public func updateSSHPublicKey(input: UpdateSSHPublicKeyInput) async throws -> UpdateSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7615,8 +7463,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateServerCertificate(input: UpdateServerCertificateInput) async throws -> UpdateServerCertificateOutput
-    {
+    public func updateServerCertificate(input: UpdateServerCertificateInput) async throws -> UpdateServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7661,8 +7508,7 @@ extension IAMClient: IAMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-    public func updateServiceSpecificCredential(input: UpdateServiceSpecificCredentialInput) async throws -> UpdateServiceSpecificCredentialOutput
-    {
+    public func updateServiceSpecificCredential(input: UpdateServiceSpecificCredentialInput) async throws -> UpdateServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7709,8 +7555,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateSigningCertificate(input: UpdateSigningCertificateInput) async throws -> UpdateSigningCertificateOutput
-    {
+    public func updateSigningCertificate(input: UpdateSigningCertificateInput) async throws -> UpdateSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7760,8 +7605,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7810,8 +7654,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `UnrecognizedPublicKeyEncodingException` : The request was rejected because the public key encoding format is unsupported or unrecognized.
-    public func uploadSSHPublicKey(input: UploadSSHPublicKeyInput) async throws -> UploadSSHPublicKeyOutput
-    {
+    public func uploadSSHPublicKey(input: UploadSSHPublicKeyInput) async throws -> UploadSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7862,8 +7705,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     /// - `MalformedCertificateException` : The request was rejected because the certificate was malformed or expired. The error message describes the specific error.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func uploadServerCertificate(input: UploadServerCertificateInput) async throws -> UploadServerCertificateOutput
-    {
+    public func uploadServerCertificate(input: UploadServerCertificateInput) async throws -> UploadServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7915,8 +7757,7 @@ extension IAMClient: IAMClientProtocol {
     /// - `MalformedCertificateException` : The request was rejected because the certificate was malformed or expired. The error message describes the specific error.
     /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
-    public func uploadSigningCertificate(input: UploadSigningCertificateInput) async throws -> UploadSigningCertificateOutput
-    {
+    public func uploadSigningCertificate(input: UploadSigningCertificateInput) async throws -> UploadSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

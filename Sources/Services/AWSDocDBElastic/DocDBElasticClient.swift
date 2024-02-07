@@ -66,7 +66,7 @@ public struct DocDBElasticClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension DocDBElasticClient: DocDBElasticClientProtocol {
+extension DocDBElasticClient {
     /// Performs the `CreateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
     /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
@@ -84,8 +84,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -137,8 +136,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
-    {
+    public func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
-    {
+    public func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func getCluster(input: GetClusterInput) async throws -> GetClusterOutput
-    {
+    public func getCluster(input: GetClusterInput) async throws -> GetClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput
-    {
+    public func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -376,8 +370,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput
-    {
+    public func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -423,8 +416,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -470,8 +462,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -519,8 +510,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput
-    {
+    public func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -568,8 +558,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -617,8 +606,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +654,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
-    {
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

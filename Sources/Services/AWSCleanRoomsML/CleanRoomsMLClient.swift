@@ -66,7 +66,7 @@ public struct CleanRoomsMLClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
+extension CleanRoomsMLClient {
     /// Performs the `CreateAudienceModel` operation on the `AWSStarkControlService` service.
     ///
     /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the [StartAudienceGenerationJob] API.
@@ -83,8 +83,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func createAudienceModel(input: CreateAudienceModelInput) async throws -> CreateAudienceModelOutput
-    {
+    public func createAudienceModel(input: CreateAudienceModelInput) async throws -> CreateAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func createConfiguredAudienceModel(input: CreateConfiguredAudienceModelInput) async throws -> CreateConfiguredAudienceModelOutput
-    {
+    public func createConfiguredAudienceModel(input: CreateConfiguredAudienceModelInput) async throws -> CreateConfiguredAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : A resource with that name already exists in this region.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func createTrainingDataset(input: CreateTrainingDatasetInput) async throws -> CreateTrainingDatasetOutput
-    {
+    public func createTrainingDataset(input: CreateTrainingDatasetInput) async throws -> CreateTrainingDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ConflictException` : A resource with that name already exists in this region.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func deleteAudienceGenerationJob(input: DeleteAudienceGenerationJobInput) async throws -> DeleteAudienceGenerationJobOutput
-    {
+    public func deleteAudienceGenerationJob(input: DeleteAudienceGenerationJobInput) async throws -> DeleteAudienceGenerationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -276,8 +272,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ConflictException` : A resource with that name already exists in this region.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func deleteAudienceModel(input: DeleteAudienceModelInput) async throws -> DeleteAudienceModelOutput
-    {
+    public func deleteAudienceModel(input: DeleteAudienceModelInput) async throws -> DeleteAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -322,8 +317,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ConflictException` : A resource with that name already exists in this region.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func deleteConfiguredAudienceModel(input: DeleteConfiguredAudienceModelInput) async throws -> DeleteConfiguredAudienceModelOutput
-    {
+    public func deleteConfiguredAudienceModel(input: DeleteConfiguredAudienceModelInput) async throws -> DeleteConfiguredAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -367,8 +361,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func deleteConfiguredAudienceModelPolicy(input: DeleteConfiguredAudienceModelPolicyInput) async throws -> DeleteConfiguredAudienceModelPolicyOutput
-    {
+    public func deleteConfiguredAudienceModelPolicy(input: DeleteConfiguredAudienceModelPolicyInput) async throws -> DeleteConfiguredAudienceModelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +406,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ConflictException` : A resource with that name already exists in this region.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func deleteTrainingDataset(input: DeleteTrainingDatasetInput) async throws -> DeleteTrainingDatasetOutput
-    {
+    public func deleteTrainingDataset(input: DeleteTrainingDatasetInput) async throws -> DeleteTrainingDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -458,8 +450,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func getAudienceGenerationJob(input: GetAudienceGenerationJobInput) async throws -> GetAudienceGenerationJobOutput
-    {
+    public func getAudienceGenerationJob(input: GetAudienceGenerationJobInput) async throws -> GetAudienceGenerationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -503,8 +494,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func getAudienceModel(input: GetAudienceModelInput) async throws -> GetAudienceModelOutput
-    {
+    public func getAudienceModel(input: GetAudienceModelInput) async throws -> GetAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -548,8 +538,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func getConfiguredAudienceModel(input: GetConfiguredAudienceModelInput) async throws -> GetConfiguredAudienceModelOutput
-    {
+    public func getConfiguredAudienceModel(input: GetConfiguredAudienceModelInput) async throws -> GetConfiguredAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +582,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func getConfiguredAudienceModelPolicy(input: GetConfiguredAudienceModelPolicyInput) async throws -> GetConfiguredAudienceModelPolicyOutput
-    {
+    public func getConfiguredAudienceModelPolicy(input: GetConfiguredAudienceModelPolicyInput) async throws -> GetConfiguredAudienceModelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -638,8 +626,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func getTrainingDataset(input: GetTrainingDatasetInput) async throws -> GetTrainingDatasetOutput
-    {
+    public func getTrainingDataset(input: GetTrainingDatasetInput) async throws -> GetTrainingDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -682,8 +669,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func listAudienceExportJobs(input: ListAudienceExportJobsInput) async throws -> ListAudienceExportJobsOutput
-    {
+    public func listAudienceExportJobs(input: ListAudienceExportJobsInput) async throws -> ListAudienceExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -727,8 +713,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func listAudienceGenerationJobs(input: ListAudienceGenerationJobsInput) async throws -> ListAudienceGenerationJobsOutput
-    {
+    public func listAudienceGenerationJobs(input: ListAudienceGenerationJobsInput) async throws -> ListAudienceGenerationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +757,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func listAudienceModels(input: ListAudienceModelsInput) async throws -> ListAudienceModelsOutput
-    {
+    public func listAudienceModels(input: ListAudienceModelsInput) async throws -> ListAudienceModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -817,8 +801,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func listConfiguredAudienceModels(input: ListConfiguredAudienceModelsInput) async throws -> ListConfiguredAudienceModelsOutput
-    {
+    public func listConfiguredAudienceModels(input: ListConfiguredAudienceModelsInput) async throws -> ListConfiguredAudienceModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -863,8 +846,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +889,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func listTrainingDatasets(input: ListTrainingDatasetsInput) async throws -> ListTrainingDatasetsOutput
-    {
+    public func listTrainingDatasets(input: ListTrainingDatasetsInput) async throws -> ListTrainingDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -953,8 +934,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func putConfiguredAudienceModelPolicy(input: PutConfiguredAudienceModelPolicyInput) async throws -> PutConfiguredAudienceModelPolicyOutput
-    {
+    public func putConfiguredAudienceModelPolicy(input: PutConfiguredAudienceModelPolicyInput) async throws -> PutConfiguredAudienceModelPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1003,8 +983,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func startAudienceExportJob(input: StartAudienceExportJobInput) async throws -> StartAudienceExportJobOutput
-    {
+    public func startAudienceExportJob(input: StartAudienceExportJobInput) async throws -> StartAudienceExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1032,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func startAudienceGenerationJob(input: StartAudienceGenerationJobInput) async throws -> StartAudienceGenerationJobOutput
-    {
+    public func startAudienceGenerationJob(input: StartAudienceGenerationJobInput) async throws -> StartAudienceGenerationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1079,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1149,8 +1126,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1172,7 @@ extension CleanRoomsMLClient: CleanRoomsMLClientProtocol {
     /// - `ConflictException` : A resource with that name already exists in this region.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
-    public func updateConfiguredAudienceModel(input: UpdateConfiguredAudienceModelInput) async throws -> UpdateConfiguredAudienceModelOutput
-    {
+    public func updateConfiguredAudienceModel(input: UpdateConfiguredAudienceModelInput) async throws -> UpdateConfiguredAudienceModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

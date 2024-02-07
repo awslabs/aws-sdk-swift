@@ -2,6 +2,8 @@
 import AWSClientRuntime
 import ClientRuntime
 
+public enum AppRunnerClientTypes {}
+
 extension AssociateCustomDomainInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"

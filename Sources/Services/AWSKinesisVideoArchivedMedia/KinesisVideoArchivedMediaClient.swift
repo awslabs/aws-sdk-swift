@@ -66,7 +66,7 @@ public struct KinesisVideoArchivedMediaClientLogHandlerFactory: ClientRuntime.SD
     }
 }
 
-extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtocol {
+extension KinesisVideoArchivedMediaClient {
     /// Performs the `GetClip` operation on the `AWSAcuityReader` service.
     ///
     /// Downloads an MP4 file (clip) containing the archived, on-demand media from the specified video stream over the specified time range. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. As a prerequisite to using GetCLip API, you must obtain an endpoint using GetDataEndpoint, specifying GET_CLIP for the APIName parameter. An Amazon Kinesis video stream has the following requirements for providing data through MP4:
@@ -98,8 +98,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
-    public func getClip(input: GetClipInput) async throws -> GetClipOutput
-    {
+    public func getClip(input: GetClipInput) async throws -> GetClipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -189,8 +188,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
-    public func getDASHStreamingSessionURL(input: GetDASHStreamingSessionURLInput) async throws -> GetDASHStreamingSessionURLOutput
-    {
+    public func getDASHStreamingSessionURL(input: GetDASHStreamingSessionURLInput) async throws -> GetDASHStreamingSessionURLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +282,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
-    public func getHLSStreamingSessionURL(input: GetHLSStreamingSessionURLInput) async throws -> GetHLSStreamingSessionURLOutput
-    {
+    public func getHLSStreamingSessionURL(input: GetHLSStreamingSessionURLInput) async throws -> GetHLSStreamingSessionURLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -334,8 +331,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `NoDataRetentionException` : GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
-    public func getImages(input: GetImagesInput) async throws -> GetImagesOutput
-    {
+    public func getImages(input: GetImagesInput) async throws -> GetImagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -390,8 +386,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used.
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
-    public func getMediaForFragmentList(input: GetMediaForFragmentListInput) async throws -> GetMediaForFragmentListOutput
-    {
+    public func getMediaForFragmentList(input: GetMediaForFragmentListInput) async throws -> GetMediaForFragmentListOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -446,8 +441,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used.
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
-    public func listFragments(input: ListFragmentsInput) async throws -> ListFragmentsOutput
-    {
+    public func listFragments(input: ListFragmentsInput) async throws -> ListFragmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

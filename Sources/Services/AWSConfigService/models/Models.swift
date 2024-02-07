@@ -1823,6 +1823,8 @@ extension ConfigClientTypes {
     }
 }
 
+public enum ConfigClientTypes {}
+
 extension ConfigClientTypes.ConfigExportDeliveryInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastAttemptTime

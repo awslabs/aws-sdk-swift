@@ -66,7 +66,7 @@ public struct IoTWirelessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension IoTWirelessClient: IoTWirelessClientProtocol {
+extension IoTWirelessClient {
     /// Performs the `AssociateAwsAccountWithPartnerAccount` operation on the `iotwireless` service.
     ///
     /// Associates a partner account with your AWS account.
@@ -84,8 +84,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateAwsAccountWithPartnerAccount(input: AssociateAwsAccountWithPartnerAccountInput) async throws -> AssociateAwsAccountWithPartnerAccountOutput
-    {
+    public func associateAwsAccountWithPartnerAccount(input: AssociateAwsAccountWithPartnerAccountInput) async throws -> AssociateAwsAccountWithPartnerAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateMulticastGroupWithFuotaTask(input: AssociateMulticastGroupWithFuotaTaskInput) async throws -> AssociateMulticastGroupWithFuotaTaskOutput
-    {
+    public func associateMulticastGroupWithFuotaTask(input: AssociateMulticastGroupWithFuotaTaskInput) async throws -> AssociateMulticastGroupWithFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateWirelessDeviceWithFuotaTask(input: AssociateWirelessDeviceWithFuotaTaskInput) async throws -> AssociateWirelessDeviceWithFuotaTaskOutput
-    {
+    public func associateWirelessDeviceWithFuotaTask(input: AssociateWirelessDeviceWithFuotaTaskInput) async throws -> AssociateWirelessDeviceWithFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -238,8 +235,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateWirelessDeviceWithMulticastGroup(input: AssociateWirelessDeviceWithMulticastGroupInput) async throws -> AssociateWirelessDeviceWithMulticastGroupOutput
-    {
+    public func associateWirelessDeviceWithMulticastGroup(input: AssociateWirelessDeviceWithMulticastGroupInput) async throws -> AssociateWirelessDeviceWithMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -289,8 +285,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateWirelessDeviceWithThing(input: AssociateWirelessDeviceWithThingInput) async throws -> AssociateWirelessDeviceWithThingOutput
-    {
+    public func associateWirelessDeviceWithThing(input: AssociateWirelessDeviceWithThingInput) async throws -> AssociateWirelessDeviceWithThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -340,8 +335,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateWirelessGatewayWithCertificate(input: AssociateWirelessGatewayWithCertificateInput) async throws -> AssociateWirelessGatewayWithCertificateOutput
-    {
+    public func associateWirelessGatewayWithCertificate(input: AssociateWirelessGatewayWithCertificateInput) async throws -> AssociateWirelessGatewayWithCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -391,8 +385,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func associateWirelessGatewayWithThing(input: AssociateWirelessGatewayWithThingInput) async throws -> AssociateWirelessGatewayWithThingOutput
-    {
+    public func associateWirelessGatewayWithThing(input: AssociateWirelessGatewayWithThingInput) async throws -> AssociateWirelessGatewayWithThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -442,8 +435,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func cancelMulticastGroupSession(input: CancelMulticastGroupSessionInput) async throws -> CancelMulticastGroupSessionOutput
-    {
+    public func cancelMulticastGroupSession(input: CancelMulticastGroupSessionInput) async throws -> CancelMulticastGroupSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -490,8 +482,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput
-    {
+    public func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -541,8 +532,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createDeviceProfile(input: CreateDeviceProfileInput) async throws -> CreateDeviceProfileOutput
-    {
+    public func createDeviceProfile(input: CreateDeviceProfileInput) async throws -> CreateDeviceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -593,8 +583,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createFuotaTask(input: CreateFuotaTaskInput) async throws -> CreateFuotaTaskOutput
-    {
+    public func createFuotaTask(input: CreateFuotaTaskInput) async throws -> CreateFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -645,8 +634,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createMulticastGroup(input: CreateMulticastGroupInput) async throws -> CreateMulticastGroupOutput
-    {
+    public func createMulticastGroup(input: CreateMulticastGroupInput) async throws -> CreateMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -697,8 +685,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createNetworkAnalyzerConfiguration(input: CreateNetworkAnalyzerConfigurationInput) async throws -> CreateNetworkAnalyzerConfigurationOutput
-    {
+    public func createNetworkAnalyzerConfiguration(input: CreateNetworkAnalyzerConfigurationInput) async throws -> CreateNetworkAnalyzerConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -748,8 +735,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createServiceProfile(input: CreateServiceProfileInput) async throws -> CreateServiceProfileOutput
-    {
+    public func createServiceProfile(input: CreateServiceProfileInput) async throws -> CreateServiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -800,8 +786,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createWirelessDevice(input: CreateWirelessDeviceInput) async throws -> CreateWirelessDeviceOutput
-    {
+    public func createWirelessDevice(input: CreateWirelessDeviceInput) async throws -> CreateWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -851,8 +836,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createWirelessGateway(input: CreateWirelessGatewayInput) async throws -> CreateWirelessGatewayOutput
-    {
+    public func createWirelessGateway(input: CreateWirelessGatewayInput) async throws -> CreateWirelessGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -903,8 +887,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createWirelessGatewayTask(input: CreateWirelessGatewayTaskInput) async throws -> CreateWirelessGatewayTaskOutput
-    {
+    public func createWirelessGatewayTask(input: CreateWirelessGatewayTaskInput) async throws -> CreateWirelessGatewayTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -954,8 +937,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func createWirelessGatewayTaskDefinition(input: CreateWirelessGatewayTaskDefinitionInput) async throws -> CreateWirelessGatewayTaskDefinitionOutput
-    {
+    public func createWirelessGatewayTaskDefinition(input: CreateWirelessGatewayTaskDefinitionInput) async throws -> CreateWirelessGatewayTaskDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1006,8 +988,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
-    {
+    public func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1054,8 +1035,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteDeviceProfile(input: DeleteDeviceProfileInput) async throws -> DeleteDeviceProfileOutput
-    {
+    public func deleteDeviceProfile(input: DeleteDeviceProfileInput) async throws -> DeleteDeviceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1101,8 +1081,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteFuotaTask(input: DeleteFuotaTaskInput) async throws -> DeleteFuotaTaskOutput
-    {
+    public func deleteFuotaTask(input: DeleteFuotaTaskInput) async throws -> DeleteFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1149,8 +1128,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteMulticastGroup(input: DeleteMulticastGroupInput) async throws -> DeleteMulticastGroupOutput
-    {
+    public func deleteMulticastGroup(input: DeleteMulticastGroupInput) async throws -> DeleteMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1197,8 +1175,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteNetworkAnalyzerConfiguration(input: DeleteNetworkAnalyzerConfigurationInput) async throws -> DeleteNetworkAnalyzerConfigurationOutput
-    {
+    public func deleteNetworkAnalyzerConfiguration(input: DeleteNetworkAnalyzerConfigurationInput) async throws -> DeleteNetworkAnalyzerConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1244,8 +1221,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteQueuedMessages(input: DeleteQueuedMessagesInput) async throws -> DeleteQueuedMessagesOutput
-    {
+    public func deleteQueuedMessages(input: DeleteQueuedMessagesInput) async throws -> DeleteQueuedMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1293,8 +1269,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteServiceProfile(input: DeleteServiceProfileInput) async throws -> DeleteServiceProfileOutput
-    {
+    public func deleteServiceProfile(input: DeleteServiceProfileInput) async throws -> DeleteServiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1340,8 +1315,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteWirelessDevice(input: DeleteWirelessDeviceInput) async throws -> DeleteWirelessDeviceOutput
-    {
+    public func deleteWirelessDevice(input: DeleteWirelessDeviceInput) async throws -> DeleteWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1388,8 +1362,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteWirelessDeviceImportTask(input: DeleteWirelessDeviceImportTaskInput) async throws -> DeleteWirelessDeviceImportTaskOutput
-    {
+    public func deleteWirelessDeviceImportTask(input: DeleteWirelessDeviceImportTaskInput) async throws -> DeleteWirelessDeviceImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1435,8 +1408,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteWirelessGateway(input: DeleteWirelessGatewayInput) async throws -> DeleteWirelessGatewayOutput
-    {
+    public func deleteWirelessGateway(input: DeleteWirelessGatewayInput) async throws -> DeleteWirelessGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1482,8 +1454,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteWirelessGatewayTask(input: DeleteWirelessGatewayTaskInput) async throws -> DeleteWirelessGatewayTaskOutput
-    {
+    public func deleteWirelessGatewayTask(input: DeleteWirelessGatewayTaskInput) async throws -> DeleteWirelessGatewayTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1529,8 +1500,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deleteWirelessGatewayTaskDefinition(input: DeleteWirelessGatewayTaskDefinitionInput) async throws -> DeleteWirelessGatewayTaskDefinitionOutput
-    {
+    public func deleteWirelessGatewayTaskDefinition(input: DeleteWirelessGatewayTaskDefinitionInput) async throws -> DeleteWirelessGatewayTaskDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1575,8 +1545,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func deregisterWirelessDevice(input: DeregisterWirelessDeviceInput) async throws -> DeregisterWirelessDeviceOutput
-    {
+    public func deregisterWirelessDevice(input: DeregisterWirelessDeviceInput) async throws -> DeregisterWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1622,8 +1591,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateAwsAccountFromPartnerAccount(input: DisassociateAwsAccountFromPartnerAccountInput) async throws -> DisassociateAwsAccountFromPartnerAccountOutput
-    {
+    public func disassociateAwsAccountFromPartnerAccount(input: DisassociateAwsAccountFromPartnerAccountInput) async throws -> DisassociateAwsAccountFromPartnerAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1670,8 +1638,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateMulticastGroupFromFuotaTask(input: DisassociateMulticastGroupFromFuotaTaskInput) async throws -> DisassociateMulticastGroupFromFuotaTaskOutput
-    {
+    public func disassociateMulticastGroupFromFuotaTask(input: DisassociateMulticastGroupFromFuotaTaskInput) async throws -> DisassociateMulticastGroupFromFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1718,8 +1685,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateWirelessDeviceFromFuotaTask(input: DisassociateWirelessDeviceFromFuotaTaskInput) async throws -> DisassociateWirelessDeviceFromFuotaTaskOutput
-    {
+    public func disassociateWirelessDeviceFromFuotaTask(input: DisassociateWirelessDeviceFromFuotaTaskInput) async throws -> DisassociateWirelessDeviceFromFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1765,8 +1731,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateWirelessDeviceFromMulticastGroup(input: DisassociateWirelessDeviceFromMulticastGroupInput) async throws -> DisassociateWirelessDeviceFromMulticastGroupOutput
-    {
+    public func disassociateWirelessDeviceFromMulticastGroup(input: DisassociateWirelessDeviceFromMulticastGroupInput) async throws -> DisassociateWirelessDeviceFromMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1813,8 +1778,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateWirelessDeviceFromThing(input: DisassociateWirelessDeviceFromThingInput) async throws -> DisassociateWirelessDeviceFromThingOutput
-    {
+    public func disassociateWirelessDeviceFromThing(input: DisassociateWirelessDeviceFromThingInput) async throws -> DisassociateWirelessDeviceFromThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1860,8 +1824,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateWirelessGatewayFromCertificate(input: DisassociateWirelessGatewayFromCertificateInput) async throws -> DisassociateWirelessGatewayFromCertificateOutput
-    {
+    public func disassociateWirelessGatewayFromCertificate(input: DisassociateWirelessGatewayFromCertificateInput) async throws -> DisassociateWirelessGatewayFromCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1908,8 +1871,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func disassociateWirelessGatewayFromThing(input: DisassociateWirelessGatewayFromThingInput) async throws -> DisassociateWirelessGatewayFromThingOutput
-    {
+    public func disassociateWirelessGatewayFromThing(input: DisassociateWirelessGatewayFromThingInput) async throws -> DisassociateWirelessGatewayFromThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1955,8 +1917,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput
-    {
+    public func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2002,8 +1963,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getDeviceProfile(input: GetDeviceProfileInput) async throws -> GetDeviceProfileOutput
-    {
+    public func getDeviceProfile(input: GetDeviceProfileInput) async throws -> GetDeviceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2047,8 +2007,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `AccessDeniedException` : User does not have permission to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
-    public func getEventConfigurationByResourceTypes(input: GetEventConfigurationByResourceTypesInput) async throws -> GetEventConfigurationByResourceTypesOutput
-    {
+    public func getEventConfigurationByResourceTypes(input: GetEventConfigurationByResourceTypesInput) async throws -> GetEventConfigurationByResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2094,8 +2053,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getFuotaTask(input: GetFuotaTaskInput) async throws -> GetFuotaTaskOutput
-    {
+    public func getFuotaTask(input: GetFuotaTaskInput) async throws -> GetFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2141,8 +2099,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getLogLevelsByResourceTypes(input: GetLogLevelsByResourceTypesInput) async throws -> GetLogLevelsByResourceTypesOutput
-    {
+    public func getLogLevelsByResourceTypes(input: GetLogLevelsByResourceTypesInput) async throws -> GetLogLevelsByResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2188,8 +2145,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getMulticastGroup(input: GetMulticastGroupInput) async throws -> GetMulticastGroupOutput
-    {
+    public func getMulticastGroup(input: GetMulticastGroupInput) async throws -> GetMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2235,8 +2191,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getMulticastGroupSession(input: GetMulticastGroupSessionInput) async throws -> GetMulticastGroupSessionOutput
-    {
+    public func getMulticastGroupSession(input: GetMulticastGroupSessionInput) async throws -> GetMulticastGroupSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2282,8 +2237,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getNetworkAnalyzerConfiguration(input: GetNetworkAnalyzerConfigurationInput) async throws -> GetNetworkAnalyzerConfigurationOutput
-    {
+    public func getNetworkAnalyzerConfiguration(input: GetNetworkAnalyzerConfigurationInput) async throws -> GetNetworkAnalyzerConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2328,8 +2282,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getPartnerAccount(input: GetPartnerAccountInput) async throws -> GetPartnerAccountOutput
-    {
+    public func getPartnerAccount(input: GetPartnerAccountInput) async throws -> GetPartnerAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2377,8 +2330,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getPosition(input: GetPositionInput) async throws -> GetPositionOutput
-    {
+    public func getPosition(input: GetPositionInput) async throws -> GetPositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2426,8 +2378,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getPositionConfiguration(input: GetPositionConfigurationInput) async throws -> GetPositionConfigurationOutput
-    {
+    public func getPositionConfiguration(input: GetPositionConfigurationInput) async throws -> GetPositionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2474,8 +2425,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getPositionEstimate(input: GetPositionEstimateInput) async throws -> GetPositionEstimateOutput
-    {
+    public func getPositionEstimate(input: GetPositionEstimateInput) async throws -> GetPositionEstimateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2524,8 +2474,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getResourceEventConfiguration(input: GetResourceEventConfigurationInput) async throws -> GetResourceEventConfigurationOutput
-    {
+    public func getResourceEventConfiguration(input: GetResourceEventConfigurationInput) async throws -> GetResourceEventConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2572,8 +2521,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getResourceLogLevel(input: GetResourceLogLevelInput) async throws -> GetResourceLogLevelOutput
-    {
+    public func getResourceLogLevel(input: GetResourceLogLevelInput) async throws -> GetResourceLogLevelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2620,8 +2568,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutput
-    {
+    public func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2667,8 +2614,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getServiceEndpoint(input: GetServiceEndpointInput) async throws -> GetServiceEndpointOutput
-    {
+    public func getServiceEndpoint(input: GetServiceEndpointInput) async throws -> GetServiceEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2715,8 +2661,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getServiceProfile(input: GetServiceProfileInput) async throws -> GetServiceProfileOutput
-    {
+    public func getServiceProfile(input: GetServiceProfileInput) async throws -> GetServiceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2762,8 +2707,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessDevice(input: GetWirelessDeviceInput) async throws -> GetWirelessDeviceOutput
-    {
+    public func getWirelessDevice(input: GetWirelessDeviceInput) async throws -> GetWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2811,8 +2755,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessDeviceImportTask(input: GetWirelessDeviceImportTaskInput) async throws -> GetWirelessDeviceImportTaskOutput
-    {
+    public func getWirelessDeviceImportTask(input: GetWirelessDeviceImportTaskInput) async throws -> GetWirelessDeviceImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2858,8 +2801,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessDeviceStatistics(input: GetWirelessDeviceStatisticsInput) async throws -> GetWirelessDeviceStatisticsOutput
-    {
+    public func getWirelessDeviceStatistics(input: GetWirelessDeviceStatisticsInput) async throws -> GetWirelessDeviceStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2905,8 +2847,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessGateway(input: GetWirelessGatewayInput) async throws -> GetWirelessGatewayOutput
-    {
+    public func getWirelessGateway(input: GetWirelessGatewayInput) async throws -> GetWirelessGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2953,8 +2894,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessGatewayCertificate(input: GetWirelessGatewayCertificateInput) async throws -> GetWirelessGatewayCertificateOutput
-    {
+    public func getWirelessGatewayCertificate(input: GetWirelessGatewayCertificateInput) async throws -> GetWirelessGatewayCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3000,8 +2940,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessGatewayFirmwareInformation(input: GetWirelessGatewayFirmwareInformationInput) async throws -> GetWirelessGatewayFirmwareInformationOutput
-    {
+    public func getWirelessGatewayFirmwareInformation(input: GetWirelessGatewayFirmwareInformationInput) async throws -> GetWirelessGatewayFirmwareInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3047,8 +2986,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessGatewayStatistics(input: GetWirelessGatewayStatisticsInput) async throws -> GetWirelessGatewayStatisticsOutput
-    {
+    public func getWirelessGatewayStatistics(input: GetWirelessGatewayStatisticsInput) async throws -> GetWirelessGatewayStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3094,8 +3032,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessGatewayTask(input: GetWirelessGatewayTaskInput) async throws -> GetWirelessGatewayTaskOutput
-    {
+    public func getWirelessGatewayTask(input: GetWirelessGatewayTaskInput) async throws -> GetWirelessGatewayTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3141,8 +3078,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func getWirelessGatewayTaskDefinition(input: GetWirelessGatewayTaskDefinitionInput) async throws -> GetWirelessGatewayTaskDefinitionOutput
-    {
+    public func getWirelessGatewayTaskDefinition(input: GetWirelessGatewayTaskDefinitionInput) async throws -> GetWirelessGatewayTaskDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3187,8 +3123,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput
-    {
+    public func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3234,8 +3169,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listDeviceProfiles(input: ListDeviceProfilesInput) async throws -> ListDeviceProfilesOutput
-    {
+    public func listDeviceProfiles(input: ListDeviceProfilesInput) async throws -> ListDeviceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3283,8 +3217,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listDevicesForWirelessDeviceImportTask(input: ListDevicesForWirelessDeviceImportTaskInput) async throws -> ListDevicesForWirelessDeviceImportTaskOutput
-    {
+    public func listDevicesForWirelessDeviceImportTask(input: ListDevicesForWirelessDeviceImportTaskInput) async throws -> ListDevicesForWirelessDeviceImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3330,8 +3263,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listEventConfigurations(input: ListEventConfigurationsInput) async throws -> ListEventConfigurationsOutput
-    {
+    public func listEventConfigurations(input: ListEventConfigurationsInput) async throws -> ListEventConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3377,8 +3309,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listFuotaTasks(input: ListFuotaTasksInput) async throws -> ListFuotaTasksOutput
-    {
+    public func listFuotaTasks(input: ListFuotaTasksInput) async throws -> ListFuotaTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3424,8 +3355,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listMulticastGroups(input: ListMulticastGroupsInput) async throws -> ListMulticastGroupsOutput
-    {
+    public func listMulticastGroups(input: ListMulticastGroupsInput) async throws -> ListMulticastGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3472,8 +3402,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listMulticastGroupsByFuotaTask(input: ListMulticastGroupsByFuotaTaskInput) async throws -> ListMulticastGroupsByFuotaTaskOutput
-    {
+    public func listMulticastGroupsByFuotaTask(input: ListMulticastGroupsByFuotaTaskInput) async throws -> ListMulticastGroupsByFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3519,8 +3448,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listNetworkAnalyzerConfigurations(input: ListNetworkAnalyzerConfigurationsInput) async throws -> ListNetworkAnalyzerConfigurationsOutput
-    {
+    public func listNetworkAnalyzerConfigurations(input: ListNetworkAnalyzerConfigurationsInput) async throws -> ListNetworkAnalyzerConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3566,8 +3494,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listPartnerAccounts(input: ListPartnerAccountsInput) async throws -> ListPartnerAccountsOutput
-    {
+    public func listPartnerAccounts(input: ListPartnerAccountsInput) async throws -> ListPartnerAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3614,8 +3541,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listPositionConfigurations(input: ListPositionConfigurationsInput) async throws -> ListPositionConfigurationsOutput
-    {
+    public func listPositionConfigurations(input: ListPositionConfigurationsInput) async throws -> ListPositionConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3662,8 +3588,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listQueuedMessages(input: ListQueuedMessagesInput) async throws -> ListQueuedMessagesOutput
-    {
+    public func listQueuedMessages(input: ListQueuedMessagesInput) async throws -> ListQueuedMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3709,8 +3634,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listServiceProfiles(input: ListServiceProfilesInput) async throws -> ListServiceProfilesOutput
-    {
+    public func listServiceProfiles(input: ListServiceProfilesInput) async throws -> ListServiceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3757,8 +3681,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3806,8 +3729,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listWirelessDeviceImportTasks(input: ListWirelessDeviceImportTasksInput) async throws -> ListWirelessDeviceImportTasksOutput
-    {
+    public func listWirelessDeviceImportTasks(input: ListWirelessDeviceImportTasksInput) async throws -> ListWirelessDeviceImportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3853,8 +3775,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listWirelessDevices(input: ListWirelessDevicesInput) async throws -> ListWirelessDevicesOutput
-    {
+    public func listWirelessDevices(input: ListWirelessDevicesInput) async throws -> ListWirelessDevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3900,8 +3821,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listWirelessGatewayTaskDefinitions(input: ListWirelessGatewayTaskDefinitionsInput) async throws -> ListWirelessGatewayTaskDefinitionsOutput
-    {
+    public func listWirelessGatewayTaskDefinitions(input: ListWirelessGatewayTaskDefinitionsInput) async throws -> ListWirelessGatewayTaskDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3947,8 +3867,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func listWirelessGateways(input: ListWirelessGatewaysInput) async throws -> ListWirelessGatewaysOutput
-    {
+    public func listWirelessGateways(input: ListWirelessGatewaysInput) async throws -> ListWirelessGatewaysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3996,8 +3915,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func putPositionConfiguration(input: PutPositionConfigurationInput) async throws -> PutPositionConfigurationOutput
-    {
+    public func putPositionConfiguration(input: PutPositionConfigurationInput) async throws -> PutPositionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4047,8 +3965,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func putResourceLogLevel(input: PutResourceLogLevelInput) async throws -> PutResourceLogLevelOutput
-    {
+    public func putResourceLogLevel(input: PutResourceLogLevelInput) async throws -> PutResourceLogLevelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4098,8 +4015,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func resetAllResourceLogLevels(input: ResetAllResourceLogLevelsInput) async throws -> ResetAllResourceLogLevelsOutput
-    {
+    public func resetAllResourceLogLevels(input: ResetAllResourceLogLevelsInput) async throws -> ResetAllResourceLogLevelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4145,8 +4061,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func resetResourceLogLevel(input: ResetResourceLogLevelInput) async throws -> ResetResourceLogLevelOutput
-    {
+    public func resetResourceLogLevel(input: ResetResourceLogLevelInput) async throws -> ResetResourceLogLevelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4194,8 +4109,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func sendDataToMulticastGroup(input: SendDataToMulticastGroupInput) async throws -> SendDataToMulticastGroupOutput
-    {
+    public func sendDataToMulticastGroup(input: SendDataToMulticastGroupInput) async throws -> SendDataToMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4243,8 +4157,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func sendDataToWirelessDevice(input: SendDataToWirelessDeviceInput) async throws -> SendDataToWirelessDeviceOutput
-    {
+    public func sendDataToWirelessDevice(input: SendDataToWirelessDeviceInput) async throws -> SendDataToWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4293,8 +4206,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func startBulkAssociateWirelessDeviceWithMulticastGroup(input: StartBulkAssociateWirelessDeviceWithMulticastGroupInput) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupOutput
-    {
+    public func startBulkAssociateWirelessDeviceWithMulticastGroup(input: StartBulkAssociateWirelessDeviceWithMulticastGroupInput) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4343,8 +4255,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func startBulkDisassociateWirelessDeviceFromMulticastGroup(input: StartBulkDisassociateWirelessDeviceFromMulticastGroupInput) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput
-    {
+    public func startBulkDisassociateWirelessDeviceFromMulticastGroup(input: StartBulkDisassociateWirelessDeviceFromMulticastGroupInput) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4394,8 +4305,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func startFuotaTask(input: StartFuotaTaskInput) async throws -> StartFuotaTaskOutput
-    {
+    public func startFuotaTask(input: StartFuotaTaskInput) async throws -> StartFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4445,8 +4355,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func startMulticastGroupSession(input: StartMulticastGroupSessionInput) async throws -> StartMulticastGroupSessionOutput
-    {
+    public func startMulticastGroupSession(input: StartMulticastGroupSessionInput) async throws -> StartMulticastGroupSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4496,8 +4405,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func startSingleWirelessDeviceImportTask(input: StartSingleWirelessDeviceImportTaskInput) async throws -> StartSingleWirelessDeviceImportTaskOutput
-    {
+    public func startSingleWirelessDeviceImportTask(input: StartSingleWirelessDeviceImportTaskInput) async throws -> StartSingleWirelessDeviceImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4548,8 +4456,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func startWirelessDeviceImportTask(input: StartWirelessDeviceImportTaskInput) async throws -> StartWirelessDeviceImportTaskOutput
-    {
+    public func startWirelessDeviceImportTask(input: StartWirelessDeviceImportTaskInput) async throws -> StartWirelessDeviceImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4600,8 +4507,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `TooManyTagsException` : The request was denied because the resource can't have any more tags.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4650,8 +4556,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func testWirelessDevice(input: TestWirelessDeviceInput) async throws -> TestWirelessDeviceOutput
-    {
+    public func testWirelessDevice(input: TestWirelessDeviceInput) async throws -> TestWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4697,8 +4602,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4745,8 +4649,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
-    {
+    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4794,8 +4697,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateEventConfigurationByResourceTypes(input: UpdateEventConfigurationByResourceTypesInput) async throws -> UpdateEventConfigurationByResourceTypesOutput
-    {
+    public func updateEventConfigurationByResourceTypes(input: UpdateEventConfigurationByResourceTypesInput) async throws -> UpdateEventConfigurationByResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4845,8 +4747,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateFuotaTask(input: UpdateFuotaTaskInput) async throws -> UpdateFuotaTaskOutput
-    {
+    public func updateFuotaTask(input: UpdateFuotaTaskInput) async throws -> UpdateFuotaTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4896,8 +4797,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateLogLevelsByResourceTypes(input: UpdateLogLevelsByResourceTypesInput) async throws -> UpdateLogLevelsByResourceTypesOutput
-    {
+    public func updateLogLevelsByResourceTypes(input: UpdateLogLevelsByResourceTypesInput) async throws -> UpdateLogLevelsByResourceTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4947,8 +4847,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateMulticastGroup(input: UpdateMulticastGroupInput) async throws -> UpdateMulticastGroupOutput
-    {
+    public func updateMulticastGroup(input: UpdateMulticastGroupInput) async throws -> UpdateMulticastGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4997,8 +4896,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateNetworkAnalyzerConfiguration(input: UpdateNetworkAnalyzerConfigurationInput) async throws -> UpdateNetworkAnalyzerConfigurationOutput
-    {
+    public func updateNetworkAnalyzerConfiguration(input: UpdateNetworkAnalyzerConfigurationInput) async throws -> UpdateNetworkAnalyzerConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5046,8 +4944,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updatePartnerAccount(input: UpdatePartnerAccountInput) async throws -> UpdatePartnerAccountOutput
-    {
+    public func updatePartnerAccount(input: UpdatePartnerAccountInput) async throws -> UpdatePartnerAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5098,8 +4995,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updatePosition(input: UpdatePositionInput) async throws -> UpdatePositionOutput
-    {
+    public func updatePosition(input: UpdatePositionInput) async throws -> UpdatePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5150,8 +5046,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateResourceEventConfiguration(input: UpdateResourceEventConfigurationInput) async throws -> UpdateResourceEventConfigurationOutput
-    {
+    public func updateResourceEventConfiguration(input: UpdateResourceEventConfigurationInput) async throws -> UpdateResourceEventConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5201,8 +5096,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutput
-    {
+    public func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5252,8 +5146,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateWirelessDevice(input: UpdateWirelessDeviceInput) async throws -> UpdateWirelessDeviceOutput
-    {
+    public func updateWirelessDevice(input: UpdateWirelessDeviceInput) async throws -> UpdateWirelessDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5303,8 +5196,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateWirelessDeviceImportTask(input: UpdateWirelessDeviceImportTaskInput) async throws -> UpdateWirelessDeviceImportTaskOutput
-    {
+    public func updateWirelessDeviceImportTask(input: UpdateWirelessDeviceImportTaskInput) async throws -> UpdateWirelessDeviceImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5353,8 +5245,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
-    public func updateWirelessGateway(input: UpdateWirelessGatewayInput) async throws -> UpdateWirelessGatewayOutput
-    {
+    public func updateWirelessGateway(input: UpdateWirelessGatewayInput) async throws -> UpdateWirelessGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

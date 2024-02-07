@@ -66,7 +66,7 @@ public struct NetworkFirewallClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension NetworkFirewallClient: NetworkFirewallClientProtocol {
+extension NetworkFirewallClient {
     /// Performs the `AssociateFirewallPolicy` operation on the `NetworkFirewall_20201112` service.
     ///
     /// Associates a [FirewallPolicy] to a [Firewall]. A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls.
@@ -90,8 +90,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func associateFirewallPolicy(input: AssociateFirewallPolicyInput) async throws -> AssociateFirewallPolicyOutput
-    {
+    public func associateFirewallPolicy(input: AssociateFirewallPolicyInput) async throws -> AssociateFirewallPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -149,8 +148,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func associateSubnets(input: AssociateSubnetsInput) async throws -> AssociateSubnetsOutput
-    {
+    public func associateSubnets(input: AssociateSubnetsInput) async throws -> AssociateSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -207,8 +205,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func createFirewall(input: CreateFirewallInput) async throws -> CreateFirewallOutput
-    {
+    public func createFirewall(input: CreateFirewallInput) async throws -> CreateFirewallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -264,8 +261,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func createFirewallPolicy(input: CreateFirewallPolicyInput) async throws -> CreateFirewallPolicyOutput
-    {
+    public func createFirewallPolicy(input: CreateFirewallPolicyInput) async throws -> CreateFirewallPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -321,8 +317,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput
-    {
+    public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +373,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutput
-    {
+    public func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -436,8 +430,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
-    public func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutput
-    {
+    public func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -494,8 +487,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
-    public func deleteFirewallPolicy(input: DeleteFirewallPolicyInput) async throws -> DeleteFirewallPolicyOutput
-    {
+    public func deleteFirewallPolicy(input: DeleteFirewallPolicyInput) async throws -> DeleteFirewallPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -551,8 +543,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidResourcePolicyException` : The policy statement failed validation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +600,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
-    public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput
-    {
+    public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -666,8 +656,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutput
-    {
+    public func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -722,8 +711,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeFirewall(input: DescribeFirewallInput) async throws -> DescribeFirewallOutput
-    {
+    public func describeFirewall(input: DescribeFirewallInput) async throws -> DescribeFirewallOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -778,8 +766,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeFirewallPolicy(input: DescribeFirewallPolicyInput) async throws -> DescribeFirewallPolicyOutput
-    {
+    public func describeFirewallPolicy(input: DescribeFirewallPolicyInput) async throws -> DescribeFirewallPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -834,8 +821,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutput
-    {
+    public func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -890,8 +876,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
-    {
+    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -946,8 +931,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeRuleGroup(input: DescribeRuleGroupInput) async throws -> DescribeRuleGroupOutput
-    {
+    public func describeRuleGroup(input: DescribeRuleGroupInput) async throws -> DescribeRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1002,8 +986,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeRuleGroupMetadata(input: DescribeRuleGroupMetadataInput) async throws -> DescribeRuleGroupMetadataOutput
-    {
+    public func describeRuleGroupMetadata(input: DescribeRuleGroupMetadataInput) async throws -> DescribeRuleGroupMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1058,8 +1041,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutput
-    {
+    public func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1116,8 +1098,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutput
-    {
+    public func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1171,8 +1152,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func listFirewallPolicies(input: ListFirewallPoliciesInput) async throws -> ListFirewallPoliciesOutput
-    {
+    public func listFirewallPolicies(input: ListFirewallPoliciesInput) async throws -> ListFirewallPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1226,8 +1206,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func listFirewalls(input: ListFirewallsInput) async throws -> ListFirewallsOutput
-    {
+    public func listFirewalls(input: ListFirewallsInput) async throws -> ListFirewallsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1281,8 +1260,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput
-    {
+    public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1314,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutput
-    {
+    public func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1392,8 +1369,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1456,8 +1432,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidResourcePolicyException` : The policy statement failed validation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1512,8 +1487,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1568,8 +1542,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1626,8 +1599,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateFirewallDeleteProtection(input: UpdateFirewallDeleteProtectionInput) async throws -> UpdateFirewallDeleteProtectionOutput
-    {
+    public func updateFirewallDeleteProtection(input: UpdateFirewallDeleteProtectionInput) async throws -> UpdateFirewallDeleteProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1683,8 +1655,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateFirewallDescription(input: UpdateFirewallDescriptionInput) async throws -> UpdateFirewallDescriptionOutput
-    {
+    public func updateFirewallDescription(input: UpdateFirewallDescriptionInput) async throws -> UpdateFirewallDescriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1741,8 +1712,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateFirewallEncryptionConfiguration(input: UpdateFirewallEncryptionConfigurationInput) async throws -> UpdateFirewallEncryptionConfigurationOutput
-    {
+    public func updateFirewallEncryptionConfiguration(input: UpdateFirewallEncryptionConfigurationInput) async throws -> UpdateFirewallEncryptionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1798,8 +1768,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateFirewallPolicy(input: UpdateFirewallPolicyInput) async throws -> UpdateFirewallPolicyOutput
-    {
+    public func updateFirewallPolicy(input: UpdateFirewallPolicyInput) async throws -> UpdateFirewallPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1856,8 +1825,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateFirewallPolicyChangeProtection(input: UpdateFirewallPolicyChangeProtectionInput) async throws -> UpdateFirewallPolicyChangeProtectionOutput
-    {
+    public func updateFirewallPolicyChangeProtection(input: UpdateFirewallPolicyChangeProtectionInput) async throws -> UpdateFirewallPolicyChangeProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1923,8 +1891,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `LogDestinationPermissionException` : Unable to send logs to a configured logging destination.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput
-    {
+    public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1980,8 +1947,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput
-    {
+    public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2038,8 +2004,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateSubnetChangeProtection(input: UpdateSubnetChangeProtectionInput) async throws -> UpdateSubnetChangeProtectionOutput
-    {
+    public func updateSubnetChangeProtection(input: UpdateSubnetChangeProtectionInput) async throws -> UpdateSubnetChangeProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2095,8 +2060,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    public func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutput
-    {
+    public func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

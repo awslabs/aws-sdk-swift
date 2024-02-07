@@ -66,7 +66,7 @@ public struct BedrockClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension BedrockClient: BedrockClientProtocol {
+extension BedrockClient {
     /// Performs the `CreateModelCustomizationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
     /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Training data contains input and output text for each record in a JSONL format. Optionally, you can specify validation data in the same format as the training data. Amazon Bedrock returns validation loss metrics and output generations after the job completes. Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
@@ -86,8 +86,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func createModelCustomizationJob(input: CreateModelCustomizationJobInput) async throws -> CreateModelCustomizationJobOutput
-    {
+    public func createModelCustomizationJob(input: CreateModelCustomizationJobInput) async throws -> CreateModelCustomizationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -139,8 +138,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func createProvisionedModelThroughput(input: CreateProvisionedModelThroughputInput) async throws -> CreateProvisionedModelThroughputOutput
-    {
+    public func createProvisionedModelThroughput(input: CreateProvisionedModelThroughputInput) async throws -> CreateProvisionedModelThroughputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -191,8 +189,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func deleteCustomModel(input: DeleteCustomModelInput) async throws -> DeleteCustomModelOutput
-    {
+    public func deleteCustomModel(input: DeleteCustomModelInput) async throws -> DeleteCustomModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func deleteModelInvocationLoggingConfiguration(input: DeleteModelInvocationLoggingConfigurationInput) async throws -> DeleteModelInvocationLoggingConfigurationOutput
-    {
+    public func deleteModelInvocationLoggingConfiguration(input: DeleteModelInvocationLoggingConfigurationInput) async throws -> DeleteModelInvocationLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func deleteProvisionedModelThroughput(input: DeleteProvisionedModelThroughputInput) async throws -> DeleteProvisionedModelThroughputOutput
-    {
+    public func deleteProvisionedModelThroughput(input: DeleteProvisionedModelThroughputInput) async throws -> DeleteProvisionedModelThroughputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func getCustomModel(input: GetCustomModelInput) async throws -> GetCustomModelOutput
-    {
+    public func getCustomModel(input: GetCustomModelInput) async throws -> GetCustomModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func getFoundationModel(input: GetFoundationModelInput) async throws -> GetFoundationModelOutput
-    {
+    public func getFoundationModel(input: GetFoundationModelInput) async throws -> GetFoundationModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func getModelCustomizationJob(input: GetModelCustomizationJobInput) async throws -> GetModelCustomizationJobOutput
-    {
+    public func getModelCustomizationJob(input: GetModelCustomizationJobInput) async throws -> GetModelCustomizationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -470,8 +462,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func getModelInvocationLoggingConfiguration(input: GetModelInvocationLoggingConfigurationInput) async throws -> GetModelInvocationLoggingConfigurationOutput
-    {
+    public func getModelInvocationLoggingConfiguration(input: GetModelInvocationLoggingConfigurationInput) async throws -> GetModelInvocationLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +508,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func getProvisionedModelThroughput(input: GetProvisionedModelThroughputInput) async throws -> GetProvisionedModelThroughputOutput
-    {
+    public func getProvisionedModelThroughput(input: GetProvisionedModelThroughputInput) async throws -> GetProvisionedModelThroughputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -563,8 +553,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func listCustomModels(input: ListCustomModelsInput) async throws -> ListCustomModelsOutput
-    {
+    public func listCustomModels(input: ListCustomModelsInput) async throws -> ListCustomModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -610,8 +599,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func listFoundationModels(input: ListFoundationModelsInput) async throws -> ListFoundationModelsOutput
-    {
+    public func listFoundationModels(input: ListFoundationModelsInput) async throws -> ListFoundationModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -657,8 +645,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func listModelCustomizationJobs(input: ListModelCustomizationJobsInput) async throws -> ListModelCustomizationJobsOutput
-    {
+    public func listModelCustomizationJobs(input: ListModelCustomizationJobsInput) async throws -> ListModelCustomizationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,8 +691,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func listProvisionedModelThroughputs(input: ListProvisionedModelThroughputsInput) async throws -> ListProvisionedModelThroughputsOutput
-    {
+    public func listProvisionedModelThroughputs(input: ListProvisionedModelThroughputsInput) async throws -> ListProvisionedModelThroughputsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -752,8 +738,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -801,8 +786,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func putModelInvocationLoggingConfiguration(input: PutModelInvocationLoggingConfigurationInput) async throws -> PutModelInvocationLoggingConfigurationOutput
-    {
+    public func putModelInvocationLoggingConfiguration(input: PutModelInvocationLoggingConfigurationInput) async throws -> PutModelInvocationLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -852,8 +836,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func stopModelCustomizationJob(input: StopModelCustomizationJobInput) async throws -> StopModelCustomizationJobOutput
-    {
+    public func stopModelCustomizationJob(input: StopModelCustomizationJobInput) async throws -> StopModelCustomizationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -900,8 +883,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -950,8 +932,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1000,8 +981,7 @@ extension BedrockClient: BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func updateProvisionedModelThroughput(input: UpdateProvisionedModelThroughputInput) async throws -> UpdateProvisionedModelThroughputOutput
-    {
+    public func updateProvisionedModelThroughput(input: UpdateProvisionedModelThroughputInput) async throws -> UpdateProvisionedModelThroughputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct ShieldClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
 }
 
-extension ShieldClient: ShieldClientProtocol {
+extension ShieldClient {
     /// Performs the `AssociateDRTLogBucket` operation on the `AWSShield_20160616` service.
     ///
     /// Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the [Business Support plan](http://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise-support/).
@@ -86,8 +86,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `NoAssociatedRoleException` : The ARN of the role that you specified does not exist.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func associateDRTLogBucket(input: AssociateDRTLogBucketInput) async throws -> AssociateDRTLogBucketOutput
-    {
+    public func associateDRTLogBucket(input: AssociateDRTLogBucketInput) async throws -> AssociateDRTLogBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -138,8 +137,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func associateDRTRole(input: AssociateDRTRoleInput) async throws -> AssociateDRTRoleOutput
-    {
+    public func associateDRTRole(input: AssociateDRTRoleInput) async throws -> AssociateDRTRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -190,8 +188,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `LimitsExceededException` : Exception that indicates that the operation would exceed a limit.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func associateHealthCheck(input: AssociateHealthCheckInput) async throws -> AssociateHealthCheckOutput
-    {
+    public func associateHealthCheck(input: AssociateHealthCheckInput) async throws -> AssociateHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -241,8 +238,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func associateProactiveEngagementDetails(input: AssociateProactiveEngagementDetailsInput) async throws -> AssociateProactiveEngagementDetailsOutput
-    {
+    public func associateProactiveEngagementDetails(input: AssociateProactiveEngagementDetailsInput) async throws -> AssociateProactiveEngagementDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -295,8 +291,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceAlreadyExistsException` : Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func createProtection(input: CreateProtectionInput) async throws -> CreateProtectionOutput
-    {
+    public func createProtection(input: CreateProtectionInput) async throws -> CreateProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -347,8 +342,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceAlreadyExistsException` : Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func createProtectionGroup(input: CreateProtectionGroupInput) async throws -> CreateProtectionGroupOutput
-    {
+    public func createProtectionGroup(input: CreateProtectionGroupInput) async throws -> CreateProtectionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -395,8 +389,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceAlreadyExistsException` : Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
-    public func createSubscription(input: CreateSubscriptionInput) async throws -> CreateSubscriptionOutput
-    {
+    public func createSubscription(input: CreateSubscriptionInput) async throws -> CreateSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func deleteProtection(input: DeleteProtectionInput) async throws -> DeleteProtectionOutput
-    {
+    public func deleteProtection(input: DeleteProtectionInput) async throws -> DeleteProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +485,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func deleteProtectionGroup(input: DeleteProtectionGroupInput) async throws -> DeleteProtectionGroupOutput
-    {
+    public func deleteProtectionGroup(input: DeleteProtectionGroupInput) async throws -> DeleteProtectionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -543,8 +534,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `LockedSubscriptionException` : You are trying to update a subscription that has not yet completed the 1-year commitment. You can change the AutoRenew parameter during the last 30 days of your subscription. This exception indicates that you are attempting to change AutoRenew prior to that period.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func deleteSubscription(input: DeleteSubscriptionInput) async throws -> DeleteSubscriptionOutput
-    {
+    public func deleteSubscription(input: DeleteSubscriptionInput) async throws -> DeleteSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -591,8 +581,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Exception that indicates the specified AttackId does not exist, or the requester does not have the appropriate permissions to access the AttackId.
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
-    public func describeAttack(input: DescribeAttackInput) async throws -> DescribeAttackOutput
-    {
+    public func describeAttack(input: DescribeAttackInput) async throws -> DescribeAttackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -638,8 +627,7 @@ extension ShieldClient: ShieldClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
-    public func describeAttackStatistics(input: DescribeAttackStatisticsInput) async throws -> DescribeAttackStatisticsOutput
-    {
+    public func describeAttackStatistics(input: DescribeAttackStatisticsInput) async throws -> DescribeAttackStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -686,8 +674,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func describeDRTAccess(input: DescribeDRTAccessInput) async throws -> DescribeDRTAccessOutput
-    {
+    public func describeDRTAccess(input: DescribeDRTAccessInput) async throws -> DescribeDRTAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +721,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func describeEmergencyContactSettings(input: DescribeEmergencyContactSettingsInput) async throws -> DescribeEmergencyContactSettingsOutput
-    {
+    public func describeEmergencyContactSettings(input: DescribeEmergencyContactSettingsInput) async throws -> DescribeEmergencyContactSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +769,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func describeProtection(input: DescribeProtectionInput) async throws -> DescribeProtectionOutput
-    {
+    public func describeProtection(input: DescribeProtectionInput) async throws -> DescribeProtectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -831,8 +816,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func describeProtectionGroup(input: DescribeProtectionGroupInput) async throws -> DescribeProtectionGroupOutput
-    {
+    public func describeProtectionGroup(input: DescribeProtectionGroupInput) async throws -> DescribeProtectionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -879,8 +863,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func describeSubscription(input: DescribeSubscriptionInput) async throws -> DescribeSubscriptionOutput
-    {
+    public func describeSubscription(input: DescribeSubscriptionInput) async throws -> DescribeSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +913,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func disableApplicationLayerAutomaticResponse(input: DisableApplicationLayerAutomaticResponseInput) async throws -> DisableApplicationLayerAutomaticResponseOutput
-    {
+    public func disableApplicationLayerAutomaticResponse(input: DisableApplicationLayerAutomaticResponseInput) async throws -> DisableApplicationLayerAutomaticResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -981,8 +963,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func disableProactiveEngagement(input: DisableProactiveEngagementInput) async throws -> DisableProactiveEngagementOutput
-    {
+    public func disableProactiveEngagement(input: DisableProactiveEngagementInput) async throws -> DisableProactiveEngagementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1033,8 +1014,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `NoAssociatedRoleException` : The ARN of the role that you specified does not exist.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func disassociateDRTLogBucket(input: DisassociateDRTLogBucketInput) async throws -> DisassociateDRTLogBucketOutput
-    {
+    public func disassociateDRTLogBucket(input: DisassociateDRTLogBucketInput) async throws -> DisassociateDRTLogBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1083,8 +1063,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidOperationException` : Exception that indicates that the operation would not cause any change to occur.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func disassociateDRTRole(input: DisassociateDRTRoleInput) async throws -> DisassociateDRTRoleOutput
-    {
+    public func disassociateDRTRole(input: DisassociateDRTRoleInput) async throws -> DisassociateDRTRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1134,8 +1113,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func disassociateHealthCheck(input: DisassociateHealthCheckInput) async throws -> DisassociateHealthCheckOutput
-    {
+    public func disassociateHealthCheck(input: DisassociateHealthCheckInput) async throws -> DisassociateHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1186,8 +1164,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `LimitsExceededException` : Exception that indicates that the operation would exceed a limit.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func enableApplicationLayerAutomaticResponse(input: EnableApplicationLayerAutomaticResponseInput) async throws -> EnableApplicationLayerAutomaticResponseOutput
-    {
+    public func enableApplicationLayerAutomaticResponse(input: EnableApplicationLayerAutomaticResponseInput) async throws -> EnableApplicationLayerAutomaticResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1237,8 +1214,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func enableProactiveEngagement(input: EnableProactiveEngagementInput) async throws -> EnableProactiveEngagementOutput
-    {
+    public func enableProactiveEngagement(input: EnableProactiveEngagementInput) async throws -> EnableProactiveEngagementOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1284,8 +1260,7 @@ extension ShieldClient: ShieldClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
-    public func getSubscriptionState(input: GetSubscriptionStateInput) async throws -> GetSubscriptionStateOutput
-    {
+    public func getSubscriptionState(input: GetSubscriptionStateInput) async throws -> GetSubscriptionStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1333,8 +1308,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidOperationException` : Exception that indicates that the operation would not cause any change to occur.
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
-    public func listAttacks(input: ListAttacksInput) async throws -> ListAttacksOutput
-    {
+    public func listAttacks(input: ListAttacksInput) async throws -> ListAttacksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1382,8 +1356,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidPaginationTokenException` : Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func listProtectionGroups(input: ListProtectionGroupsInput) async throws -> ListProtectionGroupsOutput
-    {
+    public func listProtectionGroups(input: ListProtectionGroupsInput) async throws -> ListProtectionGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1431,8 +1404,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidPaginationTokenException` : Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func listProtections(input: ListProtectionsInput) async throws -> ListProtectionsOutput
-    {
+    public func listProtections(input: ListProtectionsInput) async throws -> ListProtectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1480,8 +1452,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidPaginationTokenException` : Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func listResourcesInProtectionGroup(input: ListResourcesInProtectionGroupInput) async throws -> ListResourcesInProtectionGroupOutput
-    {
+    public func listResourcesInProtectionGroup(input: ListResourcesInProtectionGroupInput) async throws -> ListResourcesInProtectionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1529,8 +1500,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1579,8 +1549,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1629,8 +1598,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1680,8 +1648,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func updateApplicationLayerAutomaticResponse(input: UpdateApplicationLayerAutomaticResponseInput) async throws -> UpdateApplicationLayerAutomaticResponseOutput
-    {
+    public func updateApplicationLayerAutomaticResponse(input: UpdateApplicationLayerAutomaticResponseInput) async throws -> UpdateApplicationLayerAutomaticResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1730,8 +1697,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func updateEmergencyContactSettings(input: UpdateEmergencyContactSettingsInput) async throws -> UpdateEmergencyContactSettingsOutput
-    {
+    public func updateEmergencyContactSettings(input: UpdateEmergencyContactSettingsInput) async throws -> UpdateEmergencyContactSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1780,8 +1746,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func updateProtectionGroup(input: UpdateProtectionGroupInput) async throws -> UpdateProtectionGroupOutput
-    {
+    public func updateProtectionGroup(input: UpdateProtectionGroupInput) async throws -> UpdateProtectionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1831,8 +1796,7 @@ extension ShieldClient: ShieldClientProtocol {
     /// - `LockedSubscriptionException` : You are trying to update a subscription that has not yet completed the 1-year commitment. You can change the AutoRenew parameter during the last 30 days of your subscription. This exception indicates that you are attempting to change AutoRenew prior to that period.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    public func updateSubscription(input: UpdateSubscriptionInput) async throws -> UpdateSubscriptionOutput
-    {
+    public func updateSubscription(input: UpdateSubscriptionInput) async throws -> UpdateSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

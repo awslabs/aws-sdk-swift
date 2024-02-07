@@ -66,7 +66,7 @@ public struct ServerlessApplicationRepositoryClientLogHandlerFactory: ClientRunt
     }
 }
 
-extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepositoryClientProtocol {
+extension ServerlessApplicationRepositoryClient {
     /// Performs the `CreateApplication` operation on the `ServerlessApplicationRepository` service.
     ///
     /// Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
@@ -83,8 +83,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `ForbiddenException` : The client is not authenticated.
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-    {
+    public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `ForbiddenException` : The client is not authenticated.
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput
-    {
+    public func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,8 +180,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `ForbiddenException` : The client is not authenticated.
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func createCloudFormationChangeSet(input: CreateCloudFormationChangeSetInput) async throws -> CreateCloudFormationChangeSetOutput
-    {
+    public func createCloudFormationChangeSet(input: CreateCloudFormationChangeSetInput) async throws -> CreateCloudFormationChangeSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -232,8 +229,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func createCloudFormationTemplate(input: CreateCloudFormationTemplateInput) async throws -> CreateCloudFormationTemplateOutput
-    {
+    public func createCloudFormationTemplate(input: CreateCloudFormationTemplateInput) async throws -> CreateCloudFormationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-    {
+    public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-    {
+    public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -378,8 +372,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func getApplicationPolicy(input: GetApplicationPolicyInput) async throws -> GetApplicationPolicyOutput
-    {
+    public func getApplicationPolicy(input: GetApplicationPolicyInput) async throws -> GetApplicationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +418,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func getCloudFormationTemplate(input: GetCloudFormationTemplateInput) async throws -> GetCloudFormationTemplateOutput
-    {
+    public func getCloudFormationTemplate(input: GetCloudFormationTemplateInput) async throws -> GetCloudFormationTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -472,8 +464,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func listApplicationDependencies(input: ListApplicationDependenciesInput) async throws -> ListApplicationDependenciesOutput
-    {
+    public func listApplicationDependencies(input: ListApplicationDependenciesInput) async throws -> ListApplicationDependenciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -520,8 +511,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
-    {
+    public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -567,8 +557,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `ForbiddenException` : The client is not authenticated.
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
-    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-    {
+    public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -615,8 +604,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func putApplicationPolicy(input: PutApplicationPolicyInput) async throws -> PutApplicationPolicyOutput
-    {
+    public func putApplicationPolicy(input: PutApplicationPolicyInput) async throws -> PutApplicationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -665,8 +653,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func unshareApplication(input: UnshareApplicationInput) async throws -> UnshareApplicationOutput
-    {
+    public func unshareApplication(input: UnshareApplicationInput) async throws -> UnshareApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -716,8 +703,7 @@ extension ServerlessApplicationRepositoryClient: ServerlessApplicationRepository
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
-    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-    {
+    public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

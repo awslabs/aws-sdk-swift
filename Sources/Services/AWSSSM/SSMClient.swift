@@ -66,7 +66,7 @@ public struct SSMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SSMClient: SSMClientProtocol {
+extension SSMClient {
     /// Performs the `AddTagsToResource` operation on the `AmazonSSM` service.
     ///
     /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you track each node's owner and stack level. For example:
@@ -98,8 +98,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     /// - `TooManyTagsError` : The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -150,8 +149,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     /// - `OpsItemRelatedItemAlreadyExistsException` : The Amazon Resource Name (ARN) is already associated with the OpsItem.
-    public func associateOpsItemRelatedItem(input: AssociateOpsItemRelatedItemInput) async throws -> AssociateOpsItemRelatedItemOutput
-    {
+    public func associateOpsItemRelatedItem(input: AssociateOpsItemRelatedItemInput) async throws -> AssociateOpsItemRelatedItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -208,8 +206,7 @@ extension SSMClient: SSMClientProtocol {
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
-    public func cancelCommand(input: CancelCommandInput) async throws -> CancelCommandOutput
-    {
+    public func cancelCommand(input: CancelCommandInput) async throws -> CancelCommandOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -256,8 +253,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func cancelMaintenanceWindowExecution(input: CancelMaintenanceWindowExecutionInput) async throws -> CancelMaintenanceWindowExecutionOutput
-    {
+    public func cancelMaintenanceWindowExecution(input: CancelMaintenanceWindowExecutionInput) async throws -> CancelMaintenanceWindowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -304,8 +300,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidParameters` : You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
-    public func createActivation(input: CreateActivationInput) async throws -> CreateActivationOutput
-    {
+    public func createActivation(input: CreateActivationInput) async throws -> CreateActivationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -371,8 +366,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidTarget` : The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
     /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
-    public func createAssociation(input: CreateAssociationInput) async throws -> CreateAssociationOutput
-    {
+    public func createAssociation(input: CreateAssociationInput) async throws -> CreateAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,8 +431,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidTarget` : The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
     /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
-    public func createAssociationBatch(input: CreateAssociationBatchInput) async throws -> CreateAssociationBatchOutput
-    {
+    public func createAssociationBatch(input: CreateAssociationBatchInput) async throws -> CreateAssociationBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -489,8 +482,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocumentContent` : The content for the document isn't valid.
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
-    public func createDocument(input: CreateDocumentInput) async throws -> CreateDocumentOutput
-    {
+    public func createDocument(input: CreateDocumentInput) async throws -> CreateDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -538,8 +530,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `IdempotentParameterMismatch` : Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-    public func createMaintenanceWindow(input: CreateMaintenanceWindowInput) async throws -> CreateMaintenanceWindowOutput
-    {
+    public func createMaintenanceWindow(input: CreateMaintenanceWindowInput) async throws -> CreateMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -590,8 +581,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsItemAlreadyExistsException` : The OpsItem already exists.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
-    public func createOpsItem(input: CreateOpsItemInput) async throws -> CreateOpsItemOutput
-    {
+    public func createOpsItem(input: CreateOpsItemInput) async throws -> CreateOpsItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +631,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
     /// - `OpsMetadataLimitExceededException` : Your account reached the maximum number of OpsMetadata objects allowed by Application Manager. The maximum is 200 OpsMetadata objects. Delete one or more OpsMetadata object and try again.
     /// - `OpsMetadataTooManyUpdatesException` : The system is processing too many concurrent updates. Wait a few moments and try again.
-    public func createOpsMetadata(input: CreateOpsMetadataInput) async throws -> CreateOpsMetadataOutput
-    {
+    public func createOpsMetadata(input: CreateOpsMetadataInput) async throws -> CreateOpsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -690,8 +679,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `IdempotentParameterMismatch` : Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-    public func createPatchBaseline(input: CreatePatchBaselineInput) async throws -> CreatePatchBaselineOutput
-    {
+    public func createPatchBaseline(input: CreatePatchBaselineInput) async throws -> CreatePatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -741,8 +729,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `ResourceDataSyncAlreadyExistsException` : A sync configuration with the same name already exists.
     /// - `ResourceDataSyncCountExceededException` : You have exceeded the allowed maximum sync configurations.
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
-    public func createResourceDataSync(input: CreateResourceDataSyncInput) async throws -> CreateResourceDataSyncOutput
-    {
+    public func createResourceDataSync(input: CreateResourceDataSyncInput) async throws -> CreateResourceDataSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -791,8 +778,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidActivation` : The activation isn't valid. The activation might have been deleted, or the ActivationId and the ActivationCode don't match.
     /// - `InvalidActivationId` : The activation ID isn't valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func deleteActivation(input: DeleteActivationInput) async throws -> DeleteActivationOutput
-    {
+    public func deleteActivation(input: DeleteActivationInput) async throws -> DeleteActivationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -850,8 +836,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput
-    {
+    public func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -900,8 +885,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
-    public func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput
-    {
+    public func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -951,8 +935,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidInventoryRequestException` : The request isn't valid.
     /// - `InvalidOptionException` : The delete inventory option specified isn't valid. Verify the option and try again.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
-    public func deleteInventory(input: DeleteInventoryInput) async throws -> DeleteInventoryOutput
-    {
+    public func deleteInventory(input: DeleteInventoryInput) async throws -> DeleteInventoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -999,8 +982,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func deleteMaintenanceWindow(input: DeleteMaintenanceWindowInput) async throws -> DeleteMaintenanceWindowOutput
-    {
+    public func deleteMaintenanceWindow(input: DeleteMaintenanceWindowInput) async throws -> DeleteMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1055,8 +1037,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
-    public func deleteOpsItem(input: DeleteOpsItemInput) async throws -> DeleteOpsItemOutput
-    {
+    public func deleteOpsItem(input: DeleteOpsItemInput) async throws -> DeleteOpsItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1104,8 +1085,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
     /// - `OpsMetadataNotFoundException` : The OpsMetadata object doesn't exist.
-    public func deleteOpsMetadata(input: DeleteOpsMetadataInput) async throws -> DeleteOpsMetadataOutput
-    {
+    public func deleteOpsMetadata(input: DeleteOpsMetadataInput) async throws -> DeleteOpsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1152,8 +1132,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
-    public func deleteParameter(input: DeleteParameterInput) async throws -> DeleteParameterOutput
-    {
+    public func deleteParameter(input: DeleteParameterInput) async throws -> DeleteParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1199,8 +1178,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func deleteParameters(input: DeleteParametersInput) async throws -> DeleteParametersOutput
-    {
+    public func deleteParameters(input: DeleteParametersInput) async throws -> DeleteParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1247,8 +1225,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceInUseException` : Error returned if an attempt is made to delete a patch baseline that is registered for a patch group.
-    public func deletePatchBaseline(input: DeletePatchBaselineInput) async throws -> DeletePatchBaselineOutput
-    {
+    public func deletePatchBaseline(input: DeletePatchBaselineInput) async throws -> DeletePatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1296,8 +1273,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
     /// - `ResourceDataSyncNotFoundException` : The specified sync name wasn't found.
-    public func deleteResourceDataSync(input: DeleteResourceDataSyncInput) async throws -> DeleteResourceDataSyncOutput
-    {
+    public func deleteResourceDataSync(input: DeleteResourceDataSyncInput) async throws -> DeleteResourceDataSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1345,8 +1321,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourcePolicyConflictException` : The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
     /// - `ResourcePolicyInvalidParameterException` : One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1401,8 +1376,7 @@ extension SSMClient: SSMClientProtocol {
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
-    public func deregisterManagedInstance(input: DeregisterManagedInstanceInput) async throws -> DeregisterManagedInstanceOutput
-    {
+    public func deregisterManagedInstance(input: DeregisterManagedInstanceInput) async throws -> DeregisterManagedInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1449,8 +1423,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
-    public func deregisterPatchBaselineForPatchGroup(input: DeregisterPatchBaselineForPatchGroupInput) async throws -> DeregisterPatchBaselineForPatchGroupOutput
-    {
+    public func deregisterPatchBaselineForPatchGroup(input: DeregisterPatchBaselineForPatchGroupInput) async throws -> DeregisterPatchBaselineForPatchGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1471,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `TargetInUseException` : You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
-    public func deregisterTargetFromMaintenanceWindow(input: DeregisterTargetFromMaintenanceWindowInput) async throws -> DeregisterTargetFromMaintenanceWindowOutput
-    {
+    public func deregisterTargetFromMaintenanceWindow(input: DeregisterTargetFromMaintenanceWindowInput) async throws -> DeregisterTargetFromMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1546,8 +1518,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func deregisterTaskFromMaintenanceWindow(input: DeregisterTaskFromMaintenanceWindowInput) async throws -> DeregisterTaskFromMaintenanceWindowOutput
-    {
+    public func deregisterTaskFromMaintenanceWindow(input: DeregisterTaskFromMaintenanceWindowInput) async throws -> DeregisterTaskFromMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1595,8 +1566,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeActivations(input: DescribeActivationsInput) async throws -> DescribeActivationsOutput
-    {
+    public func describeActivations(input: DescribeActivationsInput) async throws -> DescribeActivationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1654,8 +1624,7 @@ extension SSMClient: SSMClientProtocol {
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
-    public func describeAssociation(input: DescribeAssociationInput) async throws -> DescribeAssociationOutput
-    {
+    public func describeAssociation(input: DescribeAssociationInput) async throws -> DescribeAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1704,8 +1673,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `AssociationExecutionDoesNotExist` : The specified execution ID doesn't exist. Verify the ID number and try again.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeAssociationExecutionTargets(input: DescribeAssociationExecutionTargetsInput) async throws -> DescribeAssociationExecutionTargetsOutput
-    {
+    public func describeAssociationExecutionTargets(input: DescribeAssociationExecutionTargetsInput) async throws -> DescribeAssociationExecutionTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1753,8 +1721,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `AssociationDoesNotExist` : The specified association doesn't exist.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeAssociationExecutions(input: DescribeAssociationExecutionsInput) async throws -> DescribeAssociationExecutionsOutput
-    {
+    public func describeAssociationExecutions(input: DescribeAssociationExecutionsInput) async throws -> DescribeAssociationExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1803,8 +1770,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidFilterKey` : The specified key isn't valid.
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeAutomationExecutions(input: DescribeAutomationExecutionsInput) async throws -> DescribeAutomationExecutionsOutput
-    {
+    public func describeAutomationExecutions(input: DescribeAutomationExecutionsInput) async throws -> DescribeAutomationExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1854,8 +1820,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidFilterKey` : The specified key isn't valid.
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeAutomationStepExecutions(input: DescribeAutomationStepExecutionsInput) async throws -> DescribeAutomationStepExecutionsOutput
-    {
+    public func describeAutomationStepExecutions(input: DescribeAutomationStepExecutionsInput) async throws -> DescribeAutomationStepExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1901,8 +1866,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeAvailablePatches(input: DescribeAvailablePatchesInput) async throws -> DescribeAvailablePatchesOutput
-    {
+    public func describeAvailablePatches(input: DescribeAvailablePatchesInput) async throws -> DescribeAvailablePatchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1950,8 +1914,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
-    public func describeDocument(input: DescribeDocumentInput) async throws -> DescribeDocumentOutput
-    {
+    public func describeDocument(input: DescribeDocumentInput) async throws -> DescribeDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2001,8 +1964,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidPermissionType` : The permission type isn't supported. Share is the only supported permission type.
-    public func describeDocumentPermission(input: DescribeDocumentPermissionInput) async throws -> DescribeDocumentPermissionOutput
-    {
+    public func describeDocumentPermission(input: DescribeDocumentPermissionInput) async throws -> DescribeDocumentPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2058,8 +2020,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeEffectiveInstanceAssociations(input: DescribeEffectiveInstanceAssociationsInput) async throws -> DescribeEffectiveInstanceAssociationsOutput
-    {
+    public func describeEffectiveInstanceAssociations(input: DescribeEffectiveInstanceAssociationsInput) async throws -> DescribeEffectiveInstanceAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2108,8 +2069,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `UnsupportedOperatingSystem` : The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
-    public func describeEffectivePatchesForPatchBaseline(input: DescribeEffectivePatchesForPatchBaselineInput) async throws -> DescribeEffectivePatchesForPatchBaselineOutput
-    {
+    public func describeEffectivePatchesForPatchBaseline(input: DescribeEffectivePatchesForPatchBaselineInput) async throws -> DescribeEffectivePatchesForPatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2165,8 +2125,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeInstanceAssociationsStatus(input: DescribeInstanceAssociationsStatusInput) async throws -> DescribeInstanceAssociationsStatusOutput
-    {
+    public func describeInstanceAssociationsStatus(input: DescribeInstanceAssociationsStatusInput) async throws -> DescribeInstanceAssociationsStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2183,7 @@ extension SSMClient: SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidInstanceInformationFilterValue` : The specified filter value isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeInstanceInformation(input: DescribeInstanceInformationInput) async throws -> DescribeInstanceInformationOutput
-    {
+    public func describeInstanceInformation(input: DescribeInstanceInformationInput) async throws -> DescribeInstanceInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2272,8 +2230,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeInstancePatchStates(input: DescribeInstancePatchStatesInput) async throws -> DescribeInstancePatchStatesOutput
-    {
+    public func describeInstancePatchStates(input: DescribeInstancePatchStatesInput) async throws -> DescribeInstancePatchStatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2321,8 +2278,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeInstancePatchStatesForPatchGroup(input: DescribeInstancePatchStatesForPatchGroupInput) async throws -> DescribeInstancePatchStatesForPatchGroupOutput
-    {
+    public func describeInstancePatchStatesForPatchGroup(input: DescribeInstancePatchStatesForPatchGroupInput) async throws -> DescribeInstancePatchStatesForPatchGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2379,8 +2335,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeInstancePatches(input: DescribeInstancePatchesInput) async throws -> DescribeInstancePatchesOutput
-    {
+    public func describeInstancePatches(input: DescribeInstancePatchesInput) async throws -> DescribeInstancePatchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2428,8 +2383,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDeletionIdException` : The ID specified for the delete operation doesn't exist or isn't valid. Verify the ID and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeInventoryDeletions(input: DescribeInventoryDeletionsInput) async throws -> DescribeInventoryDeletionsOutput
-    {
+    public func describeInventoryDeletions(input: DescribeInventoryDeletionsInput) async throws -> DescribeInventoryDeletionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2476,8 +2430,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowExecutionTaskInvocations(input: DescribeMaintenanceWindowExecutionTaskInvocationsInput) async throws -> DescribeMaintenanceWindowExecutionTaskInvocationsOutput
-    {
+    public func describeMaintenanceWindowExecutionTaskInvocations(input: DescribeMaintenanceWindowExecutionTaskInvocationsInput) async throws -> DescribeMaintenanceWindowExecutionTaskInvocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2524,8 +2477,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowExecutionTasks(input: DescribeMaintenanceWindowExecutionTasksInput) async throws -> DescribeMaintenanceWindowExecutionTasksOutput
-    {
+    public func describeMaintenanceWindowExecutionTasks(input: DescribeMaintenanceWindowExecutionTasksInput) async throws -> DescribeMaintenanceWindowExecutionTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2571,8 +2523,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowExecutions(input: DescribeMaintenanceWindowExecutionsInput) async throws -> DescribeMaintenanceWindowExecutionsOutput
-    {
+    public func describeMaintenanceWindowExecutions(input: DescribeMaintenanceWindowExecutionsInput) async throws -> DescribeMaintenanceWindowExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2619,8 +2570,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowSchedule(input: DescribeMaintenanceWindowScheduleInput) async throws -> DescribeMaintenanceWindowScheduleOutput
-    {
+    public func describeMaintenanceWindowSchedule(input: DescribeMaintenanceWindowScheduleInput) async throws -> DescribeMaintenanceWindowScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2667,8 +2617,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowTargets(input: DescribeMaintenanceWindowTargetsInput) async throws -> DescribeMaintenanceWindowTargetsOutput
-    {
+    public func describeMaintenanceWindowTargets(input: DescribeMaintenanceWindowTargetsInput) async throws -> DescribeMaintenanceWindowTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2715,8 +2664,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowTasks(input: DescribeMaintenanceWindowTasksInput) async throws -> DescribeMaintenanceWindowTasksOutput
-    {
+    public func describeMaintenanceWindowTasks(input: DescribeMaintenanceWindowTasksInput) async throws -> DescribeMaintenanceWindowTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2762,8 +2710,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindows(input: DescribeMaintenanceWindowsInput) async throws -> DescribeMaintenanceWindowsOutput
-    {
+    public func describeMaintenanceWindows(input: DescribeMaintenanceWindowsInput) async throws -> DescribeMaintenanceWindowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2809,8 +2756,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeMaintenanceWindowsForTarget(input: DescribeMaintenanceWindowsForTargetInput) async throws -> DescribeMaintenanceWindowsForTargetOutput
-    {
+    public func describeMaintenanceWindowsForTarget(input: DescribeMaintenanceWindowsForTargetInput) async throws -> DescribeMaintenanceWindowsForTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2856,8 +2802,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describeOpsItems(input: DescribeOpsItemsInput) async throws -> DescribeOpsItemsOutput
-    {
+    public func describeOpsItems(input: DescribeOpsItemsInput) async throws -> DescribeOpsItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2907,8 +2852,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidFilterOption` : The specified filter option isn't valid. Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput
-    {
+    public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2954,8 +2898,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describePatchBaselines(input: DescribePatchBaselinesInput) async throws -> DescribePatchBaselinesOutput
-    {
+    public func describePatchBaselines(input: DescribePatchBaselinesInput) async throws -> DescribePatchBaselinesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3002,8 +2945,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describePatchGroupState(input: DescribePatchGroupStateInput) async throws -> DescribePatchGroupStateOutput
-    {
+    public func describePatchGroupState(input: DescribePatchGroupStateInput) async throws -> DescribePatchGroupStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3049,8 +2991,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describePatchGroups(input: DescribePatchGroupsInput) async throws -> DescribePatchGroupsOutput
-    {
+    public func describePatchGroups(input: DescribePatchGroupsInput) async throws -> DescribePatchGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3096,8 +3037,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func describePatchProperties(input: DescribePatchPropertiesInput) async throws -> DescribePatchPropertiesOutput
-    {
+    public func describePatchProperties(input: DescribePatchPropertiesInput) async throws -> DescribePatchPropertiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3145,8 +3085,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidFilterKey` : The specified key isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput
-    {
+    public func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3196,8 +3135,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
     /// - `OpsItemRelatedItemAssociationNotFoundException` : The association wasn't found using the parameters you specified in the call. Verify the information and try again.
-    public func disassociateOpsItemRelatedItem(input: DisassociateOpsItemRelatedItemInput) async throws -> DisassociateOpsItemRelatedItemOutput
-    {
+    public func disassociateOpsItemRelatedItem(input: DisassociateOpsItemRelatedItemInput) async throws -> DisassociateOpsItemRelatedItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3244,8 +3182,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `AutomationExecutionNotFoundException` : There is no automation execution information for the requested automation execution ID.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getAutomationExecution(input: GetAutomationExecutionInput) async throws -> GetAutomationExecutionOutput
-    {
+    public func getAutomationExecution(input: GetAutomationExecutionInput) async throws -> GetAutomationExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3294,8 +3231,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentType` : The SSM document type isn't valid. Valid document types are described in the DocumentType property.
     /// - `UnsupportedCalendarException` : The calendar entry contained in the specified SSM document isn't supported.
-    public func getCalendarState(input: GetCalendarStateInput) async throws -> GetCalendarStateOutput
-    {
+    public func getCalendarState(input: GetCalendarStateInput) async throws -> GetCalendarStateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3353,8 +3289,7 @@ extension SSMClient: SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidPluginName` : The plugin name isn't valid.
     /// - `InvocationDoesNotExist` : The command ID and managed node ID you specified didn't match any invocations. Verify the command ID and the managed node ID and try again.
-    public func getCommandInvocation(input: GetCommandInvocationInput) async throws -> GetCommandInvocationOutput
-    {
+    public func getCommandInvocation(input: GetCommandInvocationInput) async throws -> GetCommandInvocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3400,8 +3335,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getConnectionStatus(input: GetConnectionStatusInput) async throws -> GetConnectionStatusOutput
-    {
+    public func getConnectionStatus(input: GetConnectionStatusInput) async throws -> GetConnectionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3447,8 +3381,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getDefaultPatchBaseline(input: GetDefaultPatchBaselineInput) async throws -> GetDefaultPatchBaselineOutput
-    {
+    public func getDefaultPatchBaseline(input: GetDefaultPatchBaselineInput) async throws -> GetDefaultPatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3496,8 +3429,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `UnsupportedFeatureRequiredException` : Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Enabling the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
     /// - `UnsupportedOperatingSystem` : The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
-    public func getDeployablePatchSnapshotForInstance(input: GetDeployablePatchSnapshotForInstanceInput) async throws -> GetDeployablePatchSnapshotForInstanceOutput
-    {
+    public func getDeployablePatchSnapshotForInstance(input: GetDeployablePatchSnapshotForInstanceInput) async throws -> GetDeployablePatchSnapshotForInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3545,8 +3477,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
-    public func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutput
-    {
+    public func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3598,8 +3529,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidResultAttributeException` : The specified inventory item result attribute isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
-    public func getInventory(input: GetInventoryInput) async throws -> GetInventoryOutput
-    {
+    public func getInventory(input: GetInventoryInput) async throws -> GetInventoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3647,8 +3577,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
-    public func getInventorySchema(input: GetInventorySchemaInput) async throws -> GetInventorySchemaOutput
-    {
+    public func getInventorySchema(input: GetInventorySchemaInput) async throws -> GetInventorySchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3695,8 +3624,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getMaintenanceWindow(input: GetMaintenanceWindowInput) async throws -> GetMaintenanceWindowOutput
-    {
+    public func getMaintenanceWindow(input: GetMaintenanceWindowInput) async throws -> GetMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3743,8 +3671,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getMaintenanceWindowExecution(input: GetMaintenanceWindowExecutionInput) async throws -> GetMaintenanceWindowExecutionOutput
-    {
+    public func getMaintenanceWindowExecution(input: GetMaintenanceWindowExecutionInput) async throws -> GetMaintenanceWindowExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3791,8 +3718,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getMaintenanceWindowExecutionTask(input: GetMaintenanceWindowExecutionTaskInput) async throws -> GetMaintenanceWindowExecutionTaskOutput
-    {
+    public func getMaintenanceWindowExecutionTask(input: GetMaintenanceWindowExecutionTaskInput) async throws -> GetMaintenanceWindowExecutionTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3839,8 +3765,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getMaintenanceWindowExecutionTaskInvocation(input: GetMaintenanceWindowExecutionTaskInvocationInput) async throws -> GetMaintenanceWindowExecutionTaskInvocationOutput
-    {
+    public func getMaintenanceWindowExecutionTaskInvocation(input: GetMaintenanceWindowExecutionTaskInvocationInput) async throws -> GetMaintenanceWindowExecutionTaskInvocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3887,8 +3812,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getMaintenanceWindowTask(input: GetMaintenanceWindowTaskInput) async throws -> GetMaintenanceWindowTaskOutput
-    {
+    public func getMaintenanceWindowTask(input: GetMaintenanceWindowTaskInput) async throws -> GetMaintenanceWindowTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3936,8 +3860,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsItemAccessDeniedException` : You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
-    public func getOpsItem(input: GetOpsItemInput) async throws -> GetOpsItemOutput
-    {
+    public func getOpsItem(input: GetOpsItemInput) async throws -> GetOpsItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3985,8 +3908,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
     /// - `OpsMetadataNotFoundException` : The OpsMetadata object doesn't exist.
-    public func getOpsMetadata(input: GetOpsMetadataInput) async throws -> GetOpsMetadataOutput
-    {
+    public func getOpsMetadata(input: GetOpsMetadataInput) async throws -> GetOpsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4037,8 +3959,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     /// - `ResourceDataSyncNotFoundException` : The specified sync name wasn't found.
-    public func getOpsSummary(input: GetOpsSummaryInput) async throws -> GetOpsSummaryOutput
-    {
+    public func getOpsSummary(input: GetOpsSummaryInput) async throws -> GetOpsSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4087,8 +4008,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidKeyId` : The query key ID isn't valid.
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
-    public func getParameter(input: GetParameterInput) async throws -> GetParameterOutput
-    {
+    public func getParameter(input: GetParameterInput) async throws -> GetParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4137,8 +4057,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidKeyId` : The query key ID isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
-    public func getParameterHistory(input: GetParameterHistoryInput) async throws -> GetParameterHistoryOutput
-    {
+    public func getParameterHistory(input: GetParameterHistoryInput) async throws -> GetParameterHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4185,8 +4104,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidKeyId` : The query key ID isn't valid.
-    public func getParameters(input: GetParametersInput) async throws -> GetParametersOutput
-    {
+    public func getParameters(input: GetParametersInput) async throws -> GetParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4237,8 +4155,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidFilterValue` : The filter value isn't valid. Verify the value and try again.
     /// - `InvalidKeyId` : The query key ID isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func getParametersByPath(input: GetParametersByPathInput) async throws -> GetParametersByPathOutput
-    {
+    public func getParametersByPath(input: GetParametersByPathInput) async throws -> GetParametersByPathOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4286,8 +4203,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
-    public func getPatchBaseline(input: GetPatchBaselineInput) async throws -> GetPatchBaselineOutput
-    {
+    public func getPatchBaseline(input: GetPatchBaselineInput) async throws -> GetPatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4333,8 +4249,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func getPatchBaselineForPatchGroup(input: GetPatchBaselineForPatchGroupInput) async throws -> GetPatchBaselineForPatchGroupOutput
-    {
+    public func getPatchBaselineForPatchGroup(input: GetPatchBaselineForPatchGroupInput) async throws -> GetPatchBaselineForPatchGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4381,8 +4296,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourcePolicyInvalidParameterException` : One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
-    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
-    {
+    public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4429,8 +4343,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ServiceSettingNotFound` : The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
-    public func getServiceSetting(input: GetServiceSettingInput) async throws -> GetServiceSettingOutput
-    {
+    public func getServiceSetting(input: GetServiceSettingInput) async throws -> GetServiceSettingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4496,8 +4409,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `ParameterVersionLabelLimitExceeded` : A parameter version can have a maximum of ten labels.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func labelParameterVersion(input: LabelParameterVersionInput) async throws -> LabelParameterVersionOutput
-    {
+    public func labelParameterVersion(input: LabelParameterVersionInput) async throws -> LabelParameterVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4545,8 +4457,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `AssociationDoesNotExist` : The specified association doesn't exist.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listAssociationVersions(input: ListAssociationVersionsInput) async throws -> ListAssociationVersionsOutput
-    {
+    public func listAssociationVersions(input: ListAssociationVersionsInput) async throws -> ListAssociationVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4593,8 +4504,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput
-    {
+    public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4652,8 +4562,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listCommandInvocations(input: ListCommandInvocationsInput) async throws -> ListCommandInvocationsOutput
-    {
+    public func listCommandInvocations(input: ListCommandInvocationsInput) async throws -> ListCommandInvocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4711,8 +4620,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listCommands(input: ListCommandsInput) async throws -> ListCommandsOutput
-    {
+    public func listCommands(input: ListCommandsInput) async throws -> ListCommandsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4762,8 +4670,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
-    public func listComplianceItems(input: ListComplianceItemsInput) async throws -> ListComplianceItemsOutput
-    {
+    public func listComplianceItems(input: ListComplianceItemsInput) async throws -> ListComplianceItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4811,8 +4718,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listComplianceSummaries(input: ListComplianceSummariesInput) async throws -> ListComplianceSummariesOutput
-    {
+    public func listComplianceSummaries(input: ListComplianceSummariesInput) async throws -> ListComplianceSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4861,8 +4767,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listDocumentMetadataHistory(input: ListDocumentMetadataHistoryInput) async throws -> ListDocumentMetadataHistoryOutput
-    {
+    public func listDocumentMetadataHistory(input: ListDocumentMetadataHistoryInput) async throws -> ListDocumentMetadataHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4910,8 +4815,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listDocumentVersions(input: ListDocumentVersionsInput) async throws -> ListDocumentVersionsOutput
-    {
+    public func listDocumentVersions(input: ListDocumentVersionsInput) async throws -> ListDocumentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4959,8 +4863,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidFilterKey` : The specified key isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listDocuments(input: ListDocumentsInput) async throws -> ListDocumentsOutput
-    {
+    public func listDocuments(input: ListDocumentsInput) async throws -> ListDocumentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5018,8 +4921,7 @@ extension SSMClient: SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
-    public func listInventoryEntries(input: ListInventoryEntriesInput) async throws -> ListInventoryEntriesOutput
-    {
+    public func listInventoryEntries(input: ListInventoryEntriesInput) async throws -> ListInventoryEntriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5068,8 +4970,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
-    public func listOpsItemEvents(input: ListOpsItemEventsInput) async throws -> ListOpsItemEventsOutput
-    {
+    public func listOpsItemEvents(input: ListOpsItemEventsInput) async throws -> ListOpsItemEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5116,8 +5017,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
-    public func listOpsItemRelatedItems(input: ListOpsItemRelatedItemsInput) async throws -> ListOpsItemRelatedItemsOutput
-    {
+    public func listOpsItemRelatedItems(input: ListOpsItemRelatedItemsInput) async throws -> ListOpsItemRelatedItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5164,8 +5064,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `OpsMetadataInvalidArgumentException` : One of the arguments passed is invalid.
-    public func listOpsMetadata(input: ListOpsMetadataInput) async throws -> ListOpsMetadataOutput
-    {
+    public func listOpsMetadata(input: ListOpsMetadataInput) async throws -> ListOpsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5213,8 +5112,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidFilter` : The filter name isn't valid. Verify the you entered the correct name and try again.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    public func listResourceComplianceSummaries(input: ListResourceComplianceSummariesInput) async throws -> ListResourceComplianceSummariesOutput
-    {
+    public func listResourceComplianceSummaries(input: ListResourceComplianceSummariesInput) async throws -> ListResourceComplianceSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5262,8 +5160,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
-    public func listResourceDataSync(input: ListResourceDataSyncInput) async throws -> ListResourceDataSyncOutput
-    {
+    public func listResourceDataSync(input: ListResourceDataSyncInput) async throws -> ListResourceDataSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5311,8 +5208,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5362,8 +5258,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidPermissionType` : The permission type isn't supported. Share is the only supported permission type.
-    public func modifyDocumentPermission(input: ModifyDocumentPermissionInput) async throws -> ModifyDocumentPermissionOutput
-    {
+    public func modifyDocumentPermission(input: ModifyDocumentPermissionInput) async throws -> ModifyDocumentPermissionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5445,8 +5340,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     /// - `ItemSizeLimitExceededException` : The inventory item size has exceeded the size limit.
     /// - `TotalSizeLimitExceededException` : The size of inventory data has exceeded the total size limit for the resource.
-    public func putComplianceItems(input: PutComplianceItemsInput) async throws -> PutComplianceItemsOutput
-    {
+    public func putComplianceItems(input: PutComplianceItemsInput) async throws -> PutComplianceItemsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5511,8 +5405,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `TotalSizeLimitExceededException` : The size of inventory data has exceeded the total size limit for the resource.
     /// - `UnsupportedInventoryItemContextException` : The Context attribute that you specified for the InventoryItem isn't allowed for this inventory type. You can only use the Context attribute with inventory types like AWS:ComplianceItem.
     /// - `UnsupportedInventorySchemaVersionException` : Inventory item type schema version has to match supported versions in the service. Check output of GetInventorySchema to see the available schema version for each type.
-    public func putInventory(input: PutInventoryInput) async throws -> PutInventoryOutput
-    {
+    public func putInventory(input: PutInventoryInput) async throws -> PutInventoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5572,8 +5465,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `PoliciesLimitExceededException` : You specified more than the maximum number of allowed policies for the parameter. The maximum is 10.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     /// - `UnsupportedParameterType` : The parameter type isn't supported.
-    public func putParameter(input: PutParameterInput) async throws -> PutParameterOutput
-    {
+    public func putParameter(input: PutParameterInput) async throws -> PutParameterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5622,8 +5514,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `ResourcePolicyConflictException` : The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
     /// - `ResourcePolicyInvalidParameterException` : One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
     /// - `ResourcePolicyLimitExceededException` : The [PutResourcePolicy] API action enforces two limits. A policy can't be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5671,8 +5562,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
-    public func registerDefaultPatchBaseline(input: RegisterDefaultPatchBaselineInput) async throws -> RegisterDefaultPatchBaselineOutput
-    {
+    public func registerDefaultPatchBaseline(input: RegisterDefaultPatchBaselineInput) async throws -> RegisterDefaultPatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5722,8 +5612,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-    public func registerPatchBaselineForPatchGroup(input: RegisterPatchBaselineForPatchGroupInput) async throws -> RegisterPatchBaselineForPatchGroupOutput
-    {
+    public func registerPatchBaselineForPatchGroup(input: RegisterPatchBaselineForPatchGroupInput) async throws -> RegisterPatchBaselineForPatchGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5772,8 +5661,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `IdempotentParameterMismatch` : Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-    public func registerTargetWithMaintenanceWindow(input: RegisterTargetWithMaintenanceWindowInput) async throws -> RegisterTargetWithMaintenanceWindowOutput
-    {
+    public func registerTargetWithMaintenanceWindow(input: RegisterTargetWithMaintenanceWindowInput) async throws -> RegisterTargetWithMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5824,8 +5712,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `IdempotentParameterMismatch` : Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceLimitExceededException` : Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-    public func registerTaskWithMaintenanceWindow(input: RegisterTaskWithMaintenanceWindowInput) async throws -> RegisterTaskWithMaintenanceWindowOutput
-    {
+    public func registerTaskWithMaintenanceWindow(input: RegisterTaskWithMaintenanceWindowInput) async throws -> RegisterTaskWithMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5875,8 +5762,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidResourceId` : The resource ID isn't valid. Verify that you entered the correct ID and try again.
     /// - `InvalidResourceType` : The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5924,8 +5810,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ServiceSettingNotFound` : The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func resetServiceSetting(input: ResetServiceSettingInput) async throws -> ResetServiceSettingOutput
-    {
+    public func resetServiceSetting(input: ResetServiceSettingInput) async throws -> ResetServiceSettingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5972,8 +5857,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func resumeSession(input: ResumeSessionInput) async throws -> ResumeSessionOutput
-    {
+    public func resumeSession(input: ResumeSessionInput) async throws -> ResumeSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6022,8 +5906,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `AutomationStepNotFoundException` : The specified step name and execution ID don't exist. Verify the information and try again.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationSignalException` : The signal isn't valid for the current Automation execution.
-    public func sendAutomationSignal(input: SendAutomationSignalInput) async throws -> SendAutomationSignalOutput
-    {
+    public func sendAutomationSignal(input: SendAutomationSignalInput) async throws -> SendAutomationSignalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6087,8 +5970,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidRole` : The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see [Configuring Amazon SNS Notifications for Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/rc-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
     /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
-    public func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput
-    {
+    public func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6135,8 +6017,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `AssociationDoesNotExist` : The specified association doesn't exist.
     /// - `InvalidAssociation` : The association isn't valid or doesn't exist.
-    public func startAssociationsOnce(input: StartAssociationsOnceInput) async throws -> StartAssociationsOnceOutput
-    {
+    public func startAssociationsOnce(input: StartAssociationsOnceInput) async throws -> StartAssociationsOnceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6188,8 +6069,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationExecutionParametersException` : The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
     /// - `InvalidTarget` : The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
-    public func startAutomationExecution(input: StartAutomationExecutionInput) async throws -> StartAutomationExecutionOutput
-    {
+    public func startAutomationExecution(input: StartAutomationExecutionInput) async throws -> StartAutomationExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6241,8 +6121,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `IdempotentParameterMismatch` : Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationExecutionParametersException` : The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
-    public func startChangeRequestExecution(input: StartChangeRequestExecutionInput) async throws -> StartChangeRequestExecutionOutput
-    {
+    public func startChangeRequestExecution(input: StartChangeRequestExecutionInput) async throws -> StartChangeRequestExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6290,8 +6169,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `TargetNotConnected` : The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see [Getting started with Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html) in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
-    public func startSession(input: StartSessionInput) async throws -> StartSessionOutput
-    {
+    public func startSession(input: StartSessionInput) async throws -> StartSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6339,8 +6217,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `AutomationExecutionNotFoundException` : There is no automation execution information for the requested automation execution ID.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationStatusUpdateException` : The specified update status operation isn't valid.
-    public func stopAutomationExecution(input: StopAutomationExecutionInput) async throws -> StopAutomationExecutionOutput
-    {
+    public func stopAutomationExecution(input: StopAutomationExecutionInput) async throws -> StopAutomationExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6386,8 +6263,7 @@ extension SSMClient: SSMClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    public func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput
-    {
+    public func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6436,8 +6312,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func unlabelParameterVersion(input: UnlabelParameterVersionInput) async throws -> UnlabelParameterVersionOutput
-    {
+    public func unlabelParameterVersion(input: UnlabelParameterVersionInput) async throws -> UnlabelParameterVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6495,8 +6370,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
     /// - `InvalidUpdate` : The update isn't valid.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func updateAssociation(input: UpdateAssociationInput) async throws -> UpdateAssociationOutput
-    {
+    public func updateAssociation(input: UpdateAssociationInput) async throws -> UpdateAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6555,8 +6429,7 @@ extension SSMClient: SSMClientProtocol {
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `StatusUnchanged` : The updated status is the same as the current status.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func updateAssociationStatus(input: UpdateAssociationStatusInput) async throws -> UpdateAssociationStatusOutput
-    {
+    public func updateAssociationStatus(input: UpdateAssociationStatusInput) async throws -> UpdateAssociationStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6611,8 +6484,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
-    public func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutput
-    {
+    public func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6661,8 +6533,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
-    public func updateDocumentDefaultVersion(input: UpdateDocumentDefaultVersionInput) async throws -> UpdateDocumentDefaultVersionOutput
-    {
+    public func updateDocumentDefaultVersion(input: UpdateDocumentDefaultVersionInput) async throws -> UpdateDocumentDefaultVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6711,8 +6582,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
-    public func updateDocumentMetadata(input: UpdateDocumentMetadataInput) async throws -> UpdateDocumentMetadataOutput
-    {
+    public func updateDocumentMetadata(input: UpdateDocumentMetadataInput) async throws -> UpdateDocumentMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6759,8 +6629,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func updateMaintenanceWindow(input: UpdateMaintenanceWindowInput) async throws -> UpdateMaintenanceWindowOutput
-    {
+    public func updateMaintenanceWindow(input: UpdateMaintenanceWindowInput) async throws -> UpdateMaintenanceWindowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6822,8 +6691,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func updateMaintenanceWindowTarget(input: UpdateMaintenanceWindowTargetInput) async throws -> UpdateMaintenanceWindowTargetOutput
-    {
+    public func updateMaintenanceWindowTarget(input: UpdateMaintenanceWindowTargetInput) async throws -> UpdateMaintenanceWindowTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6885,8 +6753,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func updateMaintenanceWindowTask(input: UpdateMaintenanceWindowTaskInput) async throws -> UpdateMaintenanceWindowTaskOutput
-    {
+    public func updateMaintenanceWindowTask(input: UpdateMaintenanceWindowTaskInput) async throws -> UpdateMaintenanceWindowTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6941,8 +6808,7 @@ extension SSMClient: SSMClientProtocol {
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
     /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
-    public func updateManagedInstanceRole(input: UpdateManagedInstanceRoleInput) async throws -> UpdateManagedInstanceRoleOutput
-    {
+    public func updateManagedInstanceRole(input: UpdateManagedInstanceRoleInput) async throws -> UpdateManagedInstanceRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6994,8 +6860,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsItemInvalidParameterException` : A specified parameter argument isn't valid. Verify the available arguments and try again.
     /// - `OpsItemLimitExceededException` : The request caused OpsItems to exceed one or more quotas.
     /// - `OpsItemNotFoundException` : The specified OpsItem ID doesn't exist. Verify the ID and try again.
-    public func updateOpsItem(input: UpdateOpsItemInput) async throws -> UpdateOpsItemOutput
-    {
+    public func updateOpsItem(input: UpdateOpsItemInput) async throws -> UpdateOpsItemOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7045,8 +6910,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `OpsMetadataKeyLimitExceededException` : The OpsMetadata object exceeds the maximum number of OpsMetadata keys that you can assign to an application in Application Manager.
     /// - `OpsMetadataNotFoundException` : The OpsMetadata object doesn't exist.
     /// - `OpsMetadataTooManyUpdatesException` : The system is processing too many concurrent updates. Wait a few moments and try again.
-    public func updateOpsMetadata(input: UpdateOpsMetadataInput) async throws -> UpdateOpsMetadataOutput
-    {
+    public func updateOpsMetadata(input: UpdateOpsMetadataInput) async throws -> UpdateOpsMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7093,8 +6957,7 @@ extension SSMClient: SSMClientProtocol {
     /// __Possible Exceptions:__
     /// - `DoesNotExistException` : Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
     /// - `InternalServerError` : An error occurred on the server side.
-    public func updatePatchBaseline(input: UpdatePatchBaselineInput) async throws -> UpdatePatchBaselineOutput
-    {
+    public func updatePatchBaseline(input: UpdatePatchBaselineInput) async throws -> UpdatePatchBaselineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7143,8 +7006,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `ResourceDataSyncConflictException` : Another UpdateResourceDataSync request is being processed. Wait a few minutes and try again.
     /// - `ResourceDataSyncInvalidConfigurationException` : The specified sync configuration is invalid.
     /// - `ResourceDataSyncNotFoundException` : The specified sync name wasn't found.
-    public func updateResourceDataSync(input: UpdateResourceDataSyncInput) async throws -> UpdateResourceDataSyncOutput
-    {
+    public func updateResourceDataSync(input: UpdateResourceDataSyncInput) async throws -> UpdateResourceDataSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7192,8 +7054,7 @@ extension SSMClient: SSMClientProtocol {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ServiceSettingNotFound` : The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
-    public func updateServiceSetting(input: UpdateServiceSettingInput) async throws -> UpdateServiceSettingOutput
-    {
+    public func updateServiceSetting(input: UpdateServiceSettingInput) async throws -> UpdateServiceSettingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct IVSRealTimeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension IVSRealTimeClient: IVSRealTimeClientProtocol {
+extension IVSRealTimeClient {
     /// Performs the `CreateEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
     ///
     /// Creates an EncoderConfiguration object.
@@ -85,8 +85,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createEncoderConfiguration(input: CreateEncoderConfigurationInput) async throws -> CreateEncoderConfigurationOutput
-    {
+    public func createEncoderConfiguration(input: CreateEncoderConfigurationInput) async throws -> CreateEncoderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutput
-    {
+    public func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `PendingVerification` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createStage(input: CreateStageInput) async throws -> CreateStageOutput
-    {
+    public func createStage(input: CreateStageInput) async throws -> CreateStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func createStorageConfiguration(input: CreateStorageConfigurationInput) async throws -> CreateStorageConfigurationOutput
-    {
+    public func createStorageConfiguration(input: CreateStorageConfigurationInput) async throws -> CreateStorageConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,8 +283,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func deleteEncoderConfiguration(input: DeleteEncoderConfigurationInput) async throws -> DeleteEncoderConfigurationOutput
-    {
+    public func deleteEncoderConfiguration(input: DeleteEncoderConfigurationInput) async throws -> DeleteEncoderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -337,8 +332,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
-    {
+    public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -388,8 +382,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func deleteStorageConfiguration(input: DeleteStorageConfigurationInput) async throws -> DeleteStorageConfigurationOutput
-    {
+    public func deleteStorageConfiguration(input: DeleteStorageConfigurationInput) async throws -> DeleteStorageConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,8 +430,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput
-    {
+    public func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -488,8 +480,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func getComposition(input: GetCompositionInput) async throws -> GetCompositionOutput
-    {
+    public func getComposition(input: GetCompositionInput) async throws -> GetCompositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -539,8 +530,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func getEncoderConfiguration(input: GetEncoderConfigurationInput) async throws -> GetEncoderConfigurationOutput
-    {
+    public func getEncoderConfiguration(input: GetEncoderConfigurationInput) async throws -> GetEncoderConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -587,8 +577,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutput
-    {
+    public func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -635,8 +624,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getStage(input: GetStageInput) async throws -> GetStageOutput
-    {
+    public func getStage(input: GetStageInput) async throws -> GetStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -683,8 +671,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutput
-    {
+    public func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +721,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func getStorageConfiguration(input: GetStorageConfigurationInput) async throws -> GetStorageConfigurationOutput
-    {
+    public func getStorageConfiguration(input: GetStorageConfigurationInput) async throws -> GetStorageConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -784,8 +770,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func listCompositions(input: ListCompositionsInput) async throws -> ListCompositionsOutput
-    {
+    public func listCompositions(input: ListCompositionsInput) async throws -> ListCompositionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -834,8 +819,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func listEncoderConfigurations(input: ListEncoderConfigurationsInput) async throws -> ListEncoderConfigurationsOutput
-    {
+    public func listEncoderConfigurations(input: ListEncoderConfigurationsInput) async throws -> ListEncoderConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -881,8 +865,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    public func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutput
-    {
+    public func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -928,8 +911,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    public func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutput
-    {
+    public func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -975,8 +957,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    public func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutput
-    {
+    public func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,8 +1004,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ConflictException` :
     /// - `ValidationException` :
-    public func listStages(input: ListStagesInput) async throws -> ListStagesOutput
-    {
+    public func listStages(input: ListStagesInput) async throws -> ListStagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1073,8 +1053,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func listStorageConfigurations(input: ListStorageConfigurationsInput) async throws -> ListStorageConfigurationsOutput
-    {
+    public func listStorageConfigurations(input: ListStorageConfigurationsInput) async throws -> ListStorageConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1121,8 +1100,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1180,8 +1158,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func startComposition(input: StartCompositionInput) async throws -> StartCompositionOutput
-    {
+    public func startComposition(input: StartCompositionInput) async throws -> StartCompositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1232,8 +1209,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func stopComposition(input: StopCompositionInput) async throws -> StopCompositionOutput
-    {
+    public func stopComposition(input: StopCompositionInput) async throws -> StopCompositionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1280,8 +1256,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1328,8 +1303,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1376,8 +1350,7 @@ extension IVSRealTimeClient: IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
-    {
+    public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

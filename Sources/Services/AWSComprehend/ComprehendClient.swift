@@ -66,7 +66,7 @@ public struct ComprehendClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension ComprehendClient: ComprehendClientProtocol {
+extension ComprehendClient {
     /// Performs the `BatchDetectDominantLanguage` operation on the `Comprehend_20171127` service.
     ///
     /// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
@@ -82,8 +82,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    public func batchDetectDominantLanguage(input: BatchDetectDominantLanguageInput) async throws -> BatchDetectDominantLanguageOutput
-    {
+    public func batchDetectDominantLanguage(input: BatchDetectDominantLanguageInput) async throws -> BatchDetectDominantLanguageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func batchDetectEntities(input: BatchDetectEntitiesInput) async throws -> BatchDetectEntitiesOutput
-    {
+    public func batchDetectEntities(input: BatchDetectEntitiesInput) async throws -> BatchDetectEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -184,8 +182,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func batchDetectKeyPhrases(input: BatchDetectKeyPhrasesInput) async throws -> BatchDetectKeyPhrasesOutput
-    {
+    public func batchDetectKeyPhrases(input: BatchDetectKeyPhrasesInput) async throws -> BatchDetectKeyPhrasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,8 +232,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func batchDetectSentiment(input: BatchDetectSentimentInput) async throws -> BatchDetectSentimentOutput
-    {
+    public func batchDetectSentiment(input: BatchDetectSentimentInput) async throws -> BatchDetectSentimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -286,8 +282,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func batchDetectSyntax(input: BatchDetectSyntaxInput) async throws -> BatchDetectSyntaxOutput
-    {
+    public func batchDetectSyntax(input: BatchDetectSyntaxInput) async throws -> BatchDetectSyntaxOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -337,8 +332,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func batchDetectTargetedSentiment(input: BatchDetectTargetedSentimentInput) async throws -> BatchDetectTargetedSentimentOutput
-    {
+    public func batchDetectTargetedSentiment(input: BatchDetectTargetedSentimentInput) async throws -> BatchDetectTargetedSentimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -394,8 +388,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    public func classifyDocument(input: ClassifyDocumentInput) async throws -> ClassifyDocumentOutput
-    {
+    public func classifyDocument(input: ClassifyDocumentInput) async throws -> ClassifyDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func containsPiiEntities(input: ContainsPiiEntitiesInput) async throws -> ContainsPiiEntitiesOutput
-    {
+    public func containsPiiEntities(input: ContainsPiiEntitiesInput) async throws -> ContainsPiiEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -497,8 +489,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -552,8 +543,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func createDocumentClassifier(input: CreateDocumentClassifierInput) async throws -> CreateDocumentClassifierOutput
-    {
+    public func createDocumentClassifier(input: CreateDocumentClassifierInput) async throws -> CreateDocumentClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -607,8 +597,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
-    {
+    public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -662,8 +651,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func createEntityRecognizer(input: CreateEntityRecognizerInput) async throws -> CreateEntityRecognizerOutput
-    {
+    public func createEntityRecognizer(input: CreateEntityRecognizerInput) async throws -> CreateEntityRecognizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +707,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func createFlywheel(input: CreateFlywheelInput) async throws -> CreateFlywheelOutput
-    {
+    public func createFlywheel(input: CreateFlywheelInput) async throws -> CreateFlywheelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +759,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func deleteDocumentClassifier(input: DeleteDocumentClassifierInput) async throws -> DeleteDocumentClassifierOutput
-    {
+    public func deleteDocumentClassifier(input: DeleteDocumentClassifierInput) async throws -> DeleteDocumentClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -823,8 +809,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-    {
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -875,8 +860,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func deleteEntityRecognizer(input: DeleteEntityRecognizerInput) async throws -> DeleteEntityRecognizerOutput
-    {
+    public func deleteEntityRecognizer(input: DeleteEntityRecognizerInput) async throws -> DeleteEntityRecognizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -927,8 +911,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func deleteFlywheel(input: DeleteFlywheelInput) async throws -> DeleteFlywheelOutput
-    {
+    public func deleteFlywheel(input: DeleteFlywheelInput) async throws -> DeleteFlywheelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -976,8 +959,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-    {
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1026,8 +1008,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1076,8 +1057,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeDocumentClassificationJob(input: DescribeDocumentClassificationJobInput) async throws -> DescribeDocumentClassificationJobOutput
-    {
+    public func describeDocumentClassificationJob(input: DescribeDocumentClassificationJobInput) async throws -> DescribeDocumentClassificationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1126,8 +1106,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeDocumentClassifier(input: DescribeDocumentClassifierInput) async throws -> DescribeDocumentClassifierOutput
-    {
+    public func describeDocumentClassifier(input: DescribeDocumentClassifierInput) async throws -> DescribeDocumentClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1176,8 +1155,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeDominantLanguageDetectionJob(input: DescribeDominantLanguageDetectionJobInput) async throws -> DescribeDominantLanguageDetectionJobOutput
-    {
+    public func describeDominantLanguageDetectionJob(input: DescribeDominantLanguageDetectionJobInput) async throws -> DescribeDominantLanguageDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1226,8 +1204,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
-    {
+    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1276,8 +1253,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeEntitiesDetectionJob(input: DescribeEntitiesDetectionJobInput) async throws -> DescribeEntitiesDetectionJobOutput
-    {
+    public func describeEntitiesDetectionJob(input: DescribeEntitiesDetectionJobInput) async throws -> DescribeEntitiesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1326,8 +1302,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeEntityRecognizer(input: DescribeEntityRecognizerInput) async throws -> DescribeEntityRecognizerOutput
-    {
+    public func describeEntityRecognizer(input: DescribeEntityRecognizerInput) async throws -> DescribeEntityRecognizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1376,8 +1351,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeEventsDetectionJob(input: DescribeEventsDetectionJobInput) async throws -> DescribeEventsDetectionJobOutput
-    {
+    public func describeEventsDetectionJob(input: DescribeEventsDetectionJobInput) async throws -> DescribeEventsDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1426,8 +1400,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeFlywheel(input: DescribeFlywheelInput) async throws -> DescribeFlywheelOutput
-    {
+    public func describeFlywheel(input: DescribeFlywheelInput) async throws -> DescribeFlywheelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1476,8 +1449,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeFlywheelIteration(input: DescribeFlywheelIterationInput) async throws -> DescribeFlywheelIterationOutput
-    {
+    public func describeFlywheelIteration(input: DescribeFlywheelIterationInput) async throws -> DescribeFlywheelIterationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1526,8 +1498,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeKeyPhrasesDetectionJob(input: DescribeKeyPhrasesDetectionJobInput) async throws -> DescribeKeyPhrasesDetectionJobOutput
-    {
+    public func describeKeyPhrasesDetectionJob(input: DescribeKeyPhrasesDetectionJobInput) async throws -> DescribeKeyPhrasesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1576,8 +1547,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describePiiEntitiesDetectionJob(input: DescribePiiEntitiesDetectionJobInput) async throws -> DescribePiiEntitiesDetectionJobOutput
-    {
+    public func describePiiEntitiesDetectionJob(input: DescribePiiEntitiesDetectionJobInput) async throws -> DescribePiiEntitiesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1625,8 +1595,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
-    {
+    public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1675,8 +1644,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeSentimentDetectionJob(input: DescribeSentimentDetectionJobInput) async throws -> DescribeSentimentDetectionJobOutput
-    {
+    public func describeSentimentDetectionJob(input: DescribeSentimentDetectionJobInput) async throws -> DescribeSentimentDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1725,8 +1693,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeTargetedSentimentDetectionJob(input: DescribeTargetedSentimentDetectionJobInput) async throws -> DescribeTargetedSentimentDetectionJobOutput
-    {
+    public func describeTargetedSentimentDetectionJob(input: DescribeTargetedSentimentDetectionJobInput) async throws -> DescribeTargetedSentimentDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1775,8 +1742,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func describeTopicsDetectionJob(input: DescribeTopicsDetectionJobInput) async throws -> DescribeTopicsDetectionJobOutput
-    {
+    public func describeTopicsDetectionJob(input: DescribeTopicsDetectionJobInput) async throws -> DescribeTopicsDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1824,8 +1790,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    public func detectDominantLanguage(input: DetectDominantLanguageInput) async throws -> DetectDominantLanguageOutput
-    {
+    public func detectDominantLanguage(input: DetectDominantLanguageInput) async throws -> DetectDominantLanguageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1875,8 +1840,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput
-    {
+    public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1925,8 +1889,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectKeyPhrases(input: DetectKeyPhrasesInput) async throws -> DetectKeyPhrasesOutput
-    {
+    public func detectKeyPhrases(input: DetectKeyPhrasesInput) async throws -> DetectKeyPhrasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1975,8 +1938,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectPiiEntities(input: DetectPiiEntitiesInput) async throws -> DetectPiiEntitiesOutput
-    {
+    public func detectPiiEntities(input: DetectPiiEntitiesInput) async throws -> DetectPiiEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2025,8 +1987,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectSentiment(input: DetectSentimentInput) async throws -> DetectSentimentOutput
-    {
+    public func detectSentiment(input: DetectSentimentInput) async throws -> DetectSentimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2075,8 +2036,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectSyntax(input: DetectSyntaxInput) async throws -> DetectSyntaxOutput
-    {
+    public func detectSyntax(input: DetectSyntaxInput) async throws -> DetectSyntaxOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2125,8 +2085,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectTargetedSentiment(input: DetectTargetedSentimentInput) async throws -> DetectTargetedSentimentOutput
-    {
+    public func detectTargetedSentiment(input: DetectTargetedSentimentInput) async throws -> DetectTargetedSentimentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2175,8 +2134,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
     /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-    public func detectToxicContent(input: DetectToxicContentInput) async throws -> DetectToxicContentOutput
-    {
+    public func detectToxicContent(input: DetectToxicContentInput) async throws -> DetectToxicContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2230,8 +2188,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func importModel(input: ImportModelInput) async throws -> ImportModelOutput
-    {
+    public func importModel(input: ImportModelInput) async throws -> ImportModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2281,8 +2238,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2331,8 +2287,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listDocumentClassificationJobs(input: ListDocumentClassificationJobsInput) async throws -> ListDocumentClassificationJobsOutput
-    {
+    public func listDocumentClassificationJobs(input: ListDocumentClassificationJobsInput) async throws -> ListDocumentClassificationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2380,8 +2335,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listDocumentClassifierSummaries(input: ListDocumentClassifierSummariesInput) async throws -> ListDocumentClassifierSummariesOutput
-    {
+    public func listDocumentClassifierSummaries(input: ListDocumentClassifierSummariesInput) async throws -> ListDocumentClassifierSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2430,8 +2384,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listDocumentClassifiers(input: ListDocumentClassifiersInput) async throws -> ListDocumentClassifiersOutput
-    {
+    public func listDocumentClassifiers(input: ListDocumentClassifiersInput) async throws -> ListDocumentClassifiersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2480,8 +2433,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listDominantLanguageDetectionJobs(input: ListDominantLanguageDetectionJobsInput) async throws -> ListDominantLanguageDetectionJobsOutput
-    {
+    public func listDominantLanguageDetectionJobs(input: ListDominantLanguageDetectionJobsInput) async throws -> ListDominantLanguageDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2529,8 +2481,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
-    {
+    public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2579,8 +2530,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listEntitiesDetectionJobs(input: ListEntitiesDetectionJobsInput) async throws -> ListEntitiesDetectionJobsOutput
-    {
+    public func listEntitiesDetectionJobs(input: ListEntitiesDetectionJobsInput) async throws -> ListEntitiesDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2628,8 +2578,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listEntityRecognizerSummaries(input: ListEntityRecognizerSummariesInput) async throws -> ListEntityRecognizerSummariesOutput
-    {
+    public func listEntityRecognizerSummaries(input: ListEntityRecognizerSummariesInput) async throws -> ListEntityRecognizerSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2678,8 +2627,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listEntityRecognizers(input: ListEntityRecognizersInput) async throws -> ListEntityRecognizersOutput
-    {
+    public func listEntityRecognizers(input: ListEntityRecognizersInput) async throws -> ListEntityRecognizersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2728,8 +2676,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listEventsDetectionJobs(input: ListEventsDetectionJobsInput) async throws -> ListEventsDetectionJobsOutput
-    {
+    public func listEventsDetectionJobs(input: ListEventsDetectionJobsInput) async throws -> ListEventsDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2779,8 +2726,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listFlywheelIterationHistory(input: ListFlywheelIterationHistoryInput) async throws -> ListFlywheelIterationHistoryOutput
-    {
+    public func listFlywheelIterationHistory(input: ListFlywheelIterationHistoryInput) async throws -> ListFlywheelIterationHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2829,8 +2775,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listFlywheels(input: ListFlywheelsInput) async throws -> ListFlywheelsOutput
-    {
+    public func listFlywheels(input: ListFlywheelsInput) async throws -> ListFlywheelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2879,8 +2824,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listKeyPhrasesDetectionJobs(input: ListKeyPhrasesDetectionJobsInput) async throws -> ListKeyPhrasesDetectionJobsOutput
-    {
+    public func listKeyPhrasesDetectionJobs(input: ListKeyPhrasesDetectionJobsInput) async throws -> ListKeyPhrasesDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2929,8 +2873,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listPiiEntitiesDetectionJobs(input: ListPiiEntitiesDetectionJobsInput) async throws -> ListPiiEntitiesDetectionJobsOutput
-    {
+    public func listPiiEntitiesDetectionJobs(input: ListPiiEntitiesDetectionJobsInput) async throws -> ListPiiEntitiesDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2979,8 +2922,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listSentimentDetectionJobs(input: ListSentimentDetectionJobsInput) async throws -> ListSentimentDetectionJobsOutput
-    {
+    public func listSentimentDetectionJobs(input: ListSentimentDetectionJobsInput) async throws -> ListSentimentDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3028,8 +2970,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3078,8 +3019,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listTargetedSentimentDetectionJobs(input: ListTargetedSentimentDetectionJobsInput) async throws -> ListTargetedSentimentDetectionJobsOutput
-    {
+    public func listTargetedSentimentDetectionJobs(input: ListTargetedSentimentDetectionJobsInput) async throws -> ListTargetedSentimentDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3128,8 +3068,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is invalid. Specify a different filter.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func listTopicsDetectionJobs(input: ListTopicsDetectionJobsInput) async throws -> ListTopicsDetectionJobsOutput
-    {
+    public func listTopicsDetectionJobs(input: ListTopicsDetectionJobsInput) async throws -> ListTopicsDetectionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3177,8 +3116,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
-    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    {
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3231,8 +3169,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startDocumentClassificationJob(input: StartDocumentClassificationJobInput) async throws -> StartDocumentClassificationJobOutput
-    {
+    public func startDocumentClassificationJob(input: StartDocumentClassificationJobInput) async throws -> StartDocumentClassificationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3284,8 +3221,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startDominantLanguageDetectionJob(input: StartDominantLanguageDetectionJobInput) async throws -> StartDominantLanguageDetectionJobOutput
-    {
+    public func startDominantLanguageDetectionJob(input: StartDominantLanguageDetectionJobInput) async throws -> StartDominantLanguageDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3339,8 +3275,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startEntitiesDetectionJob(input: StartEntitiesDetectionJobInput) async throws -> StartEntitiesDetectionJobOutput
-    {
+    public func startEntitiesDetectionJob(input: StartEntitiesDetectionJobInput) async throws -> StartEntitiesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3392,8 +3327,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startEventsDetectionJob(input: StartEventsDetectionJobInput) async throws -> StartEventsDetectionJobOutput
-    {
+    public func startEventsDetectionJob(input: StartEventsDetectionJobInput) async throws -> StartEventsDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3444,8 +3378,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func startFlywheelIteration(input: StartFlywheelIterationInput) async throws -> StartFlywheelIterationOutput
-    {
+    public func startFlywheelIteration(input: StartFlywheelIterationInput) async throws -> StartFlywheelIterationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3496,8 +3429,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startKeyPhrasesDetectionJob(input: StartKeyPhrasesDetectionJobInput) async throws -> StartKeyPhrasesDetectionJobOutput
-    {
+    public func startKeyPhrasesDetectionJob(input: StartKeyPhrasesDetectionJobInput) async throws -> StartKeyPhrasesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3549,8 +3481,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startPiiEntitiesDetectionJob(input: StartPiiEntitiesDetectionJobInput) async throws -> StartPiiEntitiesDetectionJobOutput
-    {
+    public func startPiiEntitiesDetectionJob(input: StartPiiEntitiesDetectionJobInput) async throws -> StartPiiEntitiesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3602,8 +3533,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startSentimentDetectionJob(input: StartSentimentDetectionJobInput) async throws -> StartSentimentDetectionJobOutput
-    {
+    public func startSentimentDetectionJob(input: StartSentimentDetectionJobInput) async throws -> StartSentimentDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3655,8 +3585,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startTargetedSentimentDetectionJob(input: StartTargetedSentimentDetectionJobInput) async throws -> StartTargetedSentimentDetectionJobOutput
-    {
+    public func startTargetedSentimentDetectionJob(input: StartTargetedSentimentDetectionJobInput) async throws -> StartTargetedSentimentDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3708,8 +3637,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceInUseException` : The specified resource name is already in use. Use a different name and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func startTopicsDetectionJob(input: StartTopicsDetectionJobInput) async throws -> StartTopicsDetectionJobOutput
-    {
+    public func startTopicsDetectionJob(input: StartTopicsDetectionJobInput) async throws -> StartTopicsDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3758,8 +3686,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopDominantLanguageDetectionJob(input: StopDominantLanguageDetectionJobInput) async throws -> StopDominantLanguageDetectionJobOutput
-    {
+    public func stopDominantLanguageDetectionJob(input: StopDominantLanguageDetectionJobInput) async throws -> StopDominantLanguageDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3807,8 +3734,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopEntitiesDetectionJob(input: StopEntitiesDetectionJobInput) async throws -> StopEntitiesDetectionJobOutput
-    {
+    public func stopEntitiesDetectionJob(input: StopEntitiesDetectionJobInput) async throws -> StopEntitiesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3856,8 +3782,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopEventsDetectionJob(input: StopEventsDetectionJobInput) async throws -> StopEventsDetectionJobOutput
-    {
+    public func stopEventsDetectionJob(input: StopEventsDetectionJobInput) async throws -> StopEventsDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3905,8 +3830,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopKeyPhrasesDetectionJob(input: StopKeyPhrasesDetectionJobInput) async throws -> StopKeyPhrasesDetectionJobOutput
-    {
+    public func stopKeyPhrasesDetectionJob(input: StopKeyPhrasesDetectionJobInput) async throws -> StopKeyPhrasesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3954,8 +3878,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopPiiEntitiesDetectionJob(input: StopPiiEntitiesDetectionJobInput) async throws -> StopPiiEntitiesDetectionJobOutput
-    {
+    public func stopPiiEntitiesDetectionJob(input: StopPiiEntitiesDetectionJobInput) async throws -> StopPiiEntitiesDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4003,8 +3926,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopSentimentDetectionJob(input: StopSentimentDetectionJobInput) async throws -> StopSentimentDetectionJobOutput
-    {
+    public func stopSentimentDetectionJob(input: StopSentimentDetectionJobInput) async throws -> StopSentimentDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4052,8 +3974,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `JobNotFoundException` : The specified job was not found. Check the job ID and try again.
-    public func stopTargetedSentimentDetectionJob(input: StopTargetedSentimentDetectionJobInput) async throws -> StopTargetedSentimentDetectionJobOutput
-    {
+    public func stopTargetedSentimentDetectionJob(input: StopTargetedSentimentDetectionJobInput) async throws -> StopTargetedSentimentDetectionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4102,8 +4023,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func stopTrainingDocumentClassifier(input: StopTrainingDocumentClassifierInput) async throws -> StopTrainingDocumentClassifierOutput
-    {
+    public func stopTrainingDocumentClassifier(input: StopTrainingDocumentClassifierInput) async throws -> StopTrainingDocumentClassifierOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4152,8 +4072,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func stopTrainingEntityRecognizer(input: StopTrainingEntityRecognizerInput) async throws -> StopTrainingEntityRecognizerOutput
-    {
+    public func stopTrainingEntityRecognizer(input: StopTrainingEntityRecognizerInput) async throws -> StopTrainingEntityRecognizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4203,8 +4122,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4254,8 +4172,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyTagKeysException` : The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4307,8 +4224,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput
-    {
+    public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4358,8 +4274,7 @@ extension ComprehendClient: ComprehendClientProtocol {
     /// - `KmsKeyValidationException` : The KMS customer managed key (CMK) entered cannot be validated. Verify the key and re-enter it.
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
-    public func updateFlywheel(input: UpdateFlywheelInput) async throws -> UpdateFlywheelOutput
-    {
+    public func updateFlywheel(input: UpdateFlywheelInput) async throws -> UpdateFlywheelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

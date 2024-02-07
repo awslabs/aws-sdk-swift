@@ -1582,6 +1582,8 @@ extension MarketplaceAgreementClientTypes {
 
 }
 
+public enum MarketplaceAgreementClientTypes {}
+
 extension MarketplaceAgreementClientTypes.PaymentScheduleTerm: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currencyCode

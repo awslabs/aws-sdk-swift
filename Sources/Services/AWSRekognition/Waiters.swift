@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension RekognitionClientProtocol {
+extension RekognitionClient {
 
     static func projectVersionRunningWaiterConfig() throws -> WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput> {
         let acceptors: [WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>.Acceptor] = [

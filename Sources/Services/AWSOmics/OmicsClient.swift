@@ -66,7 +66,7 @@ public struct OmicsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension OmicsClient: OmicsClientProtocol {
+extension OmicsClient {
     /// Performs the `AbortMultipartReadSetUpload` operation on the `Omics` service.
     ///
     /// Stops a multipart upload.
@@ -86,8 +86,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutput
-    {
+    public func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -135,8 +134,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutput
-    {
+    public func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutput
-    {
+    public func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutput
-    {
+    public func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func cancelRun(input: CancelRunInput) async throws -> CancelRunOutput
-    {
+    public func cancelRun(input: CancelRunInput) async throws -> CancelRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -330,8 +325,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutput
-    {
+    public func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,8 +374,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutput
-    {
+    public func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -432,8 +425,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutput
-    {
+    public func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -484,8 +476,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutput
-    {
+    public func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +528,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutput
-    {
+    public func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -588,8 +578,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutput
-    {
+    public func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -641,8 +630,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutput
-    {
+    public func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -693,8 +681,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutput
-    {
+    public func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -745,8 +732,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createShare(input: CreateShareInput) async throws -> CreateShareOutput
-    {
+    public func createShare(input: CreateShareInput) async throws -> CreateShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +783,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutput
-    {
+    public func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -850,8 +835,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
-    {
+    public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -902,8 +886,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutput
-    {
+    public func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -951,8 +934,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutput
-    {
+    public func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1004,8 +986,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutput
-    {
+    public func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1053,8 +1034,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutput
-    {
+    public func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1103,8 +1083,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput
-    {
+    public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1153,8 +1132,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutput
-    {
+    public func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1202,8 +1180,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutput
-    {
+    public func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1251,8 +1228,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutput
-    {
+    public func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1299,8 +1275,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutput
-    {
+    public func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1350,8 +1325,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
-    {
+    public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1397,8 +1371,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutput
-    {
+    public func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1444,8 +1417,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutput
-    {
+    public func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1491,8 +1463,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutput
-    {
+    public func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1541,8 +1512,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutput
-    {
+    public func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1590,8 +1560,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutput
-    {
+    public func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1638,8 +1607,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutput
-    {
+    public func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1686,8 +1654,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutput
-    {
+    public func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1734,8 +1701,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutput
-    {
+    public func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1783,8 +1749,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReference(input: GetReferenceInput) async throws -> GetReferenceOutput
-    {
+    public func getReference(input: GetReferenceInput) async throws -> GetReferenceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1833,8 +1798,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutput
-    {
+    public func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1881,8 +1845,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutput
-    {
+    public func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1929,8 +1892,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutput
-    {
+    public func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1979,8 +1941,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getRun(input: GetRunInput) async throws -> GetRunOutput
-    {
+    public func getRun(input: GetRunInput) async throws -> GetRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2030,8 +1991,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutput
-    {
+    public func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2080,8 +2040,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutput
-    {
+    public func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2128,8 +2087,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutput
-    {
+    public func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2177,8 +2135,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getShare(input: GetShareInput) async throws -> GetShareOutput
-    {
+    public func getShare(input: GetShareInput) async throws -> GetShareOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2224,8 +2181,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutput
-    {
+    public func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2271,8 +2227,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutput
-    {
+    public func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2321,8 +2276,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
-    {
+    public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2369,8 +2323,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutput
-    {
+    public func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2420,8 +2373,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutput
-    {
+    public func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2471,8 +2423,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutput
-    {
+    public func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2525,8 +2476,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutput
-    {
+    public func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2574,8 +2524,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutput
-    {
+    public func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2626,8 +2575,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutput
-    {
+    public func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2678,8 +2626,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutput
-    {
+    public func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2732,8 +2679,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutput
-    {
+    public func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2784,8 +2730,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutput
-    {
+    public func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2836,8 +2781,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutput
-    {
+    public func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2887,8 +2831,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutput
-    {
+    public func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2939,8 +2882,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutput
-    {
+    public func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2993,8 +2935,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutput
-    {
+    public func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3044,8 +2985,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutput
-    {
+    public func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3095,8 +3035,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listRuns(input: ListRunsInput) async throws -> ListRunsOutput
-    {
+    public func listRuns(input: ListRunsInput) async throws -> ListRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3143,8 +3082,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutput
-    {
+    public func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3196,8 +3134,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listShares(input: ListSharesInput) async throws -> ListSharesOutput
-    {
+    public func listShares(input: ListSharesInput) async throws -> ListSharesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3250,8 +3187,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3297,8 +3233,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutput
-    {
+    public func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3348,8 +3283,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutput
-    {
+    public func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3402,8 +3336,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-    {
+    public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3451,8 +3384,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutput
-    {
+    public func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3503,8 +3435,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutput
-    {
+    public func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3555,8 +3486,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutput
-    {
+    public func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3607,8 +3537,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutput
-    {
+    public func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3659,8 +3588,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutput
-    {
+    public func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3712,8 +3640,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startRun(input: StartRunInput) async throws -> StartRunOutput
-    {
+    public func startRun(input: StartRunInput) async throws -> StartRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3764,8 +3691,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutput
-    {
+    public func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3817,8 +3743,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3870,8 +3795,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3918,8 +3842,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutput
-    {
+    public func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3968,8 +3891,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutput
-    {
+    public func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4021,8 +3943,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutput
-    {
+    public func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4071,8 +3992,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutput
-    {
+    public func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4124,8 +4044,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
-    {
+    public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4177,8 +4096,7 @@ extension OmicsClient: OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    public func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutput
-    {
+    public func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct ConnectClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension ConnectClient: ConnectClientProtocol {
+extension ConnectClient {
     /// Performs the `ActivateEvaluationForm` operation on the `AmazonConnectService` service.
     ///
     /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
@@ -83,8 +83,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func activateEvaluationForm(input: ActivateEvaluationFormInput) async throws -> ActivateEvaluationFormOutput
-    {
+    public func activateEvaluationForm(input: ActivateEvaluationFormInput) async throws -> ActivateEvaluationFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateAnalyticsDataSet(input: AssociateAnalyticsDataSetInput) async throws -> AssociateAnalyticsDataSetOutput
-    {
+    public func associateAnalyticsDataSet(input: AssociateAnalyticsDataSetInput) async throws -> AssociateAnalyticsDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -185,8 +183,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateApprovedOrigin(input: AssociateApprovedOriginInput) async throws -> AssociateApprovedOriginOutput
-    {
+    public func associateApprovedOrigin(input: AssociateApprovedOriginInput) async throws -> AssociateApprovedOriginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -237,8 +234,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateBot(input: AssociateBotInput) async throws -> AssociateBotOutput
-    {
+    public func associateBot(input: AssociateBotInput) async throws -> AssociateBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,8 +283,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateDefaultVocabulary(input: AssociateDefaultVocabularyInput) async throws -> AssociateDefaultVocabularyOutput
-    {
+    public func associateDefaultVocabulary(input: AssociateDefaultVocabularyInput) async throws -> AssociateDefaultVocabularyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,8 +333,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateFlow(input: AssociateFlowInput) async throws -> AssociateFlowOutput
-    {
+    public func associateFlow(input: AssociateFlowInput) async throws -> AssociateFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -389,8 +383,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateInstanceStorageConfig(input: AssociateInstanceStorageConfigInput) async throws -> AssociateInstanceStorageConfigOutput
-    {
+    public func associateInstanceStorageConfig(input: AssociateInstanceStorageConfigInput) async throws -> AssociateInstanceStorageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -441,8 +434,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateLambdaFunction(input: AssociateLambdaFunctionInput) async throws -> AssociateLambdaFunctionOutput
-    {
+    public func associateLambdaFunction(input: AssociateLambdaFunctionInput) async throws -> AssociateLambdaFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -493,8 +485,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateLexBot(input: AssociateLexBotInput) async throws -> AssociateLexBotOutput
-    {
+    public func associateLexBot(input: AssociateLexBotInput) async throws -> AssociateLexBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -543,8 +534,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associatePhoneNumberContactFlow(input: AssociatePhoneNumberContactFlowInput) async throws -> AssociatePhoneNumberContactFlowOutput
-    {
+    public func associatePhoneNumberContactFlow(input: AssociatePhoneNumberContactFlowInput) async throws -> AssociatePhoneNumberContactFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -594,8 +584,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateQueueQuickConnects(input: AssociateQueueQuickConnectsInput) async throws -> AssociateQueueQuickConnectsOutput
-    {
+    public func associateQueueQuickConnects(input: AssociateQueueQuickConnectsInput) async throws -> AssociateQueueQuickConnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -644,8 +633,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateRoutingProfileQueues(input: AssociateRoutingProfileQueuesInput) async throws -> AssociateRoutingProfileQueuesOutput
-    {
+    public func associateRoutingProfileQueues(input: AssociateRoutingProfileQueuesInput) async throws -> AssociateRoutingProfileQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -696,8 +684,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateSecurityKey(input: AssociateSecurityKeyInput) async throws -> AssociateSecurityKeyOutput
-    {
+    public func associateSecurityKey(input: AssociateSecurityKeyInput) async throws -> AssociateSecurityKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -747,8 +734,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateTrafficDistributionGroupUser(input: AssociateTrafficDistributionGroupUserInput) async throws -> AssociateTrafficDistributionGroupUserOutput
-    {
+    public func associateTrafficDistributionGroupUser(input: AssociateTrafficDistributionGroupUserInput) async throws -> AssociateTrafficDistributionGroupUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -797,8 +783,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func associateUserProficiencies(input: AssociateUserProficienciesInput) async throws -> AssociateUserProficienciesOutput
-    {
+    public func associateUserProficiencies(input: AssociateUserProficienciesInput) async throws -> AssociateUserProficienciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -847,8 +832,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func batchAssociateAnalyticsDataSet(input: BatchAssociateAnalyticsDataSetInput) async throws -> BatchAssociateAnalyticsDataSetOutput
-    {
+    public func batchAssociateAnalyticsDataSet(input: BatchAssociateAnalyticsDataSetInput) async throws -> BatchAssociateAnalyticsDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -897,8 +881,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func batchDisassociateAnalyticsDataSet(input: BatchDisassociateAnalyticsDataSetInput) async throws -> BatchDisassociateAnalyticsDataSetOutput
-    {
+    public func batchDisassociateAnalyticsDataSet(input: BatchDisassociateAnalyticsDataSetInput) async throws -> BatchDisassociateAnalyticsDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -948,8 +931,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func batchGetFlowAssociation(input: BatchGetFlowAssociationInput) async throws -> BatchGetFlowAssociationOutput
-    {
+    public func batchGetFlowAssociation(input: BatchGetFlowAssociationInput) async throws -> BatchGetFlowAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -999,8 +981,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func batchPutContact(input: BatchPutContactInput) async throws -> BatchPutContactOutput
-    {
+    public func batchPutContact(input: BatchPutContactInput) async throws -> BatchPutContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1051,8 +1032,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func claimPhoneNumber(input: ClaimPhoneNumberInput) async throws -> ClaimPhoneNumberOutput
-    {
+    public func claimPhoneNumber(input: ClaimPhoneNumberInput) async throws -> ClaimPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1104,8 +1084,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createAgentStatus(input: CreateAgentStatusInput) async throws -> CreateAgentStatusOutput
-    {
+    public func createAgentStatus(input: CreateAgentStatusInput) async throws -> CreateAgentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1157,8 +1136,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createContactFlow(input: CreateContactFlowInput) async throws -> CreateContactFlowOutput
-    {
+    public func createContactFlow(input: CreateContactFlowInput) async throws -> CreateContactFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1190,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createContactFlowModule(input: CreateContactFlowModuleInput) async throws -> CreateContactFlowModuleOutput
-    {
+    public func createContactFlowModule(input: CreateContactFlowModuleInput) async throws -> CreateContactFlowModuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1264,8 +1241,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createEvaluationForm(input: CreateEvaluationFormInput) async throws -> CreateEvaluationFormOutput
-    {
+    public func createEvaluationForm(input: CreateEvaluationFormInput) async throws -> CreateEvaluationFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1317,8 +1293,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createHoursOfOperation(input: CreateHoursOfOperationInput) async throws -> CreateHoursOfOperationOutput
-    {
+    public func createHoursOfOperation(input: CreateHoursOfOperationInput) async throws -> CreateHoursOfOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1367,8 +1342,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutput
-    {
+    public func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1417,8 +1391,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createIntegrationAssociation(input: CreateIntegrationAssociationInput) async throws -> CreateIntegrationAssociationOutput
-    {
+    public func createIntegrationAssociation(input: CreateIntegrationAssociationInput) async throws -> CreateIntegrationAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1467,8 +1440,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createParticipant(input: CreateParticipantInput) async throws -> CreateParticipantOutput
-    {
+    public func createParticipant(input: CreateParticipantInput) async throws -> CreateParticipantOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1519,8 +1491,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createPersistentContactAssociation(input: CreatePersistentContactAssociationInput) async throws -> CreatePersistentContactAssociationOutput
-    {
+    public func createPersistentContactAssociation(input: CreatePersistentContactAssociationInput) async throws -> CreatePersistentContactAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1571,8 +1542,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createPredefinedAttribute(input: CreatePredefinedAttributeInput) async throws -> CreatePredefinedAttributeOutput
-    {
+    public func createPredefinedAttribute(input: CreatePredefinedAttributeInput) async throws -> CreatePredefinedAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1622,8 +1592,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createPrompt(input: CreatePromptInput) async throws -> CreatePromptOutput
-    {
+    public func createPrompt(input: CreatePromptInput) async throws -> CreatePromptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1680,8 +1649,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
-    {
+    public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1732,8 +1700,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createQuickConnect(input: CreateQuickConnectInput) async throws -> CreateQuickConnectOutput
-    {
+    public func createQuickConnect(input: CreateQuickConnectInput) async throws -> CreateQuickConnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1784,8 +1751,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createRoutingProfile(input: CreateRoutingProfileInput) async throws -> CreateRoutingProfileOutput
-    {
+    public func createRoutingProfile(input: CreateRoutingProfileInput) async throws -> CreateRoutingProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1836,8 +1802,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-    {
+    public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1889,8 +1854,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutput
-    {
+    public func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1940,8 +1904,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createTaskTemplate(input: CreateTaskTemplateInput) async throws -> CreateTaskTemplateOutput
-    {
+    public func createTaskTemplate(input: CreateTaskTemplateInput) async throws -> CreateTaskTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1994,8 +1957,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotReadyException` : The resource is not ready.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createTrafficDistributionGroup(input: CreateTrafficDistributionGroupInput) async throws -> CreateTrafficDistributionGroupOutput
-    {
+    public func createTrafficDistributionGroup(input: CreateTrafficDistributionGroupInput) async throws -> CreateTrafficDistributionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2045,8 +2007,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createUseCase(input: CreateUseCaseInput) async throws -> CreateUseCaseOutput
-    {
+    public func createUseCase(input: CreateUseCaseInput) async throws -> CreateUseCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2097,8 +2058,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2149,8 +2109,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createUserHierarchyGroup(input: CreateUserHierarchyGroupInput) async throws -> CreateUserHierarchyGroupOutput
-    {
+    public func createUserHierarchyGroup(input: CreateUserHierarchyGroupInput) async throws -> CreateUserHierarchyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2203,8 +2162,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func createView(input: CreateViewInput) async throws -> CreateViewOutput
-    {
+    public func createView(input: CreateViewInput) async throws -> CreateViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2256,8 +2214,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func createViewVersion(input: CreateViewVersionInput) async throws -> CreateViewVersionOutput
-    {
+    public func createViewVersion(input: CreateViewVersionInput) async throws -> CreateViewVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2308,8 +2265,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func createVocabulary(input: CreateVocabularyInput) async throws -> CreateVocabularyOutput
-    {
+    public func createVocabulary(input: CreateVocabularyInput) async throws -> CreateVocabularyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2359,8 +2315,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deactivateEvaluationForm(input: DeactivateEvaluationFormInput) async throws -> DeactivateEvaluationFormOutput
-    {
+    public func deactivateEvaluationForm(input: DeactivateEvaluationFormInput) async throws -> DeactivateEvaluationFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2409,8 +2364,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteContactEvaluation(input: DeleteContactEvaluationInput) async throws -> DeleteContactEvaluationOutput
-    {
+    public func deleteContactEvaluation(input: DeleteContactEvaluationInput) async throws -> DeleteContactEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2457,8 +2411,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteContactFlow(input: DeleteContactFlowInput) async throws -> DeleteContactFlowOutput
-    {
+    public func deleteContactFlow(input: DeleteContactFlowInput) async throws -> DeleteContactFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2505,8 +2458,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteContactFlowModule(input: DeleteContactFlowModuleInput) async throws -> DeleteContactFlowModuleOutput
-    {
+    public func deleteContactFlowModule(input: DeleteContactFlowModuleInput) async throws -> DeleteContactFlowModuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2556,8 +2508,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteEvaluationForm(input: DeleteEvaluationFormInput) async throws -> DeleteEvaluationFormOutput
-    {
+    public func deleteEvaluationForm(input: DeleteEvaluationFormInput) async throws -> DeleteEvaluationFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2604,8 +2555,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteHoursOfOperation(input: DeleteHoursOfOperationInput) async throws -> DeleteHoursOfOperationOutput
-    {
+    public func deleteHoursOfOperation(input: DeleteHoursOfOperationInput) async throws -> DeleteHoursOfOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2649,8 +2599,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput
-    {
+    public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2695,8 +2644,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteIntegrationAssociation(input: DeleteIntegrationAssociationInput) async throws -> DeleteIntegrationAssociationOutput
-    {
+    public func deleteIntegrationAssociation(input: DeleteIntegrationAssociationInput) async throws -> DeleteIntegrationAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2743,8 +2691,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deletePredefinedAttribute(input: DeletePredefinedAttributeInput) async throws -> DeletePredefinedAttributeOutput
-    {
+    public func deletePredefinedAttribute(input: DeletePredefinedAttributeInput) async throws -> DeletePredefinedAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2790,8 +2737,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deletePrompt(input: DeletePromptInput) async throws -> DeletePromptOutput
-    {
+    public func deletePrompt(input: DeletePromptInput) async throws -> DeletePromptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2838,8 +2784,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
-    {
+    public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2885,8 +2830,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteQuickConnect(input: DeleteQuickConnectInput) async throws -> DeleteQuickConnectOutput
-    {
+    public func deleteQuickConnect(input: DeleteQuickConnectInput) async throws -> DeleteQuickConnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2933,8 +2877,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteRoutingProfile(input: DeleteRoutingProfileInput) async throws -> DeleteRoutingProfileOutput
-    {
+    public func deleteRoutingProfile(input: DeleteRoutingProfileInput) async throws -> DeleteRoutingProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2980,8 +2923,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-    {
+    public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3029,8 +2971,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput
-    {
+    public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3076,8 +3017,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteTaskTemplate(input: DeleteTaskTemplateInput) async throws -> DeleteTaskTemplateOutput
-    {
+    public func deleteTaskTemplate(input: DeleteTaskTemplateInput) async throws -> DeleteTaskTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3123,8 +3063,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteTrafficDistributionGroup(input: DeleteTrafficDistributionGroupInput) async throws -> DeleteTrafficDistributionGroupOutput
-    {
+    public func deleteTrafficDistributionGroup(input: DeleteTrafficDistributionGroupInput) async throws -> DeleteTrafficDistributionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3169,8 +3108,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteUseCase(input: DeleteUseCaseInput) async throws -> DeleteUseCaseOutput
-    {
+    public func deleteUseCase(input: DeleteUseCaseInput) async throws -> DeleteUseCaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3216,8 +3154,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3264,8 +3201,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteUserHierarchyGroup(input: DeleteUserHierarchyGroupInput) async throws -> DeleteUserHierarchyGroupOutput
-    {
+    public func deleteUserHierarchyGroup(input: DeleteUserHierarchyGroupInput) async throws -> DeleteUserHierarchyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3313,8 +3249,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutput
-    {
+    public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3362,8 +3297,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func deleteViewVersion(input: DeleteViewVersionInput) async throws -> DeleteViewVersionOutput
-    {
+    public func deleteViewVersion(input: DeleteViewVersionInput) async throws -> DeleteViewVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3410,8 +3344,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutput
-    {
+    public func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3457,8 +3390,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeAgentStatus(input: DescribeAgentStatusInput) async throws -> DescribeAgentStatusOutput
-    {
+    public func describeAgentStatus(input: DescribeAgentStatusInput) async throws -> DescribeAgentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3504,8 +3436,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutput
-    {
+    public func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3550,8 +3481,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeContactEvaluation(input: DescribeContactEvaluationInput) async throws -> DescribeContactEvaluationOutput
-    {
+    public func describeContactEvaluation(input: DescribeContactEvaluationInput) async throws -> DescribeContactEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3598,8 +3528,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeContactFlow(input: DescribeContactFlowInput) async throws -> DescribeContactFlowOutput
-    {
+    public func describeContactFlow(input: DescribeContactFlowInput) async throws -> DescribeContactFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3646,8 +3575,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeContactFlowModule(input: DescribeContactFlowModuleInput) async throws -> DescribeContactFlowModuleOutput
-    {
+    public func describeContactFlowModule(input: DescribeContactFlowModuleInput) async throws -> DescribeContactFlowModuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3692,8 +3620,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeEvaluationForm(input: DescribeEvaluationFormInput) async throws -> DescribeEvaluationFormOutput
-    {
+    public func describeEvaluationForm(input: DescribeEvaluationFormInput) async throws -> DescribeEvaluationFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3740,8 +3667,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeHoursOfOperation(input: DescribeHoursOfOperationInput) async throws -> DescribeHoursOfOperationOutput
-    {
+    public func describeHoursOfOperation(input: DescribeHoursOfOperationInput) async throws -> DescribeHoursOfOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3785,8 +3711,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeInstance(input: DescribeInstanceInput) async throws -> DescribeInstanceOutput
-    {
+    public func describeInstance(input: DescribeInstanceInput) async throws -> DescribeInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3832,8 +3757,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeInstanceAttribute(input: DescribeInstanceAttributeInput) async throws -> DescribeInstanceAttributeOutput
-    {
+    public func describeInstanceAttribute(input: DescribeInstanceAttributeInput) async throws -> DescribeInstanceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3879,8 +3803,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeInstanceStorageConfig(input: DescribeInstanceStorageConfigInput) async throws -> DescribeInstanceStorageConfigOutput
-    {
+    public func describeInstanceStorageConfig(input: DescribeInstanceStorageConfigInput) async throws -> DescribeInstanceStorageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3927,8 +3850,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describePhoneNumber(input: DescribePhoneNumberInput) async throws -> DescribePhoneNumberOutput
-    {
+    public func describePhoneNumber(input: DescribePhoneNumberInput) async throws -> DescribePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3974,8 +3896,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describePredefinedAttribute(input: DescribePredefinedAttributeInput) async throws -> DescribePredefinedAttributeOutput
-    {
+    public func describePredefinedAttribute(input: DescribePredefinedAttributeInput) async throws -> DescribePredefinedAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4021,8 +3942,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describePrompt(input: DescribePromptInput) async throws -> DescribePromptOutput
-    {
+    public func describePrompt(input: DescribePromptInput) async throws -> DescribePromptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4068,8 +3988,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeQueue(input: DescribeQueueInput) async throws -> DescribeQueueOutput
-    {
+    public func describeQueue(input: DescribeQueueInput) async throws -> DescribeQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4115,8 +4034,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeQuickConnect(input: DescribeQuickConnectInput) async throws -> DescribeQuickConnectOutput
-    {
+    public func describeQuickConnect(input: DescribeQuickConnectInput) async throws -> DescribeQuickConnectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4162,8 +4080,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeRoutingProfile(input: DescribeRoutingProfileInput) async throws -> DescribeRoutingProfileOutput
-    {
+    public func describeRoutingProfile(input: DescribeRoutingProfileInput) async throws -> DescribeRoutingProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4209,8 +4126,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutput
-    {
+    public func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4256,8 +4172,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutput
-    {
+    public func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4303,8 +4218,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeTrafficDistributionGroup(input: DescribeTrafficDistributionGroupInput) async throws -> DescribeTrafficDistributionGroupOutput
-    {
+    public func describeTrafficDistributionGroup(input: DescribeTrafficDistributionGroupInput) async throws -> DescribeTrafficDistributionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4350,8 +4264,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    {
+    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4397,8 +4310,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeUserHierarchyGroup(input: DescribeUserHierarchyGroupInput) async throws -> DescribeUserHierarchyGroupOutput
-    {
+    public func describeUserHierarchyGroup(input: DescribeUserHierarchyGroupInput) async throws -> DescribeUserHierarchyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4444,8 +4356,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeUserHierarchyStructure(input: DescribeUserHierarchyStructureInput) async throws -> DescribeUserHierarchyStructureOutput
-    {
+    public func describeUserHierarchyStructure(input: DescribeUserHierarchyStructureInput) async throws -> DescribeUserHierarchyStructureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4492,8 +4403,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func describeView(input: DescribeViewInput) async throws -> DescribeViewOutput
-    {
+    public func describeView(input: DescribeViewInput) async throws -> DescribeViewOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4539,8 +4449,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func describeVocabulary(input: DescribeVocabularyInput) async throws -> DescribeVocabularyOutput
-    {
+    public func describeVocabulary(input: DescribeVocabularyInput) async throws -> DescribeVocabularyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4586,8 +4495,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateAnalyticsDataSet(input: DisassociateAnalyticsDataSetInput) async throws -> DisassociateAnalyticsDataSetOutput
-    {
+    public func disassociateAnalyticsDataSet(input: DisassociateAnalyticsDataSetInput) async throws -> DisassociateAnalyticsDataSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4636,8 +4544,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateApprovedOrigin(input: DisassociateApprovedOriginInput) async throws -> DisassociateApprovedOriginOutput
-    {
+    public func disassociateApprovedOrigin(input: DisassociateApprovedOriginInput) async throws -> DisassociateApprovedOriginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4683,8 +4590,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateBot(input: DisassociateBotInput) async throws -> DisassociateBotOutput
-    {
+    public func disassociateBot(input: DisassociateBotInput) async throws -> DisassociateBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4734,8 +4640,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateFlow(input: DisassociateFlowInput) async throws -> DisassociateFlowOutput
-    {
+    public func disassociateFlow(input: DisassociateFlowInput) async throws -> DisassociateFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4781,8 +4686,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateInstanceStorageConfig(input: DisassociateInstanceStorageConfigInput) async throws -> DisassociateInstanceStorageConfigOutput
-    {
+    public func disassociateInstanceStorageConfig(input: DisassociateInstanceStorageConfigInput) async throws -> DisassociateInstanceStorageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4829,8 +4733,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateLambdaFunction(input: DisassociateLambdaFunctionInput) async throws -> DisassociateLambdaFunctionOutput
-    {
+    public func disassociateLambdaFunction(input: DisassociateLambdaFunctionInput) async throws -> DisassociateLambdaFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4877,8 +4780,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateLexBot(input: DisassociateLexBotInput) async throws -> DisassociateLexBotOutput
-    {
+    public func disassociateLexBot(input: DisassociateLexBotInput) async throws -> DisassociateLexBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4925,8 +4827,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociatePhoneNumberContactFlow(input: DisassociatePhoneNumberContactFlowInput) async throws -> DisassociatePhoneNumberContactFlowOutput
-    {
+    public func disassociatePhoneNumberContactFlow(input: DisassociatePhoneNumberContactFlowInput) async throws -> DisassociatePhoneNumberContactFlowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4973,8 +4874,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateQueueQuickConnects(input: DisassociateQueueQuickConnectsInput) async throws -> DisassociateQueueQuickConnectsOutput
-    {
+    public func disassociateQueueQuickConnects(input: DisassociateQueueQuickConnectsInput) async throws -> DisassociateQueueQuickConnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5023,8 +4923,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateRoutingProfileQueues(input: DisassociateRoutingProfileQueuesInput) async throws -> DisassociateRoutingProfileQueuesOutput
-    {
+    public func disassociateRoutingProfileQueues(input: DisassociateRoutingProfileQueuesInput) async throws -> DisassociateRoutingProfileQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5073,8 +4972,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateSecurityKey(input: DisassociateSecurityKeyInput) async throws -> DisassociateSecurityKeyOutput
-    {
+    public func disassociateSecurityKey(input: DisassociateSecurityKeyInput) async throws -> DisassociateSecurityKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5121,8 +5019,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateTrafficDistributionGroupUser(input: DisassociateTrafficDistributionGroupUserInput) async throws -> DisassociateTrafficDistributionGroupUserOutput
-    {
+    public func disassociateTrafficDistributionGroupUser(input: DisassociateTrafficDistributionGroupUserInput) async throws -> DisassociateTrafficDistributionGroupUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5169,8 +5066,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func disassociateUserProficiencies(input: DisassociateUserProficienciesInput) async throws -> DisassociateUserProficienciesOutput
-    {
+    public func disassociateUserProficiencies(input: DisassociateUserProficienciesInput) async throws -> DisassociateUserProficienciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5220,8 +5116,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func dismissUserContact(input: DismissUserContactInput) async throws -> DismissUserContactOutput
-    {
+    public func dismissUserContact(input: DismissUserContactInput) async throws -> DismissUserContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5268,8 +5163,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getContactAttributes(input: GetContactAttributesInput) async throws -> GetContactAttributesOutput
-    {
+    public func getContactAttributes(input: GetContactAttributesInput) async throws -> GetContactAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5315,8 +5209,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getCurrentMetricData(input: GetCurrentMetricDataInput) async throws -> GetCurrentMetricDataOutput
-    {
+    public func getCurrentMetricData(input: GetCurrentMetricDataInput) async throws -> GetCurrentMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5365,8 +5258,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getCurrentUserData(input: GetCurrentUserDataInput) async throws -> GetCurrentUserDataOutput
-    {
+    public func getCurrentUserData(input: GetCurrentUserDataInput) async throws -> GetCurrentUserDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5416,8 +5308,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `UserNotFoundException` : No user with the specified credentials was found in the Amazon Connect instance.
-    public func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutput
-    {
+    public func getFederationToken(input: GetFederationTokenInput) async throws -> GetFederationTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5464,8 +5355,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getFlowAssociation(input: GetFlowAssociationInput) async throws -> GetFlowAssociationOutput
-    {
+    public func getFlowAssociation(input: GetFlowAssociationInput) async throws -> GetFlowAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5511,8 +5401,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutput
-    {
+    public func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5561,8 +5450,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getMetricDataV2(input: GetMetricDataV2Input) async throws -> GetMetricDataV2Output
-    {
+    public func getMetricDataV2(input: GetMetricDataV2Input) async throws -> GetMetricDataV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5611,8 +5499,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getPromptFile(input: GetPromptFileInput) async throws -> GetPromptFileOutput
-    {
+    public func getPromptFile(input: GetPromptFileInput) async throws -> GetPromptFileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5658,8 +5545,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getTaskTemplate(input: GetTaskTemplateInput) async throws -> GetTaskTemplateOutput
-    {
+    public func getTaskTemplate(input: GetTaskTemplateInput) async throws -> GetTaskTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5706,8 +5592,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func getTrafficDistribution(input: GetTrafficDistributionInput) async throws -> GetTrafficDistributionOutput
-    {
+    public func getTrafficDistribution(input: GetTrafficDistributionInput) async throws -> GetTrafficDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5754,8 +5639,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func importPhoneNumber(input: ImportPhoneNumberInput) async throws -> ImportPhoneNumberOutput
-    {
+    public func importPhoneNumber(input: ImportPhoneNumberInput) async throws -> ImportPhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5805,8 +5689,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listAgentStatuses(input: ListAgentStatusesInput) async throws -> ListAgentStatusesOutput
-    {
+    public func listAgentStatuses(input: ListAgentStatusesInput) async throws -> ListAgentStatusesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5853,8 +5736,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listAnalyticsDataAssociations(input: ListAnalyticsDataAssociationsInput) async throws -> ListAnalyticsDataAssociationsOutput
-    {
+    public func listAnalyticsDataAssociations(input: ListAnalyticsDataAssociationsInput) async throws -> ListAnalyticsDataAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5901,8 +5783,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listApprovedOrigins(input: ListApprovedOriginsInput) async throws -> ListApprovedOriginsOutput
-    {
+    public func listApprovedOrigins(input: ListApprovedOriginsInput) async throws -> ListApprovedOriginsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5948,8 +5829,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listBots(input: ListBotsInput) async throws -> ListBotsOutput
-    {
+    public func listBots(input: ListBotsInput) async throws -> ListBotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5995,8 +5875,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listContactEvaluations(input: ListContactEvaluationsInput) async throws -> ListContactEvaluationsOutput
-    {
+    public func listContactEvaluations(input: ListContactEvaluationsInput) async throws -> ListContactEvaluationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6044,8 +5923,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listContactFlowModules(input: ListContactFlowModulesInput) async throws -> ListContactFlowModulesOutput
-    {
+    public func listContactFlowModules(input: ListContactFlowModulesInput) async throws -> ListContactFlowModulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6092,8 +5970,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listContactFlows(input: ListContactFlowsInput) async throws -> ListContactFlowsOutput
-    {
+    public func listContactFlows(input: ListContactFlowsInput) async throws -> ListContactFlowsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6140,8 +6017,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listContactReferences(input: ListContactReferencesInput) async throws -> ListContactReferencesOutput
-    {
+    public func listContactReferences(input: ListContactReferencesInput) async throws -> ListContactReferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6187,8 +6063,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listDefaultVocabularies(input: ListDefaultVocabulariesInput) async throws -> ListDefaultVocabulariesOutput
-    {
+    public func listDefaultVocabularies(input: ListDefaultVocabulariesInput) async throws -> ListDefaultVocabulariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6236,8 +6111,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listEvaluationFormVersions(input: ListEvaluationFormVersionsInput) async throws -> ListEvaluationFormVersionsOutput
-    {
+    public func listEvaluationFormVersions(input: ListEvaluationFormVersionsInput) async throws -> ListEvaluationFormVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6283,8 +6157,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listEvaluationForms(input: ListEvaluationFormsInput) async throws -> ListEvaluationFormsOutput
-    {
+    public func listEvaluationForms(input: ListEvaluationFormsInput) async throws -> ListEvaluationFormsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6332,8 +6205,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listFlowAssociations(input: ListFlowAssociationsInput) async throws -> ListFlowAssociationsOutput
-    {
+    public func listFlowAssociations(input: ListFlowAssociationsInput) async throws -> ListFlowAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6380,8 +6252,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listHoursOfOperations(input: ListHoursOfOperationsInput) async throws -> ListHoursOfOperationsOutput
-    {
+    public func listHoursOfOperations(input: ListHoursOfOperationsInput) async throws -> ListHoursOfOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6428,8 +6299,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listInstanceAttributes(input: ListInstanceAttributesInput) async throws -> ListInstanceAttributesOutput
-    {
+    public func listInstanceAttributes(input: ListInstanceAttributesInput) async throws -> ListInstanceAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6476,8 +6346,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listInstanceStorageConfigs(input: ListInstanceStorageConfigsInput) async throws -> ListInstanceStorageConfigsOutput
-    {
+    public func listInstanceStorageConfigs(input: ListInstanceStorageConfigsInput) async throws -> ListInstanceStorageConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6521,8 +6390,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
-    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
-    {
+    public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6568,8 +6436,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listIntegrationAssociations(input: ListIntegrationAssociationsInput) async throws -> ListIntegrationAssociationsOutput
-    {
+    public func listIntegrationAssociations(input: ListIntegrationAssociationsInput) async throws -> ListIntegrationAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6616,8 +6483,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listLambdaFunctions(input: ListLambdaFunctionsInput) async throws -> ListLambdaFunctionsOutput
-    {
+    public func listLambdaFunctions(input: ListLambdaFunctionsInput) async throws -> ListLambdaFunctionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6664,8 +6530,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listLexBots(input: ListLexBotsInput) async throws -> ListLexBotsOutput
-    {
+    public func listLexBots(input: ListLexBotsInput) async throws -> ListLexBotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6716,8 +6581,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput
-    {
+    public func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6768,8 +6632,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listPhoneNumbersV2(input: ListPhoneNumbersV2Input) async throws -> ListPhoneNumbersV2Output
-    {
+    public func listPhoneNumbersV2(input: ListPhoneNumbersV2Input) async throws -> ListPhoneNumbersV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6818,8 +6681,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listPredefinedAttributes(input: ListPredefinedAttributesInput) async throws -> ListPredefinedAttributesOutput
-    {
+    public func listPredefinedAttributes(input: ListPredefinedAttributesInput) async throws -> ListPredefinedAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6866,8 +6728,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listPrompts(input: ListPromptsInput) async throws -> ListPromptsOutput
-    {
+    public func listPrompts(input: ListPromptsInput) async throws -> ListPromptsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6914,8 +6775,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listQueueQuickConnects(input: ListQueueQuickConnectsInput) async throws -> ListQueueQuickConnectsOutput
-    {
+    public func listQueueQuickConnects(input: ListQueueQuickConnectsInput) async throws -> ListQueueQuickConnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6962,8 +6822,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
-    {
+    public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7010,8 +6869,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listQuickConnects(input: ListQuickConnectsInput) async throws -> ListQuickConnectsOutput
-    {
+    public func listQuickConnects(input: ListQuickConnectsInput) async throws -> ListQuickConnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7059,8 +6917,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `OutputTypeNotFoundException` : Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had RedactedOnly Redaction policy set in Contact flow.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listRealtimeContactAnalysisSegmentsV2(input: ListRealtimeContactAnalysisSegmentsV2Input) async throws -> ListRealtimeContactAnalysisSegmentsV2Output
-    {
+    public func listRealtimeContactAnalysisSegmentsV2(input: ListRealtimeContactAnalysisSegmentsV2Input) async throws -> ListRealtimeContactAnalysisSegmentsV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7109,8 +6966,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listRoutingProfileQueues(input: ListRoutingProfileQueuesInput) async throws -> ListRoutingProfileQueuesOutput
-    {
+    public func listRoutingProfileQueues(input: ListRoutingProfileQueuesInput) async throws -> ListRoutingProfileQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7157,8 +7013,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listRoutingProfiles(input: ListRoutingProfilesInput) async throws -> ListRoutingProfilesOutput
-    {
+    public func listRoutingProfiles(input: ListRoutingProfilesInput) async throws -> ListRoutingProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7205,8 +7060,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-    {
+    public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7253,8 +7107,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listSecurityKeys(input: ListSecurityKeysInput) async throws -> ListSecurityKeysOutput
-    {
+    public func listSecurityKeys(input: ListSecurityKeysInput) async throws -> ListSecurityKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7301,8 +7154,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listSecurityProfileApplications(input: ListSecurityProfileApplicationsInput) async throws -> ListSecurityProfileApplicationsOutput
-    {
+    public func listSecurityProfileApplications(input: ListSecurityProfileApplicationsInput) async throws -> ListSecurityProfileApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7349,8 +7201,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listSecurityProfilePermissions(input: ListSecurityProfilePermissionsInput) async throws -> ListSecurityProfilePermissionsOutput
-    {
+    public func listSecurityProfilePermissions(input: ListSecurityProfilePermissionsInput) async throws -> ListSecurityProfilePermissionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7397,8 +7248,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutput
-    {
+    public func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7445,8 +7295,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7492,8 +7341,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listTaskTemplates(input: ListTaskTemplatesInput) async throws -> ListTaskTemplatesOutput
-    {
+    public func listTaskTemplates(input: ListTaskTemplatesInput) async throws -> ListTaskTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7540,8 +7388,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listTrafficDistributionGroupUsers(input: ListTrafficDistributionGroupUsersInput) async throws -> ListTrafficDistributionGroupUsersOutput
-    {
+    public func listTrafficDistributionGroupUsers(input: ListTrafficDistributionGroupUsersInput) async throws -> ListTrafficDistributionGroupUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7587,8 +7434,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listTrafficDistributionGroups(input: ListTrafficDistributionGroupsInput) async throws -> ListTrafficDistributionGroupsOutput
-    {
+    public func listTrafficDistributionGroups(input: ListTrafficDistributionGroupsInput) async throws -> ListTrafficDistributionGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7634,8 +7480,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listUseCases(input: ListUseCasesInput) async throws -> ListUseCasesOutput
-    {
+    public func listUseCases(input: ListUseCasesInput) async throws -> ListUseCasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7682,8 +7527,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listUserHierarchyGroups(input: ListUserHierarchyGroupsInput) async throws -> ListUserHierarchyGroupsOutput
-    {
+    public func listUserHierarchyGroups(input: ListUserHierarchyGroupsInput) async throws -> ListUserHierarchyGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7730,8 +7574,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listUserProficiencies(input: ListUserProficienciesInput) async throws -> ListUserProficienciesOutput
-    {
+    public func listUserProficiencies(input: ListUserProficienciesInput) async throws -> ListUserProficienciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7778,8 +7621,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7827,8 +7669,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func listViewVersions(input: ListViewVersionsInput) async throws -> ListViewVersionsOutput
-    {
+    public func listViewVersions(input: ListViewVersionsInput) async throws -> ListViewVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7876,8 +7717,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func listViews(input: ListViewsInput) async throws -> ListViewsOutput
-    {
+    public func listViews(input: ListViewsInput) async throws -> ListViewsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7926,8 +7766,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func monitorContact(input: MonitorContactInput) async throws -> MonitorContactOutput
-    {
+    public func monitorContact(input: MonitorContactInput) async throws -> MonitorContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7980,8 +7819,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func pauseContact(input: PauseContactInput) async throws -> PauseContactOutput
-    {
+    public func pauseContact(input: PauseContactInput) async throws -> PauseContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8031,8 +7869,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func putUserStatus(input: PutUserStatusInput) async throws -> PutUserStatusOutput
-    {
+    public func putUserStatus(input: PutUserStatusInput) async throws -> PutUserStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8083,8 +7920,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput
-    {
+    public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8135,8 +7971,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotReadyException` : The resource is not ready.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func replicateInstance(input: ReplicateInstanceInput) async throws -> ReplicateInstanceOutput
-    {
+    public func replicateInstance(input: ReplicateInstanceInput) async throws -> ReplicateInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8188,8 +8023,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func resumeContact(input: ResumeContactInput) async throws -> ResumeContactOutput
-    {
+    public func resumeContact(input: ResumeContactInput) async throws -> ResumeContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8236,8 +8070,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func resumeContactRecording(input: ResumeContactRecordingInput) async throws -> ResumeContactRecordingOutput
-    {
+    public func resumeContactRecording(input: ResumeContactRecordingInput) async throws -> ResumeContactRecordingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8285,8 +8118,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput
-    {
+    public func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8335,8 +8167,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput
-    {
+    public func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8385,8 +8216,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchHoursOfOperations(input: SearchHoursOfOperationsInput) async throws -> SearchHoursOfOperationsOutput
-    {
+    public func searchHoursOfOperations(input: SearchHoursOfOperationsInput) async throws -> SearchHoursOfOperationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8435,8 +8265,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchPredefinedAttributes(input: SearchPredefinedAttributesInput) async throws -> SearchPredefinedAttributesOutput
-    {
+    public func searchPredefinedAttributes(input: SearchPredefinedAttributesInput) async throws -> SearchPredefinedAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8485,8 +8314,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchPrompts(input: SearchPromptsInput) async throws -> SearchPromptsOutput
-    {
+    public func searchPrompts(input: SearchPromptsInput) async throws -> SearchPromptsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8535,8 +8363,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchQueues(input: SearchQueuesInput) async throws -> SearchQueuesOutput
-    {
+    public func searchQueues(input: SearchQueuesInput) async throws -> SearchQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8585,8 +8412,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchQuickConnects(input: SearchQuickConnectsInput) async throws -> SearchQuickConnectsOutput
-    {
+    public func searchQuickConnects(input: SearchQuickConnectsInput) async throws -> SearchQuickConnectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8636,8 +8462,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `MaximumResultReturnedException` : Maximum number (1000) of tags have been returned with current request. Consider changing request parameters to get more tags.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchResourceTags(input: SearchResourceTagsInput) async throws -> SearchResourceTagsOutput
-    {
+    public func searchResourceTags(input: SearchResourceTagsInput) async throws -> SearchResourceTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8686,8 +8511,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchRoutingProfiles(input: SearchRoutingProfilesInput) async throws -> SearchRoutingProfilesOutput
-    {
+    public func searchRoutingProfiles(input: SearchRoutingProfilesInput) async throws -> SearchRoutingProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8736,8 +8560,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchSecurityProfiles(input: SearchSecurityProfilesInput) async throws -> SearchSecurityProfilesOutput
-    {
+    public func searchSecurityProfiles(input: SearchSecurityProfilesInput) async throws -> SearchSecurityProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8786,8 +8609,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput
-    {
+    public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8835,8 +8657,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func searchVocabularies(input: SearchVocabulariesInput) async throws -> SearchVocabulariesOutput
-    {
+    public func searchVocabularies(input: SearchVocabulariesInput) async throws -> SearchVocabulariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8892,8 +8713,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func sendChatIntegrationEvent(input: SendChatIntegrationEventInput) async throws -> SendChatIntegrationEventOutput
-    {
+    public func sendChatIntegrationEvent(input: SendChatIntegrationEventInput) async throws -> SendChatIntegrationEventOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8949,8 +8769,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startChatContact(input: StartChatContactInput) async throws -> StartChatContactOutput
-    {
+    public func startChatContact(input: StartChatContactInput) async throws -> StartChatContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9001,8 +8820,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func startContactEvaluation(input: StartContactEvaluationInput) async throws -> StartContactEvaluationOutput
-    {
+    public func startContactEvaluation(input: StartContactEvaluationInput) async throws -> StartContactEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9058,8 +8876,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startContactRecording(input: StartContactRecordingInput) async throws -> StartContactRecordingOutput
-    {
+    public func startContactRecording(input: StartContactRecordingInput) async throws -> StartContactRecordingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9108,8 +8925,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startContactStreaming(input: StartContactStreamingInput) async throws -> StartContactStreamingOutput
-    {
+    public func startContactStreaming(input: StartContactStreamingInput) async throws -> StartContactStreamingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9161,8 +8977,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `OutboundContactNotPermittedException` : The contact is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startOutboundVoiceContact(input: StartOutboundVoiceContactInput) async throws -> StartOutboundVoiceContactOutput
-    {
+    public func startOutboundVoiceContact(input: StartOutboundVoiceContactInput) async throws -> StartOutboundVoiceContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9236,8 +9051,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func startTaskContact(input: StartTaskContactInput) async throws -> StartTaskContactOutput
-    {
+    public func startTaskContact(input: StartTaskContactInput) async throws -> StartTaskContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9287,8 +9101,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func startWebRTCContact(input: StartWebRTCContactInput) async throws -> StartWebRTCContactOutput
-    {
+    public func startWebRTCContact(input: StartWebRTCContactInput) async throws -> StartWebRTCContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9347,8 +9160,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func stopContact(input: StopContactInput) async throws -> StopContactOutput
-    {
+    public func stopContact(input: StopContactInput) async throws -> StopContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9395,8 +9207,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func stopContactRecording(input: StopContactRecordingInput) async throws -> StopContactRecordingOutput
-    {
+    public func stopContactRecording(input: StopContactRecordingInput) async throws -> StopContactRecordingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9444,8 +9255,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func stopContactStreaming(input: StopContactStreamingInput) async throws -> StopContactStreamingOutput
-    {
+    public func stopContactStreaming(input: StopContactStreamingInput) async throws -> StopContactStreamingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9494,8 +9304,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func submitContactEvaluation(input: SubmitContactEvaluationInput) async throws -> SubmitContactEvaluationOutput
-    {
+    public func submitContactEvaluation(input: SubmitContactEvaluationInput) async throws -> SubmitContactEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9542,8 +9351,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutput
-    {
+    public func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9592,8 +9400,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func tagContact(input: TagContactInput) async throws -> TagContactOutput
-    {
+    public func tagContact(input: TagContactInput) async throws -> TagContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9642,8 +9449,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9704,8 +9510,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func transferContact(input: TransferContactInput) async throws -> TransferContactOutput
-    {
+    public func transferContact(input: TransferContactInput) async throws -> TransferContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9755,8 +9560,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func untagContact(input: UntagContactInput) async throws -> UntagContactOutput
-    {
+    public func untagContact(input: UntagContactInput) async throws -> UntagContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9803,8 +9607,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9853,8 +9656,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutput
-    {
+    public func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9903,8 +9705,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
-    {
+    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9952,8 +9753,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateContactAttributes(input: UpdateContactAttributesInput) async throws -> UpdateContactAttributesOutput
-    {
+    public func updateContactAttributes(input: UpdateContactAttributesInput) async throws -> UpdateContactAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10002,8 +9802,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactEvaluation(input: UpdateContactEvaluationInput) async throws -> UpdateContactEvaluationOutput
-    {
+    public func updateContactEvaluation(input: UpdateContactEvaluationInput) async throws -> UpdateContactEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10053,8 +9852,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactFlowContent(input: UpdateContactFlowContentInput) async throws -> UpdateContactFlowContentOutput
-    {
+    public func updateContactFlowContent(input: UpdateContactFlowContentInput) async throws -> UpdateContactFlowContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10104,8 +9902,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactFlowMetadata(input: UpdateContactFlowMetadataInput) async throws -> UpdateContactFlowMetadataOutput
-    {
+    public func updateContactFlowMetadata(input: UpdateContactFlowMetadataInput) async throws -> UpdateContactFlowMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10155,8 +9952,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactFlowModuleContent(input: UpdateContactFlowModuleContentInput) async throws -> UpdateContactFlowModuleContentOutput
-    {
+    public func updateContactFlowModuleContent(input: UpdateContactFlowModuleContentInput) async throws -> UpdateContactFlowModuleContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10207,8 +10003,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactFlowModuleMetadata(input: UpdateContactFlowModuleMetadataInput) async throws -> UpdateContactFlowModuleMetadataOutput
-    {
+    public func updateContactFlowModuleMetadata(input: UpdateContactFlowModuleMetadataInput) async throws -> UpdateContactFlowModuleMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10258,8 +10053,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactFlowName(input: UpdateContactFlowNameInput) async throws -> UpdateContactFlowNameOutput
-    {
+    public func updateContactFlowName(input: UpdateContactFlowNameInput) async throws -> UpdateContactFlowNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10309,8 +10103,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactRoutingData(input: UpdateContactRoutingDataInput) async throws -> UpdateContactRoutingDataOutput
-    {
+    public func updateContactRoutingData(input: UpdateContactRoutingDataInput) async throws -> UpdateContactRoutingDataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10360,8 +10153,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateContactSchedule(input: UpdateContactScheduleInput) async throws -> UpdateContactScheduleOutput
-    {
+    public func updateContactSchedule(input: UpdateContactScheduleInput) async throws -> UpdateContactScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10411,8 +10203,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateEvaluationForm(input: UpdateEvaluationFormInput) async throws -> UpdateEvaluationFormOutput
-    {
+    public func updateEvaluationForm(input: UpdateEvaluationFormInput) async throws -> UpdateEvaluationFormOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10463,8 +10254,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateHoursOfOperation(input: UpdateHoursOfOperationInput) async throws -> UpdateHoursOfOperationOutput
-    {
+    public func updateHoursOfOperation(input: UpdateHoursOfOperationInput) async throws -> UpdateHoursOfOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10513,8 +10303,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateInstanceAttribute(input: UpdateInstanceAttributeInput) async throws -> UpdateInstanceAttributeOutput
-    {
+    public func updateInstanceAttribute(input: UpdateInstanceAttributeInput) async throws -> UpdateInstanceAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10563,8 +10352,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateInstanceStorageConfig(input: UpdateInstanceStorageConfigInput) async throws -> UpdateInstanceStorageConfigOutput
-    {
+    public func updateInstanceStorageConfig(input: UpdateInstanceStorageConfigInput) async throws -> UpdateInstanceStorageConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10626,8 +10414,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateParticipantRoleConfig(input: UpdateParticipantRoleConfigInput) async throws -> UpdateParticipantRoleConfigOutput
-    {
+    public func updateParticipantRoleConfig(input: UpdateParticipantRoleConfigInput) async throws -> UpdateParticipantRoleConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10678,8 +10465,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
-    {
+    public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10732,8 +10518,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updatePhoneNumberMetadata(input: UpdatePhoneNumberMetadataInput) async throws -> UpdatePhoneNumberMetadataOutput
-    {
+    public func updatePhoneNumberMetadata(input: UpdatePhoneNumberMetadataInput) async throws -> UpdatePhoneNumberMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10783,8 +10568,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updatePredefinedAttribute(input: UpdatePredefinedAttributeInput) async throws -> UpdatePredefinedAttributeOutput
-    {
+    public func updatePredefinedAttribute(input: UpdatePredefinedAttributeInput) async throws -> UpdatePredefinedAttributeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10833,8 +10617,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updatePrompt(input: UpdatePromptInput) async throws -> UpdatePromptOutput
-    {
+    public func updatePrompt(input: UpdatePromptInput) async throws -> UpdatePromptOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10883,8 +10666,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQueueHoursOfOperation(input: UpdateQueueHoursOfOperationInput) async throws -> UpdateQueueHoursOfOperationOutput
-    {
+    public func updateQueueHoursOfOperation(input: UpdateQueueHoursOfOperationInput) async throws -> UpdateQueueHoursOfOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10933,8 +10715,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQueueMaxContacts(input: UpdateQueueMaxContactsInput) async throws -> UpdateQueueMaxContactsOutput
-    {
+    public func updateQueueMaxContacts(input: UpdateQueueMaxContactsInput) async throws -> UpdateQueueMaxContactsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10984,8 +10765,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQueueName(input: UpdateQueueNameInput) async throws -> UpdateQueueNameOutput
-    {
+    public func updateQueueName(input: UpdateQueueNameInput) async throws -> UpdateQueueNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11040,8 +10820,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQueueOutboundCallerConfig(input: UpdateQueueOutboundCallerConfigInput) async throws -> UpdateQueueOutboundCallerConfigOutput
-    {
+    public func updateQueueOutboundCallerConfig(input: UpdateQueueOutboundCallerConfigInput) async throws -> UpdateQueueOutboundCallerConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11090,8 +10869,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQueueStatus(input: UpdateQueueStatusInput) async throws -> UpdateQueueStatusOutput
-    {
+    public func updateQueueStatus(input: UpdateQueueStatusInput) async throws -> UpdateQueueStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11140,8 +10918,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQuickConnectConfig(input: UpdateQuickConnectConfigInput) async throws -> UpdateQuickConnectConfigOutput
-    {
+    public func updateQuickConnectConfig(input: UpdateQuickConnectConfigInput) async throws -> UpdateQuickConnectConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11190,8 +10967,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateQuickConnectName(input: UpdateQuickConnectNameInput) async throws -> UpdateQuickConnectNameOutput
-    {
+    public func updateQuickConnectName(input: UpdateQuickConnectNameInput) async throws -> UpdateQuickConnectNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11240,8 +11016,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateRoutingProfileAgentAvailabilityTimer(input: UpdateRoutingProfileAgentAvailabilityTimerInput) async throws -> UpdateRoutingProfileAgentAvailabilityTimerOutput
-    {
+    public func updateRoutingProfileAgentAvailabilityTimer(input: UpdateRoutingProfileAgentAvailabilityTimerInput) async throws -> UpdateRoutingProfileAgentAvailabilityTimerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11290,8 +11065,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateRoutingProfileConcurrency(input: UpdateRoutingProfileConcurrencyInput) async throws -> UpdateRoutingProfileConcurrencyOutput
-    {
+    public func updateRoutingProfileConcurrency(input: UpdateRoutingProfileConcurrencyInput) async throws -> UpdateRoutingProfileConcurrencyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11340,8 +11114,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateRoutingProfileDefaultOutboundQueue(input: UpdateRoutingProfileDefaultOutboundQueueInput) async throws -> UpdateRoutingProfileDefaultOutboundQueueOutput
-    {
+    public func updateRoutingProfileDefaultOutboundQueue(input: UpdateRoutingProfileDefaultOutboundQueueInput) async throws -> UpdateRoutingProfileDefaultOutboundQueueOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11391,8 +11164,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateRoutingProfileName(input: UpdateRoutingProfileNameInput) async throws -> UpdateRoutingProfileNameOutput
-    {
+    public func updateRoutingProfileName(input: UpdateRoutingProfileNameInput) async throws -> UpdateRoutingProfileNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11441,8 +11213,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateRoutingProfileQueues(input: UpdateRoutingProfileQueuesInput) async throws -> UpdateRoutingProfileQueuesOutput
-    {
+    public func updateRoutingProfileQueues(input: UpdateRoutingProfileQueuesInput) async throws -> UpdateRoutingProfileQueuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11492,8 +11263,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput
-    {
+    public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11542,8 +11312,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutput
-    {
+    public func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11593,8 +11362,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateTaskTemplate(input: UpdateTaskTemplateInput) async throws -> UpdateTaskTemplateOutput
-    {
+    public func updateTaskTemplate(input: UpdateTaskTemplateInput) async throws -> UpdateTaskTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11644,8 +11412,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateTrafficDistribution(input: UpdateTrafficDistributionInput) async throws -> UpdateTrafficDistributionOutput
-    {
+    public func updateTrafficDistribution(input: UpdateTrafficDistributionInput) async throws -> UpdateTrafficDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11694,8 +11461,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserHierarchy(input: UpdateUserHierarchyInput) async throws -> UpdateUserHierarchyOutput
-    {
+    public func updateUserHierarchy(input: UpdateUserHierarchyInput) async throws -> UpdateUserHierarchyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11745,8 +11511,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserHierarchyGroupName(input: UpdateUserHierarchyGroupNameInput) async throws -> UpdateUserHierarchyGroupNameOutput
-    {
+    public func updateUserHierarchyGroupName(input: UpdateUserHierarchyGroupNameInput) async throws -> UpdateUserHierarchyGroupNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11796,8 +11561,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserHierarchyStructure(input: UpdateUserHierarchyStructureInput) async throws -> UpdateUserHierarchyStructureOutput
-    {
+    public func updateUserHierarchyStructure(input: UpdateUserHierarchyStructureInput) async throws -> UpdateUserHierarchyStructureOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11846,8 +11610,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserIdentityInfo(input: UpdateUserIdentityInfoInput) async throws -> UpdateUserIdentityInfoOutput
-    {
+    public func updateUserIdentityInfo(input: UpdateUserIdentityInfoInput) async throws -> UpdateUserIdentityInfoOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11896,8 +11659,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserPhoneConfig(input: UpdateUserPhoneConfigInput) async throws -> UpdateUserPhoneConfigOutput
-    {
+    public func updateUserPhoneConfig(input: UpdateUserPhoneConfigInput) async throws -> UpdateUserPhoneConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11946,8 +11708,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserProficiencies(input: UpdateUserProficienciesInput) async throws -> UpdateUserProficienciesOutput
-    {
+    public func updateUserProficiencies(input: UpdateUserProficienciesInput) async throws -> UpdateUserProficienciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11996,8 +11757,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserRoutingProfile(input: UpdateUserRoutingProfileInput) async throws -> UpdateUserRoutingProfileOutput
-    {
+    public func updateUserRoutingProfile(input: UpdateUserRoutingProfileInput) async throws -> UpdateUserRoutingProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12046,8 +11806,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func updateUserSecurityProfiles(input: UpdateUserSecurityProfilesInput) async throws -> UpdateUserSecurityProfilesOutput
-    {
+    public func updateUserSecurityProfiles(input: UpdateUserSecurityProfilesInput) async throws -> UpdateUserSecurityProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12098,8 +11857,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func updateViewContent(input: UpdateViewContentInput) async throws -> UpdateViewContentOutput
-    {
+    public func updateViewContent(input: UpdateViewContentInput) async throws -> UpdateViewContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12151,8 +11909,7 @@ extension ConnectClient: ConnectClientProtocol {
     /// - `ResourceInUseException` : That resource is already in use. Please try another.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
-    public func updateViewMetadata(input: UpdateViewMetadataInput) async throws -> UpdateViewMetadataOutput
-    {
+    public func updateViewMetadata(input: UpdateViewMetadataInput) async throws -> UpdateViewMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

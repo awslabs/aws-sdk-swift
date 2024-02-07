@@ -66,7 +66,7 @@ public struct FreeTierClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension FreeTierClient: FreeTierClientProtocol {
+extension FreeTierClient {
     /// Performs the `GetFreeTierUsage` operation on the `AWSFreeTierService` service.
     ///
     /// Returns a list of all Free Tier usage objects that match your filters.
@@ -81,8 +81,7 @@ extension FreeTierClient: FreeTierClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Service.
-    public func getFreeTierUsage(input: GetFreeTierUsageInput) async throws -> GetFreeTierUsageOutput
-    {
+    public func getFreeTierUsage(input: GetFreeTierUsageInput) async throws -> GetFreeTierUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

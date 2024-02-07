@@ -67,7 +67,7 @@ public struct CloudFrontClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
     }
 }
 
-extension CloudFrontClient: CloudFrontClientProtocol {
+extension CloudFrontClient {
     /// Performs the `AssociateAlias` operation on the `Cloudfront2020_05_31` service.
     ///
     /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that's already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
@@ -84,8 +84,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyDistributionCNAMEs` : Your request contains more CNAMEs than are allowed per distribution.
-    public func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutput
-    {
+    public func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -197,8 +196,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutput
-    {
+    public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -258,8 +256,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCookiesInCachePolicy` : The number of cookies in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutput
-    {
+    public func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -308,8 +305,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `TooManyCloudFrontOriginAccessIdentities` : Processing your request would cause you to exceed the maximum number of origin access identities allowed.
-    public func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutput
-    {
+    public func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -359,8 +355,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
     /// - `TooManyContinuousDeploymentPolicies` : You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
-    public func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutput
-    {
+    public func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -469,8 +464,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput
-    {
+    public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -584,8 +578,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutput
-    {
+    public func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -638,8 +631,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionConfigs` : The maximum number of configurations for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
-    public func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutput
-    {
+    public func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -691,8 +683,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionEncryptionEntities` : The maximum number of encryption entities for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionProfiles` : The maximum number of profiles for field-level encryption have been created.
-    public func createFieldLevelEncryptionProfile(input: CreateFieldLevelEncryptionProfileInput) async throws -> CreateFieldLevelEncryptionProfileOutput
-    {
+    public func createFieldLevelEncryptionProfile(input: CreateFieldLevelEncryptionProfileInput) async throws -> CreateFieldLevelEncryptionProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -741,8 +732,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `TooManyFunctions` : You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
-    {
+    public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -793,8 +783,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyInvalidationsInProgress` : You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
-    public func createInvalidation(input: CreateInvalidationInput) async throws -> CreateInvalidationOutput
-    {
+    public func createInvalidation(input: CreateInvalidationInput) async throws -> CreateInvalidationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -842,8 +831,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `KeyGroupAlreadyExists` : A key group with this name already exists. You must provide a unique name. To modify an existing key group, use UpdateKeyGroup.
     /// - `TooManyKeyGroups` : You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createKeyGroup(input: CreateKeyGroupInput) async throws -> CreateKeyGroupOutput
-    {
+    public func createKeyGroup(input: CreateKeyGroupInput) async throws -> CreateKeyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -892,8 +880,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `EntityLimitExceeded` : The Key Value Store entity limit has been exceeded.
     /// - `EntitySizeLimitExceeded` : The Key Value Store entity size limit was exceeded.
     /// - `InvalidArgument` : An argument is invalid.
-    public func createKeyValueStore(input: CreateKeyValueStoreInput) async throws -> CreateKeyValueStoreOutput
-    {
+    public func createKeyValueStore(input: CreateKeyValueStoreInput) async throws -> CreateKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -941,8 +928,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `MonitoringSubscriptionAlreadyExists` : A monitoring subscription already exists for the specified distribution.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutput
-    {
+    public func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -989,8 +975,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `TooManyOriginAccessControls` : The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createOriginAccessControl(input: CreateOriginAccessControlInput) async throws -> CreateOriginAccessControlOutput
-    {
+    public func createOriginAccessControl(input: CreateOriginAccessControlInput) async throws -> CreateOriginAccessControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1051,8 +1036,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyHeadersInOriginRequestPolicy` : The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyOriginRequestPolicies` : You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutput
-    {
+    public func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1099,8 +1083,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `PublicKeyAlreadyExists` : The specified public key already exists.
     /// - `TooManyPublicKeys` : The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
-    public func createPublicKey(input: CreatePublicKeyInput) async throws -> CreatePublicKeyOutput
-    {
+    public func createPublicKey(input: CreatePublicKeyInput) async throws -> CreatePublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1148,8 +1131,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `RealtimeLogConfigAlreadyExists` : A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
     /// - `TooManyRealtimeLogConfigs` : You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createRealtimeLogConfig(input: CreateRealtimeLogConfigInput) async throws -> CreateRealtimeLogConfigOutput
-    {
+    public func createRealtimeLogConfig(input: CreateRealtimeLogConfigInput) async throws -> CreateRealtimeLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1201,8 +1183,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCustomHeadersInResponseHeadersPolicy` : The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyResponseHeadersPolicies` : You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutput
-    {
+    public func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1259,8 +1240,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyStreamingDistributions` : Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createStreamingDistribution(input: CreateStreamingDistributionInput) async throws -> CreateStreamingDistributionOutput
-    {
+    public func createStreamingDistribution(input: CreateStreamingDistributionInput) async throws -> CreateStreamingDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1318,8 +1298,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyStreamingDistributions` : Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func createStreamingDistributionWithTags(input: CreateStreamingDistributionWithTagsInput) async throws -> CreateStreamingDistributionWithTagsOutput
-    {
+    public func createStreamingDistributionWithTags(input: CreateStreamingDistributionWithTagsInput) async throws -> CreateStreamingDistributionWithTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1370,8 +1349,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutput
-    {
+    public func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1418,8 +1396,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutput
-    {
+    public func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1467,8 +1444,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutput
-    {
+    public func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1534,8 +1510,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput
-    {
+    public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1582,8 +1557,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteFieldLevelEncryptionConfig(input: DeleteFieldLevelEncryptionConfigInput) async throws -> DeleteFieldLevelEncryptionConfigOutput
-    {
+    public func deleteFieldLevelEncryptionConfig(input: DeleteFieldLevelEncryptionConfigInput) async throws -> DeleteFieldLevelEncryptionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1630,8 +1604,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteFieldLevelEncryptionProfile(input: DeleteFieldLevelEncryptionProfileInput) async throws -> DeleteFieldLevelEncryptionProfileOutput
-    {
+    public func deleteFieldLevelEncryptionProfile(input: DeleteFieldLevelEncryptionProfileInput) async throws -> DeleteFieldLevelEncryptionProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1678,8 +1651,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
-    {
+    public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1725,8 +1697,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchResource` : A resource that was specified is not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceInUse` : Cannot delete this resource because it is in use.
-    public func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutput
-    {
+    public func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1773,8 +1744,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `EntityNotFound` : The Key Value Store entity was not found.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteKeyValueStore(input: DeleteKeyValueStoreInput) async throws -> DeleteKeyValueStoreOutput
-    {
+    public func deleteKeyValueStore(input: DeleteKeyValueStoreInput) async throws -> DeleteKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1820,8 +1790,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutput
-    {
+    public func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1867,8 +1836,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     /// - `OriginAccessControlInUse` : Cannot delete the origin access control because it's in use by one or more distributions.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteOriginAccessControl(input: DeleteOriginAccessControlInput) async throws -> DeleteOriginAccessControlOutput
-    {
+    public func deleteOriginAccessControl(input: DeleteOriginAccessControlInput) async throws -> DeleteOriginAccessControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1916,8 +1884,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     /// - `OriginRequestPolicyInUse` : Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutput
-    {
+    public func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1964,8 +1931,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `PublicKeyInUse` : The specified public key is in use.
-    public func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutput
-    {
+    public func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2011,8 +1977,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     /// - `RealtimeLogConfigInUse` : Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
-    public func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutput
-    {
+    public func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2062,8 +2027,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResponseHeadersPolicyInUse` : Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
-    public func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutput
-    {
+    public func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2129,8 +2093,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StreamingDistributionNotDisabled` : The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
-    public func deleteStreamingDistribution(input: DeleteStreamingDistributionInput) async throws -> DeleteStreamingDistributionOutput
-    {
+    public func deleteStreamingDistribution(input: DeleteStreamingDistributionInput) async throws -> DeleteStreamingDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2174,8 +2137,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutput
-    {
+    public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2220,8 +2182,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The Key Value Store entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput
-    {
+    public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2271,8 +2232,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutput
-    {
+    public func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2315,8 +2275,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutput
-    {
+    public func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2359,8 +2318,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
-    public func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutput
-    {
+    public func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2403,8 +2361,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
-    public func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutput
-    {
+    public func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2447,8 +2404,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
-    public func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutput
-    {
+    public func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2491,8 +2447,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
-    public func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutput
-    {
+    public func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2535,8 +2490,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutput
-    {
+    public func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2579,8 +2533,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func getDistributionConfig(input: GetDistributionConfigInput) async throws -> GetDistributionConfigOutput
-    {
+    public func getDistributionConfig(input: GetDistributionConfigInput) async throws -> GetDistributionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2623,8 +2576,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
-    public func getFieldLevelEncryption(input: GetFieldLevelEncryptionInput) async throws -> GetFieldLevelEncryptionOutput
-    {
+    public func getFieldLevelEncryption(input: GetFieldLevelEncryptionInput) async throws -> GetFieldLevelEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2667,8 +2619,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
-    public func getFieldLevelEncryptionConfig(input: GetFieldLevelEncryptionConfigInput) async throws -> GetFieldLevelEncryptionConfigOutput
-    {
+    public func getFieldLevelEncryptionConfig(input: GetFieldLevelEncryptionConfigInput) async throws -> GetFieldLevelEncryptionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2711,8 +2662,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
-    public func getFieldLevelEncryptionProfile(input: GetFieldLevelEncryptionProfileInput) async throws -> GetFieldLevelEncryptionProfileOutput
-    {
+    public func getFieldLevelEncryptionProfile(input: GetFieldLevelEncryptionProfileInput) async throws -> GetFieldLevelEncryptionProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2755,8 +2705,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
-    public func getFieldLevelEncryptionProfileConfig(input: GetFieldLevelEncryptionProfileConfigInput) async throws -> GetFieldLevelEncryptionProfileConfigOutput
-    {
+    public func getFieldLevelEncryptionProfileConfig(input: GetFieldLevelEncryptionProfileConfigInput) async throws -> GetFieldLevelEncryptionProfileConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2799,8 +2748,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
-    {
+    public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2845,8 +2793,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchInvalidation` : The specified invalidation does not exist.
-    public func getInvalidation(input: GetInvalidationInput) async throws -> GetInvalidationOutput
-    {
+    public func getInvalidation(input: GetInvalidationInput) async throws -> GetInvalidationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2888,8 +2835,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutput
-    {
+    public func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2931,8 +2877,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutput
-    {
+    public func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2977,8 +2922,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutput
-    {
+    public func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3021,8 +2965,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
-    public func getOriginAccessControl(input: GetOriginAccessControlInput) async throws -> GetOriginAccessControlOutput
-    {
+    public func getOriginAccessControl(input: GetOriginAccessControlInput) async throws -> GetOriginAccessControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3065,8 +3008,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
-    public func getOriginAccessControlConfig(input: GetOriginAccessControlConfigInput) async throws -> GetOriginAccessControlConfigOutput
-    {
+    public func getOriginAccessControlConfig(input: GetOriginAccessControlConfigInput) async throws -> GetOriginAccessControlConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3116,8 +3058,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutput
-    {
+    public func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3160,8 +3101,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutput
-    {
+    public func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3204,8 +3144,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
-    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput
-    {
+    public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3248,8 +3187,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
-    public func getPublicKeyConfig(input: GetPublicKeyConfigInput) async throws -> GetPublicKeyConfigOutput
-    {
+    public func getPublicKeyConfig(input: GetPublicKeyConfigInput) async throws -> GetPublicKeyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3293,8 +3231,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
-    public func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutput
-    {
+    public func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3340,8 +3277,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutput
-    {
+    public func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3384,8 +3320,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutput
-    {
+    public func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3428,8 +3363,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
-    public func getStreamingDistribution(input: GetStreamingDistributionInput) async throws -> GetStreamingDistributionOutput
-    {
+    public func getStreamingDistribution(input: GetStreamingDistributionInput) async throws -> GetStreamingDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3472,8 +3406,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
-    public func getStreamingDistributionConfig(input: GetStreamingDistributionConfigInput) async throws -> GetStreamingDistributionConfigOutput
-    {
+    public func getStreamingDistributionConfig(input: GetStreamingDistributionConfigInput) async throws -> GetStreamingDistributionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3517,8 +3450,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func listCachePolicies(input: ListCachePoliciesInput) async throws -> ListCachePoliciesOutput
-    {
+    public func listCachePolicies(input: ListCachePoliciesInput) async throws -> ListCachePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3561,8 +3493,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutput
-    {
+    public func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3606,8 +3537,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutput
-    {
+    public func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3652,8 +3582,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
-    public func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutput
-    {
+    public func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3696,8 +3625,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutput
-    {
+    public func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3742,8 +3670,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
-    public func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutput
-    {
+    public func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3787,8 +3714,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func listDistributionsByKeyGroup(input: ListDistributionsByKeyGroupInput) async throws -> ListDistributionsByKeyGroupOutput
-    {
+    public func listDistributionsByKeyGroup(input: ListDistributionsByKeyGroupInput) async throws -> ListDistributionsByKeyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3833,8 +3759,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutput
-    {
+    public func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3877,8 +3802,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutput
-    {
+    public func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3925,8 +3849,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutput
-    {
+    public func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3970,8 +3893,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidWebACLId` : A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
-    public func listDistributionsByWebACLId(input: ListDistributionsByWebACLIdInput) async throws -> ListDistributionsByWebACLIdOutput
-    {
+    public func listDistributionsByWebACLId(input: ListDistributionsByWebACLIdInput) async throws -> ListDistributionsByWebACLIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4014,8 +3936,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listFieldLevelEncryptionConfigs(input: ListFieldLevelEncryptionConfigsInput) async throws -> ListFieldLevelEncryptionConfigsOutput
-    {
+    public func listFieldLevelEncryptionConfigs(input: ListFieldLevelEncryptionConfigsInput) async throws -> ListFieldLevelEncryptionConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4058,8 +3979,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listFieldLevelEncryptionProfiles(input: ListFieldLevelEncryptionProfilesInput) async throws -> ListFieldLevelEncryptionProfilesOutput
-    {
+    public func listFieldLevelEncryptionProfiles(input: ListFieldLevelEncryptionProfilesInput) async throws -> ListFieldLevelEncryptionProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4103,8 +4023,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
-    {
+    public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4149,8 +4068,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    public func listInvalidations(input: ListInvalidationsInput) async throws -> ListInvalidationsOutput
-    {
+    public func listInvalidations(input: ListInvalidationsInput) async throws -> ListInvalidationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4193,8 +4111,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listKeyGroups(input: ListKeyGroupsInput) async throws -> ListKeyGroupsOutput
-    {
+    public func listKeyGroups(input: ListKeyGroupsInput) async throws -> ListKeyGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4238,8 +4155,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
-    public func listKeyValueStores(input: ListKeyValueStoresInput) async throws -> ListKeyValueStoresOutput
-    {
+    public func listKeyValueStores(input: ListKeyValueStoresInput) async throws -> ListKeyValueStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4282,8 +4198,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listOriginAccessControls(input: ListOriginAccessControlsInput) async throws -> ListOriginAccessControlsOutput
-    {
+    public func listOriginAccessControls(input: ListOriginAccessControlsInput) async throws -> ListOriginAccessControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4328,8 +4243,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
-    public func listOriginRequestPolicies(input: ListOriginRequestPoliciesInput) async throws -> ListOriginRequestPoliciesOutput
-    {
+    public func listOriginRequestPolicies(input: ListOriginRequestPoliciesInput) async throws -> ListOriginRequestPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4372,8 +4286,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput
-    {
+    public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4418,8 +4331,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
-    public func listRealtimeLogConfigs(input: ListRealtimeLogConfigsInput) async throws -> ListRealtimeLogConfigsOutput
-    {
+    public func listRealtimeLogConfigs(input: ListRealtimeLogConfigsInput) async throws -> ListRealtimeLogConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4464,8 +4376,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
-    public func listResponseHeadersPolicies(input: ListResponseHeadersPoliciesInput) async throws -> ListResponseHeadersPoliciesOutput
-    {
+    public func listResponseHeadersPolicies(input: ListResponseHeadersPoliciesInput) async throws -> ListResponseHeadersPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4508,8 +4419,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    public func listStreamingDistributions(input: ListStreamingDistributionsInput) async throws -> ListStreamingDistributionsOutput
-    {
+    public func listStreamingDistributions(input: ListStreamingDistributionsInput) async throws -> ListStreamingDistributionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4555,8 +4465,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4603,8 +4512,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutput
-    {
+    public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4650,8 +4558,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4701,8 +4608,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `TestFunctionFailed` : The CloudFront function failed.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutput
-    {
+    public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4751,8 +4657,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4814,8 +4719,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCookiesInCachePolicy` : The number of cookies in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutput
-    {
+    public func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4868,8 +4772,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutput
-    {
+    public func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4927,8 +4830,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
-    public func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutput
-    {
+    public func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5052,8 +4954,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput
-    {
+    public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5163,8 +5064,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutput
-    {
+    public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5218,8 +5118,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `QueryArgProfileEmpty` : No profile specified for the field-level encryption query argument.
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
-    public func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutput
-    {
+    public func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5276,8 +5175,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `TooManyFieldLevelEncryptionEncryptionEntities` : The maximum number of encryption entities for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
-    public func updateFieldLevelEncryptionProfile(input: UpdateFieldLevelEncryptionProfileInput) async throws -> UpdateFieldLevelEncryptionProfileOutput
-    {
+    public func updateFieldLevelEncryptionProfile(input: UpdateFieldLevelEncryptionProfileInput) async throws -> UpdateFieldLevelEncryptionProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5328,8 +5226,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
-    public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput
-    {
+    public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5386,8 +5283,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchResource` : A resource that was specified is not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutput
-    {
+    public func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5437,8 +5333,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updateKeyValueStore(input: UpdateKeyValueStoreInput) async throws -> UpdateKeyValueStoreOutput
-    {
+    public func updateKeyValueStore(input: UpdateKeyValueStoreInput) async throws -> UpdateKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5490,8 +5385,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updateOriginAccessControl(input: UpdateOriginAccessControlInput) async throws -> UpdateOriginAccessControlOutput
-    {
+    public func updateOriginAccessControl(input: UpdateOriginAccessControlInput) async throws -> UpdateOriginAccessControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5553,8 +5447,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyCookiesInOriginRequestPolicy` : The number of cookies in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyHeadersInOriginRequestPolicy` : The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutput
-    {
+    public func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5606,8 +5499,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    public func updatePublicKey(input: UpdatePublicKeyInput) async throws -> UpdatePublicKeyOutput
-    {
+    public func updatePublicKey(input: UpdatePublicKeyInput) async throws -> UpdatePublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5664,8 +5556,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
-    public func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutput
-    {
+    public func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5726,8 +5617,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooLongCSPInResponseHeadersPolicy` : The length of the Content-Security-Policy header value in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyCustomHeadersInResponseHeadersPolicy` : The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    public func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutput
-    {
+    public func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5786,8 +5676,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// - `TooManyStreamingDistributionCNAMEs` : Your request contains more CNAMEs than are allowed per distribution.
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
-    public func updateStreamingDistribution(input: UpdateStreamingDistributionInput) async throws -> UpdateStreamingDistributionOutput
-    {
+    public func updateStreamingDistribution(input: UpdateStreamingDistributionInput) async throws -> UpdateStreamingDistributionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

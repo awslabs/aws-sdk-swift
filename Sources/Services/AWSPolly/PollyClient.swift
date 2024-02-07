@@ -69,7 +69,7 @@ public struct PollyClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension PollyClient: PollyClientProtocol {
+extension PollyClient {
     /// Performs the `DeleteLexicon` operation on the `Parrot_v1` service.
     ///
     /// Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html).
@@ -83,8 +83,7 @@ extension PollyClient: PollyClientProtocol {
     /// __Possible Exceptions:__
     /// - `LexiconNotFoundException` : Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
-    public func deleteLexicon(input: DeleteLexiconInput) async throws -> DeleteLexiconOutput
-    {
+    public func deleteLexicon(input: DeleteLexiconInput) async throws -> DeleteLexiconOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension PollyClient: PollyClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken is invalid. Verify that it's spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
-    public func describeVoices(input: DescribeVoicesInput) async throws -> DescribeVoicesOutput
-    {
+    public func describeVoices(input: DescribeVoicesInput) async throws -> DescribeVoicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension PollyClient: PollyClientProtocol {
     /// __Possible Exceptions:__
     /// - `LexiconNotFoundException` : Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
-    public func getLexicon(input: GetLexiconInput) async throws -> GetLexiconOutput
-    {
+    public func getLexicon(input: GetLexiconInput) async throws -> GetLexiconOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -217,8 +214,7 @@ extension PollyClient: PollyClientProtocol {
     /// - `InvalidTaskIdException` : The provided Task ID is not valid. Please provide a valid Task ID and try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `SynthesisTaskNotFoundException` : The Speech Synthesis task with requested Task ID cannot be found.
-    public func getSpeechSynthesisTask(input: GetSpeechSynthesisTaskInput) async throws -> GetSpeechSynthesisTaskOutput
-    {
+    public func getSpeechSynthesisTask(input: GetSpeechSynthesisTaskInput) async throws -> GetSpeechSynthesisTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -261,8 +257,7 @@ extension PollyClient: PollyClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken is invalid. Verify that it's spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
-    public func listLexicons(input: ListLexiconsInput) async throws -> ListLexiconsOutput
-    {
+    public func listLexicons(input: ListLexiconsInput) async throws -> ListLexiconsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -306,8 +301,7 @@ extension PollyClient: PollyClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken is invalid. Verify that it's spelled correctly, and then try again.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
-    public func listSpeechSynthesisTasks(input: ListSpeechSynthesisTasksInput) async throws -> ListSpeechSynthesisTasksOutput
-    {
+    public func listSpeechSynthesisTasks(input: ListSpeechSynthesisTasksInput) async throws -> ListSpeechSynthesisTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -356,8 +350,7 @@ extension PollyClient: PollyClientProtocol {
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `UnsupportedPlsAlphabetException` : The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
     /// - `UnsupportedPlsLanguageException` : The language specified in the lexicon is unsupported. For a list of supported languages, see [Lexicon Attributes](https://docs.aws.amazon.com/polly/latest/dg/API_LexiconAttributes.html).
-    public func putLexicon(input: PutLexiconInput) async throws -> PutLexiconOutput
-    {
+    public func putLexicon(input: PutLexiconInput) async throws -> PutLexiconOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +406,7 @@ extension PollyClient: PollyClientProtocol {
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `SsmlMarksNotSupportedForTextTypeException` : SSML speech marks are not supported for plain text-type input.
     /// - `TextLengthExceededException` : The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
-    public func startSpeechSynthesisTask(input: StartSpeechSynthesisTaskInput) async throws -> StartSpeechSynthesisTaskOutput
-    {
+    public func startSpeechSynthesisTask(input: StartSpeechSynthesisTaskInput) async throws -> StartSpeechSynthesisTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -467,8 +459,7 @@ extension PollyClient: PollyClientProtocol {
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
     /// - `SsmlMarksNotSupportedForTextTypeException` : SSML speech marks are not supported for plain text-type input.
     /// - `TextLengthExceededException` : The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
-    public func synthesizeSpeech(input: SynthesizeSpeechInput) async throws -> SynthesizeSpeechOutput
-    {
+    public func synthesizeSpeech(input: SynthesizeSpeechInput) async throws -> SynthesizeSpeechOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

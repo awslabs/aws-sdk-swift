@@ -66,7 +66,7 @@ public struct WAFV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension WAFV2Client: WAFV2ClientProtocol {
+extension WAFV2Client {
     /// Performs the `AssociateWebACL` operation on the `AWSWAF_20190729` service.
     ///
     /// Associates a web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To associate a web ACL, in the CloudFront call UpdateDistribution, set the web ACL ID to the Amazon Resource Name (ARN) of the web ACL. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront Developer Guide. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for AssociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-AssociateWebACL) in the WAF Developer Guide. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
@@ -99,8 +99,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutput
-    {
+    public func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -162,8 +161,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func checkCapacity(input: CheckCapacityInput) async throws -> CheckCapacityOutput
-    {
+    public func checkCapacity(input: CheckCapacityInput) async throws -> CheckCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +218,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFLimitsExceededException` : WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
-    public func createAPIKey(input: CreateAPIKeyInput) async throws -> CreateAPIKeyOutput
-    {
+    public func createAPIKey(input: CreateAPIKeyInput) async throws -> CreateAPIKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +279,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput
-    {
+    public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,8 +340,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput
-    {
+    public func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -409,8 +404,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput
-    {
+    public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -477,8 +471,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput
-    {
+    public func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -536,8 +529,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-    public func deleteFirewallManagerRuleGroups(input: DeleteFirewallManagerRuleGroupsInput) async throws -> DeleteFirewallManagerRuleGroupsOutput
-    {
+    public func deleteFirewallManagerRuleGroups(input: DeleteFirewallManagerRuleGroupsInput) async throws -> DeleteFirewallManagerRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -598,8 +590,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput
-    {
+    public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -657,8 +648,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-    public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
-    {
+    public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -714,8 +704,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput
-    {
+    public func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -776,8 +765,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput
-    {
+    public func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -838,8 +826,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput
-    {
+    public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -915,8 +902,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput
-    {
+    public func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,8 +949,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
-    public func describeAllManagedProducts(input: DescribeAllManagedProductsInput) async throws -> DescribeAllManagedProductsOutput
-    {
+    public func describeAllManagedProducts(input: DescribeAllManagedProductsInput) async throws -> DescribeAllManagedProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1020,8 +1005,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func describeManagedProductsByVendor(input: DescribeManagedProductsByVendorInput) async throws -> DescribeManagedProductsByVendorOutput
-    {
+    public func describeManagedProductsByVendor(input: DescribeManagedProductsByVendorInput) async throws -> DescribeManagedProductsByVendorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1080,8 +1064,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFInvalidResourceException` : WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func describeManagedRuleGroup(input: DescribeManagedRuleGroupInput) async throws -> DescribeManagedRuleGroupOutput
-    {
+    public func describeManagedRuleGroup(input: DescribeManagedRuleGroupInput) async throws -> DescribeManagedRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1138,8 +1121,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func disassociateWebACL(input: DisassociateWebACLInput) async throws -> DisassociateWebACLOutput
-    {
+    public func disassociateWebACL(input: DisassociateWebACLInput) async throws -> DisassociateWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1196,8 +1178,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func generateMobileSdkReleaseUrl(input: GenerateMobileSdkReleaseUrlInput) async throws -> GenerateMobileSdkReleaseUrlOutput
-    {
+    public func generateMobileSdkReleaseUrl(input: GenerateMobileSdkReleaseUrlInput) async throws -> GenerateMobileSdkReleaseUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1254,8 +1235,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFInvalidResourceException` : WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
-    public func getDecryptedAPIKey(input: GetDecryptedAPIKeyInput) async throws -> GetDecryptedAPIKeyOutput
-    {
+    public func getDecryptedAPIKey(input: GetDecryptedAPIKeyInput) async throws -> GetDecryptedAPIKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1312,8 +1292,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput
-    {
+    public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1370,8 +1349,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput
-    {
+    public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1428,8 +1406,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getManagedRuleSet(input: GetManagedRuleSetInput) async throws -> GetManagedRuleSetOutput
-    {
+    public func getManagedRuleSet(input: GetManagedRuleSetInput) async throws -> GetManagedRuleSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1486,8 +1463,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getMobileSdkRelease(input: GetMobileSdkReleaseInput) async throws -> GetMobileSdkReleaseOutput
-    {
+    public func getMobileSdkRelease(input: GetMobileSdkReleaseInput) async throws -> GetMobileSdkReleaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1543,8 +1519,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput
-    {
+    public func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1602,8 +1577,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnsupportedAggregateKeyTypeException` : The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
-    public func getRateBasedStatementManagedKeys(input: GetRateBasedStatementManagedKeysInput) async throws -> GetRateBasedStatementManagedKeysOutput
-    {
+    public func getRateBasedStatementManagedKeys(input: GetRateBasedStatementManagedKeysInput) async throws -> GetRateBasedStatementManagedKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1660,8 +1634,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput
-    {
+    public func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1718,8 +1691,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput
-    {
+    public func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1775,8 +1747,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput
-    {
+    public func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1833,8 +1804,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput
-    {
+    public func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1892,8 +1862,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func getWebACLForResource(input: GetWebACLForResourceInput) async throws -> GetWebACLForResourceOutput
-    {
+    public func getWebACLForResource(input: GetWebACLForResourceInput) async throws -> GetWebACLForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1950,8 +1919,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFInvalidResourceException` : WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
-    public func listAPIKeys(input: ListAPIKeysInput) async throws -> ListAPIKeysOutput
-    {
+    public func listAPIKeys(input: ListAPIKeysInput) async throws -> ListAPIKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2008,8 +1976,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func listAvailableManagedRuleGroupVersions(input: ListAvailableManagedRuleGroupVersionsInput) async throws -> ListAvailableManagedRuleGroupVersionsOutput
-    {
+    public func listAvailableManagedRuleGroupVersions(input: ListAvailableManagedRuleGroupVersionsInput) async throws -> ListAvailableManagedRuleGroupVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2065,8 +2032,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listAvailableManagedRuleGroups(input: ListAvailableManagedRuleGroupsInput) async throws -> ListAvailableManagedRuleGroupsOutput
-    {
+    public func listAvailableManagedRuleGroups(input: ListAvailableManagedRuleGroupsInput) async throws -> ListAvailableManagedRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2122,8 +2088,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput
-    {
+    public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2179,8 +2144,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput
-    {
+    public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2236,8 +2200,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listManagedRuleSets(input: ListManagedRuleSetsInput) async throws -> ListManagedRuleSetsOutput
-    {
+    public func listManagedRuleSets(input: ListManagedRuleSetsInput) async throws -> ListManagedRuleSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2293,8 +2256,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listMobileSdkReleases(input: ListMobileSdkReleasesInput) async throws -> ListMobileSdkReleasesOutput
-    {
+    public func listMobileSdkReleases(input: ListMobileSdkReleasesInput) async throws -> ListMobileSdkReleasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2350,8 +2312,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput
-    {
+    public func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2408,8 +2369,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func listResourcesForWebACL(input: ListResourcesForWebACLInput) async throws -> ListResourcesForWebACLOutput
-    {
+    public func listResourcesForWebACL(input: ListResourcesForWebACLInput) async throws -> ListResourcesForWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2465,8 +2425,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput
-    {
+    public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2525,8 +2484,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2582,8 +2540,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-    public func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput
-    {
+    public func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2660,8 +2617,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFServiceLinkedRoleErrorException` : WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-    public func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput
-    {
+    public func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2719,8 +2675,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-    public func putManagedRuleSetVersions(input: PutManagedRuleSetVersionsInput) async throws -> PutManagedRuleSetVersionsOutput
-    {
+    public func putManagedRuleSetVersions(input: PutManagedRuleSetVersionsInput) async throws -> PutManagedRuleSetVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2796,8 +2751,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     ///
     /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    public func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput
-    {
+    public func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2857,8 +2811,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2917,8 +2870,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2995,8 +2947,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFLimitsExceededException` : WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-    public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput
-    {
+    public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3054,8 +3005,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-    public func updateManagedRuleSetVersionExpiryDate(input: UpdateManagedRuleSetVersionExpiryDateInput) async throws -> UpdateManagedRuleSetVersionExpiryDateOutput
-    {
+    public func updateManagedRuleSetVersionExpiryDate(input: UpdateManagedRuleSetVersionExpiryDateInput) async throws -> UpdateManagedRuleSetVersionExpiryDateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3132,8 +3082,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFLimitsExceededException` : WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-    public func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput
-    {
+    public func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3213,8 +3162,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput
-    {
+    public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3296,8 +3244,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-    public func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput
-    {
+    public func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

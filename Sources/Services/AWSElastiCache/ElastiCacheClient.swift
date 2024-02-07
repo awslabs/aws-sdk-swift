@@ -62,7 +62,7 @@ public struct ElastiCacheClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension ElastiCacheClient: ElastiCacheClientProtocol {
+extension ElastiCacheClient {
     /// Performs the `AddTagsToResource` operation on the `AmazonElastiCacheV9` service.
     ///
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html) in the ElastiCache User Guide.
@@ -90,8 +90,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
-    {
+    public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -140,8 +139,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func authorizeCacheSecurityGroupIngress(input: AuthorizeCacheSecurityGroupIngressInput) async throws -> AuthorizeCacheSecurityGroupIngressOutput
-    {
+    public func authorizeCacheSecurityGroupIngress(input: AuthorizeCacheSecurityGroupIngressInput) async throws -> AuthorizeCacheSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -187,8 +185,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
-    public func batchApplyUpdateAction(input: BatchApplyUpdateActionInput) async throws -> BatchApplyUpdateActionOutput
-    {
+    public func batchApplyUpdateAction(input: BatchApplyUpdateActionInput) async throws -> BatchApplyUpdateActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -234,8 +231,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
-    public func batchStopUpdateAction(input: BatchStopUpdateActionInput) async throws -> BatchStopUpdateActionOutput
-    {
+    public func batchStopUpdateAction(input: BatchStopUpdateActionInput) async throws -> BatchStopUpdateActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -282,8 +278,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReplicationGroupNotUnderMigrationFault` : The designated replication group is not available for data migration.
-    public func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutput
-    {
+    public func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -335,8 +330,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServerlessCacheSnapshotQuotaExceededFault` : The number of serverless cache snapshots exceeds the customer snapshot quota. Available for Redis only.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func copyServerlessCacheSnapshot(input: CopyServerlessCacheSnapshotInput) async throws -> CopyServerlessCacheSnapshotOutput
-    {
+    public func copyServerlessCacheSnapshot(input: CopyServerlessCacheSnapshotInput) async throws -> CopyServerlessCacheSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -403,8 +397,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
-    {
+    public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -462,8 +455,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheCluster(input: CreateCacheClusterInput) async throws -> CreateCacheClusterOutput
-    {
+    public func createCacheCluster(input: CreateCacheClusterInput) async throws -> CreateCacheClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -517,8 +509,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheParameterGroup(input: CreateCacheParameterGroupInput) async throws -> CreateCacheParameterGroupOutput
-    {
+    public func createCacheParameterGroup(input: CreateCacheParameterGroupInput) async throws -> CreateCacheParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -567,8 +558,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheSecurityGroup(input: CreateCacheSecurityGroupInput) async throws -> CreateCacheSecurityGroupOutput
-    {
+    public func createCacheSecurityGroup(input: CreateCacheSecurityGroupInput) async throws -> CreateCacheSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -618,8 +608,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidSubnet` : An invalid subnet identifier was specified.
     /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createCacheSubnetGroup(input: CreateCacheSubnetGroupInput) async throws -> CreateCacheSubnetGroupOutput
-    {
+    public func createCacheSubnetGroup(input: CreateCacheSubnetGroupInput) async throws -> CreateCacheSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -672,8 +661,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutput
-    {
+    public func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -736,8 +724,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ReplicationGroupAlreadyExistsFault` : The specified replication group already exists.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func createReplicationGroup(input: CreateReplicationGroupInput) async throws -> CreateReplicationGroupOutput
-    {
+    public func createReplicationGroup(input: CreateReplicationGroupInput) async throws -> CreateReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -792,8 +779,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func createServerlessCache(input: CreateServerlessCacheInput) async throws -> CreateServerlessCacheOutput
-    {
+    public func createServerlessCache(input: CreateServerlessCacheInput) async throws -> CreateServerlessCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -845,8 +831,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServerlessCacheSnapshotQuotaExceededFault` : The number of serverless cache snapshots exceeds the customer snapshot quota. Available for Redis only.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createServerlessCacheSnapshot(input: CreateServerlessCacheSnapshotInput) async throws -> CreateServerlessCacheSnapshotOutput
-    {
+    public func createServerlessCacheSnapshot(input: CreateServerlessCacheSnapshotInput) async throws -> CreateServerlessCacheSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -907,8 +892,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-    {
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -959,8 +943,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserAlreadyExistsFault` : A user with this ID already exists.
     /// - `UserQuotaExceededFault` : The quota of users has been exceeded.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1012,8 +995,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `UserGroupAlreadyExistsFault` : The user group with this ID already exists.
     /// - `UserGroupQuotaExceededFault` : The number of users exceeds the user group limit.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func createUserGroup(input: CreateUserGroupInput) async throws -> CreateUserGroupOutput
-    {
+    public func createUserGroup(input: CreateUserGroupInput) async throws -> CreateUserGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1061,8 +1043,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func decreaseNodeGroupsInGlobalReplicationGroup(input: DecreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutput
-    {
+    public func decreaseNodeGroupsInGlobalReplicationGroup(input: DecreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1118,8 +1099,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NoOperationFault` : The operation was not performed because no changes were required.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func decreaseReplicaCount(input: DecreaseReplicaCountInput) async throws -> DecreaseReplicaCountOutput
-    {
+    public func decreaseReplicaCount(input: DecreaseReplicaCountInput) async throws -> DecreaseReplicaCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1191,8 +1171,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
-    public func deleteCacheCluster(input: DeleteCacheClusterInput) async throws -> DeleteCacheClusterOutput
-    {
+    public func deleteCacheCluster(input: DeleteCacheClusterInput) async throws -> DeleteCacheClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1240,8 +1219,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheParameterGroupStateFault` : The current state of the cache parameter group does not allow the requested operation to occur.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func deleteCacheParameterGroup(input: DeleteCacheParameterGroupInput) async throws -> DeleteCacheParameterGroupOutput
-    {
+    public func deleteCacheParameterGroup(input: DeleteCacheParameterGroupInput) async throws -> DeleteCacheParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1289,8 +1267,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func deleteCacheSecurityGroup(input: DeleteCacheSecurityGroupInput) async throws -> DeleteCacheSecurityGroupOutput
-    {
+    public func deleteCacheSecurityGroup(input: DeleteCacheSecurityGroupInput) async throws -> DeleteCacheSecurityGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1336,8 +1313,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `CacheSubnetGroupInUse` : The requested cache subnet group is currently in use.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
-    public func deleteCacheSubnetGroup(input: DeleteCacheSubnetGroupInput) async throws -> DeleteCacheSubnetGroupOutput
-    {
+    public func deleteCacheSubnetGroup(input: DeleteCacheSubnetGroupInput) async throws -> DeleteCacheSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1391,8 +1367,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func deleteGlobalReplicationGroup(input: DeleteGlobalReplicationGroupInput) async throws -> DeleteGlobalReplicationGroupOutput
-    {
+    public func deleteGlobalReplicationGroup(input: DeleteGlobalReplicationGroupInput) async throws -> DeleteGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1450,8 +1425,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
-    public func deleteReplicationGroup(input: DeleteReplicationGroupInput) async throws -> DeleteReplicationGroupOutput
-    {
+    public func deleteReplicationGroup(input: DeleteReplicationGroupInput) async throws -> DeleteReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1502,8 +1476,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
     /// - `ServerlessCacheSnapshotAlreadyExistsFault` : A serverless cache snapshot with this name already exists. Available for Redis only.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func deleteServerlessCache(input: DeleteServerlessCacheInput) async throws -> DeleteServerlessCacheOutput
-    {
+    public func deleteServerlessCache(input: DeleteServerlessCacheInput) async throws -> DeleteServerlessCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1551,8 +1524,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
     /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func deleteServerlessCacheSnapshot(input: DeleteServerlessCacheSnapshotInput) async throws -> DeleteServerlessCacheSnapshotOutput
-    {
+    public func deleteServerlessCacheSnapshot(input: DeleteServerlessCacheSnapshotInput) async throws -> DeleteServerlessCacheSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1600,8 +1572,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidSnapshotStateFault` : The current state of the snapshot does not allow the requested operation to occur.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
-    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-    {
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1650,8 +1621,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidUserStateFault` : The user is not in active state.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1699,8 +1669,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func deleteUserGroup(input: DeleteUserGroupInput) async throws -> DeleteUserGroupOutput
-    {
+    public func deleteUserGroup(input: DeleteUserGroupInput) async throws -> DeleteUserGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1747,8 +1716,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheClusters(input: DescribeCacheClustersInput) async throws -> DescribeCacheClustersOutput
-    {
+    public func describeCacheClusters(input: DescribeCacheClustersInput) async throws -> DescribeCacheClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1788,8 +1756,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - Parameter DescribeCacheEngineVersionsInput : Represents the input of a DescribeCacheEngineVersions operation.
     ///
     /// - Returns: `DescribeCacheEngineVersionsOutput` : Represents the output of a [DescribeCacheEngineVersions] operation.
-    public func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutput
-    {
+    public func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1836,8 +1803,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheParameterGroups(input: DescribeCacheParameterGroupsInput) async throws -> DescribeCacheParameterGroupsOutput
-    {
+    public func describeCacheParameterGroups(input: DescribeCacheParameterGroupsInput) async throws -> DescribeCacheParameterGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1884,8 +1850,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheParameters(input: DescribeCacheParametersInput) async throws -> DescribeCacheParametersOutput
-    {
+    public func describeCacheParameters(input: DescribeCacheParametersInput) async throws -> DescribeCacheParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1932,8 +1897,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeCacheSecurityGroups(input: DescribeCacheSecurityGroupsInput) async throws -> DescribeCacheSecurityGroupsOutput
-    {
+    public func describeCacheSecurityGroups(input: DescribeCacheSecurityGroupsInput) async throws -> DescribeCacheSecurityGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1978,8 +1942,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
-    public func describeCacheSubnetGroups(input: DescribeCacheSubnetGroupsInput) async throws -> DescribeCacheSubnetGroupsOutput
-    {
+    public func describeCacheSubnetGroups(input: DescribeCacheSubnetGroupsInput) async throws -> DescribeCacheSubnetGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2025,8 +1988,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput
-    {
+    public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2072,8 +2034,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
-    {
+    public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2120,8 +2081,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeGlobalReplicationGroups(input: DescribeGlobalReplicationGroupsInput) async throws -> DescribeGlobalReplicationGroupsOutput
-    {
+    public func describeGlobalReplicationGroups(input: DescribeGlobalReplicationGroupsInput) async throws -> DescribeGlobalReplicationGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2168,8 +2128,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func describeReplicationGroups(input: DescribeReplicationGroupsInput) async throws -> DescribeReplicationGroupsOutput
-    {
+    public func describeReplicationGroups(input: DescribeReplicationGroupsInput) async throws -> DescribeReplicationGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2216,8 +2175,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
-    public func describeReservedCacheNodes(input: DescribeReservedCacheNodesInput) async throws -> DescribeReservedCacheNodesOutput
-    {
+    public func describeReservedCacheNodes(input: DescribeReservedCacheNodesInput) async throws -> DescribeReservedCacheNodesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2264,8 +2222,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
-    public func describeReservedCacheNodesOfferings(input: DescribeReservedCacheNodesOfferingsInput) async throws -> DescribeReservedCacheNodesOfferingsOutput
-    {
+    public func describeReservedCacheNodesOfferings(input: DescribeReservedCacheNodesOfferingsInput) async throws -> DescribeReservedCacheNodesOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2313,8 +2270,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
     /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
-    public func describeServerlessCacheSnapshots(input: DescribeServerlessCacheSnapshotsInput) async throws -> DescribeServerlessCacheSnapshotsOutput
-    {
+    public func describeServerlessCacheSnapshots(input: DescribeServerlessCacheSnapshotsInput) async throws -> DescribeServerlessCacheSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2361,8 +2317,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
-    public func describeServerlessCaches(input: DescribeServerlessCachesInput) async throws -> DescribeServerlessCachesOutput
-    {
+    public func describeServerlessCaches(input: DescribeServerlessCachesInput) async throws -> DescribeServerlessCachesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2409,8 +2364,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
-    public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput
-    {
+    public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2458,8 +2412,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
-    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
-    {
+    public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2505,8 +2458,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func describeUpdateActions(input: DescribeUpdateActionsInput) async throws -> DescribeUpdateActionsOutput
-    {
+    public func describeUpdateActions(input: DescribeUpdateActionsInput) async throws -> DescribeUpdateActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2553,8 +2505,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func describeUserGroups(input: DescribeUserGroupsInput) async throws -> DescribeUserGroupsOutput
-    {
+    public func describeUserGroups(input: DescribeUserGroupsInput) async throws -> DescribeUserGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2601,8 +2552,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
-    {
+    public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2650,8 +2600,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func disassociateGlobalReplicationGroup(input: DisassociateGlobalReplicationGroupInput) async throws -> DisassociateGlobalReplicationGroupOutput
-    {
+    public func disassociateGlobalReplicationGroup(input: DisassociateGlobalReplicationGroupInput) async throws -> DisassociateGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2699,8 +2648,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
     /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    public func exportServerlessCacheSnapshot(input: ExportServerlessCacheSnapshotInput) async throws -> ExportServerlessCacheSnapshotOutput
-    {
+    public func exportServerlessCacheSnapshot(input: ExportServerlessCacheSnapshotInput) async throws -> ExportServerlessCacheSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2748,8 +2696,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func failoverGlobalReplicationGroup(input: FailoverGlobalReplicationGroupInput) async throws -> FailoverGlobalReplicationGroupOutput
-    {
+    public func failoverGlobalReplicationGroup(input: FailoverGlobalReplicationGroupInput) async throws -> FailoverGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2796,8 +2743,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func increaseNodeGroupsInGlobalReplicationGroup(input: IncreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutput
-    {
+    public func increaseNodeGroupsInGlobalReplicationGroup(input: IncreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2853,8 +2799,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `NoOperationFault` : The operation was not performed because no changes were required.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func increaseReplicaCount(input: IncreaseReplicaCountInput) async throws -> IncreaseReplicaCountOutput
-    {
+    public func increaseReplicaCount(input: IncreaseReplicaCountInput) async throws -> IncreaseReplicaCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2902,8 +2847,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func listAllowedNodeTypeModifications(input: ListAllowedNodeTypeModificationsInput) async throws -> ListAllowedNodeTypeModificationsOutput
-    {
+    public func listAllowedNodeTypeModifications(input: ListAllowedNodeTypeModificationsInput) async throws -> ListAllowedNodeTypeModificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2962,8 +2906,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3018,8 +2961,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
     /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
-    public func modifyCacheCluster(input: ModifyCacheClusterInput) async throws -> ModifyCacheClusterOutput
-    {
+    public func modifyCacheCluster(input: ModifyCacheClusterInput) async throws -> ModifyCacheClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3072,8 +3014,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func modifyCacheParameterGroup(input: ModifyCacheParameterGroupInput) async throws -> ModifyCacheParameterGroupOutput
-    {
+    public func modifyCacheParameterGroup(input: ModifyCacheParameterGroupInput) async throws -> ModifyCacheParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3122,8 +3063,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidSubnet` : An invalid subnet identifier was specified.
     /// - `SubnetInUse` : The requested subnet is being used by another cache subnet group.
     /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
-    public func modifyCacheSubnetGroup(input: ModifyCacheSubnetGroupInput) async throws -> ModifyCacheSubnetGroupOutput
-    {
+    public func modifyCacheSubnetGroup(input: ModifyCacheSubnetGroupInput) async throws -> ModifyCacheSubnetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3170,8 +3110,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func modifyGlobalReplicationGroup(input: ModifyGlobalReplicationGroupInput) async throws -> ModifyGlobalReplicationGroupOutput
-    {
+    public func modifyGlobalReplicationGroup(input: ModifyGlobalReplicationGroupInput) async throws -> ModifyGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3238,8 +3177,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func modifyReplicationGroup(input: ModifyReplicationGroupInput) async throws -> ModifyReplicationGroupOutput
-    {
+    public func modifyReplicationGroup(input: ModifyReplicationGroupInput) async throws -> ModifyReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3293,8 +3231,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeGroupsPerReplicationGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum allowed number of node groups (shards) in a single replication group. The default maximum is 90
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func modifyReplicationGroupShardConfiguration(input: ModifyReplicationGroupShardConfigurationInput) async throws -> ModifyReplicationGroupShardConfigurationOutput
-    {
+    public func modifyReplicationGroupShardConfiguration(input: ModifyReplicationGroupShardConfigurationInput) async throws -> ModifyReplicationGroupShardConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3346,8 +3283,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
-    public func modifyServerlessCache(input: ModifyServerlessCacheInput) async throws -> ModifyServerlessCacheOutput
-    {
+    public func modifyServerlessCache(input: ModifyServerlessCacheInput) async throws -> ModifyServerlessCacheOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3396,8 +3332,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidUserStateFault` : The user is not in active state.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func modifyUser(input: ModifyUserInput) async throws -> ModifyUserOutput
-    {
+    public func modifyUser(input: ModifyUserInput) async throws -> ModifyUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3449,8 +3384,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func modifyUserGroup(input: ModifyUserGroupInput) async throws -> ModifyUserGroupOutput
-    {
+    public func modifyUserGroup(input: ModifyUserGroupInput) async throws -> ModifyUserGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3500,8 +3434,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `ReservedCacheNodeQuotaExceededFault` : The request cannot be processed because it would exceed the user's cache node quota.
     /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
-    public func purchaseReservedCacheNodesOffering(input: PurchaseReservedCacheNodesOfferingInput) async throws -> PurchaseReservedCacheNodesOfferingOutput
-    {
+    public func purchaseReservedCacheNodesOffering(input: PurchaseReservedCacheNodesOfferingInput) async throws -> PurchaseReservedCacheNodesOfferingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3548,8 +3481,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func rebalanceSlotsInGlobalReplicationGroup(input: RebalanceSlotsInGlobalReplicationGroupInput) async throws -> RebalanceSlotsInGlobalReplicationGroupOutput
-    {
+    public func rebalanceSlotsInGlobalReplicationGroup(input: RebalanceSlotsInGlobalReplicationGroupInput) async throws -> RebalanceSlotsInGlobalReplicationGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3595,8 +3527,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
-    public func rebootCacheCluster(input: RebootCacheClusterInput) async throws -> RebootCacheClusterOutput
-    {
+    public func rebootCacheCluster(input: RebootCacheClusterInput) async throws -> RebootCacheClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3656,8 +3587,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `TagNotFoundFault` : The requested tag was not found on this resource.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
-    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
-    {
+    public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3710,8 +3640,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func resetCacheParameterGroup(input: ResetCacheParameterGroupInput) async throws -> ResetCacheParameterGroupOutput
-    {
+    public func resetCacheParameterGroup(input: ResetCacheParameterGroupInput) async throws -> ResetCacheParameterGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3760,8 +3689,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
-    public func revokeCacheSecurityGroupIngress(input: RevokeCacheSecurityGroupIngressInput) async throws -> RevokeCacheSecurityGroupIngressOutput
-    {
+    public func revokeCacheSecurityGroupIngress(input: RevokeCacheSecurityGroupIngressInput) async throws -> RevokeCacheSecurityGroupIngressOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3809,8 +3737,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput
-    {
+    public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3894,8 +3821,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `NodeGroupNotFoundFault` : The node group specified by the NodeGroupId parameter could not be found. Please verify that the node group exists and that you spelled the NodeGroupId value correctly.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `TestFailoverNotAvailableFault` : The TestFailover action is not available.
-    public func testFailover(input: TestFailoverInput) async throws -> TestFailoverOutput
-    {
+    public func testFailover(input: TestFailoverInput) async throws -> TestFailoverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3943,8 +3869,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
-    public func testMigration(input: TestMigrationInput) async throws -> TestMigrationOutput
-    {
+    public func testMigration(input: TestMigrationInput) async throws -> TestMigrationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

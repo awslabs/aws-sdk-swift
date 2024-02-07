@@ -66,7 +66,7 @@ public struct GlobalAcceleratorClientLogHandlerFactory: ClientRuntime.SDKLogHand
     }
 }
 
-extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
+extension GlobalAcceleratorClient {
     /// Performs the `AddCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
     ///
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
@@ -85,8 +85,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func addCustomRoutingEndpoints(input: AddCustomRoutingEndpointsInput) async throws -> AddCustomRoutingEndpointsOutput
-    {
+    public func addCustomRoutingEndpoints(input: AddCustomRoutingEndpointsInput) async throws -> AddCustomRoutingEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -144,8 +143,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    public func addEndpoints(input: AddEndpointsInput) async throws -> AddEndpointsOutput
-    {
+    public func addEndpoints(input: AddEndpointsInput) async throws -> AddEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -195,8 +193,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `IncorrectCidrStateException` : The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput
-    {
+    public func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -244,8 +241,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func allowCustomRoutingTraffic(input: AllowCustomRoutingTrafficInput) async throws -> AllowCustomRoutingTrafficOutput
-    {
+    public func allowCustomRoutingTraffic(input: AllowCustomRoutingTrafficInput) async throws -> AllowCustomRoutingTrafficOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutput
-    {
+    public func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -345,8 +340,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    public func createCrossAccountAttachment(input: CreateCrossAccountAttachmentInput) async throws -> CreateCrossAccountAttachmentOutput
-    {
+    public func createCrossAccountAttachment(input: CreateCrossAccountAttachmentInput) async throws -> CreateCrossAccountAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -396,8 +390,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func createCustomRoutingAccelerator(input: CreateCustomRoutingAcceleratorInput) async throws -> CreateCustomRoutingAcceleratorOutput
-    {
+    public func createCustomRoutingAccelerator(input: CreateCustomRoutingAcceleratorInput) async throws -> CreateCustomRoutingAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -451,8 +444,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func createCustomRoutingEndpointGroup(input: CreateCustomRoutingEndpointGroupInput) async throws -> CreateCustomRoutingEndpointGroupOutput
-    {
+    public func createCustomRoutingEndpointGroup(input: CreateCustomRoutingEndpointGroupInput) async throws -> CreateCustomRoutingEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -503,8 +495,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func createCustomRoutingListener(input: CreateCustomRoutingListenerInput) async throws -> CreateCustomRoutingListenerOutput
-    {
+    public func createCustomRoutingListener(input: CreateCustomRoutingListenerInput) async throws -> CreateCustomRoutingListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -557,8 +548,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func createEndpointGroup(input: CreateEndpointGroupInput) async throws -> CreateEndpointGroupOutput
-    {
+    public func createEndpointGroup(input: CreateEndpointGroupInput) async throws -> CreateEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -609,8 +599,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
-    {
+    public func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -661,8 +650,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AssociatedListenerFoundException` : The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutput
-    {
+    public func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +707,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    public func deleteCrossAccountAttachment(input: DeleteCrossAccountAttachmentInput) async throws -> DeleteCrossAccountAttachmentOutput
-    {
+    public func deleteCrossAccountAttachment(input: DeleteCrossAccountAttachmentInput) async throws -> DeleteCrossAccountAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -770,8 +757,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AssociatedListenerFoundException` : The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func deleteCustomRoutingAccelerator(input: DeleteCustomRoutingAcceleratorInput) async throws -> DeleteCustomRoutingAcceleratorOutput
-    {
+    public func deleteCustomRoutingAccelerator(input: DeleteCustomRoutingAcceleratorInput) async throws -> DeleteCustomRoutingAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -819,8 +805,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func deleteCustomRoutingEndpointGroup(input: DeleteCustomRoutingEndpointGroupInput) async throws -> DeleteCustomRoutingEndpointGroupOutput
-    {
+    public func deleteCustomRoutingEndpointGroup(input: DeleteCustomRoutingEndpointGroupInput) async throws -> DeleteCustomRoutingEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -869,8 +854,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func deleteCustomRoutingListener(input: DeleteCustomRoutingListenerInput) async throws -> DeleteCustomRoutingListenerOutput
-    {
+    public func deleteCustomRoutingListener(input: DeleteCustomRoutingListenerInput) async throws -> DeleteCustomRoutingListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -918,8 +902,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func deleteEndpointGroup(input: DeleteEndpointGroupInput) async throws -> DeleteEndpointGroupOutput
-    {
+    public func deleteEndpointGroup(input: DeleteEndpointGroupInput) async throws -> DeleteEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -968,8 +951,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
-    {
+    public func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1017,8 +999,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func denyCustomRoutingTraffic(input: DenyCustomRoutingTrafficInput) async throws -> DenyCustomRoutingTrafficOutput
-    {
+    public func denyCustomRoutingTraffic(input: DenyCustomRoutingTrafficInput) async throws -> DenyCustomRoutingTrafficOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1068,8 +1049,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `IncorrectCidrStateException` : The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput
-    {
+    public func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1117,8 +1097,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeAccelerator(input: DescribeAcceleratorInput) async throws -> DescribeAcceleratorOutput
-    {
+    public func describeAccelerator(input: DescribeAcceleratorInput) async throws -> DescribeAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1166,8 +1145,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeAcceleratorAttributes(input: DescribeAcceleratorAttributesInput) async throws -> DescribeAcceleratorAttributesOutput
-    {
+    public func describeAcceleratorAttributes(input: DescribeAcceleratorAttributesInput) async throws -> DescribeAcceleratorAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1216,8 +1194,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AttachmentNotFoundException` : No cross-account attachment was found.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeCrossAccountAttachment(input: DescribeCrossAccountAttachmentInput) async throws -> DescribeCrossAccountAttachmentOutput
-    {
+    public func describeCrossAccountAttachment(input: DescribeCrossAccountAttachmentInput) async throws -> DescribeCrossAccountAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1265,8 +1242,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeCustomRoutingAccelerator(input: DescribeCustomRoutingAcceleratorInput) async throws -> DescribeCustomRoutingAcceleratorOutput
-    {
+    public func describeCustomRoutingAccelerator(input: DescribeCustomRoutingAcceleratorInput) async throws -> DescribeCustomRoutingAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1314,8 +1290,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeCustomRoutingAcceleratorAttributes(input: DescribeCustomRoutingAcceleratorAttributesInput) async throws -> DescribeCustomRoutingAcceleratorAttributesOutput
-    {
+    public func describeCustomRoutingAcceleratorAttributes(input: DescribeCustomRoutingAcceleratorAttributesInput) async throws -> DescribeCustomRoutingAcceleratorAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1363,8 +1338,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeCustomRoutingEndpointGroup(input: DescribeCustomRoutingEndpointGroupInput) async throws -> DescribeCustomRoutingEndpointGroupOutput
-    {
+    public func describeCustomRoutingEndpointGroup(input: DescribeCustomRoutingEndpointGroupInput) async throws -> DescribeCustomRoutingEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1412,8 +1386,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func describeCustomRoutingListener(input: DescribeCustomRoutingListenerInput) async throws -> DescribeCustomRoutingListenerOutput
-    {
+    public func describeCustomRoutingListener(input: DescribeCustomRoutingListenerInput) async throws -> DescribeCustomRoutingListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1461,8 +1434,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func describeEndpointGroup(input: DescribeEndpointGroupInput) async throws -> DescribeEndpointGroupOutput
-    {
+    public func describeEndpointGroup(input: DescribeEndpointGroupInput) async throws -> DescribeEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1510,8 +1482,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func describeListener(input: DescribeListenerInput) async throws -> DescribeListenerOutput
-    {
+    public func describeListener(input: DescribeListenerInput) async throws -> DescribeListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1559,8 +1530,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listAccelerators(input: ListAcceleratorsInput) async throws -> ListAcceleratorsOutput
-    {
+    public func listAccelerators(input: ListAcceleratorsInput) async throws -> ListAcceleratorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1609,8 +1579,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listByoipCidrs(input: ListByoipCidrsInput) async throws -> ListByoipCidrsOutput
-    {
+    public func listByoipCidrs(input: ListByoipCidrsInput) async throws -> ListByoipCidrsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1659,8 +1628,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listCrossAccountAttachments(input: ListCrossAccountAttachmentsInput) async throws -> ListCrossAccountAttachmentsOutput
-    {
+    public func listCrossAccountAttachments(input: ListCrossAccountAttachmentsInput) async throws -> ListCrossAccountAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1707,8 +1675,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
-    public func listCrossAccountResourceAccounts(input: ListCrossAccountResourceAccountsInput) async throws -> ListCrossAccountResourceAccountsOutput
-    {
+    public func listCrossAccountResourceAccounts(input: ListCrossAccountResourceAccountsInput) async throws -> ListCrossAccountResourceAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1758,8 +1725,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listCrossAccountResources(input: ListCrossAccountResourcesInput) async throws -> ListCrossAccountResourcesOutput
-    {
+    public func listCrossAccountResources(input: ListCrossAccountResourcesInput) async throws -> ListCrossAccountResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1807,8 +1773,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listCustomRoutingAccelerators(input: ListCustomRoutingAcceleratorsInput) async throws -> ListCustomRoutingAcceleratorsOutput
-    {
+    public func listCustomRoutingAccelerators(input: ListCustomRoutingAcceleratorsInput) async throws -> ListCustomRoutingAcceleratorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1857,8 +1822,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func listCustomRoutingEndpointGroups(input: ListCustomRoutingEndpointGroupsInput) async throws -> ListCustomRoutingEndpointGroupsOutput
-    {
+    public func listCustomRoutingEndpointGroups(input: ListCustomRoutingEndpointGroupsInput) async throws -> ListCustomRoutingEndpointGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1907,8 +1871,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listCustomRoutingListeners(input: ListCustomRoutingListenersInput) async throws -> ListCustomRoutingListenersOutput
-    {
+    public func listCustomRoutingListeners(input: ListCustomRoutingListenersInput) async throws -> ListCustomRoutingListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1958,8 +1921,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listCustomRoutingPortMappings(input: ListCustomRoutingPortMappingsInput) async throws -> ListCustomRoutingPortMappingsOutput
-    {
+    public func listCustomRoutingPortMappings(input: ListCustomRoutingPortMappingsInput) async throws -> ListCustomRoutingPortMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2008,8 +1970,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listCustomRoutingPortMappingsByDestination(input: ListCustomRoutingPortMappingsByDestinationInput) async throws -> ListCustomRoutingPortMappingsByDestinationOutput
-    {
+    public func listCustomRoutingPortMappingsByDestination(input: ListCustomRoutingPortMappingsByDestinationInput) async throws -> ListCustomRoutingPortMappingsByDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2058,8 +2019,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func listEndpointGroups(input: ListEndpointGroupsInput) async throws -> ListEndpointGroupsOutput
-    {
+    public func listEndpointGroups(input: ListEndpointGroupsInput) async throws -> ListEndpointGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2108,8 +2068,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    public func listListeners(input: ListListenersInput) async throws -> ListListenersOutput
-    {
+    public func listListeners(input: ListListenersInput) async throws -> ListListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2157,8 +2116,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2208,8 +2166,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput
-    {
+    public func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2260,8 +2217,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `EndpointNotFoundException` : The endpoint that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func removeCustomRoutingEndpoints(input: RemoveCustomRoutingEndpointsInput) async throws -> RemoveCustomRoutingEndpointsOutput
-    {
+    public func removeCustomRoutingEndpoints(input: RemoveCustomRoutingEndpointsInput) async throws -> RemoveCustomRoutingEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2315,8 +2271,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    public func removeEndpoints(input: RemoveEndpointsInput) async throws -> RemoveEndpointsOutput
-    {
+    public func removeEndpoints(input: RemoveEndpointsInput) async throws -> RemoveEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2364,8 +2319,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2413,8 +2367,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2474,8 +2427,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func updateAccelerator(input: UpdateAcceleratorInput) async throws -> UpdateAcceleratorOutput
-    {
+    public func updateAccelerator(input: UpdateAcceleratorInput) async throws -> UpdateAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2524,8 +2476,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutput
-    {
+    public func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2583,8 +2534,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    public func updateCrossAccountAttachment(input: UpdateCrossAccountAttachmentInput) async throws -> UpdateCrossAccountAttachmentOutput
-    {
+    public func updateCrossAccountAttachment(input: UpdateCrossAccountAttachmentInput) async throws -> UpdateCrossAccountAttachmentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2632,8 +2582,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func updateCustomRoutingAccelerator(input: UpdateCustomRoutingAcceleratorInput) async throws -> UpdateCustomRoutingAcceleratorOutput
-    {
+    public func updateCustomRoutingAccelerator(input: UpdateCustomRoutingAcceleratorInput) async throws -> UpdateCustomRoutingAcceleratorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2682,8 +2631,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func updateCustomRoutingAcceleratorAttributes(input: UpdateCustomRoutingAcceleratorAttributesInput) async throws -> UpdateCustomRoutingAcceleratorAttributesOutput
-    {
+    public func updateCustomRoutingAcceleratorAttributes(input: UpdateCustomRoutingAcceleratorAttributesInput) async throws -> UpdateCustomRoutingAcceleratorAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2733,8 +2681,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func updateCustomRoutingListener(input: UpdateCustomRoutingListenerInput) async throws -> UpdateCustomRoutingListenerOutput
-    {
+    public func updateCustomRoutingListener(input: UpdateCustomRoutingListenerInput) async throws -> UpdateCustomRoutingListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2784,8 +2731,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    public func updateEndpointGroup(input: UpdateEndpointGroupInput) async throws -> UpdateEndpointGroupOutput
-    {
+    public func updateEndpointGroup(input: UpdateEndpointGroupInput) async throws -> UpdateEndpointGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2835,8 +2781,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    public func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput
-    {
+    public func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2886,8 +2831,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
     /// - `IncorrectCidrStateException` : The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    public func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutput
-    {
+    public func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

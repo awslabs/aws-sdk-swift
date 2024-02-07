@@ -18522,6 +18522,8 @@ extension WAFUnsupportedAggregateKeyTypeExceptionBody: Swift.Decodable {
     }
 }
 
+public enum WAFV2ClientTypes {}
+
 extension WAFV2ClientTypes.WebACL: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"

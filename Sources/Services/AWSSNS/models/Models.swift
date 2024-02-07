@@ -6215,6 +6215,8 @@ extension SNSClientTypes {
     }
 }
 
+public enum SNSClientTypes {}
+
 extension SetEndpointAttributesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)

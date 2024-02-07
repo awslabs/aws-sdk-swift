@@ -6201,6 +6201,8 @@ extension EventBridgeClientTypes {
     }
 }
 
+public enum EventBridgeClientTypes {}
+
 extension EventBridgeClientTypes.EventBus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"

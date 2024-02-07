@@ -66,7 +66,7 @@ public struct SavingsplansClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension SavingsplansClient: SavingsplansClientProtocol {
+extension SavingsplansClient {
     /// Performs the `CreateSavingsPlan` operation on the `AWSSavingsPlan` service.
     ///
     /// Creates a Savings Plan.
@@ -82,8 +82,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func createSavingsPlan(input: CreateSavingsPlanInput) async throws -> CreateSavingsPlanOutput
-    {
+    public func createSavingsPlan(input: CreateSavingsPlanInput) async throws -> CreateSavingsPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func deleteQueuedSavingsPlan(input: DeleteQueuedSavingsPlanInput) async throws -> DeleteQueuedSavingsPlanOutput
-    {
+    public func deleteQueuedSavingsPlan(input: DeleteQueuedSavingsPlanInput) async throws -> DeleteQueuedSavingsPlanOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func describeSavingsPlanRates(input: DescribeSavingsPlanRatesInput) async throws -> DescribeSavingsPlanRatesOutput
-    {
+    public func describeSavingsPlanRates(input: DescribeSavingsPlanRatesInput) async throws -> DescribeSavingsPlanRatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func describeSavingsPlans(input: DescribeSavingsPlansInput) async throws -> DescribeSavingsPlansOutput
-    {
+    public func describeSavingsPlans(input: DescribeSavingsPlansInput) async throws -> DescribeSavingsPlansOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func describeSavingsPlansOfferingRates(input: DescribeSavingsPlansOfferingRatesInput) async throws -> DescribeSavingsPlansOfferingRatesOutput
-    {
+    public func describeSavingsPlansOfferingRates(input: DescribeSavingsPlansOfferingRatesInput) async throws -> DescribeSavingsPlansOfferingRatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -320,8 +315,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func describeSavingsPlansOfferings(input: DescribeSavingsPlansOfferingsInput) async throws -> DescribeSavingsPlansOfferingsOutput
-    {
+    public func describeSavingsPlansOfferings(input: DescribeSavingsPlansOfferingsInput) async throws -> DescribeSavingsPlansOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -368,8 +362,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -417,8 +410,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -465,8 +457,7 @@ extension SavingsplansClient: SavingsplansClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One of the input parameters is not valid.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct CostandUsageReportClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension CostandUsageReportClient: CostandUsageReportClientProtocol {
+extension CostandUsageReportClient {
     /// Performs the `DeleteReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
     ///
     /// Deletes the specified report. Any tags associated with the report are also deleted.
@@ -80,8 +80,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
-    {
+    public func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
-    public func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutput
-    {
+    public func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The specified report (ReportName) in the request doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutput
-    {
+    public func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +271,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// - `ReportLimitReachedException` : This account already has five reports defined. To define a new report, you must delete an existing report.
     /// - `ResourceNotFoundException` : The specified report (ReportName) in the request doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput
-    {
+    public func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -324,8 +319,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The specified report (ReportName) in the request doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -373,8 +367,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The specified report (ReportName) in the request doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

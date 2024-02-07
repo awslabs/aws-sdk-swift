@@ -66,7 +66,7 @@ public struct SSOClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension SSOClient: SSOClientProtocol {
+extension SSOClient {
     /// Performs the `GetRoleCredentials` operation on the `SWBPortalService` service.
     ///
     /// Returns the STS short-term credentials for a given role name that is assigned to the user.
@@ -82,8 +82,7 @@ extension SSOClient: SSOClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    public func getRoleCredentials(input: GetRoleCredentialsInput) async throws -> GetRoleCredentialsOutput
-    {
+    public func getRoleCredentials(input: GetRoleCredentialsInput) async throws -> GetRoleCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -126,8 +125,7 @@ extension SSOClient: SSOClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    public func listAccountRoles(input: ListAccountRolesInput) async throws -> ListAccountRolesOutput
-    {
+    public func listAccountRoles(input: ListAccountRolesInput) async throws -> ListAccountRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -170,8 +168,7 @@ extension SSOClient: SSOClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    public func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput
-    {
+    public func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -213,8 +210,7 @@ extension SSOClient: SSOClientProtocol {
     /// - `InvalidRequestException` : Indicates that a problem occurred with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    public func logout(input: LogoutInput) async throws -> LogoutOutput
-    {
+    public func logout(input: LogoutInput) async throws -> LogoutOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

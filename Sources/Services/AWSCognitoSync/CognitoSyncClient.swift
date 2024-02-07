@@ -66,7 +66,7 @@ public struct CognitoSyncClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension CognitoSyncClient: CognitoSyncClientProtocol {
+extension CognitoSyncClient {
     /// Performs the `BulkPublish` operation on the `AWSCognitoSyncService` service.
     ///
     /// Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
@@ -84,8 +84,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `InvalidParameterException` : Thrown when a request parameter does not comply with the associated constraints.
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
-    public func bulkPublish(input: BulkPublishInput) async throws -> BulkPublishOutput
-    {
+    public func bulkPublish(input: BulkPublishInput) async throws -> BulkPublishOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `ResourceConflictException` : Thrown if an update can't be applied because the resource was changed by another call and this would result in a conflict.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -179,8 +177,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -226,8 +223,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func describeIdentityPoolUsage(input: DescribeIdentityPoolUsageInput) async throws -> DescribeIdentityPoolUsageOutput
-    {
+    public func describeIdentityPoolUsage(input: DescribeIdentityPoolUsageInput) async throws -> DescribeIdentityPoolUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -273,8 +269,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func describeIdentityUsage(input: DescribeIdentityUsageInput) async throws -> DescribeIdentityUsageOutput
-    {
+    public func describeIdentityUsage(input: DescribeIdentityUsageInput) async throws -> DescribeIdentityUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -319,8 +314,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `InvalidParameterException` : Thrown when a request parameter does not comply with the associated constraints.
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
-    public func getBulkPublishDetails(input: GetBulkPublishDetailsInput) async throws -> GetBulkPublishDetailsOutput
-    {
+    public func getBulkPublishDetails(input: GetBulkPublishDetailsInput) async throws -> GetBulkPublishDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +360,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func getCognitoEvents(input: GetCognitoEventsInput) async throws -> GetCognitoEventsOutput
-    {
+    public func getCognitoEvents(input: GetCognitoEventsInput) async throws -> GetCognitoEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -413,8 +406,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func getIdentityPoolConfiguration(input: GetIdentityPoolConfigurationInput) async throws -> GetIdentityPoolConfigurationOutput
-    {
+    public func getIdentityPoolConfiguration(input: GetIdentityPoolConfigurationInput) async throws -> GetIdentityPoolConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -459,8 +451,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `InvalidParameterException` : Thrown when a request parameter does not comply with the associated constraints.
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -506,8 +497,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `InvalidParameterException` : Thrown when a request parameter does not comply with the associated constraints.
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func listIdentityPoolUsage(input: ListIdentityPoolUsageInput) async throws -> ListIdentityPoolUsageOutput
-    {
+    public func listIdentityPoolUsage(input: ListIdentityPoolUsageInput) async throws -> ListIdentityPoolUsageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +543,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `InvalidParameterException` : Thrown when a request parameter does not comply with the associated constraints.
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func listRecords(input: ListRecordsInput) async throws -> ListRecordsOutput
-    {
+    public func listRecords(input: ListRecordsInput) async throws -> ListRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -602,8 +591,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func registerDevice(input: RegisterDeviceInput) async throws -> RegisterDeviceOutput
-    {
+    public func registerDevice(input: RegisterDeviceInput) async throws -> RegisterDeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -652,8 +640,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func setCognitoEvents(input: SetCognitoEventsInput) async throws -> SetCognitoEventsOutput
-    {
+    public func setCognitoEvents(input: SetCognitoEventsInput) async throws -> SetCognitoEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -703,8 +690,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func setIdentityPoolConfiguration(input: SetIdentityPoolConfigurationInput) async throws -> SetIdentityPoolConfigurationOutput
-    {
+    public func setIdentityPoolConfiguration(input: SetIdentityPoolConfigurationInput) async throws -> SetIdentityPoolConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,8 +740,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func subscribeToDataset(input: SubscribeToDatasetInput) async throws -> SubscribeToDatasetOutput
-    {
+    public func subscribeToDataset(input: SubscribeToDatasetInput) async throws -> SubscribeToDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -802,8 +787,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `NotAuthorizedException` : Thrown when a user is not authorized to access the requested resource.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func unsubscribeFromDataset(input: UnsubscribeFromDatasetInput) async throws -> UnsubscribeFromDatasetOutput
-    {
+    public func unsubscribeFromDataset(input: UnsubscribeFromDatasetInput) async throws -> UnsubscribeFromDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -853,8 +837,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
     /// - `ResourceConflictException` : Thrown if an update can't be applied because the resource was changed by another call and this would result in a conflict.
     /// - `ResourceNotFoundException` : Thrown if the resource doesn't exist.
     /// - `TooManyRequestsException` : Thrown if the request is throttled.
-    public func updateRecords(input: UpdateRecordsInput) async throws -> UpdateRecordsOutput
-    {
+    public func updateRecords(input: UpdateRecordsInput) async throws -> UpdateRecordsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -5543,6 +5543,8 @@ extension PinpointEmailClientTypes {
 
 }
 
+public enum PinpointEmailClientTypes {}
+
 extension PinpointEmailClientTypes.PlacementStatistics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dkimPercentage = "DkimPercentage"

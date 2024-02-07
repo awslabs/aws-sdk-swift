@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension MachineLearningClientProtocol {
+extension MachineLearningClient {
 
     static func batchPredictionAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput> {
         let acceptors: [WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput>.Acceptor] = [

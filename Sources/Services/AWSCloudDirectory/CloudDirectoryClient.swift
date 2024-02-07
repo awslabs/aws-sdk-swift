@@ -66,7 +66,7 @@ public struct CloudDirectoryClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension CloudDirectoryClient: CloudDirectoryClientProtocol {
+extension CloudDirectoryClient {
     /// Performs the `AddFacetToObject` operation on the `AmazonCloudDirectory_20170111` service.
     ///
     /// Adds a new [Facet] to an object. An object can have more than one facet applied on it.
@@ -87,8 +87,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func addFacetToObject(input: AddFacetToObjectInput) async throws -> AddFacetToObjectOutput
-    {
+    public func addFacetToObject(input: AddFacetToObjectInput) async throws -> AddFacetToObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -142,8 +141,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func applySchema(input: ApplySchemaInput) async throws -> ApplySchemaOutput
-    {
+    public func applySchema(input: ApplySchemaInput) async throws -> ApplySchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -203,8 +201,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func attachObject(input: AttachObjectInput) async throws -> AttachObjectOutput
-    {
+    public func attachObject(input: AttachObjectInput) async throws -> AttachObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -258,8 +255,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput
-    {
+    public func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -316,8 +312,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func attachToIndex(input: AttachToIndexInput) async throws -> AttachToIndexOutput
-    {
+    public func attachToIndex(input: AttachToIndexInput) async throws -> AttachToIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -372,8 +367,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func attachTypedLink(input: AttachTypedLinkInput) async throws -> AttachTypedLinkOutput
-    {
+    public func attachTypedLink(input: AttachTypedLinkInput) async throws -> AttachTypedLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -425,8 +419,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func batchRead(input: BatchReadInput) async throws -> BatchReadOutput
-    {
+    public func batchRead(input: BatchReadInput) async throws -> BatchReadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +472,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func batchWrite(input: BatchWriteInput) async throws -> BatchWriteOutput
-    {
+    public func batchWrite(input: BatchWriteInput) async throws -> BatchWriteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -533,8 +525,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput
-    {
+    public func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -589,8 +580,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func createFacet(input: CreateFacetInput) async throws -> CreateFacetOutput
-    {
+    public func createFacet(input: CreateFacetInput) async throws -> CreateFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -646,8 +636,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `UnsupportedIndexTypeException` : Indicates that the requested index type is not supported.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput
-    {
+    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -703,8 +692,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `UnsupportedIndexTypeException` : Indicates that the requested index type is not supported.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func createObject(input: CreateObjectInput) async throws -> CreateObjectOutput
-    {
+    public func createObject(input: CreateObjectInput) async throws -> CreateObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,8 +750,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
-    {
+    public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -817,8 +804,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func createTypedLinkFacet(input: CreateTypedLinkFacetInput) async throws -> CreateTypedLinkFacetOutput
-    {
+    public func createTypedLinkFacet(input: CreateTypedLinkFacetInput) async throws -> CreateTypedLinkFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -872,8 +858,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput
-    {
+    public func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +909,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func deleteFacet(input: DeleteFacetInput) async throws -> DeleteFacetOutput
-    {
+    public func deleteFacet(input: DeleteFacetInput) async throws -> DeleteFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +963,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
-    {
+    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1033,8 +1016,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `StillContainsLinksException` : The object could not be deleted because links still exist. Remove the links and then try the operation again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
-    {
+    public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1084,8 +1066,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func deleteTypedLinkFacet(input: DeleteTypedLinkFacetInput) async throws -> DeleteTypedLinkFacetOutput
-    {
+    public func deleteTypedLinkFacet(input: DeleteTypedLinkFacetInput) async throws -> DeleteTypedLinkFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1140,8 +1121,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func detachFromIndex(input: DetachFromIndexInput) async throws -> DetachFromIndexOutput
-    {
+    public func detachFromIndex(input: DetachFromIndexInput) async throws -> DetachFromIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1195,8 +1175,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func detachObject(input: DetachObjectInput) async throws -> DetachObjectOutput
-    {
+    public func detachObject(input: DetachObjectInput) async throws -> DetachObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1250,8 +1229,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput
-    {
+    public func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1305,8 +1283,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func detachTypedLink(input: DetachTypedLinkInput) async throws -> DetachTypedLinkOutput
-    {
+    public func detachTypedLink(input: DetachTypedLinkInput) async throws -> DetachTypedLinkOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1359,8 +1336,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func disableDirectory(input: DisableDirectoryInput) async throws -> DisableDirectoryOutput
-    {
+    public func disableDirectory(input: DisableDirectoryInput) async throws -> DisableDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1410,8 +1386,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func enableDirectory(input: EnableDirectoryInput) async throws -> EnableDirectoryOutput
-    {
+    public func enableDirectory(input: EnableDirectoryInput) async throws -> EnableDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1460,8 +1435,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getAppliedSchemaVersion(input: GetAppliedSchemaVersionInput) async throws -> GetAppliedSchemaVersionOutput
-    {
+    public func getAppliedSchemaVersion(input: GetAppliedSchemaVersionInput) async throws -> GetAppliedSchemaVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1511,8 +1485,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getDirectory(input: GetDirectoryInput) async throws -> GetDirectoryOutput
-    {
+    public func getDirectory(input: GetDirectoryInput) async throws -> GetDirectoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1562,8 +1535,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getFacet(input: GetFacetInput) async throws -> GetFacetOutput
-    {
+    public func getFacet(input: GetFacetInput) async throws -> GetFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1617,8 +1589,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getLinkAttributes(input: GetLinkAttributesInput) async throws -> GetLinkAttributesOutput
-    {
+    public func getLinkAttributes(input: GetLinkAttributesInput) async throws -> GetLinkAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1672,8 +1643,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput
-    {
+    public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1726,8 +1696,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getObjectInformation(input: GetObjectInformationInput) async throws -> GetObjectInformationOutput
-    {
+    public func getObjectInformation(input: GetObjectInformationInput) async throws -> GetObjectInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1779,8 +1748,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getSchemaAsJson(input: GetSchemaAsJsonInput) async throws -> GetSchemaAsJsonOutput
-    {
+    public func getSchemaAsJson(input: GetSchemaAsJsonInput) async throws -> GetSchemaAsJsonOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1831,8 +1799,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func getTypedLinkFacetInformation(input: GetTypedLinkFacetInformationInput) async throws -> GetTypedLinkFacetInformationOutput
-    {
+    public func getTypedLinkFacetInformation(input: GetTypedLinkFacetInformationInput) async throws -> GetTypedLinkFacetInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1885,8 +1852,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listAppliedSchemaArns(input: ListAppliedSchemaArnsInput) async throws -> ListAppliedSchemaArnsOutput
-    {
+    public func listAppliedSchemaArns(input: ListAppliedSchemaArnsInput) async throws -> ListAppliedSchemaArnsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1938,8 +1904,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listAttachedIndices(input: ListAttachedIndicesInput) async throws -> ListAttachedIndicesOutput
-    {
+    public func listAttachedIndices(input: ListAttachedIndicesInput) async throws -> ListAttachedIndicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1992,8 +1957,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listDevelopmentSchemaArns(input: ListDevelopmentSchemaArnsInput) async throws -> ListDevelopmentSchemaArnsOutput
-    {
+    public func listDevelopmentSchemaArns(input: ListDevelopmentSchemaArnsInput) async throws -> ListDevelopmentSchemaArnsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2044,8 +2008,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listDirectories(input: ListDirectoriesInput) async throws -> ListDirectoriesOutput
-    {
+    public func listDirectories(input: ListDirectoriesInput) async throws -> ListDirectoriesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2098,8 +2061,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listFacetAttributes(input: ListFacetAttributesInput) async throws -> ListFacetAttributesOutput
-    {
+    public func listFacetAttributes(input: ListFacetAttributesInput) async throws -> ListFacetAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2152,8 +2114,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listFacetNames(input: ListFacetNamesInput) async throws -> ListFacetNamesOutput
-    {
+    public func listFacetNames(input: ListFacetNamesInput) async throws -> ListFacetNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2208,8 +2169,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listIncomingTypedLinks(input: ListIncomingTypedLinksInput) async throws -> ListIncomingTypedLinksOutput
-    {
+    public func listIncomingTypedLinks(input: ListIncomingTypedLinksInput) async throws -> ListIncomingTypedLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2265,8 +2225,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listIndex(input: ListIndexInput) async throws -> ListIndexOutput
-    {
+    public func listIndex(input: ListIndexInput) async throws -> ListIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2317,8 +2276,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `InvalidNextTokenException` : Indicates that the NextToken value is not valid.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listManagedSchemaArns(input: ListManagedSchemaArnsInput) async throws -> ListManagedSchemaArnsOutput
-    {
+    public func listManagedSchemaArns(input: ListManagedSchemaArnsInput) async throws -> ListManagedSchemaArnsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2372,8 +2330,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listObjectAttributes(input: ListObjectAttributesInput) async throws -> ListObjectAttributesOutput
-    {
+    public func listObjectAttributes(input: ListObjectAttributesInput) async throws -> ListObjectAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2428,8 +2385,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listObjectChildren(input: ListObjectChildrenInput) async throws -> ListObjectChildrenOutput
-    {
+    public func listObjectChildren(input: ListObjectChildrenInput) async throws -> ListObjectChildrenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2483,8 +2439,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listObjectParentPaths(input: ListObjectParentPathsInput) async throws -> ListObjectParentPathsOutput
-    {
+    public func listObjectParentPaths(input: ListObjectParentPathsInput) async throws -> ListObjectParentPathsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2539,8 +2494,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listObjectParents(input: ListObjectParentsInput) async throws -> ListObjectParentsOutput
-    {
+    public func listObjectParents(input: ListObjectParentsInput) async throws -> ListObjectParentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2594,8 +2548,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listObjectPolicies(input: ListObjectPoliciesInput) async throws -> ListObjectPoliciesOutput
-    {
+    public func listObjectPolicies(input: ListObjectPoliciesInput) async throws -> ListObjectPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2650,8 +2603,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listOutgoingTypedLinks(input: ListOutgoingTypedLinksInput) async throws -> ListOutgoingTypedLinksOutput
-    {
+    public func listOutgoingTypedLinks(input: ListOutgoingTypedLinksInput) async throws -> ListOutgoingTypedLinksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2706,8 +2658,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listPolicyAttachments(input: ListPolicyAttachmentsInput) async throws -> ListPolicyAttachmentsOutput
-    {
+    public func listPolicyAttachments(input: ListPolicyAttachmentsInput) async throws -> ListPolicyAttachmentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2760,8 +2711,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listPublishedSchemaArns(input: ListPublishedSchemaArnsInput) async throws -> ListPublishedSchemaArnsOutput
-    {
+    public func listPublishedSchemaArns(input: ListPublishedSchemaArnsInput) async throws -> ListPublishedSchemaArnsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2813,8 +2763,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2867,8 +2816,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listTypedLinkFacetAttributes(input: ListTypedLinkFacetAttributesInput) async throws -> ListTypedLinkFacetAttributesOutput
-    {
+    public func listTypedLinkFacetAttributes(input: ListTypedLinkFacetAttributesInput) async throws -> ListTypedLinkFacetAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2921,8 +2869,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func listTypedLinkFacetNames(input: ListTypedLinkFacetNamesInput) async throws -> ListTypedLinkFacetNamesOutput
-    {
+    public func listTypedLinkFacetNames(input: ListTypedLinkFacetNamesInput) async throws -> ListTypedLinkFacetNamesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2976,8 +2923,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func lookupPolicy(input: LookupPolicyInput) async throws -> LookupPolicyOutput
-    {
+    public func lookupPolicy(input: LookupPolicyInput) async throws -> LookupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3030,8 +2976,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `SchemaAlreadyPublishedException` : Indicates that a schema is already published.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func publishSchema(input: PublishSchemaInput) async throws -> PublishSchemaOutput
-    {
+    public func publishSchema(input: PublishSchemaInput) async throws -> PublishSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3084,8 +3029,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `LimitExceededException` : Indicates that limits are exceeded. See [Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html) for more information.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func putSchemaFromJson(input: PutSchemaFromJsonInput) async throws -> PutSchemaFromJsonOutput
-    {
+    public func putSchemaFromJson(input: PutSchemaFromJsonInput) async throws -> PutSchemaFromJsonOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3139,8 +3083,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func removeFacetFromObject(input: RemoveFacetFromObjectInput) async throws -> RemoveFacetFromObjectOutput
-    {
+    public func removeFacetFromObject(input: RemoveFacetFromObjectInput) async throws -> RemoveFacetFromObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3193,8 +3136,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3246,8 +3188,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3308,8 +3249,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func updateFacet(input: UpdateFacetInput) async throws -> UpdateFacetOutput
-    {
+    public func updateFacet(input: UpdateFacetInput) async throws -> UpdateFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3363,8 +3303,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func updateLinkAttributes(input: UpdateLinkAttributesInput) async throws -> UpdateLinkAttributesOutput
-    {
+    public func updateLinkAttributes(input: UpdateLinkAttributesInput) async throws -> UpdateLinkAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3419,8 +3358,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func updateObjectAttributes(input: UpdateObjectAttributesInput) async throws -> UpdateObjectAttributesOutput
-    {
+    public func updateObjectAttributes(input: UpdateObjectAttributesInput) async throws -> UpdateObjectAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3472,8 +3410,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
-    {
+    public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3529,8 +3466,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func updateTypedLinkFacet(input: UpdateTypedLinkFacetInput) async throws -> UpdateTypedLinkFacetOutput
-    {
+    public func updateTypedLinkFacet(input: UpdateTypedLinkFacetInput) async throws -> UpdateTypedLinkFacetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3584,8 +3520,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func upgradeAppliedSchema(input: UpgradeAppliedSchemaInput) async throws -> UpgradeAppliedSchemaOutput
-    {
+    public func upgradeAppliedSchema(input: UpgradeAppliedSchemaInput) async throws -> UpgradeAppliedSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3638,8 +3573,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
-    public func upgradePublishedSchema(input: UpgradePublishedSchemaInput) async throws -> UpgradePublishedSchemaOutput
-    {
+    public func upgradePublishedSchema(input: UpgradePublishedSchemaInput) async throws -> UpgradePublishedSchemaOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

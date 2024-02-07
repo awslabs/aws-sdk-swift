@@ -66,7 +66,7 @@ public struct IoTClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension IoTClient: IoTClientProtocol {
+extension IoTClient {
     /// Performs the `AcceptCertificateTransfer` operation on the `AWSIotService` service.
     ///
     /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. Requires permission to access the [AcceptCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -85,8 +85,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func acceptCertificateTransfer(input: AcceptCertificateTransferInput) async throws -> AcceptCertificateTransferOutput
-    {
+    public func acceptCertificateTransfer(input: AcceptCertificateTransferInput) async throws -> AcceptCertificateTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func addThingToBillingGroup(input: AddThingToBillingGroupInput) async throws -> AddThingToBillingGroupOutput
-    {
+    public func addThingToBillingGroup(input: AddThingToBillingGroupInput) async throws -> AddThingToBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func addThingToThingGroup(input: AddThingToThingGroupInput) async throws -> AddThingToThingGroupOutput
-    {
+    public func addThingToThingGroup(input: AddThingToThingGroupInput) async throws -> AddThingToThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -240,8 +237,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func associateTargetsWithJob(input: AssociateTargetsWithJobInput) async throws -> AssociateTargetsWithJobOutput
-    {
+    public func associateTargetsWithJob(input: AssociateTargetsWithJobInput) async throws -> AssociateTargetsWithJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -293,8 +289,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput
-    {
+    public func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -346,8 +341,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func attachPrincipalPolicy(input: AttachPrincipalPolicyInput) async throws -> AttachPrincipalPolicyOutput
-    {
+    public func attachPrincipalPolicy(input: AttachPrincipalPolicyInput) async throws -> AttachPrincipalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -395,8 +389,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func attachSecurityProfile(input: AttachSecurityProfileInput) async throws -> AttachSecurityProfileOutput
-    {
+    public func attachSecurityProfile(input: AttachSecurityProfileInput) async throws -> AttachSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -444,8 +437,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func attachThingPrincipal(input: AttachThingPrincipalInput) async throws -> AttachThingPrincipalOutput
-    {
+    public func attachThingPrincipal(input: AttachThingPrincipalInput) async throws -> AttachThingPrincipalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -491,8 +483,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func cancelAuditMitigationActionsTask(input: CancelAuditMitigationActionsTaskInput) async throws -> CancelAuditMitigationActionsTaskOutput
-    {
+    public func cancelAuditMitigationActionsTask(input: CancelAuditMitigationActionsTaskInput) async throws -> CancelAuditMitigationActionsTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -537,8 +528,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func cancelAuditTask(input: CancelAuditTaskInput) async throws -> CancelAuditTaskOutput
-    {
+    public func cancelAuditTask(input: CancelAuditTaskInput) async throws -> CancelAuditTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -586,8 +576,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func cancelCertificateTransfer(input: CancelCertificateTransferInput) async throws -> CancelCertificateTransferOutput
-    {
+    public func cancelCertificateTransfer(input: CancelCertificateTransferInput) async throws -> CancelCertificateTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,8 +621,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func cancelDetectMitigationActionsTask(input: CancelDetectMitigationActionsTaskInput) async throws -> CancelDetectMitigationActionsTaskOutput
-    {
+    public func cancelDetectMitigationActionsTask(input: CancelDetectMitigationActionsTaskInput) async throws -> CancelDetectMitigationActionsTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -679,8 +667,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
-    {
+    public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -731,8 +718,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func cancelJobExecution(input: CancelJobExecutionInput) async throws -> CancelJobExecutionOutput
-    {
+    public func cancelJobExecution(input: CancelJobExecutionInput) async throws -> CancelJobExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -783,8 +769,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func clearDefaultAuthorizer(input: ClearDefaultAuthorizerInput) async throws -> ClearDefaultAuthorizerOutput
-    {
+    public func clearDefaultAuthorizer(input: ClearDefaultAuthorizerInput) async throws -> ClearDefaultAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -830,8 +815,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func confirmTopicRuleDestination(input: ConfirmTopicRuleDestinationInput) async throws -> ConfirmTopicRuleDestinationOutput
-    {
+    public func confirmTopicRuleDestination(input: ConfirmTopicRuleDestinationInput) async throws -> ConfirmTopicRuleDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -877,8 +861,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createAuditSuppression(input: CreateAuditSuppressionInput) async throws -> CreateAuditSuppressionOutput
-    {
+    public func createAuditSuppression(input: CreateAuditSuppressionInput) async throws -> CreateAuditSuppressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -930,8 +913,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
-    {
+    public func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -979,8 +961,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput
-    {
+    public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,8 +1010,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createCertificateFromCsr(input: CreateCertificateFromCsrInput) async throws -> CreateCertificateFromCsrOutput
-    {
+    public func createCertificateFromCsr(input: CreateCertificateFromCsrInput) async throws -> CreateCertificateFromCsrOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1082,8 +1062,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createCertificateProvider(input: CreateCertificateProviderInput) async throws -> CreateCertificateProviderOutput
-    {
+    public func createCertificateProvider(input: CreateCertificateProviderInput) async throws -> CreateCertificateProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1133,8 +1112,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createCustomMetric(input: CreateCustomMetricInput) async throws -> CreateCustomMetricOutput
-    {
+    public func createCustomMetric(input: CreateCustomMetricInput) async throws -> CreateCustomMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1184,8 +1162,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createDimension(input: CreateDimensionInput) async throws -> CreateDimensionOutput
-    {
+    public func createDimension(input: CreateDimensionInput) async throws -> CreateDimensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1238,8 +1215,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createDomainConfiguration(input: CreateDomainConfigurationInput) async throws -> CreateDomainConfigurationOutput
-    {
+    public func createDomainConfiguration(input: CreateDomainConfigurationInput) async throws -> CreateDomainConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1290,8 +1266,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createDynamicThingGroup(input: CreateDynamicThingGroupInput) async throws -> CreateDynamicThingGroupOutput
-    {
+    public func createDynamicThingGroup(input: CreateDynamicThingGroupInput) async throws -> CreateDynamicThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1346,8 +1321,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createFleetMetric(input: CreateFleetMetricInput) async throws -> CreateFleetMetricOutput
-    {
+    public func createFleetMetric(input: CreateFleetMetricInput) async throws -> CreateFleetMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1397,8 +1371,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput
-    {
+    public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,8 +1421,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
-    {
+    public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1498,8 +1470,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createKeysAndCertificate(input: CreateKeysAndCertificateInput) async throws -> CreateKeysAndCertificateOutput
-    {
+    public func createKeysAndCertificate(input: CreateKeysAndCertificateInput) async throws -> CreateKeysAndCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1546,8 +1517,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createMitigationAction(input: CreateMitigationActionInput) async throws -> CreateMitigationActionOutput
-    {
+    public func createMitigationAction(input: CreateMitigationActionInput) async throws -> CreateMitigationActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1599,8 +1569,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createOTAUpdate(input: CreateOTAUpdateInput) async throws -> CreateOTAUpdateOutput
-    {
+    public func createOTAUpdate(input: CreateOTAUpdateInput) async throws -> CreateOTAUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1649,8 +1618,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceQuotaExceededException` : A limit has been exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
-    {
+    public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1701,8 +1669,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceQuotaExceededException` : A limit has been exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func createPackageVersion(input: CreatePackageVersionInput) async throws -> CreatePackageVersionOutput
-    {
+    public func createPackageVersion(input: CreatePackageVersionInput) async throws -> CreatePackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1755,8 +1722,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
-    {
+    public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1808,8 +1774,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionsLimitExceededException` : The number of policy versions exceeds the limit.
-    public func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutput
-    {
+    public func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1860,8 +1825,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createProvisioningClaim(input: CreateProvisioningClaimInput) async throws -> CreateProvisioningClaimOutput
-    {
+    public func createProvisioningClaim(input: CreateProvisioningClaimInput) async throws -> CreateProvisioningClaimOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1908,8 +1872,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createProvisioningTemplate(input: CreateProvisioningTemplateInput) async throws -> CreateProvisioningTemplateOutput
-    {
+    public func createProvisioningTemplate(input: CreateProvisioningTemplateInput) async throws -> CreateProvisioningTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1960,8 +1923,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionsLimitExceededException` : The number of policy versions exceeds the limit.
-    public func createProvisioningTemplateVersion(input: CreateProvisioningTemplateVersionInput) async throws -> CreateProvisioningTemplateVersionOutput
-    {
+    public func createProvisioningTemplateVersion(input: CreateProvisioningTemplateVersionInput) async throws -> CreateProvisioningTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2013,8 +1975,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createRoleAlias(input: CreateRoleAliasInput) async throws -> CreateRoleAliasOutput
-    {
+    public func createRoleAlias(input: CreateRoleAliasInput) async throws -> CreateRoleAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2063,8 +2024,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createScheduledAudit(input: CreateScheduledAuditInput) async throws -> CreateScheduledAuditOutput
-    {
+    public func createScheduledAudit(input: CreateScheduledAuditInput) async throws -> CreateScheduledAuditOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2112,8 +2072,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutput
-    {
+    public func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2165,8 +2124,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput
-    {
+    public func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2217,8 +2175,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createThing(input: CreateThingInput) async throws -> CreateThingOutput
-    {
+    public func createThing(input: CreateThingInput) async throws -> CreateThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2266,8 +2223,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func createThingGroup(input: CreateThingGroupInput) async throws -> CreateThingGroupOutput
-    {
+    public func createThingGroup(input: CreateThingGroupInput) async throws -> CreateThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2317,8 +2273,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func createThingType(input: CreateThingTypeInput) async throws -> CreateThingTypeOutput
-    {
+    public func createThingType(input: CreateThingTypeInput) async throws -> CreateThingTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2368,8 +2323,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `SqlParseException` : The Rule-SQL expression can't be parsed correctly.
-    public func createTopicRule(input: CreateTopicRuleInput) async throws -> CreateTopicRuleOutput
-    {
+    public func createTopicRule(input: CreateTopicRuleInput) async throws -> CreateTopicRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2419,8 +2373,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func createTopicRuleDestination(input: CreateTopicRuleDestinationInput) async throws -> CreateTopicRuleDestinationOutput
-    {
+    public func createTopicRuleDestination(input: CreateTopicRuleDestinationInput) async throws -> CreateTopicRuleDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2468,8 +2421,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteAccountAuditConfiguration(input: DeleteAccountAuditConfigurationInput) async throws -> DeleteAccountAuditConfigurationOutput
-    {
+    public func deleteAccountAuditConfiguration(input: DeleteAccountAuditConfigurationInput) async throws -> DeleteAccountAuditConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2514,8 +2466,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteAuditSuppression(input: DeleteAuditSuppressionInput) async throws -> DeleteAuditSuppressionOutput
-    {
+    public func deleteAuditSuppression(input: DeleteAuditSuppressionInput) async throws -> DeleteAuditSuppressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2566,8 +2517,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
-    {
+    public func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2612,8 +2562,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput
-    {
+    public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2662,8 +2611,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteCACertificate(input: DeleteCACertificateInput) async throws -> DeleteCACertificateOutput
-    {
+    public func deleteCACertificate(input: DeleteCACertificateInput) async throws -> DeleteCACertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2712,8 +2660,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
-    {
+    public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2762,8 +2709,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteCertificateProvider(input: DeleteCertificateProviderInput) async throws -> DeleteCertificateProviderOutput
-    {
+    public func deleteCertificateProvider(input: DeleteCertificateProviderInput) async throws -> DeleteCertificateProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2807,8 +2753,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteCustomMetric(input: DeleteCustomMetricInput) async throws -> DeleteCustomMetricOutput
-    {
+    public func deleteCustomMetric(input: DeleteCustomMetricInput) async throws -> DeleteCustomMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2852,8 +2797,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteDimension(input: DeleteDimensionInput) async throws -> DeleteDimensionOutput
-    {
+    public func deleteDimension(input: DeleteDimensionInput) async throws -> DeleteDimensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2900,8 +2844,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteDomainConfiguration(input: DeleteDomainConfigurationInput) async throws -> DeleteDomainConfigurationOutput
-    {
+    public func deleteDomainConfiguration(input: DeleteDomainConfigurationInput) async throws -> DeleteDomainConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2946,8 +2889,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteDynamicThingGroup(input: DeleteDynamicThingGroupInput) async throws -> DeleteDynamicThingGroupOutput
-    {
+    public func deleteDynamicThingGroup(input: DeleteDynamicThingGroupInput) async throws -> DeleteDynamicThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2995,8 +2937,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteFleetMetric(input: DeleteFleetMetricInput) async throws -> DeleteFleetMetricOutput
-    {
+    public func deleteFleetMetric(input: DeleteFleetMetricInput) async throws -> DeleteFleetMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3044,8 +2985,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-    {
+    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3092,8 +3032,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteJobExecution(input: DeleteJobExecutionInput) async throws -> DeleteJobExecutionOutput
-    {
+    public func deleteJobExecution(input: DeleteJobExecutionInput) async throws -> DeleteJobExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3139,8 +3078,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
-    {
+    public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3184,8 +3122,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteMitigationAction(input: DeleteMitigationActionInput) async throws -> DeleteMitigationActionOutput
-    {
+    public func deleteMitigationAction(input: DeleteMitigationActionInput) async throws -> DeleteMitigationActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3233,8 +3170,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteOTAUpdate(input: DeleteOTAUpdateInput) async throws -> DeleteOTAUpdateOutput
-    {
+    public func deleteOTAUpdate(input: DeleteOTAUpdateInput) async throws -> DeleteOTAUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3279,8 +3215,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
-    {
+    public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3326,8 +3261,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func deletePackageVersion(input: DeletePackageVersionInput) async throws -> DeletePackageVersionOutput
-    {
+    public func deletePackageVersion(input: DeletePackageVersionInput) async throws -> DeletePackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3377,8 +3311,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-    {
+    public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3426,8 +3359,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutput
-    {
+    public func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3475,8 +3407,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteProvisioningTemplate(input: DeleteProvisioningTemplateInput) async throws -> DeleteProvisioningTemplateOutput
-    {
+    public func deleteProvisioningTemplate(input: DeleteProvisioningTemplateInput) async throws -> DeleteProvisioningTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3524,8 +3455,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteProvisioningTemplateVersion(input: DeleteProvisioningTemplateVersionInput) async throws -> DeleteProvisioningTemplateVersionOutput
-    {
+    public func deleteProvisioningTemplateVersion(input: DeleteProvisioningTemplateVersionInput) async throws -> DeleteProvisioningTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3571,8 +3501,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteRegistrationCode(input: DeleteRegistrationCodeInput) async throws -> DeleteRegistrationCodeOutput
-    {
+    public func deleteRegistrationCode(input: DeleteRegistrationCodeInput) async throws -> DeleteRegistrationCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3620,8 +3549,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteRoleAlias(input: DeleteRoleAliasInput) async throws -> DeleteRoleAliasOutput
-    {
+    public func deleteRoleAlias(input: DeleteRoleAliasInput) async throws -> DeleteRoleAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3666,8 +3594,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func deleteScheduledAudit(input: DeleteScheduledAuditInput) async throws -> DeleteScheduledAuditOutput
-    {
+    public func deleteScheduledAudit(input: DeleteScheduledAuditInput) async throws -> DeleteScheduledAuditOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3712,8 +3639,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput
-    {
+    public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3762,8 +3688,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutput
-    {
+    public func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3811,8 +3736,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteThing(input: DeleteThingInput) async throws -> DeleteThingOutput
-    {
+    public func deleteThing(input: DeleteThingInput) async throws -> DeleteThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3858,8 +3782,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func deleteThingGroup(input: DeleteThingGroupInput) async throws -> DeleteThingGroupOutput
-    {
+    public func deleteThingGroup(input: DeleteThingGroupInput) async throws -> DeleteThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3907,8 +3830,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteThingType(input: DeleteThingTypeInput) async throws -> DeleteThingTypeOutput
-    {
+    public func deleteThingType(input: DeleteThingTypeInput) async throws -> DeleteThingTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3954,8 +3876,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteTopicRule(input: DeleteTopicRuleInput) async throws -> DeleteTopicRuleOutput
-    {
+    public func deleteTopicRule(input: DeleteTopicRuleInput) async throws -> DeleteTopicRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4001,8 +3922,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deleteTopicRuleDestination(input: DeleteTopicRuleDestinationInput) async throws -> DeleteTopicRuleDestinationOutput
-    {
+    public func deleteTopicRuleDestination(input: DeleteTopicRuleDestinationInput) async throws -> DeleteTopicRuleDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4046,8 +3966,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func deleteV2LoggingLevel(input: DeleteV2LoggingLevelInput) async throws -> DeleteV2LoggingLevelOutput
-    {
+    public func deleteV2LoggingLevel(input: DeleteV2LoggingLevelInput) async throws -> DeleteV2LoggingLevelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4095,8 +4014,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func deprecateThingType(input: DeprecateThingTypeInput) async throws -> DeprecateThingTypeOutput
-    {
+    public func deprecateThingType(input: DeprecateThingTypeInput) async throws -> DeprecateThingTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4142,8 +4060,7 @@ extension IoTClient: IoTClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeAccountAuditConfiguration(input: DescribeAccountAuditConfigurationInput) async throws -> DescribeAccountAuditConfigurationOutput
-    {
+    public func describeAccountAuditConfiguration(input: DescribeAccountAuditConfigurationInput) async throws -> DescribeAccountAuditConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4188,8 +4105,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeAuditFinding(input: DescribeAuditFindingInput) async throws -> DescribeAuditFindingOutput
-    {
+    public func describeAuditFinding(input: DescribeAuditFindingInput) async throws -> DescribeAuditFindingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4234,8 +4150,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeAuditMitigationActionsTask(input: DescribeAuditMitigationActionsTaskInput) async throws -> DescribeAuditMitigationActionsTaskOutput
-    {
+    public func describeAuditMitigationActionsTask(input: DescribeAuditMitigationActionsTaskInput) async throws -> DescribeAuditMitigationActionsTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4280,8 +4195,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeAuditSuppression(input: DescribeAuditSuppressionInput) async throws -> DescribeAuditSuppressionOutput
-    {
+    public func describeAuditSuppression(input: DescribeAuditSuppressionInput) async throws -> DescribeAuditSuppressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4329,8 +4243,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeAuditTask(input: DescribeAuditTaskInput) async throws -> DescribeAuditTaskOutput
-    {
+    public func describeAuditTask(input: DescribeAuditTaskInput) async throws -> DescribeAuditTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4377,8 +4290,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeAuthorizer(input: DescribeAuthorizerInput) async throws -> DescribeAuthorizerOutput
-    {
+    public func describeAuthorizer(input: DescribeAuthorizerInput) async throws -> DescribeAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4423,8 +4335,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeBillingGroup(input: DescribeBillingGroupInput) async throws -> DescribeBillingGroupOutput
-    {
+    public func describeBillingGroup(input: DescribeBillingGroupInput) async throws -> DescribeBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4471,8 +4382,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeCACertificate(input: DescribeCACertificateInput) async throws -> DescribeCACertificateOutput
-    {
+    public func describeCACertificate(input: DescribeCACertificateInput) async throws -> DescribeCACertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4519,8 +4429,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
-    {
+    public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4567,8 +4476,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeCertificateProvider(input: DescribeCertificateProviderInput) async throws -> DescribeCertificateProviderOutput
-    {
+    public func describeCertificateProvider(input: DescribeCertificateProviderInput) async throws -> DescribeCertificateProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4613,8 +4521,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeCustomMetric(input: DescribeCustomMetricInput) async throws -> DescribeCustomMetricOutput
-    {
+    public func describeCustomMetric(input: DescribeCustomMetricInput) async throws -> DescribeCustomMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4661,8 +4568,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeDefaultAuthorizer(input: DescribeDefaultAuthorizerInput) async throws -> DescribeDefaultAuthorizerOutput
-    {
+    public func describeDefaultAuthorizer(input: DescribeDefaultAuthorizerInput) async throws -> DescribeDefaultAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4707,8 +4613,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeDetectMitigationActionsTask(input: DescribeDetectMitigationActionsTaskInput) async throws -> DescribeDetectMitigationActionsTaskOutput
-    {
+    public func describeDetectMitigationActionsTask(input: DescribeDetectMitigationActionsTaskInput) async throws -> DescribeDetectMitigationActionsTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4753,8 +4658,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeDimension(input: DescribeDimensionInput) async throws -> DescribeDimensionOutput
-    {
+    public func describeDimension(input: DescribeDimensionInput) async throws -> DescribeDimensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4801,8 +4705,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeDomainConfiguration(input: DescribeDomainConfigurationInput) async throws -> DescribeDomainConfigurationOutput
-    {
+    public func describeDomainConfiguration(input: DescribeDomainConfigurationInput) async throws -> DescribeDomainConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4847,8 +4750,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
-    {
+    public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4892,8 +4794,7 @@ extension IoTClient: IoTClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeEventConfigurations(input: DescribeEventConfigurationsInput) async throws -> DescribeEventConfigurationsOutput
-    {
+    public func describeEventConfigurations(input: DescribeEventConfigurationsInput) async throws -> DescribeEventConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4940,8 +4841,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeFleetMetric(input: DescribeFleetMetricInput) async throws -> DescribeFleetMetricOutput
-    {
+    public func describeFleetMetric(input: DescribeFleetMetricInput) async throws -> DescribeFleetMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4988,8 +4888,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutput
-    {
+    public func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5034,8 +4933,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
-    {
+    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5080,8 +4978,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput
-    {
+    public func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5127,8 +5024,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput
-    {
+    public func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5173,8 +5069,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeManagedJobTemplate(input: DescribeManagedJobTemplateInput) async throws -> DescribeManagedJobTemplateOutput
-    {
+    public func describeManagedJobTemplate(input: DescribeManagedJobTemplateInput) async throws -> DescribeManagedJobTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5220,8 +5115,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeMitigationAction(input: DescribeMitigationActionInput) async throws -> DescribeMitigationActionOutput
-    {
+    public func describeMitigationAction(input: DescribeMitigationActionInput) async throws -> DescribeMitigationActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5267,8 +5161,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeProvisioningTemplate(input: DescribeProvisioningTemplateInput) async throws -> DescribeProvisioningTemplateOutput
-    {
+    public func describeProvisioningTemplate(input: DescribeProvisioningTemplateInput) async throws -> DescribeProvisioningTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5314,8 +5207,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeProvisioningTemplateVersion(input: DescribeProvisioningTemplateVersionInput) async throws -> DescribeProvisioningTemplateVersionOutput
-    {
+    public func describeProvisioningTemplateVersion(input: DescribeProvisioningTemplateVersionInput) async throws -> DescribeProvisioningTemplateVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5362,8 +5254,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeRoleAlias(input: DescribeRoleAliasInput) async throws -> DescribeRoleAliasOutput
-    {
+    public func describeRoleAlias(input: DescribeRoleAliasInput) async throws -> DescribeRoleAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5408,8 +5299,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeScheduledAudit(input: DescribeScheduledAuditInput) async throws -> DescribeScheduledAuditOutput
-    {
+    public func describeScheduledAudit(input: DescribeScheduledAuditInput) async throws -> DescribeScheduledAuditOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5454,8 +5344,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutput
-    {
+    public func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5502,8 +5391,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput
-    {
+    public func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5550,8 +5438,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeThing(input: DescribeThingInput) async throws -> DescribeThingOutput
-    {
+    public func describeThing(input: DescribeThingInput) async throws -> DescribeThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5596,8 +5483,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func describeThingGroup(input: DescribeThingGroupInput) async throws -> DescribeThingGroupOutput
-    {
+    public func describeThingGroup(input: DescribeThingGroupInput) async throws -> DescribeThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5643,8 +5529,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeThingRegistrationTask(input: DescribeThingRegistrationTaskInput) async throws -> DescribeThingRegistrationTaskOutput
-    {
+    public func describeThingRegistrationTask(input: DescribeThingRegistrationTaskInput) async throws -> DescribeThingRegistrationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5691,8 +5576,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func describeThingType(input: DescribeThingTypeInput) async throws -> DescribeThingTypeOutput
-    {
+    public func describeThingType(input: DescribeThingTypeInput) async throws -> DescribeThingTypeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5739,8 +5623,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput
-    {
+    public func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5791,8 +5674,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func detachPrincipalPolicy(input: DetachPrincipalPolicyInput) async throws -> DetachPrincipalPolicyOutput
-    {
+    public func detachPrincipalPolicy(input: DetachPrincipalPolicyInput) async throws -> DetachPrincipalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5838,8 +5720,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func detachSecurityProfile(input: DetachSecurityProfileInput) async throws -> DetachSecurityProfileOutput
-    {
+    public func detachSecurityProfile(input: DetachSecurityProfileInput) async throws -> DetachSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5887,8 +5768,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func detachThingPrincipal(input: DetachThingPrincipalInput) async throws -> DetachThingPrincipalOutput
-    {
+    public func detachThingPrincipal(input: DetachThingPrincipalInput) async throws -> DetachThingPrincipalOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5935,8 +5815,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func disableTopicRule(input: DisableTopicRuleInput) async throws -> DisableTopicRuleOutput
-    {
+    public func disableTopicRule(input: DisableTopicRuleInput) async throws -> DisableTopicRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5982,8 +5861,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func enableTopicRule(input: EnableTopicRuleInput) async throws -> EnableTopicRuleOutput
-    {
+    public func enableTopicRule(input: EnableTopicRuleInput) async throws -> EnableTopicRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6028,8 +5906,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func getBehaviorModelTrainingSummaries(input: GetBehaviorModelTrainingSummariesInput) async throws -> GetBehaviorModelTrainingSummariesOutput
-    {
+    public func getBehaviorModelTrainingSummaries(input: GetBehaviorModelTrainingSummariesInput) async throws -> GetBehaviorModelTrainingSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6080,8 +5957,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getBucketsAggregation(input: GetBucketsAggregationInput) async throws -> GetBucketsAggregationOutput
-    {
+    public func getBucketsAggregation(input: GetBucketsAggregationInput) async throws -> GetBucketsAggregationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6134,8 +6010,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getCardinality(input: GetCardinalityInput) async throws -> GetCardinalityOutput
-    {
+    public func getCardinality(input: GetCardinalityInput) async throws -> GetCardinalityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6186,8 +6061,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getEffectivePolicies(input: GetEffectivePoliciesInput) async throws -> GetEffectivePoliciesOutput
-    {
+    public func getEffectivePolicies(input: GetEffectivePoliciesInput) async throws -> GetEffectivePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6237,8 +6111,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getIndexingConfiguration(input: GetIndexingConfigurationInput) async throws -> GetIndexingConfigurationOutput
-    {
+    public func getIndexingConfiguration(input: GetIndexingConfigurationInput) async throws -> GetIndexingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6283,8 +6156,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func getJobDocument(input: GetJobDocumentInput) async throws -> GetJobDocumentOutput
-    {
+    public func getJobDocument(input: GetJobDocumentInput) async throws -> GetJobDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6328,8 +6200,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput
-    {
+    public func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6376,8 +6247,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getOTAUpdate(input: GetOTAUpdateInput) async throws -> GetOTAUpdateOutput
-    {
+    public func getOTAUpdate(input: GetOTAUpdateInput) async throws -> GetOTAUpdateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6422,8 +6292,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func getPackage(input: GetPackageInput) async throws -> GetPackageOutput
-    {
+    public func getPackage(input: GetPackageInput) async throws -> GetPackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6466,8 +6335,7 @@ extension IoTClient: IoTClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func getPackageConfiguration(input: GetPackageConfigurationInput) async throws -> GetPackageConfigurationOutput
-    {
+    public func getPackageConfiguration(input: GetPackageConfigurationInput) async throws -> GetPackageConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6512,8 +6380,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func getPackageVersion(input: GetPackageVersionInput) async throws -> GetPackageVersionOutput
-    {
+    public func getPackageVersion(input: GetPackageVersionInput) async throws -> GetPackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6563,8 +6430,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getPercentiles(input: GetPercentilesInput) async throws -> GetPercentilesOutput
-    {
+    public func getPercentiles(input: GetPercentilesInput) async throws -> GetPercentilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6614,8 +6480,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-    {
+    public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6662,8 +6527,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutput
-    {
+    public func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6709,8 +6573,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getRegistrationCode(input: GetRegistrationCodeInput) async throws -> GetRegistrationCodeOutput
-    {
+    public func getRegistrationCode(input: GetRegistrationCodeInput) async throws -> GetRegistrationCodeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6760,8 +6623,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getStatistics(input: GetStatisticsInput) async throws -> GetStatisticsOutput
-    {
+    public func getStatistics(input: GetStatisticsInput) async throws -> GetStatisticsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6809,8 +6671,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getTopicRule(input: GetTopicRuleInput) async throws -> GetTopicRuleOutput
-    {
+    public func getTopicRule(input: GetTopicRuleInput) async throws -> GetTopicRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6855,8 +6716,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func getTopicRuleDestination(input: GetTopicRuleDestinationInput) async throws -> GetTopicRuleDestinationOutput
-    {
+    public func getTopicRuleDestination(input: GetTopicRuleDestinationInput) async throws -> GetTopicRuleDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6900,8 +6760,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalException` : An unexpected error has occurred.
     /// - `NotConfiguredException` : The resource is not configured.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func getV2LoggingOptions(input: GetV2LoggingOptionsInput) async throws -> GetV2LoggingOptionsOutput
-    {
+    public func getV2LoggingOptions(input: GetV2LoggingOptionsInput) async throws -> GetV2LoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6946,8 +6805,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listActiveViolations(input: ListActiveViolationsInput) async throws -> ListActiveViolationsOutput
-    {
+    public func listActiveViolations(input: ListActiveViolationsInput) async throws -> ListActiveViolationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6996,8 +6854,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listAttachedPolicies(input: ListAttachedPoliciesInput) async throws -> ListAttachedPoliciesOutput
-    {
+    public func listAttachedPolicies(input: ListAttachedPoliciesInput) async throws -> ListAttachedPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7042,8 +6899,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listAuditFindings(input: ListAuditFindingsInput) async throws -> ListAuditFindingsOutput
-    {
+    public func listAuditFindings(input: ListAuditFindingsInput) async throws -> ListAuditFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7090,8 +6946,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listAuditMitigationActionsExecutions(input: ListAuditMitigationActionsExecutionsInput) async throws -> ListAuditMitigationActionsExecutionsOutput
-    {
+    public func listAuditMitigationActionsExecutions(input: ListAuditMitigationActionsExecutionsInput) async throws -> ListAuditMitigationActionsExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7136,8 +6991,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listAuditMitigationActionsTasks(input: ListAuditMitigationActionsTasksInput) async throws -> ListAuditMitigationActionsTasksOutput
-    {
+    public func listAuditMitigationActionsTasks(input: ListAuditMitigationActionsTasksInput) async throws -> ListAuditMitigationActionsTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7182,8 +7036,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listAuditSuppressions(input: ListAuditSuppressionsInput) async throws -> ListAuditSuppressionsOutput
-    {
+    public func listAuditSuppressions(input: ListAuditSuppressionsInput) async throws -> ListAuditSuppressionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7230,8 +7083,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listAuditTasks(input: ListAuditTasksInput) async throws -> ListAuditTasksOutput
-    {
+    public func listAuditTasks(input: ListAuditTasksInput) async throws -> ListAuditTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7278,8 +7130,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listAuthorizers(input: ListAuthorizersInput) async throws -> ListAuthorizersOutput
-    {
+    public func listAuthorizers(input: ListAuthorizersInput) async throws -> ListAuthorizersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7325,8 +7176,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput
-    {
+    public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7373,8 +7223,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listCACertificates(input: ListCACertificatesInput) async throws -> ListCACertificatesOutput
-    {
+    public func listCACertificates(input: ListCACertificatesInput) async throws -> ListCACertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7421,8 +7270,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listCertificateProviders(input: ListCertificateProvidersInput) async throws -> ListCertificateProvidersOutput
-    {
+    public func listCertificateProviders(input: ListCertificateProvidersInput) async throws -> ListCertificateProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7469,8 +7317,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
-    {
+    public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7517,8 +7364,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listCertificatesByCA(input: ListCertificatesByCAInput) async throws -> ListCertificatesByCAOutput
-    {
+    public func listCertificatesByCA(input: ListCertificatesByCAInput) async throws -> ListCertificatesByCAOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7563,8 +7409,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listCustomMetrics(input: ListCustomMetricsInput) async throws -> ListCustomMetricsOutput
-    {
+    public func listCustomMetrics(input: ListCustomMetricsInput) async throws -> ListCustomMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7609,8 +7454,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listDetectMitigationActionsExecutions(input: ListDetectMitigationActionsExecutionsInput) async throws -> ListDetectMitigationActionsExecutionsOutput
-    {
+    public func listDetectMitigationActionsExecutions(input: ListDetectMitigationActionsExecutionsInput) async throws -> ListDetectMitigationActionsExecutionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7655,8 +7499,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listDetectMitigationActionsTasks(input: ListDetectMitigationActionsTasksInput) async throws -> ListDetectMitigationActionsTasksOutput
-    {
+    public func listDetectMitigationActionsTasks(input: ListDetectMitigationActionsTasksInput) async throws -> ListDetectMitigationActionsTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7701,8 +7544,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listDimensions(input: ListDimensionsInput) async throws -> ListDimensionsOutput
-    {
+    public func listDimensions(input: ListDimensionsInput) async throws -> ListDimensionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7749,8 +7591,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listDomainConfigurations(input: ListDomainConfigurationsInput) async throws -> ListDomainConfigurationsOutput
-    {
+    public func listDomainConfigurations(input: ListDomainConfigurationsInput) async throws -> ListDomainConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7797,8 +7638,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listFleetMetrics(input: ListFleetMetricsInput) async throws -> ListFleetMetricsOutput
-    {
+    public func listFleetMetrics(input: ListFleetMetricsInput) async throws -> ListFleetMetricsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7845,8 +7685,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput
-    {
+    public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7892,8 +7731,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listJobExecutionsForJob(input: ListJobExecutionsForJobInput) async throws -> ListJobExecutionsForJobOutput
-    {
+    public func listJobExecutionsForJob(input: ListJobExecutionsForJobInput) async throws -> ListJobExecutionsForJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7939,8 +7777,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listJobExecutionsForThing(input: ListJobExecutionsForThingInput) async throws -> ListJobExecutionsForThingOutput
-    {
+    public func listJobExecutionsForThing(input: ListJobExecutionsForThingInput) async throws -> ListJobExecutionsForThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -7985,8 +7822,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
-    {
+    public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8032,8 +7868,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8079,8 +7914,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listManagedJobTemplates(input: ListManagedJobTemplatesInput) async throws -> ListManagedJobTemplatesOutput
-    {
+    public func listManagedJobTemplates(input: ListManagedJobTemplatesInput) async throws -> ListManagedJobTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8126,8 +7960,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listMetricValues(input: ListMetricValuesInput) async throws -> ListMetricValuesOutput
-    {
+    public func listMetricValues(input: ListMetricValuesInput) async throws -> ListMetricValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8172,8 +8005,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listMitigationActions(input: ListMitigationActionsInput) async throws -> ListMitigationActionsOutput
-    {
+    public func listMitigationActions(input: ListMitigationActionsInput) async throws -> ListMitigationActionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8220,8 +8052,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listOTAUpdates(input: ListOTAUpdatesInput) async throws -> ListOTAUpdatesOutput
-    {
+    public func listOTAUpdates(input: ListOTAUpdatesInput) async throws -> ListOTAUpdatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8268,8 +8099,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listOutgoingCertificates(input: ListOutgoingCertificatesInput) async throws -> ListOutgoingCertificatesOutput
-    {
+    public func listOutgoingCertificates(input: ListOutgoingCertificatesInput) async throws -> ListOutgoingCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8314,8 +8144,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutput
-    {
+    public func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8360,8 +8189,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
-    {
+    public func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8408,8 +8236,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
-    {
+    public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8458,8 +8285,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listPolicyPrincipals(input: ListPolicyPrincipalsInput) async throws -> ListPolicyPrincipalsOutput
-    {
+    public func listPolicyPrincipals(input: ListPolicyPrincipalsInput) async throws -> ListPolicyPrincipalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8508,8 +8334,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutput
-    {
+    public func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8557,8 +8382,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listPrincipalPolicies(input: ListPrincipalPoliciesInput) async throws -> ListPrincipalPoliciesOutput
-    {
+    public func listPrincipalPolicies(input: ListPrincipalPoliciesInput) async throws -> ListPrincipalPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8607,8 +8431,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listPrincipalThings(input: ListPrincipalThingsInput) async throws -> ListPrincipalThingsOutput
-    {
+    public func listPrincipalThings(input: ListPrincipalThingsInput) async throws -> ListPrincipalThingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8656,8 +8479,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listProvisioningTemplateVersions(input: ListProvisioningTemplateVersionsInput) async throws -> ListProvisioningTemplateVersionsOutput
-    {
+    public func listProvisioningTemplateVersions(input: ListProvisioningTemplateVersionsInput) async throws -> ListProvisioningTemplateVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8703,8 +8525,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listProvisioningTemplates(input: ListProvisioningTemplatesInput) async throws -> ListProvisioningTemplatesOutput
-    {
+    public func listProvisioningTemplates(input: ListProvisioningTemplatesInput) async throws -> ListProvisioningTemplatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8771,8 +8592,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listRelatedResourcesForAuditFinding(input: ListRelatedResourcesForAuditFindingInput) async throws -> ListRelatedResourcesForAuditFindingOutput
-    {
+    public func listRelatedResourcesForAuditFinding(input: ListRelatedResourcesForAuditFindingInput) async throws -> ListRelatedResourcesForAuditFindingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8819,8 +8639,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listRoleAliases(input: ListRoleAliasesInput) async throws -> ListRoleAliasesOutput
-    {
+    public func listRoleAliases(input: ListRoleAliasesInput) async throws -> ListRoleAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8865,8 +8684,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listScheduledAudits(input: ListScheduledAuditsInput) async throws -> ListScheduledAuditsOutput
-    {
+    public func listScheduledAudits(input: ListScheduledAuditsInput) async throws -> ListScheduledAuditsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8912,8 +8730,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutput
-    {
+    public func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -8959,8 +8776,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listSecurityProfilesForTarget(input: ListSecurityProfilesForTargetInput) async throws -> ListSecurityProfilesForTargetOutput
-    {
+    public func listSecurityProfilesForTarget(input: ListSecurityProfilesForTargetInput) async throws -> ListSecurityProfilesForTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9007,8 +8823,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
-    {
+    public func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9054,8 +8869,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9104,8 +8918,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutput
-    {
+    public func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9151,8 +8964,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listTargetsForSecurityProfile(input: ListTargetsForSecurityProfileInput) async throws -> ListTargetsForSecurityProfileOutput
-    {
+    public func listTargetsForSecurityProfile(input: ListTargetsForSecurityProfileInput) async throws -> ListTargetsForSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9198,8 +9010,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listThingGroups(input: ListThingGroupsInput) async throws -> ListThingGroupsOutput
-    {
+    public func listThingGroups(input: ListThingGroupsInput) async throws -> ListThingGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9245,8 +9056,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listThingGroupsForThing(input: ListThingGroupsForThingInput) async throws -> ListThingGroupsForThingOutput
-    {
+    public func listThingGroupsForThing(input: ListThingGroupsForThingInput) async throws -> ListThingGroupsForThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9294,8 +9104,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listThingPrincipals(input: ListThingPrincipalsInput) async throws -> ListThingPrincipalsOutput
-    {
+    public func listThingPrincipals(input: ListThingPrincipalsInput) async throws -> ListThingPrincipalsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9341,8 +9150,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listThingRegistrationTaskReports(input: ListThingRegistrationTaskReportsInput) async throws -> ListThingRegistrationTaskReportsOutput
-    {
+    public func listThingRegistrationTaskReports(input: ListThingRegistrationTaskReportsInput) async throws -> ListThingRegistrationTaskReportsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9388,8 +9196,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listThingRegistrationTasks(input: ListThingRegistrationTasksInput) async throws -> ListThingRegistrationTasksOutput
-    {
+    public func listThingRegistrationTasks(input: ListThingRegistrationTasksInput) async throws -> ListThingRegistrationTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9436,8 +9243,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listThingTypes(input: ListThingTypesInput) async throws -> ListThingTypesOutput
-    {
+    public func listThingTypes(input: ListThingTypesInput) async throws -> ListThingTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9484,8 +9290,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listThings(input: ListThingsInput) async throws -> ListThingsOutput
-    {
+    public func listThings(input: ListThingsInput) async throws -> ListThingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9531,8 +9336,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listThingsInBillingGroup(input: ListThingsInBillingGroupInput) async throws -> ListThingsInBillingGroupOutput
-    {
+    public func listThingsInBillingGroup(input: ListThingsInBillingGroupInput) async throws -> ListThingsInBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9578,8 +9382,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listThingsInThingGroup(input: ListThingsInThingGroupInput) async throws -> ListThingsInThingGroupOutput
-    {
+    public func listThingsInThingGroup(input: ListThingsInThingGroupInput) async throws -> ListThingsInThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9625,8 +9428,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func listTopicRuleDestinations(input: ListTopicRuleDestinationsInput) async throws -> ListTopicRuleDestinationsOutput
-    {
+    public func listTopicRuleDestinations(input: ListTopicRuleDestinationsInput) async throws -> ListTopicRuleDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9671,8 +9473,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func listTopicRules(input: ListTopicRulesInput) async throws -> ListTopicRulesOutput
-    {
+    public func listTopicRules(input: ListTopicRulesInput) async throws -> ListTopicRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9718,8 +9519,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `NotConfiguredException` : The resource is not configured.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func listV2LoggingLevels(input: ListV2LoggingLevelsInput) async throws -> ListV2LoggingLevelsOutput
-    {
+    public func listV2LoggingLevels(input: ListV2LoggingLevelsInput) async throws -> ListV2LoggingLevelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9764,8 +9564,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func listViolationEvents(input: ListViolationEventsInput) async throws -> ListViolationEventsOutput
-    {
+    public func listViolationEvents(input: ListViolationEventsInput) async throws -> ListViolationEventsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9810,8 +9609,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func putVerificationStateOnViolation(input: PutVerificationStateOnViolationInput) async throws -> PutVerificationStateOnViolationOutput
-    {
+    public func putVerificationStateOnViolation(input: PutVerificationStateOnViolationInput) async throws -> PutVerificationStateOnViolationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9865,8 +9663,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func registerCACertificate(input: RegisterCACertificateInput) async throws -> RegisterCACertificateOutput
-    {
+    public func registerCACertificate(input: RegisterCACertificateInput) async throws -> RegisterCACertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9920,8 +9717,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput
-    {
+    public func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -9974,8 +9770,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func registerCertificateWithoutCA(input: RegisterCertificateWithoutCAInput) async throws -> RegisterCertificateWithoutCAOutput
-    {
+    public func registerCertificateWithoutCA(input: RegisterCertificateWithoutCAInput) async throws -> RegisterCertificateWithoutCAOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10026,8 +9821,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func registerThing(input: RegisterThingInput) async throws -> RegisterThingOutput
-    {
+    public func registerThing(input: RegisterThingInput) async throws -> RegisterThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10078,8 +9872,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func rejectCertificateTransfer(input: RejectCertificateTransferInput) async throws -> RejectCertificateTransferOutput
-    {
+    public func rejectCertificateTransfer(input: RejectCertificateTransferInput) async throws -> RejectCertificateTransferOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10127,8 +9920,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func removeThingFromBillingGroup(input: RemoveThingFromBillingGroupInput) async throws -> RemoveThingFromBillingGroupOutput
-    {
+    public func removeThingFromBillingGroup(input: RemoveThingFromBillingGroupInput) async throws -> RemoveThingFromBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10176,8 +9968,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func removeThingFromThingGroup(input: RemoveThingFromThingGroupInput) async throws -> RemoveThingFromThingGroupOutput
-    {
+    public func removeThingFromThingGroup(input: RemoveThingFromThingGroupInput) async throws -> RemoveThingFromThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10227,8 +10018,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `SqlParseException` : The Rule-SQL expression can't be parsed correctly.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func replaceTopicRule(input: ReplaceTopicRuleInput) async throws -> ReplaceTopicRuleOutput
-    {
+    public func replaceTopicRule(input: ReplaceTopicRuleInput) async throws -> ReplaceTopicRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10280,8 +10070,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func searchIndex(input: SearchIndexInput) async throws -> SearchIndexOutput
-    {
+    public func searchIndex(input: SearchIndexInput) async throws -> SearchIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10332,8 +10121,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func setDefaultAuthorizer(input: SetDefaultAuthorizerInput) async throws -> SetDefaultAuthorizerOutput
-    {
+    public func setDefaultAuthorizer(input: SetDefaultAuthorizerInput) async throws -> SetDefaultAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10383,8 +10171,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutput
-    {
+    public func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10428,8 +10215,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func setLoggingOptions(input: SetLoggingOptionsInput) async throws -> SetLoggingOptionsOutput
-    {
+    public func setLoggingOptions(input: SetLoggingOptionsInput) async throws -> SetLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10478,8 +10264,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `NotConfiguredException` : The resource is not configured.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func setV2LoggingLevel(input: SetV2LoggingLevelInput) async throws -> SetV2LoggingLevelOutput
-    {
+    public func setV2LoggingLevel(input: SetV2LoggingLevelInput) async throws -> SetV2LoggingLevelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10526,8 +10311,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
-    public func setV2LoggingOptions(input: SetV2LoggingOptionsInput) async throws -> SetV2LoggingOptionsOutput
-    {
+    public func setV2LoggingOptions(input: SetV2LoggingOptionsInput) async throws -> SetV2LoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10576,8 +10360,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `TaskAlreadyExistsException` : This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func startAuditMitigationActionsTask(input: StartAuditMitigationActionsTaskInput) async throws -> StartAuditMitigationActionsTaskOutput
-    {
+    public func startAuditMitigationActionsTask(input: StartAuditMitigationActionsTaskInput) async throws -> StartAuditMitigationActionsTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10627,8 +10410,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `TaskAlreadyExistsException` : This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func startDetectMitigationActionsTask(input: StartDetectMitigationActionsTaskInput) async throws -> StartDetectMitigationActionsTaskOutput
-    {
+    public func startDetectMitigationActionsTask(input: StartDetectMitigationActionsTaskInput) async throws -> StartDetectMitigationActionsTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10677,8 +10459,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func startOnDemandAuditTask(input: StartOnDemandAuditTaskInput) async throws -> StartOnDemandAuditTaskOutput
-    {
+    public func startOnDemandAuditTask(input: StartOnDemandAuditTaskInput) async throws -> StartOnDemandAuditTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10726,8 +10507,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func startThingRegistrationTask(input: StartThingRegistrationTaskInput) async throws -> StartThingRegistrationTaskOutput
-    {
+    public func startThingRegistrationTask(input: StartThingRegistrationTaskInput) async throws -> StartThingRegistrationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10776,8 +10556,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func stopThingRegistrationTask(input: StopThingRegistrationTaskInput) async throws -> StopThingRegistrationTaskOutput
-    {
+    public func stopThingRegistrationTask(input: StopThingRegistrationTaskInput) async throws -> StopThingRegistrationTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10823,8 +10602,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10875,8 +10653,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func testAuthorization(input: TestAuthorizationInput) async throws -> TestAuthorizationOutput
-    {
+    public func testAuthorization(input: TestAuthorizationInput) async throws -> TestAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10928,8 +10705,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutput
-    {
+    public func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -10981,8 +10757,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `TransferConflictException` : You can't transfer the certificate because authorization policies are still attached.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func transferCertificate(input: TransferCertificateInput) async throws -> TransferCertificateOutput
-    {
+    public func transferCertificate(input: TransferCertificateInput) async throws -> TransferCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11031,8 +10806,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11079,8 +10853,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateAccountAuditConfiguration(input: UpdateAccountAuditConfigurationInput) async throws -> UpdateAccountAuditConfigurationOutput
-    {
+    public func updateAccountAuditConfiguration(input: UpdateAccountAuditConfigurationInput) async throws -> UpdateAccountAuditConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11128,8 +10901,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateAuditSuppression(input: UpdateAuditSuppressionInput) async throws -> UpdateAuditSuppressionOutput
-    {
+    public func updateAuditSuppression(input: UpdateAuditSuppressionInput) async throws -> UpdateAuditSuppressionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11180,8 +10952,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
-    {
+    public func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11230,8 +11001,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput
-    {
+    public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11281,8 +11051,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateCACertificate(input: UpdateCACertificateInput) async throws -> UpdateCACertificateOutput
-    {
+    public func updateCACertificate(input: UpdateCACertificateInput) async throws -> UpdateCACertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11334,8 +11103,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput
-    {
+    public func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11383,8 +11151,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateCertificateProvider(input: UpdateCertificateProviderInput) async throws -> UpdateCertificateProviderOutput
-    {
+    public func updateCertificateProvider(input: UpdateCertificateProviderInput) async throws -> UpdateCertificateProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11432,8 +11199,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateCustomMetric(input: UpdateCustomMetricInput) async throws -> UpdateCustomMetricOutput
-    {
+    public func updateCustomMetric(input: UpdateCustomMetricInput) async throws -> UpdateCustomMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11481,8 +11247,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateDimension(input: UpdateDimensionInput) async throws -> UpdateDimensionOutput
-    {
+    public func updateDimension(input: UpdateDimensionInput) async throws -> UpdateDimensionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11533,8 +11298,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateDomainConfiguration(input: UpdateDomainConfigurationInput) async throws -> UpdateDomainConfigurationOutput
-    {
+    public func updateDomainConfiguration(input: UpdateDomainConfigurationInput) async throws -> UpdateDomainConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11584,8 +11348,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func updateDynamicThingGroup(input: UpdateDynamicThingGroupInput) async throws -> UpdateDynamicThingGroupOutput
-    {
+    public func updateDynamicThingGroup(input: UpdateDynamicThingGroupInput) async throws -> UpdateDynamicThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11632,8 +11395,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateEventConfigurations(input: UpdateEventConfigurationsInput) async throws -> UpdateEventConfigurationsOutput
-    {
+    public func updateEventConfigurations(input: UpdateEventConfigurationsInput) async throws -> UpdateEventConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11687,8 +11449,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func updateFleetMetric(input: UpdateFleetMetricInput) async throws -> UpdateFleetMetricOutput
-    {
+    public func updateFleetMetric(input: UpdateFleetMetricInput) async throws -> UpdateFleetMetricOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11737,8 +11498,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateIndexingConfiguration(input: UpdateIndexingConfigurationInput) async throws -> UpdateIndexingConfigurationOutput
-    {
+    public func updateIndexingConfiguration(input: UpdateIndexingConfigurationInput) async throws -> UpdateIndexingConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11786,8 +11546,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
-    {
+    public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11836,8 +11595,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateMitigationAction(input: UpdateMitigationActionInput) async throws -> UpdateMitigationActionOutput
-    {
+    public func updateMitigationAction(input: UpdateMitigationActionInput) async throws -> UpdateMitigationActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11886,8 +11644,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput
-    {
+    public func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11937,8 +11694,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func updatePackageConfiguration(input: UpdatePackageConfigurationInput) async throws -> UpdatePackageConfigurationOutput
-    {
+    public func updatePackageConfiguration(input: UpdatePackageConfigurationInput) async throws -> UpdatePackageConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -11989,8 +11745,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
-    public func updatePackageVersion(input: UpdatePackageVersionInput) async throws -> UpdatePackageVersionOutput
-    {
+    public func updatePackageVersion(input: UpdatePackageVersionInput) async throws -> UpdatePackageVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12041,8 +11796,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateProvisioningTemplate(input: UpdateProvisioningTemplateInput) async throws -> UpdateProvisioningTemplateOutput
-    {
+    public func updateProvisioningTemplate(input: UpdateProvisioningTemplateInput) async throws -> UpdateProvisioningTemplateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12092,8 +11846,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateRoleAlias(input: UpdateRoleAliasInput) async throws -> UpdateRoleAliasOutput
-    {
+    public func updateRoleAlias(input: UpdateRoleAliasInput) async throws -> UpdateRoleAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12141,8 +11894,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateScheduledAudit(input: UpdateScheduledAuditInput) async throws -> UpdateScheduledAuditOutput
-    {
+    public func updateScheduledAudit(input: UpdateScheduledAuditInput) async throws -> UpdateScheduledAuditOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12191,8 +11943,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutput
-    {
+    public func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12243,8 +11994,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateStream(input: UpdateStreamInput) async throws -> UpdateStreamOutput
-    {
+    public func updateStream(input: UpdateStreamInput) async throws -> UpdateStreamOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12295,8 +12045,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func updateThing(input: UpdateThingInput) async throws -> UpdateThingOutput
-    {
+    public func updateThing(input: UpdateThingInput) async throws -> UpdateThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12345,8 +12094,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-    public func updateThingGroup(input: UpdateThingGroupInput) async throws -> UpdateThingGroupOutput
-    {
+    public func updateThingGroup(input: UpdateThingGroupInput) async throws -> UpdateThingGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12394,8 +12142,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func updateThingGroupsForThing(input: UpdateThingGroupsForThingInput) async throws -> UpdateThingGroupsForThingOutput
-    {
+    public func updateThingGroupsForThing(input: UpdateThingGroupsForThingInput) async throws -> UpdateThingGroupsForThingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12444,8 +12191,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
-    public func updateTopicRuleDestination(input: UpdateTopicRuleDestinationInput) async throws -> UpdateTopicRuleDestinationOutput
-    {
+    public func updateTopicRuleDestination(input: UpdateTopicRuleDestinationInput) async throws -> UpdateTopicRuleDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -12492,8 +12238,7 @@ extension IoTClient: IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    public func validateSecurityProfileBehaviors(input: ValidateSecurityProfileBehaviorsInput) async throws -> ValidateSecurityProfileBehaviorsOutput
-    {
+    public func validateSecurityProfileBehaviors(input: ValidateSecurityProfileBehaviorsInput) async throws -> ValidateSecurityProfileBehaviorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

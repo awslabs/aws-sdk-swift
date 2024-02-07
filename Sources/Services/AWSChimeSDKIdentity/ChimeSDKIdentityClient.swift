@@ -66,7 +66,7 @@ public struct ChimeSDKIdentityClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
+extension ChimeSDKIdentityClient {
     /// Performs the `CreateAppInstance` operation on the `ChimeIdentityService` service.
     ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
@@ -86,8 +86,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createAppInstance(input: CreateAppInstanceInput) async throws -> CreateAppInstanceOutput
-    {
+    public func createAppInstance(input: CreateAppInstanceInput) async throws -> CreateAppInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -147,8 +146,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createAppInstanceAdmin(input: CreateAppInstanceAdminInput) async throws -> CreateAppInstanceAdminOutput
-    {
+    public func createAppInstanceAdmin(input: CreateAppInstanceAdminInput) async throws -> CreateAppInstanceAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -200,8 +198,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createAppInstanceBot(input: CreateAppInstanceBotInput) async throws -> CreateAppInstanceBotOutput
-    {
+    public func createAppInstanceBot(input: CreateAppInstanceBotInput) async throws -> CreateAppInstanceBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -254,8 +251,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func createAppInstanceUser(input: CreateAppInstanceUserInput) async throws -> CreateAppInstanceUserOutput
-    {
+    public func createAppInstanceUser(input: CreateAppInstanceUserInput) async throws -> CreateAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -307,8 +303,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteAppInstance(input: DeleteAppInstanceInput) async throws -> DeleteAppInstanceOutput
-    {
+    public func deleteAppInstance(input: DeleteAppInstanceInput) async throws -> DeleteAppInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -357,8 +352,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput) async throws -> DeleteAppInstanceAdminOutput
-    {
+    public func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput) async throws -> DeleteAppInstanceAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -407,8 +401,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteAppInstanceBot(input: DeleteAppInstanceBotInput) async throws -> DeleteAppInstanceBotOutput
-    {
+    public func deleteAppInstanceBot(input: DeleteAppInstanceBotInput) async throws -> DeleteAppInstanceBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -457,8 +450,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deleteAppInstanceUser(input: DeleteAppInstanceUserInput) async throws -> DeleteAppInstanceUserOutput
-    {
+    public func deleteAppInstanceUser(input: DeleteAppInstanceUserInput) async throws -> DeleteAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -505,8 +497,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func deregisterAppInstanceUserEndpoint(input: DeregisterAppInstanceUserEndpointInput) async throws -> DeregisterAppInstanceUserEndpointOutput
-    {
+    public func deregisterAppInstanceUserEndpoint(input: DeregisterAppInstanceUserEndpointInput) async throws -> DeregisterAppInstanceUserEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -553,8 +544,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeAppInstance(input: DescribeAppInstanceInput) async throws -> DescribeAppInstanceOutput
-    {
+    public func describeAppInstance(input: DescribeAppInstanceInput) async throws -> DescribeAppInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -601,8 +591,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeAppInstanceAdmin(input: DescribeAppInstanceAdminInput) async throws -> DescribeAppInstanceAdminOutput
-    {
+    public func describeAppInstanceAdmin(input: DescribeAppInstanceAdminInput) async throws -> DescribeAppInstanceAdminOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -650,8 +639,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeAppInstanceBot(input: DescribeAppInstanceBotInput) async throws -> DescribeAppInstanceBotOutput
-    {
+    public func describeAppInstanceBot(input: DescribeAppInstanceBotInput) async throws -> DescribeAppInstanceBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -698,8 +686,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeAppInstanceUser(input: DescribeAppInstanceUserInput) async throws -> DescribeAppInstanceUserOutput
-    {
+    public func describeAppInstanceUser(input: DescribeAppInstanceUserInput) async throws -> DescribeAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -746,8 +733,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func describeAppInstanceUserEndpoint(input: DescribeAppInstanceUserEndpointInput) async throws -> DescribeAppInstanceUserEndpointOutput
-    {
+    public func describeAppInstanceUserEndpoint(input: DescribeAppInstanceUserEndpointInput) async throws -> DescribeAppInstanceUserEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -794,8 +780,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func getAppInstanceRetentionSettings(input: GetAppInstanceRetentionSettingsInput) async throws -> GetAppInstanceRetentionSettingsOutput
-    {
+    public func getAppInstanceRetentionSettings(input: GetAppInstanceRetentionSettingsInput) async throws -> GetAppInstanceRetentionSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -843,8 +828,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listAppInstanceAdmins(input: ListAppInstanceAdminsInput) async throws -> ListAppInstanceAdminsOutput
-    {
+    public func listAppInstanceAdmins(input: ListAppInstanceAdminsInput) async throws -> ListAppInstanceAdminsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -893,8 +877,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listAppInstanceBots(input: ListAppInstanceBotsInput) async throws -> ListAppInstanceBotsOutput
-    {
+    public func listAppInstanceBots(input: ListAppInstanceBotsInput) async throws -> ListAppInstanceBotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -942,8 +925,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listAppInstanceUserEndpoints(input: ListAppInstanceUserEndpointsInput) async throws -> ListAppInstanceUserEndpointsOutput
-    {
+    public func listAppInstanceUserEndpoints(input: ListAppInstanceUserEndpointsInput) async throws -> ListAppInstanceUserEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -991,8 +973,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listAppInstanceUsers(input: ListAppInstanceUsersInput) async throws -> ListAppInstanceUsersOutput
-    {
+    public func listAppInstanceUsers(input: ListAppInstanceUsersInput) async throws -> ListAppInstanceUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1040,8 +1021,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listAppInstances(input: ListAppInstancesInput) async throws -> ListAppInstancesOutput
-    {
+    public func listAppInstances(input: ListAppInstancesInput) async throws -> ListAppInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1089,8 +1069,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1138,8 +1117,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput) async throws -> PutAppInstanceRetentionSettingsOutput
-    {
+    public func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput) async throws -> PutAppInstanceRetentionSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1190,8 +1168,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func putAppInstanceUserExpirationSettings(input: PutAppInstanceUserExpirationSettingsInput) async throws -> PutAppInstanceUserExpirationSettingsOutput
-    {
+    public func putAppInstanceUserExpirationSettings(input: PutAppInstanceUserExpirationSettingsInput) async throws -> PutAppInstanceUserExpirationSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1243,8 +1220,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func registerAppInstanceUserEndpoint(input: RegisterAppInstanceUserEndpointInput) async throws -> RegisterAppInstanceUserEndpointOutput
-    {
+    public func registerAppInstanceUserEndpoint(input: RegisterAppInstanceUserEndpointInput) async throws -> RegisterAppInstanceUserEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1296,8 +1272,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1348,8 +1323,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1401,8 +1375,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateAppInstance(input: UpdateAppInstanceInput) async throws -> UpdateAppInstanceOutput
-    {
+    public func updateAppInstance(input: UpdateAppInstanceInput) async throws -> UpdateAppInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1454,8 +1427,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateAppInstanceBot(input: UpdateAppInstanceBotInput) async throws -> UpdateAppInstanceBotOutput
-    {
+    public func updateAppInstanceBot(input: UpdateAppInstanceBotInput) async throws -> UpdateAppInstanceBotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1507,8 +1479,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateAppInstanceUser(input: UpdateAppInstanceUserInput) async throws -> UpdateAppInstanceUserOutput
-    {
+    public func updateAppInstanceUser(input: UpdateAppInstanceUserInput) async throws -> UpdateAppInstanceUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1559,8 +1530,7 @@ extension ChimeSDKIdentityClient: ChimeSDKIdentityClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
-    public func updateAppInstanceUserEndpoint(input: UpdateAppInstanceUserEndpointInput) async throws -> UpdateAppInstanceUserEndpointOutput
-    {
+    public func updateAppInstanceUserEndpoint(input: UpdateAppInstanceUserEndpointInput) async throws -> UpdateAppInstanceUserEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

@@ -66,7 +66,7 @@ public struct MachineLearningClientLogHandlerFactory: ClientRuntime.SDKLogHandle
     }
 }
 
-extension MachineLearningClient: MachineLearningClientProtocol {
+extension MachineLearningClient {
     /// Performs the `AddTags` operation on the `AmazonML_20141212` service.
     ///
     /// Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value.
@@ -83,8 +83,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InvalidTagException` : [no documentation found]
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
     /// - `TagLimitExceededException` : [no documentation found]
-    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-    {
+    public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -132,8 +131,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `IdempotentParameterMismatchException` : A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func createBatchPrediction(input: CreateBatchPredictionInput) async throws -> CreateBatchPredictionOutput
-    {
+    public func createBatchPrediction(input: CreateBatchPredictionInput) async throws -> CreateBatchPredictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -181,8 +179,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `IdempotentParameterMismatchException` : A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func createDataSourceFromRDS(input: CreateDataSourceFromRDSInput) async throws -> CreateDataSourceFromRDSOutput
-    {
+    public func createDataSourceFromRDS(input: CreateDataSourceFromRDSInput) async throws -> CreateDataSourceFromRDSOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,8 +227,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `IdempotentParameterMismatchException` : A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func createDataSourceFromRedshift(input: CreateDataSourceFromRedshiftInput) async throws -> CreateDataSourceFromRedshiftOutput
-    {
+    public func createDataSourceFromRedshift(input: CreateDataSourceFromRedshiftInput) async throws -> CreateDataSourceFromRedshiftOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -279,8 +275,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `IdempotentParameterMismatchException` : A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func createDataSourceFromS3(input: CreateDataSourceFromS3Input) async throws -> CreateDataSourceFromS3Output
-    {
+    public func createDataSourceFromS3(input: CreateDataSourceFromS3Input) async throws -> CreateDataSourceFromS3Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -328,8 +323,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `IdempotentParameterMismatchException` : A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func createEvaluation(input: CreateEvaluationInput) async throws -> CreateEvaluationOutput
-    {
+    public func createEvaluation(input: CreateEvaluationInput) async throws -> CreateEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `IdempotentParameterMismatchException` : A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func createMLModel(input: CreateMLModelInput) async throws -> CreateMLModelOutput
-    {
+    public func createMLModel(input: CreateMLModelInput) async throws -> CreateMLModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -426,8 +419,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func createRealtimeEndpoint(input: CreateRealtimeEndpointInput) async throws -> CreateRealtimeEndpointOutput
-    {
+    public func createRealtimeEndpoint(input: CreateRealtimeEndpointInput) async throws -> CreateRealtimeEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -478,8 +470,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func deleteBatchPrediction(input: DeleteBatchPredictionInput) async throws -> DeleteBatchPredictionOutput
-    {
+    public func deleteBatchPrediction(input: DeleteBatchPredictionInput) async throws -> DeleteBatchPredictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -527,8 +518,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-    {
+    public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -576,8 +566,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func deleteEvaluation(input: DeleteEvaluationInput) async throws -> DeleteEvaluationOutput
-    {
+    public func deleteEvaluation(input: DeleteEvaluationInput) async throws -> DeleteEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -625,8 +614,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func deleteMLModel(input: DeleteMLModelInput) async throws -> DeleteMLModelOutput
-    {
+    public func deleteMLModel(input: DeleteMLModelInput) async throws -> DeleteMLModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -674,8 +662,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func deleteRealtimeEndpoint(input: DeleteRealtimeEndpointInput) async throws -> DeleteRealtimeEndpointOutput
-    {
+    public func deleteRealtimeEndpoint(input: DeleteRealtimeEndpointInput) async throws -> DeleteRealtimeEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -724,8 +711,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `InvalidTagException` : [no documentation found]
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-    {
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -772,8 +758,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func describeBatchPredictions(input: DescribeBatchPredictionsInput) async throws -> DescribeBatchPredictionsOutput
-    {
+    public func describeBatchPredictions(input: DescribeBatchPredictionsInput) async throws -> DescribeBatchPredictionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -820,8 +805,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func describeDataSources(input: DescribeDataSourcesInput) async throws -> DescribeDataSourcesOutput
-    {
+    public func describeDataSources(input: DescribeDataSourcesInput) async throws -> DescribeDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -868,8 +852,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func describeEvaluations(input: DescribeEvaluationsInput) async throws -> DescribeEvaluationsOutput
-    {
+    public func describeEvaluations(input: DescribeEvaluationsInput) async throws -> DescribeEvaluationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -916,8 +899,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
-    public func describeMLModels(input: DescribeMLModelsInput) async throws -> DescribeMLModelsOutput
-    {
+    public func describeMLModels(input: DescribeMLModelsInput) async throws -> DescribeMLModelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -965,8 +947,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-    {
+    public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1014,8 +995,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func getBatchPrediction(input: GetBatchPredictionInput) async throws -> GetBatchPredictionOutput
-    {
+    public func getBatchPrediction(input: GetBatchPredictionInput) async throws -> GetBatchPredictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1063,8 +1043,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
-    {
+    public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1112,8 +1091,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func getEvaluation(input: GetEvaluationInput) async throws -> GetEvaluationOutput
-    {
+    public func getEvaluation(input: GetEvaluationInput) async throws -> GetEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1161,8 +1139,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func getMLModel(input: GetMLModelInput) async throws -> GetMLModelOutput
-    {
+    public func getMLModel(input: GetMLModelInput) async throws -> GetMLModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1212,8 +1189,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `LimitExceededException` : The subscriber exceeded the maximum number of operations. This exception can occur when listing objects such as DataSource.
     /// - `PredictorNotMountedException` : The exception is thrown when a predict request is made to an unmounted MLModel.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func predict(input: PredictInput) async throws -> PredictOutput
-    {
+    public func predict(input: PredictInput) async throws -> PredictOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1261,8 +1237,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func updateBatchPrediction(input: UpdateBatchPredictionInput) async throws -> UpdateBatchPredictionOutput
-    {
+    public func updateBatchPrediction(input: UpdateBatchPredictionInput) async throws -> UpdateBatchPredictionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1310,8 +1285,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-    {
+    public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1359,8 +1333,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func updateEvaluation(input: UpdateEvaluationInput) async throws -> UpdateEvaluationOutput
-    {
+    public func updateEvaluation(input: UpdateEvaluationInput) async throws -> UpdateEvaluationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1408,8 +1381,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
     /// - `InternalServerException` : An error on the server occurred when trying to process a request.
     /// - `InvalidInputException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ResourceNotFoundException` : A specified resource cannot be located.
-    public func updateMLModel(input: UpdateMLModelInput) async throws -> UpdateMLModelOutput
-    {
+    public func updateMLModel(input: UpdateMLModelInput) async throws -> UpdateMLModelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

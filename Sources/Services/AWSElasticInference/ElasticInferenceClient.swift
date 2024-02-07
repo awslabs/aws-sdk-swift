@@ -66,7 +66,7 @@ public struct ElasticInferenceClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension ElasticInferenceClient: ElasticInferenceClientProtocol {
+extension ElasticInferenceClient {
     /// Performs the `DescribeAcceleratorOfferings` operation on the `EC2MatterhornCfSoothsayerApiGatewayLambda` service.
     ///
     /// Describes the locations in which a given accelerator type or set of types is present in a given region. February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
@@ -81,8 +81,7 @@ extension ElasticInferenceClient: ElasticInferenceClientProtocol {
     /// - `BadRequestException` : Raised when a malformed input has been provided to the API.
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
-    public func describeAcceleratorOfferings(input: DescribeAcceleratorOfferingsInput) async throws -> DescribeAcceleratorOfferingsOutput
-    {
+    public func describeAcceleratorOfferings(input: DescribeAcceleratorOfferingsInput) async throws -> DescribeAcceleratorOfferingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension ElasticInferenceClient: ElasticInferenceClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
-    public func describeAcceleratorTypes(input: DescribeAcceleratorTypesInput) async throws -> DescribeAcceleratorTypesOutput
-    {
+    public func describeAcceleratorTypes(input: DescribeAcceleratorTypesInput) async throws -> DescribeAcceleratorTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -172,8 +170,7 @@ extension ElasticInferenceClient: ElasticInferenceClientProtocol {
     /// - `BadRequestException` : Raised when a malformed input has been provided to the API.
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
-    public func describeAccelerators(input: DescribeAcceleratorsInput) async throws -> DescribeAcceleratorsOutput
-    {
+    public func describeAccelerators(input: DescribeAcceleratorsInput) async throws -> DescribeAcceleratorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -220,8 +217,7 @@ extension ElasticInferenceClient: ElasticInferenceClientProtocol {
     /// - `BadRequestException` : Raised when a malformed input has been provided to the API.
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -265,8 +261,7 @@ extension ElasticInferenceClient: ElasticInferenceClientProtocol {
     /// - `BadRequestException` : Raised when a malformed input has been provided to the API.
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -313,8 +308,7 @@ extension ElasticInferenceClient: ElasticInferenceClientProtocol {
     /// - `BadRequestException` : Raised when a malformed input has been provided to the API.
     /// - `InternalServerException` : Raised when an unexpected error occurred during request processing.
     /// - `ResourceNotFoundException` : Raised when the requested resource cannot be found.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

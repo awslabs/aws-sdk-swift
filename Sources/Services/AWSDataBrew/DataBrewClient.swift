@@ -66,7 +66,7 @@ public struct DataBrewClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
 }
 
-extension DataBrewClient: DataBrewClientProtocol {
+extension DataBrewClient {
     /// Performs the `BatchDeleteRecipeVersion` operation on the `AWSGlueDataBrew` service.
     ///
     /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:
@@ -105,8 +105,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func batchDeleteRecipeVersion(input: BatchDeleteRecipeVersionInput) async throws -> BatchDeleteRecipeVersionOutput
-    {
+    public func batchDeleteRecipeVersion(input: BatchDeleteRecipeVersionInput) async throws -> BatchDeleteRecipeVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -154,8 +153,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
-    {
+    public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -204,8 +202,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createProfileJob(input: CreateProfileJobInput) async throws -> CreateProfileJobOutput
-    {
+    public func createProfileJob(input: CreateProfileJobInput) async throws -> CreateProfileJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -253,8 +250,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `InternalServerException` : An internal service failure occurred.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-    {
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -301,8 +297,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createRecipe(input: CreateRecipeInput) async throws -> CreateRecipeOutput
-    {
+    public func createRecipe(input: CreateRecipeInput) async throws -> CreateRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -351,8 +346,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createRecipeJob(input: CreateRecipeJobInput) async throws -> CreateRecipeJobOutput
-    {
+    public func createRecipeJob(input: CreateRecipeJobInput) async throws -> CreateRecipeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -399,8 +393,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createRuleset(input: CreateRulesetInput) async throws -> CreateRulesetOutput
-    {
+    public func createRuleset(input: CreateRulesetInput) async throws -> CreateRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -447,8 +440,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func createSchedule(input: CreateScheduleInput) async throws -> CreateScheduleOutput
-    {
+    public func createSchedule(input: CreateScheduleInput) async throws -> CreateScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -495,8 +487,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
-    {
+    public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,8 +531,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-    {
+    public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -585,8 +575,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-    {
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -630,8 +619,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func deleteRecipeVersion(input: DeleteRecipeVersionInput) async throws -> DeleteRecipeVersionOutput
-    {
+    public func deleteRecipeVersion(input: DeleteRecipeVersionInput) async throws -> DeleteRecipeVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -675,8 +663,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func deleteRuleset(input: DeleteRulesetInput) async throws -> DeleteRulesetOutput
-    {
+    public func deleteRuleset(input: DeleteRulesetInput) async throws -> DeleteRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -719,8 +706,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
-    {
+    public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -763,8 +749,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
-    {
+    public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -807,8 +792,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
-    {
+    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -851,8 +835,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput
-    {
+    public func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -895,8 +878,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
-    {
+    public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -939,8 +921,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput
-    {
+    public func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -984,8 +965,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeRuleset(input: DescribeRulesetInput) async throws -> DescribeRulesetOutput
-    {
+    public func describeRuleset(input: DescribeRulesetInput) async throws -> DescribeRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1028,8 +1008,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput
-    {
+    public func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1071,8 +1050,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
-    {
+    public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1116,8 +1094,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
-    {
+    public func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1160,8 +1137,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1204,8 +1180,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-    {
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1248,8 +1223,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listRecipeVersions(input: ListRecipeVersionsInput) async throws -> ListRecipeVersionsOutput
-    {
+    public func listRecipeVersions(input: ListRecipeVersionsInput) async throws -> ListRecipeVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1292,8 +1266,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput
-    {
+    public func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1337,8 +1310,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listRulesets(input: ListRulesetsInput) async throws -> ListRulesetsOutput
-    {
+    public func listRulesets(input: ListRulesetsInput) async throws -> ListRulesetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1381,8 +1353,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listSchedules(input: ListSchedulesInput) async throws -> ListSchedulesOutput
-    {
+    public func listSchedules(input: ListSchedulesInput) async throws -> ListSchedulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1427,8 +1398,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `InternalServerException` : An internal service failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1472,8 +1442,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func publishRecipe(input: PublishRecipeInput) async throws -> PublishRecipeOutput
-    {
+    public func publishRecipe(input: PublishRecipeInput) async throws -> PublishRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1520,8 +1489,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func sendProjectSessionAction(input: SendProjectSessionActionInput) async throws -> SendProjectSessionActionOutput
-    {
+    public func sendProjectSessionAction(input: SendProjectSessionActionInput) async throws -> SendProjectSessionActionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1569,8 +1537,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
-    {
+    public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1615,8 +1582,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func startProjectSession(input: StartProjectSessionInput) async throws -> StartProjectSessionOutput
-    {
+    public func startProjectSession(input: StartProjectSessionInput) async throws -> StartProjectSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1662,8 +1628,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func stopJobRun(input: StopJobRunInput) async throws -> StopJobRunOutput
-    {
+    public func stopJobRun(input: StopJobRunInput) async throws -> StopJobRunOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1707,8 +1672,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `InternalServerException` : An internal service failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1755,8 +1719,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `InternalServerException` : An internal service failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1801,8 +1764,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `AccessDeniedException` : Access to the specified resource was denied.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
-    {
+    public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1849,8 +1811,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `AccessDeniedException` : Access to the specified resource was denied.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateProfileJob(input: UpdateProfileJobInput) async throws -> UpdateProfileJobOutput
-    {
+    public func updateProfileJob(input: UpdateProfileJobInput) async throws -> UpdateProfileJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1896,8 +1857,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-    {
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1943,8 +1903,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateRecipe(input: UpdateRecipeInput) async throws -> UpdateRecipeOutput
-    {
+    public func updateRecipe(input: UpdateRecipeInput) async throws -> UpdateRecipeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1991,8 +1950,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `AccessDeniedException` : Access to the specified resource was denied.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateRecipeJob(input: UpdateRecipeJobInput) async throws -> UpdateRecipeJobOutput
-    {
+    public func updateRecipeJob(input: UpdateRecipeJobInput) async throws -> UpdateRecipeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2038,8 +1996,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateRuleset(input: UpdateRulesetInput) async throws -> UpdateRulesetOutput
-    {
+    public func updateRuleset(input: UpdateRulesetInput) async throws -> UpdateRulesetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2086,8 +2043,7 @@ extension DataBrewClient: DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
-    public func updateSchedule(input: UpdateScheduleInput) async throws -> UpdateScheduleOutput
-    {
+    public func updateSchedule(input: UpdateScheduleInput) async throws -> UpdateScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

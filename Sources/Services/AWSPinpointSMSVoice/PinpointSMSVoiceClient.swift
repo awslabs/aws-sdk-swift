@@ -66,7 +66,7 @@ public struct PinpointSMSVoiceClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
 }
 
-extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
+extension PinpointSMSVoiceClient {
     /// Performs the `CreateConfigurationSet` operation on the `PinpointSMSVoice` service.
     ///
     /// Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
@@ -83,8 +83,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
-    {
+    public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -134,8 +133,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
-    {
+    public func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
-    {
+    public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,8 +226,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
-    {
+    public func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -275,8 +271,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput
-    {
+    public func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -320,8 +315,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
-    {
+    public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -366,8 +360,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput
-    {
+    public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -415,8 +408,7 @@ extension PinpointSMSVoiceClient: PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
-    public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput
-    {
+    public func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

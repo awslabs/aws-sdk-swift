@@ -66,7 +66,7 @@ public struct MedicalImagingClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
 }
 
-extension MedicalImagingClient: MedicalImagingClientProtocol {
+extension MedicalImagingClient {
     /// Performs the `CopyImageSet` operation on the `AHIGatewayService` service.
     ///
     /// Copy an image set.
@@ -85,8 +85,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutput
-    {
+    public func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -136,8 +135,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput
-    {
+    public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -188,8 +186,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput
-    {
+    public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,8 +233,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutput
-    {
+    public func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -284,8 +280,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutput
-    {
+    public func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -331,8 +326,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutput
-    {
+    public func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -379,8 +373,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutput
-    {
+    public func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -430,8 +423,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutput
-    {
+    public func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutput
-    {
+    public func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -528,8 +519,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutput
-    {
+    public func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -575,8 +565,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput
-    {
+    public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,8 +613,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutput
-    {
+    public func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -672,8 +660,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -720,8 +707,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutput
-    {
+    public func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -773,8 +759,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutput
-    {
+    public func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -824,8 +809,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -874,8 +858,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -924,8 +907,7 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
-    public func updateImageSetMetadata(input: UpdateImageSetMetadataInput) async throws -> UpdateImageSetMetadataOutput
-    {
+    public func updateImageSetMetadata(input: UpdateImageSetMetadataInput) async throws -> UpdateImageSetMetadataOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

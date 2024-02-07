@@ -66,7 +66,7 @@ public struct OpenSearchServerlessClientLogHandlerFactory: ClientRuntime.SDKLogH
     }
 }
 
-extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
+extension OpenSearchServerlessClient {
     /// Performs the `BatchGetCollection` operation on the `OpenSearchServerless` service.
     ///
     /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
@@ -80,8 +80,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func batchGetCollection(input: BatchGetCollectionInput) async throws -> BatchGetCollectionOutput
-    {
+    public func batchGetCollection(input: BatchGetCollectionInput) async throws -> BatchGetCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -128,8 +127,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func batchGetEffectiveLifecyclePolicy(input: BatchGetEffectiveLifecyclePolicyInput) async throws -> BatchGetEffectiveLifecyclePolicyOutput
-    {
+    public func batchGetEffectiveLifecyclePolicy(input: BatchGetEffectiveLifecyclePolicyInput) async throws -> BatchGetEffectiveLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,8 +174,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func batchGetLifecyclePolicy(input: BatchGetLifecyclePolicyInput) async throws -> BatchGetLifecyclePolicyOutput
-    {
+    public func batchGetLifecyclePolicy(input: BatchGetLifecyclePolicyInput) async throws -> BatchGetLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -224,8 +221,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func batchGetVpcEndpoint(input: BatchGetVpcEndpointInput) async throws -> BatchGetVpcEndpointOutput
-    {
+    public func batchGetVpcEndpoint(input: BatchGetVpcEndpointInput) async throws -> BatchGetVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -274,8 +270,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func createAccessPolicy(input: CreateAccessPolicyInput) async throws -> CreateAccessPolicyOutput
-    {
+    public func createAccessPolicy(input: CreateAccessPolicyInput) async throws -> CreateAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -326,8 +321,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `OcuLimitExceededException` : Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutput
-    {
+    public func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -377,8 +371,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput
-    {
+    public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -428,8 +421,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func createSecurityConfig(input: CreateSecurityConfigInput) async throws -> CreateSecurityConfigOutput
-    {
+    public func createSecurityConfig(input: CreateSecurityConfigInput) async throws -> CreateSecurityConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -479,8 +471,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func createSecurityPolicy(input: CreateSecurityPolicyInput) async throws -> CreateSecurityPolicyOutput
-    {
+    public func createSecurityPolicy(input: CreateSecurityPolicyInput) async throws -> CreateSecurityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -530,8 +521,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput
-    {
+    public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -581,8 +571,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func deleteAccessPolicy(input: DeleteAccessPolicyInput) async throws -> DeleteAccessPolicyOutput
-    {
+    public func deleteAccessPolicy(input: DeleteAccessPolicyInput) async throws -> DeleteAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,8 +621,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutput
-    {
+    public func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -683,8 +671,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
-    {
+    public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -734,8 +721,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func deleteSecurityConfig(input: DeleteSecurityConfigInput) async throws -> DeleteSecurityConfigOutput
-    {
+    public func deleteSecurityConfig(input: DeleteSecurityConfigInput) async throws -> DeleteSecurityConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -785,8 +771,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func deleteSecurityPolicy(input: DeleteSecurityPolicyInput) async throws -> DeleteSecurityPolicyOutput
-    {
+    public func deleteSecurityPolicy(input: DeleteSecurityPolicyInput) async throws -> DeleteSecurityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -836,8 +821,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutput
-    {
+    public func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -886,8 +870,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func getAccessPolicy(input: GetAccessPolicyInput) async throws -> GetAccessPolicyOutput
-    {
+    public func getAccessPolicy(input: GetAccessPolicyInput) async throws -> GetAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -934,8 +917,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
-    {
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -981,8 +963,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
-    public func getPoliciesStats(input: GetPoliciesStatsInput) async throws -> GetPoliciesStatsOutput
-    {
+    public func getPoliciesStats(input: GetPoliciesStatsInput) async throws -> GetPoliciesStatsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1030,8 +1011,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func getSecurityConfig(input: GetSecurityConfigInput) async throws -> GetSecurityConfigOutput
-    {
+    public func getSecurityConfig(input: GetSecurityConfigInput) async throws -> GetSecurityConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1079,8 +1059,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func getSecurityPolicy(input: GetSecurityPolicyInput) async throws -> GetSecurityPolicyOutput
-    {
+    public func getSecurityPolicy(input: GetSecurityPolicyInput) async throws -> GetSecurityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1127,8 +1106,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listAccessPolicies(input: ListAccessPoliciesInput) async throws -> ListAccessPoliciesOutput
-    {
+    public func listAccessPolicies(input: ListAccessPoliciesInput) async throws -> ListAccessPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1175,8 +1153,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutput
-    {
+    public func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1223,8 +1200,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listLifecyclePolicies(input: ListLifecyclePoliciesInput) async throws -> ListLifecyclePoliciesOutput
-    {
+    public func listLifecyclePolicies(input: ListLifecyclePoliciesInput) async throws -> ListLifecyclePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1271,8 +1247,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listSecurityConfigs(input: ListSecurityConfigsInput) async throws -> ListSecurityConfigsOutput
-    {
+    public func listSecurityConfigs(input: ListSecurityConfigsInput) async throws -> ListSecurityConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1319,8 +1294,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutput
-    {
+    public func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1368,8 +1342,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1416,8 +1389,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutput
-    {
+    public func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1467,8 +1439,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1517,8 +1488,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1567,8 +1537,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateAccessPolicy(input: UpdateAccessPolicyInput) async throws -> UpdateAccessPolicyOutput
-    {
+    public func updateAccessPolicy(input: UpdateAccessPolicyInput) async throws -> UpdateAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1616,8 +1585,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
-    {
+    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1665,8 +1633,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateCollection(input: UpdateCollectionInput) async throws -> UpdateCollectionOutput
-    {
+    public func updateCollection(input: UpdateCollectionInput) async throws -> UpdateCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1717,8 +1684,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput
-    {
+    public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1768,8 +1734,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateSecurityConfig(input: UpdateSecurityConfigInput) async throws -> UpdateSecurityConfigOutput
-    {
+    public func updateSecurityConfig(input: UpdateSecurityConfigInput) async throws -> UpdateSecurityConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1820,8 +1785,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateSecurityPolicy(input: UpdateSecurityPolicyInput) async throws -> UpdateSecurityPolicyOutput
-    {
+    public func updateSecurityPolicy(input: UpdateSecurityPolicyInput) async throws -> UpdateSecurityPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1870,8 +1834,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
     /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
-    public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput
-    {
+    public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

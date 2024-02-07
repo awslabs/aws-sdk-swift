@@ -66,7 +66,7 @@ public struct IoTSecureTunnelingClientLogHandlerFactory: ClientRuntime.SDKLogHan
     }
 }
 
-extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
+extension IoTSecureTunnelingClient {
     /// Performs the `CloseTunnel` operation on the `IoTSecuredTunneling` service.
     ///
     /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted. Requires permission to access the [CloseTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -79,8 +79,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
-    public func closeTunnel(input: CloseTunnelInput) async throws -> CloseTunnelOutput
-    {
+    public func closeTunnel(input: CloseTunnelInput) async throws -> CloseTunnelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -127,8 +126,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
-    public func describeTunnel(input: DescribeTunnelInput) async throws -> DescribeTunnelOutput
-    {
+    public func describeTunnel(input: DescribeTunnelInput) async throws -> DescribeTunnelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -174,8 +172,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -217,8 +214,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     /// - Parameter ListTunnelsInput : [no documentation found]
     ///
     /// - Returns: `ListTunnelsOutput` : [no documentation found]
-    public func listTunnels(input: ListTunnelsInput) async throws -> ListTunnelsOutput
-    {
+    public func listTunnels(input: ListTunnelsInput) async throws -> ListTunnelsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -265,8 +261,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Thrown when a tunnel limit is exceeded.
-    public func openTunnel(input: OpenTunnelInput) async throws -> OpenTunnelOutput
-    {
+    public func openTunnel(input: OpenTunnelInput) async throws -> OpenTunnelOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -312,8 +307,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
-    public func rotateTunnelAccessToken(input: RotateTunnelAccessTokenInput) async throws -> RotateTunnelAccessTokenOutput
-    {
+    public func rotateTunnelAccessToken(input: RotateTunnelAccessTokenInput) async throws -> RotateTunnelAccessTokenOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -359,8 +353,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -406,8 +399,7 @@ extension IoTSecureTunnelingClient: IoTSecureTunnelingClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)

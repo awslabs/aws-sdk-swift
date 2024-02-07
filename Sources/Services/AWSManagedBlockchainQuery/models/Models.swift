@@ -2011,6 +2011,8 @@ extension ManagedBlockchainQueryClientTypes {
     }
 }
 
+public enum ManagedBlockchainQueryClientTypes {}
+
 extension ManagedBlockchainQueryClientTypes.OwnerFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address

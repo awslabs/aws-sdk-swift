@@ -66,7 +66,7 @@ public struct CostOptimizationHubClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
+extension CostOptimizationHubClient {
     /// Performs the `GetPreferences` operation on the `CostOptimizationHubService` service.
     ///
     /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
@@ -82,8 +82,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getPreferences(input: GetPreferencesInput) async throws -> GetPreferencesOutput
-    {
+    public func getPreferences(input: GetPreferencesInput) async throws -> GetPreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -133,8 +132,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `ResourceNotFoundException` : The specified Amazon Resource Name (ARN) in the request doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func getRecommendation(input: GetRecommendationInput) async throws -> GetRecommendationOutput
-    {
+    public func getRecommendation(input: GetRecommendationInput) async throws -> GetRecommendationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -183,8 +181,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listEnrollmentStatuses(input: ListEnrollmentStatusesInput) async throws -> ListEnrollmentStatusesOutput
-    {
+    public func listEnrollmentStatuses(input: ListEnrollmentStatusesInput) async throws -> ListEnrollmentStatusesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -233,8 +230,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listRecommendationSummaries(input: ListRecommendationSummariesInput) async throws -> ListRecommendationSummariesOutput
-    {
+    public func listRecommendationSummaries(input: ListRecommendationSummariesInput) async throws -> ListRecommendationSummariesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -283,8 +279,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
-    {
+    public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -333,8 +328,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updateEnrollmentStatus(input: UpdateEnrollmentStatusInput) async throws -> UpdateEnrollmentStatusOutput
-    {
+    public func updateEnrollmentStatus(input: UpdateEnrollmentStatusInput) async throws -> UpdateEnrollmentStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -383,8 +377,7 @@ extension CostOptimizationHubClient: CostOptimizationHubClientProtocol {
     /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    public func updatePreferences(input: UpdatePreferencesInput) async throws -> UpdatePreferencesOutput
-    {
+    public func updatePreferences(input: UpdatePreferencesInput) async throws -> UpdatePreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
