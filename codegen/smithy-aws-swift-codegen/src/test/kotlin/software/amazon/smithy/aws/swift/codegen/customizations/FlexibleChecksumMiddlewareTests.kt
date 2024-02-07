@@ -16,14 +16,23 @@ class FlexibleChecksumMiddlewareTests {
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
+<<<<<<< HEAD
 extension ChecksumTestsClient {
+=======
+extension ChecksumTestsClient: ChecksumTestsClientProtocol {
+>>>>>>> f4864bb70 (add support for Streaming flexible checksums)
     /// Performs the `SomeOperation` operation on the `ChecksumTests` service.
     ///
     ///
     /// - Parameter SomeOperationInput : [no documentation found]
     ///
     /// - Returns: `SomeOperationOutput` : [no documentation found]
+<<<<<<< HEAD
     public func someOperation(input: SomeOperationInput) async throws -> SomeOperationOutput {
+=======
+    public func someOperation(input: SomeOperationInput) async throws -> SomeOperationOutput
+    {
+>>>>>>> f4864bb70 (add support for Streaming flexible checksums)
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -37,16 +46,27 @@ extension ChecksumTestsClient {
                       .withRegion(value: config.region)
                       .build()
         var operation = ClientRuntime.OperationStack<SomeOperationInput, SomeOperationOutput>(id: "someOperation")
+<<<<<<< HEAD
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SomeOperationInput, SomeOperationOutput>(SomeOperationInput.urlPathProvider(_:)))
+=======
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SomeOperationInput, SomeOperationOutput>())
+>>>>>>> f4864bb70 (add support for Streaming flexible checksums)
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SomeOperationInput, SomeOperationOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<SomeOperationOutput>())
         let endpointParams = EndpointParams()
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SomeOperationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
+<<<<<<< HEAD
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SomeOperationInput, SomeOperationOutput>(SomeOperationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SomeOperationInput, SomeOperationOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<SomeOperationInput, SomeOperationOutput>(keyPath: \.content))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<SomeOperationInput, SomeOperationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+=======
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SomeOperationInput, SomeOperationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SomeOperationInput, SomeOperationOutput>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<SomeOperationInput, SomeOperationOutput>(keyPath: \.content))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<SomeOperationInput, SomeOperationOutput>(checksumAlgorithms: ["CRC32C", "CRC32", "SHA1", "SHA256"]))
+>>>>>>> f4864bb70 (add support for Streaming flexible checksums)
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SomeOperationOutput>(options: config.retryStrategyOptions))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SomeOperationOutput>(responseClosure(decoder: decoder), responseErrorClosure(SomeOperationOutputError.self, decoder: decoder)))

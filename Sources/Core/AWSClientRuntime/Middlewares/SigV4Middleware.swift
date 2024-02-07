@@ -28,6 +28,15 @@ public struct SigV4Middleware<OperationStackOutput>: Middleware {
     Self.Context == H.Context,
     Self.MInput == H.Input,
     Self.MOutput == H.Output {
+        
+        let signedBodyValue: AWSSignedBodyValue
+        let checksum: HashFunction? = context.attributes.get(key: AttributeKey(name: "checksum"))
+
+        if config.unsignedBody {
+            signedBodyValue = .unsignedPayload
+        } else {
+            signedBodyValue = try determineSignedBodyValue(for: input, with: checksum, using: config)
+        }
 
         let originalRequest = input.build()
         let crtUnsignedRequest: HTTPRequestBase
@@ -56,7 +65,6 @@ public struct SigV4Middleware<OperationStackOutput>: Middleware {
         let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
                                  shouldNormalizeURIPath: config.shouldNormalizeURIPath,
                                  omitSessionToken: config.omitSessionToken)
-        let signedBodyValue: AWSSignedBodyValue = config.unsignedBody ? .unsignedPayload : .empty
 
         let credentials = try await credentialsProvider.getCredentials()
         let signingConfig = AWSSigningConfig(
@@ -80,7 +88,38 @@ public struct SigV4Middleware<OperationStackOutput>: Middleware {
         context.attributes.set(key: HttpContext.requestSignature, value: crtSignedRequest.signature)
 
         let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
+        let crtSigningConfig = try signingConfig.toCRTType()
+        
+        if (crtSigningConfig.useAwsChunkedEncoding) {
+            guard let requestSignature = crtSignedRequest.signature else {
+                throw ClientError.dataNotFound("Could not get request signature!")
+            }
+            
+            // Set streaming body to an AwsChunked wrapped type
+            try sdkSignedRequest.setAwsChunkedBody(
+                signingConfig: crtSigningConfig,
+                signature: requestSignature,
+                trailingHeaders: originalRequest.trailingHeaders,
+                checksumAlgorithm: checksum
+            )
+        }
 
         return try await next.handle(context: context, input: sdkSignedRequest)
+    }
+}
+
+private func determineSignedBodyValue(for input: SdkHttpRequestBuilder, with checksum: HashFunction?, using config: SigV4Config) throws -> AWSSignedBodyValue {
+    guard case .stream(let stream) = input.getBody(), stream.isEligibleForAwsChunkedStreaming() else {
+        return .empty
+    }
+    
+    // Add headers if the stream is eligible for AWS chunked streaming.
+    try input.setAwsChunkedHeaders(checksumAlgorithm: checksum)
+    
+    // Determine the signed body value based on the presence of a checksum.
+    if checksum != nil {
+        return config.unsignedBody ? .streamingUnsignedPayloadTrailer : .streamingSha256PayloadTrailer
+    } else {
+        return .streamingSha256Payload
     }
 }
