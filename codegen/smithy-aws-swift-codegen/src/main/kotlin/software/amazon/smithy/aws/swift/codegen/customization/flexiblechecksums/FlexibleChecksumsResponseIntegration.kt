@@ -7,7 +7,6 @@ import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
@@ -28,11 +27,11 @@ class FlexibleChecksumsResponseIntegration : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware,
     ) {
-        val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).getOrNull()
-        val input = operationShape.input.getOrNull()?.let { ctx.model.expectShape<StructureShape>(it) }
+        val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).orElse(null)
+        val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
 
         val useFlexibleChecksum = (httpChecksumTrait != null) &&
-            (httpChecksumTrait.requestValidationModeMember?.getOrNull() != null) &&
+            (httpChecksumTrait.requestValidationModeMember?.orElse(null) != null) &&
             (input?.memberNames?.any { it == httpChecksumTrait.requestValidationModeMember.get() } == true)
 
         if (useFlexibleChecksum) {
@@ -50,10 +49,10 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
-        val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).getOrNull()
+        val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestValidationModeMember?.get()
         val validationModeMember = ctx.model.expectShape(op.inputShape).getMember(inputMemberName)
-        val requestValidationModeEnumShape = ctx.model.expectShape(validationModeMember.getOrNull()?.target)
+        val requestValidationModeEnumShape = ctx.model.expectShape(validationModeMember.orElse(null)?.target)
 
         // Will pass the validation mode to validation middleware
         val validationMode: Boolean = requestValidationModeEnumShape.members().map { it.memberName }.first().equals("ENABLED")
