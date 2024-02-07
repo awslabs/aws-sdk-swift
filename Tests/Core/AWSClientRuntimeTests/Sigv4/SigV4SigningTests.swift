@@ -90,7 +90,7 @@ class Sigv4SigningTests: XCTestCase {
             let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
             XCTAssertEqual(expectedMessage, message)
         } catch {
-            XCTFail("The code did not throw expected type of error.")
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
         }
     }
 
@@ -130,7 +130,7 @@ class Sigv4SigningTests: XCTestCase {
             let expectedMessage = "Identity passed to the AWSSigV4Signer must be of type Credentials."
             XCTAssertEqual(expectedMessage, message)
         } catch {
-            XCTFail("The code did not throw expected type of error.")
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
         }
     }
 
@@ -169,7 +169,7 @@ class Sigv4SigningTests: XCTestCase {
             let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
             XCTAssertEqual(expectedMessage, message)
         } catch {
-            XCTFail("The code did not throw expected type of error.")
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
         }
     }
 
@@ -208,7 +208,7 @@ class Sigv4SigningTests: XCTestCase {
             let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing name."
             XCTAssertEqual(expectedMessage, message)
         } catch {
-            XCTFail("The code did not throw expected type of error.")
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
         }
     }
 
@@ -247,16 +247,13 @@ class Sigv4SigningTests: XCTestCase {
             let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing region."
             XCTAssertEqual(expectedMessage, message)
         } catch {
-            XCTFail("The code did not throw expected type of error.")
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
         }
     }
 
     func testSignRequestMissingSigningAlgorithm() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -286,7 +283,7 @@ class Sigv4SigningTests: XCTestCase {
             let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
             XCTAssertEqual(expectedMessage, message)
         } catch {
-            XCTFail("The code did not throw expected type of error.")
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
         }
     }
 

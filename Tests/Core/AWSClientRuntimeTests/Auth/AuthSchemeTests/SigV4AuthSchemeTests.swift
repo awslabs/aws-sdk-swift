@@ -33,7 +33,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(true, updatedProperties.get(key: AttributeKeys.bidirectionalStreaming))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.bidirectionalStreaming)))
     }
 
     func testBidirectionalStreamingIsFalseWhenFalseInContext() throws {
@@ -45,7 +45,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(false, updatedProperties.get(key: AttributeKeys.bidirectionalStreaming))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.bidirectionalStreaming)))
     }
 
     // AttributeKeys.signingName flag
@@ -152,7 +152,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(false, updatedProperties.get(key: AttributeKeys.unsignedBody))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.unsignedBody)))
     }
 
     func testUnsignedBodyIsTrueWhenUnsignedPayloadTraitFlagIsFalseAndShouldForceUnsignedBodyIsTrue() throws {
@@ -164,7 +164,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: true)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(true, updatedProperties.get(key: AttributeKeys.unsignedBody))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.unsignedBody)))
     }
 
     func testUnsignedBodyIsTrueWhenUnsignedPayloadTraitFlagIsTrueAndShouldForceUnsignedBodyIsFalse() throws {
@@ -176,7 +176,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(true, updatedProperties.get(key: AttributeKeys.unsignedBody))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.unsignedBody)))
     }
 
     // AttributeKeys.signedBodyHeader flag
@@ -242,7 +242,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(false, updatedProperties.get(key: AttributeKeys.useDoubleURIEncode))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.useDoubleURIEncode)))
     }
 
     func testUseDoubleURIEncodeIsTrueWhenServiceIsntS3() throws {
@@ -254,7 +254,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(true, updatedProperties.get(key: AttributeKeys.useDoubleURIEncode))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.useDoubleURIEncode)))
     }
 
     // AttributeKeys.shouldNormalizeURIPath flag
@@ -268,7 +268,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(false, updatedProperties.get(key: AttributeKeys.shouldNormalizeURIPath))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.shouldNormalizeURIPath)))
     }
 
     func testShouldNormalizeURIPathIsTrueWhenServiceIsntS3() throws {
@@ -280,6 +280,6 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(true, updatedProperties.get(key: AttributeKeys.shouldNormalizeURIPath))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AttributeKeys.shouldNormalizeURIPath)))
     }
 }

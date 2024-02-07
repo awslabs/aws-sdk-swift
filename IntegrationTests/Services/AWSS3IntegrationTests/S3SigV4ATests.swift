@@ -130,12 +130,7 @@ class S3SigV4ATests: S3XCTestCase {
     }
 
     private func checkMRAPExists(_ mraps: [S3ControlClientTypes.MultiRegionAccessPointReport]) -> Bool {
-        for mrap in mraps {
-            if (mrap.name == mrapName) {
-                return true
-            }
-        }
-        return false
+        return mrap.contains { $0.name == mrapName }
     }
 
     func testS3MRAPSigV4A() async throws {
