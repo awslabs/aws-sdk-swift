@@ -61,7 +61,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
             }
           ]
         }
-        """
+    """
     // Identity policy name & JSON identity policy
     private let identityPolicyName = "allow-STS-getCallerIdentity"
     private let roleIdentityPolicy = """
@@ -76,7 +76,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
                 }
             ]
         }
-        """
+    """
 
     override func setUp() async throws {
         try await super.setUp()
