@@ -41,41 +41,41 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
 
     // JSON assume role policy
     private let assumeRolePolicy = """
+    {
+      "Version": "2012-10-17",
+      "Statement": [
         {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Sid": "",
-              "Effect": "Allow",
-              "Principal": {
-                "Federated": "cognito-identity.amazonaws.com"
-              },
-              "Action": [
-                "sts:AssumeRoleWithWebIdentity"
-              ],
-              "Condition": {
-                 "ForAnyValue:StringLike": {
-                   "cognito-identity.amazonaws.com:amr": "unauthenticated"
-                 }
-              }
-            }
-          ]
+          "Sid": "",
+          "Effect": "Allow",
+          "Principal": {
+            "Federated": "cognito-identity.amazonaws.com"
+          },
+          "Action": [
+            "sts:AssumeRoleWithWebIdentity"
+          ],
+          "Condition": {
+             "ForAnyValue:StringLike": {
+               "cognito-identity.amazonaws.com:amr": "unauthenticated"
+             }
+          }
         }
+      ]
+    }
     """
     // Identity policy name & JSON identity policy
     private let identityPolicyName = "allow-STS-getCallerIdentity"
     private let roleIdentityPolicy = """
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Sid": "",
-                    "Effect": "Allow",
-                    "Action": "sts:GetCallerIdentity",
-                    "Resource": "*"
-                }
-            ]
-        }
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "",
+                "Effect": "Allow",
+                "Action": "sts:GetCallerIdentity",
+                "Resource": "*"
+            }
+        ]
+    }
     """
 
     override func setUp() async throws {
