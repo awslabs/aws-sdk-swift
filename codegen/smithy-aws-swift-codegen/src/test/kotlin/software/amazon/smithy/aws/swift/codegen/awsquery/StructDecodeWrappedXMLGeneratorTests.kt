@@ -22,7 +22,8 @@ class StructDecodeWrappedXMLGeneratorTests {
 extension FlattenedXmlMapOutput {
 
     static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<FlattenedXmlMapOutput, SmithyXML.Reader> {
-        { httpResponse, responseReader in
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
             let reader = responseReader["FlattenedXmlMapResult"]
             var value = FlattenedXmlMapOutput()
             value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)

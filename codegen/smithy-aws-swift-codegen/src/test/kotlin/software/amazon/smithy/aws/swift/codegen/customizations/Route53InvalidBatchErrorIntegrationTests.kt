@@ -73,13 +73,14 @@ extension InvalidChangeBatch {
 enum ChangeResourceRecordSetsOutputError {
 
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseReader in
+        { httpResponse, responseDocumentClosure in
             if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
                 return InvalidChangeBatch(
                     customError: customBatchError,
                     httpResponse: httpResponse
                 )
             }
+            let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
             let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
             switch restXMLError.code {

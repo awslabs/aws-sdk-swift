@@ -63,6 +63,7 @@ class S3ErrorIntegration : SwiftIntegration {
         val ctx = writer.getContext("ctx") as ProtocolGenerator.GenerationContext
         val errorShapes = writer.getContext("errorShapes") as List<StructureShape>
         val noErrorWrapping = ctx.service.getTrait<RestXmlTrait>()?.let { it.isNoErrorWrapping } ?: false
+        writer.write("let responseReader = try await responseDocumentClosure(httpResponse)")
         if (errorShapes.isNotEmpty() || ctx.service.errors.isNotEmpty()) {
             writer.write(
                 "let errorBodyReader = \$N.errorBodyReader(responseReader: responseReader, noErrorWrapping: \$L)",

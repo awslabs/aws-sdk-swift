@@ -101,9 +101,10 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                             "unknownServiceErrorSymbol" to unknownServiceErrorSymbol,
                             "errorShapes" to errorShapes
                         )
-                        writer.openBlock("{ httpResponse, responseReader in", "}") {
+                        writer.openBlock("{ httpResponse, responseDocumentClosure in", "}") {
                             declareSection(RestXMLResponseBindingSectionId, context) {
                                 val noErrorWrapping = ctx.service.getTrait<RestXmlTrait>()?.let { it.isNoErrorWrapping } ?: false
+                                writer.write("let responseReader = try await responseDocumentClosure(httpResponse)")
                                 if (errorShapes.isNotEmpty() || ctx.service.errors.isNotEmpty()) {
                                     writer.write(
                                         "let errorBodyReader = \$N.errorBodyReader(responseReader: responseReader, noErrorWrapping: \$L)",

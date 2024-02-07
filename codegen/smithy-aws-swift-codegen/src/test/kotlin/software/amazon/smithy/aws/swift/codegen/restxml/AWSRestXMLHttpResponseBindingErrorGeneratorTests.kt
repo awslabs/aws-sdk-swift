@@ -24,7 +24,8 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
 enum GreetingWithErrorsOutputError {
 
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseReader in
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
             if let serviceError = try await ClientRuntime.RestXmlerrorsClientTypes.responseServiceErrorBinding(httpResponse, errorBodyReader) {
                 return serviceError

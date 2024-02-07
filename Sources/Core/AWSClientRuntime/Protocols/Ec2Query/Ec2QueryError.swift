@@ -7,6 +7,7 @@
 
 import class ClientRuntime.HttpResponse
 import class SmithyXML.Reader
+import var ClientRuntime.responseDocumentBinding
 
 public struct Ec2QueryError {
     public var errorCode: String?
@@ -14,9 +15,7 @@ public struct Ec2QueryError {
     public var message: String?
 
     public init(httpResponse: HttpResponse) async throws {
-        guard let data = try await httpResponse.body.readData() else { return }
-        let reader = try SmithyXML.Reader.from(data: data)
-        let response = try await Ec2Response.httpBinding(httpResponse, reader)
+        let response = try await Ec2Response.httpBinding(httpResponse, responseDocumentBinding)
         self.errorCode = response.errors?.error?.code
         self.message = response.errors?.error?.message
         self.requestId = response.requestId

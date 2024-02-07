@@ -23,9 +23,10 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
 enum GreetingWithErrorsOutputError {
 
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
-        { httpResponse, responseReader in
+        { httpResponse, responseDocumentClosure in
             let serviceError = try await EC2ProtocolClientTypes.makeServiceError(httpResponse, decoder, ec2QueryError)
             if let error = serviceError { return error }
+            let responseReader = try await responseDocumentClosure(httpResponse)
             let reader = responseReader["Errors"]["Error"]
             let requestID: String? = try responseReader["RequestId"].readIfPresent()
             let errorCode: String? = try reader["Code"].readIfPresent()

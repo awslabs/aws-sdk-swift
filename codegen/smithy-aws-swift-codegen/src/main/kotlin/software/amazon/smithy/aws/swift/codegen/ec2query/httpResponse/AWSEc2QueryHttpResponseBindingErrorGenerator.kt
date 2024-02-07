@@ -83,11 +83,12 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                         ClientRuntimeTypes.Http.HTTPResponseErrorBinding,
                         SmithyXMLTypes.Reader,
                     ) {
-                        writer.openBlock("{ httpResponse, responseReader in", "}") {
+                        writer.openBlock("{ httpResponse, responseDocumentClosure in", "}") {
                             if (ctx.service.errors.isNotEmpty()) {
                                 write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
                                 write("if let error = serviceError { return error }")
                             }
+                            writer.write("let responseReader = try await responseDocumentClosure(httpResponse)")
                             writer.write("let reader = responseReader[\"Errors\"][\"Error\"]")
                             writer.write("let requestID: String? = try responseReader[\"RequestId\"].readIfPresent()")
                             writer.write("let errorCode: String? = try reader[\"Code\"].readIfPresent()")

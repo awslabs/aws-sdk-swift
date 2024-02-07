@@ -18,7 +18,8 @@ class S3UnwrappedXMLOutputTraitTests {
 extension GetBucketLocationOutput {
 
     static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseReader in
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
             let reader = responseReader.unwrap()
             var value = GetBucketLocationOutput()
             value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
