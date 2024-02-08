@@ -231,7 +231,7 @@ func addResolvedTargets() {
 
 addDependencies(
     clientRuntimeVersion: "0.39.0",
-    crtVersion: "0.22.0"
+    crtVersion: "0.26.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -635,3 +635,4 @@ let servicesWithIntegrationTests: [String] = [
 // addProtocolTests()
 
 addResolvedTargets()
+
