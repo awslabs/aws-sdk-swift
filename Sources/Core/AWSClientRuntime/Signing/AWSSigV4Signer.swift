@@ -199,7 +199,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             return nil
         }
     }
-    
+
     private func fixDateForTests(_ signingConfig: AWSSigningConfig, _ fixedDate: Date) -> AWSSigningConfig {
         return AWSSigningConfig(
             credentials: signingConfig.credentials,
