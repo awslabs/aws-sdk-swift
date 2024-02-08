@@ -16,12 +16,14 @@ import Foundation
 /// Tests STS web identity credentials provider using STS::getCallerIdentity.
 class STSWebIdentityCredentialsProviderTests: XCTestCase {
     private let region = "us-west-2"
-    private var oidcToken: String!
-    private var oidcTokenFilePath: String!
+
+    // MARK: - The client used by test case
 
     // STS client with only the STS web identity credentials provider configured.
     private var webIdentityStsClient: STSClient!
     private var stsConfig: STSClient.STSClientConfiguration!
+
+    // MARK: - Cognito things
 
     // Used to create identity pools and fetch cognito ID & OIDC token from it.
     private var cognitoIdentityClient: CognitoIdentityClient!
@@ -29,14 +31,16 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
     private var stsClient: STSClient!
     private let identityPoolName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private var identityPoolId: String!
+    private var oidcToken: String!
+    private var oidcTokenFilePath: String!
+
+    // MARK: - IAM things
 
     // Used to create temporary role assumed by STS web identity credentials provider.
     private var iamClient: IAMClient!
-
     private let roleName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private let roleSessionName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private var roleArn: String!
-
     // JSON assume role policy
     private let assumeRolePolicy = """
     {"Version": "2012-10-17","Statement": [{"Sid": "","Effect": "Allow",
@@ -51,10 +55,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
     "Action": "sts:GetCallerIdentity","Resource": "*"}]}
     """
 
-    /* ////////////////
-     * SETUP & TEARDOWN
-     * ////////////////
-     */
+    // MARK: - SETUP & TEARDOWN
 
     override func setUp() async throws {
         try await super.setUp()
@@ -94,10 +95,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         try deleteTokenFile()
     }
 
-    /* /////////
-     * TEST CASE
-     * /////////
-     */
+    // MARK: - TEST CASE
 
     // Confirm STS web identity credentials provider works by validating response.
     func testGetCallerIdentity() async throws {
@@ -116,10 +114,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         XCTAssertNotEqual(arn, "")
     }
 
-    /* //////////////////////
-     * SETUP HELPER FUNCTIONS
-     * //////////////////////
-     */
+    // MARK: - SETUP HELPER FUNCTIONS
 
     private func createRoleToBeAssumed() async throws {
         iamClient = try IAMClient(region: region)
@@ -158,7 +153,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
             atPath: oidcTokenFilePath, contents: tokenData, attributes: nil
         )
         if !fileCreated {
-            throw TokenFileError.TokenFileCreationFailed("Failed to create token text file.")
+            throw TokenFileError.tokenFileCreationFailed("Failed to create token text file.")
         }
     }
 
@@ -190,10 +185,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         )
     }
 
-    /* /////////////////////////
-     * TEARDOWN HELPER FUNCTIONS
-     * /////////////////////////
-     */
+    // MARK: - TEARDOWN HELPER FUNCTIONS
 
     private func deleteInlineRolePolicy() async throws {
         let policyName = try await iamClient.listRolePolicies(input: ListRolePoliciesInput(roleName: roleName)).policyNames
@@ -206,22 +198,14 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         do {
             try FileManager.default.removeItem(atPath: oidcTokenFilePath)
         } catch {
-            throw TokenFileError.TokenFileDeletionFailed("Failed to delete token text file.")
+            throw TokenFileError.tokenFileDeletionFailed("Failed to delete token text file.")
         }
     }
 
-    /* //////////////////////////////
-     * ENUMS USED IN SETUP & TEARDOWN
-     * //////////////////////////////
-     */
+    // MARK: - ERROR USED IN SETUP & TEARDOWN
 
     enum TokenFileError: Error {
-        case TokenFileCreationFailed(String)
-        case TokenFileDeletionFailed(String)
-    }
-
-    enum IdentityPoolStatus {
-        case INITIALIZING
-        case DONE
+        case tokenFileCreationFailed(String)
+        case tokenFileDeletionFailed(String)
     }
 }
