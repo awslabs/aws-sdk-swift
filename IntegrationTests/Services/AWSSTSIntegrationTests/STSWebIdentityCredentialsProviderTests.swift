@@ -127,7 +127,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
             assumeRolePolicyDocument: assumeRolePolicy,
             roleName: roleName
         )).role?.arn
-        // Return after role creation finishes
+        // This wait is necessary for role creation to propagate everywhere
         let seconds = 10
         let NSEC_PER_SEC = 1_000_000_000
         try await Task.sleep(nanoseconds: UInt64(seconds * NSEC_PER_SEC))
