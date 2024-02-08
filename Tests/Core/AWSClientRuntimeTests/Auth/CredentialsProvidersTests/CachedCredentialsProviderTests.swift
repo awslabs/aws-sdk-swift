@@ -34,6 +34,7 @@ class CachedCredentialsProviderTests: XCTestCase {
         XCTAssertEqual(counter, 1)
 
         try! await Task.sleep(nanoseconds: 1_000_000_000 / 100)  // 0.01 seconds
+
         let credentials = try await subject.getIdentity()
 
         // Counter is 2 because we slept long enough for cache to expire
