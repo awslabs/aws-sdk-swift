@@ -11,7 +11,7 @@ env:
 
 jobs:
   codegen-build-test:
-    runs-on: macos-14
+    runs-on: macos-14-xlarge
     environment: Codegen-Build-Test
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
