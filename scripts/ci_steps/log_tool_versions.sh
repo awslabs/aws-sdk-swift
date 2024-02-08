@@ -4,12 +4,13 @@ set -e
 
 # Log CPU for hardware in use, if running on Mac
 
-if command -v sysctl &> /dev/null
+if [[ "$OSTYPE" == "darwin"* ]];
 then
-  sysctl -a | grep machdep.cpu
+  which sysctl
+  sysctl -a | grep machdep.cpu || true
   echo
 else
-  echo "sysctl not installed (not a Mac)"
+  echo "sysctl not run (not a Mac)"
 fi
 
 # Log location & version for swiftc, xcodebuild, java, xcbeautify
