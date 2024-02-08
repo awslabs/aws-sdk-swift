@@ -152,7 +152,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
     }
 
     private func saveTokenIntoFile() throws {
-        oidcTokenFilePath = FileManager.default.temporaryDirectory.appendingPathComponent("token.txt").path()
+        oidcTokenFilePath = FileManager.default.temporaryDirectory.appendingPathComponent("token.txt").pathExtension
         let tokenData = oidcToken.data(using: String.Encoding.utf8)
         let fileCreated = FileManager.default.createFile(
             atPath: oidcTokenFilePath, contents: tokenData, attributes: nil
