@@ -153,9 +153,9 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
 
     private func saveTokenIntoFile() throws {
         #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || os(macOS)
-        oidcTokenFilePath = FileManager.default.temporaryDirectory.appending(path: "/token.txt").path()
+        oidcTokenFilePath = FileManager.default.temporaryDirectory.appending(path: "token.txt").path()
         #else
-        oidcTokenFilePath = FileManager.default.temporaryDirectory.appendingPathComponent(partialName: "token", conformingTo: .utf8PlainText)
+        oidcTokenFilePath = FileManager.default.temporaryDirectory.appendingPathComponent("token.txt")
         #endif
         let tokenData = oidcToken.data(using: String.Encoding.utf8)
         let fileCreated = FileManager.default.createFile(
