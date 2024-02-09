@@ -13,12 +13,6 @@ public struct Ec2Response {
     public var errors: Ec2Errors?
     public var requestId: String?
 
-    enum CodingKeys: String, CodingKey {
-        case errors = "Errors"
-        case requestId = "RequestId"
-        case requestID = "RequestID"
-    }
-
     public static var httpBinding: HTTPResponseOutputBinding<Ec2Response, Reader> {
         return { httpResponse, responseDocumentBinding in
             let reader = try await responseDocumentBinding(httpResponse)
