@@ -42,7 +42,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                 ClientRuntimeTypes.Serde.MessageUnmarshallable
             ) {
                 writer.openBlock(
-                    "public init(message: \$N, decoder: \$N) throws {", "}",
+                    "public init(message: \$N, decoder: \$N) async throws {", "}",
                     ClientRuntimeTypes.EventStream.Message,
                     ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
@@ -65,7 +65,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     writer.write("case .exception(let params):")
                     writer.indent {
                         writer.write(
-                            "let makeError: (\$N, \$N) throws -> \$N = { message, params in",
+                            "let makeError: (\$N, \$N) async throws -> \$N = { message, params in",
                             ClientRuntimeTypes.EventStream.Message,
                             ClientRuntimeTypes.EventStream.ExceptionParams,
                             SwiftTypes.Error
@@ -84,14 +84,14 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                             writer.indent {
                                 writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                                 writer.write(
-                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                    "return await \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
                                     AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                                 )
                             }
                             writer.write("}")
                         }
                         writer.write("}")
-                        writer.write("let error = try makeError(message, params)")
+                        writer.write("let error = try await makeError(message, params)")
                         writer.write("throw error")
                     }
                     writer.write("case .error(let params):")
@@ -99,7 +99,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                         // this is a service exception still, just un-modeled
                         writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
                         writer.write(
-                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
+                            "throw await \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
                             AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
                         )
                     }

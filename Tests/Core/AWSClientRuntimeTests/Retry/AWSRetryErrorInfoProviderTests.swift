@@ -15,7 +15,7 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
 
     // MARK: - Code-based error classification
 
-    func test_throttlingErrorCodes_returnsAThrottlingErrorWhenErrorCodeMatches() {
+    func test_throttlingErrorCodes_returnsAThrottlingErrorWhenErrorCodeMatches() async {
         let throttlingErrorCodes = [
             "Throttling",
             "ThrottlingException",
@@ -34,12 +34,12 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         ]
         for code in throttlingErrorCodes {
             let error = TestServiceError(code: code)
-            let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+            let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
             XCTAssertEqual(errorInfo?.errorType, .throttling)
         }
     }
 
-    func test_transientErrorCodes_returnsATransientErrorWhenErrorCodeMatches() {
+    func test_transientErrorCodes_returnsATransientErrorWhenErrorCodeMatches() async {
         let transientErrorCodes = [
             "RequestTimeout",
             "InternalError",
@@ -47,59 +47,59 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         ]
         for code in transientErrorCodes {
             let error = TestServiceError(code: code)
-            let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+            let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
             XCTAssertEqual(errorInfo?.errorType, .transient)
         }
     }
 
-    func test_transientHTTPErrors_returnsTransientErrorWhenHTTPStatusCodeMatches() throws {
+    func test_transientHTTPErrors_returnsTransientErrorWhenHTTPStatusCodeMatches() async throws {
         let transientStatusCodes = [500, 502, 503, 504]
         for statusCode in transientStatusCodes {
             let error = try TestHTTPError(statusCode: statusCode)
-            let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+            let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
             XCTAssertEqual(errorInfo?.errorType, .transient)
         }
     }
 
-    func test_modeledIDPCommunicationError_returnsTransientError() {
+    func test_modeledIDPCommunicationError_returnsTransientError() async {
         let error = ModeledIDPCommunicationError()
-        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
         XCTAssertEqual(errorInfo?.errorType, .transient)
     }
 
-    func test_crtErrors_returnsTransientErrorsForCRTErrorCodes() {
+    func test_crtErrors_returnsTransientErrorsForCRTErrorCodes() async {
         let transientCRTErrorCodes: [Int32] = [
             2058, // httpConnectionClosed
             2070, // httpServerClosed
         ]
         for crtErrorCode in transientCRTErrorCodes {
             let error = CommonRunTimeError.crtError(CRTError(code: crtErrorCode))
-            let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+            let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
             XCTAssertEqual(errorInfo?.errorType, .transient)
         }
     }
 
     // MARK: - Retry after hint
 
-    func test_retryAfterHint_setsRetryAfterHintWhenRetryAfterHeaderIsSetWithSeconds() throws {
+    func test_retryAfterHint_setsRetryAfterHintWhenRetryAfterHeaderIsSetWithSeconds() async throws {
         let error = try TestHTTPError(statusCode: 500, headers: ["retry-after": "2.8"])
-        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
         XCTAssertEqual(errorInfo?.retryAfterHint, 2.8)
     }
 
-    func test_retryAfterHint_setsRetryAfterHintWhenXAmzRetryAfterHeaderIsSetWithSeconds() throws {
+    func test_retryAfterHint_setsRetryAfterHintWhenXAmzRetryAfterHeaderIsSetWithSeconds() async throws {
         let error = try TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "2.7"])
-        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
         XCTAssertEqual(errorInfo?.retryAfterHint, 2.7)
     }
 
     // MARK: - isTimeout
 
-    func test_isTimeout_setsIsTimeoutWhenHTTPStatusCodeIndicatesTimeout() throws {
+    func test_isTimeout_setsIsTimeoutWhenHTTPStatusCodeIndicatesTimeout() async throws {
         let timeoutStatusCodes = [408, 504]
         for statusCode in timeoutStatusCodes {
             let error = try TestHTTPError(statusCode: statusCode)
-            let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+            let errorInfo = await AWSRetryErrorInfoProvider.errorInfo(for: error)
             XCTAssertEqual(errorInfo?.isTimeout, true)
         }
     }

@@ -12,7 +12,7 @@ import ClientRuntime
 
 extension ComplexXMLError {
     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) async throws {
-        if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
+        if let headerHeaderValue = await httpResponse.headers.value(for: "X-Header") {
             self.header = headerHeaderValue
         } else {
             self.header = nil

@@ -24,16 +24,16 @@ public struct RestJSONError {
     let X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME = ":error-message"
 
     public init(httpResponse: HttpResponse) async throws {
-        var message = httpResponse.headers.value(for: X_AMZN_ERROR_MESSAGE_HEADER_NAME)
+        var message = await httpResponse.headers.value(for: X_AMZN_ERROR_MESSAGE_HEADER_NAME)
         if message == nil {
-            message = httpResponse.headers.value(for: X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME)
+            message = await httpResponse.headers.value(for: X_AMZN_EVENT_ERROR_MESSAGE_HEADER_NAME)
         }
 
         if message == nil {
-            message = httpResponse.headers.value(for: X_AMZN_ERRORMESSAGE_HEADER_NAME)
+            message = await httpResponse.headers.value(for: X_AMZN_ERRORMESSAGE_HEADER_NAME)
         }
 
-        var type = httpResponse.headers.value(for: X_AMZN_ERROR_TYPE_HEADER_NAME)
+        var type = await httpResponse.headers.value(for: X_AMZN_ERROR_TYPE_HEADER_NAME)
 
         if let data = try await httpResponse.body.readData() {
             let output: RestJSONErrorPayload = try JSONDecoder().decode(responseBody: data)

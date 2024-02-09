@@ -18,7 +18,8 @@ class S3ErrorTests: S3XCTestCase {
             _ = try await client.getObject(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as NoSuchKey {
-            XCTAssertEqual(error.httpResponse.statusCode, .notFound)
+            let actualCode = await error.httpResponse.statusCode
+            XCTAssertEqual(actualCode, .notFound)
             XCTAssertEqual(error.message, "The specified key does not exist.")
         } catch {
             XCTFail("Unexpected error thrown: \(error)")
@@ -31,7 +32,8 @@ class S3ErrorTests: S3XCTestCase {
             _ = try await client.listObjectsV2(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as NoSuchBucket {
-            XCTAssertEqual(error.httpResponse.statusCode, .notFound)
+            let actualCode = await error.httpResponse.statusCode
+            XCTAssertEqual(actualCode, .notFound)
             XCTAssertEqual(error.message, "The specified bucket does not exist")
         } catch {
             XCTFail("Unexpected error thrown: \(error)")
@@ -79,7 +81,8 @@ class S3ErrorTests: S3XCTestCase {
             _ = try await S3Client(config: config).getObject(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as InvalidAccessKeyId {
-            XCTAssertEqual(error.httpResponse.statusCode, .forbidden)
+            let actualCode = await error.httpResponse.statusCode
+            XCTAssertEqual(actualCode, .forbidden)
             XCTAssertEqual(error.message, "The AWS Access Key Id you provided does not exist in our records.")
         } catch {
             XCTFail("Unexpected error thrown: \(error)")

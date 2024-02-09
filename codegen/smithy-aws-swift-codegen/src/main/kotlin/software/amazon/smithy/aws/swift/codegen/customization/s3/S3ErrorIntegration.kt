@@ -61,9 +61,9 @@ class S3ErrorIntegration : SwiftIntegration {
             for (errorShape in errorShapes) {
                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)", errorShapeName, errorShapeType)
+                writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: await httpResponse.requestId2)", errorShapeName, errorShapeType)
             }
-            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)")
+            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: await httpResponse.requestId2, typeName: restXMLError.errorCode)")
         }
     }
 

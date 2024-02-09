@@ -92,7 +92,7 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
                             "let restJSONError = try await \$N(httpResponse: httpResponse)",
                             AWSClientRuntimeTypes.RestJSON.RestJSONError
                         )
-                        write("let requestID = httpResponse.requestId")
+                        write("let requestID = await httpResponse.requestId")
 
                         if (ctx.service.errors.isNotEmpty()) {
                             write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restJSONError, requestID)")

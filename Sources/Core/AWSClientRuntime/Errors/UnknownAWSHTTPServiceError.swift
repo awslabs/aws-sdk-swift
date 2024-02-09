@@ -37,10 +37,11 @@ extension UnknownAWSHTTPServiceError {
         requestID: String?,
         requestID2: String? = nil,
         typeName: String?
-    ) {
+    ) async {
         self.typeName = typeName
         self.message = message
-        self.requestID = requestID ?? httpResponse.requestId
+        let fallbackId = await httpResponse.requestId
+        self.requestID = requestID ?? fallbackId
         self.requestID2 = requestID2
         self.httpResponse = httpResponse
     }
@@ -76,7 +77,7 @@ extension UnknownAWSHTTPServiceError {
                 requestID2: requestID2
             )
         }
-        return UnknownAWSHTTPServiceError(
+        return await UnknownAWSHTTPServiceError(
             httpResponse: httpResponse,
             message: message,
             requestID: requestID,
