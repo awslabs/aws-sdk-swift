@@ -185,6 +185,8 @@ extension CostandUsageReportClientTypes {
     }
 }
 
+public enum CostandUsageReportClientTypes {}
+
 extension DeleteReportDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reportName = "ReportName"
@@ -198,8 +200,9 @@ extension DeleteReportDefinitionInput: Swift.Encodable {
     }
 }
 
-extension DeleteReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReportDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteReportDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -304,8 +307,9 @@ extension DescribeReportDefinitionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeReportDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReportDefinitionsInput {
+
+    static func urlPathProvider(_ value: DescribeReportDefinitionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -578,8 +582,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -692,8 +697,9 @@ extension ModifyReportDefinitionInput: Swift.Encodable {
     }
 }
 
-extension ModifyReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyReportDefinitionInput {
+
+    static func urlPathProvider(_ value: ModifyReportDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -778,8 +784,9 @@ extension PutReportDefinitionInput: Swift.Encodable {
     }
 }
 
-extension PutReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutReportDefinitionInput {
+
+    static func urlPathProvider(_ value: PutReportDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1369,8 +1376,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1501,8 +1509,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

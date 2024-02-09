@@ -97,8 +97,9 @@ extension CreateLinkInput: Swift.Encodable {
     }
 }
 
-extension CreateLinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLinkInput {
+
+    static func urlPathProvider(_ value: CreateLinkInput) -> Swift.String? {
         return "/CreateLink"
     }
 }
@@ -335,8 +336,9 @@ extension CreateSinkInput: Swift.Encodable {
     }
 }
 
-extension CreateSinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSinkInput {
+
+    static func urlPathProvider(_ value: CreateSinkInput) -> Swift.String? {
         return "/CreateSink"
     }
 }
@@ -494,8 +496,9 @@ extension DeleteLinkInput: Swift.Encodable {
     }
 }
 
-extension DeleteLinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLinkInput {
+
+    static func urlPathProvider(_ value: DeleteLinkInput) -> Swift.String? {
         return "/DeleteLink"
     }
 }
@@ -566,8 +569,9 @@ extension DeleteSinkInput: Swift.Encodable {
     }
 }
 
-extension DeleteSinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSinkInput {
+
+    static func urlPathProvider(_ value: DeleteSinkInput) -> Swift.String? {
         return "/DeleteSink"
     }
 }
@@ -639,8 +643,9 @@ extension GetLinkInput: Swift.Encodable {
     }
 }
 
-extension GetLinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLinkInput {
+
+    static func urlPathProvider(_ value: GetLinkInput) -> Swift.String? {
         return "/GetLink"
     }
 }
@@ -819,8 +824,9 @@ extension GetSinkInput: Swift.Encodable {
     }
 }
 
-extension GetSinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSinkInput {
+
+    static func urlPathProvider(_ value: GetSinkInput) -> Swift.String? {
         return "/GetSink"
     }
 }
@@ -960,8 +966,9 @@ extension GetSinkPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetSinkPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSinkPolicyInput {
+
+    static func urlPathProvider(_ value: GetSinkPolicyInput) -> Swift.String? {
         return "/GetSinkPolicy"
     }
 }
@@ -1218,8 +1225,9 @@ extension ListAttachedLinksInput: Swift.Encodable {
     }
 }
 
-extension ListAttachedLinksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAttachedLinksInput {
+
+    static func urlPathProvider(_ value: ListAttachedLinksInput) -> Swift.String? {
         return "/ListAttachedLinks"
     }
 }
@@ -1427,8 +1435,9 @@ extension ListLinksInput: Swift.Encodable {
     }
 }
 
-extension ListLinksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLinksInput {
+
+    static func urlPathProvider(_ value: ListLinksInput) -> Swift.String? {
         return "/ListLinks"
     }
 }
@@ -1646,8 +1655,9 @@ extension ListSinksInput: Swift.Encodable {
     }
 }
 
-extension ListSinksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSinksInput {
+
+    static func urlPathProvider(_ value: ListSinksInput) -> Swift.String? {
         return "/ListSinks"
     }
 }
@@ -1816,9 +1826,10 @@ enum ListSinksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1972,6 +1983,8 @@ extension MissingRequiredParameterExceptionBody: Swift.Decodable {
     }
 }
 
+public enum OAMClientTypes {}
+
 extension PutSinkPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
@@ -1989,8 +2002,9 @@ extension PutSinkPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutSinkPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutSinkPolicyInput {
+
+    static func urlPathProvider(_ value: PutSinkPolicyInput) -> Swift.String? {
         return "/PutSinkPolicy"
     }
 }
@@ -2289,9 +2303,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2419,26 +2434,26 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2514,8 +2529,9 @@ extension UpdateLinkInput: Swift.Encodable {
     }
 }
 
-extension UpdateLinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLinkInput {
+
+    static func urlPathProvider(_ value: UpdateLinkInput) -> Swift.String? {
         return "/UpdateLink"
     }
 }

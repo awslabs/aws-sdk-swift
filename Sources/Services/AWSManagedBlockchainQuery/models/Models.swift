@@ -221,8 +221,9 @@ extension BatchGetTokenBalanceInput: Swift.Encodable {
     }
 }
 
-extension BatchGetTokenBalanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetTokenBalanceInput {
+
+    static func urlPathProvider(_ value: BatchGetTokenBalanceInput) -> Swift.String? {
         return "/batch-get-token-balance"
     }
 }
@@ -519,166 +520,6 @@ extension ManagedBlockchainQueryClientTypes {
 
 }
 
-extension ManagedBlockchainQueryClientTypes.ContractFilter: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deployerAddress
-        case network
-        case tokenStandard
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let deployerAddress = self.deployerAddress {
-            try encodeContainer.encode(deployerAddress, forKey: .deployerAddress)
-        }
-        if let network = self.network {
-            try encodeContainer.encode(network.rawValue, forKey: .network)
-        }
-        if let tokenStandard = self.tokenStandard {
-            try encodeContainer.encode(tokenStandard.rawValue, forKey: .tokenStandard)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
-        network = networkDecoded
-        let tokenStandardDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryTokenStandard.self, forKey: .tokenStandard)
-        tokenStandard = tokenStandardDecoded
-        let deployerAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deployerAddress)
-        deployerAddress = deployerAddressDecoded
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes {
-    /// The contract or wallet address by which to filter the request.
-    public struct ContractFilter: Swift.Equatable {
-        /// The network address of the deployer.
-        /// This member is required.
-        public var deployerAddress: Swift.String?
-        /// The blockchain network of the contract.
-        /// This member is required.
-        public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
-        /// The container for the token standard.
-        /// This member is required.
-        public var tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard?
-
-        public init(
-            deployerAddress: Swift.String? = nil,
-            network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
-            tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
-        )
-        {
-            self.deployerAddress = deployerAddress
-            self.network = network
-            self.tokenStandard = tokenStandard
-        }
-    }
-
-}
-
-extension ManagedBlockchainQueryClientTypes.ContractIdentifier: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case contractAddress
-        case network
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let contractAddress = self.contractAddress {
-            try encodeContainer.encode(contractAddress, forKey: .contractAddress)
-        }
-        if let network = self.network {
-            try encodeContainer.encode(network.rawValue, forKey: .network)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
-        network = networkDecoded
-        let contractAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contractAddress)
-        contractAddress = contractAddressDecoded
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes {
-    /// Container for the blockchain address and network information about a contract.
-    public struct ContractIdentifier: Swift.Equatable {
-        /// Container for the blockchain address about a contract.
-        /// This member is required.
-        public var contractAddress: Swift.String?
-        /// The blockchain network of the contract.
-        /// This member is required.
-        public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
-
-        public init(
-            contractAddress: Swift.String? = nil,
-            network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil
-        )
-        {
-            self.contractAddress = contractAddress
-            self.network = network
-        }
-    }
-
-}
-
-extension ManagedBlockchainQueryClientTypes.ContractMetadata: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case decimals
-        case name
-        case symbol
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let decimals = self.decimals {
-            try encodeContainer.encode(decimals, forKey: .decimals)
-        }
-        if let name = self.name {
-            try encodeContainer.encode(name, forKey: .name)
-        }
-        if let symbol = self.symbol {
-            try encodeContainer.encode(symbol, forKey: .symbol)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
-        let symbolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .symbol)
-        symbol = symbolDecoded
-        let decimalsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .decimals)
-        decimals = decimalsDecoded
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes {
-    /// The metadata of the contract.
-    public struct ContractMetadata: Swift.Equatable {
-        /// The decimals used by the token contract.
-        public var decimals: Swift.Int?
-        /// The name of the token contract.
-        public var name: Swift.String?
-        /// The symbol of the token contract.
-        public var symbol: Swift.String?
-
-        public init(
-            decimals: Swift.Int? = nil,
-            name: Swift.String? = nil,
-            symbol: Swift.String? = nil
-        )
-        {
-            self.decimals = decimals
-            self.name = name
-            self.symbol = symbol
-        }
-    }
-
-}
-
 extension ManagedBlockchainQueryClientTypes {
     public enum ConfirmationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `final`
@@ -902,8 +743,6 @@ extension ManagedBlockchainQueryClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ManagedBlockchainQueryClientTypes {
     public enum ExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
@@ -936,7 +775,6 @@ extension ManagedBlockchainQueryClientTypes {
     }
 }
 
->>>>>>> temp-main
 extension GetAssetContractInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contractIdentifier
@@ -950,8 +788,9 @@ extension GetAssetContractInput: Swift.Encodable {
     }
 }
 
-extension GetAssetContractInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAssetContractInput {
+
+    static func urlPathProvider(_ value: GetAssetContractInput) -> Swift.String? {
         return "/get-asset-contract"
     }
 }
@@ -1095,8 +934,9 @@ extension GetTokenBalanceInput: Swift.Encodable {
     }
 }
 
-extension GetTokenBalanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTokenBalanceInput {
+
+    static func urlPathProvider(_ value: GetTokenBalanceInput) -> Swift.String? {
         return "/get-token-balance"
     }
 }
@@ -1262,8 +1102,9 @@ extension GetTransactionInput: Swift.Encodable {
     }
 }
 
-extension GetTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTransactionInput {
+
+    static func urlPathProvider(_ value: GetTransactionInput) -> Swift.String? {
         return "/get-transaction"
     }
 }
@@ -1450,8 +1291,9 @@ extension ListAssetContractsInput: Swift.Encodable {
     }
 }
 
-extension ListAssetContractsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssetContractsInput {
+
+    static func urlPathProvider(_ value: ListAssetContractsInput) -> Swift.String? {
         return "/list-asset-contracts"
     }
 }
@@ -1601,8 +1443,9 @@ extension ListTokenBalancesInput: Swift.Encodable {
     }
 }
 
-extension ListTokenBalancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTokenBalancesInput {
+
+    static func urlPathProvider(_ value: ListTokenBalancesInput) -> Swift.String? {
         return "/list-token-balances"
     }
 }
@@ -1760,8 +1603,9 @@ extension ListTransactionEventsInput: Swift.Encodable {
     }
 }
 
-extension ListTransactionEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTransactionEventsInput {
+
+    static func urlPathProvider(_ value: ListTransactionEventsInput) -> Swift.String? {
         return "/list-transaction-events"
     }
 }
@@ -1932,8 +1776,9 @@ extension ListTransactionsInput: Swift.Encodable {
     }
 }
 
-extension ListTransactionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTransactionsInput {
+
+    static func urlPathProvider(_ value: ListTransactionsInput) -> Swift.String? {
         return "/list-transactions"
     }
 }
@@ -2165,6 +2010,8 @@ extension ManagedBlockchainQueryClientTypes {
         }
     }
 }
+
+public enum ManagedBlockchainQueryClientTypes {}
 
 extension ManagedBlockchainQueryClientTypes.OwnerFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {

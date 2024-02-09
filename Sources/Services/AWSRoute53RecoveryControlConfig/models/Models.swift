@@ -547,8 +547,9 @@ extension CreateClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClusterInput {
+
+    static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
         return "/cluster"
     }
 }
@@ -693,8 +694,9 @@ extension CreateControlPanelInput: Swift.Encodable {
     }
 }
 
-extension CreateControlPanelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateControlPanelInput {
+
+    static func urlPathProvider(_ value: CreateControlPanelInput) -> Swift.String? {
         return "/controlpanel"
     }
 }
@@ -845,8 +847,9 @@ extension CreateRoutingControlInput: Swift.Encodable {
     }
 }
 
-extension CreateRoutingControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRoutingControlInput {
+
+    static func urlPathProvider(_ value: CreateRoutingControlInput) -> Swift.String? {
         return "/routingcontrol"
     }
 }
@@ -991,8 +994,9 @@ extension CreateSafetyRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateSafetyRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSafetyRuleInput {
+
+    static func urlPathProvider(_ value: CreateSafetyRuleInput) -> Swift.String? {
         return "/safetyrule"
     }
 }
@@ -1121,9 +1125,10 @@ enum CreateSafetyRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterArn = clusterArn else {
+extension DeleteClusterInput {
+
+    static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
             return nil
         }
         return "/cluster/\(clusterArn.urlPercentEncoding())"
@@ -1178,9 +1183,10 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteControlPanelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let controlPanelArn = controlPanelArn else {
+extension DeleteControlPanelInput {
+
+    static func urlPathProvider(_ value: DeleteControlPanelInput) -> Swift.String? {
+        guard let controlPanelArn = value.controlPanelArn else {
             return nil
         }
         return "/controlpanel/\(controlPanelArn.urlPercentEncoding())"
@@ -1235,9 +1241,10 @@ enum DeleteControlPanelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRoutingControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let routingControlArn = routingControlArn else {
+extension DeleteRoutingControlInput {
+
+    static func urlPathProvider(_ value: DeleteRoutingControlInput) -> Swift.String? {
+        guard let routingControlArn = value.routingControlArn else {
             return nil
         }
         return "/routingcontrol/\(routingControlArn.urlPercentEncoding())"
@@ -1292,9 +1299,10 @@ enum DeleteRoutingControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSafetyRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let safetyRuleArn = safetyRuleArn else {
+extension DeleteSafetyRuleInput {
+
+    static func urlPathProvider(_ value: DeleteSafetyRuleInput) -> Swift.String? {
+        guard let safetyRuleArn = value.safetyRuleArn else {
             return nil
         }
         return "/safetyrule/\(safetyRuleArn.urlPercentEncoding())"
@@ -1346,9 +1354,10 @@ enum DeleteSafetyRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterArn = clusterArn else {
+extension DescribeClusterInput {
+
+    static func urlPathProvider(_ value: DescribeClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
             return nil
         }
         return "/cluster/\(clusterArn.urlPercentEncoding())"
@@ -1433,9 +1442,10 @@ enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeControlPanelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let controlPanelArn = controlPanelArn else {
+extension DescribeControlPanelInput {
+
+    static func urlPathProvider(_ value: DescribeControlPanelInput) -> Swift.String? {
+        guard let controlPanelArn = value.controlPanelArn else {
             return nil
         }
         return "/controlpanel/\(controlPanelArn.urlPercentEncoding())"
@@ -1520,9 +1530,10 @@ enum DescribeControlPanelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRoutingControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let routingControlArn = routingControlArn else {
+extension DescribeRoutingControlInput {
+
+    static func urlPathProvider(_ value: DescribeRoutingControlInput) -> Swift.String? {
+        guard let routingControlArn = value.routingControlArn else {
             return nil
         }
         return "/routingcontrol/\(routingControlArn.urlPercentEncoding())"
@@ -1607,9 +1618,10 @@ enum DescribeRoutingControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeSafetyRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let safetyRuleArn = safetyRuleArn else {
+extension DescribeSafetyRuleInput {
+
+    static func urlPathProvider(_ value: DescribeSafetyRuleInput) -> Swift.String? {
+        guard let safetyRuleArn = value.safetyRuleArn else {
             return nil
         }
         return "/safetyrule/\(safetyRuleArn.urlPercentEncoding())"
@@ -1905,9 +1917,10 @@ extension Route53RecoveryControlConfigClientTypes {
 
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resourcePolicy/\(resourceArn.urlPercentEncoding())"
@@ -2044,26 +2057,26 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAssociatedRoute53HealthChecksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssociatedRoute53HealthChecksInput {
+
+    static func queryItemProvider(_ value: ListAssociatedRoute53HealthChecksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssociatedRoute53HealthChecksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let routingControlArn = routingControlArn else {
+extension ListAssociatedRoute53HealthChecksInput {
+
+    static func urlPathProvider(_ value: ListAssociatedRoute53HealthChecksInput) -> Swift.String? {
+        guard let routingControlArn = value.routingControlArn else {
             return nil
         }
         return "/routingcontrol/\(routingControlArn.urlPercentEncoding())/associatedRoute53HealthChecks"
@@ -2172,25 +2185,25 @@ enum ListAssociatedRoute53HealthChecksOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListClustersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListClustersInput {
+
+    static func queryItemProvider(_ value: ListClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClustersInput {
+
+    static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
         return "/cluster"
     }
 }
@@ -2294,29 +2307,29 @@ enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListControlPanelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clusterArn = clusterArn {
-                let clusterArnQueryItem = ClientRuntime.URLQueryItem(name: "ClusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
-                items.append(clusterArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListControlPanelsInput {
+
+    static func queryItemProvider(_ value: ListControlPanelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clusterArn = value.clusterArn {
+            let clusterArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ClusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
+            items.append(clusterArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListControlPanelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListControlPanelsInput {
+
+    static func urlPathProvider(_ value: ListControlPanelsInput) -> Swift.String? {
         return "/controlpanels"
     }
 }
@@ -2424,26 +2437,26 @@ enum ListControlPanelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRoutingControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRoutingControlsInput {
+
+    static func queryItemProvider(_ value: ListRoutingControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRoutingControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let controlPanelArn = controlPanelArn else {
+extension ListRoutingControlsInput {
+
+    static func urlPathProvider(_ value: ListRoutingControlsInput) -> Swift.String? {
+        guard let controlPanelArn = value.controlPanelArn else {
             return nil
         }
         return "/controlpanel/\(controlPanelArn.urlPercentEncoding())/routingcontrols"
@@ -2554,26 +2567,26 @@ enum ListRoutingControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSafetyRulesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSafetyRulesInput {
+
+    static func queryItemProvider(_ value: ListSafetyRulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSafetyRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let controlPanelArn = controlPanelArn else {
+extension ListSafetyRulesInput {
+
+    static func urlPathProvider(_ value: ListSafetyRulesInput) -> Swift.String? {
+        guard let controlPanelArn = value.controlPanelArn else {
             return nil
         }
         return "/controlpanel/\(controlPanelArn.urlPercentEncoding())/safetyrules"
@@ -2684,9 +2697,10 @@ enum ListSafetyRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3040,6 +3054,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum Route53RecoveryControlConfigClientTypes {}
+
 extension Route53RecoveryControlConfigClientTypes.RoutingControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlPanelArn = "ControlPanelArn"
@@ -3362,9 +3378,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3494,26 +3511,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3587,8 +3604,9 @@ extension UpdateControlPanelInput: Swift.Encodable {
     }
 }
 
-extension UpdateControlPanelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateControlPanelInput {
+
+    static func urlPathProvider(_ value: UpdateControlPanelInput) -> Swift.String? {
         return "/controlpanel"
     }
 }
@@ -3705,8 +3723,9 @@ extension UpdateRoutingControlInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoutingControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRoutingControlInput {
+
+    static func urlPathProvider(_ value: UpdateRoutingControlInput) -> Swift.String? {
         return "/routingcontrol"
     }
 }
@@ -3823,8 +3842,9 @@ extension UpdateSafetyRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateSafetyRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSafetyRuleInput {
+
+    static func urlPathProvider(_ value: UpdateSafetyRuleInput) -> Swift.String? {
         return "/safetyrule"
     }
 }

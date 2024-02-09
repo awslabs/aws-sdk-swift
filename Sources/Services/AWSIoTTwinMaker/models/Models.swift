@@ -179,9 +179,10 @@ extension BatchPutPropertyValuesInput: Swift.Encodable {
     }
 }
 
-extension BatchPutPropertyValuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension BatchPutPropertyValuesInput {
+
+    static func urlPathProvider(_ value: BatchPutPropertyValuesInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entity-properties"
@@ -353,9 +354,10 @@ extension IoTTwinMakerClientTypes {
 
 }
 
-extension CancelMetadataTransferJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let metadataTransferJobId = metadataTransferJobId else {
+extension CancelMetadataTransferJobInput {
+
+    static func urlPathProvider(_ value: CancelMetadataTransferJobInput) -> Swift.String? {
+        guard let metadataTransferJobId = value.metadataTransferJobId else {
             return nil
         }
         return "/metadata-transfer-jobs/\(metadataTransferJobId.urlPercentEncoding())/cancel"
@@ -1790,12 +1792,13 @@ extension CreateComponentTypeInput: Swift.Encodable {
     }
 }
 
-extension CreateComponentTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension CreateComponentTypeInput {
+
+    static func urlPathProvider(_ value: CreateComponentTypeInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let componentTypeId = componentTypeId else {
+        guard let componentTypeId = value.componentTypeId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/component-types/\(componentTypeId.urlPercentEncoding())"
@@ -2083,9 +2086,10 @@ extension CreateEntityInput: Swift.Encodable {
     }
 }
 
-extension CreateEntityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension CreateEntityInput {
+
+    static func urlPathProvider(_ value: CreateEntityInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entities"
@@ -2319,8 +2323,9 @@ extension CreateMetadataTransferJobInput: Swift.Encodable {
     }
 }
 
-extension CreateMetadataTransferJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMetadataTransferJobInput {
+
+    static func urlPathProvider(_ value: CreateMetadataTransferJobInput) -> Swift.String? {
         return "/metadata-transfer-jobs"
     }
 }
@@ -2521,9 +2526,10 @@ extension CreateSceneInput: Swift.Encodable {
     }
 }
 
-extension CreateSceneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension CreateSceneInput {
+
+    static func urlPathProvider(_ value: CreateSceneInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/scenes"
@@ -2720,12 +2726,13 @@ extension CreateSyncJobInput: Swift.Encodable {
     }
 }
 
-extension CreateSyncJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension CreateSyncJobInput {
+
+    static func urlPathProvider(_ value: CreateSyncJobInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let syncSource = syncSource else {
+        guard let syncSource = value.syncSource else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs/\(syncSource.urlPercentEncoding())"
@@ -2895,9 +2902,10 @@ extension CreateWorkspaceInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension CreateWorkspaceInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())"
@@ -3310,12 +3318,13 @@ extension IoTTwinMakerClientTypes {
 
 }
 
-extension DeleteComponentTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension DeleteComponentTypeInput {
+
+    static func urlPathProvider(_ value: DeleteComponentTypeInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let componentTypeId = componentTypeId else {
+        guard let componentTypeId = value.componentTypeId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/component-types/\(componentTypeId.urlPercentEncoding())"
@@ -3405,25 +3414,25 @@ enum DeleteComponentTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEntityInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let isRecursive = isRecursive {
-                let isRecursiveQueryItem = ClientRuntime.URLQueryItem(name: "isRecursive".urlPercentEncoding(), value: Swift.String(isRecursive).urlPercentEncoding())
-                items.append(isRecursiveQueryItem)
-            }
-            return items
+extension DeleteEntityInput {
+
+    static func queryItemProvider(_ value: DeleteEntityInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let isRecursive = value.isRecursive {
+            let isRecursiveQueryItem = ClientRuntime.SDKURLQueryItem(name: "isRecursive".urlPercentEncoding(), value: Swift.String(isRecursive).urlPercentEncoding())
+            items.append(isRecursiveQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteEntityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension DeleteEntityInput {
+
+    static func urlPathProvider(_ value: DeleteEntityInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let entityId = entityId else {
+        guard let entityId = value.entityId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entities/\(entityId.urlPercentEncoding())"
@@ -3517,12 +3526,13 @@ enum DeleteEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSceneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension DeleteSceneInput {
+
+    static func urlPathProvider(_ value: DeleteSceneInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let sceneId = sceneId else {
+        guard let sceneId = value.sceneId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/scenes/\(sceneId.urlPercentEncoding())"
@@ -3581,12 +3591,13 @@ enum DeleteSceneOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSyncJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension DeleteSyncJobInput {
+
+    static func urlPathProvider(_ value: DeleteSyncJobInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let syncSource = syncSource else {
+        guard let syncSource = value.syncSource else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs/\(syncSource.urlPercentEncoding())"
@@ -3677,9 +3688,10 @@ enum DeleteSyncJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteWorkspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension DeleteWorkspaceInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())"
@@ -4183,8 +4195,9 @@ extension ExecuteQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteQueryInput) -> Swift.String? {
         return "/queries/execution"
     }
 }
@@ -4683,12 +4696,13 @@ extension IoTTwinMakerClientTypes {
 
 }
 
-extension GetComponentTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension GetComponentTypeInput {
+
+    static func urlPathProvider(_ value: GetComponentTypeInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let componentTypeId = componentTypeId else {
+        guard let componentTypeId = value.componentTypeId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/component-types/\(componentTypeId.urlPercentEncoding())"
@@ -4987,12 +5001,13 @@ enum GetComponentTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetEntityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension GetEntityInput {
+
+    static func urlPathProvider(_ value: GetEntityInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let entityId = entityId else {
+        guard let entityId = value.entityId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entities/\(entityId.urlPercentEncoding())"
@@ -5219,9 +5234,10 @@ enum GetEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMetadataTransferJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let metadataTransferJobId = metadataTransferJobId else {
+extension GetMetadataTransferJobInput {
+
+    static func urlPathProvider(_ value: GetMetadataTransferJobInput) -> Swift.String? {
+        guard let metadataTransferJobId = value.metadataTransferJobId else {
             return nil
         }
         return "/metadata-transfer-jobs/\(metadataTransferJobId.urlPercentEncoding())"
@@ -5422,8 +5438,9 @@ enum GetMetadataTransferJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPricingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPricingPlanInput {
+
+    static func urlPathProvider(_ value: GetPricingPlanInput) -> Swift.String? {
         return "/pricingplan"
     }
 }
@@ -5578,9 +5595,10 @@ extension GetPropertyValueHistoryInput: Swift.Encodable {
     }
 }
 
-extension GetPropertyValueHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension GetPropertyValueHistoryInput {
+
+    static func urlPathProvider(_ value: GetPropertyValueHistoryInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entity-properties/history"
@@ -5870,9 +5888,10 @@ extension GetPropertyValueInput: Swift.Encodable {
     }
 }
 
-extension GetPropertyValueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension GetPropertyValueInput {
+
+    static func urlPathProvider(_ value: GetPropertyValueInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entity-properties/value"
@@ -6099,12 +6118,13 @@ enum GetPropertyValueOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSceneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension GetSceneInput {
+
+    static func urlPathProvider(_ value: GetSceneInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let sceneId = sceneId else {
+        guard let sceneId = value.sceneId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/scenes/\(sceneId.urlPercentEncoding())"
@@ -6326,22 +6346,22 @@ enum GetSceneOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSyncJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let workspaceId = workspaceId {
-                let workspaceIdQueryItem = ClientRuntime.URLQueryItem(name: "workspace".urlPercentEncoding(), value: Swift.String(workspaceId).urlPercentEncoding())
-                items.append(workspaceIdQueryItem)
-            }
-            return items
+extension GetSyncJobInput {
+
+    static func queryItemProvider(_ value: GetSyncJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let workspaceId = value.workspaceId {
+            let workspaceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workspace".urlPercentEncoding(), value: Swift.String(workspaceId).urlPercentEncoding())
+            items.append(workspaceIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetSyncJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let syncSource = syncSource else {
+extension GetSyncJobInput {
+
+    static func urlPathProvider(_ value: GetSyncJobInput) -> Swift.String? {
+        guard let syncSource = value.syncSource else {
             return nil
         }
         return "/sync-jobs/\(syncSource.urlPercentEncoding())"
@@ -6497,9 +6517,10 @@ enum GetSyncJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension GetWorkspaceInput {
+
+    static func urlPathProvider(_ value: GetWorkspaceInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())"
@@ -6823,6 +6844,8 @@ extension IoTTwinMakerClientTypes {
         }
     }
 }
+
+public enum IoTTwinMakerClientTypes {}
 
 extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -7176,9 +7199,10 @@ extension ListComponentTypesInput: Swift.Encodable {
     }
 }
 
-extension ListComponentTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListComponentTypesInput {
+
+    static func urlPathProvider(_ value: ListComponentTypesInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/component-types-list"
@@ -7359,12 +7383,13 @@ extension ListComponentsInput: Swift.Encodable {
     }
 }
 
-extension ListComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListComponentsInput {
+
+    static func urlPathProvider(_ value: ListComponentsInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let entityId = entityId else {
+        guard let entityId = value.entityId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entities/\(entityId.urlPercentEncoding())/components-list"
@@ -7581,9 +7606,10 @@ extension ListEntitiesInput: Swift.Encodable {
     }
 }
 
-extension ListEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListEntitiesInput {
+
+    static func urlPathProvider(_ value: ListEntitiesInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entities-list"
@@ -7800,8 +7826,9 @@ extension ListMetadataTransferJobsInput: Swift.Encodable {
     }
 }
 
-extension ListMetadataTransferJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMetadataTransferJobsInput {
+
+    static func urlPathProvider(_ value: ListMetadataTransferJobsInput) -> Swift.String? {
         return "/metadata-transfer-jobs-list"
     }
 }
@@ -7980,9 +8007,10 @@ extension ListPropertiesInput: Swift.Encodable {
     }
 }
 
-extension ListPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListPropertiesInput {
+
+    static func urlPathProvider(_ value: ListPropertiesInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/properties-list"
@@ -8147,9 +8175,10 @@ extension ListScenesInput: Swift.Encodable {
     }
 }
 
-extension ListScenesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListScenesInput {
+
+    static func urlPathProvider(_ value: ListScenesInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/scenes-list"
@@ -8287,9 +8316,10 @@ extension ListSyncJobsInput: Swift.Encodable {
     }
 }
 
-extension ListSyncJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListSyncJobsInput {
+
+    static func urlPathProvider(_ value: ListSyncJobsInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs-list"
@@ -8435,12 +8465,13 @@ extension ListSyncResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListSyncResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension ListSyncResourcesInput {
+
+    static func urlPathProvider(_ value: ListSyncResourcesInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let syncSource = syncSource else {
+        guard let syncSource = value.syncSource else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs/\(syncSource.urlPercentEncoding())/resources-list"
@@ -8611,8 +8642,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags-list"
     }
 }
@@ -8750,8 +8782,9 @@ extension ListWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension ListWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkspacesInput {
+
+    static func urlPathProvider(_ value: ListWorkspacesInput) -> Swift.String? {
         return "/workspaces-list"
     }
 }
@@ -11689,8 +11722,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -11925,31 +11959,31 @@ extension IoTTwinMakerClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            guard let resourceARN = resourceARN else {
-                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "resourceARN".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
-            items.append(resourceARNQueryItem)
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        guard let resourceARN = value.resourceARN else {
+            let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceARN".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        items.append(resourceARNQueryItem)
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -12059,12 +12093,13 @@ extension UpdateComponentTypeInput: Swift.Encodable {
     }
 }
 
-extension UpdateComponentTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension UpdateComponentTypeInput {
+
+    static func urlPathProvider(_ value: UpdateComponentTypeInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let componentTypeId = componentTypeId else {
+        guard let componentTypeId = value.componentTypeId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/component-types/\(componentTypeId.urlPercentEncoding())"
@@ -12335,12 +12370,13 @@ extension UpdateEntityInput: Swift.Encodable {
     }
 }
 
-extension UpdateEntityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension UpdateEntityInput {
+
+    static func urlPathProvider(_ value: UpdateEntityInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let entityId = entityId else {
+        guard let entityId = value.entityId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/entities/\(entityId.urlPercentEncoding())"
@@ -12524,8 +12560,9 @@ extension UpdatePricingPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdatePricingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePricingPlanInput {
+
+    static func urlPathProvider(_ value: UpdatePricingPlanInput) -> Swift.String? {
         return "/pricingplan"
     }
 }
@@ -12713,12 +12750,13 @@ extension UpdateSceneInput: Swift.Encodable {
     }
 }
 
-extension UpdateSceneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension UpdateSceneInput {
+
+    static func urlPathProvider(_ value: UpdateSceneInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
-        guard let sceneId = sceneId else {
+        guard let sceneId = value.sceneId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/scenes/\(sceneId.urlPercentEncoding())"
@@ -12882,9 +12920,10 @@ extension UpdateWorkspaceInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workspaceId = workspaceId else {
+extension UpdateWorkspaceInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())"

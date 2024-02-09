@@ -135,8 +135,9 @@ extension AssociateWebACLInput: Swift.Encodable {
     }
 }
 
-extension AssociateWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateWebACLInput {
+
+    static func urlPathProvider(_ value: AssociateWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -639,8 +640,9 @@ extension CreateByteMatchSetInput: Swift.Encodable {
     }
 }
 
-extension CreateByteMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateByteMatchSetInput {
+
+    static func urlPathProvider(_ value: CreateByteMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -766,8 +768,9 @@ extension CreateGeoMatchSetInput: Swift.Encodable {
     }
 }
 
-extension CreateGeoMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGeoMatchSetInput {
+
+    static func urlPathProvider(_ value: CreateGeoMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -893,8 +896,9 @@ extension CreateIPSetInput: Swift.Encodable {
     }
 }
 
-extension CreateIPSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIPSetInput {
+
+    static func urlPathProvider(_ value: CreateIPSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1039,8 +1043,9 @@ extension CreateRateBasedRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateRateBasedRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRateBasedRuleInput {
+
+    static func urlPathProvider(_ value: CreateRateBasedRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1212,8 +1217,9 @@ extension CreateRegexMatchSetInput: Swift.Encodable {
     }
 }
 
-extension CreateRegexMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRegexMatchSetInput {
+
+    static func urlPathProvider(_ value: CreateRegexMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1337,8 +1343,9 @@ extension CreateRegexPatternSetInput: Swift.Encodable {
     }
 }
 
-extension CreateRegexPatternSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRegexPatternSetInput {
+
+    static func urlPathProvider(_ value: CreateRegexPatternSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1473,8 +1480,9 @@ extension CreateRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRuleGroupInput {
+
+    static func urlPathProvider(_ value: CreateRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1638,8 +1646,9 @@ extension CreateRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRuleInput {
+
+    static func urlPathProvider(_ value: CreateRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1793,8 +1802,9 @@ extension CreateSizeConstraintSetInput: Swift.Encodable {
     }
 }
 
-extension CreateSizeConstraintSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSizeConstraintSetInput {
+
+    static func urlPathProvider(_ value: CreateSizeConstraintSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1920,8 +1930,9 @@ extension CreateSqlInjectionMatchSetInput: Swift.Encodable {
     }
 }
 
-extension CreateSqlInjectionMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSqlInjectionMatchSetInput {
+
+    static func urlPathProvider(_ value: CreateSqlInjectionMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2064,8 +2075,9 @@ extension CreateWebACLInput: Swift.Encodable {
     }
 }
 
-extension CreateWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWebACLInput {
+
+    static func urlPathProvider(_ value: CreateWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2164,8 +2176,9 @@ extension CreateWebACLMigrationStackInput: Swift.Encodable {
     }
 }
 
-extension CreateWebACLMigrationStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWebACLMigrationStackInput {
+
+    static func urlPathProvider(_ value: CreateWebACLMigrationStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2365,8 +2378,9 @@ extension CreateXssMatchSetInput: Swift.Encodable {
     }
 }
 
-extension CreateXssMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateXssMatchSetInput {
+
+    static func urlPathProvider(_ value: CreateXssMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2494,8 +2508,9 @@ extension DeleteByteMatchSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteByteMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteByteMatchSetInput {
+
+    static func urlPathProvider(_ value: DeleteByteMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2611,8 +2626,9 @@ extension DeleteGeoMatchSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteGeoMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGeoMatchSetInput {
+
+    static func urlPathProvider(_ value: DeleteGeoMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2728,8 +2744,9 @@ extension DeleteIPSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteIPSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIPSetInput {
+
+    static func urlPathProvider(_ value: DeleteIPSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2841,8 +2858,9 @@ extension DeleteLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteLoggingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2912,8 +2930,9 @@ extension DeletePermissionPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeletePermissionPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePermissionPolicyInput {
+
+    static func urlPathProvider(_ value: DeletePermissionPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2987,8 +3006,9 @@ extension DeleteRateBasedRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteRateBasedRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRateBasedRuleInput {
+
+    static func urlPathProvider(_ value: DeleteRateBasedRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3106,8 +3126,9 @@ extension DeleteRegexMatchSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteRegexMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRegexMatchSetInput {
+
+    static func urlPathProvider(_ value: DeleteRegexMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3223,8 +3244,9 @@ extension DeleteRegexPatternSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteRegexPatternSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRegexPatternSetInput {
+
+    static func urlPathProvider(_ value: DeleteRegexPatternSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3340,8 +3362,9 @@ extension DeleteRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRuleGroupInput {
+
+    static func urlPathProvider(_ value: DeleteRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3459,8 +3482,9 @@ extension DeleteRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRuleInput {
+
+    static func urlPathProvider(_ value: DeleteRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3578,8 +3602,9 @@ extension DeleteSizeConstraintSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteSizeConstraintSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSizeConstraintSetInput {
+
+    static func urlPathProvider(_ value: DeleteSizeConstraintSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3695,8 +3720,9 @@ extension DeleteSqlInjectionMatchSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteSqlInjectionMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSqlInjectionMatchSetInput {
+
+    static func urlPathProvider(_ value: DeleteSqlInjectionMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3814,8 +3840,9 @@ extension DeleteWebACLInput: Swift.Encodable {
     }
 }
 
-extension DeleteWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWebACLInput {
+
+    static func urlPathProvider(_ value: DeleteWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3933,8 +3960,9 @@ extension DeleteXssMatchSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteXssMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteXssMatchSetInput {
+
+    static func urlPathProvider(_ value: DeleteXssMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4048,8 +4076,9 @@ extension DisassociateWebACLInput: Swift.Encodable {
     }
 }
 
-extension DisassociateWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateWebACLInput {
+
+    static func urlPathProvider(_ value: DisassociateWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5232,8 +5261,9 @@ extension GetByteMatchSetInput: Swift.Encodable {
     }
 }
 
-extension GetByteMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetByteMatchSetInput {
+
+    static func urlPathProvider(_ value: GetByteMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5334,8 +5364,9 @@ extension GetChangeTokenInput: Swift.Encodable {
     }
 }
 
-extension GetChangeTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetChangeTokenInput {
+
+    static func urlPathProvider(_ value: GetChangeTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5418,8 +5449,9 @@ extension GetChangeTokenStatusInput: Swift.Encodable {
     }
 }
 
-extension GetChangeTokenStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetChangeTokenStatusInput {
+
+    static func urlPathProvider(_ value: GetChangeTokenStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5518,8 +5550,9 @@ extension GetGeoMatchSetInput: Swift.Encodable {
     }
 }
 
-extension GetGeoMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGeoMatchSetInput {
+
+    static func urlPathProvider(_ value: GetGeoMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5619,8 +5652,9 @@ extension GetIPSetInput: Swift.Encodable {
     }
 }
 
-extension GetIPSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIPSetInput {
+
+    static func urlPathProvider(_ value: GetIPSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5724,8 +5758,9 @@ extension GetLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetLoggingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5824,8 +5859,9 @@ extension GetPermissionPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetPermissionPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPermissionPolicyInput {
+
+    static func urlPathProvider(_ value: GetPermissionPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5924,8 +5960,9 @@ extension GetRateBasedRuleInput: Swift.Encodable {
     }
 }
 
-extension GetRateBasedRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRateBasedRuleInput {
+
+    static func urlPathProvider(_ value: GetRateBasedRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5976,8 +6013,9 @@ extension GetRateBasedRuleManagedKeysInput: Swift.Encodable {
     }
 }
 
-extension GetRateBasedRuleManagedKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRateBasedRuleManagedKeysInput {
+
+    static func urlPathProvider(_ value: GetRateBasedRuleManagedKeysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6158,8 +6196,9 @@ extension GetRegexMatchSetInput: Swift.Encodable {
     }
 }
 
-extension GetRegexMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegexMatchSetInput {
+
+    static func urlPathProvider(_ value: GetRegexMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6259,8 +6298,9 @@ extension GetRegexPatternSetInput: Swift.Encodable {
     }
 }
 
-extension GetRegexPatternSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegexPatternSetInput {
+
+    static func urlPathProvider(_ value: GetRegexPatternSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6360,8 +6400,9 @@ extension GetRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension GetRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRuleGroupInput {
+
+    static func urlPathProvider(_ value: GetRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6460,8 +6501,9 @@ extension GetRuleInput: Swift.Encodable {
     }
 }
 
-extension GetRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRuleInput {
+
+    static func urlPathProvider(_ value: GetRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6577,8 +6619,9 @@ extension GetSampledRequestsInput: Swift.Encodable {
     }
 }
 
-extension GetSampledRequestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSampledRequestsInput {
+
+    static func urlPathProvider(_ value: GetSampledRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6737,8 +6780,9 @@ extension GetSizeConstraintSetInput: Swift.Encodable {
     }
 }
 
-extension GetSizeConstraintSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSizeConstraintSetInput {
+
+    static func urlPathProvider(_ value: GetSizeConstraintSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6844,8 +6888,9 @@ extension GetSqlInjectionMatchSetInput: Swift.Encodable {
     }
 }
 
-extension GetSqlInjectionMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSqlInjectionMatchSetInput {
+
+    static func urlPathProvider(_ value: GetSqlInjectionMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6953,8 +6998,9 @@ extension GetWebACLForResourceInput: Swift.Encodable {
     }
 }
 
-extension GetWebACLForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWebACLForResourceInput {
+
+    static func urlPathProvider(_ value: GetWebACLForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7060,8 +7106,9 @@ extension GetWebACLInput: Swift.Encodable {
     }
 }
 
-extension GetWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWebACLInput {
+
+    static func urlPathProvider(_ value: GetWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7169,8 +7216,9 @@ extension GetXssMatchSetInput: Swift.Encodable {
     }
 }
 
-extension GetXssMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetXssMatchSetInput {
+
+    static func urlPathProvider(_ value: GetXssMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7685,8 +7733,9 @@ extension ListActivatedRulesInRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension ListActivatedRulesInRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListActivatedRulesInRuleGroupInput {
+
+    static func urlPathProvider(_ value: ListActivatedRulesInRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7824,8 +7873,9 @@ extension ListByteMatchSetsInput: Swift.Encodable {
     }
 }
 
-extension ListByteMatchSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListByteMatchSetsInput {
+
+    static func urlPathProvider(_ value: ListByteMatchSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7954,8 +8004,9 @@ extension ListGeoMatchSetsInput: Swift.Encodable {
     }
 }
 
-extension ListGeoMatchSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGeoMatchSetsInput {
+
+    static func urlPathProvider(_ value: ListGeoMatchSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8084,8 +8135,9 @@ extension ListIPSetsInput: Swift.Encodable {
     }
 }
 
-extension ListIPSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIPSetsInput {
+
+    static func urlPathProvider(_ value: ListIPSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8214,8 +8266,9 @@ extension ListLoggingConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListLoggingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLoggingConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListLoggingConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8345,8 +8398,9 @@ extension ListRateBasedRulesInput: Swift.Encodable {
     }
 }
 
-extension ListRateBasedRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRateBasedRulesInput {
+
+    static func urlPathProvider(_ value: ListRateBasedRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8475,8 +8529,9 @@ extension ListRegexMatchSetsInput: Swift.Encodable {
     }
 }
 
-extension ListRegexMatchSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRegexMatchSetsInput {
+
+    static func urlPathProvider(_ value: ListRegexMatchSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8605,8 +8660,9 @@ extension ListRegexPatternSetsInput: Swift.Encodable {
     }
 }
 
-extension ListRegexPatternSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRegexPatternSetsInput {
+
+    static func urlPathProvider(_ value: ListRegexPatternSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8735,8 +8791,9 @@ extension ListResourcesForWebACLInput: Swift.Encodable {
     }
 }
 
-extension ListResourcesForWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcesForWebACLInput {
+
+    static func urlPathProvider(_ value: ListResourcesForWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8858,8 +8915,9 @@ extension ListRuleGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListRuleGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRuleGroupsInput {
+
+    static func urlPathProvider(_ value: ListRuleGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8987,8 +9045,9 @@ extension ListRulesInput: Swift.Encodable {
     }
 }
 
-extension ListRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRulesInput {
+
+    static func urlPathProvider(_ value: ListRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9117,8 +9176,9 @@ extension ListSizeConstraintSetsInput: Swift.Encodable {
     }
 }
 
-extension ListSizeConstraintSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSizeConstraintSetsInput {
+
+    static func urlPathProvider(_ value: ListSizeConstraintSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9247,8 +9307,9 @@ extension ListSqlInjectionMatchSetsInput: Swift.Encodable {
     }
 }
 
-extension ListSqlInjectionMatchSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSqlInjectionMatchSetsInput {
+
+    static func urlPathProvider(_ value: ListSqlInjectionMatchSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9379,8 +9440,9 @@ extension ListSubscribedRuleGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListSubscribedRuleGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSubscribedRuleGroupsInput {
+
+    static func urlPathProvider(_ value: ListSubscribedRuleGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9513,8 +9575,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9647,8 +9710,9 @@ extension ListWebACLsInput: Swift.Encodable {
     }
 }
 
-extension ListWebACLsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWebACLsInput {
+
+    static func urlPathProvider(_ value: ListWebACLsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9777,8 +9841,9 @@ extension ListXssMatchSetsInput: Swift.Encodable {
     }
 }
 
-extension ListXssMatchSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListXssMatchSetsInput {
+
+    static func urlPathProvider(_ value: ListXssMatchSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10344,8 +10409,9 @@ extension PutLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutLoggingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10450,8 +10516,9 @@ extension PutPermissionPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutPermissionPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPermissionPolicyInput {
+
+    static func urlPathProvider(_ value: PutPermissionPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12247,8 +12314,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12438,8 +12506,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12541,8 +12610,9 @@ extension UpdateByteMatchSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateByteMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateByteMatchSetInput {
+
+    static func urlPathProvider(_ value: UpdateByteMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12691,8 +12761,9 @@ extension UpdateGeoMatchSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateGeoMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGeoMatchSetInput {
+
+    static func urlPathProvider(_ value: UpdateGeoMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12840,8 +12911,9 @@ extension UpdateIPSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateIPSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIPSetInput {
+
+    static func urlPathProvider(_ value: UpdateIPSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12996,8 +13068,9 @@ extension UpdateRateBasedRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateRateBasedRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRateBasedRuleInput {
+
+    static func urlPathProvider(_ value: UpdateRateBasedRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13150,8 +13223,9 @@ extension UpdateRegexMatchSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateRegexMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRegexMatchSetInput {
+
+    static func urlPathProvider(_ value: UpdateRegexMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13294,8 +13368,9 @@ extension UpdateRegexPatternSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateRegexPatternSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRegexPatternSetInput {
+
+    static func urlPathProvider(_ value: UpdateRegexPatternSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13438,8 +13513,9 @@ extension UpdateRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRuleGroupInput {
+
+    static func urlPathProvider(_ value: UpdateRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13581,8 +13657,9 @@ extension UpdateRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRuleInput {
+
+    static func urlPathProvider(_ value: UpdateRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13732,8 +13809,9 @@ extension UpdateSizeConstraintSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateSizeConstraintSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSizeConstraintSetInput {
+
+    static func urlPathProvider(_ value: UpdateSizeConstraintSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13883,8 +13961,9 @@ extension UpdateSqlInjectionMatchSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateSqlInjectionMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSqlInjectionMatchSetInput {
+
+    static func urlPathProvider(_ value: UpdateSqlInjectionMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14039,8 +14118,9 @@ extension UpdateWebACLInput: Swift.Encodable {
     }
 }
 
-extension UpdateWebACLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWebACLInput {
+
+    static func urlPathProvider(_ value: UpdateWebACLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14198,8 +14278,9 @@ extension UpdateXssMatchSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateXssMatchSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateXssMatchSetInput {
+
+    static func urlPathProvider(_ value: UpdateXssMatchSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15175,6 +15256,8 @@ extension WAFReferencedItemExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum WAFRegionalClientTypes {}
 
 extension WAFServiceLinkedRoleErrorException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

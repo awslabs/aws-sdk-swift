@@ -30,8 +30,9 @@ extension CreateHttpNamespaceInput: Swift.Encodable {
     }
 }
 
-extension CreateHttpNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHttpNamespaceInput {
+
+    static func urlPathProvider(_ value: CreateHttpNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -189,8 +190,9 @@ extension CreatePrivateDnsNamespaceInput: Swift.Encodable {
     }
 }
 
-extension CreatePrivateDnsNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePrivateDnsNamespaceInput {
+
+    static func urlPathProvider(_ value: CreatePrivateDnsNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -361,8 +363,9 @@ extension CreatePublicDnsNamespaceInput: Swift.Encodable {
     }
 }
 
-extension CreatePublicDnsNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePublicDnsNamespaceInput {
+
+    static func urlPathProvider(_ value: CreatePublicDnsNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -540,8 +543,9 @@ extension CreateServiceInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceInput {
+
+    static func urlPathProvider(_ value: CreateServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -810,8 +814,9 @@ extension DeleteNamespaceInput: Swift.Encodable {
     }
 }
 
-extension DeleteNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNamespaceInput {
+
+    static func urlPathProvider(_ value: DeleteNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -912,8 +917,9 @@ extension DeleteServiceInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceInput {
+
+    static func urlPathProvider(_ value: DeleteServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -987,8 +993,9 @@ extension DeregisterInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeregisterInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterInstanceInput {
+
+    static func urlPathProvider(_ value: DeregisterInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1125,8 +1132,9 @@ extension DiscoverInstancesInput: Swift.Encodable {
     }
 }
 
-extension DiscoverInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DiscoverInstancesInput {
+
+    static func urlPathProvider(_ value: DiscoverInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1309,8 +1317,9 @@ extension DiscoverInstancesRevisionInput: Swift.Encodable {
     }
 }
 
-extension DiscoverInstancesRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DiscoverInstancesRevisionInput {
+
+    static func urlPathProvider(_ value: DiscoverInstancesRevisionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1780,8 +1789,9 @@ extension GetInstanceInput: Swift.Encodable {
     }
 }
 
-extension GetInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInstanceInput {
+
+    static func urlPathProvider(_ value: GetInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1905,8 +1915,9 @@ extension GetInstancesHealthStatusInput: Swift.Encodable {
     }
 }
 
-extension GetInstancesHealthStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInstancesHealthStatusInput {
+
+    static func urlPathProvider(_ value: GetInstancesHealthStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2058,8 +2069,9 @@ extension GetNamespaceInput: Swift.Encodable {
     }
 }
 
-extension GetNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetNamespaceInput {
+
+    static func urlPathProvider(_ value: GetNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2158,8 +2170,9 @@ extension GetOperationInput: Swift.Encodable {
     }
 }
 
-extension GetOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOperationInput {
+
+    static func urlPathProvider(_ value: GetOperationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2258,8 +2271,9 @@ extension GetServiceInput: Swift.Encodable {
     }
 }
 
-extension GetServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceInput {
+
+    static func urlPathProvider(_ value: GetServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3031,8 +3045,9 @@ extension ListInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInstancesInput {
+
+    static func urlPathProvider(_ value: ListInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3177,8 +3192,9 @@ extension ListNamespacesInput: Swift.Encodable {
     }
 }
 
-extension ListNamespacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNamespacesInput {
+
+    static func urlPathProvider(_ value: ListNamespacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3330,8 +3346,9 @@ extension ListOperationsInput: Swift.Encodable {
     }
 }
 
-extension ListOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOperationsInput {
+
+    static func urlPathProvider(_ value: ListOperationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3483,8 +3500,9 @@ extension ListServicesInput: Swift.Encodable {
     }
 }
 
-extension ListServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicesInput {
+
+    static func urlPathProvider(_ value: ListServicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3625,8 +3643,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5207,8 +5226,9 @@ extension RegisterInstanceInput: Swift.Encodable {
     }
 }
 
-extension RegisterInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterInstanceInput {
+
+    static func urlPathProvider(_ value: RegisterInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5962,6 +5982,8 @@ extension ServiceDiscoveryClientTypes {
 
 }
 
+public enum ServiceDiscoveryClientTypes {}
+
 extension ServiceDiscoveryClientTypes.ServiceFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case condition = "Condition"
@@ -6380,8 +6402,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6541,8 +6564,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6637,8 +6661,9 @@ extension UpdateHttpNamespaceInput: Swift.Encodable {
     }
 }
 
-extension UpdateHttpNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateHttpNamespaceInput {
+
+    static func urlPathProvider(_ value: UpdateHttpNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6764,8 +6789,9 @@ extension UpdateInstanceCustomHealthStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdateInstanceCustomHealthStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateInstanceCustomHealthStatusInput {
+
+    static func urlPathProvider(_ value: UpdateInstanceCustomHealthStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6862,8 +6888,9 @@ extension UpdatePrivateDnsNamespaceInput: Swift.Encodable {
     }
 }
 
-extension UpdatePrivateDnsNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePrivateDnsNamespaceInput {
+
+    static func urlPathProvider(_ value: UpdatePrivateDnsNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6989,8 +7016,9 @@ extension UpdatePublicDnsNamespaceInput: Swift.Encodable {
     }
 }
 
-extension UpdatePublicDnsNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePublicDnsNamespaceInput {
+
+    static func urlPathProvider(_ value: UpdatePublicDnsNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7112,8 +7140,9 @@ extension UpdateServiceInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceInput {
+
+    static func urlPathProvider(_ value: UpdateServiceInput) -> Swift.String? {
         return "/"
     }
 }

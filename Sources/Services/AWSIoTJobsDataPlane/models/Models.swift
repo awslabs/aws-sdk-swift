@@ -58,29 +58,29 @@ extension CertificateValidationExceptionBody: Swift.Decodable {
     }
 }
 
-extension DescribeJobExecutionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let executionNumber = executionNumber {
-                let executionNumberQueryItem = ClientRuntime.URLQueryItem(name: "executionNumber".urlPercentEncoding(), value: Swift.String(executionNumber).urlPercentEncoding())
-                items.append(executionNumberQueryItem)
-            }
-            if let includeJobDocument = includeJobDocument {
-                let includeJobDocumentQueryItem = ClientRuntime.URLQueryItem(name: "includeJobDocument".urlPercentEncoding(), value: Swift.String(includeJobDocument).urlPercentEncoding())
-                items.append(includeJobDocumentQueryItem)
-            }
-            return items
+extension DescribeJobExecutionInput {
+
+    static func queryItemProvider(_ value: DescribeJobExecutionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let executionNumber = value.executionNumber {
+            let executionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "executionNumber".urlPercentEncoding(), value: Swift.String(executionNumber).urlPercentEncoding())
+            items.append(executionNumberQueryItem)
         }
+        if let includeJobDocument = value.includeJobDocument {
+            let includeJobDocumentQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeJobDocument".urlPercentEncoding(), value: Swift.String(includeJobDocument).urlPercentEncoding())
+            items.append(includeJobDocumentQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeJobExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension DescribeJobExecutionInput {
+
+    static func urlPathProvider(_ value: DescribeJobExecutionInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
@@ -178,9 +178,10 @@ enum DescribeJobExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPendingJobExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension GetPendingJobExecutionsInput {
+
+    static func urlPathProvider(_ value: GetPendingJobExecutionsInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/jobs"
@@ -402,6 +403,8 @@ extension InvalidStateTransitionExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum IoTJobsDataPlaneClientTypes {}
 
 extension IoTJobsDataPlaneClientTypes.JobExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -884,9 +887,10 @@ extension StartNextPendingJobExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartNextPendingJobExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension StartNextPendingJobExecutionInput {
+
+    static func urlPathProvider(_ value: StartNextPendingJobExecutionInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/jobs/$next"
@@ -1159,12 +1163,13 @@ extension UpdateJobExecutionInput: Swift.Encodable {
     }
 }
 
-extension UpdateJobExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension UpdateJobExecutionInput {
+
+    static func urlPathProvider(_ value: UpdateJobExecutionInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"

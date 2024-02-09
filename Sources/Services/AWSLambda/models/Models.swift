@@ -147,25 +147,25 @@ extension AddLayerVersionPermissionInput: Swift.Encodable {
     }
 }
 
-extension AddLayerVersionPermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let revisionId = revisionId {
-                let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-                items.append(revisionIdQueryItem)
-            }
-            return items
+extension AddLayerVersionPermissionInput {
+
+    static func queryItemProvider(_ value: AddLayerVersionPermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let revisionId = value.revisionId {
+            let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            items.append(revisionIdQueryItem)
         }
+        return items
     }
 }
 
-extension AddLayerVersionPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension AddLayerVersionPermissionInput {
+
+    static func urlPathProvider(_ value: AddLayerVersionPermissionInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
-        guard let versionNumber = versionNumber else {
+        guard let versionNumber = value.versionNumber else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)/policy"
@@ -353,22 +353,22 @@ extension AddPermissionInput: Swift.Encodable {
     }
 }
 
-extension AddPermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension AddPermissionInput {
+
+    static func queryItemProvider(_ value: AddPermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension AddPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension AddPermissionInput {
+
+    static func urlPathProvider(_ value: AddPermissionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/policy"
@@ -1378,9 +1378,10 @@ extension CreateAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension CreateAliasInput {
+
+    static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/aliases"
@@ -1582,8 +1583,9 @@ extension CreateCodeSigningConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: CreateCodeSigningConfigInput) -> Swift.String? {
         return "/2020-04-22/code-signing-configs"
     }
 }
@@ -1799,8 +1801,9 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
     }
 }
 
-extension CreateEventSourceMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEventSourceMappingInput {
+
+    static func urlPathProvider(_ value: CreateEventSourceMappingInput) -> Swift.String? {
         return "/2015-03-31/event-source-mappings"
     }
 }
@@ -2552,8 +2555,9 @@ extension CreateFunctionInput: Swift.Encodable {
     }
 }
 
-extension CreateFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFunctionInput {
+
+    static func urlPathProvider(_ value: CreateFunctionInput) -> Swift.String? {
         return "/2015-03-31/functions"
     }
 }
@@ -3276,22 +3280,22 @@ extension CreateFunctionUrlConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateFunctionUrlConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension CreateFunctionUrlConfigInput {
+
+    static func queryItemProvider(_ value: CreateFunctionUrlConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension CreateFunctionUrlConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension CreateFunctionUrlConfigInput {
+
+    static func urlPathProvider(_ value: CreateFunctionUrlConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-10-31/functions/\(functionName.urlPercentEncoding())/url"
@@ -3513,12 +3517,13 @@ extension LambdaClientTypes {
 
 }
 
-extension DeleteAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteAliasInput {
+
+    static func urlPathProvider(_ value: DeleteAliasInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
@@ -3585,9 +3590,10 @@ enum DeleteAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let codeSigningConfigArn = codeSigningConfigArn else {
+extension DeleteCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: DeleteCodeSigningConfigInput) -> Swift.String? {
+        guard let codeSigningConfigArn = value.codeSigningConfigArn else {
             return nil
         }
         return "/2020-04-22/code-signing-configs/\(codeSigningConfigArn.urlPercentEncoding())"
@@ -3640,9 +3646,10 @@ enum DeleteCodeSigningConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteEventSourceMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let uuid = uuid else {
+extension DeleteEventSourceMappingInput {
+
+    static func urlPathProvider(_ value: DeleteEventSourceMappingInput) -> Swift.String? {
+        guard let uuid = value.uuid else {
             return nil
         }
         return "/2015-03-31/event-source-mappings/\(uuid.urlPercentEncoding())"
@@ -4024,9 +4031,10 @@ enum DeleteEventSourceMappingOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteFunctionCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteFunctionCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionCodeSigningConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2020-06-30/functions/\(functionName.urlPercentEncoding())/code-signing-config"
@@ -4090,9 +4098,10 @@ enum DeleteFunctionCodeSigningConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteFunctionConcurrencyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteFunctionConcurrencyInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionConcurrencyInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2017-10-31/functions/\(functionName.urlPercentEncoding())/concurrency"
@@ -4155,22 +4164,22 @@ enum DeleteFunctionConcurrencyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteFunctionEventInvokeConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension DeleteFunctionEventInvokeConfigInput {
+
+    static func queryItemProvider(_ value: DeleteFunctionEventInvokeConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteFunctionEventInvokeConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteFunctionEventInvokeConfigInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionEventInvokeConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-25/functions/\(functionName.urlPercentEncoding())/event-invoke-config"
@@ -4237,22 +4246,22 @@ enum DeleteFunctionEventInvokeConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteFunctionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension DeleteFunctionInput {
+
+    static func queryItemProvider(_ value: DeleteFunctionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteFunctionInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())"
@@ -4319,22 +4328,22 @@ enum DeleteFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFunctionUrlConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension DeleteFunctionUrlConfigInput {
+
+    static func queryItemProvider(_ value: DeleteFunctionUrlConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteFunctionUrlConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteFunctionUrlConfigInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionUrlConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-10-31/functions/\(functionName.urlPercentEncoding())/url"
@@ -4400,12 +4409,13 @@ enum DeleteFunctionUrlConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteLayerVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension DeleteLayerVersionInput {
+
+    static func urlPathProvider(_ value: DeleteLayerVersionInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
-        guard let versionNumber = versionNumber else {
+        guard let versionNumber = value.versionNumber else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)"
@@ -4461,24 +4471,24 @@ enum DeleteLayerVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProvisionedConcurrencyConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let qualifier = qualifier else {
-                let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-            items.append(qualifierQueryItem)
-            return items
+extension DeleteProvisionedConcurrencyConfigInput {
+
+    static func queryItemProvider(_ value: DeleteProvisionedConcurrencyConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let qualifier = value.qualifier else {
+            let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+        items.append(qualifierQueryItem)
+        return items
     }
 }
 
-extension DeleteProvisionedConcurrencyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension DeleteProvisionedConcurrencyConfigInput {
+
+    static func urlPathProvider(_ value: DeleteProvisionedConcurrencyConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-30/functions/\(functionName.urlPercentEncoding())/provisioned-concurrency"
@@ -6777,8 +6787,9 @@ extension LambdaClientTypes {
     }
 }
 
-extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountSettingsInput {
+
+    static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
         return "/2016-08-19/account-settings"
     }
 }
@@ -6859,12 +6870,13 @@ enum GetAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetAliasInput {
+
+    static func urlPathProvider(_ value: GetAliasInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
@@ -7012,9 +7024,10 @@ enum GetAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let codeSigningConfigArn = codeSigningConfigArn else {
+extension GetCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: GetCodeSigningConfigInput) -> Swift.String? {
+        guard let codeSigningConfigArn = value.codeSigningConfigArn else {
             return nil
         }
         return "/2020-04-22/code-signing-configs/\(codeSigningConfigArn.urlPercentEncoding())"
@@ -7097,9 +7110,10 @@ enum GetCodeSigningConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetEventSourceMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let uuid = uuid else {
+extension GetEventSourceMappingInput {
+
+    static func urlPathProvider(_ value: GetEventSourceMappingInput) -> Swift.String? {
+        guard let uuid = value.uuid else {
             return nil
         }
         return "/2015-03-31/event-source-mappings/\(uuid.urlPercentEncoding())"
@@ -7479,9 +7493,10 @@ enum GetEventSourceMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFunctionCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetFunctionCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: GetFunctionCodeSigningConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2020-06-30/functions/\(functionName.urlPercentEncoding())/code-signing-config"
@@ -7594,9 +7609,10 @@ enum GetFunctionCodeSigningConfigOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetFunctionConcurrencyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetFunctionConcurrencyInput {
+
+    static func urlPathProvider(_ value: GetFunctionConcurrencyInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-30/functions/\(functionName.urlPercentEncoding())/concurrency"
@@ -7688,22 +7704,22 @@ enum GetFunctionConcurrencyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFunctionConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension GetFunctionConfigurationInput {
+
+    static func queryItemProvider(_ value: GetFunctionConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension GetFunctionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetFunctionConfigurationInput {
+
+    static func urlPathProvider(_ value: GetFunctionConfigurationInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/configuration"
@@ -8177,22 +8193,22 @@ enum GetFunctionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetFunctionEventInvokeConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension GetFunctionEventInvokeConfigInput {
+
+    static func queryItemProvider(_ value: GetFunctionEventInvokeConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension GetFunctionEventInvokeConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetFunctionEventInvokeConfigInput {
+
+    static func urlPathProvider(_ value: GetFunctionEventInvokeConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-25/functions/\(functionName.urlPercentEncoding())/event-invoke-config"
@@ -8336,22 +8352,22 @@ enum GetFunctionEventInvokeConfigOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetFunctionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension GetFunctionInput {
+
+    static func queryItemProvider(_ value: GetFunctionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension GetFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetFunctionInput {
+
+    static func urlPathProvider(_ value: GetFunctionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())"
@@ -8486,22 +8502,22 @@ enum GetFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFunctionUrlConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension GetFunctionUrlConfigInput {
+
+    static func queryItemProvider(_ value: GetFunctionUrlConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension GetFunctionUrlConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetFunctionUrlConfigInput {
+
+    static func urlPathProvider(_ value: GetFunctionUrlConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-10-31/functions/\(functionName.urlPercentEncoding())/url"
@@ -8666,24 +8682,24 @@ enum GetFunctionUrlConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLayerVersionByArnInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "find", value: "LayerVersion"))
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension GetLayerVersionByArnInput {
+
+    static func queryItemProvider(_ value: GetLayerVersionByArnInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "find", value: "LayerVersion"))
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension GetLayerVersionByArnInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLayerVersionByArnInput {
+
+    static func urlPathProvider(_ value: GetLayerVersionByArnInput) -> Swift.String? {
         return "/2018-10-31/layers"
     }
 }
@@ -8862,12 +8878,13 @@ enum GetLayerVersionByArnOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLayerVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension GetLayerVersionInput {
+
+    static func urlPathProvider(_ value: GetLayerVersionInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
-        guard let versionNumber = versionNumber else {
+        guard let versionNumber = value.versionNumber else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)"
@@ -9053,12 +9070,13 @@ enum GetLayerVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLayerVersionPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension GetLayerVersionPolicyInput {
+
+    static func urlPathProvider(_ value: GetLayerVersionPolicyInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
-        guard let versionNumber = versionNumber else {
+        guard let versionNumber = value.versionNumber else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)/policy"
@@ -9156,22 +9174,22 @@ enum GetLayerVersionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension GetPolicyInput {
+
+    static func queryItemProvider(_ value: GetPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension GetPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetPolicyInput {
+
+    static func urlPathProvider(_ value: GetPolicyInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/policy"
@@ -9277,24 +9295,24 @@ enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProvisionedConcurrencyConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let qualifier = qualifier else {
-                let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-            items.append(qualifierQueryItem)
-            return items
+extension GetProvisionedConcurrencyConfigInput {
+
+    static func queryItemProvider(_ value: GetProvisionedConcurrencyConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let qualifier = value.qualifier else {
+            let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+        items.append(qualifierQueryItem)
+        return items
     }
 }
 
-extension GetProvisionedConcurrencyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetProvisionedConcurrencyConfigInput {
+
+    static func urlPathProvider(_ value: GetProvisionedConcurrencyConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-30/functions/\(functionName.urlPercentEncoding())/provisioned-concurrency"
@@ -9442,22 +9460,22 @@ enum GetProvisionedConcurrencyConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetRuntimeManagementConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension GetRuntimeManagementConfigInput {
+
+    static func queryItemProvider(_ value: GetRuntimeManagementConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension GetRuntimeManagementConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension GetRuntimeManagementConfigInput {
+
+    static func urlPathProvider(_ value: GetRuntimeManagementConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-07-20/functions/\(functionName.urlPercentEncoding())/runtime-management-config"
@@ -10247,9 +10265,10 @@ extension InvokeAsyncInput: Swift.Encodable {
     }
 }
 
-extension InvokeAsyncInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension InvokeAsyncInput {
+
+    static func urlPathProvider(_ value: InvokeAsyncInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2014-11-13/functions/\(functionName.urlPercentEncoding())/invoke-async"
@@ -10369,38 +10388,39 @@ extension InvokeInput: Swift.Encodable {
     }
 }
 
-extension InvokeInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeInput {
+
+    static func headerProvider(_ value: InvokeInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientContext = clientContext {
+        if let clientContext = value.clientContext {
             items.add(Header(name: "X-Amz-Client-Context", value: Swift.String(clientContext)))
         }
-        if let invocationType = invocationType {
+        if let invocationType = value.invocationType {
             items.add(Header(name: "X-Amz-Invocation-Type", value: Swift.String(invocationType.rawValue)))
         }
-        if let logType = logType {
+        if let logType = value.logType {
             items.add(Header(name: "X-Amz-Log-Type", value: Swift.String(logType.rawValue)))
         }
         return items
     }
 }
 
-extension InvokeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension InvokeInput {
+
+    static func queryItemProvider(_ value: InvokeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension InvokeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension InvokeInput {
+
+    static func urlPathProvider(_ value: InvokeInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/invocations"
@@ -10738,38 +10758,39 @@ extension InvokeWithResponseStreamInput: Swift.Encodable {
     }
 }
 
-extension InvokeWithResponseStreamInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeWithResponseStreamInput {
+
+    static func headerProvider(_ value: InvokeWithResponseStreamInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientContext = clientContext {
+        if let clientContext = value.clientContext {
             items.add(Header(name: "X-Amz-Client-Context", value: Swift.String(clientContext)))
         }
-        if let invocationType = invocationType {
+        if let invocationType = value.invocationType {
             items.add(Header(name: "X-Amz-Invocation-Type", value: Swift.String(invocationType.rawValue)))
         }
-        if let logType = logType {
+        if let logType = value.logType {
             items.add(Header(name: "X-Amz-Log-Type", value: Swift.String(logType.rawValue)))
         }
         return items
     }
 }
 
-extension InvokeWithResponseStreamInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension InvokeWithResponseStreamInput {
+
+    static func queryItemProvider(_ value: InvokeWithResponseStreamInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension InvokeWithResponseStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension InvokeWithResponseStreamInput {
+
+    static func urlPathProvider(_ value: InvokeWithResponseStreamInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-11-15/functions/\(functionName.urlPercentEncoding())/response-streaming-invocations"
@@ -11225,6 +11246,8 @@ extension KMSNotFoundExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum LambdaClientTypes {}
 
 extension LambdaClientTypes {
     public enum LastUpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -11734,30 +11757,30 @@ extension LambdaClientTypes {
 
 }
 
-extension ListAliasesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let functionVersion = functionVersion {
-                let functionVersionQueryItem = ClientRuntime.URLQueryItem(name: "FunctionVersion".urlPercentEncoding(), value: Swift.String(functionVersion).urlPercentEncoding())
-                items.append(functionVersionQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListAliasesInput {
+
+    static func queryItemProvider(_ value: ListAliasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let functionVersion = value.functionVersion {
+            let functionVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "FunctionVersion".urlPercentEncoding(), value: Swift.String(functionVersion).urlPercentEncoding())
+            items.append(functionVersionQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension ListAliasesInput {
+
+    static func urlPathProvider(_ value: ListAliasesInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/aliases"
@@ -11880,25 +11903,25 @@ enum ListAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCodeSigningConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListCodeSigningConfigsInput {
+
+    static func queryItemProvider(_ value: ListCodeSigningConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCodeSigningConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCodeSigningConfigsInput {
+
+    static func urlPathProvider(_ value: ListCodeSigningConfigsInput) -> Swift.String? {
         return "/2020-04-22/code-signing-configs"
     }
 }
@@ -11999,33 +12022,33 @@ enum ListCodeSigningConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListEventSourceMappingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let functionName = functionName {
-                let functionNameQueryItem = ClientRuntime.URLQueryItem(name: "FunctionName".urlPercentEncoding(), value: Swift.String(functionName).urlPercentEncoding())
-                items.append(functionNameQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let eventSourceArn = eventSourceArn {
-                let eventSourceArnQueryItem = ClientRuntime.URLQueryItem(name: "EventSourceArn".urlPercentEncoding(), value: Swift.String(eventSourceArn).urlPercentEncoding())
-                items.append(eventSourceArnQueryItem)
-            }
-            return items
+extension ListEventSourceMappingsInput {
+
+    static func queryItemProvider(_ value: ListEventSourceMappingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let functionName = value.functionName {
+            let functionNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "FunctionName".urlPercentEncoding(), value: Swift.String(functionName).urlPercentEncoding())
+            items.append(functionNameQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let eventSourceArn = value.eventSourceArn {
+            let eventSourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventSourceArn".urlPercentEncoding(), value: Swift.String(eventSourceArn).urlPercentEncoding())
+            items.append(eventSourceArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEventSourceMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventSourceMappingsInput {
+
+    static func urlPathProvider(_ value: ListEventSourceMappingsInput) -> Swift.String? {
         return "/2015-03-31/event-source-mappings"
     }
 }
@@ -12159,26 +12182,26 @@ enum ListEventSourceMappingsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListFunctionEventInvokeConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFunctionEventInvokeConfigsInput {
+
+    static func queryItemProvider(_ value: ListFunctionEventInvokeConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionEventInvokeConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension ListFunctionEventInvokeConfigsInput {
+
+    static func urlPathProvider(_ value: ListFunctionEventInvokeConfigsInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-25/functions/\(functionName.urlPercentEncoding())/event-invoke-config/list"
@@ -12297,26 +12320,26 @@ enum ListFunctionEventInvokeConfigsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListFunctionUrlConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFunctionUrlConfigsInput {
+
+    static func queryItemProvider(_ value: ListFunctionUrlConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionUrlConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension ListFunctionUrlConfigsInput {
+
+    static func urlPathProvider(_ value: ListFunctionUrlConfigsInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-10-31/functions/\(functionName.urlPercentEncoding())/urls"
@@ -12436,26 +12459,26 @@ enum ListFunctionUrlConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFunctionsByCodeSigningConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFunctionsByCodeSigningConfigInput {
+
+    static func queryItemProvider(_ value: ListFunctionsByCodeSigningConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionsByCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let codeSigningConfigArn = codeSigningConfigArn else {
+extension ListFunctionsByCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: ListFunctionsByCodeSigningConfigInput) -> Swift.String? {
+        guard let codeSigningConfigArn = value.codeSigningConfigArn else {
             return nil
         }
         return "/2020-04-22/code-signing-configs/\(codeSigningConfigArn.urlPercentEncoding())/functions"
@@ -12564,33 +12587,33 @@ enum ListFunctionsByCodeSigningConfigOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension ListFunctionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let masterRegion = masterRegion {
-                let masterRegionQueryItem = ClientRuntime.URLQueryItem(name: "MasterRegion".urlPercentEncoding(), value: Swift.String(masterRegion).urlPercentEncoding())
-                items.append(masterRegionQueryItem)
-            }
-            if let functionVersion = functionVersion {
-                let functionVersionQueryItem = ClientRuntime.URLQueryItem(name: "FunctionVersion".urlPercentEncoding(), value: Swift.String(functionVersion.rawValue).urlPercentEncoding())
-                items.append(functionVersionQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFunctionsInput {
+
+    static func queryItemProvider(_ value: ListFunctionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let masterRegion = value.masterRegion {
+            let masterRegionQueryItem = ClientRuntime.SDKURLQueryItem(name: "MasterRegion".urlPercentEncoding(), value: Swift.String(masterRegion).urlPercentEncoding())
+            items.append(masterRegionQueryItem)
         }
+        if let functionVersion = value.functionVersion {
+            let functionVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "FunctionVersion".urlPercentEncoding(), value: Swift.String(functionVersion.rawValue).urlPercentEncoding())
+            items.append(functionVersionQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFunctionsInput {
+
+    static func urlPathProvider(_ value: ListFunctionsInput) -> Swift.String? {
         return "/2015-03-31/functions"
     }
 }
@@ -12701,34 +12724,34 @@ enum ListFunctionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLayerVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let compatibleRuntime = compatibleRuntime {
-                let compatibleRuntimeQueryItem = ClientRuntime.URLQueryItem(name: "CompatibleRuntime".urlPercentEncoding(), value: Swift.String(compatibleRuntime.rawValue).urlPercentEncoding())
-                items.append(compatibleRuntimeQueryItem)
-            }
-            if let compatibleArchitecture = compatibleArchitecture {
-                let compatibleArchitectureQueryItem = ClientRuntime.URLQueryItem(name: "CompatibleArchitecture".urlPercentEncoding(), value: Swift.String(compatibleArchitecture.rawValue).urlPercentEncoding())
-                items.append(compatibleArchitectureQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListLayerVersionsInput {
+
+    static func queryItemProvider(_ value: ListLayerVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let compatibleRuntime = value.compatibleRuntime {
+            let compatibleRuntimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "CompatibleRuntime".urlPercentEncoding(), value: Swift.String(compatibleRuntime.rawValue).urlPercentEncoding())
+            items.append(compatibleRuntimeQueryItem)
         }
+        if let compatibleArchitecture = value.compatibleArchitecture {
+            let compatibleArchitectureQueryItem = ClientRuntime.SDKURLQueryItem(name: "CompatibleArchitecture".urlPercentEncoding(), value: Swift.String(compatibleArchitecture.rawValue).urlPercentEncoding())
+            items.append(compatibleArchitectureQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLayerVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension ListLayerVersionsInput {
+
+    static func urlPathProvider(_ value: ListLayerVersionsInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions"
@@ -12846,33 +12869,33 @@ enum ListLayerVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLayersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let compatibleRuntime = compatibleRuntime {
-                let compatibleRuntimeQueryItem = ClientRuntime.URLQueryItem(name: "CompatibleRuntime".urlPercentEncoding(), value: Swift.String(compatibleRuntime.rawValue).urlPercentEncoding())
-                items.append(compatibleRuntimeQueryItem)
-            }
-            if let compatibleArchitecture = compatibleArchitecture {
-                let compatibleArchitectureQueryItem = ClientRuntime.URLQueryItem(name: "CompatibleArchitecture".urlPercentEncoding(), value: Swift.String(compatibleArchitecture.rawValue).urlPercentEncoding())
-                items.append(compatibleArchitectureQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListLayersInput {
+
+    static func queryItemProvider(_ value: ListLayersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let compatibleRuntime = value.compatibleRuntime {
+            let compatibleRuntimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "CompatibleRuntime".urlPercentEncoding(), value: Swift.String(compatibleRuntime.rawValue).urlPercentEncoding())
+            items.append(compatibleRuntimeQueryItem)
         }
+        if let compatibleArchitecture = value.compatibleArchitecture {
+            let compatibleArchitectureQueryItem = ClientRuntime.SDKURLQueryItem(name: "CompatibleArchitecture".urlPercentEncoding(), value: Swift.String(compatibleArchitecture.rawValue).urlPercentEncoding())
+            items.append(compatibleArchitectureQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLayersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLayersInput {
+
+    static func urlPathProvider(_ value: ListLayersInput) -> Swift.String? {
         return "/2018-10-31/layers"
     }
 }
@@ -12982,27 +13005,27 @@ enum ListLayersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProvisionedConcurrencyConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "List", value: "ALL"))
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListProvisionedConcurrencyConfigsInput {
+
+    static func queryItemProvider(_ value: ListProvisionedConcurrencyConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "List", value: "ALL"))
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProvisionedConcurrencyConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension ListProvisionedConcurrencyConfigsInput {
+
+    static func urlPathProvider(_ value: ListProvisionedConcurrencyConfigsInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-30/functions/\(functionName.urlPercentEncoding())/provisioned-concurrency"
@@ -13121,9 +13144,10 @@ enum ListProvisionedConcurrencyConfigsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resource = resource else {
+extension ListTagsInput {
+
+    static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
+        guard let resource = value.resource else {
             return nil
         }
         return "/2017-03-31/tags/\(resource.urlPercentEncoding())"
@@ -13215,26 +13239,26 @@ enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVersionsByFunctionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListVersionsByFunctionInput {
+
+    static func queryItemProvider(_ value: ListVersionsByFunctionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVersionsByFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension ListVersionsByFunctionInput {
+
+    static func urlPathProvider(_ value: ListVersionsByFunctionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/versions"
@@ -13943,9 +13967,10 @@ extension PublishLayerVersionInput: Swift.Encodable {
     }
 }
 
-extension PublishLayerVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension PublishLayerVersionInput {
+
+    static func urlPathProvider(_ value: PublishLayerVersionInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions"
@@ -14216,9 +14241,10 @@ extension PublishVersionInput: Swift.Encodable {
     }
 }
 
-extension PublishVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension PublishVersionInput {
+
+    static func urlPathProvider(_ value: PublishVersionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/versions"
@@ -14731,9 +14757,10 @@ extension PutFunctionCodeSigningConfigInput: Swift.Encodable {
     }
 }
 
-extension PutFunctionCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension PutFunctionCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: PutFunctionCodeSigningConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2020-06-30/functions/\(functionName.urlPercentEncoding())/code-signing-config"
@@ -14873,9 +14900,10 @@ extension PutFunctionConcurrencyInput: Swift.Encodable {
     }
 }
 
-extension PutFunctionConcurrencyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension PutFunctionConcurrencyInput {
+
+    static func urlPathProvider(_ value: PutFunctionConcurrencyInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2017-10-31/functions/\(functionName.urlPercentEncoding())/concurrency"
@@ -15001,22 +15029,22 @@ extension PutFunctionEventInvokeConfigInput: Swift.Encodable {
     }
 }
 
-extension PutFunctionEventInvokeConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension PutFunctionEventInvokeConfigInput {
+
+    static func queryItemProvider(_ value: PutFunctionEventInvokeConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension PutFunctionEventInvokeConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension PutFunctionEventInvokeConfigInput {
+
+    static func urlPathProvider(_ value: PutFunctionEventInvokeConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-25/functions/\(functionName.urlPercentEncoding())/event-invoke-config"
@@ -15209,24 +15237,24 @@ extension PutProvisionedConcurrencyConfigInput: Swift.Encodable {
     }
 }
 
-extension PutProvisionedConcurrencyConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let qualifier = qualifier else {
-                let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-            items.append(qualifierQueryItem)
-            return items
+extension PutProvisionedConcurrencyConfigInput {
+
+    static func queryItemProvider(_ value: PutProvisionedConcurrencyConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let qualifier = value.qualifier else {
+            let message = "Creating a URL Query Item failed. qualifier is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+        items.append(qualifierQueryItem)
+        return items
     }
 }
 
-extension PutProvisionedConcurrencyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension PutProvisionedConcurrencyConfigInput {
+
+    static func urlPathProvider(_ value: PutProvisionedConcurrencyConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-30/functions/\(functionName.urlPercentEncoding())/provisioned-concurrency"
@@ -15403,22 +15431,22 @@ extension PutRuntimeManagementConfigInput: Swift.Encodable {
     }
 }
 
-extension PutRuntimeManagementConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension PutRuntimeManagementConfigInput {
+
+    static func queryItemProvider(_ value: PutRuntimeManagementConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension PutRuntimeManagementConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension PutRuntimeManagementConfigInput {
+
+    static func urlPathProvider(_ value: PutRuntimeManagementConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-07-20/functions/\(functionName.urlPercentEncoding())/runtime-management-config"
@@ -15629,28 +15657,28 @@ extension RecursiveInvocationExceptionBody: Swift.Decodable {
     }
 }
 
-extension RemoveLayerVersionPermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let revisionId = revisionId {
-                let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-                items.append(revisionIdQueryItem)
-            }
-            return items
+extension RemoveLayerVersionPermissionInput {
+
+    static func queryItemProvider(_ value: RemoveLayerVersionPermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let revisionId = value.revisionId {
+            let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            items.append(revisionIdQueryItem)
         }
+        return items
     }
 }
 
-extension RemoveLayerVersionPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let layerName = layerName else {
+extension RemoveLayerVersionPermissionInput {
+
+    static func urlPathProvider(_ value: RemoveLayerVersionPermissionInput) -> Swift.String? {
+        guard let layerName = value.layerName else {
             return nil
         }
-        guard let versionNumber = versionNumber else {
+        guard let versionNumber = value.versionNumber else {
             return nil
         }
-        guard let statementId = statementId else {
+        guard let statementId = value.statementId else {
             return nil
         }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)/policy/\(statementId.urlPercentEncoding())"
@@ -15718,29 +15746,29 @@ enum RemoveLayerVersionPermissionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension RemovePermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            if let revisionId = revisionId {
-                let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-                items.append(revisionIdQueryItem)
-            }
-            return items
+extension RemovePermissionInput {
+
+    static func queryItemProvider(_ value: RemovePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        if let revisionId = value.revisionId {
+            let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            items.append(revisionIdQueryItem)
+        }
+        return items
     }
 }
 
-extension RemovePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension RemovePermissionInput {
+
+    static func urlPathProvider(_ value: RemovePermissionInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
-        guard let statementId = statementId else {
+        guard let statementId = value.statementId else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/policy/\(statementId.urlPercentEncoding())"
@@ -17292,9 +17320,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resource = resource else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resource = value.resource else {
             return nil
         }
         return "/2017-03-31/tags/\(resource.urlPercentEncoding())"
@@ -17661,26 +17690,26 @@ extension UnsupportedMediaTypeExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resource = resource else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resource = value.resource else {
             return nil
         }
         return "/2017-03-31/tags/\(resource.urlPercentEncoding())"
@@ -17764,12 +17793,13 @@ extension UpdateAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension UpdateAliasInput {
+
+    static func urlPathProvider(_ value: UpdateAliasInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
@@ -17975,9 +18005,10 @@ extension UpdateCodeSigningConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateCodeSigningConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let codeSigningConfigArn = codeSigningConfigArn else {
+extension UpdateCodeSigningConfigInput {
+
+    static func urlPathProvider(_ value: UpdateCodeSigningConfigInput) -> Swift.String? {
+        guard let codeSigningConfigArn = value.codeSigningConfigArn else {
             return nil
         }
         return "/2020-04-22/code-signing-configs/\(codeSigningConfigArn.urlPercentEncoding())"
@@ -18162,9 +18193,10 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
     }
 }
 
-extension UpdateEventSourceMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let uuid = uuid else {
+extension UpdateEventSourceMappingInput {
+
+    static func urlPathProvider(_ value: UpdateEventSourceMappingInput) -> Swift.String? {
+        guard let uuid = value.uuid else {
             return nil
         }
         return "/2015-03-31/event-source-mappings/\(uuid.urlPercentEncoding())"
@@ -18765,9 +18797,10 @@ extension UpdateFunctionCodeInput: Swift.Encodable {
     }
 }
 
-extension UpdateFunctionCodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension UpdateFunctionCodeInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionCodeInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/code"
@@ -19414,9 +19447,10 @@ extension UpdateFunctionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateFunctionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension UpdateFunctionConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionConfigurationInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2015-03-31/functions/\(functionName.urlPercentEncoding())/configuration"
@@ -20077,22 +20111,22 @@ extension UpdateFunctionEventInvokeConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateFunctionEventInvokeConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension UpdateFunctionEventInvokeConfigInput {
+
+    static func queryItemProvider(_ value: UpdateFunctionEventInvokeConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateFunctionEventInvokeConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension UpdateFunctionEventInvokeConfigInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionEventInvokeConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2019-09-25/functions/\(functionName.urlPercentEncoding())/event-invoke-config"
@@ -20293,22 +20327,22 @@ extension UpdateFunctionUrlConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateFunctionUrlConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qualifier = qualifier {
-                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
-                items.append(qualifierQueryItem)
-            }
-            return items
+extension UpdateFunctionUrlConfigInput {
+
+    static func queryItemProvider(_ value: UpdateFunctionUrlConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qualifier = value.qualifier {
+            let qualifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+            items.append(qualifierQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateFunctionUrlConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionName = functionName else {
+extension UpdateFunctionUrlConfigInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionUrlConfigInput) -> Swift.String? {
+        guard let functionName = value.functionName else {
             return nil
         }
         return "/2021-10-31/functions/\(functionName.urlPercentEncoding())/url"

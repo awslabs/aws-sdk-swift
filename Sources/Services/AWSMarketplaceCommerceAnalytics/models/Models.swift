@@ -143,8 +143,9 @@ extension GenerateDataSetInput: Swift.Encodable {
     }
 }
 
-extension GenerateDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GenerateDataSetInput {
+
+    static func urlPathProvider(_ value: GenerateDataSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -342,6 +343,8 @@ enum GenerateDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum MarketplaceCommerceAnalyticsClientTypes {}
+
 extension MarketplaceCommerceAnalyticsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -438,8 +441,9 @@ extension StartSupportDataExportInput: Swift.Encodable {
     }
 }
 
-extension StartSupportDataExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSupportDataExportInput {
+
+    static func urlPathProvider(_ value: StartSupportDataExportInput) -> Swift.String? {
         return "/"
     }
 }

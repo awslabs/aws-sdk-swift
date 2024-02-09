@@ -845,6 +845,8 @@ extension QLDBSessionClientTypes {
 
 }
 
+public enum QLDBSessionClientTypes {}
+
 extension RateExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -941,8 +943,9 @@ extension SendCommandInput: Swift.Encodable {
     }
 }
 
-extension SendCommandInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendCommandInput {
+
+    static func urlPathProvider(_ value: SendCommandInput) -> Swift.String? {
         return "/"
     }
 }

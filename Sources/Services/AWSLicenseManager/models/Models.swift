@@ -15,8 +15,9 @@ extension AcceptGrantInput: Swift.Encodable {
     }
 }
 
-extension AcceptGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptGrantInput {
+
+    static func urlPathProvider(_ value: AcceptGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -415,8 +416,9 @@ extension CheckInLicenseInput: Swift.Encodable {
     }
 }
 
-extension CheckInLicenseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckInLicenseInput {
+
+    static func urlPathProvider(_ value: CheckInLicenseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -525,8 +527,9 @@ extension CheckoutBorrowLicenseInput: Swift.Encodable {
     }
 }
 
-extension CheckoutBorrowLicenseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckoutBorrowLicenseInput {
+
+    static func urlPathProvider(_ value: CheckoutBorrowLicenseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -810,8 +813,9 @@ extension CheckoutLicenseInput: Swift.Encodable {
     }
 }
 
-extension CheckoutLicenseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckoutLicenseInput {
+
+    static func urlPathProvider(_ value: CheckoutLicenseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1271,8 +1275,9 @@ extension CreateGrantInput: Swift.Encodable {
     }
 }
 
-extension CreateGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGrantInput {
+
+    static func urlPathProvider(_ value: CreateGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1502,8 +1507,9 @@ extension CreateGrantVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateGrantVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGrantVersionInput {
+
+    static func urlPathProvider(_ value: CreateGrantVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1734,8 +1740,9 @@ extension CreateLicenseConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateLicenseConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLicenseConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateLicenseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1949,8 +1956,9 @@ extension CreateLicenseConversionTaskForResourceInput: Swift.Encodable {
     }
 }
 
-extension CreateLicenseConversionTaskForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLicenseConversionTaskForResourceInput {
+
+    static func urlPathProvider(_ value: CreateLicenseConversionTaskForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2117,8 +2125,9 @@ extension CreateLicenseInput: Swift.Encodable {
     }
 }
 
-extension CreateLicenseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLicenseInput {
+
+    static func urlPathProvider(_ value: CreateLicenseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2302,8 +2311,9 @@ extension CreateLicenseManagerReportGeneratorInput: Swift.Encodable {
     }
 }
 
-extension CreateLicenseManagerReportGeneratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLicenseManagerReportGeneratorInput {
+
+    static func urlPathProvider(_ value: CreateLicenseManagerReportGeneratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2609,8 +2619,9 @@ extension CreateLicenseVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateLicenseVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLicenseVersionInput {
+
+    static func urlPathProvider(_ value: CreateLicenseVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2872,8 +2883,9 @@ extension CreateTokenInput: Swift.Encodable {
     }
 }
 
-extension CreateTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTokenInput {
+
+    static func urlPathProvider(_ value: CreateTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3103,8 +3115,9 @@ extension DeleteGrantInput: Swift.Encodable {
     }
 }
 
-extension DeleteGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGrantInput {
+
+    static func urlPathProvider(_ value: DeleteGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3245,8 +3258,9 @@ extension DeleteLicenseConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteLicenseConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLicenseConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteLicenseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3322,8 +3336,9 @@ extension DeleteLicenseInput: Swift.Encodable {
     }
 }
 
-extension DeleteLicenseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLicenseInput {
+
+    static func urlPathProvider(_ value: DeleteLicenseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3379,8 +3394,9 @@ extension DeleteLicenseManagerReportGeneratorInput: Swift.Encodable {
     }
 }
 
-extension DeleteLicenseManagerReportGeneratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLicenseManagerReportGeneratorInput {
+
+    static func urlPathProvider(_ value: DeleteLicenseManagerReportGeneratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3523,8 +3539,9 @@ extension DeleteTokenInput: Swift.Encodable {
     }
 }
 
-extension DeleteTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTokenInput {
+
+    static func urlPathProvider(_ value: DeleteTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4112,8 +4129,9 @@ extension ExtendLicenseConsumptionInput: Swift.Encodable {
     }
 }
 
-extension ExtendLicenseConsumptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExtendLicenseConsumptionInput {
+
+    static func urlPathProvider(_ value: ExtendLicenseConsumptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4418,8 +4436,9 @@ extension GetAccessTokenInput: Swift.Encodable {
     }
 }
 
-extension GetAccessTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccessTokenInput {
+
+    static func urlPathProvider(_ value: GetAccessTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4542,8 +4561,9 @@ extension GetGrantInput: Swift.Encodable {
     }
 }
 
-extension GetGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGrantInput {
+
+    static func urlPathProvider(_ value: GetGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4655,8 +4675,9 @@ extension GetLicenseConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetLicenseConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLicenseConfigurationInput {
+
+    static func urlPathProvider(_ value: GetLicenseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4963,8 +4984,9 @@ extension GetLicenseConversionTaskInput: Swift.Encodable {
     }
 }
 
-extension GetLicenseConversionTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLicenseConversionTaskInput {
+
+    static func urlPathProvider(_ value: GetLicenseConversionTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5150,8 +5172,9 @@ extension GetLicenseInput: Swift.Encodable {
     }
 }
 
-extension GetLicenseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLicenseInput {
+
+    static func urlPathProvider(_ value: GetLicenseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5206,8 +5229,9 @@ extension GetLicenseManagerReportGeneratorInput: Swift.Encodable {
     }
 }
 
-extension GetLicenseManagerReportGeneratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLicenseManagerReportGeneratorInput {
+
+    static func urlPathProvider(_ value: GetLicenseManagerReportGeneratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5368,8 +5392,9 @@ extension GetLicenseUsageInput: Swift.Encodable {
     }
 }
 
-extension GetLicenseUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLicenseUsageInput {
+
+    static func urlPathProvider(_ value: GetLicenseUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5467,8 +5492,9 @@ extension GetServiceSettingsInput: Swift.Encodable {
     }
 }
 
-extension GetServiceSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceSettingsInput {
+
+    static func urlPathProvider(_ value: GetServiceSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7164,6 +7190,8 @@ extension LicenseManagerClientTypes {
     }
 }
 
+public enum LicenseManagerClientTypes {}
+
 extension LicenseManagerClientTypes.LicenseOperationFailure: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage = "ErrorMessage"
@@ -7497,8 +7525,9 @@ extension ListAssociationsForLicenseConfigurationInput: Swift.Encodable {
     }
 }
 
-extension ListAssociationsForLicenseConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssociationsForLicenseConfigurationInput {
+
+    static func urlPathProvider(_ value: ListAssociationsForLicenseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7654,8 +7683,9 @@ extension ListDistributedGrantsInput: Swift.Encodable {
     }
 }
 
-extension ListDistributedGrantsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDistributedGrantsInput {
+
+    static func urlPathProvider(_ value: ListDistributedGrantsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7837,8 +7867,9 @@ extension ListFailuresForLicenseConfigurationOperationsInput: Swift.Encodable {
     }
 }
 
-extension ListFailuresForLicenseConfigurationOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFailuresForLicenseConfigurationOperationsInput {
+
+    static func urlPathProvider(_ value: ListFailuresForLicenseConfigurationOperationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7993,8 +8024,9 @@ extension ListLicenseConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListLicenseConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLicenseConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListLicenseConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8174,8 +8206,9 @@ extension ListLicenseConversionTasksInput: Swift.Encodable {
     }
 }
 
-extension ListLicenseConversionTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLicenseConversionTasksInput {
+
+    static func urlPathProvider(_ value: ListLicenseConversionTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8331,8 +8364,9 @@ extension ListLicenseManagerReportGeneratorsInput: Swift.Encodable {
     }
 }
 
-extension ListLicenseManagerReportGeneratorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLicenseManagerReportGeneratorsInput {
+
+    static func urlPathProvider(_ value: ListLicenseManagerReportGeneratorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8490,8 +8524,9 @@ extension ListLicenseSpecificationsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListLicenseSpecificationsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLicenseSpecificationsForResourceInput {
+
+    static func urlPathProvider(_ value: ListLicenseSpecificationsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8636,8 +8671,9 @@ extension ListLicenseVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListLicenseVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLicenseVersionsInput {
+
+    static func urlPathProvider(_ value: ListLicenseVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8792,8 +8828,9 @@ extension ListLicensesInput: Swift.Encodable {
     }
 }
 
-extension ListLicensesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLicensesInput {
+
+    static func urlPathProvider(_ value: ListLicensesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8979,8 +9016,9 @@ extension ListReceivedGrantsForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension ListReceivedGrantsForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReceivedGrantsForOrganizationInput {
+
+    static func urlPathProvider(_ value: ListReceivedGrantsForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9158,8 +9196,9 @@ extension ListReceivedGrantsInput: Swift.Encodable {
     }
 }
 
-extension ListReceivedGrantsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReceivedGrantsInput {
+
+    static func urlPathProvider(_ value: ListReceivedGrantsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9344,8 +9383,9 @@ extension ListReceivedLicensesForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension ListReceivedLicensesForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReceivedLicensesForOrganizationInput {
+
+    static func urlPathProvider(_ value: ListReceivedLicensesForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9514,8 +9554,9 @@ extension ListReceivedLicensesInput: Swift.Encodable {
     }
 }
 
-extension ListReceivedLicensesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReceivedLicensesInput {
+
+    static func urlPathProvider(_ value: ListReceivedLicensesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9700,8 +9741,9 @@ extension ListResourceInventoryInput: Swift.Encodable {
     }
 }
 
-extension ListResourceInventoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceInventoryInput {
+
+    static func urlPathProvider(_ value: ListResourceInventoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9860,8 +9902,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9990,8 +10033,9 @@ extension ListTokensInput: Swift.Encodable {
     }
 }
 
-extension ListTokensInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTokensInput {
+
+    static func urlPathProvider(_ value: ListTokensInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10170,8 +10214,9 @@ extension ListUsageForLicenseConfigurationInput: Swift.Encodable {
     }
 }
 
-extension ListUsageForLicenseConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUsageForLicenseConfigurationInput {
+
+    static func urlPathProvider(_ value: ListUsageForLicenseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10979,8 +11024,9 @@ extension RejectGrantInput: Swift.Encodable {
     }
 }
 
-extension RejectGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectGrantInput {
+
+    static func urlPathProvider(_ value: RejectGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11866,8 +11912,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12167,8 +12214,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12296,8 +12344,9 @@ extension UpdateLicenseConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateLicenseConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLicenseConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateLicenseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12479,8 +12528,9 @@ extension UpdateLicenseManagerReportGeneratorInput: Swift.Encodable {
     }
 }
 
-extension UpdateLicenseManagerReportGeneratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLicenseManagerReportGeneratorInput {
+
+    static func urlPathProvider(_ value: UpdateLicenseManagerReportGeneratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12635,8 +12685,9 @@ extension UpdateLicenseSpecificationsForResourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateLicenseSpecificationsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLicenseSpecificationsForResourceInput {
+
+    static func urlPathProvider(_ value: UpdateLicenseSpecificationsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12756,8 +12807,9 @@ extension UpdateServiceSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateServiceSettingsInput) -> Swift.String? {
         return "/"
     }
 }

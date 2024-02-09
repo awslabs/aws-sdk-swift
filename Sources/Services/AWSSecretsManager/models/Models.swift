@@ -88,8 +88,9 @@ extension BatchGetSecretValueInput: Swift.Encodable {
     }
 }
 
-extension BatchGetSecretValueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetSecretValueInput {
+
+    static func urlPathProvider(_ value: BatchGetSecretValueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -271,8 +272,9 @@ extension CancelRotateSecretInput: Swift.Encodable {
     }
 }
 
-extension CancelRotateSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelRotateSecretInput {
+
+    static func urlPathProvider(_ value: CancelRotateSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -436,8 +438,9 @@ extension CreateSecretInput: Swift.Encodable {
     }
 }
 
-extension CreateSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSecretInput {
+
+    static func urlPathProvider(_ value: CreateSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -735,8 +738,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -855,8 +859,9 @@ extension DeleteSecretInput: Swift.Encodable {
     }
 }
 
-extension DeleteSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSecretInput {
+
+    static func urlPathProvider(_ value: DeleteSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -993,8 +998,9 @@ extension DescribeSecretInput: Swift.Encodable {
     }
 }
 
-extension DescribeSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSecretInput {
+
+    static func urlPathProvider(_ value: DescribeSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1514,8 +1520,9 @@ extension GetRandomPasswordInput: Swift.Encodable {
     }
 }
 
-extension GetRandomPasswordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRandomPasswordInput {
+
+    static func urlPathProvider(_ value: GetRandomPasswordInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1675,8 +1682,9 @@ extension GetResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1805,8 +1813,9 @@ extension GetSecretValueInput: Swift.Encodable {
     }
 }
 
-extension GetSecretValueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSecretValueInput {
+
+    static func urlPathProvider(_ value: GetSecretValueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2291,8 +2300,9 @@ extension ListSecretVersionIdsInput: Swift.Encodable {
     }
 }
 
-extension ListSecretVersionIdsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSecretVersionIdsInput {
+
+    static func urlPathProvider(_ value: ListSecretVersionIdsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2475,8 +2485,9 @@ extension ListSecretsInput: Swift.Encodable {
     }
 }
 
-extension ListSecretsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSecretsInput {
+
+    static func urlPathProvider(_ value: ListSecretsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2809,8 +2820,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2964,8 +2976,9 @@ extension PutSecretValueInput: Swift.Encodable {
     }
 }
 
-extension PutSecretValueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutSecretValueInput {
+
+    static func urlPathProvider(_ value: PutSecretValueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3166,8 +3179,9 @@ extension RemoveRegionsFromReplicationInput: Swift.Encodable {
     }
 }
 
-extension RemoveRegionsFromReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveRegionsFromReplicationInput {
+
+    static func urlPathProvider(_ value: RemoveRegionsFromReplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3361,8 +3375,9 @@ extension ReplicateSecretToRegionsInput: Swift.Encodable {
     }
 }
 
-extension ReplicateSecretToRegionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReplicateSecretToRegionsInput {
+
+    static func urlPathProvider(_ value: ReplicateSecretToRegionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3693,8 +3708,9 @@ extension RestoreSecretInput: Swift.Encodable {
     }
 }
 
-extension RestoreSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreSecretInput {
+
+    static func urlPathProvider(_ value: RestoreSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3821,8 +3837,9 @@ extension RotateSecretInput: Swift.Encodable {
     }
 }
 
-extension RotateSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RotateSecretInput {
+
+    static func urlPathProvider(_ value: RotateSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4457,6 +4474,8 @@ extension SecretsManagerClientTypes {
 
 }
 
+public enum SecretsManagerClientTypes {}
+
 extension SecretsManagerClientTypes {
     public enum SortOrderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case asc
@@ -4537,8 +4556,9 @@ extension StopReplicationToReplicaInput: Swift.Encodable {
     }
 }
 
-extension StopReplicationToReplicaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopReplicationToReplicaInput {
+
+    static func urlPathProvider(_ value: StopReplicationToReplicaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4691,8 +4711,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4788,8 +4809,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4903,8 +4925,9 @@ extension UpdateSecretInput: Swift.Encodable {
     }
 }
 
-extension UpdateSecretInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSecretInput {
+
+    static func urlPathProvider(_ value: UpdateSecretInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5083,8 +5106,9 @@ extension UpdateSecretVersionStageInput: Swift.Encodable {
     }
 }
 
-extension UpdateSecretVersionStageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSecretVersionStageInput {
+
+    static func urlPathProvider(_ value: UpdateSecretVersionStageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5225,8 +5249,9 @@ extension ValidateResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension ValidateResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidateResourcePolicyInput {
+
+    static func urlPathProvider(_ value: ValidateResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }

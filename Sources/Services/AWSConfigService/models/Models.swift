@@ -1188,8 +1188,9 @@ extension BatchGetAggregateResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension BatchGetAggregateResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetAggregateResourceConfigInput {
+
+    static func urlPathProvider(_ value: BatchGetAggregateResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1337,8 +1338,9 @@ extension BatchGetResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension BatchGetResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetResourceConfigInput {
+
+    static func urlPathProvider(_ value: BatchGetResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1820,6 +1822,8 @@ extension ConfigClientTypes {
         }
     }
 }
+
+public enum ConfigClientTypes {}
 
 extension ConfigClientTypes.ConfigExportDeliveryInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -3017,11 +3021,7 @@ extension ConfigClientTypes {
         ///
         /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
         ///
-<<<<<<< HEAD
-        /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
-=======
         /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
->>>>>>> temp-main
         ///
         ///
         /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
@@ -4096,8 +4096,9 @@ extension DeleteAggregationAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension DeleteAggregationAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAggregationAuthorizationInput {
+
+    static func urlPathProvider(_ value: DeleteAggregationAuthorizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4174,8 +4175,9 @@ extension DeleteConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConfigRuleInput {
+
+    static func urlPathProvider(_ value: DeleteConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4245,8 +4247,9 @@ extension DeleteConfigurationAggregatorInput: Swift.Encodable {
     }
 }
 
-extension DeleteConfigurationAggregatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConfigurationAggregatorInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationAggregatorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4314,8 +4317,9 @@ extension DeleteConfigurationRecorderInput: Swift.Encodable {
     }
 }
 
-extension DeleteConfigurationRecorderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConfigurationRecorderInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationRecorderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4384,8 +4388,9 @@ extension DeleteConformancePackInput: Swift.Encodable {
     }
 }
 
-extension DeleteConformancePackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConformancePackInput {
+
+    static func urlPathProvider(_ value: DeleteConformancePackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4454,8 +4459,9 @@ extension DeleteDeliveryChannelInput: Swift.Encodable {
     }
 }
 
-extension DeleteDeliveryChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDeliveryChannelInput {
+
+    static func urlPathProvider(_ value: DeleteDeliveryChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4525,8 +4531,9 @@ extension DeleteEvaluationResultsInput: Swift.Encodable {
     }
 }
 
-extension DeleteEvaluationResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEvaluationResultsInput {
+
+    static func urlPathProvider(_ value: DeleteEvaluationResultsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4597,8 +4604,9 @@ extension DeleteOrganizationConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteOrganizationConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteOrganizationConfigRuleInput {
+
+    static func urlPathProvider(_ value: DeleteOrganizationConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4668,8 +4676,9 @@ extension DeleteOrganizationConformancePackInput: Swift.Encodable {
     }
 }
 
-extension DeleteOrganizationConformancePackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteOrganizationConformancePackInput {
+
+    static func urlPathProvider(_ value: DeleteOrganizationConformancePackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4743,8 +4752,9 @@ extension DeletePendingAggregationRequestInput: Swift.Encodable {
     }
 }
 
-extension DeletePendingAggregationRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePendingAggregationRequestInput {
+
+    static func urlPathProvider(_ value: DeletePendingAggregationRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4825,8 +4835,9 @@ extension DeleteRemediationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteRemediationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRemediationConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteRemediationConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4912,8 +4923,9 @@ extension DeleteRemediationExceptionsInput: Swift.Encodable {
     }
 }
 
-extension DeleteRemediationExceptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRemediationExceptionsInput {
+
+    static func urlPathProvider(_ value: DeleteRemediationExceptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5042,8 +5054,9 @@ extension DeleteResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourceConfigInput {
+
+    static func urlPathProvider(_ value: DeleteResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5121,8 +5134,9 @@ extension DeleteRetentionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteRetentionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRetentionConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteRetentionConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5191,8 +5205,9 @@ extension DeleteStoredQueryInput: Swift.Encodable {
     }
 }
 
-extension DeleteStoredQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStoredQueryInput {
+
+    static func urlPathProvider(_ value: DeleteStoredQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5261,8 +5276,9 @@ extension DeliverConfigSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeliverConfigSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeliverConfigSnapshotInput {
+
+    static func urlPathProvider(_ value: DeliverConfigSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5561,8 +5577,9 @@ extension DescribeAggregateComplianceByConfigRulesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAggregateComplianceByConfigRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAggregateComplianceByConfigRulesInput {
+
+    static func urlPathProvider(_ value: DescribeAggregateComplianceByConfigRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5718,8 +5735,9 @@ extension DescribeAggregateComplianceByConformancePacksInput: Swift.Encodable {
     }
 }
 
-extension DescribeAggregateComplianceByConformancePacksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAggregateComplianceByConformancePacksInput {
+
+    static func urlPathProvider(_ value: DescribeAggregateComplianceByConformancePacksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5867,8 +5885,9 @@ extension DescribeAggregationAuthorizationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAggregationAuthorizationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAggregationAuthorizationsInput {
+
+    static func urlPathProvider(_ value: DescribeAggregationAuthorizationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6008,8 +6027,9 @@ extension DescribeComplianceByConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension DescribeComplianceByConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeComplianceByConfigRuleInput {
+
+    static func urlPathProvider(_ value: DescribeComplianceByConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6182,8 +6202,9 @@ extension DescribeComplianceByResourceInput: Swift.Encodable {
     }
 }
 
-extension DescribeComplianceByResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeComplianceByResourceInput {
+
+    static func urlPathProvider(_ value: DescribeComplianceByResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6354,8 +6375,9 @@ extension DescribeConfigRuleEvaluationStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigRuleEvaluationStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigRuleEvaluationStatusInput {
+
+    static func urlPathProvider(_ value: DescribeConfigRuleEvaluationStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6546,8 +6568,9 @@ extension DescribeConfigRulesInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigRulesInput {
+
+    static func urlPathProvider(_ value: DescribeConfigRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6707,8 +6730,9 @@ extension DescribeConfigurationAggregatorSourcesStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigurationAggregatorSourcesStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigurationAggregatorSourcesStatusInput {
+
+    static func urlPathProvider(_ value: DescribeConfigurationAggregatorSourcesStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6878,8 +6902,9 @@ extension DescribeConfigurationAggregatorsInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigurationAggregatorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigurationAggregatorsInput {
+
+    static func urlPathProvider(_ value: DescribeConfigurationAggregatorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7026,8 +7051,9 @@ extension DescribeConfigurationRecorderStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigurationRecorderStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigurationRecorderStatusInput {
+
+    static func urlPathProvider(_ value: DescribeConfigurationRecorderStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7147,8 +7173,9 @@ extension DescribeConfigurationRecordersInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigurationRecordersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigurationRecordersInput {
+
+    static func urlPathProvider(_ value: DescribeConfigurationRecordersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7277,8 +7304,9 @@ extension DescribeConformancePackComplianceInput: Swift.Encodable {
     }
 }
 
-extension DescribeConformancePackComplianceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConformancePackComplianceInput {
+
+    static func urlPathProvider(_ value: DescribeConformancePackComplianceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7446,8 +7474,9 @@ extension DescribeConformancePackStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeConformancePackStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConformancePackStatusInput {
+
+    static func urlPathProvider(_ value: DescribeConformancePackStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7601,8 +7630,9 @@ extension DescribeConformancePacksInput: Swift.Encodable {
     }
 }
 
-extension DescribeConformancePacksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConformancePacksInput {
+
+    static func urlPathProvider(_ value: DescribeConformancePacksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7749,8 +7779,9 @@ extension DescribeDeliveryChannelStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeDeliveryChannelStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDeliveryChannelStatusInput {
+
+    static func urlPathProvider(_ value: DescribeDeliveryChannelStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7870,8 +7901,9 @@ extension DescribeDeliveryChannelsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDeliveryChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDeliveryChannelsInput {
+
+    static func urlPathProvider(_ value: DescribeDeliveryChannelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7999,8 +8031,9 @@ extension DescribeOrganizationConfigRuleStatusesInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrganizationConfigRuleStatusesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConfigRuleStatusesInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConfigRuleStatusesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8155,8 +8188,9 @@ extension DescribeOrganizationConfigRulesInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrganizationConfigRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConfigRulesInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConfigRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8311,8 +8345,9 @@ extension DescribeOrganizationConformancePackStatusesInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrganizationConformancePackStatusesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConformancePackStatusesInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConformancePackStatusesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8467,8 +8502,9 @@ extension DescribeOrganizationConformancePacksInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrganizationConformancePacksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConformancePacksInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConformancePacksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8616,8 +8652,9 @@ extension DescribePendingAggregationRequestsInput: Swift.Encodable {
     }
 }
 
-extension DescribePendingAggregationRequestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePendingAggregationRequestsInput {
+
+    static func urlPathProvider(_ value: DescribePendingAggregationRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8746,8 +8783,9 @@ extension DescribeRemediationConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRemediationConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRemediationConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeRemediationConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8877,8 +8915,9 @@ extension DescribeRemediationExceptionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRemediationExceptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRemediationExceptionsInput {
+
+    static func urlPathProvider(_ value: DescribeRemediationExceptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9044,8 +9083,9 @@ extension DescribeRemediationExecutionStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeRemediationExecutionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRemediationExecutionStatusInput {
+
+    static func urlPathProvider(_ value: DescribeRemediationExecutionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9204,8 +9244,9 @@ extension DescribeRetentionConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRetentionConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRetentionConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeRetentionConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10204,8 +10245,9 @@ extension GetAggregateComplianceDetailsByConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension GetAggregateComplianceDetailsByConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAggregateComplianceDetailsByConfigRuleInput {
+
+    static func urlPathProvider(_ value: GetAggregateComplianceDetailsByConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10392,8 +10434,9 @@ extension GetAggregateConfigRuleComplianceSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetAggregateConfigRuleComplianceSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAggregateConfigRuleComplianceSummaryInput {
+
+    static func urlPathProvider(_ value: GetAggregateConfigRuleComplianceSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10571,8 +10614,9 @@ extension GetAggregateConformancePackComplianceSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetAggregateConformancePackComplianceSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAggregateConformancePackComplianceSummaryInput {
+
+    static func urlPathProvider(_ value: GetAggregateConformancePackComplianceSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10750,8 +10794,9 @@ extension GetAggregateDiscoveredResourceCountsInput: Swift.Encodable {
     }
 }
 
-extension GetAggregateDiscoveredResourceCountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAggregateDiscoveredResourceCountsInput {
+
+    static func urlPathProvider(_ value: GetAggregateDiscoveredResourceCountsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10928,8 +10973,9 @@ extension GetAggregateResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension GetAggregateResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAggregateResourceConfigInput {
+
+    static func urlPathProvider(_ value: GetAggregateResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11054,8 +11100,9 @@ extension GetComplianceDetailsByConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension GetComplianceDetailsByConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComplianceDetailsByConfigRuleInput {
+
+    static func urlPathProvider(_ value: GetComplianceDetailsByConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11228,8 +11275,9 @@ extension GetComplianceDetailsByResourceInput: Swift.Encodable {
     }
 }
 
-extension GetComplianceDetailsByResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComplianceDetailsByResourceInput {
+
+    static func urlPathProvider(_ value: GetComplianceDetailsByResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11383,8 +11431,9 @@ extension GetComplianceSummaryByConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension GetComplianceSummaryByConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComplianceSummaryByConfigRuleInput {
+
+    static func urlPathProvider(_ value: GetComplianceSummaryByConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11470,8 +11519,9 @@ extension GetComplianceSummaryByResourceTypeInput: Swift.Encodable {
     }
 }
 
-extension GetComplianceSummaryByResourceTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComplianceSummaryByResourceTypeInput {
+
+    static func urlPathProvider(_ value: GetComplianceSummaryByResourceTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11600,8 +11650,9 @@ extension GetConformancePackComplianceDetailsInput: Swift.Encodable {
     }
 }
 
-extension GetConformancePackComplianceDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetConformancePackComplianceDetailsInput {
+
+    static func urlPathProvider(_ value: GetConformancePackComplianceDetailsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11768,8 +11819,9 @@ extension GetConformancePackComplianceSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetConformancePackComplianceSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetConformancePackComplianceSummaryInput {
+
+    static func urlPathProvider(_ value: GetConformancePackComplianceSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11913,8 +11965,9 @@ extension GetCustomRulePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetCustomRulePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCustomRulePolicyInput {
+
+    static func urlPathProvider(_ value: GetCustomRulePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12022,8 +12075,9 @@ extension GetDiscoveredResourceCountsInput: Swift.Encodable {
     }
 }
 
-extension GetDiscoveredResourceCountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDiscoveredResourceCountsInput {
+
+    static func urlPathProvider(_ value: GetDiscoveredResourceCountsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12194,8 +12248,9 @@ extension GetOrganizationConfigRuleDetailedStatusInput: Swift.Encodable {
     }
 }
 
-extension GetOrganizationConfigRuleDetailedStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOrganizationConfigRuleDetailedStatusInput {
+
+    static func urlPathProvider(_ value: GetOrganizationConfigRuleDetailedStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12351,8 +12406,9 @@ extension GetOrganizationConformancePackDetailedStatusInput: Swift.Encodable {
     }
 }
 
-extension GetOrganizationConformancePackDetailedStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOrganizationConformancePackDetailedStatusInput {
+
+    static func urlPathProvider(_ value: GetOrganizationConformancePackDetailedStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12496,8 +12552,9 @@ extension GetOrganizationCustomRulePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetOrganizationCustomRulePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOrganizationCustomRulePolicyInput {
+
+    static func urlPathProvider(_ value: GetOrganizationCustomRulePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12620,8 +12677,9 @@ extension GetResourceConfigHistoryInput: Swift.Encodable {
     }
 }
 
-extension GetResourceConfigHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceConfigHistoryInput {
+
+    static func urlPathProvider(_ value: GetResourceConfigHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12794,8 +12852,9 @@ extension GetResourceEvaluationSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetResourceEvaluationSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceEvaluationSummaryInput {
+
+    static func urlPathProvider(_ value: GetResourceEvaluationSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12953,8 +13012,9 @@ extension GetStoredQueryInput: Swift.Encodable {
     }
 }
 
-extension GetStoredQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStoredQueryInput {
+
+    static func urlPathProvider(_ value: GetStoredQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14150,8 +14210,9 @@ extension ListAggregateDiscoveredResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListAggregateDiscoveredResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAggregateDiscoveredResourcesInput {
+
+    static func urlPathProvider(_ value: ListAggregateDiscoveredResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14320,8 +14381,9 @@ extension ListConformancePackComplianceScoresInput: Swift.Encodable {
     }
 }
 
-extension ListConformancePackComplianceScoresInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConformancePackComplianceScoresInput {
+
+    static func urlPathProvider(_ value: ListConformancePackComplianceScoresInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14495,8 +14557,9 @@ extension ListDiscoveredResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListDiscoveredResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDiscoveredResourcesInput {
+
+    static func urlPathProvider(_ value: ListDiscoveredResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14675,8 +14738,9 @@ extension ListResourceEvaluationsInput: Swift.Encodable {
     }
 }
 
-extension ListResourceEvaluationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceEvaluationsInput {
+
+    static func urlPathProvider(_ value: ListResourceEvaluationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14814,8 +14878,9 @@ extension ListStoredQueriesInput: Swift.Encodable {
     }
 }
 
-extension ListStoredQueriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStoredQueriesInput {
+
+    static func urlPathProvider(_ value: ListStoredQueriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14948,8 +15013,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18484,8 +18550,9 @@ extension PutAggregationAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension PutAggregationAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAggregationAuthorizationInput {
+
+    static func urlPathProvider(_ value: PutAggregationAuthorizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18616,8 +18683,9 @@ extension PutConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension PutConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutConfigRuleInput {
+
+    static func urlPathProvider(_ value: PutConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18724,8 +18792,9 @@ extension PutConfigurationAggregatorInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationAggregatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutConfigurationAggregatorInput {
+
+    static func urlPathProvider(_ value: PutConfigurationAggregatorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18870,8 +18939,9 @@ extension PutConfigurationRecorderInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationRecorderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutConfigurationRecorderInput {
+
+    static func urlPathProvider(_ value: PutConfigurationRecorderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18971,8 +19041,9 @@ extension PutConformancePackInput: Swift.Encodable {
     }
 }
 
-extension PutConformancePackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutConformancePackInput {
+
+    static func urlPathProvider(_ value: PutConformancePackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19131,8 +19202,9 @@ extension PutDeliveryChannelInput: Swift.Encodable {
     }
 }
 
-extension PutDeliveryChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutDeliveryChannelInput {
+
+    static func urlPathProvider(_ value: PutDeliveryChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19219,8 +19291,9 @@ extension PutEvaluationsInput: Swift.Encodable {
     }
 }
 
-extension PutEvaluationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutEvaluationsInput {
+
+    static func urlPathProvider(_ value: PutEvaluationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19360,8 +19433,9 @@ extension PutExternalEvaluationInput: Swift.Encodable {
     }
 }
 
-extension PutExternalEvaluationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutExternalEvaluationInput {
+
+    static func urlPathProvider(_ value: PutExternalEvaluationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19458,8 +19532,9 @@ extension PutOrganizationConfigRuleInput: Swift.Encodable {
     }
 }
 
-extension PutOrganizationConfigRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutOrganizationConfigRuleInput {
+
+    static func urlPathProvider(_ value: PutOrganizationConfigRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19635,8 +19710,9 @@ extension PutOrganizationConformancePackInput: Swift.Encodable {
     }
 }
 
-extension PutOrganizationConformancePackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutOrganizationConformancePackInput {
+
+    static func urlPathProvider(_ value: PutOrganizationConformancePackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19810,8 +19886,9 @@ extension PutRemediationConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension PutRemediationConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRemediationConfigurationsInput {
+
+    static func urlPathProvider(_ value: PutRemediationConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19943,8 +20020,9 @@ extension PutRemediationExceptionsInput: Swift.Encodable {
     }
 }
 
-extension PutRemediationExceptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRemediationExceptionsInput {
+
+    static func urlPathProvider(_ value: PutRemediationExceptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20109,8 +20187,9 @@ extension PutResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension PutResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourceConfigInput {
+
+    static func urlPathProvider(_ value: PutResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20233,8 +20312,9 @@ extension PutRetentionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutRetentionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRetentionConfigurationInput {
+
+    static func urlPathProvider(_ value: PutRetentionConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20340,8 +20420,9 @@ extension PutStoredQueryInput: Swift.Encodable {
     }
 }
 
-extension PutStoredQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutStoredQueryInput {
+
+    static func urlPathProvider(_ value: PutStoredQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20738,11 +20819,7 @@ extension ConfigClientTypes {
     ///
     /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
     ///
-<<<<<<< HEAD
-    /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
-=======
     /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
->>>>>>> temp-main
     ///
     ///
     /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
@@ -20826,11 +20903,7 @@ extension ConfigClientTypes {
         ///
         /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
         ///
-<<<<<<< HEAD
-        /// * Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.
-=======
         /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
->>>>>>> temp-main
         ///
         ///
         /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous.
@@ -22485,10 +22558,7 @@ extension ConfigClientTypes {
         case apprunnervpcconnector
         case appstreamapplication
         case appstreamdirectoryconfig
-<<<<<<< HEAD
-=======
         case appstreamfleet
->>>>>>> temp-main
         case appstreamstack
         case appsyncgraphqlapi
         case application
@@ -22691,10 +22761,7 @@ extension ConfigClientTypes {
         case iotwirelessfuotatask
         case iotwirelessmulticastgroup
         case iotwirelessserviceprofile
-<<<<<<< HEAD
-=======
         case kmsalias
->>>>>>> temp-main
         case kafkaconnectconnector
         case kendraindex
         case key
@@ -22719,10 +22786,7 @@ extension ConfigClientTypes {
         case logsdestination
         case lookoutmetricsalert
         case lookoutvisionproject
-<<<<<<< HEAD
-=======
         case m2environment
->>>>>>> temp-main
         case mskbatchscramsecret
         case mskcluster
         case mskconfiguration
@@ -22905,10 +22969,7 @@ extension ConfigClientTypes {
                 .apprunnervpcconnector,
                 .appstreamapplication,
                 .appstreamdirectoryconfig,
-<<<<<<< HEAD
-=======
                 .appstreamfleet,
->>>>>>> temp-main
                 .appstreamstack,
                 .appsyncgraphqlapi,
                 .application,
@@ -23111,10 +23172,7 @@ extension ConfigClientTypes {
                 .iotwirelessfuotatask,
                 .iotwirelessmulticastgroup,
                 .iotwirelessserviceprofile,
-<<<<<<< HEAD
-=======
                 .kmsalias,
->>>>>>> temp-main
                 .kafkaconnectconnector,
                 .kendraindex,
                 .key,
@@ -23139,10 +23197,7 @@ extension ConfigClientTypes {
                 .logsdestination,
                 .lookoutmetricsalert,
                 .lookoutvisionproject,
-<<<<<<< HEAD
-=======
                 .m2environment,
->>>>>>> temp-main
                 .mskbatchscramsecret,
                 .mskcluster,
                 .mskconfiguration,
@@ -23330,10 +23385,7 @@ extension ConfigClientTypes {
             case .apprunnervpcconnector: return "AWS::AppRunner::VpcConnector"
             case .appstreamapplication: return "AWS::AppStream::Application"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
-<<<<<<< HEAD
-=======
             case .appstreamfleet: return "AWS::AppStream::Fleet"
->>>>>>> temp-main
             case .appstreamstack: return "AWS::AppStream::Stack"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
@@ -23536,10 +23588,7 @@ extension ConfigClientTypes {
             case .iotwirelessfuotatask: return "AWS::IoTWireless::FuotaTask"
             case .iotwirelessmulticastgroup: return "AWS::IoTWireless::MulticastGroup"
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
-<<<<<<< HEAD
-=======
             case .kmsalias: return "AWS::KMS::Alias"
->>>>>>> temp-main
             case .kafkaconnectconnector: return "AWS::KafkaConnect::Connector"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
@@ -23564,10 +23613,7 @@ extension ConfigClientTypes {
             case .logsdestination: return "AWS::Logs::Destination"
             case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
             case .lookoutvisionproject: return "AWS::LookoutVision::Project"
-<<<<<<< HEAD
-=======
             case .m2environment: return "AWS::M2::Environment"
->>>>>>> temp-main
             case .mskbatchscramsecret: return "AWS::MSK::BatchScramSecret"
             case .mskcluster: return "AWS::MSK::Cluster"
             case .mskconfiguration: return "AWS::MSK::Configuration"
@@ -23947,8 +23993,9 @@ extension SelectAggregateResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension SelectAggregateResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SelectAggregateResourceConfigInput {
+
+    static func urlPathProvider(_ value: SelectAggregateResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24119,8 +24166,9 @@ extension SelectResourceConfigInput: Swift.Encodable {
     }
 }
 
-extension SelectResourceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SelectResourceConfigInput {
+
+    static func urlPathProvider(_ value: SelectResourceConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24518,8 +24566,9 @@ extension StartConfigRulesEvaluationInput: Swift.Encodable {
     }
 }
 
-extension StartConfigRulesEvaluationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartConfigRulesEvaluationInput {
+
+    static func urlPathProvider(_ value: StartConfigRulesEvaluationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24600,8 +24649,9 @@ extension StartConfigurationRecorderInput: Swift.Encodable {
     }
 }
 
-extension StartConfigurationRecorderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartConfigurationRecorderInput {
+
+    static func urlPathProvider(_ value: StartConfigurationRecorderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24678,8 +24728,9 @@ extension StartRemediationExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartRemediationExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartRemediationExecutionInput {
+
+    static func urlPathProvider(_ value: StartRemediationExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24832,8 +24883,9 @@ extension StartResourceEvaluationInput: Swift.Encodable {
     }
 }
 
-extension StartResourceEvaluationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartResourceEvaluationInput {
+
+    static func urlPathProvider(_ value: StartResourceEvaluationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25076,8 +25128,9 @@ extension StopConfigurationRecorderInput: Swift.Encodable {
     }
 }
 
-extension StopConfigurationRecorderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopConfigurationRecorderInput {
+
+    static func urlPathProvider(_ value: StopConfigurationRecorderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25342,8 +25395,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25585,8 +25639,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

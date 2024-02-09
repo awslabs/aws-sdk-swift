@@ -58,6 +58,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum InspectorScanClientTypes {}
+
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
@@ -215,8 +217,9 @@ extension ScanSbomInput: Swift.Encodable {
     }
 }
 
-extension ScanSbomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ScanSbomInput {
+
+    static func urlPathProvider(_ value: ScanSbomInput) -> Swift.String? {
         return "/scan/sbom"
     }
 }

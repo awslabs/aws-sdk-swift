@@ -15,8 +15,9 @@ extension AcceptSharedDirectoryInput: Swift.Encodable {
     }
 }
 
-extension AcceptSharedDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptSharedDirectoryInput {
+
+    static func urlPathProvider(_ value: AcceptSharedDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -195,8 +196,9 @@ extension AddIpRoutesInput: Swift.Encodable {
     }
 }
 
-extension AddIpRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddIpRoutesInput {
+
+    static func urlPathProvider(_ value: AddIpRoutesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -346,8 +348,9 @@ extension AddRegionInput: Swift.Encodable {
     }
 }
 
-extension AddRegionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddRegionInput {
+
+    static func urlPathProvider(_ value: AddRegionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -449,8 +452,9 @@ extension AddTagsToResourceInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToResourceInput {
+
+    static func urlPathProvider(_ value: AddTagsToResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -655,8 +659,9 @@ extension CancelSchemaExtensionInput: Swift.Encodable {
     }
 }
 
-extension CancelSchemaExtensionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelSchemaExtensionInput {
+
+    static func urlPathProvider(_ value: CancelSchemaExtensionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1641,8 +1646,9 @@ extension ConnectDirectoryInput: Swift.Encodable {
     }
 }
 
-extension ConnectDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConnectDirectoryInput {
+
+    static func urlPathProvider(_ value: ConnectDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1809,8 +1815,9 @@ extension CreateAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAliasInput {
+
+    static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1957,8 +1964,9 @@ extension CreateComputerInput: Swift.Encodable {
     }
 }
 
-extension CreateComputerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateComputerInput {
+
+    static func urlPathProvider(_ value: CreateComputerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2119,8 +2127,9 @@ extension CreateConditionalForwarderInput: Swift.Encodable {
     }
 }
 
-extension CreateConditionalForwarderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConditionalForwarderInput {
+
+    static func urlPathProvider(_ value: CreateConditionalForwarderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2255,8 +2264,9 @@ extension CreateDirectoryInput: Swift.Encodable {
     }
 }
 
-extension CreateDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDirectoryInput {
+
+    static func urlPathProvider(_ value: CreateDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2438,8 +2448,9 @@ extension CreateLogSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateLogSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLogSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateLogSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2553,8 +2564,9 @@ extension CreateMicrosoftADInput: Swift.Encodable {
     }
 }
 
-extension CreateMicrosoftADInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMicrosoftADInput {
+
+    static func urlPathProvider(_ value: CreateMicrosoftADInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2721,8 +2733,9 @@ extension CreateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2866,8 +2879,9 @@ extension CreateTrustInput: Swift.Encodable {
     }
 }
 
-extension CreateTrustInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrustInput {
+
+    static func urlPathProvider(_ value: CreateTrustInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3036,8 +3050,9 @@ extension DeleteConditionalForwarderInput: Swift.Encodable {
     }
 }
 
-extension DeleteConditionalForwarderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConditionalForwarderInput {
+
+    static func urlPathProvider(_ value: DeleteConditionalForwarderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3121,8 +3136,9 @@ extension DeleteDirectoryInput: Swift.Encodable {
     }
 }
 
-extension DeleteDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDirectoryInput {
+
+    static func urlPathProvider(_ value: DeleteDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3224,8 +3240,9 @@ extension DeleteLogSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension DeleteLogSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLogSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteLogSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3296,8 +3313,9 @@ extension DeleteSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeleteSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3404,8 +3422,9 @@ extension DeleteTrustInput: Swift.Encodable {
     }
 }
 
-extension DeleteTrustInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTrustInput {
+
+    static func urlPathProvider(_ value: DeleteTrustInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3521,8 +3540,9 @@ extension DeregisterCertificateInput: Swift.Encodable {
     }
 }
 
-extension DeregisterCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterCertificateInput {
+
+    static func urlPathProvider(_ value: DeregisterCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3610,8 +3630,9 @@ extension DeregisterEventTopicInput: Swift.Encodable {
     }
 }
 
-extension DeregisterEventTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterEventTopicInput {
+
+    static func urlPathProvider(_ value: DeregisterEventTopicInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3697,8 +3718,9 @@ extension DescribeCertificateInput: Swift.Encodable {
     }
 }
 
-extension DescribeCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCertificateInput {
+
+    static func urlPathProvider(_ value: DescribeCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3822,8 +3844,9 @@ extension DescribeClientAuthenticationSettingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeClientAuthenticationSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeClientAuthenticationSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeClientAuthenticationSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3976,8 +3999,9 @@ extension DescribeConditionalForwardersInput: Swift.Encodable {
     }
 }
 
-extension DescribeConditionalForwardersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConditionalForwardersInput {
+
+    static func urlPathProvider(_ value: DescribeConditionalForwardersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4119,8 +4143,9 @@ extension DescribeDirectoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeDirectoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDirectoriesInput {
+
+    static func urlPathProvider(_ value: DescribeDirectoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4282,8 +4307,9 @@ extension DescribeDomainControllersInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainControllersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainControllersInput {
+
+    static func urlPathProvider(_ value: DescribeDomainControllersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4445,8 +4471,9 @@ extension DescribeEventTopicsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventTopicsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventTopicsInput {
+
+    static func urlPathProvider(_ value: DescribeEventTopicsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4586,8 +4613,9 @@ extension DescribeLDAPSSettingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLDAPSSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLDAPSSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeLDAPSSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4741,8 +4769,9 @@ extension DescribeRegionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRegionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRegionsInput {
+
+    static func urlPathProvider(_ value: DescribeRegionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4889,8 +4918,9 @@ extension DescribeSettingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5053,8 +5083,9 @@ extension DescribeSharedDirectoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeSharedDirectoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSharedDirectoriesInput {
+
+    static func urlPathProvider(_ value: DescribeSharedDirectoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5224,8 +5255,9 @@ extension DescribeSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5395,8 +5427,9 @@ extension DescribeTrustsInput: Swift.Encodable {
     }
 }
 
-extension DescribeTrustsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTrustsInput {
+
+    static func urlPathProvider(_ value: DescribeTrustsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5564,8 +5597,9 @@ extension DescribeUpdateDirectoryInput: Swift.Encodable {
     }
 }
 
-extension DescribeUpdateDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUpdateDirectoryInput {
+
+    static func urlPathProvider(_ value: DescribeUpdateDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5830,6 +5864,8 @@ extension DirectoryAlreadySharedExceptionBody: Swift.Decodable {
         requestId = requestIdDecoded
     }
 }
+
+public enum DirectoryClientTypes {}
 
 extension DirectoryClientTypes {
     public enum DirectoryConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -7165,8 +7201,9 @@ extension DisableClientAuthenticationInput: Swift.Encodable {
     }
 }
 
-extension DisableClientAuthenticationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableClientAuthenticationInput {
+
+    static func urlPathProvider(_ value: DisableClientAuthenticationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7252,8 +7289,9 @@ extension DisableLDAPSInput: Swift.Encodable {
     }
 }
 
-extension DisableLDAPSInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableLDAPSInput {
+
+    static func urlPathProvider(_ value: DisableLDAPSInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7336,8 +7374,9 @@ extension DisableRadiusInput: Swift.Encodable {
     }
 }
 
-extension DisableRadiusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableRadiusInput {
+
+    static func urlPathProvider(_ value: DisableRadiusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7422,8 +7461,9 @@ extension DisableSsoInput: Swift.Encodable {
     }
 }
 
-extension DisableSsoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableSsoInput {
+
+    static func urlPathProvider(_ value: DisableSsoInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7755,8 +7795,9 @@ extension EnableClientAuthenticationInput: Swift.Encodable {
     }
 }
 
-extension EnableClientAuthenticationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableClientAuthenticationInput {
+
+    static func urlPathProvider(_ value: EnableClientAuthenticationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7843,8 +7884,9 @@ extension EnableLDAPSInput: Swift.Encodable {
     }
 }
 
-extension EnableLDAPSInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableLDAPSInput {
+
+    static func urlPathProvider(_ value: EnableLDAPSInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7932,8 +7974,9 @@ extension EnableRadiusInput: Swift.Encodable {
     }
 }
 
-extension EnableRadiusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableRadiusInput {
+
+    static func urlPathProvider(_ value: EnableRadiusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8029,8 +8072,9 @@ extension EnableSsoInput: Swift.Encodable {
     }
 }
 
-extension EnableSsoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableSsoInput {
+
+    static func urlPathProvider(_ value: EnableSsoInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8322,8 +8366,9 @@ extension GetDirectoryLimitsInput: Swift.Encodable {
     }
 }
 
-extension GetDirectoryLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDirectoryLimitsInput {
+
+    static func urlPathProvider(_ value: GetDirectoryLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8410,8 +8455,9 @@ extension GetSnapshotLimitsInput: Swift.Encodable {
     }
 }
 
-extension GetSnapshotLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSnapshotLimitsInput {
+
+    static func urlPathProvider(_ value: GetSnapshotLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9477,8 +9523,9 @@ extension ListCertificatesInput: Swift.Encodable {
     }
 }
 
-extension ListCertificatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCertificatesInput {
+
+    static func urlPathProvider(_ value: ListCertificatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9624,8 +9671,9 @@ extension ListIpRoutesInput: Swift.Encodable {
     }
 }
 
-extension ListIpRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIpRoutesInput {
+
+    static func urlPathProvider(_ value: ListIpRoutesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9770,8 +9818,9 @@ extension ListLogSubscriptionsInput: Swift.Encodable {
     }
 }
 
-extension ListLogSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLogSubscriptionsInput {
+
+    static func urlPathProvider(_ value: ListLogSubscriptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9914,8 +9963,9 @@ extension ListSchemaExtensionsInput: Swift.Encodable {
     }
 }
 
-extension ListSchemaExtensionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSchemaExtensionsInput {
+
+    static func urlPathProvider(_ value: ListSchemaExtensionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10059,8 +10109,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11025,8 +11076,9 @@ extension RegisterCertificateInput: Swift.Encodable {
     }
 }
 
-extension RegisterCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterCertificateInput {
+
+    static func urlPathProvider(_ value: RegisterCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11161,8 +11213,9 @@ extension RegisterEventTopicInput: Swift.Encodable {
     }
 }
 
-extension RegisterEventTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterEventTopicInput {
+
+    static func urlPathProvider(_ value: RegisterEventTopicInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11244,8 +11297,9 @@ extension RejectSharedDirectoryInput: Swift.Encodable {
     }
 }
 
-extension RejectSharedDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectSharedDirectoryInput {
+
+    static func urlPathProvider(_ value: RejectSharedDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11354,8 +11408,9 @@ extension RemoveIpRoutesInput: Swift.Encodable {
     }
 }
 
-extension RemoveIpRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveIpRoutesInput {
+
+    static func urlPathProvider(_ value: RemoveIpRoutesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11445,8 +11500,9 @@ extension RemoveRegionInput: Swift.Encodable {
     }
 }
 
-extension RemoveRegionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveRegionInput {
+
+    static func urlPathProvider(_ value: RemoveRegionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11526,8 +11582,9 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromResourceInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11658,8 +11715,9 @@ extension ResetUserPasswordInput: Swift.Encodable {
     }
 }
 
-extension ResetUserPasswordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetUserPasswordInput {
+
+    static func urlPathProvider(_ value: ResetUserPasswordInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11751,8 +11809,9 @@ extension RestoreFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreFromSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12282,8 +12341,9 @@ extension ShareDirectoryInput: Swift.Encodable {
     }
 }
 
-extension ShareDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ShareDirectoryInput {
+
+    static func urlPathProvider(_ value: ShareDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13019,8 +13079,9 @@ extension StartSchemaExtensionInput: Swift.Encodable {
     }
 }
 
-extension StartSchemaExtensionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSchemaExtensionInput {
+
+    static func urlPathProvider(_ value: StartSchemaExtensionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13595,8 +13656,9 @@ extension UnshareDirectoryInput: Swift.Encodable {
     }
 }
 
-extension UnshareDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UnshareDirectoryInput {
+
+    static func urlPathProvider(_ value: UnshareDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13897,8 +13959,9 @@ extension UpdateConditionalForwarderInput: Swift.Encodable {
     }
 }
 
-extension UpdateConditionalForwarderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConditionalForwarderInput {
+
+    static func urlPathProvider(_ value: UpdateConditionalForwarderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14012,8 +14075,9 @@ extension UpdateDirectorySetupInput: Swift.Encodable {
     }
 }
 
-extension UpdateDirectorySetupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDirectorySetupInput {
+
+    static func urlPathProvider(_ value: UpdateDirectorySetupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14223,8 +14287,9 @@ extension UpdateNumberOfDomainControllersInput: Swift.Encodable {
     }
 }
 
-extension UpdateNumberOfDomainControllersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNumberOfDomainControllersInput {
+
+    static func urlPathProvider(_ value: UpdateNumberOfDomainControllersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14311,8 +14376,9 @@ extension UpdateRadiusInput: Swift.Encodable {
     }
 }
 
-extension UpdateRadiusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRadiusInput {
+
+    static func urlPathProvider(_ value: UpdateRadiusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14401,8 +14467,9 @@ extension UpdateSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14564,8 +14631,9 @@ extension UpdateTrustInput: Swift.Encodable {
     }
 }
 
-extension UpdateTrustInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTrustInput {
+
+    static func urlPathProvider(_ value: UpdateTrustInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14814,8 +14882,9 @@ extension VerifyTrustInput: Swift.Encodable {
     }
 }
 
-extension VerifyTrustInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyTrustInput {
+
+    static func urlPathProvider(_ value: VerifyTrustInput) -> Swift.String? {
         return "/"
     }
 }

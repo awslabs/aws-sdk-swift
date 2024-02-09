@@ -224,6 +224,8 @@ extension ConnectContactLensClientTypes {
 
 }
 
+public enum ConnectContactLensClientTypes {}
+
 extension InternalServiceException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -395,8 +397,9 @@ extension ListRealtimeContactAnalysisSegmentsInput: Swift.Encodable {
     }
 }
 
-extension ListRealtimeContactAnalysisSegmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRealtimeContactAnalysisSegmentsInput {
+
+    static func urlPathProvider(_ value: ListRealtimeContactAnalysisSegmentsInput) -> Swift.String? {
         return "/realtime-contact-analysis/analysis-segments"
     }
 }

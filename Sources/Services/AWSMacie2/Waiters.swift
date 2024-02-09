@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension Macie2ClientProtocol {
+extension Macie2Client {
 
     static func findingRevealedWaiterConfig() throws -> WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput> {
         let acceptors: [WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput>.Acceptor] = [

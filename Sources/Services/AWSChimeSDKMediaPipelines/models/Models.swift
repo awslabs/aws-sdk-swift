@@ -1089,6 +1089,8 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 }
 
+public enum ChimeSDKMediaPipelinesClientTypes {}
+
 extension ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConcatenationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactsConfiguration = "ArtifactsConfiguration"
@@ -1815,8 +1817,9 @@ extension CreateMediaCapturePipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaCapturePipelineInput {
+
+    static func urlPathProvider(_ value: CreateMediaCapturePipelineInput) -> Swift.String? {
         return "/sdk-media-capture-pipelines"
     }
 }
@@ -2006,8 +2009,9 @@ extension CreateMediaConcatenationPipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaConcatenationPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaConcatenationPipelineInput {
+
+    static func urlPathProvider(_ value: CreateMediaConcatenationPipelineInput) -> Swift.String? {
         return "/sdk-media-concatenation-pipelines"
     }
 }
@@ -2194,8 +2198,9 @@ extension CreateMediaInsightsPipelineConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaInsightsPipelineConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaInsightsPipelineConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateMediaInsightsPipelineConfigurationInput) -> Swift.String? {
         return "/media-insights-pipeline-configurations"
     }
 }
@@ -2395,8 +2400,9 @@ extension CreateMediaInsightsPipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaInsightsPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaInsightsPipelineInput {
+
+    static func urlPathProvider(_ value: CreateMediaInsightsPipelineInput) -> Swift.String? {
         return "/media-insights-pipelines"
     }
 }
@@ -2594,8 +2600,9 @@ extension CreateMediaLiveConnectorPipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaLiveConnectorPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaLiveConnectorPipelineInput {
+
+    static func urlPathProvider(_ value: CreateMediaLiveConnectorPipelineInput) -> Swift.String? {
         return "/sdk-media-live-connector-pipelines"
     }
 }
@@ -2771,8 +2778,9 @@ extension CreateMediaPipelineKinesisVideoStreamPoolInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaPipelineKinesisVideoStreamPoolInput {
+
+    static func urlPathProvider(_ value: CreateMediaPipelineKinesisVideoStreamPoolInput) -> Swift.String? {
         return "/media-pipeline-kinesis-video-stream-pools"
     }
 }
@@ -2937,8 +2945,9 @@ extension CreateMediaStreamPipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaStreamPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaStreamPipelineInput {
+
+    static func urlPathProvider(_ value: CreateMediaStreamPipelineInput) -> Swift.String? {
         return "/sdk-media-stream-pipelines"
     }
 }
@@ -3118,9 +3127,10 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 }
 
-extension DeleteMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mediaPipelineId = mediaPipelineId else {
+extension DeleteMediaCapturePipelineInput {
+
+    static func urlPathProvider(_ value: DeleteMediaCapturePipelineInput) -> Swift.String? {
+        guard let mediaPipelineId = value.mediaPipelineId else {
             return nil
         }
         return "/sdk-media-capture-pipelines/\(mediaPipelineId.urlPercentEncoding())"
@@ -3176,9 +3186,10 @@ enum DeleteMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteMediaInsightsPipelineConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension DeleteMediaInsightsPipelineConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteMediaInsightsPipelineConfigurationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-insights-pipeline-configurations/\(identifier.urlPercentEncoding())"
@@ -3235,9 +3246,10 @@ enum DeleteMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension DeleteMediaPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mediaPipelineId = mediaPipelineId else {
+extension DeleteMediaPipelineInput {
+
+    static func urlPathProvider(_ value: DeleteMediaPipelineInput) -> Swift.String? {
+        guard let mediaPipelineId = value.mediaPipelineId else {
             return nil
         }
         return "/sdk-media-pipelines/\(mediaPipelineId.urlPercentEncoding())"
@@ -3266,9 +3278,10 @@ extension DeleteMediaPipelineInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension DeleteMediaPipelineKinesisVideoStreamPoolInput {
+
+    static func urlPathProvider(_ value: DeleteMediaPipelineKinesisVideoStreamPoolInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-pipeline-kinesis-video-stream-pools/\(identifier.urlPercentEncoding())"
@@ -3564,9 +3577,10 @@ extension ChimeSDKMediaPipelinesClientTypes {
     }
 }
 
-extension GetMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mediaPipelineId = mediaPipelineId else {
+extension GetMediaCapturePipelineInput {
+
+    static func urlPathProvider(_ value: GetMediaCapturePipelineInput) -> Swift.String? {
+        guard let mediaPipelineId = value.mediaPipelineId else {
             return nil
         }
         return "/sdk-media-capture-pipelines/\(mediaPipelineId.urlPercentEncoding())"
@@ -3652,9 +3666,10 @@ enum GetMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetMediaInsightsPipelineConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetMediaInsightsPipelineConfigurationInput {
+
+    static func urlPathProvider(_ value: GetMediaInsightsPipelineConfigurationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-insights-pipeline-configurations/\(identifier.urlPercentEncoding())"
@@ -3740,9 +3755,10 @@ enum GetMediaInsightsPipelineConfigurationOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetMediaPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mediaPipelineId = mediaPipelineId else {
+extension GetMediaPipelineInput {
+
+    static func urlPathProvider(_ value: GetMediaPipelineInput) -> Swift.String? {
+        guard let mediaPipelineId = value.mediaPipelineId else {
             return nil
         }
         return "/sdk-media-pipelines/\(mediaPipelineId.urlPercentEncoding())"
@@ -3771,9 +3787,10 @@ extension GetMediaPipelineInputBody: Swift.Decodable {
     }
 }
 
-extension GetMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetMediaPipelineKinesisVideoStreamPoolInput {
+
+    static func urlPathProvider(_ value: GetMediaPipelineKinesisVideoStreamPoolInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-pipeline-kinesis-video-stream-pools/\(identifier.urlPercentEncoding())"
@@ -3916,12 +3933,13 @@ enum GetMediaPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetSpeakerSearchTaskInput {
+
+    static func urlPathProvider(_ value: GetSpeakerSearchTaskInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
-        guard let speakerSearchTaskId = speakerSearchTaskId else {
+        guard let speakerSearchTaskId = value.speakerSearchTaskId else {
             return nil
         }
         return "/media-insights-pipelines/\(identifier.urlPercentEncoding())/speaker-search-tasks/\(speakerSearchTaskId.urlPercentEncoding())"
@@ -4012,12 +4030,13 @@ enum GetSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVoiceToneAnalysisTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetVoiceToneAnalysisTaskInput {
+
+    static func urlPathProvider(_ value: GetVoiceToneAnalysisTaskInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
-        guard let voiceToneAnalysisTaskId = voiceToneAnalysisTaskId else {
+        guard let voiceToneAnalysisTaskId = value.voiceToneAnalysisTaskId else {
             return nil
         }
         return "/media-insights-pipelines/\(identifier.urlPercentEncoding())/voice-tone-analysis-tasks/\(voiceToneAnalysisTaskId.urlPercentEncoding())"
@@ -5037,25 +5056,25 @@ extension ChimeSDKMediaPipelinesClientTypes {
     }
 }
 
-extension ListMediaCapturePipelinesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMediaCapturePipelinesInput {
+
+    static func queryItemProvider(_ value: ListMediaCapturePipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMediaCapturePipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMediaCapturePipelinesInput {
+
+    static func urlPathProvider(_ value: ListMediaCapturePipelinesInput) -> Swift.String? {
         return "/sdk-media-capture-pipelines"
     }
 }
@@ -5161,25 +5180,25 @@ enum ListMediaCapturePipelinesOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListMediaInsightsPipelineConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMediaInsightsPipelineConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListMediaInsightsPipelineConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMediaInsightsPipelineConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMediaInsightsPipelineConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListMediaInsightsPipelineConfigurationsInput) -> Swift.String? {
         return "/media-insights-pipeline-configurations"
     }
 }
@@ -5285,25 +5304,25 @@ enum ListMediaInsightsPipelineConfigurationsOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension ListMediaPipelineKinesisVideoStreamPoolsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMediaPipelineKinesisVideoStreamPoolsInput {
+
+    static func queryItemProvider(_ value: ListMediaPipelineKinesisVideoStreamPoolsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMediaPipelineKinesisVideoStreamPoolsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMediaPipelineKinesisVideoStreamPoolsInput {
+
+    static func urlPathProvider(_ value: ListMediaPipelineKinesisVideoStreamPoolsInput) -> Swift.String? {
         return "/media-pipeline-kinesis-video-stream-pools"
     }
 }
@@ -5409,25 +5428,25 @@ enum ListMediaPipelineKinesisVideoStreamPoolsOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension ListMediaPipelinesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMediaPipelinesInput {
+
+    static func queryItemProvider(_ value: ListMediaPipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMediaPipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMediaPipelinesInput {
+
+    static func urlPathProvider(_ value: ListMediaPipelinesInput) -> Swift.String? {
         return "/sdk-media-pipelines"
     }
 }
@@ -5533,23 +5552,23 @@ enum ListMediaPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceARN = resourceARN else {
-                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
-            items.append(resourceARNQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceARN = value.resourceARN else {
+            let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        items.append(resourceARNQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -8899,19 +8918,19 @@ extension StartSpeakerSearchTaskInput: Swift.Encodable {
     }
 }
 
-extension StartSpeakerSearchTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "start"))
-            return items
-        }
+extension StartSpeakerSearchTaskInput {
+
+    static func queryItemProvider(_ value: StartSpeakerSearchTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "start"))
+        return items
     }
 }
 
-extension StartSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension StartSpeakerSearchTaskInput {
+
+    static func urlPathProvider(_ value: StartSpeakerSearchTaskInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-insights-pipelines/\(identifier.urlPercentEncoding())/speaker-search-tasks"
@@ -9052,19 +9071,19 @@ extension StartVoiceToneAnalysisTaskInput: Swift.Encodable {
     }
 }
 
-extension StartVoiceToneAnalysisTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "start"))
-            return items
-        }
+extension StartVoiceToneAnalysisTaskInput {
+
+    static func queryItemProvider(_ value: StartVoiceToneAnalysisTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "start"))
+        return items
     }
 }
 
-extension StartVoiceToneAnalysisTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension StartVoiceToneAnalysisTaskInput {
+
+    static func urlPathProvider(_ value: StartVoiceToneAnalysisTaskInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-insights-pipelines/\(identifier.urlPercentEncoding())/voice-tone-analysis-tasks"
@@ -9179,22 +9198,22 @@ enum StartVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension StopSpeakerSearchTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "stop"))
-            return items
-        }
+extension StopSpeakerSearchTaskInput {
+
+    static func queryItemProvider(_ value: StopSpeakerSearchTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+        return items
     }
 }
 
-extension StopSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension StopSpeakerSearchTaskInput {
+
+    static func urlPathProvider(_ value: StopSpeakerSearchTaskInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
-        guard let speakerSearchTaskId = speakerSearchTaskId else {
+        guard let speakerSearchTaskId = value.speakerSearchTaskId else {
             return nil
         }
         return "/media-insights-pipelines/\(identifier.urlPercentEncoding())/speaker-search-tasks/\(speakerSearchTaskId.urlPercentEncoding())"
@@ -9256,22 +9275,22 @@ enum StopSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopVoiceToneAnalysisTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "stop"))
-            return items
-        }
+extension StopVoiceToneAnalysisTaskInput {
+
+    static func queryItemProvider(_ value: StopVoiceToneAnalysisTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+        return items
     }
 }
 
-extension StopVoiceToneAnalysisTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension StopVoiceToneAnalysisTaskInput {
+
+    static func urlPathProvider(_ value: StopVoiceToneAnalysisTaskInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
-        guard let voiceToneAnalysisTaskId = voiceToneAnalysisTaskId else {
+        guard let voiceToneAnalysisTaskId = value.voiceToneAnalysisTaskId else {
             return nil
         }
         return "/media-insights-pipelines/\(identifier.urlPercentEncoding())/voice-tone-analysis-tasks/\(voiceToneAnalysisTaskId.urlPercentEncoding())"
@@ -9515,18 +9534,18 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
-            return items
-        }
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -9888,18 +9907,18 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
-            return items
-        }
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -10007,9 +10026,10 @@ extension UpdateMediaInsightsPipelineConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateMediaInsightsPipelineConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UpdateMediaInsightsPipelineConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateMediaInsightsPipelineConfigurationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-insights-pipeline-configurations/\(identifier.urlPercentEncoding())"
@@ -10147,9 +10167,10 @@ extension UpdateMediaInsightsPipelineStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdateMediaInsightsPipelineStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UpdateMediaInsightsPipelineStatusInput {
+
+    static func urlPathProvider(_ value: UpdateMediaInsightsPipelineStatusInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-insights-pipeline-status/\(identifier.urlPercentEncoding())"
@@ -10231,9 +10252,10 @@ extension UpdateMediaPipelineKinesisVideoStreamPoolInput: Swift.Encodable {
     }
 }
 
-extension UpdateMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UpdateMediaPipelineKinesisVideoStreamPoolInput {
+
+    static func urlPathProvider(_ value: UpdateMediaPipelineKinesisVideoStreamPoolInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/media-pipeline-kinesis-video-stream-pools/\(identifier.urlPercentEncoding())"

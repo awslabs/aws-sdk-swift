@@ -123,8 +123,9 @@ extension AssociateSourceNetworkStackInput: Swift.Encodable {
     }
 }
 
-extension AssociateSourceNetworkStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateSourceNetworkStackInput {
+
+    static func urlPathProvider(_ value: AssociateSourceNetworkStackInput) -> Swift.String? {
         return "/AssociateSourceNetworkStack"
     }
 }
@@ -487,8 +488,9 @@ extension CreateExtendedSourceServerInput: Swift.Encodable {
     }
 }
 
-extension CreateExtendedSourceServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExtendedSourceServerInput {
+
+    static func urlPathProvider(_ value: CreateExtendedSourceServerInput) -> Swift.String? {
         return "/CreateExtendedSourceServer"
     }
 }
@@ -649,8 +651,9 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateLaunchConfigurationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLaunchConfigurationTemplateInput {
+
+    static func urlPathProvider(_ value: CreateLaunchConfigurationTemplateInput) -> Swift.String? {
         return "/CreateLaunchConfigurationTemplate"
     }
 }
@@ -898,8 +901,9 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateReplicationConfigurationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReplicationConfigurationTemplateInput {
+
+    static func urlPathProvider(_ value: CreateReplicationConfigurationTemplateInput) -> Swift.String? {
         return "/CreateReplicationConfigurationTemplate"
     }
 }
@@ -1383,8 +1387,9 @@ extension CreateSourceNetworkInput: Swift.Encodable {
     }
 }
 
-extension CreateSourceNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSourceNetworkInput {
+
+    static func urlPathProvider(_ value: CreateSourceNetworkInput) -> Swift.String? {
         return "/CreateSourceNetwork"
     }
 }
@@ -2086,8 +2091,9 @@ extension DeleteJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteJobInput {
+
+    static func urlPathProvider(_ value: DeleteJobInput) -> Swift.String? {
         return "/DeleteJob"
     }
 }
@@ -2163,8 +2169,9 @@ extension DeleteLaunchActionInput: Swift.Encodable {
     }
 }
 
-extension DeleteLaunchActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLaunchActionInput {
+
+    static func urlPathProvider(_ value: DeleteLaunchActionInput) -> Swift.String? {
         return "/DeleteLaunchAction"
     }
 }
@@ -2245,8 +2252,9 @@ extension DeleteLaunchConfigurationTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteLaunchConfigurationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLaunchConfigurationTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteLaunchConfigurationTemplateInput) -> Swift.String? {
         return "/DeleteLaunchConfigurationTemplate"
     }
 }
@@ -2318,8 +2326,9 @@ extension DeleteRecoveryInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeleteRecoveryInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRecoveryInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteRecoveryInstanceInput) -> Swift.String? {
         return "/DeleteRecoveryInstance"
     }
 }
@@ -2391,8 +2400,9 @@ extension DeleteReplicationConfigurationTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteReplicationConfigurationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReplicationConfigurationTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteReplicationConfigurationTemplateInput) -> Swift.String? {
         return "/DeleteReplicationConfigurationTemplate"
     }
 }
@@ -2464,8 +2474,9 @@ extension DeleteSourceNetworkInput: Swift.Encodable {
     }
 }
 
-extension DeleteSourceNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSourceNetworkInput {
+
+    static func urlPathProvider(_ value: DeleteSourceNetworkInput) -> Swift.String? {
         return "/DeleteSourceNetwork"
     }
 }
@@ -2537,8 +2548,9 @@ extension DeleteSourceServerInput: Swift.Encodable {
     }
 }
 
-extension DeleteSourceServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSourceServerInput {
+
+    static func urlPathProvider(_ value: DeleteSourceServerInput) -> Swift.String? {
         return "/DeleteSourceServer"
     }
 }
@@ -2618,8 +2630,9 @@ extension DescribeJobLogItemsInput: Swift.Encodable {
     }
 }
 
-extension DescribeJobLogItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeJobLogItemsInput {
+
+    static func urlPathProvider(_ value: DescribeJobLogItemsInput) -> Swift.String? {
         return "/DescribeJobLogItems"
     }
 }
@@ -2763,8 +2776,9 @@ extension DescribeJobsInput: Swift.Encodable {
     }
 }
 
-extension DescribeJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeJobsInput {
+
+    static func urlPathProvider(_ value: DescribeJobsInput) -> Swift.String? {
         return "/DescribeJobs"
     }
 }
@@ -2977,8 +2991,9 @@ extension DescribeLaunchConfigurationTemplatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeLaunchConfigurationTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLaunchConfigurationTemplatesInput {
+
+    static func urlPathProvider(_ value: DescribeLaunchConfigurationTemplatesInput) -> Swift.String? {
         return "/DescribeLaunchConfigurationTemplates"
     }
 }
@@ -3131,8 +3146,9 @@ extension DescribeRecoveryInstancesInput: Swift.Encodable {
     }
 }
 
-extension DescribeRecoveryInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRecoveryInstancesInput {
+
+    static func urlPathProvider(_ value: DescribeRecoveryInstancesInput) -> Swift.String? {
         return "/DescribeRecoveryInstances"
     }
 }
@@ -3352,8 +3368,9 @@ extension DescribeRecoverySnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRecoverySnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRecoverySnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeRecoverySnapshotsInput) -> Swift.String? {
         return "/DescribeRecoverySnapshots"
     }
 }
@@ -3562,8 +3579,9 @@ extension DescribeReplicationConfigurationTemplatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeReplicationConfigurationTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReplicationConfigurationTemplatesInput {
+
+    static func urlPathProvider(_ value: DescribeReplicationConfigurationTemplatesInput) -> Swift.String? {
         return "/DescribeReplicationConfigurationTemplates"
     }
 }
@@ -3716,8 +3734,9 @@ extension DescribeSourceNetworksInput: Swift.Encodable {
     }
 }
 
-extension DescribeSourceNetworksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSourceNetworksInput {
+
+    static func urlPathProvider(_ value: DescribeSourceNetworksInput) -> Swift.String? {
         return "/DescribeSourceNetworks"
     }
 }
@@ -3927,8 +3946,9 @@ extension DescribeSourceServersInput: Swift.Encodable {
     }
 }
 
-extension DescribeSourceServersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSourceServersInput {
+
+    static func urlPathProvider(_ value: DescribeSourceServersInput) -> Swift.String? {
         return "/DescribeSourceServers"
     }
 }
@@ -4142,8 +4162,9 @@ extension DisconnectRecoveryInstanceInput: Swift.Encodable {
     }
 }
 
-extension DisconnectRecoveryInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisconnectRecoveryInstanceInput {
+
+    static func urlPathProvider(_ value: DisconnectRecoveryInstanceInput) -> Swift.String? {
         return "/DisconnectRecoveryInstance"
     }
 }
@@ -4216,8 +4237,9 @@ extension DisconnectSourceServerInput: Swift.Encodable {
     }
 }
 
-extension DisconnectSourceServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisconnectSourceServerInput {
+
+    static func urlPathProvider(_ value: DisconnectSourceServerInput) -> Swift.String? {
         return "/DisconnectSourceServer"
     }
 }
@@ -4495,6 +4517,8 @@ extension DrsClientTypes {
 
 }
 
+public enum DrsClientTypes {}
+
 extension DrsClientTypes {
     public enum EC2InstanceState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case notFound
@@ -4592,8 +4616,9 @@ extension ExportSourceNetworkCfnTemplateInput: Swift.Encodable {
     }
 }
 
-extension ExportSourceNetworkCfnTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportSourceNetworkCfnTemplateInput {
+
+    static func urlPathProvider(_ value: ExportSourceNetworkCfnTemplateInput) -> Swift.String? {
         return "/ExportSourceNetworkCfnTemplate"
     }
 }
@@ -4899,8 +4924,9 @@ extension GetFailbackReplicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetFailbackReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFailbackReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetFailbackReplicationConfigurationInput) -> Swift.String? {
         return "/GetFailbackReplicationConfiguration"
     }
 }
@@ -5032,8 +5058,9 @@ extension GetLaunchConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetLaunchConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLaunchConfigurationInput {
+
+    static func urlPathProvider(_ value: GetLaunchConfigurationInput) -> Swift.String? {
         return "/GetLaunchConfiguration"
     }
 }
@@ -5224,8 +5251,9 @@ extension GetReplicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetReplicationConfigurationInput) -> Swift.String? {
         return "/GetReplicationConfiguration"
     }
 }
@@ -5580,8 +5608,9 @@ extension DrsClientTypes {
 
 }
 
-extension InitializeServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InitializeServiceInput {
+
+    static func urlPathProvider(_ value: InitializeServiceInput) -> Swift.String? {
         return "/InitializeService"
     }
 }
@@ -7289,8 +7318,9 @@ extension ListExtensibleSourceServersInput: Swift.Encodable {
     }
 }
 
-extension ListExtensibleSourceServersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExtensibleSourceServersInput {
+
+    static func urlPathProvider(_ value: ListExtensibleSourceServersInput) -> Swift.String? {
         return "/ListExtensibleSourceServers"
     }
 }
@@ -7439,8 +7469,9 @@ extension ListLaunchActionsInput: Swift.Encodable {
     }
 }
 
-extension ListLaunchActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLaunchActionsInput {
+
+    static func urlPathProvider(_ value: ListLaunchActionsInput) -> Swift.String? {
         return "/ListLaunchActions"
     }
 }
@@ -7572,25 +7603,25 @@ enum ListLaunchActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListStagingAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListStagingAccountsInput {
+
+    static func queryItemProvider(_ value: ListStagingAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStagingAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStagingAccountsInput {
+
+    static func urlPathProvider(_ value: ListStagingAccountsInput) -> Swift.String? {
         return "/ListStagingAccounts"
     }
 }
@@ -7694,9 +7725,10 @@ enum ListStagingAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -8244,8 +8276,9 @@ extension PutLaunchActionInput: Swift.Encodable {
     }
 }
 
-extension PutLaunchActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutLaunchActionInput {
+
+    static func urlPathProvider(_ value: PutLaunchActionInput) -> Swift.String? {
         return "/PutLaunchAction"
     }
 }
@@ -10444,8 +10477,9 @@ extension RetryDataReplicationInput: Swift.Encodable {
     }
 }
 
-extension RetryDataReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetryDataReplicationInput {
+
+    static func urlPathProvider(_ value: RetryDataReplicationInput) -> Swift.String? {
         return "/RetryDataReplication"
     }
 }
@@ -10692,8 +10726,9 @@ extension ReverseReplicationInput: Swift.Encodable {
     }
 }
 
-extension ReverseReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReverseReplicationInput {
+
+    static func urlPathProvider(_ value: ReverseReplicationInput) -> Swift.String? {
         return "/ReverseReplication"
     }
 }
@@ -11657,8 +11692,9 @@ extension StartFailbackLaunchInput: Swift.Encodable {
     }
 }
 
-extension StartFailbackLaunchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFailbackLaunchInput {
+
+    static func urlPathProvider(_ value: StartFailbackLaunchInput) -> Swift.String? {
         return "/StartFailbackLaunch"
     }
 }
@@ -11806,8 +11842,9 @@ extension StartRecoveryInput: Swift.Encodable {
     }
 }
 
-extension StartRecoveryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartRecoveryInput {
+
+    static func urlPathProvider(_ value: StartRecoveryInput) -> Swift.String? {
         return "/StartRecovery"
     }
 }
@@ -11989,8 +12026,9 @@ extension StartReplicationInput: Swift.Encodable {
     }
 }
 
-extension StartReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartReplicationInput {
+
+    static func urlPathProvider(_ value: StartReplicationInput) -> Swift.String? {
         return "/StartReplication"
     }
 }
@@ -12111,8 +12149,9 @@ extension StartSourceNetworkRecoveryInput: Swift.Encodable {
     }
 }
 
-extension StartSourceNetworkRecoveryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSourceNetworkRecoveryInput {
+
+    static func urlPathProvider(_ value: StartSourceNetworkRecoveryInput) -> Swift.String? {
         return "/StartSourceNetworkRecovery"
     }
 }
@@ -12300,8 +12339,9 @@ extension StartSourceNetworkReplicationInput: Swift.Encodable {
     }
 }
 
-extension StartSourceNetworkReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSourceNetworkReplicationInput {
+
+    static func urlPathProvider(_ value: StartSourceNetworkReplicationInput) -> Swift.String? {
         return "/StartSourceNetworkReplication"
     }
 }
@@ -12403,8 +12443,9 @@ extension StopFailbackInput: Swift.Encodable {
     }
 }
 
-extension StopFailbackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopFailbackInput {
+
+    static func urlPathProvider(_ value: StopFailbackInput) -> Swift.String? {
         return "/StopFailback"
     }
 }
@@ -12475,8 +12516,9 @@ extension StopReplicationInput: Swift.Encodable {
     }
 }
 
-extension StopReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopReplicationInput {
+
+    static func urlPathProvider(_ value: StopReplicationInput) -> Swift.String? {
         return "/StopReplication"
     }
 }
@@ -12578,8 +12620,9 @@ extension StopSourceNetworkReplicationInput: Swift.Encodable {
     }
 }
 
-extension StopSourceNetworkReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopSourceNetworkReplicationInput {
+
+    static func urlPathProvider(_ value: StopSourceNetworkReplicationInput) -> Swift.String? {
         return "/StopSourceNetworkReplication"
     }
 }
@@ -12690,9 +12733,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -12818,8 +12862,9 @@ extension TerminateRecoveryInstancesInput: Swift.Encodable {
     }
 }
 
-extension TerminateRecoveryInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TerminateRecoveryInstancesInput {
+
+    static func urlPathProvider(_ value: TerminateRecoveryInstancesInput) -> Swift.String? {
         return "/TerminateRecoveryInstances"
     }
 }
@@ -13071,26 +13116,26 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
         "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13174,8 +13219,9 @@ extension UpdateFailbackReplicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateFailbackReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFailbackReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateFailbackReplicationConfigurationInput) -> Swift.String? {
         return "/UpdateFailbackReplicationConfiguration"
     }
 }
@@ -13303,8 +13349,9 @@ extension UpdateLaunchConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateLaunchConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLaunchConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateLaunchConfigurationInput) -> Swift.String? {
         return "/UpdateLaunchConfiguration"
     }
 }
@@ -13593,8 +13640,9 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateLaunchConfigurationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLaunchConfigurationTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateLaunchConfigurationTemplateInput) -> Swift.String? {
         return "/UpdateLaunchConfigurationTemplate"
     }
 }
@@ -13842,8 +13890,9 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateReplicationConfigurationInput) -> Swift.String? {
         return "/UpdateReplicationConfiguration"
     }
 }
@@ -14386,8 +14435,9 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateReplicationConfigurationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateReplicationConfigurationTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateReplicationConfigurationTemplateInput) -> Swift.String? {
         return "/UpdateReplicationConfigurationTemplate"
     }
 }

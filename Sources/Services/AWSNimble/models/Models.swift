@@ -18,19 +18,21 @@ extension AcceptEulasInput: Swift.Encodable {
     }
 }
 
-extension AcceptEulasInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AcceptEulasInput {
+
+    static func headerProvider(_ value: AcceptEulasInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension AcceptEulasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension AcceptEulasInput {
+
+    static func urlPathProvider(_ value: AcceptEulasInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/eula-acceptances"
@@ -572,19 +574,21 @@ extension CreateLaunchProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateLaunchProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateLaunchProfileInput {
+
+    static func headerProvider(_ value: CreateLaunchProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateLaunchProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension CreateLaunchProfileInput {
+
+    static func urlPathProvider(_ value: CreateLaunchProfileInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles"
@@ -807,19 +811,21 @@ extension CreateStreamingImageInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamingImageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateStreamingImageInput {
+
+    static func headerProvider(_ value: CreateStreamingImageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateStreamingImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension CreateStreamingImageInput {
+
+    static func urlPathProvider(_ value: CreateStreamingImageInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-images"
@@ -987,19 +993,21 @@ extension CreateStreamingSessionInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamingSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateStreamingSessionInput {
+
+    static func headerProvider(_ value: CreateStreamingSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateStreamingSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension CreateStreamingSessionInput {
+
+    static func urlPathProvider(_ value: CreateStreamingSessionInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions"
@@ -1155,22 +1163,24 @@ extension CreateStreamingSessionStreamInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamingSessionStreamInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateStreamingSessionStreamInput {
+
+    static func headerProvider(_ value: CreateStreamingSessionStreamInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateStreamingSessionStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension CreateStreamingSessionStreamInput {
+
+    static func urlPathProvider(_ value: CreateStreamingSessionStreamInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions/\(sessionId.urlPercentEncoding())/streams"
@@ -1346,19 +1356,21 @@ extension CreateStudioComponentInput: Swift.Encodable {
     }
 }
 
-extension CreateStudioComponentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateStudioComponentInput {
+
+    static func headerProvider(_ value: CreateStudioComponentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateStudioComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension CreateStudioComponentInput {
+
+    static func urlPathProvider(_ value: CreateStudioComponentInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/studio-components"
@@ -1618,18 +1630,20 @@ extension CreateStudioInput: Swift.Encodable {
     }
 }
 
-extension CreateStudioInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateStudioInput {
+
+    static func headerProvider(_ value: CreateStudioInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateStudioInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStudioInput {
+
+    static func urlPathProvider(_ value: CreateStudioInput) -> Swift.String? {
         return "/2020-08-01/studios"
     }
 }
@@ -1776,22 +1790,24 @@ enum CreateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteLaunchProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteLaunchProfileInput {
+
+    static func headerProvider(_ value: DeleteLaunchProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteLaunchProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteLaunchProfileInput {
+
+    static func urlPathProvider(_ value: DeleteLaunchProfileInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())"
@@ -1829,25 +1845,27 @@ extension DeleteLaunchProfileInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteLaunchProfileMemberInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteLaunchProfileMemberInput {
+
+    static func headerProvider(_ value: DeleteLaunchProfileMemberInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteLaunchProfileMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteLaunchProfileMemberInput {
+
+    static func urlPathProvider(_ value: DeleteLaunchProfileMemberInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/membership/\(principalId.urlPercentEncoding())"
@@ -1974,22 +1992,24 @@ enum DeleteLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteStreamingImageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStreamingImageInput {
+
+    static func headerProvider(_ value: DeleteStreamingImageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteStreamingImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteStreamingImageInput {
+
+    static func urlPathProvider(_ value: DeleteStreamingImageInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let streamingImageId = streamingImageId else {
+        guard let streamingImageId = value.streamingImageId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-images/\(streamingImageId.urlPercentEncoding())"
@@ -2084,22 +2104,24 @@ enum DeleteStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteStreamingSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStreamingSessionInput {
+
+    static func headerProvider(_ value: DeleteStreamingSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteStreamingSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteStreamingSessionInput {
+
+    static func urlPathProvider(_ value: DeleteStreamingSessionInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions/\(sessionId.urlPercentEncoding())"
@@ -2194,22 +2216,24 @@ enum DeleteStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteStudioComponentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStudioComponentInput {
+
+    static func headerProvider(_ value: DeleteStudioComponentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteStudioComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteStudioComponentInput {
+
+    static func urlPathProvider(_ value: DeleteStudioComponentInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let studioComponentId = studioComponentId else {
+        guard let studioComponentId = value.studioComponentId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/studio-components/\(studioComponentId.urlPercentEncoding())"
@@ -2304,19 +2328,21 @@ enum DeleteStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteStudioInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStudioInput {
+
+    static func headerProvider(_ value: DeleteStudioInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteStudioInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteStudioInput {
+
+    static func urlPathProvider(_ value: DeleteStudioInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())"
@@ -2349,22 +2375,24 @@ extension DeleteStudioInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteStudioMemberInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStudioMemberInput {
+
+    static func headerProvider(_ value: DeleteStudioMemberInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteStudioMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension DeleteStudioMemberInput {
+
+    static func urlPathProvider(_ value: DeleteStudioMemberInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/membership/\(principalId.urlPercentEncoding())"
@@ -2637,9 +2665,10 @@ extension NimbleClientTypes {
 
 }
 
-extension GetEulaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let eulaId = eulaId else {
+extension GetEulaInput {
+
+    static func urlPathProvider(_ value: GetEulaInput) -> Swift.String? {
+        guard let eulaId = value.eulaId else {
             return nil
         }
         return "/2020-08-01/eulas/\(eulaId.urlPercentEncoding())"
@@ -2725,12 +2754,13 @@ enum GetEulaOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLaunchProfileDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetLaunchProfileDetailsInput {
+
+    static func urlPathProvider(_ value: GetLaunchProfileDetailsInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/details"
@@ -2859,41 +2889,41 @@ enum GetLaunchProfileDetailsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetLaunchProfileInitializationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let launchProfileProtocolVersions = launchProfileProtocolVersions else {
-                let message = "Creating a URL Query Item failed. launchProfileProtocolVersions is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            launchProfileProtocolVersions.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "launchProfileProtocolVersions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            guard let launchPurpose = launchPurpose else {
-                let message = "Creating a URL Query Item failed. launchPurpose is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let launchPurposeQueryItem = ClientRuntime.URLQueryItem(name: "launchPurpose".urlPercentEncoding(), value: Swift.String(launchPurpose).urlPercentEncoding())
-            items.append(launchPurposeQueryItem)
-            guard let platform = platform else {
-                let message = "Creating a URL Query Item failed. platform is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let platformQueryItem = ClientRuntime.URLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform).urlPercentEncoding())
-            items.append(platformQueryItem)
-            return items
+extension GetLaunchProfileInitializationInput {
+
+    static func queryItemProvider(_ value: GetLaunchProfileInitializationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let launchProfileProtocolVersions = value.launchProfileProtocolVersions else {
+            let message = "Creating a URL Query Item failed. launchProfileProtocolVersions is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        launchProfileProtocolVersions.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "launchProfileProtocolVersions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        guard let launchPurpose = value.launchPurpose else {
+            let message = "Creating a URL Query Item failed. launchPurpose is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let launchPurposeQueryItem = ClientRuntime.SDKURLQueryItem(name: "launchPurpose".urlPercentEncoding(), value: Swift.String(launchPurpose).urlPercentEncoding())
+        items.append(launchPurposeQueryItem)
+        guard let platform = value.platform else {
+            let message = "Creating a URL Query Item failed. platform is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let platformQueryItem = ClientRuntime.SDKURLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform).urlPercentEncoding())
+        items.append(platformQueryItem)
+        return items
     }
 }
 
-extension GetLaunchProfileInitializationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetLaunchProfileInitializationInput {
+
+    static func urlPathProvider(_ value: GetLaunchProfileInitializationInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/init"
@@ -2999,12 +3029,13 @@ enum GetLaunchProfileInitializationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetLaunchProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetLaunchProfileInput {
+
+    static func urlPathProvider(_ value: GetLaunchProfileInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())"
@@ -3038,15 +3069,16 @@ extension GetLaunchProfileInputBody: Swift.Decodable {
     }
 }
 
-extension GetLaunchProfileMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetLaunchProfileMemberInput {
+
+    static func urlPathProvider(_ value: GetLaunchProfileMemberInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/membership/\(principalId.urlPercentEncoding())"
@@ -3199,12 +3231,13 @@ enum GetLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetStreamingImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStreamingImageInput {
+
+    static func urlPathProvider(_ value: GetStreamingImageInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let streamingImageId = streamingImageId else {
+        guard let streamingImageId = value.streamingImageId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-images/\(streamingImageId.urlPercentEncoding())"
@@ -3295,12 +3328,13 @@ enum GetStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetStreamingSessionBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStreamingSessionBackupInput {
+
+    static func urlPathProvider(_ value: GetStreamingSessionBackupInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let backupId = backupId else {
+        guard let backupId = value.backupId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-session-backups/\(backupId.urlPercentEncoding())"
@@ -3390,12 +3424,13 @@ enum GetStreamingSessionBackupOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetStreamingSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStreamingSessionInput {
+
+    static func urlPathProvider(_ value: GetStreamingSessionInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions/\(sessionId.urlPercentEncoding())"
@@ -3486,15 +3521,16 @@ enum GetStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetStreamingSessionStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStreamingSessionStreamInput {
+
+    static func urlPathProvider(_ value: GetStreamingSessionStreamInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
-        guard let streamId = streamId else {
+        guard let streamId = value.streamId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions/\(sessionId.urlPercentEncoding())/streams/\(streamId.urlPercentEncoding())"
@@ -3590,12 +3626,13 @@ enum GetStreamingSessionStreamOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetStudioComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStudioComponentInput {
+
+    static func urlPathProvider(_ value: GetStudioComponentInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let studioComponentId = studioComponentId else {
+        guard let studioComponentId = value.studioComponentId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/studio-components/\(studioComponentId.urlPercentEncoding())"
@@ -3686,9 +3723,10 @@ enum GetStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetStudioInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStudioInput {
+
+    static func urlPathProvider(_ value: GetStudioInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())"
@@ -3717,12 +3755,13 @@ extension GetStudioInputBody: Swift.Decodable {
     }
 }
 
-extension GetStudioMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension GetStudioMemberInput {
+
+    static func urlPathProvider(_ value: GetStudioMemberInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/membership/\(principalId.urlPercentEncoding())"
@@ -5007,28 +5046,28 @@ extension NimbleClientTypes {
 
 }
 
-extension ListEulaAcceptancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let eulaIds = eulaIds {
-                eulaIds.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "eulaIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListEulaAcceptancesInput {
+
+    static func queryItemProvider(_ value: ListEulaAcceptancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let eulaIds = value.eulaIds {
+            eulaIds.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "eulaIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListEulaAcceptancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListEulaAcceptancesInput {
+
+    static func urlPathProvider(_ value: ListEulaAcceptancesInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/eula-acceptances"
@@ -5141,27 +5180,27 @@ enum ListEulaAcceptancesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListEulasInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let eulaIds = eulaIds {
-                eulaIds.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "eulaIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListEulasInput {
+
+    static func queryItemProvider(_ value: ListEulasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let eulaIds = value.eulaIds {
+            eulaIds.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "eulaIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListEulasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEulasInput {
+
+    static func urlPathProvider(_ value: ListEulasInput) -> Swift.String? {
         return "/2020-08-01/eulas"
     }
 }
@@ -5267,29 +5306,29 @@ enum ListEulasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLaunchProfileMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListLaunchProfileMembersInput {
+
+    static func queryItemProvider(_ value: ListLaunchProfileMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLaunchProfileMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListLaunchProfileMembersInput {
+
+    static func urlPathProvider(_ value: ListLaunchProfileMembersInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/membership"
@@ -5407,36 +5446,36 @@ enum ListLaunchProfileMembersOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListLaunchProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let principalId = principalId {
-                let principalIdQueryItem = ClientRuntime.URLQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
-                items.append(principalIdQueryItem)
-            }
-            if let states = states {
-                states.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListLaunchProfilesInput {
+
+    static func queryItemProvider(_ value: ListLaunchProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let principalId = value.principalId {
+            let principalIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
+            items.append(principalIdQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListLaunchProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListLaunchProfilesInput {
+
+    static func urlPathProvider(_ value: ListLaunchProfilesInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles"
@@ -5557,26 +5596,26 @@ enum ListLaunchProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListStreamingImagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let owner = owner {
-                let ownerQueryItem = ClientRuntime.URLQueryItem(name: "owner".urlPercentEncoding(), value: Swift.String(owner).urlPercentEncoding())
-                items.append(ownerQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListStreamingImagesInput {
+
+    static func queryItemProvider(_ value: ListStreamingImagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let owner = value.owner {
+            let ownerQueryItem = ClientRuntime.SDKURLQueryItem(name: "owner".urlPercentEncoding(), value: Swift.String(owner).urlPercentEncoding())
+            items.append(ownerQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStreamingImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListStreamingImagesInput {
+
+    static func urlPathProvider(_ value: ListStreamingImagesInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-images"
@@ -5689,26 +5728,26 @@ enum ListStreamingImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListStreamingSessionBackupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let ownedBy = ownedBy {
-                let ownedByQueryItem = ClientRuntime.URLQueryItem(name: "ownedBy".urlPercentEncoding(), value: Swift.String(ownedBy).urlPercentEncoding())
-                items.append(ownedByQueryItem)
-            }
-            return items
+extension ListStreamingSessionBackupsInput {
+
+    static func queryItemProvider(_ value: ListStreamingSessionBackupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let ownedBy = value.ownedBy {
+            let ownedByQueryItem = ClientRuntime.SDKURLQueryItem(name: "ownedBy".urlPercentEncoding(), value: Swift.String(ownedBy).urlPercentEncoding())
+            items.append(ownedByQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStreamingSessionBackupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListStreamingSessionBackupsInput {
+
+    static func urlPathProvider(_ value: ListStreamingSessionBackupsInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-session-backups"
@@ -5820,34 +5859,34 @@ enum ListStreamingSessionBackupsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListStreamingSessionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let createdBy = createdBy {
-                let createdByQueryItem = ClientRuntime.URLQueryItem(name: "createdBy".urlPercentEncoding(), value: Swift.String(createdBy).urlPercentEncoding())
-                items.append(createdByQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let ownedBy = ownedBy {
-                let ownedByQueryItem = ClientRuntime.URLQueryItem(name: "ownedBy".urlPercentEncoding(), value: Swift.String(ownedBy).urlPercentEncoding())
-                items.append(ownedByQueryItem)
-            }
-            if let sessionIds = sessionIds {
-                let sessionIdsQueryItem = ClientRuntime.URLQueryItem(name: "sessionIds".urlPercentEncoding(), value: Swift.String(sessionIds).urlPercentEncoding())
-                items.append(sessionIdsQueryItem)
-            }
-            return items
+extension ListStreamingSessionsInput {
+
+    static func queryItemProvider(_ value: ListStreamingSessionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let createdBy = value.createdBy {
+            let createdByQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBy".urlPercentEncoding(), value: Swift.String(createdBy).urlPercentEncoding())
+            items.append(createdByQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let ownedBy = value.ownedBy {
+            let ownedByQueryItem = ClientRuntime.SDKURLQueryItem(name: "ownedBy".urlPercentEncoding(), value: Swift.String(ownedBy).urlPercentEncoding())
+            items.append(ownedByQueryItem)
+        }
+        if let sessionIds = value.sessionIds {
+            let sessionIdsQueryItem = ClientRuntime.SDKURLQueryItem(name: "sessionIds".urlPercentEncoding(), value: Swift.String(sessionIds).urlPercentEncoding())
+            items.append(sessionIdsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStreamingSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListStreamingSessionsInput {
+
+    static func urlPathProvider(_ value: ListStreamingSessionsInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions"
@@ -5968,38 +6007,38 @@ enum ListStreamingSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListStudioComponentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let types = types {
-                types.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension ListStudioComponentsInput {
+
+    static func queryItemProvider(_ value: ListStudioComponentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let types = value.types {
+            types.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let states = states {
-                states.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListStudioComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListStudioComponentsInput {
+
+    static func urlPathProvider(_ value: ListStudioComponentsInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/studio-components"
@@ -6120,26 +6159,26 @@ enum ListStudioComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListStudioMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListStudioMembersInput {
+
+    static func queryItemProvider(_ value: ListStudioMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStudioMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension ListStudioMembersInput {
+
+    static func urlPathProvider(_ value: ListStudioMembersInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/membership"
@@ -6252,21 +6291,21 @@ enum ListStudioMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListStudiosInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListStudiosInput {
+
+    static func queryItemProvider(_ value: ListStudiosInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListStudiosInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStudiosInput {
+
+    static func urlPathProvider(_ value: ListStudiosInput) -> Swift.String? {
         return "/2020-08-01/studios"
     }
 }
@@ -6369,9 +6408,10 @@ enum ListStudiosOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/2020-08-01/tags/\(resourceArn.urlPercentEncoding())"
@@ -6560,6 +6600,8 @@ extension NimbleClientTypes {
 
 }
 
+public enum NimbleClientTypes {}
+
 extension PutLaunchProfileMembersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identityStoreId
@@ -6580,22 +6622,24 @@ extension PutLaunchProfileMembersInput: Swift.Encodable {
     }
 }
 
-extension PutLaunchProfileMembersInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutLaunchProfileMembersInput {
+
+    static func headerProvider(_ value: PutLaunchProfileMembersInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension PutLaunchProfileMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension PutLaunchProfileMembersInput {
+
+    static func urlPathProvider(_ value: PutLaunchProfileMembersInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/membership"
@@ -6710,19 +6754,21 @@ extension PutStudioMembersInput: Swift.Encodable {
     }
 }
 
-extension PutStudioMembersInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutStudioMembersInput {
+
+    static func headerProvider(_ value: PutStudioMembersInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension PutStudioMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension PutStudioMembersInput {
+
+    static func urlPathProvider(_ value: PutStudioMembersInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/membership"
@@ -7184,22 +7230,24 @@ extension StartStreamingSessionInput: Swift.Encodable {
     }
 }
 
-extension StartStreamingSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartStreamingSessionInput {
+
+    static func headerProvider(_ value: StartStreamingSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension StartStreamingSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension StartStreamingSessionInput {
+
+    static func urlPathProvider(_ value: StartStreamingSessionInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions/\(sessionId.urlPercentEncoding())/start"
@@ -7305,19 +7353,21 @@ enum StartStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StartStudioSSOConfigurationRepairInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartStudioSSOConfigurationRepairInput {
+
+    static func headerProvider(_ value: StartStudioSSOConfigurationRepairInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension StartStudioSSOConfigurationRepairInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension StartStudioSSOConfigurationRepairInput {
+
+    static func urlPathProvider(_ value: StartStudioSSOConfigurationRepairInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/sso-configuration"
@@ -7421,22 +7471,24 @@ extension StopStreamingSessionInput: Swift.Encodable {
     }
 }
 
-extension StopStreamingSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StopStreamingSessionInput {
+
+    static func headerProvider(_ value: StopStreamingSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension StopStreamingSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension StopStreamingSessionInput {
+
+    static func urlPathProvider(_ value: StopStreamingSessionInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-sessions/\(sessionId.urlPercentEncoding())/stop"
@@ -10558,9 +10610,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/2020-08-01/tags/\(resourceArn.urlPercentEncoding())"
@@ -10721,26 +10774,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/2020-08-01/tags/\(resourceArn.urlPercentEncoding())"
@@ -10841,22 +10894,24 @@ extension UpdateLaunchProfileInput: Swift.Encodable {
     }
 }
 
-extension UpdateLaunchProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateLaunchProfileInput {
+
+    static func headerProvider(_ value: UpdateLaunchProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension UpdateLaunchProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension UpdateLaunchProfileInput {
+
+    static func urlPathProvider(_ value: UpdateLaunchProfileInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())"
@@ -10968,25 +11023,27 @@ extension UpdateLaunchProfileMemberInput: Swift.Encodable {
     }
 }
 
-extension UpdateLaunchProfileMemberInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateLaunchProfileMemberInput {
+
+    static func headerProvider(_ value: UpdateLaunchProfileMemberInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension UpdateLaunchProfileMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension UpdateLaunchProfileMemberInput {
+
+    static func urlPathProvider(_ value: UpdateLaunchProfileMemberInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let launchProfileId = launchProfileId else {
+        guard let launchProfileId = value.launchProfileId else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/launch-profiles/\(launchProfileId.urlPercentEncoding())/membership/\(principalId.urlPercentEncoding())"
@@ -11177,22 +11234,24 @@ extension UpdateStreamingImageInput: Swift.Encodable {
     }
 }
 
-extension UpdateStreamingImageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateStreamingImageInput {
+
+    static func headerProvider(_ value: UpdateStreamingImageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension UpdateStreamingImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension UpdateStreamingImageInput {
+
+    static func urlPathProvider(_ value: UpdateStreamingImageInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let streamingImageId = streamingImageId else {
+        guard let streamingImageId = value.streamingImageId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-images/\(streamingImageId.urlPercentEncoding())"
@@ -11369,22 +11428,24 @@ extension UpdateStudioComponentInput: Swift.Encodable {
     }
 }
 
-extension UpdateStudioComponentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateStudioComponentInput {
+
+    static func headerProvider(_ value: UpdateStudioComponentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension UpdateStudioComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension UpdateStudioComponentInput {
+
+    static func urlPathProvider(_ value: UpdateStudioComponentInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
-        guard let studioComponentId = studioComponentId else {
+        guard let studioComponentId = value.studioComponentId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/studio-components/\(studioComponentId.urlPercentEncoding())"
@@ -11615,19 +11676,21 @@ extension UpdateStudioInput: Swift.Encodable {
     }
 }
 
-extension UpdateStudioInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateStudioInput {
+
+    static func headerProvider(_ value: UpdateStudioInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension UpdateStudioInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let studioId = studioId else {
+extension UpdateStudioInput {
+
+    static func urlPathProvider(_ value: UpdateStudioInput) -> Swift.String? {
+        guard let studioId = value.studioId else {
             return nil
         }
         return "/2020-08-01/studios/\(studioId.urlPercentEncoding())"

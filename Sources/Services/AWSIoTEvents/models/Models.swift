@@ -1283,8 +1283,9 @@ extension CreateAlarmModelInput: Swift.Encodable {
     }
 }
 
-extension CreateAlarmModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAlarmModelInput {
+
+    static func urlPathProvider(_ value: CreateAlarmModelInput) -> Swift.String? {
         return "/alarm-models"
     }
 }
@@ -1546,8 +1547,9 @@ extension CreateDetectorModelInput: Swift.Encodable {
     }
 }
 
-extension CreateDetectorModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDetectorModelInput {
+
+    static func urlPathProvider(_ value: CreateDetectorModelInput) -> Swift.String? {
         return "/detector-models"
     }
 }
@@ -1725,8 +1727,9 @@ extension CreateInputInput: Swift.Encodable {
     }
 }
 
-extension CreateInputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInputInput {
+
+    static func urlPathProvider(_ value: CreateInputInput) -> Swift.String? {
         return "/inputs"
     }
 }
@@ -1849,9 +1852,10 @@ enum CreateInputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAlarmModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let alarmModelName = alarmModelName else {
+extension DeleteAlarmModelInput {
+
+    static func urlPathProvider(_ value: DeleteAlarmModelInput) -> Swift.String? {
+        guard let alarmModelName = value.alarmModelName else {
             return nil
         }
         return "/alarm-models/\(alarmModelName.urlPercentEncoding())"
@@ -1906,9 +1910,10 @@ enum DeleteAlarmModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDetectorModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let detectorModelName = detectorModelName else {
+extension DeleteDetectorModelInput {
+
+    static func urlPathProvider(_ value: DeleteDetectorModelInput) -> Swift.String? {
+        guard let detectorModelName = value.detectorModelName else {
             return nil
         }
         return "/detector-models/\(detectorModelName.urlPercentEncoding())"
@@ -1963,9 +1968,10 @@ enum DeleteDetectorModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteInputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let inputName = inputName else {
+extension DeleteInputInput {
+
+    static func urlPathProvider(_ value: DeleteInputInput) -> Swift.String? {
+        guard let inputName = value.inputName else {
             return nil
         }
         return "/inputs/\(inputName.urlPercentEncoding())"
@@ -2020,22 +2026,22 @@ enum DeleteInputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAlarmModelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let alarmModelVersion = alarmModelVersion {
-                let alarmModelVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(alarmModelVersion).urlPercentEncoding())
-                items.append(alarmModelVersionQueryItem)
-            }
-            return items
+extension DescribeAlarmModelInput {
+
+    static func queryItemProvider(_ value: DescribeAlarmModelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let alarmModelVersion = value.alarmModelVersion {
+            let alarmModelVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(alarmModelVersion).urlPercentEncoding())
+            items.append(alarmModelVersionQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeAlarmModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let alarmModelName = alarmModelName else {
+extension DescribeAlarmModelInput {
+
+    static func urlPathProvider(_ value: DescribeAlarmModelInput) -> Swift.String? {
+        guard let alarmModelName = value.alarmModelName else {
             return nil
         }
         return "/alarm-models/\(alarmModelName.urlPercentEncoding())"
@@ -2271,9 +2277,10 @@ enum DescribeAlarmModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDetectorModelAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analysisId = analysisId else {
+extension DescribeDetectorModelAnalysisInput {
+
+    static func urlPathProvider(_ value: DescribeDetectorModelAnalysisInput) -> Swift.String? {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/analysis/detector-models/\(analysisId.urlPercentEncoding())"
@@ -2363,22 +2370,22 @@ enum DescribeDetectorModelAnalysisOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DescribeDetectorModelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let detectorModelVersion = detectorModelVersion {
-                let detectorModelVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(detectorModelVersion).urlPercentEncoding())
-                items.append(detectorModelVersionQueryItem)
-            }
-            return items
+extension DescribeDetectorModelInput {
+
+    static func queryItemProvider(_ value: DescribeDetectorModelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let detectorModelVersion = value.detectorModelVersion {
+            let detectorModelVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(detectorModelVersion).urlPercentEncoding())
+            items.append(detectorModelVersionQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeDetectorModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let detectorModelName = detectorModelName else {
+extension DescribeDetectorModelInput {
+
+    static func urlPathProvider(_ value: DescribeDetectorModelInput) -> Swift.String? {
+        guard let detectorModelName = value.detectorModelName else {
             return nil
         }
         return "/detector-models/\(detectorModelName.urlPercentEncoding())"
@@ -2466,9 +2473,10 @@ enum DescribeDetectorModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeInputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let inputName = inputName else {
+extension DescribeInputInput {
+
+    static func urlPathProvider(_ value: DescribeInputInput) -> Swift.String? {
+        guard let inputName = value.inputName else {
             return nil
         }
         return "/inputs/\(inputName.urlPercentEncoding())"
@@ -2552,8 +2560,9 @@ enum DescribeInputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeLoggingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLoggingOptionsInput {
+
+    static func urlPathProvider(_ value: DescribeLoggingOptionsInput) -> Swift.String? {
         return "/logging"
     }
 }
@@ -3634,26 +3643,26 @@ extension IoTEventsClientTypes {
 
 }
 
-extension GetDetectorModelAnalysisResultsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetDetectorModelAnalysisResultsInput {
+
+    static func queryItemProvider(_ value: GetDetectorModelAnalysisResultsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDetectorModelAnalysisResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analysisId = analysisId else {
+extension GetDetectorModelAnalysisResultsInput {
+
+    static func urlPathProvider(_ value: GetDetectorModelAnalysisResultsInput) -> Swift.String? {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/analysis/detector-models/\(analysisId.urlPercentEncoding())/results"
@@ -4263,6 +4272,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTEventsClientTypes {}
+
 extension IoTEventsClientTypes.IotEventsAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputName
@@ -4659,26 +4670,26 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAlarmModelVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAlarmModelVersionsInput {
+
+    static func queryItemProvider(_ value: ListAlarmModelVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAlarmModelVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let alarmModelName = alarmModelName else {
+extension ListAlarmModelVersionsInput {
+
+    static func urlPathProvider(_ value: ListAlarmModelVersionsInput) -> Swift.String? {
+        guard let alarmModelName = value.alarmModelName else {
             return nil
         }
         return "/alarm-models/\(alarmModelName.urlPercentEncoding())/versions"
@@ -4789,25 +4800,25 @@ enum ListAlarmModelVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAlarmModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAlarmModelsInput {
+
+    static func queryItemProvider(_ value: ListAlarmModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAlarmModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAlarmModelsInput {
+
+    static func urlPathProvider(_ value: ListAlarmModelsInput) -> Swift.String? {
         return "/alarm-models"
     }
 }
@@ -4910,26 +4921,26 @@ enum ListAlarmModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDetectorModelVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDetectorModelVersionsInput {
+
+    static func queryItemProvider(_ value: ListDetectorModelVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDetectorModelVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let detectorModelName = detectorModelName else {
+extension ListDetectorModelVersionsInput {
+
+    static func urlPathProvider(_ value: ListDetectorModelVersionsInput) -> Swift.String? {
+        guard let detectorModelName = value.detectorModelName else {
             return nil
         }
         return "/detector-models/\(detectorModelName.urlPercentEncoding())/versions"
@@ -5040,25 +5051,25 @@ enum ListDetectorModelVersionsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListDetectorModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDetectorModelsInput {
+
+    static func queryItemProvider(_ value: ListDetectorModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDetectorModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDetectorModelsInput {
+
+    static func urlPathProvider(_ value: ListDetectorModelsInput) -> Swift.String? {
         return "/detector-models"
     }
 }
@@ -5182,8 +5193,9 @@ extension ListInputRoutingsInput: Swift.Encodable {
     }
 }
 
-extension ListInputRoutingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInputRoutingsInput {
+
+    static func urlPathProvider(_ value: ListInputRoutingsInput) -> Swift.String? {
         return "/input-routings"
     }
 }
@@ -5307,25 +5319,25 @@ enum ListInputRoutingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListInputsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListInputsInput {
+
+    static func queryItemProvider(_ value: ListInputsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListInputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInputsInput {
+
+    static func urlPathProvider(_ value: ListInputsInput) -> Swift.String? {
         return "/inputs"
     }
 }
@@ -5428,23 +5440,23 @@ enum ListInputsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -6020,8 +6032,9 @@ extension PutLoggingOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutLoggingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutLoggingOptionsInput {
+
+    static func urlPathProvider(_ value: PutLoggingOptionsInput) -> Swift.String? {
         return "/logging"
     }
 }
@@ -6832,8 +6845,9 @@ extension StartDetectorModelAnalysisInput: Swift.Encodable {
     }
 }
 
-extension StartDetectorModelAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDetectorModelAnalysisInput {
+
+    static func urlPathProvider(_ value: StartDetectorModelAnalysisInput) -> Swift.String? {
         return "/analysis/detector-models"
     }
 }
@@ -7051,23 +7065,23 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -7333,31 +7347,31 @@ extension UnsupportedOperationExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -7451,9 +7465,10 @@ extension UpdateAlarmModelInput: Swift.Encodable {
     }
 }
 
-extension UpdateAlarmModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let alarmModelName = alarmModelName else {
+extension UpdateAlarmModelInput {
+
+    static func urlPathProvider(_ value: UpdateAlarmModelInput) -> Swift.String? {
+        guard let alarmModelName = value.alarmModelName else {
             return nil
         }
         return "/alarm-models/\(alarmModelName.urlPercentEncoding())"
@@ -7672,9 +7687,10 @@ extension UpdateDetectorModelInput: Swift.Encodable {
     }
 }
 
-extension UpdateDetectorModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let detectorModelName = detectorModelName else {
+extension UpdateDetectorModelInput {
+
+    static func urlPathProvider(_ value: UpdateDetectorModelInput) -> Swift.String? {
+        guard let detectorModelName = value.detectorModelName else {
             return nil
         }
         return "/detector-models/\(detectorModelName.urlPercentEncoding())"
@@ -7813,9 +7829,10 @@ extension UpdateInputInput: Swift.Encodable {
     }
 }
 
-extension UpdateInputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let inputName = inputName else {
+extension UpdateInputInput {
+
+    static func urlPathProvider(_ value: UpdateInputInput) -> Swift.String? {
+        guard let inputName = value.inputName else {
             return nil
         }
         return "/inputs/\(inputName.urlPercentEncoding())"

@@ -39,6 +39,8 @@ extension AppMeshClientTypes {
 
 }
 
+public enum AppMeshClientTypes {}
+
 extension AppMeshClientTypes.AwsCloudMapInstanceAttribute: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key
@@ -535,25 +537,25 @@ extension CreateGatewayRouteInput: Swift.Encodable {
     }
 }
 
-extension CreateGatewayRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension CreateGatewayRouteInput {
+
+    static func queryItemProvider(_ value: CreateGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension CreateGatewayRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension CreateGatewayRouteInput {
+
+    static func urlPathProvider(_ value: CreateGatewayRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateway/\(virtualGatewayName.urlPercentEncoding())/gatewayRoutes"
@@ -723,8 +725,9 @@ extension CreateMeshInput: Swift.Encodable {
     }
 }
 
-extension CreateMeshInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMeshInput {
+
+    static func urlPathProvider(_ value: CreateMeshInput) -> Swift.String? {
         return "/v20190125/meshes"
     }
 }
@@ -879,25 +882,25 @@ extension CreateRouteInput: Swift.Encodable {
     }
 }
 
-extension CreateRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension CreateRouteInput {
+
+    static func queryItemProvider(_ value: CreateRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension CreateRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension CreateRouteInput {
+
+    static func urlPathProvider(_ value: CreateRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouter/\(virtualRouterName.urlPercentEncoding())/routes"
@@ -1069,22 +1072,22 @@ extension CreateVirtualGatewayInput: Swift.Encodable {
     }
 }
 
-extension CreateVirtualGatewayInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension CreateVirtualGatewayInput {
+
+    static func queryItemProvider(_ value: CreateVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension CreateVirtualGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension CreateVirtualGatewayInput {
+
+    static func urlPathProvider(_ value: CreateVirtualGatewayInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateways"
@@ -1249,22 +1252,22 @@ extension CreateVirtualNodeInput: Swift.Encodable {
     }
 }
 
-extension CreateVirtualNodeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension CreateVirtualNodeInput {
+
+    static func queryItemProvider(_ value: CreateVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension CreateVirtualNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension CreateVirtualNodeInput {
+
+    static func urlPathProvider(_ value: CreateVirtualNodeInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualNodes"
@@ -1431,22 +1434,22 @@ extension CreateVirtualRouterInput: Swift.Encodable {
     }
 }
 
-extension CreateVirtualRouterInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension CreateVirtualRouterInput {
+
+    static func queryItemProvider(_ value: CreateVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension CreateVirtualRouterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension CreateVirtualRouterInput {
+
+    static func urlPathProvider(_ value: CreateVirtualRouterInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouters"
@@ -1613,22 +1616,22 @@ extension CreateVirtualServiceInput: Swift.Encodable {
     }
 }
 
-extension CreateVirtualServiceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension CreateVirtualServiceInput {
+
+    static func queryItemProvider(_ value: CreateVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension CreateVirtualServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension CreateVirtualServiceInput {
+
+    static func urlPathProvider(_ value: CreateVirtualServiceInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualServices"
@@ -1799,28 +1802,28 @@ extension AppMeshClientTypes {
     }
 }
 
-extension DeleteGatewayRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DeleteGatewayRouteInput {
+
+    static func queryItemProvider(_ value: DeleteGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteGatewayRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteGatewayRouteInput {
+
+    static func urlPathProvider(_ value: DeleteGatewayRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
-        guard let gatewayRouteName = gatewayRouteName else {
+        guard let gatewayRouteName = value.gatewayRouteName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateway/\(virtualGatewayName.urlPercentEncoding())/gatewayRoutes/\(gatewayRouteName.urlPercentEncoding())"
@@ -1920,9 +1923,10 @@ enum DeleteGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMeshInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteMeshInput {
+
+    static func urlPathProvider(_ value: DeleteMeshInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())"
@@ -2010,28 +2014,28 @@ enum DeleteMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DeleteRouteInput {
+
+    static func queryItemProvider(_ value: DeleteRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteRouteInput {
+
+    static func urlPathProvider(_ value: DeleteRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
-        guard let routeName = routeName else {
+        guard let routeName = value.routeName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouter/\(virtualRouterName.urlPercentEncoding())/routes/\(routeName.urlPercentEncoding())"
@@ -2133,25 +2137,25 @@ enum DeleteRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVirtualGatewayInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DeleteVirtualGatewayInput {
+
+    static func queryItemProvider(_ value: DeleteVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteVirtualGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteVirtualGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteVirtualGatewayInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateways/\(virtualGatewayName.urlPercentEncoding())"
@@ -2246,25 +2250,25 @@ enum DeleteVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVirtualNodeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DeleteVirtualNodeInput {
+
+    static func queryItemProvider(_ value: DeleteVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteVirtualNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteVirtualNodeInput {
+
+    static func urlPathProvider(_ value: DeleteVirtualNodeInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualNodeName = virtualNodeName else {
+        guard let virtualNodeName = value.virtualNodeName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualNodes/\(virtualNodeName.urlPercentEncoding())"
@@ -2361,25 +2365,25 @@ enum DeleteVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVirtualRouterInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DeleteVirtualRouterInput {
+
+    static func queryItemProvider(_ value: DeleteVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteVirtualRouterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteVirtualRouterInput {
+
+    static func urlPathProvider(_ value: DeleteVirtualRouterInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouters/\(virtualRouterName.urlPercentEncoding())"
@@ -2476,25 +2480,25 @@ enum DeleteVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVirtualServiceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DeleteVirtualServiceInput {
+
+    static func queryItemProvider(_ value: DeleteVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteVirtualServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DeleteVirtualServiceInput {
+
+    static func urlPathProvider(_ value: DeleteVirtualServiceInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualServiceName = virtualServiceName else {
+        guard let virtualServiceName = value.virtualServiceName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualServices/\(virtualServiceName.urlPercentEncoding())"
@@ -2591,28 +2595,28 @@ enum DeleteVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeGatewayRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeGatewayRouteInput {
+
+    static func queryItemProvider(_ value: DescribeGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeGatewayRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeGatewayRouteInput {
+
+    static func urlPathProvider(_ value: DescribeGatewayRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
-        guard let gatewayRouteName = gatewayRouteName else {
+        guard let gatewayRouteName = value.gatewayRouteName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateway/\(virtualGatewayName.urlPercentEncoding())/gatewayRoutes/\(gatewayRouteName.urlPercentEncoding())"
@@ -2711,22 +2715,22 @@ enum DescribeGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeMeshInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeMeshInput {
+
+    static func queryItemProvider(_ value: DescribeMeshInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeMeshInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeMeshInput {
+
+    static func urlPathProvider(_ value: DescribeMeshInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())"
@@ -2817,28 +2821,28 @@ enum DescribeMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeRouteInput {
+
+    static func queryItemProvider(_ value: DescribeRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeRouteInput {
+
+    static func urlPathProvider(_ value: DescribeRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
-        guard let routeName = routeName else {
+        guard let routeName = value.routeName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouter/\(virtualRouterName.urlPercentEncoding())/routes/\(routeName.urlPercentEncoding())"
@@ -2939,25 +2943,25 @@ enum DescribeRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVirtualGatewayInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeVirtualGatewayInput {
+
+    static func queryItemProvider(_ value: DescribeVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeVirtualGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeVirtualGatewayInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualGatewayInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateways/\(virtualGatewayName.urlPercentEncoding())"
@@ -3051,25 +3055,25 @@ enum DescribeVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVirtualNodeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeVirtualNodeInput {
+
+    static func queryItemProvider(_ value: DescribeVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeVirtualNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeVirtualNodeInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualNodeInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualNodeName = virtualNodeName else {
+        guard let virtualNodeName = value.virtualNodeName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualNodes/\(virtualNodeName.urlPercentEncoding())"
@@ -3165,25 +3169,25 @@ enum DescribeVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVirtualRouterInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeVirtualRouterInput {
+
+    static func queryItemProvider(_ value: DescribeVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeVirtualRouterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeVirtualRouterInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualRouterInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouters/\(virtualRouterName.urlPercentEncoding())"
@@ -3279,25 +3283,25 @@ enum DescribeVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVirtualServiceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension DescribeVirtualServiceInput {
+
+    static func queryItemProvider(_ value: DescribeVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeVirtualServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension DescribeVirtualServiceInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualServiceInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualServiceName = virtualServiceName else {
+        guard let virtualServiceName = value.virtualServiceName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualServices/\(virtualServiceName.urlPercentEncoding())"
@@ -6495,33 +6499,33 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListGatewayRoutesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension ListGatewayRoutesInput {
+
+    static func queryItemProvider(_ value: ListGatewayRoutesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGatewayRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension ListGatewayRoutesInput {
+
+    static func urlPathProvider(_ value: ListGatewayRoutesInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateway/\(virtualGatewayName.urlPercentEncoding())/gatewayRoutes"
@@ -6643,25 +6647,25 @@ enum ListGatewayRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMeshesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListMeshesInput {
+
+    static func queryItemProvider(_ value: ListMeshesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMeshesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMeshesInput {
+
+    static func urlPathProvider(_ value: ListMeshesInput) -> Swift.String? {
         return "/v20190125/meshes"
     }
 }
@@ -6769,33 +6773,33 @@ enum ListMeshesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRoutesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension ListRoutesInput {
+
+    static func queryItemProvider(_ value: ListRoutesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension ListRoutesInput {
+
+    static func urlPathProvider(_ value: ListRoutesInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouter/\(virtualRouterName.urlPercentEncoding())/routes"
@@ -6919,31 +6923,31 @@ enum ListRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/v20190125/tags"
     }
 }
@@ -7056,30 +7060,30 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVirtualGatewaysInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension ListVirtualGatewaysInput {
+
+    static func queryItemProvider(_ value: ListVirtualGatewaysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVirtualGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension ListVirtualGatewaysInput {
+
+    static func urlPathProvider(_ value: ListVirtualGatewaysInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateways"
@@ -7196,30 +7200,30 @@ enum ListVirtualGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVirtualNodesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension ListVirtualNodesInput {
+
+    static func queryItemProvider(_ value: ListVirtualNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVirtualNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension ListVirtualNodesInput {
+
+    static func urlPathProvider(_ value: ListVirtualNodesInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualNodes"
@@ -7338,30 +7342,30 @@ enum ListVirtualNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVirtualRoutersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension ListVirtualRoutersInput {
+
+    static func queryItemProvider(_ value: ListVirtualRoutersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVirtualRoutersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension ListVirtualRoutersInput {
+
+    static func urlPathProvider(_ value: ListVirtualRoutersInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouters"
@@ -7480,30 +7484,30 @@ enum ListVirtualRoutersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVirtualServicesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension ListVirtualServicesInput {
+
+    static func queryItemProvider(_ value: ListVirtualServicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVirtualServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension ListVirtualServicesInput {
+
+    static func urlPathProvider(_ value: ListVirtualServicesInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualServices"
@@ -9615,23 +9619,23 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/v20190125/tag"
     }
 }
@@ -10260,23 +10264,23 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/v20190125/untag"
     }
 }
@@ -10369,28 +10373,28 @@ extension UpdateGatewayRouteInput: Swift.Encodable {
     }
 }
 
-extension UpdateGatewayRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension UpdateGatewayRouteInput {
+
+    static func queryItemProvider(_ value: UpdateGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateGatewayRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateGatewayRouteInput {
+
+    static func urlPathProvider(_ value: UpdateGatewayRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
-        guard let gatewayRouteName = gatewayRouteName else {
+        guard let gatewayRouteName = value.gatewayRouteName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateway/\(virtualGatewayName.urlPercentEncoding())/gatewayRoutes/\(gatewayRouteName.urlPercentEncoding())"
@@ -10528,9 +10532,10 @@ extension UpdateMeshInput: Swift.Encodable {
     }
 }
 
-extension UpdateMeshInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateMeshInput {
+
+    static func urlPathProvider(_ value: UpdateMeshInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())"
@@ -10654,28 +10659,28 @@ extension UpdateRouteInput: Swift.Encodable {
     }
 }
 
-extension UpdateRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension UpdateRouteInput {
+
+    static func queryItemProvider(_ value: UpdateRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateRouteInput {
+
+    static func urlPathProvider(_ value: UpdateRouteInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
-        guard let routeName = routeName else {
+        guard let routeName = value.routeName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouter/\(virtualRouterName.urlPercentEncoding())/routes/\(routeName.urlPercentEncoding())"
@@ -10815,25 +10820,25 @@ extension UpdateVirtualGatewayInput: Swift.Encodable {
     }
 }
 
-extension UpdateVirtualGatewayInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension UpdateVirtualGatewayInput {
+
+    static func queryItemProvider(_ value: UpdateVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateVirtualGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateVirtualGatewayInput {
+
+    static func urlPathProvider(_ value: UpdateVirtualGatewayInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualGatewayName = virtualGatewayName else {
+        guard let virtualGatewayName = value.virtualGatewayName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualGateways/\(virtualGatewayName.urlPercentEncoding())"
@@ -10966,25 +10971,25 @@ extension UpdateVirtualNodeInput: Swift.Encodable {
     }
 }
 
-extension UpdateVirtualNodeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension UpdateVirtualNodeInput {
+
+    static func queryItemProvider(_ value: UpdateVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateVirtualNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateVirtualNodeInput {
+
+    static func urlPathProvider(_ value: UpdateVirtualNodeInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualNodeName = virtualNodeName else {
+        guard let virtualNodeName = value.virtualNodeName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualNodes/\(virtualNodeName.urlPercentEncoding())"
@@ -11119,25 +11124,25 @@ extension UpdateVirtualRouterInput: Swift.Encodable {
     }
 }
 
-extension UpdateVirtualRouterInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension UpdateVirtualRouterInput {
+
+    static func queryItemProvider(_ value: UpdateVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateVirtualRouterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateVirtualRouterInput {
+
+    static func urlPathProvider(_ value: UpdateVirtualRouterInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualRouterName = virtualRouterName else {
+        guard let virtualRouterName = value.virtualRouterName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualRouters/\(virtualRouterName.urlPercentEncoding())"
@@ -11272,25 +11277,25 @@ extension UpdateVirtualServiceInput: Swift.Encodable {
     }
 }
 
-extension UpdateVirtualServiceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let meshOwner = meshOwner {
-                let meshOwnerQueryItem = ClientRuntime.URLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
-                items.append(meshOwnerQueryItem)
-            }
-            return items
+extension UpdateVirtualServiceInput {
+
+    static func queryItemProvider(_ value: UpdateVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let meshOwner = value.meshOwner {
+            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            items.append(meshOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateVirtualServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meshName = meshName else {
+extension UpdateVirtualServiceInput {
+
+    static func urlPathProvider(_ value: UpdateVirtualServiceInput) -> Swift.String? {
+        guard let meshName = value.meshName else {
             return nil
         }
-        guard let virtualServiceName = virtualServiceName else {
+        guard let virtualServiceName = value.virtualServiceName else {
             return nil
         }
         return "/v20190125/meshes/\(meshName.urlPercentEncoding())/virtualServices/\(virtualServiceName.urlPercentEncoding())"

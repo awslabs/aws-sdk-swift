@@ -533,9 +533,10 @@ extension ConfigureLogsInput: Swift.Encodable {
     }
 }
 
-extension ConfigureLogsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ConfigureLogsInput {
+
+    static func urlPathProvider(_ value: ConfigureLogsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/channels/\(id.urlPercentEncoding())/configure_logs"
@@ -743,8 +744,9 @@ extension CreateChannelInput: Swift.Encodable {
     }
 }
 
-extension CreateChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateChannelInput {
+
+    static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
         return "/channels"
     }
 }
@@ -968,8 +970,9 @@ extension CreateHarvestJobInput: Swift.Encodable {
     }
 }
 
-extension CreateHarvestJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHarvestJobInput {
+
+    static func urlPathProvider(_ value: CreateHarvestJobInput) -> Swift.String? {
         return "/harvest_jobs"
     }
 }
@@ -1247,8 +1250,9 @@ extension CreateOriginEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateOriginEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateOriginEndpointInput {
+
+    static func urlPathProvider(_ value: CreateOriginEndpointInput) -> Swift.String? {
         return "/origin_endpoints"
     }
 }
@@ -1895,9 +1899,10 @@ extension MediaPackageClientTypes {
 
 }
 
-extension DeleteChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteChannelInput {
+
+    static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/channels/\(id.urlPercentEncoding())"
@@ -1952,9 +1957,10 @@ enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteOriginEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteOriginEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteOriginEndpointInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/origin_endpoints/\(id.urlPercentEncoding())"
@@ -2009,9 +2015,10 @@ enum DeleteOriginEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeChannelInput {
+
+    static func urlPathProvider(_ value: DescribeChannelInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/channels/\(id.urlPercentEncoding())"
@@ -2175,9 +2182,10 @@ enum DescribeChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeHarvestJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeHarvestJobInput {
+
+    static func urlPathProvider(_ value: DescribeHarvestJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/harvest_jobs/\(id.urlPercentEncoding())"
@@ -2342,9 +2350,10 @@ enum DescribeHarvestJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeOriginEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeOriginEndpointInput {
+
+    static func urlPathProvider(_ value: DescribeOriginEndpointInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/origin_endpoints/\(id.urlPercentEncoding())"
@@ -3597,25 +3606,25 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListChannelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChannelsInput {
+
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChannelsInput {
+
+    static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
         return "/channels"
     }
 }
@@ -3720,33 +3729,33 @@ enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListHarvestJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let includeChannelId = includeChannelId {
-                let includeChannelIdQueryItem = ClientRuntime.URLQueryItem(name: "includeChannelId".urlPercentEncoding(), value: Swift.String(includeChannelId).urlPercentEncoding())
-                items.append(includeChannelIdQueryItem)
-            }
-            if let includeStatus = includeStatus {
-                let includeStatusQueryItem = ClientRuntime.URLQueryItem(name: "includeStatus".urlPercentEncoding(), value: Swift.String(includeStatus).urlPercentEncoding())
-                items.append(includeStatusQueryItem)
-            }
-            return items
+extension ListHarvestJobsInput {
+
+    static func queryItemProvider(_ value: ListHarvestJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let includeChannelId = value.includeChannelId {
+            let includeChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeChannelId".urlPercentEncoding(), value: Swift.String(includeChannelId).urlPercentEncoding())
+            items.append(includeChannelIdQueryItem)
+        }
+        if let includeStatus = value.includeStatus {
+            let includeStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeStatus".urlPercentEncoding(), value: Swift.String(includeStatus).urlPercentEncoding())
+            items.append(includeStatusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListHarvestJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHarvestJobsInput {
+
+    static func urlPathProvider(_ value: ListHarvestJobsInput) -> Swift.String? {
         return "/harvest_jobs"
     }
 }
@@ -3859,29 +3868,29 @@ enum ListHarvestJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOriginEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let channelId = channelId {
-                let channelIdQueryItem = ClientRuntime.URLQueryItem(name: "channelId".urlPercentEncoding(), value: Swift.String(channelId).urlPercentEncoding())
-                items.append(channelIdQueryItem)
-            }
-            return items
+extension ListOriginEndpointsInput {
+
+    static func queryItemProvider(_ value: ListOriginEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let channelId = value.channelId {
+            let channelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "channelId".urlPercentEncoding(), value: Swift.String(channelId).urlPercentEncoding())
+            items.append(channelIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOriginEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOriginEndpointsInput {
+
+    static func urlPathProvider(_ value: ListOriginEndpointsInput) -> Swift.String? {
         return "/origin_endpoints"
     }
 }
@@ -3990,9 +3999,10 @@ enum ListOriginEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4112,6 +4122,8 @@ extension MediaPackageClientTypes {
         }
     }
 }
+
+public enum MediaPackageClientTypes {}
 
 extension MediaPackageClientTypes.MssEncryption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4690,9 +4702,10 @@ extension MediaPackageClientTypes {
     }
 }
 
-extension RotateChannelCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension RotateChannelCredentialsInput {
+
+    static func urlPathProvider(_ value: RotateChannelCredentialsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/channels/\(id.urlPercentEncoding())/credentials"
@@ -4858,12 +4871,13 @@ enum RotateChannelCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension RotateIngestEndpointCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension RotateIngestEndpointCredentialsInput {
+
+    static func urlPathProvider(_ value: RotateIngestEndpointCredentialsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let ingestEndpointId = ingestEndpointId else {
+        guard let ingestEndpointId = value.ingestEndpointId else {
             return nil
         }
         return "/channels/\(id.urlPercentEncoding())/ingest_endpoints/\(ingestEndpointId.urlPercentEncoding())/credentials"
@@ -5422,9 +5436,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5602,26 +5617,26 @@ extension UnprocessableEntityExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5687,9 +5702,10 @@ extension UpdateChannelInput: Swift.Encodable {
     }
 }
 
-extension UpdateChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateChannelInput {
+
+    static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/channels/\(id.urlPercentEncoding())"
@@ -5921,9 +5937,10 @@ extension UpdateOriginEndpointInput: Swift.Encodable {
     }
 }
 
-extension UpdateOriginEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateOriginEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateOriginEndpointInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/origin_endpoints/\(id.urlPercentEncoding())"

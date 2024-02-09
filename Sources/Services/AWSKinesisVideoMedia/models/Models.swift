@@ -133,8 +133,9 @@ extension GetMediaInput: Swift.Encodable {
     }
 }
 
-extension GetMediaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMediaInput {
+
+    static func urlPathProvider(_ value: GetMediaInput) -> Swift.String? {
         return "/getMedia"
     }
 }
@@ -399,6 +400,8 @@ extension InvalidEndpointExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum KinesisVideoMediaClientTypes {}
 
 extension NotAuthorizedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

@@ -83,8 +83,9 @@ extension AssumeRoleInput: Swift.Encodable {
     }
 }
 
-extension AssumeRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssumeRoleInput {
+
+    static func urlPathProvider(_ value: AssumeRoleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -400,8 +401,9 @@ extension AssumeRoleWithSAMLInput: Swift.Encodable {
     }
 }
 
-extension AssumeRoleWithSAMLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssumeRoleWithSAMLInput {
+
+    static func urlPathProvider(_ value: AssumeRoleWithSAMLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -683,8 +685,9 @@ extension AssumeRoleWithWebIdentityInput: Swift.Encodable {
     }
 }
 
-extension AssumeRoleWithWebIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssumeRoleWithWebIdentityInput {
+
+    static func urlPathProvider(_ value: AssumeRoleWithWebIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1035,8 +1038,9 @@ extension DecodeAuthorizationMessageInput: Swift.Encodable {
     }
 }
 
-extension DecodeAuthorizationMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DecodeAuthorizationMessageInput {
+
+    static func urlPathProvider(_ value: DecodeAuthorizationMessageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1234,8 +1238,9 @@ extension GetAccessKeyInfoInput: Swift.Encodable {
     }
 }
 
-extension GetAccessKeyInfoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccessKeyInfoInput {
+
+    static func urlPathProvider(_ value: GetAccessKeyInfoInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1342,37 +1347,23 @@ extension GetCallerIdentityInput {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withFlowType(value: .PRESIGN_REQUEST)
-                      .withExpiration(value: expiration)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutput>(id: "getCallerIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(GetCallerIdentityInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput, GetCallerIdentityOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetCallerIdentityOutput, GetCallerIdentityOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCallerIdentityOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetCallerIdentityOutput(), next: ClientRuntime.NoopHandler())
@@ -1383,8 +1374,9 @@ extension GetCallerIdentityInput {
     }
 }
 
-extension GetCallerIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCallerIdentityInput {
+
+    static func urlPathProvider(_ value: GetCallerIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1506,8 +1498,9 @@ extension GetFederationTokenInput: Swift.Encodable {
     }
 }
 
-extension GetFederationTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFederationTokenInput {
+
+    static func urlPathProvider(_ value: GetFederationTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1698,8 +1691,9 @@ extension GetSessionTokenInput: Swift.Encodable {
     }
 }
 
-extension GetSessionTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSessionTokenInput {
+
+    static func urlPathProvider(_ value: GetSessionTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2257,6 +2251,8 @@ extension RegionDisabledExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum STSClientTypes {}
 
 extension STSClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {

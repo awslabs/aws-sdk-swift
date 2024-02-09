@@ -216,8 +216,9 @@ extension CreateFHIRDatastoreInput: Swift.Encodable {
     }
 }
 
-extension CreateFHIRDatastoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFHIRDatastoreInput {
+
+    static func urlPathProvider(_ value: CreateFHIRDatastoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -642,8 +643,9 @@ extension DeleteFHIRDatastoreInput: Swift.Encodable {
     }
 }
 
-extension DeleteFHIRDatastoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFHIRDatastoreInput {
+
+    static func urlPathProvider(_ value: DeleteFHIRDatastoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -780,8 +782,9 @@ extension DescribeFHIRDatastoreInput: Swift.Encodable {
     }
 }
 
-extension DescribeFHIRDatastoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFHIRDatastoreInput {
+
+    static func urlPathProvider(_ value: DescribeFHIRDatastoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -887,8 +890,9 @@ extension DescribeFHIRExportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeFHIRExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFHIRExportJobInput {
+
+    static func urlPathProvider(_ value: DescribeFHIRExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1003,8 +1007,9 @@ extension DescribeFHIRImportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeFHIRImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFHIRImportJobInput {
+
+    static func urlPathProvider(_ value: DescribeFHIRImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1250,6 +1255,8 @@ extension HealthLakeClientTypes {
         }
     }
 }
+
+public enum HealthLakeClientTypes {}
 
 extension HealthLakeClientTypes.IdentityProviderConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -1659,8 +1666,9 @@ extension ListFHIRDatastoresInput: Swift.Encodable {
     }
 }
 
-extension ListFHIRDatastoresInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFHIRDatastoresInput {
+
+    static func urlPathProvider(_ value: ListFHIRDatastoresInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1819,8 +1827,9 @@ extension ListFHIRExportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListFHIRExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFHIRExportJobsInput {
+
+    static func urlPathProvider(_ value: ListFHIRExportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2014,8 +2023,9 @@ extension ListFHIRImportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListFHIRImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFHIRImportJobsInput {
+
+    static func urlPathProvider(_ value: ListFHIRImportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2185,8 +2195,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2550,8 +2561,9 @@ extension StartFHIRExportJobInput: Swift.Encodable {
     }
 }
 
-extension StartFHIRExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFHIRExportJobInput {
+
+    static func urlPathProvider(_ value: StartFHIRExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2730,8 +2742,9 @@ extension StartFHIRImportJobInput: Swift.Encodable {
     }
 }
 
-extension StartFHIRImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFHIRImportJobInput {
+
+    static func urlPathProvider(_ value: StartFHIRImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2953,8 +2966,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3103,8 +3117,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

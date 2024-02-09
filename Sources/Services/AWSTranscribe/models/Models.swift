@@ -938,8 +938,9 @@ extension CreateCallAnalyticsCategoryInput: Swift.Encodable {
     }
 }
 
-extension CreateCallAnalyticsCategoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCallAnalyticsCategoryInput {
+
+    static func urlPathProvider(_ value: CreateCallAnalyticsCategoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1077,8 +1078,9 @@ extension CreateLanguageModelInput: Swift.Encodable {
     }
 }
 
-extension CreateLanguageModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLanguageModelInput {
+
+    static func urlPathProvider(_ value: CreateLanguageModelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1270,8 +1272,9 @@ extension CreateMedicalVocabularyInput: Swift.Encodable {
     }
 }
 
-extension CreateMedicalVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMedicalVocabularyInput {
+
+    static func urlPathProvider(_ value: CreateMedicalVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1465,8 +1468,9 @@ extension CreateVocabularyFilterInput: Swift.Encodable {
     }
 }
 
-extension CreateVocabularyFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVocabularyFilterInput {
+
+    static func urlPathProvider(_ value: CreateVocabularyFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1664,8 +1668,9 @@ extension CreateVocabularyInput: Swift.Encodable {
     }
 }
 
-extension CreateVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVocabularyInput {
+
+    static func urlPathProvider(_ value: CreateVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1856,8 +1861,9 @@ extension DeleteCallAnalyticsCategoryInput: Swift.Encodable {
     }
 }
 
-extension DeleteCallAnalyticsCategoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCallAnalyticsCategoryInput {
+
+    static func urlPathProvider(_ value: DeleteCallAnalyticsCategoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1916,8 +1922,9 @@ extension DeleteCallAnalyticsJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteCallAnalyticsJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCallAnalyticsJobInput {
+
+    static func urlPathProvider(_ value: DeleteCallAnalyticsJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1975,8 +1982,9 @@ extension DeleteLanguageModelInput: Swift.Encodable {
     }
 }
 
-extension DeleteLanguageModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLanguageModelInput {
+
+    static func urlPathProvider(_ value: DeleteLanguageModelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2034,8 +2042,9 @@ extension DeleteMedicalScribeJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteMedicalScribeJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMedicalScribeJobInput {
+
+    static func urlPathProvider(_ value: DeleteMedicalScribeJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2093,8 +2102,9 @@ extension DeleteMedicalTranscriptionJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteMedicalTranscriptionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMedicalTranscriptionJobInput {
+
+    static func urlPathProvider(_ value: DeleteMedicalTranscriptionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2152,8 +2162,9 @@ extension DeleteMedicalVocabularyInput: Swift.Encodable {
     }
 }
 
-extension DeleteMedicalVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMedicalVocabularyInput {
+
+    static func urlPathProvider(_ value: DeleteMedicalVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2212,8 +2223,9 @@ extension DeleteTranscriptionJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteTranscriptionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTranscriptionJobInput {
+
+    static func urlPathProvider(_ value: DeleteTranscriptionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2271,8 +2283,9 @@ extension DeleteVocabularyFilterInput: Swift.Encodable {
     }
 }
 
-extension DeleteVocabularyFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVocabularyFilterInput {
+
+    static func urlPathProvider(_ value: DeleteVocabularyFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2331,8 +2344,9 @@ extension DeleteVocabularyInput: Swift.Encodable {
     }
 }
 
-extension DeleteVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVocabularyInput {
+
+    static func urlPathProvider(_ value: DeleteVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2391,8 +2405,9 @@ extension DescribeLanguageModelInput: Swift.Encodable {
     }
 }
 
-extension DescribeLanguageModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLanguageModelInput {
+
+    static func urlPathProvider(_ value: DescribeLanguageModelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2481,8 +2496,9 @@ extension GetCallAnalyticsCategoryInput: Swift.Encodable {
     }
 }
 
-extension GetCallAnalyticsCategoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCallAnalyticsCategoryInput {
+
+    static func urlPathProvider(_ value: GetCallAnalyticsCategoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2571,8 +2587,9 @@ extension GetCallAnalyticsJobInput: Swift.Encodable {
     }
 }
 
-extension GetCallAnalyticsJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCallAnalyticsJobInput {
+
+    static func urlPathProvider(_ value: GetCallAnalyticsJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2661,8 +2678,9 @@ extension GetMedicalScribeJobInput: Swift.Encodable {
     }
 }
 
-extension GetMedicalScribeJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMedicalScribeJobInput {
+
+    static func urlPathProvider(_ value: GetMedicalScribeJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2751,8 +2769,9 @@ extension GetMedicalTranscriptionJobInput: Swift.Encodable {
     }
 }
 
-extension GetMedicalTranscriptionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMedicalTranscriptionJobInput {
+
+    static func urlPathProvider(_ value: GetMedicalTranscriptionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2841,8 +2860,9 @@ extension GetMedicalVocabularyInput: Swift.Encodable {
     }
 }
 
-extension GetMedicalVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMedicalVocabularyInput {
+
+    static func urlPathProvider(_ value: GetMedicalVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2981,8 +3001,9 @@ extension GetTranscriptionJobInput: Swift.Encodable {
     }
 }
 
-extension GetTranscriptionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTranscriptionJobInput {
+
+    static func urlPathProvider(_ value: GetTranscriptionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3071,8 +3092,9 @@ extension GetVocabularyFilterInput: Swift.Encodable {
     }
 }
 
-extension GetVocabularyFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetVocabularyFilterInput {
+
+    static func urlPathProvider(_ value: GetVocabularyFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3191,8 +3213,9 @@ extension GetVocabularyInput: Swift.Encodable {
     }
 }
 
-extension GetVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetVocabularyInput {
+
+    static func urlPathProvider(_ value: GetVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4227,17 +4250,16 @@ extension ListCallAnalyticsCategoriesInput: Swift.Encodable {
     }
 }
 
-extension ListCallAnalyticsCategoriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListCallAnalyticsCategoriesInput {
+
+    static func queryItemProvider(_ value: ListCallAnalyticsCategoriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListCallAnalyticsCategoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCallAnalyticsCategoriesInput {
+
+    static func urlPathProvider(_ value: ListCallAnalyticsCategoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4347,17 +4369,16 @@ extension ListCallAnalyticsJobsInput: Swift.Encodable {
     }
 }
 
-extension ListCallAnalyticsJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListCallAnalyticsJobsInput {
+
+    static func queryItemProvider(_ value: ListCallAnalyticsJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListCallAnalyticsJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCallAnalyticsJobsInput {
+
+    static func urlPathProvider(_ value: ListCallAnalyticsJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4485,17 +4506,16 @@ extension ListLanguageModelsInput: Swift.Encodable {
     }
 }
 
-extension ListLanguageModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListLanguageModelsInput {
+
+    static func queryItemProvider(_ value: ListLanguageModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListLanguageModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLanguageModelsInput {
+
+    static func urlPathProvider(_ value: ListLanguageModelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4613,17 +4633,16 @@ extension ListMedicalScribeJobsInput: Swift.Encodable {
     }
 }
 
-extension ListMedicalScribeJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListMedicalScribeJobsInput {
+
+    static func queryItemProvider(_ value: ListMedicalScribeJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListMedicalScribeJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMedicalScribeJobsInput {
+
+    static func urlPathProvider(_ value: ListMedicalScribeJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4751,17 +4770,16 @@ extension ListMedicalTranscriptionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListMedicalTranscriptionJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListMedicalTranscriptionJobsInput {
+
+    static func queryItemProvider(_ value: ListMedicalTranscriptionJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListMedicalTranscriptionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMedicalTranscriptionJobsInput {
+
+    static func urlPathProvider(_ value: ListMedicalTranscriptionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4889,17 +4907,16 @@ extension ListMedicalVocabulariesInput: Swift.Encodable {
     }
 }
 
-extension ListMedicalVocabulariesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListMedicalVocabulariesInput {
+
+    static func queryItemProvider(_ value: ListMedicalVocabulariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListMedicalVocabulariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMedicalVocabulariesInput {
+
+    static func urlPathProvider(_ value: ListMedicalVocabulariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5027,8 +5044,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5136,17 +5154,16 @@ extension ListTranscriptionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListTranscriptionJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListTranscriptionJobsInput {
+
+    static func queryItemProvider(_ value: ListTranscriptionJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListTranscriptionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTranscriptionJobsInput {
+
+    static func urlPathProvider(_ value: ListTranscriptionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5274,17 +5291,16 @@ extension ListVocabulariesInput: Swift.Encodable {
     }
 }
 
-extension ListVocabulariesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListVocabulariesInput {
+
+    static func queryItemProvider(_ value: ListVocabulariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListVocabulariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVocabulariesInput {
+
+    static func urlPathProvider(_ value: ListVocabulariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5412,17 +5428,16 @@ extension ListVocabularyFiltersInput: Swift.Encodable {
     }
 }
 
-extension ListVocabularyFiltersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListVocabularyFiltersInput {
+
+    static func queryItemProvider(_ value: ListVocabularyFiltersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListVocabularyFiltersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVocabularyFiltersInput {
+
+    static func urlPathProvider(_ value: ListVocabularyFiltersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7505,8 +7520,9 @@ extension StartCallAnalyticsJobInput: Swift.Encodable {
     }
 }
 
-extension StartCallAnalyticsJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartCallAnalyticsJobInput {
+
+    static func urlPathProvider(_ value: StartCallAnalyticsJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7725,8 +7741,9 @@ extension StartMedicalScribeJobInput: Swift.Encodable {
     }
 }
 
-extension StartMedicalScribeJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMedicalScribeJobInput {
+
+    static func urlPathProvider(_ value: StartMedicalScribeJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7990,8 +8007,9 @@ extension StartMedicalTranscriptionJobInput: Swift.Encodable {
     }
 }
 
-extension StartMedicalTranscriptionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMedicalTranscriptionJobInput {
+
+    static func urlPathProvider(_ value: StartMedicalTranscriptionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8331,8 +8349,9 @@ extension StartTranscriptionJobInput: Swift.Encodable {
     }
 }
 
-extension StartTranscriptionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTranscriptionJobInput {
+
+    static func urlPathProvider(_ value: StartTranscriptionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8910,8 +8929,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9060,6 +9080,8 @@ extension TranscribeClientTypes {
     }
 
 }
+
+public enum TranscribeClientTypes {}
 
 extension TranscribeClientTypes.Transcript: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -9865,8 +9887,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9959,8 +9982,9 @@ extension UpdateCallAnalyticsCategoryInput: Swift.Encodable {
     }
 }
 
-extension UpdateCallAnalyticsCategoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCallAnalyticsCategoryInput {
+
+    static func urlPathProvider(_ value: UpdateCallAnalyticsCategoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10088,8 +10112,9 @@ extension UpdateMedicalVocabularyInput: Swift.Encodable {
     }
 }
 
-extension UpdateMedicalVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateMedicalVocabularyInput {
+
+    static func urlPathProvider(_ value: UpdateMedicalVocabularyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10246,8 +10271,9 @@ extension UpdateVocabularyFilterInput: Swift.Encodable {
     }
 }
 
-extension UpdateVocabularyFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVocabularyFilterInput {
+
+    static func urlPathProvider(_ value: UpdateVocabularyFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10412,8 +10438,9 @@ extension UpdateVocabularyInput: Swift.Encodable {
     }
 }
 
-extension UpdateVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVocabularyInput {
+
+    static func urlPathProvider(_ value: UpdateVocabularyInput) -> Swift.String? {
         return "/"
     }
 }

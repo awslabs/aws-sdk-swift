@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ECRClientProtocol {
+extension ECRClient {
 
     static func imageScanCompleteWaiterConfig() throws -> WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput> {
         let acceptors: [WaiterConfiguration<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>.Acceptor] = [

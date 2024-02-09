@@ -206,8 +206,9 @@ extension AssociateAccountsInput: Swift.Encodable {
     }
 }
 
-extension AssociateAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateAccountsInput {
+
+    static func urlPathProvider(_ value: AssociateAccountsInput) -> Swift.String? {
         return "/associate-accounts"
     }
 }
@@ -336,8 +337,9 @@ extension AssociatePricingRulesInput: Swift.Encodable {
     }
 }
 
-extension AssociatePricingRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociatePricingRulesInput {
+
+    static func urlPathProvider(_ value: AssociatePricingRulesInput) -> Swift.String? {
         return "/associate-pricing-rules"
     }
 }
@@ -646,8 +648,9 @@ extension BatchAssociateResourcesToCustomLineItemInput: Swift.Encodable {
     }
 }
 
-extension BatchAssociateResourcesToCustomLineItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchAssociateResourcesToCustomLineItemInput {
+
+    static func urlPathProvider(_ value: BatchAssociateResourcesToCustomLineItemInput) -> Swift.String? {
         return "/batch-associate-resources-to-custom-line-item"
     }
 }
@@ -816,8 +819,9 @@ extension BatchDisassociateResourcesFromCustomLineItemInput: Swift.Encodable {
     }
 }
 
-extension BatchDisassociateResourcesFromCustomLineItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDisassociateResourcesFromCustomLineItemInput {
+
+    static func urlPathProvider(_ value: BatchDisassociateResourcesFromCustomLineItemInput) -> Swift.String? {
         return "/batch-disassociate-resources-from-custom-line-item"
     }
 }
@@ -1372,6 +1376,8 @@ extension BillingconductorClientTypes {
 
 }
 
+public enum BillingconductorClientTypes {}
+
 extension BillingconductorClientTypes.ComputationPreference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pricingPlanArn = "PricingPlanArn"
@@ -1578,18 +1584,20 @@ extension CreateBillingGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateBillingGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateBillingGroupInput {
+
+    static func headerProvider(_ value: CreateBillingGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateBillingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBillingGroupInput {
+
+    static func urlPathProvider(_ value: CreateBillingGroupInput) -> Swift.String? {
         return "/create-billing-group"
     }
 }
@@ -1779,18 +1787,20 @@ extension CreateCustomLineItemInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomLineItemInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateCustomLineItemInput {
+
+    static func headerProvider(_ value: CreateCustomLineItemInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateCustomLineItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomLineItemInput {
+
+    static func urlPathProvider(_ value: CreateCustomLineItemInput) -> Swift.String? {
         return "/create-custom-line-item"
     }
 }
@@ -2016,18 +2026,20 @@ extension CreatePricingPlanInput: Swift.Encodable {
     }
 }
 
-extension CreatePricingPlanInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreatePricingPlanInput {
+
+    static func headerProvider(_ value: CreatePricingPlanInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreatePricingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePricingPlanInput {
+
+    static func urlPathProvider(_ value: CreatePricingPlanInput) -> Swift.String? {
         return "/create-pricing-plan"
     }
 }
@@ -2225,18 +2237,20 @@ extension CreatePricingRuleInput: Swift.Encodable {
     }
 }
 
-extension CreatePricingRuleInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreatePricingRuleInput {
+
+    static func headerProvider(_ value: CreatePricingRuleInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreatePricingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePricingRuleInput {
+
+    static func urlPathProvider(_ value: CreatePricingRuleInput) -> Swift.String? {
         return "/create-pricing-rule"
     }
 }
@@ -3094,8 +3108,9 @@ extension DeleteBillingGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteBillingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBillingGroupInput {
+
+    static func urlPathProvider(_ value: DeleteBillingGroupInput) -> Swift.String? {
         return "/delete-billing-group"
     }
 }
@@ -3200,8 +3215,9 @@ extension DeleteCustomLineItemInput: Swift.Encodable {
     }
 }
 
-extension DeleteCustomLineItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCustomLineItemInput {
+
+    static func urlPathProvider(_ value: DeleteCustomLineItemInput) -> Swift.String? {
         return "/delete-custom-line-item"
     }
 }
@@ -3311,8 +3327,9 @@ extension DeletePricingPlanInput: Swift.Encodable {
     }
 }
 
-extension DeletePricingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePricingPlanInput {
+
+    static func urlPathProvider(_ value: DeletePricingPlanInput) -> Swift.String? {
         return "/delete-pricing-plan"
     }
 }
@@ -3414,8 +3431,9 @@ extension DeletePricingRuleInput: Swift.Encodable {
     }
 }
 
-extension DeletePricingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePricingRuleInput {
+
+    static func urlPathProvider(_ value: DeletePricingRuleInput) -> Swift.String? {
         return "/delete-pricing-rule"
     }
 }
@@ -3524,8 +3542,9 @@ extension DisassociateAccountsInput: Swift.Encodable {
     }
 }
 
-extension DisassociateAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateAccountsInput {
+
+    static func urlPathProvider(_ value: DisassociateAccountsInput) -> Swift.String? {
         return "/disassociate-accounts"
     }
 }
@@ -3653,8 +3672,9 @@ extension DisassociatePricingRulesInput: Swift.Encodable {
     }
 }
 
-extension DisassociatePricingRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociatePricingRulesInput {
+
+    static func urlPathProvider(_ value: DisassociatePricingRulesInput) -> Swift.String? {
         return "/disassociate-pricing-rules"
     }
 }
@@ -3875,8 +3895,9 @@ extension GetBillingGroupCostReportInput: Swift.Encodable {
     }
 }
 
-extension GetBillingGroupCostReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBillingGroupCostReportInput {
+
+    static func urlPathProvider(_ value: GetBillingGroupCostReportInput) -> Swift.String? {
         return "/get-billing-group-cost-report"
     }
 }
@@ -4338,8 +4359,9 @@ extension ListAccountAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListAccountAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountAssociationsInput {
+
+    static func urlPathProvider(_ value: ListAccountAssociationsInput) -> Swift.String? {
         return "/list-account-associations"
     }
 }
@@ -4569,8 +4591,9 @@ extension ListBillingGroupCostReportsInput: Swift.Encodable {
     }
 }
 
-extension ListBillingGroupCostReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBillingGroupCostReportsInput {
+
+    static func urlPathProvider(_ value: ListBillingGroupCostReportsInput) -> Swift.String? {
         return "/list-billing-group-cost-reports"
     }
 }
@@ -4815,8 +4838,9 @@ extension ListBillingGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListBillingGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBillingGroupsInput {
+
+    static func urlPathProvider(_ value: ListBillingGroupsInput) -> Swift.String? {
         return "/list-billing-groups"
     }
 }
@@ -5202,8 +5226,9 @@ extension ListCustomLineItemVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomLineItemVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomLineItemVersionsInput {
+
+    static func urlPathProvider(_ value: ListCustomLineItemVersionsInput) -> Swift.String? {
         return "/list-custom-line-item-versions"
     }
 }
@@ -5472,8 +5497,9 @@ extension ListCustomLineItemsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomLineItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomLineItemsInput {
+
+    static func urlPathProvider(_ value: ListCustomLineItemsInput) -> Swift.String? {
         return "/list-custom-line-items"
     }
 }
@@ -5629,8 +5655,9 @@ extension ListPricingPlansAssociatedWithPricingRuleInput: Swift.Encodable {
     }
 }
 
-extension ListPricingPlansAssociatedWithPricingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPricingPlansAssociatedWithPricingRuleInput {
+
+    static func urlPathProvider(_ value: ListPricingPlansAssociatedWithPricingRuleInput) -> Swift.String? {
         return "/list-pricing-plans-associated-with-pricing-rule"
     }
 }
@@ -5854,8 +5881,9 @@ extension ListPricingPlansInput: Swift.Encodable {
     }
 }
 
-extension ListPricingPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPricingPlansInput {
+
+    static func urlPathProvider(_ value: ListPricingPlansInput) -> Swift.String? {
         return "/list-pricing-plans"
     }
 }
@@ -6020,8 +6048,9 @@ extension ListPricingRulesAssociatedToPricingPlanInput: Swift.Encodable {
     }
 }
 
-extension ListPricingRulesAssociatedToPricingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPricingRulesAssociatedToPricingPlanInput {
+
+    static func urlPathProvider(_ value: ListPricingRulesAssociatedToPricingPlanInput) -> Swift.String? {
         return "/list-pricing-rules-associated-to-pricing-plan"
     }
 }
@@ -6245,8 +6274,9 @@ extension ListPricingRulesInput: Swift.Encodable {
     }
 }
 
-extension ListPricingRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPricingRulesInput {
+
+    static func urlPathProvider(_ value: ListPricingRulesInput) -> Swift.String? {
         return "/list-pricing-rules"
     }
 }
@@ -6450,8 +6480,9 @@ extension ListResourcesAssociatedToCustomLineItemInput: Swift.Encodable {
     }
 }
 
-extension ListResourcesAssociatedToCustomLineItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcesAssociatedToCustomLineItemInput {
+
+    static func urlPathProvider(_ value: ListResourcesAssociatedToCustomLineItemInput) -> Swift.String? {
         return "/list-resources-associated-to-custom-line-item"
     }
 }
@@ -6656,9 +6687,10 @@ extension BillingconductorClientTypes {
 
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -7305,9 +7337,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -7483,26 +7516,26 @@ extension BillingconductorClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -7634,8 +7667,9 @@ extension UpdateBillingGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateBillingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateBillingGroupInput {
+
+    static func urlPathProvider(_ value: UpdateBillingGroupInput) -> Swift.String? {
         return "/update-billing-group"
     }
 }
@@ -7997,8 +8031,9 @@ extension UpdateCustomLineItemInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomLineItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCustomLineItemInput {
+
+    static func urlPathProvider(_ value: UpdateCustomLineItemInput) -> Swift.String? {
         return "/update-custom-line-item"
     }
 }
@@ -8282,8 +8317,9 @@ extension UpdatePricingPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdatePricingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePricingPlanInput {
+
+    static func urlPathProvider(_ value: UpdatePricingPlanInput) -> Swift.String? {
         return "/update-pricing-plan"
     }
 }
@@ -8472,8 +8508,9 @@ extension UpdatePricingRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdatePricingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePricingRuleInput {
+
+    static func urlPathProvider(_ value: UpdatePricingRuleInput) -> Swift.String? {
         return "/update-pricing-rule"
     }
 }

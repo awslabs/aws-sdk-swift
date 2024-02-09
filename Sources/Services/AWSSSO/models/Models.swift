@@ -62,39 +62,40 @@ extension GetRoleCredentialsInput: Swift.CustomDebugStringConvertible {
         "GetRoleCredentialsInput(accountId: \(Swift.String(describing: accountId)), roleName: \(Swift.String(describing: roleName)), accessToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetRoleCredentialsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetRoleCredentialsInput {
+
+    static func headerProvider(_ value: GetRoleCredentialsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accessToken = accessToken {
+        if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
         return items
     }
 }
 
-extension GetRoleCredentialsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let accountId = accountId else {
-                let message = "Creating a URL Query Item failed. accountId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
-            guard let roleName = roleName else {
-                let message = "Creating a URL Query Item failed. roleName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let roleNameQueryItem = ClientRuntime.URLQueryItem(name: "role_name".urlPercentEncoding(), value: Swift.String(roleName).urlPercentEncoding())
-            items.append(roleNameQueryItem)
-            return items
+extension GetRoleCredentialsInput {
+
+    static func queryItemProvider(_ value: GetRoleCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let accountId = value.accountId else {
+            let message = "Creating a URL Query Item failed. accountId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+        items.append(accountIdQueryItem)
+        guard let roleName = value.roleName else {
+            let message = "Creating a URL Query Item failed. roleName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let roleNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "role_name".urlPercentEncoding(), value: Swift.String(roleName).urlPercentEncoding())
+        items.append(roleNameQueryItem)
+        return items
     }
 }
 
-extension GetRoleCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRoleCredentialsInput {
+
+    static func urlPathProvider(_ value: GetRoleCredentialsInput) -> Swift.String? {
         return "/federation/credentials"
     }
 }
@@ -245,41 +246,42 @@ extension ListAccountRolesInput: Swift.CustomDebugStringConvertible {
         "ListAccountRolesInput(accountId: \(Swift.String(describing: accountId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), accessToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAccountRolesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccountRolesInput {
+
+    static func headerProvider(_ value: ListAccountRolesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accessToken = accessToken {
+        if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
         return items
     }
 }
 
-extension ListAccountRolesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let accountId = accountId else {
-                let message = "Creating a URL Query Item failed. accountId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-            items.append(accountIdQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAccountRolesInput {
+
+    static func queryItemProvider(_ value: ListAccountRolesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let accountId = value.accountId else {
+            let message = "Creating a URL Query Item failed. accountId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+        items.append(accountIdQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccountRolesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountRolesInput {
+
+    static func urlPathProvider(_ value: ListAccountRolesInput) -> Swift.String? {
         return "/assignment/roles"
     }
 }
@@ -397,35 +399,36 @@ extension ListAccountsInput: Swift.CustomDebugStringConvertible {
         "ListAccountsInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), accessToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAccountsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccountsInput {
+
+    static func headerProvider(_ value: ListAccountsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accessToken = accessToken {
+        if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
         return items
     }
 }
 
-extension ListAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAccountsInput {
+
+    static func queryItemProvider(_ value: ListAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountsInput {
+
+    static func urlPathProvider(_ value: ListAccountsInput) -> Swift.String? {
         return "/assignment/accounts"
     }
 }
@@ -538,18 +541,20 @@ extension LogoutInput: Swift.CustomDebugStringConvertible {
         "LogoutInput(accessToken: \"CONTENT_REDACTED\")"}
 }
 
-extension LogoutInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension LogoutInput {
+
+    static func headerProvider(_ value: LogoutInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accessToken = accessToken {
+        if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
         return items
     }
 }
 
-extension LogoutInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension LogoutInput {
+
+    static func urlPathProvider(_ value: LogoutInput) -> Swift.String? {
         return "/logout"
     }
 }
@@ -768,6 +773,8 @@ extension SSOClientTypes {
     }
 
 }
+
+public enum SSOClientTypes {}
 
 extension TooManyRequestsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

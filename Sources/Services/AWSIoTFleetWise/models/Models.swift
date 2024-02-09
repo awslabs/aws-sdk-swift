@@ -221,8 +221,9 @@ extension AssociateVehicleFleetInput: Swift.Encodable {
     }
 }
 
-extension AssociateVehicleFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateVehicleFleetInput {
+
+    static func urlPathProvider(_ value: AssociateVehicleFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -455,8 +456,9 @@ extension BatchCreateVehicleInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchCreateVehicleInput {
+
+    static func urlPathProvider(_ value: BatchCreateVehicleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -600,8 +602,9 @@ extension BatchUpdateVehicleInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchUpdateVehicleInput {
+
+    static func urlPathProvider(_ value: BatchUpdateVehicleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1546,8 +1549,9 @@ extension CreateCampaignInput: Swift.Encodable {
     }
 }
 
-extension CreateCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCampaignInput {
+
+    static func urlPathProvider(_ value: CreateCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1842,8 +1846,9 @@ extension CreateDecoderManifestInput: Swift.Encodable {
     }
 }
 
-extension CreateDecoderManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDecoderManifestInput {
+
+    static func urlPathProvider(_ value: CreateDecoderManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2036,8 +2041,9 @@ extension CreateFleetInput: Swift.Encodable {
     }
 }
 
-extension CreateFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFleetInput {
+
+    static func urlPathProvider(_ value: CreateFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2203,8 +2209,9 @@ extension CreateModelManifestInput: Swift.Encodable {
     }
 }
 
-extension CreateModelManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateModelManifestInput {
+
+    static func urlPathProvider(_ value: CreateModelManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2384,8 +2391,9 @@ extension CreateSignalCatalogInput: Swift.Encodable {
     }
 }
 
-extension CreateSignalCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSignalCatalogInput {
+
+    static func urlPathProvider(_ value: CreateSignalCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2618,8 +2626,9 @@ extension CreateVehicleInput: Swift.Encodable {
     }
 }
 
-extension CreateVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVehicleInput {
+
+    static func urlPathProvider(_ value: CreateVehicleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3405,8 +3414,9 @@ extension DeleteCampaignInput: Swift.Encodable {
     }
 }
 
-extension DeleteCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCampaignInput {
+
+    static func urlPathProvider(_ value: DeleteCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3507,8 +3517,9 @@ extension DeleteDecoderManifestInput: Swift.Encodable {
     }
 }
 
-extension DeleteDecoderManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDecoderManifestInput {
+
+    static func urlPathProvider(_ value: DeleteDecoderManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3612,8 +3623,9 @@ extension DeleteFleetInput: Swift.Encodable {
     }
 }
 
-extension DeleteFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFleetInput {
+
+    static func urlPathProvider(_ value: DeleteFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3714,8 +3726,9 @@ extension DeleteModelManifestInput: Swift.Encodable {
     }
 }
 
-extension DeleteModelManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteModelManifestInput {
+
+    static func urlPathProvider(_ value: DeleteModelManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3819,8 +3832,9 @@ extension DeleteSignalCatalogInput: Swift.Encodable {
     }
 }
 
-extension DeleteSignalCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSignalCatalogInput {
+
+    static func urlPathProvider(_ value: DeleteSignalCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3924,8 +3938,9 @@ extension DeleteVehicleInput: Swift.Encodable {
     }
 }
 
-extension DeleteVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVehicleInput {
+
+    static func urlPathProvider(_ value: DeleteVehicleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4065,8 +4080,9 @@ extension DisassociateVehicleFleetInput: Swift.Encodable {
     }
 }
 
-extension DisassociateVehicleFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateVehicleFleetInput {
+
+    static func urlPathProvider(_ value: DisassociateVehicleFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4333,8 +4349,9 @@ extension GetCampaignInput: Swift.Encodable {
     }
 }
 
-extension GetCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCampaignInput {
+
+    static func urlPathProvider(_ value: GetCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4632,8 +4649,9 @@ extension GetDecoderManifestInput: Swift.Encodable {
     }
 }
 
-extension GetDecoderManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDecoderManifestInput {
+
+    static func urlPathProvider(_ value: GetDecoderManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4798,8 +4816,9 @@ extension GetEncryptionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetEncryptionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEncryptionConfigurationInput {
+
+    static func urlPathProvider(_ value: GetEncryptionConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4935,8 +4954,9 @@ extension GetFleetInput: Swift.Encodable {
     }
 }
 
-extension GetFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFleetInput {
+
+    static func urlPathProvider(_ value: GetFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5083,8 +5103,9 @@ extension GetLoggingOptionsInput: Swift.Encodable {
     }
 }
 
-extension GetLoggingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLoggingOptionsInput {
+
+    static func urlPathProvider(_ value: GetLoggingOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5166,8 +5187,9 @@ extension GetModelManifestInput: Swift.Encodable {
     }
 }
 
-extension GetModelManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetModelManifestInput {
+
+    static func urlPathProvider(_ value: GetModelManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5322,8 +5344,9 @@ extension GetRegisterAccountStatusInput: Swift.Encodable {
     }
 }
 
-extension GetRegisterAccountStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegisterAccountStatusInput {
+
+    static func urlPathProvider(_ value: GetRegisterAccountStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5468,8 +5491,9 @@ extension GetSignalCatalogInput: Swift.Encodable {
     }
 }
 
-extension GetSignalCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSignalCatalogInput {
+
+    static func urlPathProvider(_ value: GetSignalCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5614,8 +5638,9 @@ extension GetVehicleInput: Swift.Encodable {
     }
 }
 
-extension GetVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetVehicleInput {
+
+    static func urlPathProvider(_ value: GetVehicleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5776,17 +5801,16 @@ extension GetVehicleStatusInput: Swift.Encodable {
     }
 }
 
-extension GetVehicleStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension GetVehicleStatusInput {
+
+    static func queryItemProvider(_ value: GetVehicleStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension GetVehicleStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetVehicleStatusInput {
+
+    static func urlPathProvider(_ value: GetVehicleStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6005,8 +6029,9 @@ extension ImportDecoderManifestInput: Swift.Encodable {
     }
 }
 
-extension ImportDecoderManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportDecoderManifestInput {
+
+    static func urlPathProvider(_ value: ImportDecoderManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6149,8 +6174,9 @@ extension ImportSignalCatalogInput: Swift.Encodable {
     }
 }
 
-extension ImportSignalCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportSignalCatalogInput {
+
+    static func urlPathProvider(_ value: ImportSignalCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6662,6 +6688,8 @@ extension IoTFleetWiseClientTypes {
     }
 }
 
+public enum IoTFleetWiseClientTypes {}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6748,17 +6776,16 @@ extension ListCampaignsInput: Swift.Encodable {
     }
 }
 
-extension ListCampaignsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListCampaignsInput {
+
+    static func queryItemProvider(_ value: ListCampaignsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListCampaignsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCampaignsInput {
+
+    static func urlPathProvider(_ value: ListCampaignsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6874,17 +6901,16 @@ extension ListDecoderManifestNetworkInterfacesInput: Swift.Encodable {
     }
 }
 
-extension ListDecoderManifestNetworkInterfacesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListDecoderManifestNetworkInterfacesInput {
+
+    static func queryItemProvider(_ value: ListDecoderManifestNetworkInterfacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListDecoderManifestNetworkInterfacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDecoderManifestNetworkInterfacesInput {
+
+    static func urlPathProvider(_ value: ListDecoderManifestNetworkInterfacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7003,17 +7029,16 @@ extension ListDecoderManifestSignalsInput: Swift.Encodable {
     }
 }
 
-extension ListDecoderManifestSignalsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListDecoderManifestSignalsInput {
+
+    static func queryItemProvider(_ value: ListDecoderManifestSignalsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListDecoderManifestSignalsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDecoderManifestSignalsInput {
+
+    static func urlPathProvider(_ value: ListDecoderManifestSignalsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7132,17 +7157,16 @@ extension ListDecoderManifestsInput: Swift.Encodable {
     }
 }
 
-extension ListDecoderManifestsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListDecoderManifestsInput {
+
+    static func queryItemProvider(_ value: ListDecoderManifestsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListDecoderManifestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDecoderManifestsInput {
+
+    static func urlPathProvider(_ value: ListDecoderManifestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7259,17 +7283,16 @@ extension ListFleetsForVehicleInput: Swift.Encodable {
     }
 }
 
-extension ListFleetsForVehicleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListFleetsForVehicleInput {
+
+    static func queryItemProvider(_ value: ListFleetsForVehicleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListFleetsForVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFleetsForVehicleInput {
+
+    static func urlPathProvider(_ value: ListFleetsForVehicleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7388,17 +7411,16 @@ extension ListFleetsInput: Swift.Encodable {
     }
 }
 
-extension ListFleetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListFleetsInput {
+
+    static func queryItemProvider(_ value: ListFleetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListFleetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFleetsInput {
+
+    static func urlPathProvider(_ value: ListFleetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7512,17 +7534,16 @@ extension ListModelManifestNodesInput: Swift.Encodable {
     }
 }
 
-extension ListModelManifestNodesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListModelManifestNodesInput {
+
+    static func queryItemProvider(_ value: ListModelManifestNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListModelManifestNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListModelManifestNodesInput {
+
+    static func urlPathProvider(_ value: ListModelManifestNodesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7642,17 +7663,16 @@ extension ListModelManifestsInput: Swift.Encodable {
     }
 }
 
-extension ListModelManifestsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListModelManifestsInput {
+
+    static func queryItemProvider(_ value: ListModelManifestsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListModelManifestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListModelManifestsInput {
+
+    static func urlPathProvider(_ value: ListModelManifestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7769,17 +7789,16 @@ extension ListSignalCatalogNodesInput: Swift.Encodable {
     }
 }
 
-extension ListSignalCatalogNodesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListSignalCatalogNodesInput {
+
+    static func queryItemProvider(_ value: ListSignalCatalogNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListSignalCatalogNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSignalCatalogNodesInput {
+
+    static func urlPathProvider(_ value: ListSignalCatalogNodesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7903,17 +7922,16 @@ extension ListSignalCatalogsInput: Swift.Encodable {
     }
 }
 
-extension ListSignalCatalogsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListSignalCatalogsInput {
+
+    static func queryItemProvider(_ value: ListSignalCatalogsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListSignalCatalogsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSignalCatalogsInput {
+
+    static func urlPathProvider(_ value: ListSignalCatalogsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8026,17 +8044,16 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8137,17 +8154,16 @@ extension ListVehiclesInFleetInput: Swift.Encodable {
     }
 }
 
-extension ListVehiclesInFleetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListVehiclesInFleetInput {
+
+    static func queryItemProvider(_ value: ListVehiclesInFleetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListVehiclesInFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVehiclesInFleetInput {
+
+    static func urlPathProvider(_ value: ListVehiclesInFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8266,17 +8282,16 @@ extension ListVehiclesInput: Swift.Encodable {
     }
 }
 
-extension ListVehiclesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListVehiclesInput {
+
+    static func queryItemProvider(_ value: ListVehiclesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListVehiclesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVehiclesInput {
+
+    static func urlPathProvider(_ value: ListVehiclesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8717,7 +8732,6 @@ extension IoTFleetWiseClientTypes {
     public enum NetworkInterfaceFailureReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canNetworkInterfaceInfoIsNull
         case conflictingNetworkInterface
-        case customerDecodedSignalNetworkInterfaceInfoIsNull
         case duplicateInterface
         case networkInterfaceToAddAlreadyExists
         case networkInterfaceToRemoveAssociatedWithSignals
@@ -8729,7 +8743,6 @@ extension IoTFleetWiseClientTypes {
             return [
                 .canNetworkInterfaceInfoIsNull,
                 .conflictingNetworkInterface,
-                .customerDecodedSignalNetworkInterfaceInfoIsNull,
                 .duplicateInterface,
                 .networkInterfaceToAddAlreadyExists,
                 .networkInterfaceToRemoveAssociatedWithSignals,
@@ -8746,7 +8759,6 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .canNetworkInterfaceInfoIsNull: return "CAN_NETWORK_INTERFACE_INFO_IS_NULL"
             case .conflictingNetworkInterface: return "CONFLICTING_NETWORK_INTERFACE"
-            case .customerDecodedSignalNetworkInterfaceInfoIsNull: return "CUSTOMER_DECODED_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL"
             case .duplicateInterface: return "DUPLICATE_NETWORK_INTERFACE"
             case .networkInterfaceToAddAlreadyExists: return "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS"
             case .networkInterfaceToRemoveAssociatedWithSignals: return "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS"
@@ -8766,7 +8778,6 @@ extension IoTFleetWiseClientTypes {
 extension IoTFleetWiseClientTypes {
     public enum NetworkInterfaceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canInterface
-        case customerDecodedInterface
         case obdInterface
         case vehicleMiddleware
         case sdkUnknown(Swift.String)
@@ -8774,7 +8785,6 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [NetworkInterfaceType] {
             return [
                 .canInterface,
-                .customerDecodedInterface,
                 .obdInterface,
                 .vehicleMiddleware,
                 .sdkUnknown("")
@@ -8787,7 +8797,6 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canInterface: return "CAN_INTERFACE"
-            case .customerDecodedInterface: return "CUSTOMER_DECODED_INTERFACE"
             case .obdInterface: return "OBD_INTERFACE"
             case .vehicleMiddleware: return "VEHICLE_MIDDLEWARE"
             case let .sdkUnknown(s): return s
@@ -9401,8 +9410,9 @@ extension PutEncryptionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutEncryptionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutEncryptionConfigurationInput {
+
+    static func urlPathProvider(_ value: PutEncryptionConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9537,8 +9547,9 @@ extension PutLoggingOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutLoggingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutLoggingOptionsInput {
+
+    static func urlPathProvider(_ value: PutLoggingOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9753,8 +9764,9 @@ extension RegisterAccountInput: Swift.Encodable {
     }
 }
 
-extension RegisterAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterAccountInput {
+
+    static func urlPathProvider(_ value: RegisterAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10378,7 +10390,6 @@ extension IoTFleetWiseClientTypes {
     public enum SignalDecoderFailureReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canSignalInfoIsNull
         case conflictingSignal
-        case customerDecodedSignalInfoIsNull
         case duplicateSignal
         case emptyMessageSignal
         case messageSignalInfoIsNull
@@ -10398,7 +10409,6 @@ extension IoTFleetWiseClientTypes {
             return [
                 .canSignalInfoIsNull,
                 .conflictingSignal,
-                .customerDecodedSignalInfoIsNull,
                 .duplicateSignal,
                 .emptyMessageSignal,
                 .messageSignalInfoIsNull,
@@ -10423,7 +10433,6 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .canSignalInfoIsNull: return "CAN_SIGNAL_INFO_IS_NULL"
             case .conflictingSignal: return "CONFLICTING_SIGNAL"
-            case .customerDecodedSignalInfoIsNull: return "CUSTOMER_DECODED_SIGNAL_INFO_IS_NULL"
             case .duplicateSignal: return "DUPLICATE_SIGNAL"
             case .emptyMessageSignal: return "EMPTY_MESSAGE_SIGNAL"
             case .messageSignalInfoIsNull: return "MESSAGE_SIGNAL_INFO_IS_NULL"
@@ -10451,10 +10460,6 @@ extension IoTFleetWiseClientTypes {
 extension IoTFleetWiseClientTypes {
     public enum SignalDecoderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canSignal
-<<<<<<< HEAD
-        case customerDecodedSignal
-=======
->>>>>>> temp-main
         case messageSignal
         case obdSignal
         case sdkUnknown(Swift.String)
@@ -10462,10 +10467,6 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [SignalDecoderType] {
             return [
                 .canSignal,
-<<<<<<< HEAD
-                .customerDecodedSignal,
-=======
->>>>>>> temp-main
                 .messageSignal,
                 .obdSignal,
                 .sdkUnknown("")
@@ -10478,10 +10479,6 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canSignal: return "CAN_SIGNAL"
-<<<<<<< HEAD
-            case .customerDecodedSignal: return "CUSTOMER_DECODED_SIGNAL"
-=======
->>>>>>> temp-main
             case .messageSignal: return "MESSAGE_SIGNAL"
             case .obdSignal: return "OBD_SIGNAL"
             case let .sdkUnknown(s): return s
@@ -10941,17 +10938,16 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11369,17 +11365,16 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11500,8 +11495,9 @@ extension UpdateCampaignInput: Swift.Encodable {
     }
 }
 
-extension UpdateCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCampaignInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11717,8 +11713,9 @@ extension UpdateDecoderManifestInput: Swift.Encodable {
     }
 }
 
-extension UpdateDecoderManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDecoderManifestInput {
+
+    static func urlPathProvider(_ value: UpdateDecoderManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11950,8 +11947,9 @@ extension UpdateFleetInput: Swift.Encodable {
     }
 }
 
-extension UpdateFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFleetInput {
+
+    static func urlPathProvider(_ value: UpdateFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12120,8 +12118,9 @@ extension UpdateModelManifestInput: Swift.Encodable {
     }
 }
 
-extension UpdateModelManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateModelManifestInput {
+
+    static func urlPathProvider(_ value: UpdateModelManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12306,8 +12305,9 @@ extension UpdateSignalCatalogInput: Swift.Encodable {
     }
 }
 
-extension UpdateSignalCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSignalCatalogInput {
+
+    static func urlPathProvider(_ value: UpdateSignalCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12552,8 +12552,9 @@ extension UpdateVehicleInput: Swift.Encodable {
     }
 }
 
-extension UpdateVehicleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVehicleInput {
+
+    static func urlPathProvider(_ value: UpdateVehicleInput) -> Swift.String? {
         return "/"
     }
 }

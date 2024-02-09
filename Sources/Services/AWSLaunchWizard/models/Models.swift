@@ -39,8 +39,9 @@ extension CreateDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CreateDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeploymentInput {
+
+    static func urlPathProvider(_ value: CreateDeploymentInput) -> Swift.String? {
         return "/createDeployment"
     }
 }
@@ -185,8 +186,9 @@ extension DeleteDeploymentInput: Swift.Encodable {
     }
 }
 
-extension DeleteDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDeploymentInput {
+
+    static func urlPathProvider(_ value: DeleteDeploymentInput) -> Swift.String? {
         return "/deleteDeployment"
     }
 }
@@ -780,8 +782,9 @@ extension GetDeploymentInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentInput {
+
+    static func urlPathProvider(_ value: GetDeploymentInput) -> Swift.String? {
         return "/getDeployment"
     }
 }
@@ -881,8 +884,9 @@ extension GetWorkloadInput: Swift.Encodable {
     }
 }
 
-extension GetWorkloadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkloadInput {
+
+    static func urlPathProvider(_ value: GetWorkloadInput) -> Swift.String? {
         return "/getWorkload"
     }
 }
@@ -1024,6 +1028,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum LaunchWizardClientTypes {}
+
 extension ListDeploymentEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentId
@@ -1045,8 +1051,9 @@ extension ListDeploymentEventsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentEventsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentEventsInput) -> Swift.String? {
         return "/listDeploymentEvents"
     }
 }
@@ -1192,8 +1199,9 @@ extension ListDeploymentsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentsInput) -> Swift.String? {
         return "/listDeployments"
     }
 }
@@ -1347,8 +1355,9 @@ extension ListWorkloadDeploymentPatternsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkloadDeploymentPatternsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkloadDeploymentPatternsInput {
+
+    static func urlPathProvider(_ value: ListWorkloadDeploymentPatternsInput) -> Swift.String? {
         return "/listWorkloadDeploymentPatterns"
     }
 }
@@ -1487,8 +1496,9 @@ extension ListWorkloadsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkloadsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkloadsInput {
+
+    static func urlPathProvider(_ value: ListWorkloadsInput) -> Swift.String? {
         return "/listWorkloads"
     }
 }

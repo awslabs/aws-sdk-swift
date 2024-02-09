@@ -898,6 +898,8 @@ extension CleanRoomsMLClientTypes {
     }
 }
 
+public enum CleanRoomsMLClientTypes {}
+
 extension CleanRoomsMLClientTypes.ColumnSchema: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case columnName
@@ -1282,8 +1284,9 @@ extension CreateAudienceModelInput: Swift.Encodable {
     }
 }
 
-extension CreateAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAudienceModelInput {
+
+    static func urlPathProvider(_ value: CreateAudienceModelInput) -> Swift.String? {
         return "/audience-model"
     }
 }
@@ -1496,8 +1499,9 @@ extension CreateConfiguredAudienceModelInput: Swift.Encodable {
     }
 }
 
-extension CreateConfiguredAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfiguredAudienceModelInput {
+
+    static func urlPathProvider(_ value: CreateConfiguredAudienceModelInput) -> Swift.String? {
         return "/configured-audience-model"
     }
 }
@@ -1721,8 +1725,9 @@ extension CreateTrainingDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateTrainingDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrainingDatasetInput {
+
+    static func urlPathProvider(_ value: CreateTrainingDatasetInput) -> Swift.String? {
         return "/training-dataset"
     }
 }
@@ -2047,9 +2052,10 @@ extension CleanRoomsMLClientTypes {
     }
 }
 
-extension DeleteAudienceGenerationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let audienceGenerationJobArn = audienceGenerationJobArn else {
+extension DeleteAudienceGenerationJobInput {
+
+    static func urlPathProvider(_ value: DeleteAudienceGenerationJobInput) -> Swift.String? {
+        guard let audienceGenerationJobArn = value.audienceGenerationJobArn else {
             return nil
         }
         return "/audience-generation-job/\(audienceGenerationJobArn.urlPercentEncoding())"
@@ -2102,9 +2108,10 @@ enum DeleteAudienceGenerationJobOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DeleteAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let audienceModelArn = audienceModelArn else {
+extension DeleteAudienceModelInput {
+
+    static func urlPathProvider(_ value: DeleteAudienceModelInput) -> Swift.String? {
+        guard let audienceModelArn = value.audienceModelArn else {
             return nil
         }
         return "/audience-model/\(audienceModelArn.urlPercentEncoding())"
@@ -2157,9 +2164,10 @@ enum DeleteAudienceModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteConfiguredAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredAudienceModelArn = configuredAudienceModelArn else {
+extension DeleteConfiguredAudienceModelInput {
+
+    static func urlPathProvider(_ value: DeleteConfiguredAudienceModelInput) -> Swift.String? {
+        guard let configuredAudienceModelArn = value.configuredAudienceModelArn else {
             return nil
         }
         return "/configured-audience-model/\(configuredAudienceModelArn.urlPercentEncoding())"
@@ -2212,9 +2220,10 @@ enum DeleteConfiguredAudienceModelOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeleteConfiguredAudienceModelPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredAudienceModelArn = configuredAudienceModelArn else {
+extension DeleteConfiguredAudienceModelPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteConfiguredAudienceModelPolicyInput) -> Swift.String? {
+        guard let configuredAudienceModelArn = value.configuredAudienceModelArn else {
             return nil
         }
         return "/configured-audience-model/\(configuredAudienceModelArn.urlPercentEncoding())/policy"
@@ -2266,9 +2275,10 @@ enum DeleteConfiguredAudienceModelPolicyOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension DeleteTrainingDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trainingDatasetArn = trainingDatasetArn else {
+extension DeleteTrainingDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteTrainingDatasetInput) -> Swift.String? {
+        guard let trainingDatasetArn = value.trainingDatasetArn else {
             return nil
         }
         return "/training-dataset/\(trainingDatasetArn.urlPercentEncoding())"
@@ -2321,9 +2331,10 @@ enum DeleteTrainingDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAudienceGenerationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let audienceGenerationJobArn = audienceGenerationJobArn else {
+extension GetAudienceGenerationJobInput {
+
+    static func urlPathProvider(_ value: GetAudienceGenerationJobInput) -> Swift.String? {
+        guard let audienceGenerationJobArn = value.audienceGenerationJobArn else {
             return nil
         }
         return "/audience-generation-job/\(audienceGenerationJobArn.urlPercentEncoding())"
@@ -2550,9 +2561,10 @@ enum GetAudienceGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let audienceModelArn = audienceModelArn else {
+extension GetAudienceModelInput {
+
+    static func urlPathProvider(_ value: GetAudienceModelInput) -> Swift.String? {
+        guard let audienceModelArn = value.audienceModelArn else {
             return nil
         }
         return "/audience-model/\(audienceModelArn.urlPercentEncoding())"
@@ -2778,9 +2790,10 @@ enum GetAudienceModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetConfiguredAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredAudienceModelArn = configuredAudienceModelArn else {
+extension GetConfiguredAudienceModelInput {
+
+    static func urlPathProvider(_ value: GetConfiguredAudienceModelInput) -> Swift.String? {
+        guard let configuredAudienceModelArn = value.configuredAudienceModelArn else {
             return nil
         }
         return "/configured-audience-model/\(configuredAudienceModelArn.urlPercentEncoding())"
@@ -3008,9 +3021,10 @@ enum GetConfiguredAudienceModelOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetConfiguredAudienceModelPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredAudienceModelArn = configuredAudienceModelArn else {
+extension GetConfiguredAudienceModelPolicyInput {
+
+    static func urlPathProvider(_ value: GetConfiguredAudienceModelPolicyInput) -> Swift.String? {
+        guard let configuredAudienceModelArn = value.configuredAudienceModelArn else {
             return nil
         }
         return "/configured-audience-model/\(configuredAudienceModelArn.urlPercentEncoding())/policy"
@@ -3115,9 +3129,10 @@ enum GetConfiguredAudienceModelPolicyOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetTrainingDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trainingDatasetArn = trainingDatasetArn else {
+extension GetTrainingDatasetInput {
+
+    static func urlPathProvider(_ value: GetTrainingDatasetInput) -> Swift.String? {
+        guard let trainingDatasetArn = value.trainingDatasetArn else {
             return nil
         }
         return "/training-dataset/\(trainingDatasetArn.urlPercentEncoding())"
@@ -3361,29 +3376,29 @@ extension CleanRoomsMLClientTypes {
 
 }
 
-extension ListAudienceExportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let audienceGenerationJobArn = audienceGenerationJobArn {
-                let audienceGenerationJobArnQueryItem = ClientRuntime.URLQueryItem(name: "audienceGenerationJobArn".urlPercentEncoding(), value: Swift.String(audienceGenerationJobArn).urlPercentEncoding())
-                items.append(audienceGenerationJobArnQueryItem)
-            }
-            return items
+extension ListAudienceExportJobsInput {
+
+    static func queryItemProvider(_ value: ListAudienceExportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let audienceGenerationJobArn = value.audienceGenerationJobArn {
+            let audienceGenerationJobArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "audienceGenerationJobArn".urlPercentEncoding(), value: Swift.String(audienceGenerationJobArn).urlPercentEncoding())
+            items.append(audienceGenerationJobArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAudienceExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAudienceExportJobsInput {
+
+    static func urlPathProvider(_ value: ListAudienceExportJobsInput) -> Swift.String? {
         return "/audience-export-job"
     }
 }
@@ -3489,33 +3504,33 @@ enum ListAudienceExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAudienceGenerationJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let configuredAudienceModelArn = configuredAudienceModelArn {
-                let configuredAudienceModelArnQueryItem = ClientRuntime.URLQueryItem(name: "configuredAudienceModelArn".urlPercentEncoding(), value: Swift.String(configuredAudienceModelArn).urlPercentEncoding())
-                items.append(configuredAudienceModelArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let collaborationId = collaborationId {
-                let collaborationIdQueryItem = ClientRuntime.URLQueryItem(name: "collaborationId".urlPercentEncoding(), value: Swift.String(collaborationId).urlPercentEncoding())
-                items.append(collaborationIdQueryItem)
-            }
-            return items
+extension ListAudienceGenerationJobsInput {
+
+    static func queryItemProvider(_ value: ListAudienceGenerationJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let configuredAudienceModelArn = value.configuredAudienceModelArn {
+            let configuredAudienceModelArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "configuredAudienceModelArn".urlPercentEncoding(), value: Swift.String(configuredAudienceModelArn).urlPercentEncoding())
+            items.append(configuredAudienceModelArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let collaborationId = value.collaborationId {
+            let collaborationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "collaborationId".urlPercentEncoding(), value: Swift.String(collaborationId).urlPercentEncoding())
+            items.append(collaborationIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAudienceGenerationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAudienceGenerationJobsInput {
+
+    static func urlPathProvider(_ value: ListAudienceGenerationJobsInput) -> Swift.String? {
         return "/audience-generation-job"
     }
 }
@@ -3625,25 +3640,25 @@ enum ListAudienceGenerationJobsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListAudienceModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAudienceModelsInput {
+
+    static func queryItemProvider(_ value: ListAudienceModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAudienceModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAudienceModelsInput {
+
+    static func urlPathProvider(_ value: ListAudienceModelsInput) -> Swift.String? {
         return "/audience-model"
     }
 }
@@ -3745,25 +3760,25 @@ enum ListAudienceModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListConfiguredAudienceModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConfiguredAudienceModelsInput {
+
+    static func queryItemProvider(_ value: ListConfiguredAudienceModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfiguredAudienceModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfiguredAudienceModelsInput {
+
+    static func urlPathProvider(_ value: ListConfiguredAudienceModelsInput) -> Swift.String? {
         return "/configured-audience-model"
     }
 }
@@ -3865,9 +3880,10 @@ enum ListConfiguredAudienceModelsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3959,25 +3975,25 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTrainingDatasetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTrainingDatasetsInput {
+
+    static func queryItemProvider(_ value: ListTrainingDatasetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrainingDatasetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrainingDatasetsInput {
+
+    static func urlPathProvider(_ value: ListTrainingDatasetsInput) -> Swift.String? {
         return "/training-dataset"
     }
 }
@@ -4132,9 +4148,10 @@ extension PutConfiguredAudienceModelPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutConfiguredAudienceModelPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredAudienceModelArn = configuredAudienceModelArn else {
+extension PutConfiguredAudienceModelPolicyInput {
+
+    static func urlPathProvider(_ value: PutConfiguredAudienceModelPolicyInput) -> Swift.String? {
+        guard let configuredAudienceModelArn = value.configuredAudienceModelArn else {
             return nil
         }
         return "/configured-audience-model/\(configuredAudienceModelArn.urlPercentEncoding())/policy"
@@ -4507,8 +4524,9 @@ extension StartAudienceExportJobInput: Swift.Encodable {
     }
 }
 
-extension StartAudienceExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAudienceExportJobInput {
+
+    static func urlPathProvider(_ value: StartAudienceExportJobInput) -> Swift.String? {
         return "/audience-export-job"
     }
 }
@@ -4633,8 +4651,9 @@ extension StartAudienceGenerationJobInput: Swift.Encodable {
     }
 }
 
-extension StartAudienceGenerationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAudienceGenerationJobInput {
+
+    static func urlPathProvider(_ value: StartAudienceGenerationJobInput) -> Swift.String? {
         return "/audience-generation-job"
     }
 }
@@ -4890,9 +4909,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5098,26 +5118,26 @@ extension CleanRoomsMLClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5210,9 +5230,10 @@ extension UpdateConfiguredAudienceModelInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfiguredAudienceModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredAudienceModelArn = configuredAudienceModelArn else {
+extension UpdateConfiguredAudienceModelInput {
+
+    static func urlPathProvider(_ value: UpdateConfiguredAudienceModelInput) -> Swift.String? {
+        guard let configuredAudienceModelArn = value.configuredAudienceModelArn else {
             return nil
         }
         return "/configured-audience-model/\(configuredAudienceModelArn.urlPercentEncoding())"

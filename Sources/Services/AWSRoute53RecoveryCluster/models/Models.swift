@@ -206,8 +206,9 @@ extension GetRoutingControlStateInput: Swift.Encodable {
     }
 }
 
-extension GetRoutingControlStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRoutingControlStateInput {
+
+    static func urlPathProvider(_ value: GetRoutingControlStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -405,8 +406,9 @@ extension ListRoutingControlsInput: Swift.Encodable {
     }
 }
 
-extension ListRoutingControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRoutingControlsInput {
+
+    static func urlPathProvider(_ value: ListRoutingControlsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -608,6 +610,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         resourceType = resourceTypeDecoded
     }
 }
+
+public enum Route53RecoveryClusterClientTypes {}
 
 extension Route53RecoveryClusterClientTypes.RoutingControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -960,8 +964,9 @@ extension UpdateRoutingControlStateInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoutingControlStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRoutingControlStateInput {
+
+    static func urlPathProvider(_ value: UpdateRoutingControlStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1071,8 +1076,9 @@ extension UpdateRoutingControlStatesInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoutingControlStatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRoutingControlStatesInput {
+
+    static func urlPathProvider(_ value: UpdateRoutingControlStatesInput) -> Swift.String? {
         return "/"
     }
 }

@@ -655,9 +655,10 @@ extension DataExchangeClientTypes {
 
 }
 
-extension CancelJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v1/jobs/\(jobId.urlPercentEncoding())"
@@ -863,8 +864,9 @@ extension CreateDataSetInput: Swift.Encodable {
     }
 }
 
-extension CreateDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataSetInput {
+
+    static func urlPathProvider(_ value: CreateDataSetInput) -> Swift.String? {
         return "/v1/data-sets"
     }
 }
@@ -1114,8 +1116,9 @@ extension CreateEventActionInput: Swift.Encodable {
     }
 }
 
-extension CreateEventActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEventActionInput {
+
+    static func urlPathProvider(_ value: CreateEventActionInput) -> Swift.String? {
         return "/v1/event-actions"
     }
 }
@@ -1280,8 +1283,9 @@ extension CreateJobInput: Swift.Encodable {
     }
 }
 
-extension CreateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobInput {
+
+    static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
         return "/v1/jobs"
     }
 }
@@ -1479,9 +1483,10 @@ extension CreateRevisionInput: Swift.Encodable {
     }
 }
 
-extension CreateRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension CreateRevisionInput {
+
+    static func urlPathProvider(_ value: CreateRevisionInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions"
@@ -1828,6 +1833,8 @@ extension DataExchangeClientTypes {
 
 }
 
+public enum DataExchangeClientTypes {}
+
 extension DataExchangeClientTypes.DataSetEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -2144,15 +2151,16 @@ extension DataExchangeClientTypes {
     }
 }
 
-extension DeleteAssetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension DeleteAssetInput {
+
+    static func urlPathProvider(_ value: DeleteAssetInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
-        guard let assetId = assetId else {
+        guard let assetId = value.assetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
@@ -2217,9 +2225,10 @@ enum DeleteAssetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension DeleteDataSetInput {
+
+    static func urlPathProvider(_ value: DeleteDataSetInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())"
@@ -2274,9 +2283,10 @@ enum DeleteDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEventActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let eventActionId = eventActionId else {
+extension DeleteEventActionInput {
+
+    static func urlPathProvider(_ value: DeleteEventActionInput) -> Swift.String? {
+        guard let eventActionId = value.eventActionId else {
             return nil
         }
         return "/v1/event-actions/\(eventActionId.urlPercentEncoding())"
@@ -2329,12 +2339,13 @@ enum DeleteEventActionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension DeleteRevisionInput {
+
+    static func urlPathProvider(_ value: DeleteRevisionInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())"
@@ -3135,15 +3146,16 @@ extension DataExchangeClientTypes {
 
 }
 
-extension GetAssetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension GetAssetInput {
+
+    static func urlPathProvider(_ value: GetAssetInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
-        guard let assetId = assetId else {
+        guard let assetId = value.assetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
@@ -3326,9 +3338,10 @@ enum GetAssetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension GetDataSetInput {
+
+    static func urlPathProvider(_ value: GetDataSetInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())"
@@ -3520,9 +3533,10 @@ enum GetDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetEventActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let eventActionId = eventActionId else {
+extension GetEventActionInput {
+
+    static func urlPathProvider(_ value: GetEventActionInput) -> Swift.String? {
+        guard let eventActionId = value.eventActionId else {
             return nil
         }
         return "/v1/event-actions/\(eventActionId.urlPercentEncoding())"
@@ -3655,9 +3669,10 @@ enum GetEventActionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension GetJobInput {
+
+    static func urlPathProvider(_ value: GetJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v1/jobs/\(jobId.urlPercentEncoding())"
@@ -3819,12 +3834,13 @@ enum GetJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension GetRevisionInput {
+
+    static func urlPathProvider(_ value: GetRevisionInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())"
@@ -5863,26 +5879,26 @@ extension DataExchangeClientTypes {
     }
 }
 
-extension ListDataSetRevisionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDataSetRevisionsInput {
+
+    static func queryItemProvider(_ value: ListDataSetRevisionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDataSetRevisionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension ListDataSetRevisionsInput {
+
+    static func urlPathProvider(_ value: ListDataSetRevisionsInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions"
@@ -5992,29 +6008,29 @@ enum ListDataSetRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDataSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let origin = origin {
-                let originQueryItem = ClientRuntime.URLQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin).urlPercentEncoding())
-                items.append(originQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDataSetsInput {
+
+    static func queryItemProvider(_ value: ListDataSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let origin = value.origin {
+            let originQueryItem = ClientRuntime.SDKURLQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin).urlPercentEncoding())
+            items.append(originQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDataSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDataSetsInput {
+
+    static func urlPathProvider(_ value: ListDataSetsInput) -> Swift.String? {
         return "/v1/data-sets"
     }
 }
@@ -6121,29 +6137,29 @@ enum ListDataSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListEventActionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let eventSourceId = eventSourceId {
-                let eventSourceIdQueryItem = ClientRuntime.URLQueryItem(name: "eventSourceId".urlPercentEncoding(), value: Swift.String(eventSourceId).urlPercentEncoding())
-                items.append(eventSourceIdQueryItem)
-            }
-            return items
+extension ListEventActionsInput {
+
+    static func queryItemProvider(_ value: ListEventActionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let eventSourceId = value.eventSourceId {
+            let eventSourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "eventSourceId".urlPercentEncoding(), value: Swift.String(eventSourceId).urlPercentEncoding())
+            items.append(eventSourceIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEventActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventActionsInput {
+
+    static func urlPathProvider(_ value: ListEventActionsInput) -> Swift.String? {
         return "/v1/event-actions"
     }
 }
@@ -6250,33 +6266,33 @@ enum ListEventActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let dataSetId = dataSetId {
-                let dataSetIdQueryItem = ClientRuntime.URLQueryItem(name: "dataSetId".urlPercentEncoding(), value: Swift.String(dataSetId).urlPercentEncoding())
-                items.append(dataSetIdQueryItem)
-            }
-            if let revisionId = revisionId {
-                let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-                items.append(revisionIdQueryItem)
-            }
-            return items
+extension ListJobsInput {
+
+    static func queryItemProvider(_ value: ListJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let dataSetId = value.dataSetId {
+            let dataSetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "dataSetId".urlPercentEncoding(), value: Swift.String(dataSetId).urlPercentEncoding())
+            items.append(dataSetIdQueryItem)
+        }
+        if let revisionId = value.revisionId {
+            let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            items.append(revisionIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
         return "/v1/jobs"
     }
 }
@@ -6387,29 +6403,29 @@ enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRevisionAssetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRevisionAssetsInput {
+
+    static func queryItemProvider(_ value: ListRevisionAssetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRevisionAssetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension ListRevisionAssetsInput {
+
+    static func urlPathProvider(_ value: ListRevisionAssetsInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())/assets"
@@ -6524,9 +6540,10 @@ enum ListRevisionAssetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -7556,12 +7573,13 @@ extension RevokeRevisionInput: Swift.Encodable {
     }
 }
 
-extension RevokeRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension RevokeRevisionInput {
+
+    static func urlPathProvider(_ value: RevokeRevisionInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())/revoke"
@@ -8346,25 +8364,26 @@ extension SendApiAssetInput: Swift.Encodable {
     }
 }
 
-extension SendApiAssetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SendApiAssetInput {
+
+    static func headerProvider(_ value: SendApiAssetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let assetId = assetId {
+        if let assetId = value.assetId {
             items.add(Header(name: "x-amzn-dataexchange-asset-id", value: Swift.String(assetId)))
         }
-        if let dataSetId = dataSetId {
+        if let dataSetId = value.dataSetId {
             items.add(Header(name: "x-amzn-dataexchange-data-set-id", value: Swift.String(dataSetId)))
         }
-        if let method = method {
+        if let method = value.method {
             items.add(Header(name: "x-amzn-dataexchange-http-method", value: Swift.String(method)))
         }
-        if let path = path {
+        if let path = value.path {
             items.add(Header(name: "x-amzn-dataexchange-path", value: Swift.String(path)))
         }
-        if let revisionId = revisionId {
+        if let revisionId = value.revisionId {
             items.add(Header(name: "x-amzn-dataexchange-revision-id", value: Swift.String(revisionId)))
         }
-        if let requestHeaders = requestHeaders {
+        if let requestHeaders = value.requestHeaders {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in requestHeaders {
                 items.add(Header(name: "x-amzn-dataexchange-header-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
@@ -8373,26 +8392,26 @@ extension SendApiAssetInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension SendApiAssetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let queryStringParameters = queryStringParameters {
-                let currentQueryItemNames = items.map({$0.name})
-                queryStringParameters.forEach { key0, value0 in
-                    if !currentQueryItemNames.contains(key0) {
-                        let queryItem = ClientRuntime.URLQueryItem(name: key0.urlPercentEncoding(), value: value0.urlPercentEncoding())
-                        items.append(queryItem)
-                    }
+extension SendApiAssetInput {
+
+    static func queryItemProvider(_ value: SendApiAssetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let queryStringParameters = value.queryStringParameters {
+            let currentQueryItemNames = items.map({$0.name})
+            queryStringParameters.forEach { key0, value0 in
+                if !currentQueryItemNames.contains(key0) {
+                    let queryItem = ClientRuntime.SDKURLQueryItem(name: key0.urlPercentEncoding(), value: value0.urlPercentEncoding())
+                    items.append(queryItem)
                 }
             }
-            return items
         }
+        return items
     }
 }
 
-extension SendApiAssetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendApiAssetInput {
+
+    static func urlPathProvider(_ value: SendApiAssetInput) -> Swift.String? {
         return "/v1"
     }
 }
@@ -8553,9 +8572,10 @@ extension SendDataSetNotificationInput: Swift.Encodable {
     }
 }
 
-extension SendDataSetNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension SendDataSetNotificationInput {
+
+    static func urlPathProvider(_ value: SendDataSetNotificationInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/notification"
@@ -8763,9 +8783,10 @@ extension ServiceLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension StartJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension StartJobInput {
+
+    static func urlPathProvider(_ value: StartJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v1/jobs/\(jobId.urlPercentEncoding())"
@@ -9031,9 +9052,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9213,26 +9235,26 @@ extension DataExchangeClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9299,15 +9321,16 @@ extension UpdateAssetInput: Swift.Encodable {
     }
 }
 
-extension UpdateAssetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension UpdateAssetInput {
+
+    static func urlPathProvider(_ value: UpdateAssetInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
-        guard let assetId = assetId else {
+        guard let assetId = value.assetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
@@ -9521,9 +9544,10 @@ extension UpdateDataSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension UpdateDataSetInput {
+
+    static func urlPathProvider(_ value: UpdateDataSetInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())"
@@ -9729,9 +9753,10 @@ extension UpdateEventActionInput: Swift.Encodable {
     }
 }
 
-extension UpdateEventActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let eventActionId = eventActionId else {
+extension UpdateEventActionInput {
+
+    static func urlPathProvider(_ value: UpdateEventActionInput) -> Swift.String? {
+        guard let eventActionId = value.eventActionId else {
             return nil
         }
         return "/v1/event-actions/\(eventActionId.urlPercentEncoding())"
@@ -9893,12 +9918,13 @@ extension UpdateRevisionInput: Swift.Encodable {
     }
 }
 
-extension UpdateRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let dataSetId = dataSetId else {
+extension UpdateRevisionInput {
+
+    static func urlPathProvider(_ value: UpdateRevisionInput) -> Swift.String? {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let revisionId = revisionId else {
+        guard let revisionId = value.revisionId else {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())"

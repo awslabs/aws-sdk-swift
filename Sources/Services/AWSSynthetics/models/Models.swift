@@ -85,9 +85,10 @@ extension AssociateResourceInput: Swift.Encodable {
     }
 }
 
-extension AssociateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupIdentifier = groupIdentifier else {
+extension AssociateResourceInput {
+
+    static func urlPathProvider(_ value: AssociateResourceInput) -> Swift.String? {
+        guard let groupIdentifier = value.groupIdentifier else {
             return nil
         }
         return "/group/\(groupIdentifier.urlPercentEncoding())/associate"
@@ -1454,8 +1455,9 @@ extension CreateCanaryInput: Swift.Encodable {
     }
 }
 
-extension CreateCanaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCanaryInput {
+
+    static func urlPathProvider(_ value: CreateCanaryInput) -> Swift.String? {
         return "/canary"
     }
 }
@@ -1678,8 +1680,9 @@ extension CreateGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGroupInput {
+
+    static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
         return "/group"
     }
 }
@@ -1784,22 +1787,22 @@ enum CreateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCanaryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let deleteLambda = deleteLambda {
-                let deleteLambdaQueryItem = ClientRuntime.URLQueryItem(name: "deleteLambda".urlPercentEncoding(), value: Swift.String(deleteLambda).urlPercentEncoding())
-                items.append(deleteLambdaQueryItem)
-            }
-            return items
+extension DeleteCanaryInput {
+
+    static func queryItemProvider(_ value: DeleteCanaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let deleteLambda = value.deleteLambda {
+            let deleteLambdaQueryItem = ClientRuntime.SDKURLQueryItem(name: "deleteLambda".urlPercentEncoding(), value: Swift.String(deleteLambda).urlPercentEncoding())
+            items.append(deleteLambdaQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteCanaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteCanaryInput {
+
+    static func urlPathProvider(_ value: DeleteCanaryInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())"
@@ -1856,9 +1859,10 @@ enum DeleteCanaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupIdentifier = groupIdentifier else {
+extension DeleteGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGroupInput) -> Swift.String? {
+        guard let groupIdentifier = value.groupIdentifier else {
             return nil
         }
         return "/group/\(groupIdentifier.urlPercentEncoding())"
@@ -1935,8 +1939,9 @@ extension DescribeCanariesInput: Swift.Encodable {
     }
 }
 
-extension DescribeCanariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCanariesInput {
+
+    static func urlPathProvider(_ value: DescribeCanariesInput) -> Swift.String? {
         return "/canaries"
     }
 }
@@ -2018,8 +2023,9 @@ extension DescribeCanariesLastRunInput: Swift.Encodable {
     }
 }
 
-extension DescribeCanariesLastRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCanariesLastRunInput {
+
+    static func urlPathProvider(_ value: DescribeCanariesLastRunInput) -> Swift.String? {
         return "/canaries/last-run"
     }
 }
@@ -2236,8 +2242,9 @@ extension DescribeRuntimeVersionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRuntimeVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRuntimeVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeRuntimeVersionsInput) -> Swift.String? {
         return "/runtime-versions"
     }
 }
@@ -2362,9 +2369,10 @@ extension DisassociateResourceInput: Swift.Encodable {
     }
 }
 
-extension DisassociateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupIdentifier = groupIdentifier else {
+extension DisassociateResourceInput {
+
+    static func urlPathProvider(_ value: DisassociateResourceInput) -> Swift.String? {
+        guard let groupIdentifier = value.groupIdentifier else {
             return nil
         }
         return "/group/\(groupIdentifier.urlPercentEncoding())/disassociate"
@@ -2461,9 +2469,10 @@ extension SyntheticsClientTypes {
     }
 }
 
-extension GetCanaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetCanaryInput {
+
+    static func urlPathProvider(_ value: GetCanaryInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())"
@@ -2561,9 +2570,10 @@ extension GetCanaryRunsInput: Swift.Encodable {
     }
 }
 
-extension GetCanaryRunsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetCanaryRunsInput {
+
+    static func urlPathProvider(_ value: GetCanaryRunsInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())/runs"
@@ -2683,9 +2693,10 @@ enum GetCanaryRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupIdentifier = groupIdentifier else {
+extension GetGroupInput {
+
+    static func urlPathProvider(_ value: GetGroupInput) -> Swift.String? {
+        guard let groupIdentifier = value.groupIdentifier else {
             return nil
         }
         return "/group/\(groupIdentifier.urlPercentEncoding())"
@@ -3047,9 +3058,10 @@ extension ListAssociatedGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListAssociatedGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListAssociatedGroupsInput {
+
+    static func urlPathProvider(_ value: ListAssociatedGroupsInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resource/\(resourceArn.urlPercentEncoding())/groups"
@@ -3186,9 +3198,10 @@ extension ListGroupResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListGroupResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupIdentifier = groupIdentifier else {
+extension ListGroupResourcesInput {
+
+    static func urlPathProvider(_ value: ListGroupResourcesInput) -> Swift.String? {
+        guard let groupIdentifier = value.groupIdentifier else {
             return nil
         }
         return "/group/\(groupIdentifier.urlPercentEncoding())/resources"
@@ -3326,8 +3339,9 @@ extension ListGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupsInput {
+
+    static func urlPathProvider(_ value: ListGroupsInput) -> Swift.String? {
         return "/groups"
     }
 }
@@ -3439,9 +3453,10 @@ enum ListGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3864,9 +3879,10 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension StartCanaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension StartCanaryInput {
+
+    static func urlPathProvider(_ value: StartCanaryInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())/start"
@@ -3919,9 +3935,10 @@ enum StartCanaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopCanaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension StopCanaryInput {
+
+    static func urlPathProvider(_ value: StopCanaryInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())/stop"
@@ -3974,6 +3991,8 @@ enum StopCanaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum SyntheticsClientTypes {}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
@@ -3990,9 +4009,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4122,26 +4142,26 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4253,9 +4273,10 @@ extension UpdateCanaryInput: Swift.Encodable {
     }
 }
 
-extension UpdateCanaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateCanaryInput {
+
+    static func urlPathProvider(_ value: UpdateCanaryInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())"

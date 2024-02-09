@@ -478,8 +478,9 @@ extension AddCustomRoutingEndpointsInput: Swift.Encodable {
     }
 }
 
-extension AddCustomRoutingEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddCustomRoutingEndpointsInput {
+
+    static func urlPathProvider(_ value: AddCustomRoutingEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -627,8 +628,9 @@ extension AddEndpointsInput: Swift.Encodable {
     }
 }
 
-extension AddEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddEndpointsInput {
+
+    static func urlPathProvider(_ value: AddEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -768,8 +770,9 @@ extension AdvertiseByoipCidrInput: Swift.Encodable {
     }
 }
 
-extension AdvertiseByoipCidrInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AdvertiseByoipCidrInput {
+
+    static func urlPathProvider(_ value: AdvertiseByoipCidrInput) -> Swift.String? {
         return "/"
     }
 }
@@ -893,8 +896,9 @@ extension AllowCustomRoutingTrafficInput: Swift.Encodable {
     }
 }
 
-extension AllowCustomRoutingTrafficInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AllowCustomRoutingTrafficInput {
+
+    static func urlPathProvider(_ value: AllowCustomRoutingTrafficInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1697,8 +1701,9 @@ extension CreateAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension CreateAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAcceleratorInput {
+
+    static func urlPathProvider(_ value: CreateAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1882,8 +1887,9 @@ extension CreateCrossAccountAttachmentInput: Swift.Encodable {
     }
 }
 
-extension CreateCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCrossAccountAttachmentInput {
+
+    static func urlPathProvider(_ value: CreateCrossAccountAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2071,8 +2077,9 @@ extension CreateCustomRoutingAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomRoutingAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomRoutingAcceleratorInput {
+
+    static func urlPathProvider(_ value: CreateCustomRoutingAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2247,8 +2254,9 @@ extension CreateCustomRoutingEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomRoutingEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomRoutingEndpointGroupInput {
+
+    static func urlPathProvider(_ value: CreateCustomRoutingEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2400,8 +2408,9 @@ extension CreateCustomRoutingListenerInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomRoutingListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomRoutingListenerInput {
+
+    static func urlPathProvider(_ value: CreateCustomRoutingListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2576,8 +2585,9 @@ extension CreateEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEndpointGroupInput {
+
+    static func urlPathProvider(_ value: CreateEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2800,8 +2810,9 @@ extension CreateListenerInput: Swift.Encodable {
     }
 }
 
-extension CreateListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateListenerInput {
+
+    static func urlPathProvider(_ value: CreateListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3633,8 +3644,9 @@ extension DeleteAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension DeleteAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAcceleratorInput {
+
+    static func urlPathProvider(_ value: DeleteAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3706,8 +3718,9 @@ extension DeleteCrossAccountAttachmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCrossAccountAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteCrossAccountAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3779,8 +3792,9 @@ extension DeleteCustomRoutingAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension DeleteCustomRoutingAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCustomRoutingAcceleratorInput {
+
+    static func urlPathProvider(_ value: DeleteCustomRoutingAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3852,8 +3866,9 @@ extension DeleteCustomRoutingEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteCustomRoutingEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCustomRoutingEndpointGroupInput {
+
+    static func urlPathProvider(_ value: DeleteCustomRoutingEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3923,8 +3938,9 @@ extension DeleteCustomRoutingListenerInput: Swift.Encodable {
     }
 }
 
-extension DeleteCustomRoutingListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCustomRoutingListenerInput {
+
+    static func urlPathProvider(_ value: DeleteCustomRoutingListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3995,8 +4011,9 @@ extension DeleteEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEndpointGroupInput {
+
+    static func urlPathProvider(_ value: DeleteEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4066,8 +4083,9 @@ extension DeleteListenerInput: Swift.Encodable {
     }
 }
 
-extension DeleteListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteListenerInput {
+
+    static func urlPathProvider(_ value: DeleteListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4160,8 +4178,9 @@ extension DenyCustomRoutingTrafficInput: Swift.Encodable {
     }
 }
 
-extension DenyCustomRoutingTrafficInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DenyCustomRoutingTrafficInput {
+
+    static func urlPathProvider(_ value: DenyCustomRoutingTrafficInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4282,8 +4301,9 @@ extension DeprovisionByoipCidrInput: Swift.Encodable {
     }
 }
 
-extension DeprovisionByoipCidrInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeprovisionByoipCidrInput {
+
+    static func urlPathProvider(_ value: DeprovisionByoipCidrInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4385,8 +4405,9 @@ extension DescribeAcceleratorAttributesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAcceleratorAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAcceleratorAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeAcceleratorAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4486,8 +4507,9 @@ extension DescribeAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension DescribeAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAcceleratorInput {
+
+    static func urlPathProvider(_ value: DescribeAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4587,8 +4609,9 @@ extension DescribeCrossAccountAttachmentInput: Swift.Encodable {
     }
 }
 
-extension DescribeCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCrossAccountAttachmentInput {
+
+    static func urlPathProvider(_ value: DescribeCrossAccountAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4689,8 +4712,9 @@ extension DescribeCustomRoutingAcceleratorAttributesInput: Swift.Encodable {
     }
 }
 
-extension DescribeCustomRoutingAcceleratorAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCustomRoutingAcceleratorAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeCustomRoutingAcceleratorAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4790,8 +4814,9 @@ extension DescribeCustomRoutingAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension DescribeCustomRoutingAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCustomRoutingAcceleratorInput {
+
+    static func urlPathProvider(_ value: DescribeCustomRoutingAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4891,8 +4916,9 @@ extension DescribeCustomRoutingEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension DescribeCustomRoutingEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCustomRoutingEndpointGroupInput {
+
+    static func urlPathProvider(_ value: DescribeCustomRoutingEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4992,8 +5018,9 @@ extension DescribeCustomRoutingListenerInput: Swift.Encodable {
     }
 }
 
-extension DescribeCustomRoutingListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCustomRoutingListenerInput {
+
+    static func urlPathProvider(_ value: DescribeCustomRoutingListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5093,8 +5120,9 @@ extension DescribeEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension DescribeEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEndpointGroupInput {
+
+    static func urlPathProvider(_ value: DescribeEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5194,8 +5222,9 @@ extension DescribeListenerInput: Swift.Encodable {
     }
 }
 
-extension DescribeListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeListenerInput {
+
+    static func urlPathProvider(_ value: DescribeListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5954,6 +5983,8 @@ extension EndpointNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum GlobalAcceleratorClientTypes {}
+
 extension GlobalAcceleratorClientTypes {
     public enum HealthCheckProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case http
@@ -6503,8 +6534,9 @@ extension ListAcceleratorsInput: Swift.Encodable {
     }
 }
 
-extension ListAcceleratorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAcceleratorsInput {
+
+    static func urlPathProvider(_ value: ListAcceleratorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6634,8 +6666,9 @@ extension ListByoipCidrsInput: Swift.Encodable {
     }
 }
 
-extension ListByoipCidrsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListByoipCidrsInput {
+
+    static func urlPathProvider(_ value: ListByoipCidrsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6766,8 +6799,9 @@ extension ListCrossAccountAttachmentsInput: Swift.Encodable {
     }
 }
 
-extension ListCrossAccountAttachmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCrossAccountAttachmentsInput {
+
+    static func urlPathProvider(_ value: ListCrossAccountAttachmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6889,8 +6923,9 @@ extension ListCrossAccountResourceAccountsInput: Swift.Encodable {
     }
 }
 
-extension ListCrossAccountResourceAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCrossAccountResourceAccountsInput {
+
+    static func urlPathProvider(_ value: ListCrossAccountResourceAccountsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6995,8 +7030,9 @@ extension ListCrossAccountResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListCrossAccountResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCrossAccountResourcesInput {
+
+    static func urlPathProvider(_ value: ListCrossAccountResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7145,8 +7181,9 @@ extension ListCustomRoutingAcceleratorsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomRoutingAcceleratorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomRoutingAcceleratorsInput {
+
+    static func urlPathProvider(_ value: ListCustomRoutingAcceleratorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7280,8 +7317,9 @@ extension ListCustomRoutingEndpointGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomRoutingEndpointGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomRoutingEndpointGroupsInput {
+
+    static func urlPathProvider(_ value: ListCustomRoutingEndpointGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7425,8 +7463,9 @@ extension ListCustomRoutingListenersInput: Swift.Encodable {
     }
 }
 
-extension ListCustomRoutingListenersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomRoutingListenersInput {
+
+    static func urlPathProvider(_ value: ListCustomRoutingListenersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7574,8 +7613,9 @@ extension ListCustomRoutingPortMappingsByDestinationInput: Swift.Encodable {
     }
 }
 
-extension ListCustomRoutingPortMappingsByDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomRoutingPortMappingsByDestinationInput {
+
+    static func urlPathProvider(_ value: ListCustomRoutingPortMappingsByDestinationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7732,8 +7772,9 @@ extension ListCustomRoutingPortMappingsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomRoutingPortMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomRoutingPortMappingsInput {
+
+    static func urlPathProvider(_ value: ListCustomRoutingPortMappingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7886,8 +7927,9 @@ extension ListEndpointGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListEndpointGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEndpointGroupsInput {
+
+    static func urlPathProvider(_ value: ListEndpointGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8031,8 +8073,9 @@ extension ListListenersInput: Swift.Encodable {
     }
 }
 
-extension ListListenersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListListenersInput {
+
+    static func urlPathProvider(_ value: ListListenersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8168,8 +8211,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8633,8 +8677,9 @@ extension ProvisionByoipCidrInput: Swift.Encodable {
     }
 }
 
-extension ProvisionByoipCidrInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ProvisionByoipCidrInput {
+
+    static func urlPathProvider(_ value: ProvisionByoipCidrInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8752,8 +8797,9 @@ extension RemoveCustomRoutingEndpointsInput: Swift.Encodable {
     }
 }
 
-extension RemoveCustomRoutingEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveCustomRoutingEndpointsInput {
+
+    static func urlPathProvider(_ value: RemoveCustomRoutingEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8851,8 +8897,9 @@ extension RemoveEndpointsInput: Swift.Encodable {
     }
 }
 
-extension RemoveEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveEndpointsInput {
+
+    static func urlPathProvider(_ value: RemoveEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9087,8 +9134,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9238,8 +9286,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9339,8 +9388,9 @@ extension UpdateAcceleratorAttributesInput: Swift.Encodable {
     }
 }
 
-extension UpdateAcceleratorAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAcceleratorAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateAcceleratorAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9477,8 +9527,9 @@ extension UpdateAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension UpdateAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAcceleratorInput {
+
+    static func urlPathProvider(_ value: UpdateAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9635,8 +9686,9 @@ extension UpdateCrossAccountAttachmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCrossAccountAttachmentInput {
+
+    static func urlPathProvider(_ value: UpdateCrossAccountAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9827,8 +9879,9 @@ extension UpdateCustomRoutingAcceleratorAttributesInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomRoutingAcceleratorAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCustomRoutingAcceleratorAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateCustomRoutingAcceleratorAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9965,8 +10018,9 @@ extension UpdateCustomRoutingAcceleratorInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomRoutingAcceleratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCustomRoutingAcceleratorInput {
+
+    static func urlPathProvider(_ value: UpdateCustomRoutingAcceleratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10097,8 +10151,9 @@ extension UpdateCustomRoutingListenerInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomRoutingListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCustomRoutingListenerInput {
+
+    static func urlPathProvider(_ value: UpdateCustomRoutingListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10256,8 +10311,9 @@ extension UpdateEndpointGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateEndpointGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEndpointGroupInput {
+
+    static func urlPathProvider(_ value: UpdateEndpointGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10456,8 +10512,9 @@ extension UpdateListenerInput: Swift.Encodable {
     }
 }
 
-extension UpdateListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateListenerInput {
+
+    static func urlPathProvider(_ value: UpdateListenerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10592,8 +10649,9 @@ extension WithdrawByoipCidrInput: Swift.Encodable {
     }
 }
 
-extension WithdrawByoipCidrInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension WithdrawByoipCidrInput {
+
+    static func urlPathProvider(_ value: WithdrawByoipCidrInput) -> Swift.String? {
         return "/"
     }
 }

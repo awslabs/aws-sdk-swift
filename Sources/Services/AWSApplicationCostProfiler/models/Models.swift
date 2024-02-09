@@ -57,9 +57,12 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-extension DeleteReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportId = reportId else {
+public enum ApplicationCostProfilerClientTypes {}
+
+extension DeleteReportDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteReportDefinitionInput) -> Swift.String? {
+        guard let reportId = value.reportId else {
             return nil
         }
         return "/reportDefinition/\(reportId.urlPercentEncoding())"
@@ -174,9 +177,10 @@ extension ApplicationCostProfilerClientTypes {
     }
 }
 
-extension GetReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportId = reportId else {
+extension GetReportDefinitionInput {
+
+    static func urlPathProvider(_ value: GetReportDefinitionInput) -> Swift.String? {
+        guard let reportId = value.reportId else {
             return nil
         }
         return "/reportDefinition/\(reportId.urlPercentEncoding())"
@@ -339,8 +343,9 @@ extension ImportApplicationUsageInput: Swift.Encodable {
     }
 }
 
-extension ImportApplicationUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportApplicationUsageInput {
+
+    static func urlPathProvider(_ value: ImportApplicationUsageInput) -> Swift.String? {
         return "/importApplicationUsage"
     }
 }
@@ -484,25 +489,25 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListReportDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListReportDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListReportDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListReportDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReportDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListReportDefinitionsInput) -> Swift.String? {
         return "/reportDefinition"
     }
 }
@@ -634,8 +639,9 @@ extension PutReportDefinitionInput: Swift.Encodable {
     }
 }
 
-extension PutReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutReportDefinitionInput {
+
+    static func urlPathProvider(_ value: PutReportDefinitionInput) -> Swift.String? {
         return "/reportDefinition"
     }
 }
@@ -1167,9 +1173,10 @@ extension UpdateReportDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateReportDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportId = reportId else {
+extension UpdateReportDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateReportDefinitionInput) -> Swift.String? {
+        guard let reportId = value.reportId else {
             return nil
         }
         return "/reportDefinition/\(reportId.urlPercentEncoding())"

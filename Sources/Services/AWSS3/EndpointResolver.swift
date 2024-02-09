@@ -72,27 +72,6 @@ public struct EndpointParams {
         self.useGlobalEndpoint = useGlobalEndpoint
         self.useObjectLambdaEndpoint = useObjectLambdaEndpoint
         self.useS3ExpressControlEndpoint = useS3ExpressControlEndpoint
-<<<<<<< HEAD
-    }
-    public init (authSchemeParams: S3AuthSchemeResolverParameters) {
-        self.accelerate = authSchemeParams.accelerate
-        self.bucket = authSchemeParams.bucket
-        self.disableAccessPoints = authSchemeParams.disableAccessPoints
-        self.disableMultiRegionAccessPoints = authSchemeParams.disableMultiRegionAccessPoints
-        self.disableS3ExpressSessionAuth = authSchemeParams.disableS3ExpressSessionAuth
-        self.endpoint = authSchemeParams.endpoint
-        self.forcePathStyle = authSchemeParams.forcePathStyle
-        self.key = authSchemeParams.key
-        self.prefix = authSchemeParams.prefix
-        self.region = authSchemeParams.region
-        self.useArnRegion = authSchemeParams.useArnRegion
-        self.useDualStack = authSchemeParams.useDualStack
-        self.useFIPS = authSchemeParams.useFIPS
-        self.useGlobalEndpoint = authSchemeParams.useGlobalEndpoint
-        self.useObjectLambdaEndpoint = authSchemeParams.useObjectLambdaEndpoint
-        self.useS3ExpressControlEndpoint = authSchemeParams.useS3ExpressControlEndpoint
-=======
->>>>>>> temp-main
     }
 }
 
@@ -206,13 +185,13 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
         }
 
         if let signingRegion = signingRegion {
-            context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)
+            context.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
         }
         if let signingName = signingName {
-            context.attributes.set(key: AttributeKeys.signingName, value: signingName)
+            context.attributes.set(key: HttpContext.signingName, value: signingName)
         }
         if let signingAlgorithm = signingAlgorithm {
-            context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
+            context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
         }
 
         if let headers = endpoint.headers {

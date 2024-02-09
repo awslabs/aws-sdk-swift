@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ElasticLoadBalancingv2ClientProtocol {
+extension ElasticLoadBalancingv2Client {
 
     static func loadBalancerAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> {
         let acceptors: [WaiterConfiguration<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>.Acceptor] = [

@@ -95,6 +95,8 @@ extension AthenaClientTypes {
 
 }
 
+public enum AthenaClientTypes {}
+
 extension AthenaClientTypes.AthenaError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCategory = "ErrorCategory"
@@ -205,8 +207,9 @@ extension BatchGetNamedQueryInput: Swift.Encodable {
     }
 }
 
-extension BatchGetNamedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetNamedQueryInput {
+
+    static func urlPathProvider(_ value: BatchGetNamedQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -350,8 +353,9 @@ extension BatchGetPreparedStatementInput: Swift.Encodable {
     }
 }
 
-extension BatchGetPreparedStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetPreparedStatementInput {
+
+    static func urlPathProvider(_ value: BatchGetPreparedStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -499,8 +503,9 @@ extension BatchGetQueryExecutionInput: Swift.Encodable {
     }
 }
 
-extension BatchGetQueryExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetQueryExecutionInput {
+
+    static func urlPathProvider(_ value: BatchGetQueryExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -952,8 +957,9 @@ extension CancelCapacityReservationInput: Swift.Encodable {
     }
 }
 
-extension CancelCapacityReservationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelCapacityReservationInput {
+
+    static func urlPathProvider(_ value: CancelCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1601,8 +1607,9 @@ extension CreateCapacityReservationInput: Swift.Encodable {
     }
 }
 
-extension CreateCapacityReservationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCapacityReservationInput {
+
+    static func urlPathProvider(_ value: CreateCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1719,8 +1726,9 @@ extension CreateDataCatalogInput: Swift.Encodable {
     }
 }
 
-extension CreateDataCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataCatalogInput {
+
+    static func urlPathProvider(_ value: CreateDataCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1875,8 +1883,9 @@ extension CreateNamedQueryInput: Swift.Encodable {
     }
 }
 
-extension CreateNamedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNamedQueryInput {
+
+    static func urlPathProvider(_ value: CreateNamedQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2025,8 +2034,9 @@ extension CreateNotebookInput: Swift.Encodable {
     }
 }
 
-extension CreateNotebookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNotebookInput {
+
+    static func urlPathProvider(_ value: CreateNotebookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2155,8 +2165,9 @@ extension CreatePreparedStatementInput: Swift.Encodable {
     }
 }
 
-extension CreatePreparedStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePreparedStatementInput {
+
+    static func urlPathProvider(_ value: CreatePreparedStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2251,8 +2262,9 @@ extension CreatePresignedNotebookUrlInput: Swift.Encodable {
     }
 }
 
-extension CreatePresignedNotebookUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePresignedNotebookUrlInput {
+
+    static func urlPathProvider(_ value: CreatePresignedNotebookUrlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2390,8 +2402,9 @@ extension CreateWorkGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkGroupInput {
+
+    static func urlPathProvider(_ value: CreateWorkGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2806,8 +2819,9 @@ extension DeleteCapacityReservationInput: Swift.Encodable {
     }
 }
 
-extension DeleteCapacityReservationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCapacityReservationInput {
+
+    static func urlPathProvider(_ value: DeleteCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2876,8 +2890,9 @@ extension DeleteDataCatalogInput: Swift.Encodable {
     }
 }
 
-extension DeleteDataCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDataCatalogInput {
+
+    static func urlPathProvider(_ value: DeleteDataCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2946,8 +2961,9 @@ extension DeleteNamedQueryInput: Swift.Encodable {
     }
 }
 
-extension DeleteNamedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNamedQueryInput {
+
+    static func urlPathProvider(_ value: DeleteNamedQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3016,8 +3032,9 @@ extension DeleteNotebookInput: Swift.Encodable {
     }
 }
 
-extension DeleteNotebookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNotebookInput {
+
+    static func urlPathProvider(_ value: DeleteNotebookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3091,8 +3108,9 @@ extension DeletePreparedStatementInput: Swift.Encodable {
     }
 }
 
-extension DeletePreparedStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePreparedStatementInput {
+
+    static func urlPathProvider(_ value: DeletePreparedStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3175,8 +3193,9 @@ extension DeleteWorkGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteWorkGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorkGroupInput {
+
+    static func urlPathProvider(_ value: DeleteWorkGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3644,8 +3663,9 @@ extension ExportNotebookInput: Swift.Encodable {
     }
 }
 
-extension ExportNotebookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportNotebookInput {
+
+    static func urlPathProvider(_ value: ExportNotebookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3790,8 +3810,9 @@ extension GetCalculationExecutionCodeInput: Swift.Encodable {
     }
 }
 
-extension GetCalculationExecutionCodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCalculationExecutionCodeInput {
+
+    static func urlPathProvider(_ value: GetCalculationExecutionCodeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3891,8 +3912,9 @@ extension GetCalculationExecutionInput: Swift.Encodable {
     }
 }
 
-extension GetCalculationExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCalculationExecutionInput {
+
+    static func urlPathProvider(_ value: GetCalculationExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4052,8 +4074,9 @@ extension GetCalculationExecutionStatusInput: Swift.Encodable {
     }
 }
 
-extension GetCalculationExecutionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCalculationExecutionStatusInput {
+
+    static func urlPathProvider(_ value: GetCalculationExecutionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4163,8 +4186,9 @@ extension GetCapacityAssignmentConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetCapacityAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCapacityAssignmentConfigurationInput {
+
+    static func urlPathProvider(_ value: GetCapacityAssignmentConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4264,8 +4288,9 @@ extension GetCapacityReservationInput: Swift.Encodable {
     }
 }
 
-extension GetCapacityReservationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCapacityReservationInput {
+
+    static func urlPathProvider(_ value: GetCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4369,8 +4394,9 @@ extension GetDataCatalogInput: Swift.Encodable {
     }
 }
 
-extension GetDataCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataCatalogInput {
+
+    static func urlPathProvider(_ value: GetDataCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4485,8 +4511,9 @@ extension GetDatabaseInput: Swift.Encodable {
     }
 }
 
-extension GetDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDatabaseInput {
+
+    static func urlPathProvider(_ value: GetDatabaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4603,8 +4630,9 @@ extension GetNamedQueryInput: Swift.Encodable {
     }
 }
 
-extension GetNamedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetNamedQueryInput {
+
+    static func urlPathProvider(_ value: GetNamedQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4703,8 +4731,9 @@ extension GetNotebookMetadataInput: Swift.Encodable {
     }
 }
 
-extension GetNotebookMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetNotebookMetadataInput {
+
+    static func urlPathProvider(_ value: GetNotebookMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4808,8 +4837,9 @@ extension GetPreparedStatementInput: Swift.Encodable {
     }
 }
 
-extension GetPreparedStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPreparedStatementInput {
+
+    static func urlPathProvider(_ value: GetPreparedStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4918,8 +4948,9 @@ extension GetQueryExecutionInput: Swift.Encodable {
     }
 }
 
-extension GetQueryExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueryExecutionInput {
+
+    static func urlPathProvider(_ value: GetQueryExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5026,8 +5057,9 @@ extension GetQueryResultsInput: Swift.Encodable {
     }
 }
 
-extension GetQueryResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueryResultsInput {
+
+    static func urlPathProvider(_ value: GetQueryResultsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5163,8 +5195,9 @@ extension GetQueryRuntimeStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetQueryRuntimeStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueryRuntimeStatisticsInput {
+
+    static func urlPathProvider(_ value: GetQueryRuntimeStatisticsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5263,8 +5296,9 @@ extension GetSessionInput: Swift.Encodable {
     }
 }
 
-extension GetSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5444,8 +5478,9 @@ extension GetSessionStatusInput: Swift.Encodable {
     }
 }
 
-extension GetSessionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSessionStatusInput {
+
+    static func urlPathProvider(_ value: GetSessionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5567,8 +5602,9 @@ extension GetTableMetadataInput: Swift.Encodable {
     }
 }
 
-extension GetTableMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableMetadataInput {
+
+    static func urlPathProvider(_ value: GetTableMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5694,8 +5730,9 @@ extension GetWorkGroupInput: Swift.Encodable {
     }
 }
 
-extension GetWorkGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkGroupInput {
+
+    static func urlPathProvider(_ value: GetWorkGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5855,8 +5892,9 @@ extension ImportNotebookInput: Swift.Encodable {
     }
 }
 
-extension ImportNotebookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportNotebookInput {
+
+    static func urlPathProvider(_ value: ImportNotebookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6115,8 +6153,9 @@ extension ListApplicationDPUSizesInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationDPUSizesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationDPUSizesInput {
+
+    static func urlPathProvider(_ value: ListApplicationDPUSizesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6254,8 +6293,9 @@ extension ListCalculationExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListCalculationExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCalculationExecutionsInput {
+
+    static func urlPathProvider(_ value: ListCalculationExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6402,8 +6442,9 @@ extension ListCapacityReservationsInput: Swift.Encodable {
     }
 }
 
-extension ListCapacityReservationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCapacityReservationsInput {
+
+    static func urlPathProvider(_ value: ListCapacityReservationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6537,8 +6578,9 @@ extension ListDataCatalogsInput: Swift.Encodable {
     }
 }
 
-extension ListDataCatalogsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDataCatalogsInput {
+
+    static func urlPathProvider(_ value: ListDataCatalogsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6683,8 +6725,9 @@ extension ListDatabasesInput: Swift.Encodable {
     }
 }
 
-extension ListDatabasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatabasesInput {
+
+    static func urlPathProvider(_ value: ListDatabasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6831,8 +6874,9 @@ extension ListEngineVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListEngineVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEngineVersionsInput {
+
+    static func urlPathProvider(_ value: ListEngineVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6969,8 +7013,9 @@ extension ListExecutorsInput: Swift.Encodable {
     }
 }
 
-extension ListExecutorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExecutorsInput {
+
+    static func urlPathProvider(_ value: ListExecutorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7132,8 +7177,9 @@ extension ListNamedQueriesInput: Swift.Encodable {
     }
 }
 
-extension ListNamedQueriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNamedQueriesInput {
+
+    static func urlPathProvider(_ value: ListNamedQueriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7278,8 +7324,9 @@ extension ListNotebookMetadataInput: Swift.Encodable {
     }
 }
 
-extension ListNotebookMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNotebookMetadataInput {
+
+    static func urlPathProvider(_ value: ListNotebookMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7430,8 +7477,9 @@ extension ListNotebookSessionsInput: Swift.Encodable {
     }
 }
 
-extension ListNotebookSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNotebookSessionsInput {
+
+    static func urlPathProvider(_ value: ListNotebookSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7575,8 +7623,9 @@ extension ListPreparedStatementsInput: Swift.Encodable {
     }
 }
 
-extension ListPreparedStatementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPreparedStatementsInput {
+
+    static func urlPathProvider(_ value: ListPreparedStatementsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7718,8 +7767,9 @@ extension ListQueryExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListQueryExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListQueryExecutionsInput {
+
+    static func urlPathProvider(_ value: ListQueryExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7864,8 +7914,9 @@ extension ListSessionsInput: Swift.Encodable {
     }
 }
 
-extension ListSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSessionsInput {
+
+    static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8028,8 +8079,9 @@ extension ListTableMetadataInput: Swift.Encodable {
     }
 }
 
-extension ListTableMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTableMetadataInput {
+
+    static func urlPathProvider(_ value: ListTableMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8197,8 +8249,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8337,8 +8390,9 @@ extension ListWorkGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkGroupsInput {
+
+    static func urlPathProvider(_ value: ListWorkGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8892,8 +8946,9 @@ extension PutCapacityAssignmentConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutCapacityAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutCapacityAssignmentConfigurationInput {
+
+    static func urlPathProvider(_ value: PutCapacityAssignmentConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10814,8 +10869,9 @@ extension StartCalculationExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartCalculationExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartCalculationExecutionInput {
+
+    static func urlPathProvider(_ value: StartCalculationExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10985,8 +11041,9 @@ extension StartQueryExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartQueryExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartQueryExecutionInput {
+
+    static func urlPathProvider(_ value: StartQueryExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11163,8 +11220,9 @@ extension StartSessionInput: Swift.Encodable {
     }
 }
 
-extension StartSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSessionInput {
+
+    static func urlPathProvider(_ value: StartSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11352,8 +11410,9 @@ extension StopCalculationExecutionInput: Swift.Encodable {
     }
 }
 
-extension StopCalculationExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopCalculationExecutionInput {
+
+    static func urlPathProvider(_ value: StopCalculationExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11453,8 +11512,9 @@ extension StopQueryExecutionInput: Swift.Encodable {
     }
 }
 
-extension StopQueryExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopQueryExecutionInput {
+
+    static func urlPathProvider(_ value: StopQueryExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11707,8 +11767,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11796,8 +11857,9 @@ extension TerminateSessionInput: Swift.Encodable {
     }
 }
 
-extension TerminateSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TerminateSessionInput {
+
+    static func urlPathProvider(_ value: TerminateSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12170,8 +12232,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12263,8 +12326,9 @@ extension UpdateCapacityReservationInput: Swift.Encodable {
     }
 }
 
-extension UpdateCapacityReservationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCapacityReservationInput {
+
+    static func urlPathProvider(_ value: UpdateCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12357,8 +12421,9 @@ extension UpdateDataCatalogInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataCatalogInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDataCatalogInput {
+
+    static func urlPathProvider(_ value: UpdateDataCatalogInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12481,8 +12546,9 @@ extension UpdateNamedQueryInput: Swift.Encodable {
     }
 }
 
-extension UpdateNamedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNamedQueryInput {
+
+    static func urlPathProvider(_ value: UpdateNamedQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12593,8 +12659,9 @@ extension UpdateNotebookInput: Swift.Encodable {
     }
 }
 
-extension UpdateNotebookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNotebookInput {
+
+    static func urlPathProvider(_ value: UpdateNotebookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12683,8 +12750,9 @@ extension UpdateNotebookMetadataInput: Swift.Encodable {
     }
 }
 
-extension UpdateNotebookMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNotebookMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateNotebookMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12806,8 +12874,9 @@ extension UpdatePreparedStatementInput: Swift.Encodable {
     }
 }
 
-extension UpdatePreparedStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePreparedStatementInput {
+
+    static func urlPathProvider(_ value: UpdatePreparedStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12915,8 +12984,9 @@ extension UpdateWorkGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWorkGroupInput {
+
+    static func urlPathProvider(_ value: UpdateWorkGroupInput) -> Swift.String? {
         return "/"
     }
 }

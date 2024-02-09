@@ -22,8 +22,9 @@ extension AddTagsToResourceInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToResourceInput {
+
+    static func urlPathProvider(_ value: AddTagsToResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -160,6 +161,8 @@ extension CloudHSMClientTypes {
         }
     }
 }
+
+public enum CloudHSMClientTypes {}
 
 extension CloudHsmInternalException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -341,8 +344,9 @@ extension CreateHapgInput: Swift.Encodable {
     }
 }
 
-extension CreateHapgInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHapgInput {
+
+    static func urlPathProvider(_ value: CreateHapgInput) -> Swift.String? {
         return "/"
     }
 }
@@ -472,8 +476,9 @@ extension CreateHsmInput: Swift.Encodable {
     }
 }
 
-extension CreateHsmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHsmInput {
+
+    static func urlPathProvider(_ value: CreateHsmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -642,8 +647,9 @@ extension CreateLunaClientInput: Swift.Encodable {
     }
 }
 
-extension CreateLunaClientInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLunaClientInput {
+
+    static func urlPathProvider(_ value: CreateLunaClientInput) -> Swift.String? {
         return "/"
     }
 }
@@ -753,8 +759,9 @@ extension DeleteHapgInput: Swift.Encodable {
     }
 }
 
-extension DeleteHapgInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteHapgInput {
+
+    static func urlPathProvider(_ value: DeleteHapgInput) -> Swift.String? {
         return "/"
     }
 }
@@ -857,8 +864,9 @@ extension DeleteHsmInput: Swift.Encodable {
     }
 }
 
-extension DeleteHsmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteHsmInput {
+
+    static func urlPathProvider(_ value: DeleteHsmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -961,8 +969,9 @@ extension DeleteLunaClientInput: Swift.Encodable {
     }
 }
 
-extension DeleteLunaClientInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLunaClientInput {
+
+    static func urlPathProvider(_ value: DeleteLunaClientInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1063,8 +1072,9 @@ extension DescribeHapgInput: Swift.Encodable {
     }
 }
 
-extension DescribeHapgInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeHapgInput {
+
+    static func urlPathProvider(_ value: DescribeHapgInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1286,8 +1296,9 @@ extension DescribeHsmInput: Swift.Encodable {
     }
 }
 
-extension DescribeHsmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeHsmInput {
+
+    static func urlPathProvider(_ value: DescribeHsmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1613,8 +1624,9 @@ extension DescribeLunaClientInput: Swift.Encodable {
     }
 }
 
-extension DescribeLunaClientInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLunaClientInput {
+
+    static func urlPathProvider(_ value: DescribeLunaClientInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1772,8 +1784,9 @@ extension GetConfigInput: Swift.Encodable {
     }
 }
 
-extension GetConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetConfigInput {
+
+    static func urlPathProvider(_ value: GetConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2028,8 +2041,9 @@ extension ListAvailableZonesInput: Swift.Encodable {
     }
 }
 
-extension ListAvailableZonesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAvailableZonesInput {
+
+    static func urlPathProvider(_ value: ListAvailableZonesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2124,8 +2138,9 @@ extension ListHapgsInput: Swift.Encodable {
     }
 }
 
-extension ListHapgsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHapgsInput {
+
+    static func urlPathProvider(_ value: ListHapgsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2244,8 +2259,9 @@ extension ListHsmsInput: Swift.Encodable {
     }
 }
 
-extension ListHsmsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHsmsInput {
+
+    static func urlPathProvider(_ value: ListHsmsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2364,8 +2380,9 @@ extension ListLunaClientsInput: Swift.Encodable {
     }
 }
 
-extension ListLunaClientsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLunaClientsInput {
+
+    static func urlPathProvider(_ value: ListLunaClientsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2484,8 +2501,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2606,8 +2624,9 @@ extension ModifyHapgInput: Swift.Encodable {
     }
 }
 
-extension ModifyHapgInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyHapgInput {
+
+    static func urlPathProvider(_ value: ModifyHapgInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2752,8 +2771,9 @@ extension ModifyHsmInput: Swift.Encodable {
     }
 }
 
-extension ModifyHsmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyHsmInput {
+
+    static func urlPathProvider(_ value: ModifyHsmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2899,8 +2919,9 @@ extension ModifyLunaClientInput: Swift.Encodable {
     }
 }
 
-extension ModifyLunaClientInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyLunaClientInput {
+
+    static func urlPathProvider(_ value: ModifyLunaClientInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3014,8 +3035,9 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromResourceInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromResourceInput) -> Swift.String? {
         return "/"
     }
 }

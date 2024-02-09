@@ -281,9 +281,10 @@ extension AddBridgeOutputsInput: Swift.Encodable {
     }
 }
 
-extension AddBridgeOutputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension AddBridgeOutputsInput {
+
+    static func urlPathProvider(_ value: AddBridgeOutputsInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/outputs"
@@ -471,9 +472,10 @@ extension AddBridgeSourcesInput: Swift.Encodable {
     }
 }
 
-extension AddBridgeSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension AddBridgeSourcesInput {
+
+    static func urlPathProvider(_ value: AddBridgeSourcesInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/sources"
@@ -651,9 +653,10 @@ extension AddFlowMediaStreamsInput: Swift.Encodable {
     }
 }
 
-extension AddFlowMediaStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension AddFlowMediaStreamsInput {
+
+    static func urlPathProvider(_ value: AddFlowMediaStreamsInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/mediaStreams"
@@ -852,9 +855,10 @@ extension AddFlowOutputsInput: Swift.Encodable {
     }
 }
 
-extension AddFlowOutputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension AddFlowOutputsInput {
+
+    static func urlPathProvider(_ value: AddFlowOutputsInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/outputs"
@@ -997,9 +1001,10 @@ extension AddFlowSourcesInput: Swift.Encodable {
     }
 }
 
-extension AddFlowSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension AddFlowSourcesInput {
+
+    static func urlPathProvider(_ value: AddFlowSourcesInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/source"
@@ -1141,9 +1146,10 @@ extension AddFlowVpcInterfacesInput: Swift.Encodable {
     }
 }
 
-extension AddFlowVpcInterfacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension AddFlowVpcInterfacesInput {
+
+    static func urlPathProvider(_ value: AddFlowVpcInterfacesInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/vpcInterfaces"
@@ -2629,8 +2635,9 @@ extension CreateBridgeInput: Swift.Encodable {
     }
 }
 
-extension CreateBridgeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBridgeInput {
+
+    static func urlPathProvider(_ value: CreateBridgeInput) -> Swift.String? {
         return "/v1/bridges"
     }
 }
@@ -2911,8 +2918,9 @@ extension CreateFlowInput: Swift.Encodable {
     }
 }
 
-extension CreateFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFlowInput {
+
+    static func urlPathProvider(_ value: CreateFlowInput) -> Swift.String? {
         return "/v1/flows"
     }
 }
@@ -3203,8 +3211,9 @@ extension CreateGatewayInput: Swift.Encodable {
     }
 }
 
-extension CreateGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGatewayInput {
+
+    static func urlPathProvider(_ value: CreateGatewayInput) -> Swift.String? {
         return "/v1/gateways"
     }
 }
@@ -3332,9 +3341,10 @@ enum CreateGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBridgeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension DeleteBridgeInput {
+
+    static func urlPathProvider(_ value: DeleteBridgeInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())"
@@ -3420,9 +3430,10 @@ enum DeleteBridgeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension DeleteFlowInput {
+
+    static func urlPathProvider(_ value: DeleteFlowInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())"
@@ -3517,9 +3528,10 @@ enum DeleteFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let gatewayArn = gatewayArn else {
+extension DeleteGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteGatewayInput) -> Swift.String? {
+        guard let gatewayArn = value.gatewayArn else {
             return nil
         }
         return "/v1/gateways/\(gatewayArn.urlPercentEncoding())"
@@ -3605,22 +3617,22 @@ enum DeleteGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeregisterGatewayInstanceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let force = force {
-                let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
-                items.append(forceQueryItem)
-            }
-            return items
+extension DeregisterGatewayInstanceInput {
+
+    static func queryItemProvider(_ value: DeregisterGatewayInstanceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let force = value.force {
+            let forceQueryItem = ClientRuntime.SDKURLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+            items.append(forceQueryItem)
         }
+        return items
     }
 }
 
-extension DeregisterGatewayInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let gatewayInstanceArn = gatewayInstanceArn else {
+extension DeregisterGatewayInstanceInput {
+
+    static func urlPathProvider(_ value: DeregisterGatewayInstanceInput) -> Swift.String? {
+        guard let gatewayInstanceArn = value.gatewayInstanceArn else {
             return nil
         }
         return "/v1/gateway-instances/\(gatewayInstanceArn.urlPercentEncoding())"
@@ -3720,9 +3732,10 @@ enum DeregisterGatewayInstanceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeBridgeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension DescribeBridgeInput {
+
+    static func urlPathProvider(_ value: DescribeBridgeInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())"
@@ -3808,9 +3821,10 @@ enum DescribeBridgeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension DescribeFlowInput {
+
+    static func urlPathProvider(_ value: DescribeFlowInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())"
@@ -3840,13 +3854,6 @@ extension DescribeFlowInputBody: Swift.Decodable {
 }
 
 extension DescribeFlowOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeFlowOutputBody = try responseDecoder.decode(responseBody: data)
-            self.flow = output.flow
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3912,9 +3919,10 @@ enum DescribeFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeFlowSourceMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension DescribeFlowSourceMetadataInput {
+
+    static func urlPathProvider(_ value: DescribeFlowSourceMetadataInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/source-metadata"
@@ -3949,7 +3957,6 @@ extension DescribeFlowSourceMetadataOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeFlowSourceMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.flowArn = output.flowArn
->>>>>>> temp-main
             self.messages = output.messages
             self.timestamp = output.timestamp
             self.transportMediaInfo = output.transportMediaInfo
@@ -3962,13 +3969,6 @@ extension DescribeFlowSourceMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct DescribeFlowOutput: Swift.Equatable {
-    /// The settings for a flow, including its source, outputs, and entitlements.
-    public var flow: MediaConnectClientTypes.Flow?
-    /// Messages that provide the state of the flow.
-    public var messages: MediaConnectClientTypes.Messages?
-=======
 public struct DescribeFlowSourceMetadataOutput: Swift.Equatable {
     /// The ARN of the flow that DescribeFlowSourceMetadata was performed on.
     public var flowArn: Swift.String?
@@ -3978,7 +3978,6 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Equatable {
     public var timestamp: ClientRuntime.Date?
     /// The metadata of the transport stream in the current flow's source.
     public var transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo?
->>>>>>> temp-main
 
     public init(
         flowArn: Swift.String? = nil,
@@ -3994,14 +3993,6 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DescribeFlowOutputBody: Swift.Equatable {
-    let flow: MediaConnectClientTypes.Flow?
-    let messages: MediaConnectClientTypes.Messages?
-}
-
-extension DescribeFlowOutputBody: Swift.Decodable {
-=======
 struct DescribeFlowSourceMetadataOutputBody: Swift.Equatable {
     let flowArn: Swift.String?
     let messages: [MediaConnectClientTypes.MessageDetail]?
@@ -4010,7 +4001,6 @@ struct DescribeFlowSourceMetadataOutputBody: Swift.Equatable {
 }
 
 extension DescribeFlowSourceMetadataOutputBody: Swift.Decodable {
->>>>>>> temp-main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flowArn = "flowArn"
         case messages = "messages"
@@ -4056,25 +4046,10 @@ enum DescribeFlowSourceMetadataOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-enum DescribeFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
+extension DescribeGatewayInput {
 
-extension DescribeGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let gatewayArn = gatewayArn else {
+    static func urlPathProvider(_ value: DescribeGatewayInput) -> Swift.String? {
+        guard let gatewayArn = value.gatewayArn else {
             return nil
         }
         return "/v1/gateways/\(gatewayArn.urlPercentEncoding())"
@@ -4103,9 +4078,10 @@ extension DescribeGatewayInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeGatewayInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let gatewayInstanceArn = gatewayInstanceArn else {
+extension DescribeGatewayInstanceInput {
+
+    static func urlPathProvider(_ value: DescribeGatewayInstanceInput) -> Swift.String? {
+        guard let gatewayInstanceArn = value.gatewayInstanceArn else {
             return nil
         }
         return "/v1/gateway-instances/\(gatewayInstanceArn.urlPercentEncoding())"
@@ -4248,9 +4224,10 @@ enum DescribeGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeOfferingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let offeringArn = offeringArn else {
+extension DescribeOfferingInput {
+
+    static func urlPathProvider(_ value: DescribeOfferingInput) -> Swift.String? {
+        guard let offeringArn = value.offeringArn else {
             return nil
         }
         return "/v1/offerings/\(offeringArn.urlPercentEncoding())"
@@ -4334,9 +4311,10 @@ enum DescribeOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeReservationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reservationArn = reservationArn else {
+extension DescribeReservationInput {
+
+    static func urlPathProvider(_ value: DescribeReservationInput) -> Swift.String? {
+        guard let reservationArn = value.reservationArn else {
             return nil
         }
         return "/v1/reservations/\(reservationArn.urlPercentEncoding())"
@@ -6254,9 +6232,10 @@ extension GrantFlowEntitlementsInput: Swift.Encodable {
     }
 }
 
-extension GrantFlowEntitlementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension GrantFlowEntitlementsInput {
+
+    static func urlPathProvider(_ value: GrantFlowEntitlementsInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/entitlements"
@@ -6752,29 +6731,29 @@ extension MediaConnectClientTypes {
     }
 }
 
-extension ListBridgesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let filterArn = filterArn {
-                let filterArnQueryItem = ClientRuntime.URLQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
-                items.append(filterArnQueryItem)
-            }
-            return items
+extension ListBridgesInput {
+
+    static func queryItemProvider(_ value: ListBridgesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let filterArn = value.filterArn {
+            let filterArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
+            items.append(filterArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBridgesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBridgesInput {
+
+    static func urlPathProvider(_ value: ListBridgesInput) -> Swift.String? {
         return "/v1/bridges"
     }
 }
@@ -6882,25 +6861,25 @@ enum ListBridgesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListEntitlementsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListEntitlementsInput {
+
+    static func queryItemProvider(_ value: ListEntitlementsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEntitlementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEntitlementsInput {
+
+    static func urlPathProvider(_ value: ListEntitlementsInput) -> Swift.String? {
         return "/v1/entitlements"
     }
 }
@@ -7003,25 +6982,25 @@ enum ListEntitlementsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFlowsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFlowsInput {
+
+    static func queryItemProvider(_ value: ListFlowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFlowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFlowsInput {
+
+    static func urlPathProvider(_ value: ListFlowsInput) -> Swift.String? {
         return "/v1/flows"
     }
 }
@@ -7124,29 +7103,29 @@ enum ListFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGatewayInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let filterArn = filterArn {
-                let filterArnQueryItem = ClientRuntime.URLQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
-                items.append(filterArnQueryItem)
-            }
-            return items
+extension ListGatewayInstancesInput {
+
+    static func queryItemProvider(_ value: ListGatewayInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let filterArn = value.filterArn {
+            let filterArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
+            items.append(filterArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGatewayInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGatewayInstancesInput {
+
+    static func urlPathProvider(_ value: ListGatewayInstancesInput) -> Swift.String? {
         return "/v1/gateway-instances"
     }
 }
@@ -7254,25 +7233,25 @@ enum ListGatewayInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGatewaysInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGatewaysInput {
+
+    static func queryItemProvider(_ value: ListGatewaysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGatewaysInput {
+
+    static func urlPathProvider(_ value: ListGatewaysInput) -> Swift.String? {
         return "/v1/gateways"
     }
 }
@@ -7376,25 +7355,25 @@ enum ListGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOfferingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListOfferingsInput {
+
+    static func queryItemProvider(_ value: ListOfferingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOfferingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOfferingsInput {
+
+    static func urlPathProvider(_ value: ListOfferingsInput) -> Swift.String? {
         return "/v1/offerings"
     }
 }
@@ -7497,25 +7476,25 @@ enum ListOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListReservationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListReservationsInput {
+
+    static func queryItemProvider(_ value: ListReservationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListReservationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReservationsInput {
+
+    static func urlPathProvider(_ value: ListReservationsInput) -> Swift.String? {
         return "/v1/reservations"
     }
 }
@@ -7618,9 +7597,10 @@ enum ListReservationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -8184,6 +8164,8 @@ extension MediaConnectClientTypes {
         }
     }
 }
+
+public enum MediaConnectClientTypes {}
 
 extension MediaConnectClientTypes.MediaStream: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -9328,9 +9310,10 @@ extension PurchaseOfferingInput: Swift.Encodable {
     }
 }
 
-extension PurchaseOfferingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let offeringArn = offeringArn else {
+extension PurchaseOfferingInput {
+
+    static func urlPathProvider(_ value: PurchaseOfferingInput) -> Swift.String? {
+        guard let offeringArn = value.offeringArn else {
             return nil
         }
         return "/v1/offerings/\(offeringArn.urlPercentEncoding())"
@@ -9472,12 +9455,13 @@ extension MediaConnectClientTypes {
     }
 }
 
-extension RemoveBridgeOutputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension RemoveBridgeOutputInput {
+
+    static func urlPathProvider(_ value: RemoveBridgeOutputInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
-        guard let outputName = outputName else {
+        guard let outputName = value.outputName else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/outputs/\(outputName.urlPercentEncoding())"
@@ -9576,12 +9560,13 @@ enum RemoveBridgeOutputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveBridgeSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension RemoveBridgeSourceInput {
+
+    static func urlPathProvider(_ value: RemoveBridgeSourceInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
-        guard let sourceName = sourceName else {
+        guard let sourceName = value.sourceName else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/sources/\(sourceName.urlPercentEncoding())"
@@ -9680,12 +9665,13 @@ enum RemoveBridgeSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveFlowMediaStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension RemoveFlowMediaStreamInput {
+
+    static func urlPathProvider(_ value: RemoveFlowMediaStreamInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let mediaStreamName = mediaStreamName else {
+        guard let mediaStreamName = value.mediaStreamName else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/mediaStreams/\(mediaStreamName.urlPercentEncoding())"
@@ -9785,12 +9771,13 @@ enum RemoveFlowMediaStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveFlowOutputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension RemoveFlowOutputInput {
+
+    static func urlPathProvider(_ value: RemoveFlowOutputInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let outputArn = outputArn else {
+        guard let outputArn = value.outputArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/outputs/\(outputArn.urlPercentEncoding())"
@@ -9890,12 +9877,13 @@ enum RemoveFlowOutputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveFlowSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension RemoveFlowSourceInput {
+
+    static func urlPathProvider(_ value: RemoveFlowSourceInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let sourceArn = sourceArn else {
+        guard let sourceArn = value.sourceArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/source/\(sourceArn.urlPercentEncoding())"
@@ -9995,12 +9983,13 @@ enum RemoveFlowSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveFlowVpcInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension RemoveFlowVpcInterfaceInput {
+
+    static func urlPathProvider(_ value: RemoveFlowVpcInterfaceInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let vpcInterfaceName = vpcInterfaceName else {
+        guard let vpcInterfaceName = value.vpcInterfaceName else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/vpcInterfaces/\(vpcInterfaceName.urlPercentEncoding())"
@@ -10400,12 +10389,13 @@ extension MediaConnectClientTypes {
     }
 }
 
-extension RevokeFlowEntitlementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension RevokeFlowEntitlementInput {
+
+    static func urlPathProvider(_ value: RevokeFlowEntitlementInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let entitlementArn = entitlementArn else {
+        guard let entitlementArn = value.entitlementArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/entitlements/\(entitlementArn.urlPercentEncoding())"
@@ -11126,9 +11116,10 @@ extension MediaConnectClientTypes {
     }
 }
 
-extension StartFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension StartFlowInput {
+
+    static func urlPathProvider(_ value: StartFlowInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/start/\(flowArn.urlPercentEncoding())"
@@ -11302,9 +11293,10 @@ extension MediaConnectClientTypes {
     }
 }
 
-extension StopFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension StopFlowInput {
+
+    static func urlPathProvider(_ value: StopFlowInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/stop/\(flowArn.urlPercentEncoding())"
@@ -11415,9 +11407,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -12015,26 +12008,26 @@ extension MediaConnectClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -12157,9 +12150,10 @@ extension UpdateBridgeInput: Swift.Encodable {
     }
 }
 
-extension UpdateBridgeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension UpdateBridgeInput {
+
+    static func urlPathProvider(_ value: UpdateBridgeInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())"
@@ -12424,12 +12418,13 @@ extension UpdateBridgeOutputInput: Swift.Encodable {
     }
 }
 
-extension UpdateBridgeOutputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension UpdateBridgeOutputInput {
+
+    static func urlPathProvider(_ value: UpdateBridgeOutputInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
-        guard let outputName = outputName else {
+        guard let outputName = value.outputName else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/outputs/\(outputName.urlPercentEncoding())"
@@ -12559,12 +12554,13 @@ extension UpdateBridgeSourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateBridgeSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension UpdateBridgeSourceInput {
+
+    static func urlPathProvider(_ value: UpdateBridgeSourceInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
-        guard let sourceName = sourceName else {
+        guard let sourceName = value.sourceName else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/sources/\(sourceName.urlPercentEncoding())"
@@ -12698,9 +12694,10 @@ extension UpdateBridgeStateInput: Swift.Encodable {
     }
 }
 
-extension UpdateBridgeStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bridgeArn = bridgeArn else {
+extension UpdateBridgeStateInput {
+
+    static func urlPathProvider(_ value: UpdateBridgeStateInput) -> Swift.String? {
+        guard let bridgeArn = value.bridgeArn else {
             return nil
         }
         return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/state"
@@ -13049,12 +13046,13 @@ extension UpdateFlowEntitlementInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowEntitlementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension UpdateFlowEntitlementInput {
+
+    static func urlPathProvider(_ value: UpdateFlowEntitlementInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let entitlementArn = entitlementArn else {
+        guard let entitlementArn = value.entitlementArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/entitlements/\(entitlementArn.urlPercentEncoding())"
@@ -13216,9 +13214,10 @@ extension UpdateFlowInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension UpdateFlowInput {
+
+    static func urlPathProvider(_ value: UpdateFlowInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())"
@@ -13296,12 +13295,13 @@ extension UpdateFlowMediaStreamInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowMediaStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension UpdateFlowMediaStreamInput {
+
+    static func urlPathProvider(_ value: UpdateFlowMediaStreamInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let mediaStreamName = mediaStreamName else {
+        guard let mediaStreamName = value.mediaStreamName else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/mediaStreams/\(mediaStreamName.urlPercentEncoding())"
@@ -13576,12 +13576,13 @@ extension UpdateFlowOutputInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowOutputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension UpdateFlowOutputInput {
+
+    static func urlPathProvider(_ value: UpdateFlowOutputInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let outputArn = outputArn else {
+        guard let outputArn = value.outputArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/outputs/\(outputArn.urlPercentEncoding())"
@@ -13907,12 +13908,13 @@ extension UpdateFlowSourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let flowArn = flowArn else {
+extension UpdateFlowSourceInput {
+
+    static func urlPathProvider(_ value: UpdateFlowSourceInput) -> Swift.String? {
+        guard let flowArn = value.flowArn else {
             return nil
         }
-        guard let sourceArn = sourceArn else {
+        guard let sourceArn = value.sourceArn else {
             return nil
         }
         return "/v1/flows/\(flowArn.urlPercentEncoding())/source/\(sourceArn.urlPercentEncoding())"
@@ -14227,9 +14229,10 @@ extension UpdateGatewayInstanceInput: Swift.Encodable {
     }
 }
 
-extension UpdateGatewayInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let gatewayInstanceArn = gatewayInstanceArn else {
+extension UpdateGatewayInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateGatewayInstanceInput) -> Swift.String? {
+        guard let gatewayInstanceArn = value.gatewayInstanceArn else {
             return nil
         }
         return "/v1/gateway-instances/\(gatewayInstanceArn.urlPercentEncoding())"

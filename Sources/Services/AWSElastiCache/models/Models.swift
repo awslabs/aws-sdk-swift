@@ -111,8 +111,9 @@ extension AddTagsToResourceInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToResourceInput {
+
+    static func urlPathProvider(_ value: AddTagsToResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -600,8 +601,9 @@ extension AuthorizeCacheSecurityGroupIngressInput: Swift.Encodable {
     }
 }
 
-extension AuthorizeCacheSecurityGroupIngressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AuthorizeCacheSecurityGroupIngressInput {
+
+    static func urlPathProvider(_ value: AuthorizeCacheSecurityGroupIngressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -823,8 +825,9 @@ extension BatchApplyUpdateActionInput: Swift.Encodable {
     }
 }
 
-extension BatchApplyUpdateActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchApplyUpdateActionInput {
+
+    static func urlPathProvider(_ value: BatchApplyUpdateActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1039,8 +1042,9 @@ extension BatchStopUpdateActionInput: Swift.Encodable {
     }
 }
 
-extension BatchStopUpdateActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchStopUpdateActionInput {
+
+    static func urlPathProvider(_ value: BatchStopUpdateActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3611,8 +3615,9 @@ extension CompleteMigrationInput: Swift.Encodable {
     }
 }
 
-extension CompleteMigrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CompleteMigrationInput {
+
+    static func urlPathProvider(_ value: CompleteMigrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3866,8 +3871,9 @@ extension CopyServerlessCacheSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CopyServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyServerlessCacheSnapshotInput {
+
+    static func urlPathProvider(_ value: CopyServerlessCacheSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4033,8 +4039,9 @@ extension CopySnapshotInput: Swift.Encodable {
     }
 }
 
-extension CopySnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopySnapshotInput {
+
+    static func urlPathProvider(_ value: CopySnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4337,8 +4344,9 @@ extension CreateCacheClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateCacheClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCacheClusterInput {
+
+    static func urlPathProvider(_ value: CreateCacheClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4871,8 +4879,9 @@ extension CreateCacheParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateCacheParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCacheParameterGroupInput {
+
+    static func urlPathProvider(_ value: CreateCacheParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5032,8 +5041,9 @@ extension CreateCacheSecurityGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateCacheSecurityGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCacheSecurityGroupInput {
+
+    static func urlPathProvider(_ value: CreateCacheSecurityGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5201,8 +5211,9 @@ extension CreateCacheSubnetGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateCacheSubnetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCacheSubnetGroupInput {
+
+    static func urlPathProvider(_ value: CreateCacheSubnetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5374,8 +5385,9 @@ extension CreateGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: CreateGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5680,8 +5692,9 @@ extension CreateReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReplicationGroupInput {
+
+    static func urlPathProvider(_ value: CreateReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6384,8 +6397,9 @@ extension CreateServerlessCacheInput: Swift.Encodable {
     }
 }
 
-extension CreateServerlessCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServerlessCacheInput {
+
+    static func urlPathProvider(_ value: CreateServerlessCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6674,8 +6688,9 @@ extension CreateServerlessCacheSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServerlessCacheSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateServerlessCacheSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6841,8 +6856,9 @@ extension CreateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7024,8 +7040,9 @@ extension CreateUserGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateUserGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserGroupInput {
+
+    static func urlPathProvider(_ value: CreateUserGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7357,8 +7374,9 @@ extension CreateUserInput: Swift.Encodable {
     }
 }
 
-extension CreateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserInput {
+
+    static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7833,8 +7851,9 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension DecreaseNodeGroupsInGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DecreaseNodeGroupsInGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: DecreaseNodeGroupsInGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8033,8 +8052,9 @@ extension DecreaseReplicaCountInput: Swift.Encodable {
     }
 }
 
-extension DecreaseReplicaCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DecreaseReplicaCountInput {
+
+    static func urlPathProvider(_ value: DecreaseReplicaCountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8330,8 +8350,9 @@ extension DeleteCacheClusterInput: Swift.Encodable {
     }
 }
 
-extension DeleteCacheClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCacheClusterInput {
+
+    static func urlPathProvider(_ value: DeleteCacheClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8442,8 +8463,9 @@ extension DeleteCacheParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteCacheParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCacheParameterGroupInput {
+
+    static func urlPathProvider(_ value: DeleteCacheParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8512,8 +8534,9 @@ extension DeleteCacheSecurityGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteCacheSecurityGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCacheSecurityGroupInput {
+
+    static func urlPathProvider(_ value: DeleteCacheSecurityGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8582,8 +8605,9 @@ extension DeleteCacheSubnetGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteCacheSubnetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCacheSubnetGroupInput {
+
+    static func urlPathProvider(_ value: DeleteCacheSubnetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8653,8 +8677,9 @@ extension DeleteGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8769,8 +8794,9 @@ extension DeleteReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReplicationGroupInput {
+
+    static func urlPathProvider(_ value: DeleteReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8892,8 +8918,9 @@ extension DeleteServerlessCacheInput: Swift.Encodable {
     }
 }
 
-extension DeleteServerlessCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServerlessCacheInput {
+
+    static func urlPathProvider(_ value: DeleteServerlessCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9003,8 +9030,9 @@ extension DeleteServerlessCacheSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeleteServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServerlessCacheSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteServerlessCacheSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9103,8 +9131,9 @@ extension DeleteSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeleteSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9204,8 +9233,9 @@ extension DeleteUserGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteUserGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteUserGroupInput {
+
+    static func urlPathProvider(_ value: DeleteUserGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9435,8 +9465,9 @@ extension DeleteUserInput: Swift.Encodable {
     }
 }
 
-extension DeleteUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteUserInput {
+
+    static func urlPathProvider(_ value: DeleteUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9645,8 +9676,9 @@ extension DescribeCacheClustersInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheClustersInput {
+
+    static func urlPathProvider(_ value: DescribeCacheClustersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9819,8 +9851,9 @@ extension DescribeCacheEngineVersionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheEngineVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheEngineVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeCacheEngineVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9995,8 +10028,9 @@ extension DescribeCacheParameterGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheParameterGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheParameterGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeCacheParameterGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10147,8 +10181,9 @@ extension DescribeCacheParametersInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheParametersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheParametersInput {
+
+    static func urlPathProvider(_ value: DescribeCacheParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10332,8 +10367,9 @@ extension DescribeCacheSecurityGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheSecurityGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheSecurityGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeCacheSecurityGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10481,8 +10517,9 @@ extension DescribeCacheSubnetGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheSubnetGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheSubnetGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeCacheSubnetGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10628,8 +10665,9 @@ extension DescribeEngineDefaultParametersInput: Swift.Encodable {
     }
 }
 
-extension DescribeEngineDefaultParametersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEngineDefaultParametersInput {
+
+    static func urlPathProvider(_ value: DescribeEngineDefaultParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10761,8 +10799,9 @@ extension DescribeEventsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventsInput {
+
+    static func urlPathProvider(_ value: DescribeEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10944,8 +10983,9 @@ extension DescribeGlobalReplicationGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeGlobalReplicationGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGlobalReplicationGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeGlobalReplicationGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11099,8 +11139,9 @@ extension DescribeReplicationGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeReplicationGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReplicationGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeReplicationGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11263,8 +11304,9 @@ extension DescribeReservedCacheNodesInput: Swift.Encodable {
     }
 }
 
-extension DescribeReservedCacheNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReservedCacheNodesInput {
+
+    static func urlPathProvider(_ value: DescribeReservedCacheNodesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11422,8 +11464,9 @@ extension DescribeReservedCacheNodesOfferingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeReservedCacheNodesOfferingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReservedCacheNodesOfferingsInput {
+
+    static func urlPathProvider(_ value: DescribeReservedCacheNodesOfferingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11729,8 +11772,9 @@ extension DescribeServerlessCacheSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeServerlessCacheSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServerlessCacheSnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeServerlessCacheSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11893,8 +11937,9 @@ extension DescribeServerlessCachesInput: Swift.Encodable {
     }
 }
 
-extension DescribeServerlessCachesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServerlessCachesInput {
+
+    static func urlPathProvider(_ value: DescribeServerlessCachesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12052,8 +12097,9 @@ extension DescribeServiceUpdatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeServiceUpdatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServiceUpdatesInput {
+
+    static func urlPathProvider(_ value: DescribeServiceUpdatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12236,8 +12282,9 @@ extension DescribeSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12475,8 +12522,9 @@ extension DescribeUpdateActionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeUpdateActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUpdateActionsInput {
+
+    static func urlPathProvider(_ value: DescribeUpdateActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12745,8 +12793,9 @@ extension DescribeUserGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeUserGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUserGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeUserGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12907,8 +12956,9 @@ extension DescribeUsersInput: Swift.Encodable {
     }
 }
 
-extension DescribeUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUsersInput {
+
+    static func urlPathProvider(_ value: DescribeUsersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13164,8 +13214,9 @@ extension DisassociateGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension DisassociateGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: DisassociateGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13418,6 +13469,8 @@ extension ElastiCacheClientTypes {
 
 }
 
+public enum ElastiCacheClientTypes {}
+
 extension ElastiCacheClientTypes.Endpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
@@ -13659,8 +13712,9 @@ extension ExportServerlessCacheSnapshotInput: Swift.Encodable {
     }
 }
 
-extension ExportServerlessCacheSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportServerlessCacheSnapshotInput {
+
+    static func urlPathProvider(_ value: ExportServerlessCacheSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13774,8 +13828,9 @@ extension FailoverGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension FailoverGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension FailoverGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: FailoverGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14467,8 +14522,9 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension IncreaseNodeGroupsInGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IncreaseNodeGroupsInGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: IncreaseNodeGroupsInGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14629,8 +14685,9 @@ extension IncreaseReplicaCountInput: Swift.Encodable {
     }
 }
 
-extension IncreaseReplicaCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IncreaseReplicaCountInput {
+
+    static func urlPathProvider(_ value: IncreaseReplicaCountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15858,8 +15915,9 @@ extension ListAllowedNodeTypeModificationsInput: Swift.Encodable {
     }
 }
 
-extension ListAllowedNodeTypeModificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAllowedNodeTypeModificationsInput {
+
+    static func urlPathProvider(_ value: ListAllowedNodeTypeModificationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16011,8 +16069,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16511,8 +16570,9 @@ extension ModifyCacheClusterInput: Swift.Encodable {
     }
 }
 
-extension ModifyCacheClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyCacheClusterInput {
+
+    static func urlPathProvider(_ value: ModifyCacheClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16959,8 +17019,9 @@ extension ModifyCacheParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyCacheParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyCacheParameterGroupInput {
+
+    static func urlPathProvider(_ value: ModifyCacheParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17107,8 +17168,9 @@ extension ModifyCacheSubnetGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyCacheSubnetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyCacheSubnetGroupInput {
+
+    static func urlPathProvider(_ value: ModifyCacheSubnetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17264,8 +17326,9 @@ extension ModifyGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: ModifyGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17543,8 +17606,9 @@ extension ModifyReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyReplicationGroupInput {
+
+    static func urlPathProvider(_ value: ModifyReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18041,8 +18105,9 @@ extension ModifyReplicationGroupShardConfigurationInput: Swift.Encodable {
     }
 }
 
-extension ModifyReplicationGroupShardConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyReplicationGroupShardConfigurationInput {
+
+    static func urlPathProvider(_ value: ModifyReplicationGroupShardConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18271,8 +18336,9 @@ extension ModifyServerlessCacheInput: Swift.Encodable {
     }
 }
 
-extension ModifyServerlessCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyServerlessCacheInput {
+
+    static func urlPathProvider(_ value: ModifyServerlessCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18472,8 +18538,9 @@ extension ModifyUserGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyUserGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyUserGroupInput {
+
+    static func urlPathProvider(_ value: ModifyUserGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18781,8 +18848,9 @@ extension ModifyUserInput: Swift.Encodable {
     }
 }
 
-extension ModifyUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyUserInput {
+
+    static func urlPathProvider(_ value: ModifyUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20647,8 +20715,9 @@ extension PurchaseReservedCacheNodesOfferingInput: Swift.Encodable {
     }
 }
 
-extension PurchaseReservedCacheNodesOfferingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PurchaseReservedCacheNodesOfferingInput {
+
+    static func urlPathProvider(_ value: PurchaseReservedCacheNodesOfferingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20794,8 +20863,9 @@ extension RebalanceSlotsInGlobalReplicationGroupInput: Swift.Encodable {
     }
 }
 
-extension RebalanceSlotsInGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RebalanceSlotsInGlobalReplicationGroupInput {
+
+    static func urlPathProvider(_ value: RebalanceSlotsInGlobalReplicationGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20916,8 +20986,9 @@ extension RebootCacheClusterInput: Swift.Encodable {
     }
 }
 
-extension RebootCacheClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RebootCacheClusterInput {
+
+    static func urlPathProvider(_ value: RebootCacheClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21182,8 +21253,9 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromResourceInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22782,8 +22854,9 @@ extension ResetCacheParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension ResetCacheParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetCacheParameterGroupInput {
+
+    static func urlPathProvider(_ value: ResetCacheParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23034,8 +23107,9 @@ extension RevokeCacheSecurityGroupIngressInput: Swift.Encodable {
     }
 }
 
-extension RevokeCacheSecurityGroupIngressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RevokeCacheSecurityGroupIngressInput {
+
+    static func urlPathProvider(_ value: RevokeCacheSecurityGroupIngressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25046,8 +25120,9 @@ extension StartMigrationInput: Swift.Encodable {
     }
 }
 
-extension StartMigrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMigrationInput {
+
+    static func urlPathProvider(_ value: StartMigrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25562,8 +25637,9 @@ extension TestFailoverInput: Swift.Encodable {
     }
 }
 
-extension TestFailoverInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestFailoverInput {
+
+    static func urlPathProvider(_ value: TestFailoverInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25742,8 +25818,9 @@ extension TestMigrationInput: Swift.Encodable {
     }
 }
 
-extension TestMigrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestMigrationInput {
+
+    static func urlPathProvider(_ value: TestMigrationInput) -> Swift.String? {
         return "/"
     }
 }

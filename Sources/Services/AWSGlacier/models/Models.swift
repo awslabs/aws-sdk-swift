@@ -2,15 +2,16 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension AbortMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension AbortMultipartUploadInput {
+
+    static func urlPathProvider(_ value: AbortMultipartUploadInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let uploadId = uploadId else {
+        guard let uploadId = value.uploadId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/multipart-uploads/\(uploadId.urlPercentEncoding())"
@@ -74,12 +75,13 @@ enum AbortMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension AbortVaultLockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension AbortVaultLockInput {
+
+    static func urlPathProvider(_ value: AbortVaultLockInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/lock-policy"
@@ -189,22 +191,22 @@ extension AddTagsToVaultInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToVaultInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "add"))
-            return items
-        }
+extension AddTagsToVaultInput {
+
+    static func queryItemProvider(_ value: AddTagsToVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "add"))
+        return items
     }
 }
 
-extension AddTagsToVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension AddTagsToVaultInput {
+
+    static func urlPathProvider(_ value: AddTagsToVaultInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/tags"
@@ -491,28 +493,30 @@ extension GlacierClientTypes {
     }
 }
 
-extension CompleteMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CompleteMultipartUploadInput {
+
+    static func headerProvider(_ value: CompleteMultipartUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let archiveSize = archiveSize {
+        if let archiveSize = value.archiveSize {
             items.add(Header(name: "x-amz-archive-size", value: Swift.String(archiveSize)))
         }
-        if let checksum = checksum {
+        if let checksum = value.checksum {
             items.add(Header(name: "x-amz-sha256-tree-hash", value: Swift.String(checksum)))
         }
         return items
     }
 }
 
-extension CompleteMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CompleteMultipartUploadInput {
+
+    static func urlPathProvider(_ value: CompleteMultipartUploadInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let uploadId = uploadId else {
+        guard let uploadId = value.uploadId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/multipart-uploads/\(uploadId.urlPercentEncoding())"
@@ -615,15 +619,16 @@ enum CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension CompleteVaultLockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CompleteVaultLockInput {
+
+    static func urlPathProvider(_ value: CompleteVaultLockInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let lockId = lockId else {
+        guard let lockId = value.lockId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/lock-policy/\(lockId.urlPercentEncoding())"
@@ -687,12 +692,13 @@ enum CompleteVaultLockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CreateVaultInput {
+
+    static func urlPathProvider(_ value: CreateVaultInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())"
@@ -856,15 +862,16 @@ extension GlacierClientTypes {
 
 }
 
-extension DeleteArchiveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteArchiveInput {
+
+    static func urlPathProvider(_ value: DeleteArchiveInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let archiveId = archiveId else {
+        guard let archiveId = value.archiveId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/archives/\(archiveId.urlPercentEncoding())"
@@ -928,12 +935,13 @@ enum DeleteArchiveOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteVaultAccessPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteVaultAccessPolicyInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/access-policy"
@@ -992,12 +1000,13 @@ enum DeleteVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteVaultInput {
+
+    static func urlPathProvider(_ value: DeleteVaultInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())"
@@ -1032,12 +1041,13 @@ extension DeleteVaultInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteVaultNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteVaultNotificationsInput {
+
+    static func urlPathProvider(_ value: DeleteVaultNotificationsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/notification-configuration"
@@ -1120,15 +1130,16 @@ enum DeleteVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DescribeJobInput {
+
+    static func urlPathProvider(_ value: DescribeJobInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
@@ -1437,12 +1448,13 @@ enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DescribeVaultInput {
+
+    static func urlPathProvider(_ value: DescribeVaultInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())"
@@ -1818,9 +1830,10 @@ extension GlacierClientTypes {
     }
 }
 
-extension GetDataRetrievalPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetDataRetrievalPolicyInput {
+
+    static func urlPathProvider(_ value: GetDataRetrievalPolicyInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/policies/data-retrieval"
@@ -1904,25 +1917,27 @@ enum GetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetJobOutputInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetJobOutputInput {
+
+    static func headerProvider(_ value: GetJobOutputInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let range = range {
+        if let range = value.range {
             items.add(Header(name: "Range", value: Swift.String(range)))
         }
         return items
     }
 }
 
-extension GetJobOutputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetJobOutputInput {
+
+    static func urlPathProvider(_ value: GetJobOutputInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())/output"
@@ -2090,12 +2105,13 @@ enum GetJobOutputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetVaultAccessPolicyInput {
+
+    static func urlPathProvider(_ value: GetVaultAccessPolicyInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/access-policy"
@@ -2184,12 +2200,13 @@ enum GetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVaultLockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetVaultLockInput {
+
+    static func urlPathProvider(_ value: GetVaultLockInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/lock-policy"
@@ -2309,12 +2326,13 @@ enum GetVaultLockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVaultNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetVaultNotificationsInput {
+
+    static func urlPathProvider(_ value: GetVaultNotificationsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/notification-configuration"
@@ -2402,6 +2420,8 @@ enum GetVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum GlacierClientTypes {}
 
 extension GlacierClientTypes.GlacierJobDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -2786,12 +2806,13 @@ extension InitiateJobInput: Swift.Encodable {
     }
 }
 
-extension InitiateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension InitiateJobInput {
+
+    static func urlPathProvider(_ value: InitiateJobInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/jobs"
@@ -2894,25 +2915,27 @@ enum InitiateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension InitiateMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InitiateMultipartUploadInput {
+
+    static func headerProvider(_ value: InitiateMultipartUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let archiveDescription = archiveDescription {
+        if let archiveDescription = value.archiveDescription {
             items.add(Header(name: "x-amz-archive-description", value: Swift.String(archiveDescription)))
         }
-        if let partSize = partSize {
+        if let partSize = value.partSize {
             items.add(Header(name: "x-amz-part-size", value: Swift.String(partSize)))
         }
         return items
     }
 }
 
-extension InitiateMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension InitiateMultipartUploadInput {
+
+    static func urlPathProvider(_ value: InitiateMultipartUploadInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/multipart-uploads"
@@ -3014,12 +3037,13 @@ extension InitiateVaultLockInput: Swift.Encodable {
     }
 }
 
-extension InitiateVaultLockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension InitiateVaultLockInput {
+
+    static func urlPathProvider(_ value: InitiateVaultLockInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/lock-policy"
@@ -3627,37 +3651,37 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let statuscode = statuscode {
-                let statuscodeQueryItem = ClientRuntime.URLQueryItem(name: "statuscode".urlPercentEncoding(), value: Swift.String(statuscode).urlPercentEncoding())
-                items.append(statuscodeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let completed = completed {
-                let completedQueryItem = ClientRuntime.URLQueryItem(name: "completed".urlPercentEncoding(), value: Swift.String(completed).urlPercentEncoding())
-                items.append(completedQueryItem)
-            }
-            return items
+extension ListJobsInput {
+
+    static func queryItemProvider(_ value: ListJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let statuscode = value.statuscode {
+            let statuscodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "statuscode".urlPercentEncoding(), value: Swift.String(statuscode).urlPercentEncoding())
+            items.append(statuscodeQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let completed = value.completed {
+            let completedQueryItem = ClientRuntime.SDKURLQueryItem(name: "completed".urlPercentEncoding(), value: Swift.String(completed).urlPercentEncoding())
+            items.append(completedQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/jobs"
@@ -3782,29 +3806,29 @@ enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMultipartUploadsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListMultipartUploadsInput {
+
+    static func queryItemProvider(_ value: ListMultipartUploadsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMultipartUploadsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListMultipartUploadsInput {
+
+    static func urlPathProvider(_ value: ListMultipartUploadsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/multipart-uploads"
@@ -3921,32 +3945,32 @@ enum ListMultipartUploadsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPartsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListPartsInput {
+
+    static func queryItemProvider(_ value: ListPartsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPartsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListPartsInput {
+
+    static func urlPathProvider(_ value: ListPartsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let uploadId = uploadId else {
+        guard let uploadId = value.uploadId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/multipart-uploads/\(uploadId.urlPercentEncoding())"
@@ -4118,9 +4142,10 @@ enum ListPartsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProvisionedCapacityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListProvisionedCapacityInput {
+
+    static func urlPathProvider(_ value: ListProvisionedCapacityInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/provisioned-capacity"
@@ -4211,12 +4236,13 @@ enum ListProvisionedCapacityOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListTagsForVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListTagsForVaultInput {
+
+    static func urlPathProvider(_ value: ListTagsForVaultInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/tags"
@@ -4315,26 +4341,26 @@ enum ListTagsForVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVaultsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListVaultsInput {
+
+    static func queryItemProvider(_ value: ListVaultsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVaultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListVaultsInput {
+
+    static func urlPathProvider(_ value: ListVaultsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults"
@@ -4809,9 +4835,10 @@ extension GlacierClientTypes {
 
 }
 
-extension PurchaseProvisionedCapacityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension PurchaseProvisionedCapacityInput {
+
+    static func urlPathProvider(_ value: PurchaseProvisionedCapacityInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/provisioned-capacity"
@@ -4924,22 +4951,22 @@ extension RemoveTagsFromVaultInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromVaultInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "remove"))
-            return items
-        }
+extension RemoveTagsFromVaultInput {
+
+    static func queryItemProvider(_ value: RemoveTagsFromVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "remove"))
+        return items
     }
 }
 
-extension RemoveTagsFromVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension RemoveTagsFromVaultInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromVaultInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/tags"
@@ -5465,9 +5492,10 @@ extension SetDataRetrievalPolicyInput: Swift.Encodable {
     }
 }
 
-extension SetDataRetrievalPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension SetDataRetrievalPolicyInput {
+
+    static func urlPathProvider(_ value: SetDataRetrievalPolicyInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/policies/data-retrieval"
@@ -5544,12 +5572,13 @@ extension SetVaultAccessPolicyInput: Swift.Encodable {
     }
 }
 
-extension SetVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension SetVaultAccessPolicyInput {
+
+    static func urlPathProvider(_ value: SetVaultAccessPolicyInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/access-policy"
@@ -5632,12 +5661,13 @@ extension SetVaultNotificationsInput: Swift.Encodable {
     }
 }
 
-extension SetVaultNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension SetVaultNotificationsInput {
+
+    static func urlPathProvider(_ value: SetVaultNotificationsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/notification-configuration"
@@ -5825,25 +5855,27 @@ extension UploadArchiveInput: Swift.Encodable {
     }
 }
 
-extension UploadArchiveInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UploadArchiveInput {
+
+    static func headerProvider(_ value: UploadArchiveInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let archiveDescription = archiveDescription {
+        if let archiveDescription = value.archiveDescription {
             items.add(Header(name: "x-amz-archive-description", value: Swift.String(archiveDescription)))
         }
-        if let checksum = checksum {
+        if let checksum = value.checksum {
             items.add(Header(name: "x-amz-sha256-tree-hash", value: Swift.String(checksum)))
         }
         return items
     }
 }
 
-extension UploadArchiveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UploadArchiveInput {
+
+    static func urlPathProvider(_ value: UploadArchiveInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/archives"
@@ -6041,28 +6073,30 @@ extension UploadMultipartPartInput: Swift.Encodable {
     }
 }
 
-extension UploadMultipartPartInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UploadMultipartPartInput {
+
+    static func headerProvider(_ value: UploadMultipartPartInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksum = checksum {
+        if let checksum = value.checksum {
             items.add(Header(name: "x-amz-sha256-tree-hash", value: Swift.String(checksum)))
         }
-        if let range = range {
+        if let range = value.range {
             items.add(Header(name: "Content-Range", value: Swift.String(range)))
         }
         return items
     }
 }
 
-extension UploadMultipartPartInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UploadMultipartPartInput {
+
+    static func urlPathProvider(_ value: UploadMultipartPartInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let vaultName = vaultName else {
+        guard let vaultName = value.vaultName else {
             return nil
         }
-        guard let uploadId = uploadId else {
+        guard let uploadId = value.uploadId else {
             return nil
         }
         return "/\(accountId.urlPercentEncoding())/vaults/\(vaultName.urlPercentEncoding())/multipart-uploads/\(uploadId.urlPercentEncoding())"

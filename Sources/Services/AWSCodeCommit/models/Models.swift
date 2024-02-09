@@ -1067,8 +1067,9 @@ extension AssociateApprovalRuleTemplateWithRepositoryInput: Swift.Encodable {
     }
 }
 
-extension AssociateApprovalRuleTemplateWithRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateApprovalRuleTemplateWithRepositoryInput {
+
+    static func urlPathProvider(_ value: AssociateApprovalRuleTemplateWithRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1274,8 +1275,9 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesInput: Swift.Encodab
     }
 }
 
-extension BatchAssociateApprovalRuleTemplateWithRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchAssociateApprovalRuleTemplateWithRepositoriesInput {
+
+    static func urlPathProvider(_ value: BatchAssociateApprovalRuleTemplateWithRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1527,8 +1529,9 @@ extension BatchDescribeMergeConflictsInput: Swift.Encodable {
     }
 }
 
-extension BatchDescribeMergeConflictsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDescribeMergeConflictsInput {
+
+    static func urlPathProvider(_ value: BatchDescribeMergeConflictsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1863,8 +1866,9 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: Swift.Enco
     }
 }
 
-extension BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDisassociateApprovalRuleTemplateFromRepositoriesInput {
+
+    static func urlPathProvider(_ value: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2081,8 +2085,9 @@ extension BatchGetCommitsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetCommitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetCommitsInput {
+
+    static func urlPathProvider(_ value: BatchGetCommitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2222,8 +2227,6 @@ enum BatchGetCommitsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CodeCommitClientTypes.BatchGetRepositoriesError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode
@@ -2333,7 +2336,6 @@ extension CodeCommitClientTypes {
     }
 }
 
->>>>>>> temp-main
 extension BatchGetRepositoriesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repositoryNames
@@ -2350,8 +2352,9 @@ extension BatchGetRepositoriesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetRepositoriesInput {
+
+    static func urlPathProvider(_ value: BatchGetRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2400,10 +2403,7 @@ extension BatchGetRepositoriesOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: BatchGetRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
-<<<<<<< HEAD
-=======
             self.errors = output.errors
->>>>>>> temp-main
             self.repositories = output.repositories
             self.repositoriesNotFound = output.repositoriesNotFound
         } else {
@@ -2416,11 +2416,8 @@ extension BatchGetRepositoriesOutput: ClientRuntime.HttpResponseBinding {
 
 /// Represents the output of a batch get repositories operation.
 public struct BatchGetRepositoriesOutput: Swift.Equatable {
-<<<<<<< HEAD
-=======
     /// Returns information about any errors returned when attempting to retrieve information about the repositories.
     public var errors: [CodeCommitClientTypes.BatchGetRepositoriesError]?
->>>>>>> temp-main
     /// A list of repositories returned by the batch get repositories operation.
     public var repositories: [CodeCommitClientTypes.RepositoryMetadata]?
     /// Returns a list of repository names for which information could not be found.
@@ -2486,24 +2483,6 @@ extension BatchGetRepositoriesOutputBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
-    }
-}
-
-enum BatchGetRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -3227,6 +3206,8 @@ extension ClientRequestTokenRequiredExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum CodeCommitClientTypes {}
 
 extension CodeCommitClientTypes.Comment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4856,8 +4837,9 @@ extension CreateApprovalRuleTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateApprovalRuleTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateApprovalRuleTemplateInput {
+
+    static func urlPathProvider(_ value: CreateApprovalRuleTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5001,8 +4983,9 @@ extension CreateBranchInput: Swift.Encodable {
     }
 }
 
-extension CreateBranchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBranchInput {
+
+    static func urlPathProvider(_ value: CreateBranchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5147,8 +5130,9 @@ extension CreateCommitInput: Swift.Encodable {
     }
 }
 
-extension CreateCommitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCommitInput {
+
+    static func urlPathProvider(_ value: CreateCommitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5458,8 +5442,9 @@ extension CreatePullRequestApprovalRuleInput: Swift.Encodable {
     }
 }
 
-extension CreatePullRequestApprovalRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePullRequestApprovalRuleInput {
+
+    static func urlPathProvider(_ value: CreatePullRequestApprovalRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5619,8 +5604,9 @@ extension CreatePullRequestInput: Swift.Encodable {
     }
 }
 
-extension CreatePullRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePullRequestInput {
+
+    static func urlPathProvider(_ value: CreatePullRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5792,8 +5778,9 @@ extension CreateRepositoryInput: Swift.Encodable {
     }
 }
 
-extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRepositoryInput {
+
+    static func urlPathProvider(_ value: CreateRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5858,47 +5845,6 @@ extension CreateRepositoryInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-    }
-}
-
-extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
-            self.repositoryMetadata = output.repositoryMetadata
-        } else {
-            self.repositoryMetadata = nil
-        }
-    }
-}
-
-/// Represents the output of a create repository operation.
-public struct CreateRepositoryOutput: Swift.Equatable {
-    /// Information about the newly created repository.
-    public var repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
-
-    public init(
-        repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
-    )
-    {
-        self.repositoryMetadata = repositoryMetadata
-    }
-}
-
-struct CreateRepositoryOutputBody: Swift.Equatable {
-    let repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
-}
-
-extension CreateRepositoryOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repositoryMetadata
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryMetadataDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.RepositoryMetadata.self, forKey: .repositoryMetadata)
-        repositoryMetadata = repositoryMetadataDecoded
     }
 }
 
@@ -6022,8 +5968,9 @@ extension CreateUnreferencedMergeCommitInput: Swift.Encodable {
     }
 }
 
-extension CreateUnreferencedMergeCommitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUnreferencedMergeCommitInput {
+
+    static func urlPathProvider(_ value: CreateUnreferencedMergeCommitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6305,8 +6252,9 @@ extension DeleteApprovalRuleTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteApprovalRuleTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApprovalRuleTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteApprovalRuleTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6411,8 +6359,9 @@ extension DeleteBranchInput: Swift.Encodable {
     }
 }
 
-extension DeleteBranchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBranchInput {
+
+    static func urlPathProvider(_ value: DeleteBranchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6531,8 +6480,9 @@ extension DeleteCommentContentInput: Swift.Encodable {
     }
 }
 
-extension DeleteCommentContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCommentContentInput {
+
+    static func urlPathProvider(_ value: DeleteCommentContentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6697,8 +6647,9 @@ extension DeleteFileInput: Swift.Encodable {
     }
 }
 
-extension DeleteFileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFileInput {
+
+    static func urlPathProvider(_ value: DeleteFileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6914,8 +6865,9 @@ extension DeletePullRequestApprovalRuleInput: Swift.Encodable {
     }
 }
 
-extension DeletePullRequestApprovalRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePullRequestApprovalRuleInput {
+
+    static func urlPathProvider(_ value: DeletePullRequestApprovalRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7034,8 +6986,9 @@ extension DeleteRepositoryInput: Swift.Encodable {
     }
 }
 
-extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7173,8 +7126,9 @@ extension DescribeMergeConflictsInput: Swift.Encodable {
     }
 }
 
-extension DescribeMergeConflictsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMergeConflictsInput {
+
+    static func urlPathProvider(_ value: DescribeMergeConflictsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7441,8 +7395,9 @@ extension DescribePullRequestEventsInput: Swift.Encodable {
     }
 }
 
-extension DescribePullRequestEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePullRequestEventsInput {
+
+    static func urlPathProvider(_ value: DescribePullRequestEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7719,8 +7674,9 @@ extension DisassociateApprovalRuleTemplateFromRepositoryInput: Swift.Encodable {
     }
 }
 
-extension DisassociateApprovalRuleTemplateFromRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateApprovalRuleTemplateFromRepositoryInput {
+
+    static func urlPathProvider(_ value: DisassociateApprovalRuleTemplateFromRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8259,8 +8215,9 @@ extension EvaluatePullRequestApprovalRulesInput: Swift.Encodable {
     }
 }
 
-extension EvaluatePullRequestApprovalRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EvaluatePullRequestApprovalRulesInput {
+
+    static func urlPathProvider(_ value: EvaluatePullRequestApprovalRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9480,8 +9437,9 @@ extension GetApprovalRuleTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetApprovalRuleTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApprovalRuleTemplateInput {
+
+    static func urlPathProvider(_ value: GetApprovalRuleTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9586,8 +9544,9 @@ extension GetBlobInput: Swift.Encodable {
     }
 }
 
-extension GetBlobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBlobInput {
+
+    static func urlPathProvider(_ value: GetBlobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9712,8 +9671,9 @@ extension GetBranchInput: Swift.Encodable {
     }
 }
 
-extension GetBranchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBranchInput {
+
+    static func urlPathProvider(_ value: GetBranchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9830,8 +9790,9 @@ extension GetCommentInput: Swift.Encodable {
     }
 }
 
-extension GetCommentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCommentInput {
+
+    static func urlPathProvider(_ value: GetCommentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9949,8 +9910,9 @@ extension GetCommentReactionsInput: Swift.Encodable {
     }
 }
 
-extension GetCommentReactionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCommentReactionsInput {
+
+    static func urlPathProvider(_ value: GetCommentReactionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10114,8 +10076,9 @@ extension GetCommentsForComparedCommitInput: Swift.Encodable {
     }
 }
 
-extension GetCommentsForComparedCommitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCommentsForComparedCommitInput {
+
+    static func urlPathProvider(_ value: GetCommentsForComparedCommitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10297,8 +10260,9 @@ extension GetCommentsForPullRequestInput: Swift.Encodable {
     }
 }
 
-extension GetCommentsForPullRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCommentsForPullRequestInput {
+
+    static func urlPathProvider(_ value: GetCommentsForPullRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10475,8 +10439,9 @@ extension GetCommitInput: Swift.Encodable {
     }
 }
 
-extension GetCommitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCommitInput {
+
+    static func urlPathProvider(_ value: GetCommitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10620,8 +10585,9 @@ extension GetDifferencesInput: Swift.Encodable {
     }
 }
 
-extension GetDifferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDifferencesInput {
+
+    static func urlPathProvider(_ value: GetDifferencesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10810,8 +10776,9 @@ extension GetFileInput: Swift.Encodable {
     }
 }
 
-extension GetFileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFileInput {
+
+    static func urlPathProvider(_ value: GetFileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11003,8 +10970,9 @@ extension GetFolderInput: Swift.Encodable {
     }
 }
 
-extension GetFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFolderInput {
+
+    static func urlPathProvider(_ value: GetFolderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11245,8 +11213,9 @@ extension GetMergeCommitInput: Swift.Encodable {
     }
 }
 
-extension GetMergeCommitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMergeCommitInput {
+
+    static func urlPathProvider(_ value: GetMergeCommitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11448,8 +11417,9 @@ extension GetMergeConflictsInput: Swift.Encodable {
     }
 }
 
-extension GetMergeConflictsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMergeConflictsInput {
+
+    static func urlPathProvider(_ value: GetMergeConflictsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11706,8 +11676,9 @@ extension GetMergeOptionsInput: Swift.Encodable {
     }
 }
 
-extension GetMergeOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMergeOptionsInput {
+
+    static func urlPathProvider(_ value: GetMergeOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11901,8 +11872,9 @@ extension GetPullRequestApprovalStatesInput: Swift.Encodable {
     }
 }
 
-extension GetPullRequestApprovalStatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPullRequestApprovalStatesInput {
+
+    static func urlPathProvider(_ value: GetPullRequestApprovalStatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12027,8 +11999,9 @@ extension GetPullRequestInput: Swift.Encodable {
     }
 }
 
-extension GetPullRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPullRequestInput {
+
+    static func urlPathProvider(_ value: GetPullRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12138,8 +12111,9 @@ extension GetPullRequestOverrideStateInput: Swift.Encodable {
     }
 }
 
-extension GetPullRequestOverrideStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPullRequestOverrideStateInput {
+
+    static func urlPathProvider(_ value: GetPullRequestOverrideStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12265,8 +12239,9 @@ extension GetRepositoryInput: Swift.Encodable {
     }
 }
 
-extension GetRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryInput {
+
+    static func urlPathProvider(_ value: GetRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12373,8 +12348,9 @@ extension GetRepositoryTriggersInput: Swift.Encodable {
     }
 }
 
-extension GetRepositoryTriggersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryTriggersInput {
+
+    static func urlPathProvider(_ value: GetRepositoryTriggersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16143,8 +16119,9 @@ extension ListApprovalRuleTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListApprovalRuleTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApprovalRuleTemplatesInput {
+
+    static func urlPathProvider(_ value: ListApprovalRuleTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16277,8 +16254,9 @@ extension ListAssociatedApprovalRuleTemplatesForRepositoryInput: Swift.Encodable
     }
 }
 
-extension ListAssociatedApprovalRuleTemplatesForRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssociatedApprovalRuleTemplatesForRepositoryInput {
+
+    static func urlPathProvider(_ value: ListAssociatedApprovalRuleTemplatesForRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16424,8 +16402,9 @@ extension ListBranchesInput: Swift.Encodable {
     }
 }
 
-extension ListBranchesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBranchesInput {
+
+    static func urlPathProvider(_ value: ListBranchesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16576,8 +16555,9 @@ extension ListFileCommitHistoryInput: Swift.Encodable {
     }
 }
 
-extension ListFileCommitHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFileCommitHistoryInput {
+
+    static func urlPathProvider(_ value: ListFileCommitHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16757,8 +16737,9 @@ extension ListPullRequestsInput: Swift.Encodable {
     }
 }
 
-extension ListPullRequestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPullRequestsInput {
+
+    static func urlPathProvider(_ value: ListPullRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16928,8 +16909,9 @@ extension ListRepositoriesForApprovalRuleTemplateInput: Swift.Encodable {
     }
 }
 
-extension ListRepositoriesForApprovalRuleTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRepositoriesForApprovalRuleTemplateInput {
+
+    static func urlPathProvider(_ value: ListRepositoriesForApprovalRuleTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17079,8 +17061,9 @@ extension ListRepositoriesInput: Swift.Encodable {
     }
 }
 
-extension ListRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRepositoriesInput {
+
+    static func urlPathProvider(_ value: ListRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17220,8 +17203,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18032,8 +18016,9 @@ extension MergeBranchesByFastForwardInput: Swift.Encodable {
     }
 }
 
-extension MergeBranchesByFastForwardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergeBranchesByFastForwardInput {
+
+    static func urlPathProvider(_ value: MergeBranchesByFastForwardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18225,8 +18210,9 @@ extension MergeBranchesBySquashInput: Swift.Encodable {
     }
 }
 
-extension MergeBranchesBySquashInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergeBranchesBySquashInput {
+
+    static func urlPathProvider(_ value: MergeBranchesBySquashInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18494,8 +18480,9 @@ extension MergeBranchesByThreeWayInput: Swift.Encodable {
     }
 }
 
-extension MergeBranchesByThreeWayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergeBranchesByThreeWayInput {
+
+    static func urlPathProvider(_ value: MergeBranchesByThreeWayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19052,8 +19039,9 @@ extension MergePullRequestByFastForwardInput: Swift.Encodable {
     }
 }
 
-extension MergePullRequestByFastForwardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergePullRequestByFastForwardInput {
+
+    static func urlPathProvider(_ value: MergePullRequestByFastForwardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19222,8 +19210,9 @@ extension MergePullRequestBySquashInput: Swift.Encodable {
     }
 }
 
-extension MergePullRequestBySquashInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergePullRequestBySquashInput {
+
+    static func urlPathProvider(_ value: MergePullRequestBySquashInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19467,8 +19456,9 @@ extension MergePullRequestByThreeWayInput: Swift.Encodable {
     }
 }
 
-extension MergePullRequestByThreeWayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergePullRequestByThreeWayInput {
+
+    static func urlPathProvider(_ value: MergePullRequestByThreeWayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20246,8 +20236,9 @@ extension OverridePullRequestApprovalRulesInput: Swift.Encodable {
     }
 }
 
-extension OverridePullRequestApprovalRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension OverridePullRequestApprovalRulesInput {
+
+    static func urlPathProvider(_ value: OverridePullRequestApprovalRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20735,8 +20726,9 @@ extension PostCommentForComparedCommitInput: Swift.Encodable {
     }
 }
 
-extension PostCommentForComparedCommitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PostCommentForComparedCommitInput {
+
+    static func urlPathProvider(_ value: PostCommentForComparedCommitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20982,8 +20974,9 @@ extension PostCommentForPullRequestInput: Swift.Encodable {
     }
 }
 
-extension PostCommentForPullRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PostCommentForPullRequestInput {
+
+    static func urlPathProvider(_ value: PostCommentForPullRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21237,8 +21230,9 @@ extension PostCommentReplyInput: Swift.Encodable {
     }
 }
 
-extension PostCommentReplyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PostCommentReplyInput {
+
+    static func urlPathProvider(_ value: PostCommentReplyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22394,8 +22388,9 @@ extension PutCommentReactionInput: Swift.Encodable {
     }
 }
 
-extension PutCommentReactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutCommentReactionInput {
+
+    static func urlPathProvider(_ value: PutCommentReactionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22632,8 +22627,9 @@ extension PutFileInput: Swift.Encodable {
     }
 }
 
-extension PutFileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutFileInput {
+
+    static func urlPathProvider(_ value: PutFileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22857,8 +22853,9 @@ extension PutRepositoryTriggersInput: Swift.Encodable {
     }
 }
 
-extension PutRepositoryTriggersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRepositoryTriggersInput {
+
+    static func urlPathProvider(_ value: PutRepositoryTriggersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25440,8 +25437,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25767,8 +25765,9 @@ extension TestRepositoryTriggersInput: Swift.Encodable {
     }
 }
 
-extension TestRepositoryTriggersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestRepositoryTriggersInput {
+
+    static func urlPathProvider(_ value: TestRepositoryTriggersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26165,8 +26164,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26268,8 +26268,9 @@ extension UpdateApprovalRuleTemplateContentInput: Swift.Encodable {
     }
 }
 
-extension UpdateApprovalRuleTemplateContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApprovalRuleTemplateContentInput {
+
+    static func urlPathProvider(_ value: UpdateApprovalRuleTemplateContentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26394,8 +26395,9 @@ extension UpdateApprovalRuleTemplateDescriptionInput: Swift.Encodable {
     }
 }
 
-extension UpdateApprovalRuleTemplateDescriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApprovalRuleTemplateDescriptionInput {
+
+    static func urlPathProvider(_ value: UpdateApprovalRuleTemplateDescriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26510,8 +26512,9 @@ extension UpdateApprovalRuleTemplateNameInput: Swift.Encodable {
     }
 }
 
-extension UpdateApprovalRuleTemplateNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApprovalRuleTemplateNameInput {
+
+    static func urlPathProvider(_ value: UpdateApprovalRuleTemplateNameInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26626,8 +26629,9 @@ extension UpdateCommentInput: Swift.Encodable {
     }
 }
 
-extension UpdateCommentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCommentInput {
+
+    static func urlPathProvider(_ value: UpdateCommentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26744,8 +26748,9 @@ extension UpdateDefaultBranchInput: Swift.Encodable {
     }
 }
 
-extension UpdateDefaultBranchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDefaultBranchInput {
+
+    static func urlPathProvider(_ value: UpdateDefaultBranchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26845,8 +26850,9 @@ extension UpdatePullRequestApprovalRuleContentInput: Swift.Encodable {
     }
 }
 
-extension UpdatePullRequestApprovalRuleContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePullRequestApprovalRuleContentInput {
+
+    static func urlPathProvider(_ value: UpdatePullRequestApprovalRuleContentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27008,8 +27014,9 @@ extension UpdatePullRequestApprovalStateInput: Swift.Encodable {
     }
 }
 
-extension UpdatePullRequestApprovalStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePullRequestApprovalStateInput {
+
+    static func urlPathProvider(_ value: UpdatePullRequestApprovalStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27114,8 +27121,9 @@ extension UpdatePullRequestDescriptionInput: Swift.Encodable {
     }
 }
 
-extension UpdatePullRequestDescriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePullRequestDescriptionInput {
+
+    static func urlPathProvider(_ value: UpdatePullRequestDescriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27231,8 +27239,9 @@ extension UpdatePullRequestStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdatePullRequestStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePullRequestStatusInput {
+
+    static func urlPathProvider(_ value: UpdatePullRequestStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27354,8 +27363,9 @@ extension UpdatePullRequestTitleInput: Swift.Encodable {
     }
 }
 
-extension UpdatePullRequestTitleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePullRequestTitleInput {
+
+    static func urlPathProvider(_ value: UpdatePullRequestTitleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27472,8 +27482,9 @@ extension UpdateRepositoryDescriptionInput: Swift.Encodable {
     }
 }
 
-extension UpdateRepositoryDescriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRepositoryDescriptionInput {
+
+    static func urlPathProvider(_ value: UpdateRepositoryDescriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27545,8 +27556,6 @@ enum UpdateRepositoryDescriptionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateRepositoryEncryptionKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
@@ -27564,8 +27573,9 @@ extension UpdateRepositoryEncryptionKeyInput: Swift.Encodable {
     }
 }
 
-extension UpdateRepositoryEncryptionKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRepositoryEncryptionKeyInput {
+
+    static func urlPathProvider(_ value: UpdateRepositoryEncryptionKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27689,7 +27699,6 @@ enum UpdateRepositoryEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> temp-main
 extension UpdateRepositoryNameInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case newName
@@ -27707,8 +27716,9 @@ extension UpdateRepositoryNameInput: Swift.Encodable {
     }
 }
 
-extension UpdateRepositoryNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRepositoryNameInput {
+
+    static func urlPathProvider(_ value: UpdateRepositoryNameInput) -> Swift.String? {
         return "/"
     }
 }

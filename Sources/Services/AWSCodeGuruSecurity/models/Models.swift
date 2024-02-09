@@ -282,8 +282,9 @@ extension BatchGetFindingsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetFindingsInput {
+
+    static func urlPathProvider(_ value: BatchGetFindingsInput) -> Swift.String? {
         return "/batchGetFindings"
     }
 }
@@ -454,6 +455,8 @@ extension CodeGuruSecurityClientTypes {
     }
 
 }
+
+public enum CodeGuruSecurityClientTypes {}
 
 extension CodeGuruSecurityClientTypes.CodeLine: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -626,8 +629,9 @@ extension CreateScanInput: Swift.Encodable {
     }
 }
 
-extension CreateScanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateScanInput {
+
+    static func urlPathProvider(_ value: CreateScanInput) -> Swift.String? {
         return "/scans"
     }
 }
@@ -828,8 +832,9 @@ extension CreateUploadUrlInput: Swift.Encodable {
     }
 }
 
-extension CreateUploadUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUploadUrlInput {
+
+    static func urlPathProvider(_ value: CreateUploadUrlInput) -> Swift.String? {
         return "/uploadUrl"
     }
 }
@@ -1436,8 +1441,9 @@ extension CodeGuruSecurityClientTypes {
 
 }
 
-extension GetAccountConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountConfigurationInput {
+
+    static func urlPathProvider(_ value: GetAccountConfigurationInput) -> Swift.String? {
         return "/accountConfiguration/get"
     }
 }
@@ -1511,30 +1517,30 @@ enum GetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetFindingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension GetFindingsInput {
+
+    static func queryItemProvider(_ value: GetFindingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension GetFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let scanName = scanName else {
+extension GetFindingsInput {
+
+    static func urlPathProvider(_ value: GetFindingsInput) -> Swift.String? {
+        guard let scanName = value.scanName else {
             return nil
         }
         return "/findings/\(scanName.urlPercentEncoding())"
@@ -1650,23 +1656,23 @@ enum GetFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMetricsSummaryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let date = date else {
-                let message = "Creating a URL Query Item failed. date is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let dateQueryItem = ClientRuntime.URLQueryItem(name: "date".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: date)).urlPercentEncoding())
-            items.append(dateQueryItem)
-            return items
+extension GetMetricsSummaryInput {
+
+    static func queryItemProvider(_ value: GetMetricsSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let date = value.date else {
+            let message = "Creating a URL Query Item failed. date is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let dateQueryItem = ClientRuntime.SDKURLQueryItem(name: "date".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: date)).urlPercentEncoding())
+        items.append(dateQueryItem)
+        return items
     }
 }
 
-extension GetMetricsSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMetricsSummaryInput {
+
+    static func urlPathProvider(_ value: GetMetricsSummaryInput) -> Swift.String? {
         return "/metrics/summary"
     }
 }
@@ -1747,22 +1753,22 @@ enum GetMetricsSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetScanInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let runId = runId {
-                let runIdQueryItem = ClientRuntime.URLQueryItem(name: "runId".urlPercentEncoding(), value: Swift.String(runId).urlPercentEncoding())
-                items.append(runIdQueryItem)
-            }
-            return items
+extension GetScanInput {
+
+    static func queryItemProvider(_ value: GetScanInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let runId = value.runId {
+            let runIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "runId".urlPercentEncoding(), value: Swift.String(runId).urlPercentEncoding())
+            items.append(runIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetScanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let scanName = scanName else {
+extension GetScanInput {
+
+    static func urlPathProvider(_ value: GetScanInput) -> Swift.String? {
+        guard let scanName = value.scanName else {
             return nil
         }
         return "/scans/\(scanName.urlPercentEncoding())"
@@ -1990,37 +1996,37 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListFindingsMetricsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let endDate = endDate else {
-                let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endDateQueryItem = ClientRuntime.URLQueryItem(name: "endDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
-            items.append(endDateQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let startDate = startDate else {
-                let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let startDateQueryItem = ClientRuntime.URLQueryItem(name: "startDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
-            items.append(startDateQueryItem)
-            return items
+extension ListFindingsMetricsInput {
+
+    static func queryItemProvider(_ value: ListFindingsMetricsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let endDate = value.endDate else {
+            let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let endDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "endDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
+        items.append(endDateQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let startDate = value.startDate else {
+            let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let startDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "startDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
+        items.append(startDateQueryItem)
+        return items
     }
 }
 
-extension ListFindingsMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingsMetricsInput {
+
+    static func urlPathProvider(_ value: ListFindingsMetricsInput) -> Swift.String? {
         return "/metrics/findings"
     }
 }
@@ -2133,25 +2139,25 @@ enum ListFindingsMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListScansInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListScansInput {
+
+    static func queryItemProvider(_ value: ListScansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListScansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListScansInput {
+
+    static func urlPathProvider(_ value: ListScansInput) -> Swift.String? {
         return "/scans"
     }
 }
@@ -2254,9 +2260,10 @@ enum ListScansOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3077,9 +3084,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3247,26 +3255,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3339,8 +3347,9 @@ extension UpdateAccountConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAccountConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAccountConfigurationInput) -> Swift.String? {
         return "/updateAccountConfiguration"
     }
 }

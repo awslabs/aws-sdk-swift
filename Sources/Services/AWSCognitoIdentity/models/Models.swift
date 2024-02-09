@@ -34,6 +34,8 @@ extension CognitoIdentityClientTypes {
     }
 }
 
+public enum CognitoIdentityClientTypes {}
+
 extension CognitoIdentityClientTypes.CognitoIdentityProvider: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientId = "ClientId"
@@ -205,8 +207,9 @@ extension CreateIdentityPoolInput: Swift.Encodable {
     }
 }
 
-extension CreateIdentityPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIdentityPoolInput {
+
+    static func urlPathProvider(_ value: CreateIdentityPoolInput) -> Swift.String? {
         return "/"
     }
 }
@@ -627,8 +630,9 @@ extension DeleteIdentitiesInput: Swift.Encodable {
     }
 }
 
-extension DeleteIdentitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIdentitiesInput {
+
+    static func urlPathProvider(_ value: DeleteIdentitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -748,8 +752,9 @@ extension DeleteIdentityPoolInput: Swift.Encodable {
     }
 }
 
-extension DeleteIdentityPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIdentityPoolInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityPoolInput) -> Swift.String? {
         return "/"
     }
 }
@@ -822,8 +827,9 @@ extension DescribeIdentityInput: Swift.Encodable {
     }
 }
 
-extension DescribeIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeIdentityInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -966,8 +972,9 @@ extension DescribeIdentityPoolInput: Swift.Encodable {
     }
 }
 
-extension DescribeIdentityPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeIdentityPoolInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityPoolInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1364,8 +1371,9 @@ extension GetCredentialsForIdentityInput: Swift.Encodable {
     }
 }
 
-extension GetCredentialsForIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCredentialsForIdentityInput {
+
+    static func urlPathProvider(_ value: GetCredentialsForIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1518,8 +1526,9 @@ extension GetIdInput: Swift.Encodable {
     }
 }
 
-extension GetIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdInput {
+
+    static func urlPathProvider(_ value: GetIdInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1663,8 +1672,9 @@ extension GetIdentityPoolRolesInput: Swift.Encodable {
     }
 }
 
-extension GetIdentityPoolRolesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentityPoolRolesInput {
+
+    static func urlPathProvider(_ value: GetIdentityPoolRolesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1829,8 +1839,9 @@ extension GetOpenIdTokenForDeveloperIdentityInput: Swift.Encodable {
     }
 }
 
-extension GetOpenIdTokenForDeveloperIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOpenIdTokenForDeveloperIdentityInput {
+
+    static func urlPathProvider(_ value: GetOpenIdTokenForDeveloperIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2004,8 +2015,9 @@ extension GetOpenIdTokenInput: Swift.Encodable {
     }
 }
 
-extension GetOpenIdTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOpenIdTokenInput {
+
+    static func urlPathProvider(_ value: GetOpenIdTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2142,8 +2154,9 @@ extension GetPrincipalTagAttributeMapInput: Swift.Encodable {
     }
 }
 
-extension GetPrincipalTagAttributeMapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPrincipalTagAttributeMapInput {
+
+    static func urlPathProvider(_ value: GetPrincipalTagAttributeMapInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2651,8 +2664,9 @@ extension ListIdentitiesInput: Swift.Encodable {
     }
 }
 
-extension ListIdentitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentitiesInput {
+
+    static func urlPathProvider(_ value: ListIdentitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2814,8 +2828,9 @@ extension ListIdentityPoolsInput: Swift.Encodable {
     }
 }
 
-extension ListIdentityPoolsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentityPoolsInput {
+
+    static func urlPathProvider(_ value: ListIdentityPoolsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2946,8 +2961,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3074,8 +3090,9 @@ extension LookupDeveloperIdentityInput: Swift.Encodable {
     }
 }
 
-extension LookupDeveloperIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension LookupDeveloperIdentityInput {
+
+    static func urlPathProvider(_ value: LookupDeveloperIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3360,8 +3377,9 @@ extension MergeDeveloperIdentitiesInput: Swift.Encodable {
     }
 }
 
-extension MergeDeveloperIdentitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergeDeveloperIdentitiesInput {
+
+    static func urlPathProvider(_ value: MergeDeveloperIdentitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3811,8 +3829,9 @@ extension SetIdentityPoolRolesInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityPoolRolesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetIdentityPoolRolesInput {
+
+    static func urlPathProvider(_ value: SetIdentityPoolRolesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3937,8 +3956,9 @@ extension SetPrincipalTagAttributeMapInput: Swift.Encodable {
     }
 }
 
-extension SetPrincipalTagAttributeMapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetPrincipalTagAttributeMapInput {
+
+    static func urlPathProvider(_ value: SetPrincipalTagAttributeMapInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4120,8 +4140,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4279,8 +4300,9 @@ extension UnlinkDeveloperIdentityInput: Swift.Encodable {
     }
 }
 
-extension UnlinkDeveloperIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UnlinkDeveloperIdentityInput {
+
+    static func urlPathProvider(_ value: UnlinkDeveloperIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4395,8 +4417,9 @@ extension UnlinkIdentityInput: Swift.Encodable {
     }
 }
 
-extension UnlinkIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UnlinkIdentityInput {
+
+    static func urlPathProvider(_ value: UnlinkIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4559,8 +4582,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4701,8 +4725,9 @@ extension UpdateIdentityPoolInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdentityPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIdentityPoolInput {
+
+    static func urlPathProvider(_ value: UpdateIdentityPoolInput) -> Swift.String? {
         return "/"
     }
 }

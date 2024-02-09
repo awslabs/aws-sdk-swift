@@ -2,6 +2,8 @@
 import AWSClientRuntime
 import ClientRuntime
 
+public enum BCMDataExportsClientTypes {}
+
 extension BCMDataExportsClientTypes.Column: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -109,8 +111,9 @@ extension CreateExportInput: Swift.Encodable {
     }
 }
 
-extension CreateExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExportInput {
+
+    static func urlPathProvider(_ value: CreateExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -296,8 +299,9 @@ extension DeleteExportInput: Swift.Encodable {
     }
 }
 
-extension DeleteExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteExportInput {
+
+    static func urlPathProvider(_ value: DeleteExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -957,8 +961,9 @@ extension GetExecutionInput: Swift.Encodable {
     }
 }
 
-extension GetExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetExecutionInput {
+
+    static func urlPathProvider(_ value: GetExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1088,8 +1093,9 @@ extension GetExportInput: Swift.Encodable {
     }
 }
 
-extension GetExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetExportInput {
+
+    static func urlPathProvider(_ value: GetExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1207,8 +1213,9 @@ extension GetTableInput: Swift.Encodable {
     }
 }
 
-extension GetTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableInput {
+
+    static func urlPathProvider(_ value: GetTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1437,8 +1444,9 @@ extension ListExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExecutionsInput {
+
+    static func urlPathProvider(_ value: ListExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1578,8 +1586,9 @@ extension ListExportsInput: Swift.Encodable {
     }
 }
 
-extension ListExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExportsInput {
+
+    static func urlPathProvider(_ value: ListExportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1709,8 +1718,9 @@ extension ListTablesInput: Swift.Encodable {
     }
 }
 
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTablesInput {
+
+    static func urlPathProvider(_ value: ListTablesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1844,8 +1854,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2590,8 +2601,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2763,8 +2775,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2857,8 +2870,9 @@ extension UpdateExportInput: Swift.Encodable {
     }
 }
 
-extension UpdateExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateExportInput {
+
+    static func urlPathProvider(_ value: UpdateExportInput) -> Swift.String? {
         return "/"
     }
 }

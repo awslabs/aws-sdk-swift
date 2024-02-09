@@ -535,8 +535,9 @@ extension BatchDescribeEntitiesInput: Swift.Encodable {
     }
 }
 
-extension BatchDescribeEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDescribeEntitiesInput {
+
+    static func urlPathProvider(_ value: BatchDescribeEntitiesInput) -> Swift.String? {
         return "/BatchDescribeEntities"
     }
 }
@@ -706,29 +707,29 @@ extension MarketplaceCatalogClientTypes {
 
 }
 
-extension CancelChangeSetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let changeSetId = changeSetId else {
-                let message = "Creating a URL Query Item failed. changeSetId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let changeSetIdQueryItem = ClientRuntime.URLQueryItem(name: "changeSetId".urlPercentEncoding(), value: Swift.String(changeSetId).urlPercentEncoding())
-            items.append(changeSetIdQueryItem)
-            guard let catalog = catalog else {
-                let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let catalogQueryItem = ClientRuntime.URLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
-            items.append(catalogQueryItem)
-            return items
+extension CancelChangeSetInput {
+
+    static func queryItemProvider(_ value: CancelChangeSetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let changeSetId = value.changeSetId else {
+            let message = "Creating a URL Query Item failed. changeSetId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let changeSetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "changeSetId".urlPercentEncoding(), value: Swift.String(changeSetId).urlPercentEncoding())
+        items.append(changeSetIdQueryItem)
+        guard let catalog = value.catalog else {
+            let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let catalogQueryItem = ClientRuntime.SDKURLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
+        items.append(catalogQueryItem)
+        return items
     }
 }
 
-extension CancelChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelChangeSetInput {
+
+    static func urlPathProvider(_ value: CancelChangeSetInput) -> Swift.String? {
         return "/CancelChangeSet"
     }
 }
@@ -2107,23 +2108,23 @@ extension MarketplaceCatalogClientTypes {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/DeleteResourcePolicy"
     }
 }
@@ -2175,29 +2176,29 @@ enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeChangeSetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let changeSetId = changeSetId else {
-                let message = "Creating a URL Query Item failed. changeSetId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let changeSetIdQueryItem = ClientRuntime.URLQueryItem(name: "changeSetId".urlPercentEncoding(), value: Swift.String(changeSetId).urlPercentEncoding())
-            items.append(changeSetIdQueryItem)
-            guard let catalog = catalog else {
-                let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let catalogQueryItem = ClientRuntime.URLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
-            items.append(catalogQueryItem)
-            return items
+extension DescribeChangeSetInput {
+
+    static func queryItemProvider(_ value: DescribeChangeSetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let changeSetId = value.changeSetId else {
+            let message = "Creating a URL Query Item failed. changeSetId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let changeSetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "changeSetId".urlPercentEncoding(), value: Swift.String(changeSetId).urlPercentEncoding())
+        items.append(changeSetIdQueryItem)
+        guard let catalog = value.catalog else {
+            let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let catalogQueryItem = ClientRuntime.SDKURLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
+        items.append(catalogQueryItem)
+        return items
     }
 }
 
-extension DescribeChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeChangeSetInput {
+
+    static func urlPathProvider(_ value: DescribeChangeSetInput) -> Swift.String? {
         return "/DescribeChangeSet"
     }
 }
@@ -2373,29 +2374,29 @@ enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeEntityInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let entityId = entityId else {
-                let message = "Creating a URL Query Item failed. entityId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let entityIdQueryItem = ClientRuntime.URLQueryItem(name: "entityId".urlPercentEncoding(), value: Swift.String(entityId).urlPercentEncoding())
-            items.append(entityIdQueryItem)
-            guard let catalog = catalog else {
-                let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let catalogQueryItem = ClientRuntime.URLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
-            items.append(catalogQueryItem)
-            return items
+extension DescribeEntityInput {
+
+    static func queryItemProvider(_ value: DescribeEntityInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let entityId = value.entityId else {
+            let message = "Creating a URL Query Item failed. entityId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let entityIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "entityId".urlPercentEncoding(), value: Swift.String(entityId).urlPercentEncoding())
+        items.append(entityIdQueryItem)
+        guard let catalog = value.catalog else {
+            let message = "Creating a URL Query Item failed. catalog is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let catalogQueryItem = ClientRuntime.SDKURLQueryItem(name: "catalog".urlPercentEncoding(), value: Swift.String(catalog).urlPercentEncoding())
+        items.append(catalogQueryItem)
+        return items
     }
 }
 
-extension DescribeEntityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEntityInput {
+
+    static func urlPathProvider(_ value: DescribeEntityInput) -> Swift.String? {
         return "/DescribeEntity"
     }
 }
@@ -3168,23 +3169,23 @@ extension MarketplaceCatalogClientTypes {
 
 }
 
-extension GetResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension GetResourcePolicyInput {
+
+    static func queryItemProvider(_ value: GetResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/GetResourcePolicy"
     }
 }
@@ -3353,8 +3354,9 @@ extension ListChangeSetsInput: Swift.Encodable {
     }
 }
 
-extension ListChangeSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChangeSetsInput {
+
+    static func urlPathProvider(_ value: ListChangeSetsInput) -> Swift.String? {
         return "/ListChangeSets"
     }
 }
@@ -3550,8 +3552,9 @@ extension ListEntitiesInput: Swift.Encodable {
     }
 }
 
-extension ListEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEntitiesInput {
+
+    static func urlPathProvider(_ value: ListEntitiesInput) -> Swift.String? {
         return "/ListEntities"
     }
 }
@@ -3746,8 +3749,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/ListTagsForResource"
     }
 }
@@ -3854,6 +3858,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum MarketplaceCatalogClientTypes {}
 
 extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4826,8 +4832,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/PutResourcePolicy"
     }
 }
@@ -6948,8 +6955,9 @@ extension StartChangeSetInput: Swift.Encodable {
     }
 }
 
-extension StartChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartChangeSetInput {
+
+    static func urlPathProvider(_ value: StartChangeSetInput) -> Swift.String? {
         return "/StartChangeSet"
     }
 }
@@ -7168,8 +7176,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/TagResource"
     }
 }
@@ -7321,8 +7330,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/UntagResource"
     }
 }

@@ -158,8 +158,9 @@ extension BatchDetectDominantLanguageInput: Swift.Encodable {
     }
 }
 
-extension BatchDetectDominantLanguageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDetectDominantLanguageInput {
+
+    static func urlPathProvider(_ value: BatchDetectDominantLanguageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -374,8 +375,9 @@ extension BatchDetectEntitiesInput: Swift.Encodable {
     }
 }
 
-extension BatchDetectEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDetectEntitiesInput {
+
+    static func urlPathProvider(_ value: BatchDetectEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -600,8 +602,9 @@ extension BatchDetectKeyPhrasesInput: Swift.Encodable {
     }
 }
 
-extension BatchDetectKeyPhrasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDetectKeyPhrasesInput {
+
+    static func urlPathProvider(_ value: BatchDetectKeyPhrasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -826,8 +829,9 @@ extension BatchDetectSentimentInput: Swift.Encodable {
     }
 }
 
-extension BatchDetectSentimentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDetectSentimentInput {
+
+    static func urlPathProvider(_ value: BatchDetectSentimentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1050,8 +1054,9 @@ extension BatchDetectSyntaxInput: Swift.Encodable {
     }
 }
 
-extension BatchDetectSyntaxInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDetectSyntaxInput {
+
+    static func urlPathProvider(_ value: BatchDetectSyntaxInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1276,8 +1281,9 @@ extension BatchDetectTargetedSentimentInput: Swift.Encodable {
     }
 }
 
-extension BatchDetectTargetedSentimentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDetectTargetedSentimentInput {
+
+    static func urlPathProvider(_ value: BatchDetectTargetedSentimentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2123,8 +2129,9 @@ extension ClassifyDocumentInput: Swift.Encodable {
     }
 }
 
-extension ClassifyDocumentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ClassifyDocumentInput {
+
+    static func urlPathProvider(_ value: ClassifyDocumentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2337,6 +2344,8 @@ enum ClassifyDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum ComprehendClientTypes {}
+
 extension ConcurrentModificationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2409,8 +2418,9 @@ extension ContainsPiiEntitiesInput: Swift.Encodable {
     }
 }
 
-extension ContainsPiiEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ContainsPiiEntitiesInput {
+
+    static func urlPathProvider(_ value: ContainsPiiEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2556,8 +2566,9 @@ extension CreateDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2771,8 +2782,9 @@ extension CreateDocumentClassifierInput: Swift.Encodable {
     }
 }
 
-extension CreateDocumentClassifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDocumentClassifierInput {
+
+    static func urlPathProvider(_ value: CreateDocumentClassifierInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3020,8 +3032,9 @@ extension CreateEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEndpointInput {
+
+    static func urlPathProvider(_ value: CreateEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3237,8 +3250,9 @@ extension CreateEntityRecognizerInput: Swift.Encodable {
     }
 }
 
-extension CreateEntityRecognizerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEntityRecognizerInput {
+
+    static func urlPathProvider(_ value: CreateEntityRecognizerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3478,8 +3492,9 @@ extension CreateFlywheelInput: Swift.Encodable {
     }
 }
 
-extension CreateFlywheelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFlywheelInput {
+
+    static func urlPathProvider(_ value: CreateFlywheelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4415,8 +4430,9 @@ extension DeleteDocumentClassifierInput: Swift.Encodable {
     }
 }
 
-extension DeleteDocumentClassifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDocumentClassifierInput {
+
+    static func urlPathProvider(_ value: DeleteDocumentClassifierInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4489,8 +4505,9 @@ extension DeleteEndpointInput: Swift.Encodable {
     }
 }
 
-extension DeleteEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4562,8 +4579,9 @@ extension DeleteEntityRecognizerInput: Swift.Encodable {
     }
 }
 
-extension DeleteEntityRecognizerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEntityRecognizerInput {
+
+    static func urlPathProvider(_ value: DeleteEntityRecognizerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4636,8 +4654,9 @@ extension DeleteFlywheelInput: Swift.Encodable {
     }
 }
 
-extension DeleteFlywheelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFlywheelInput {
+
+    static func urlPathProvider(_ value: DeleteFlywheelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4714,8 +4733,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4793,8 +4813,9 @@ extension DescribeDatasetInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4895,8 +4916,9 @@ extension DescribeDocumentClassificationJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDocumentClassificationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDocumentClassificationJobInput {
+
+    static func urlPathProvider(_ value: DescribeDocumentClassificationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4997,8 +5019,9 @@ extension DescribeDocumentClassifierInput: Swift.Encodable {
     }
 }
 
-extension DescribeDocumentClassifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDocumentClassifierInput {
+
+    static func urlPathProvider(_ value: DescribeDocumentClassifierInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5099,8 +5122,9 @@ extension DescribeDominantLanguageDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDominantLanguageDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDominantLanguageDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeDominantLanguageDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5201,8 +5225,9 @@ extension DescribeEndpointInput: Swift.Encodable {
     }
 }
 
-extension DescribeEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEndpointInput {
+
+    static func urlPathProvider(_ value: DescribeEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5303,8 +5328,9 @@ extension DescribeEntitiesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEntitiesDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeEntitiesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5405,8 +5431,9 @@ extension DescribeEntityRecognizerInput: Swift.Encodable {
     }
 }
 
-extension DescribeEntityRecognizerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEntityRecognizerInput {
+
+    static func urlPathProvider(_ value: DescribeEntityRecognizerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5507,8 +5534,9 @@ extension DescribeEventsDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventsDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventsDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeEventsDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5609,8 +5637,9 @@ extension DescribeFlywheelInput: Swift.Encodable {
     }
 }
 
-extension DescribeFlywheelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFlywheelInput {
+
+    static func urlPathProvider(_ value: DescribeFlywheelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5661,8 +5690,9 @@ extension DescribeFlywheelIterationInput: Swift.Encodable {
     }
 }
 
-extension DescribeFlywheelIterationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFlywheelIterationInput {
+
+    static func urlPathProvider(_ value: DescribeFlywheelIterationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5826,8 +5856,9 @@ extension DescribeKeyPhrasesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeKeyPhrasesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeKeyPhrasesDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeKeyPhrasesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5928,8 +5959,9 @@ extension DescribePiiEntitiesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribePiiEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePiiEntitiesDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribePiiEntitiesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6030,8 +6062,9 @@ extension DescribeResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DescribeResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DescribeResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6161,8 +6194,9 @@ extension DescribeSentimentDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSentimentDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeSentimentDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6263,8 +6297,9 @@ extension DescribeTargetedSentimentDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeTargetedSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTargetedSentimentDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeTargetedSentimentDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6365,8 +6400,9 @@ extension DescribeTopicsDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeTopicsDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTopicsDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribeTopicsDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6472,8 +6508,9 @@ extension DetectDominantLanguageInput: Swift.Encodable {
     }
 }
 
-extension DetectDominantLanguageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectDominantLanguageInput {
+
+    static func urlPathProvider(_ value: DetectDominantLanguageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6609,8 +6646,9 @@ extension DetectEntitiesInput: Swift.Encodable {
     }
 }
 
-extension DetectEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectEntitiesInput {
+
+    static func urlPathProvider(_ value: DetectEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6834,8 +6872,9 @@ extension DetectKeyPhrasesInput: Swift.Encodable {
     }
 }
 
-extension DetectKeyPhrasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectKeyPhrasesInput {
+
+    static func urlPathProvider(_ value: DetectKeyPhrasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6964,8 +7003,9 @@ extension DetectPiiEntitiesInput: Swift.Encodable {
     }
 }
 
-extension DetectPiiEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectPiiEntitiesInput {
+
+    static func urlPathProvider(_ value: DetectPiiEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7093,8 +7133,9 @@ extension DetectSentimentInput: Swift.Encodable {
     }
 }
 
-extension DetectSentimentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectSentimentInput {
+
+    static func urlPathProvider(_ value: DetectSentimentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7229,8 +7270,9 @@ extension DetectSyntaxInput: Swift.Encodable {
     }
 }
 
-extension DetectSyntaxInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectSyntaxInput {
+
+    static func urlPathProvider(_ value: DetectSyntaxInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7364,8 +7406,9 @@ extension DetectTargetedSentimentInput: Swift.Encodable {
     }
 }
 
-extension DetectTargetedSentimentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectTargetedSentimentInput {
+
+    static func urlPathProvider(_ value: DetectTargetedSentimentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7502,8 +7545,9 @@ extension DetectToxicContentInput: Swift.Encodable {
     }
 }
 
-extension DetectToxicContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectToxicContentInput {
+
+    static func urlPathProvider(_ value: DetectToxicContentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12092,8 +12136,9 @@ extension ImportModelInput: Swift.Encodable {
     }
 }
 
-extension ImportModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportModelInput {
+
+    static func urlPathProvider(_ value: ImportModelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13161,8 +13206,9 @@ extension ListDatasetsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13314,8 +13360,9 @@ extension ListDocumentClassificationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDocumentClassificationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDocumentClassificationJobsInput {
+
+    static func urlPathProvider(_ value: ListDocumentClassificationJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13454,8 +13501,9 @@ extension ListDocumentClassifierSummariesInput: Swift.Encodable {
     }
 }
 
-extension ListDocumentClassifierSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDocumentClassifierSummariesInput {
+
+    static func urlPathProvider(_ value: ListDocumentClassifierSummariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13589,8 +13637,9 @@ extension ListDocumentClassifiersInput: Swift.Encodable {
     }
 }
 
-extension ListDocumentClassifiersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDocumentClassifiersInput {
+
+    static func urlPathProvider(_ value: ListDocumentClassifiersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13733,8 +13782,9 @@ extension ListDominantLanguageDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDominantLanguageDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDominantLanguageDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListDominantLanguageDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13877,8 +13927,9 @@ extension ListEndpointsInput: Swift.Encodable {
     }
 }
 
-extension ListEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEndpointsInput {
+
+    static func urlPathProvider(_ value: ListEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14020,8 +14071,9 @@ extension ListEntitiesDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListEntitiesDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEntitiesDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListEntitiesDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14160,8 +14212,9 @@ extension ListEntityRecognizerSummariesInput: Swift.Encodable {
     }
 }
 
-extension ListEntityRecognizerSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEntityRecognizerSummariesInput {
+
+    static func urlPathProvider(_ value: ListEntityRecognizerSummariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14295,8 +14348,9 @@ extension ListEntityRecognizersInput: Swift.Encodable {
     }
 }
 
-extension ListEntityRecognizersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEntityRecognizersInput {
+
+    static func urlPathProvider(_ value: ListEntityRecognizersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14439,8 +14493,9 @@ extension ListEventsDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListEventsDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventsDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListEventsDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14587,8 +14642,9 @@ extension ListFlywheelIterationHistoryInput: Swift.Encodable {
     }
 }
 
-extension ListFlywheelIterationHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFlywheelIterationHistoryInput {
+
+    static func urlPathProvider(_ value: ListFlywheelIterationHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14741,8 +14797,9 @@ extension ListFlywheelsInput: Swift.Encodable {
     }
 }
 
-extension ListFlywheelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFlywheelsInput {
+
+    static func urlPathProvider(_ value: ListFlywheelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14885,8 +14942,9 @@ extension ListKeyPhrasesDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListKeyPhrasesDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeyPhrasesDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListKeyPhrasesDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15029,8 +15087,9 @@ extension ListPiiEntitiesDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListPiiEntitiesDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPiiEntitiesDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListPiiEntitiesDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15173,8 +15232,9 @@ extension ListSentimentDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListSentimentDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSentimentDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListSentimentDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15309,8 +15369,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15437,8 +15498,9 @@ extension ListTargetedSentimentDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListTargetedSentimentDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTargetedSentimentDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListTargetedSentimentDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15581,8 +15643,9 @@ extension ListTopicsDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListTopicsDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTopicsDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListTopicsDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16681,8 +16744,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17570,8 +17634,9 @@ extension StartDocumentClassificationJobInput: Swift.Encodable {
     }
 }
 
-extension StartDocumentClassificationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDocumentClassificationJobInput {
+
+    static func urlPathProvider(_ value: StartDocumentClassificationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17836,8 +17901,9 @@ extension StartDominantLanguageDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartDominantLanguageDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDominantLanguageDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartDominantLanguageDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18082,8 +18148,9 @@ extension StartEntitiesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartEntitiesDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartEntitiesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18360,8 +18427,9 @@ extension StartEventsDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartEventsDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartEventsDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartEventsDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18566,8 +18634,9 @@ extension StartFlywheelIterationInput: Swift.Encodable {
     }
 }
 
-extension StartFlywheelIterationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFlywheelIterationInput {
+
+    static func urlPathProvider(_ value: StartFlywheelIterationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18722,8 +18791,9 @@ extension StartKeyPhrasesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartKeyPhrasesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartKeyPhrasesDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartKeyPhrasesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18969,8 +19039,9 @@ extension StartPiiEntitiesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartPiiEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartPiiEntitiesDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartPiiEntitiesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19205,8 +19276,9 @@ extension StartSentimentDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSentimentDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartSentimentDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19452,8 +19524,9 @@ extension StartTargetedSentimentDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartTargetedSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTargetedSentimentDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartTargetedSentimentDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19699,8 +19772,9 @@ extension StartTopicsDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartTopicsDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTopicsDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartTopicsDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19910,8 +19984,9 @@ extension StopDominantLanguageDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopDominantLanguageDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopDominantLanguageDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopDominantLanguageDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20021,8 +20096,9 @@ extension StopEntitiesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopEntitiesDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopEntitiesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20132,8 +20208,9 @@ extension StopEventsDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopEventsDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopEventsDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopEventsDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20243,8 +20320,9 @@ extension StopKeyPhrasesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopKeyPhrasesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopKeyPhrasesDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopKeyPhrasesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20354,8 +20432,9 @@ extension StopPiiEntitiesDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopPiiEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopPiiEntitiesDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopPiiEntitiesDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20465,8 +20544,9 @@ extension StopSentimentDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopSentimentDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopSentimentDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20576,8 +20656,9 @@ extension StopTargetedSentimentDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopTargetedSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopTargetedSentimentDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopTargetedSentimentDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20687,8 +20768,9 @@ extension StopTrainingDocumentClassifierInput: Swift.Encodable {
     }
 }
 
-extension StopTrainingDocumentClassifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopTrainingDocumentClassifierInput {
+
+    static func urlPathProvider(_ value: StopTrainingDocumentClassifierInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20759,8 +20841,9 @@ extension StopTrainingEntityRecognizerInput: Swift.Encodable {
     }
 }
 
-extension StopTrainingEntityRecognizerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopTrainingEntityRecognizerInput {
+
+    static func urlPathProvider(_ value: StopTrainingEntityRecognizerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21003,8 +21086,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22311,8 +22395,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22477,8 +22562,9 @@ extension UpdateEndpointInput: Swift.Encodable {
     }
 }
 
-extension UpdateEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22626,8 +22712,9 @@ extension UpdateFlywheelInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlywheelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFlywheelInput {
+
+    static func urlPathProvider(_ value: UpdateFlywheelInput) -> Swift.String? {
         return "/"
     }
 }

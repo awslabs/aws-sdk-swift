@@ -199,8 +199,9 @@ extension CreateDiscovererInput: Swift.Encodable {
     }
 }
 
-extension CreateDiscovererInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDiscovererInput {
+
+    static func urlPathProvider(_ value: CreateDiscovererInput) -> Swift.String? {
         return "/v1/discoverers"
     }
 }
@@ -412,9 +413,10 @@ extension CreateRegistryInput: Swift.Encodable {
     }
 }
 
-extension CreateRegistryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension CreateRegistryInput {
+
+    static func urlPathProvider(_ value: CreateRegistryInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())"
@@ -594,12 +596,13 @@ extension CreateSchemaInput: Swift.Encodable {
     }
 }
 
-extension CreateSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension CreateSchemaInput {
+
+    static func urlPathProvider(_ value: CreateSchemaInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())"
@@ -812,9 +815,10 @@ enum CreateSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDiscovererInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let discovererId = discovererId else {
+extension DeleteDiscovererInput {
+
+    static func urlPathProvider(_ value: DeleteDiscovererInput) -> Swift.String? {
+        guard let discovererId = value.discovererId else {
             return nil
         }
         return "/v1/discoverers/id/\(discovererId.urlPercentEncoding())"
@@ -869,9 +873,10 @@ enum DeleteDiscovererOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRegistryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension DeleteRegistryInput {
+
+    static func urlPathProvider(_ value: DeleteRegistryInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())"
@@ -926,21 +931,21 @@ enum DeleteRegistryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let registryName = registryName {
-                let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
-                items.append(registryNameQueryItem)
-            }
-            return items
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let registryName = value.registryName {
+            let registryNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
+            items.append(registryNameQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/v1/policy"
     }
 }
@@ -992,12 +997,13 @@ enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension DeleteSchemaInput {
+
+    static func urlPathProvider(_ value: DeleteSchemaInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())"
@@ -1057,15 +1063,16 @@ enum DeleteSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSchemaVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension DeleteSchemaVersionInput {
+
+    static func urlPathProvider(_ value: DeleteSchemaVersionInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
-        guard let schemaVersion = schemaVersion else {
+        guard let schemaVersion = value.schemaVersion else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())/version/\(schemaVersion.urlPercentEncoding())"
@@ -1130,28 +1137,28 @@ enum DeleteSchemaVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeCodeBindingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let schemaVersion = schemaVersion {
-                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-                items.append(schemaVersionQueryItem)
-            }
-            return items
+extension DescribeCodeBindingInput {
+
+    static func queryItemProvider(_ value: DescribeCodeBindingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let schemaVersion = value.schemaVersion {
+            let schemaVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+            items.append(schemaVersionQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeCodeBindingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension DescribeCodeBindingInput {
+
+    static func urlPathProvider(_ value: DescribeCodeBindingInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
-        guard let language = language else {
+        guard let language = value.language else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())/language/\(language.urlPercentEncoding())"
@@ -1280,9 +1287,10 @@ enum DescribeCodeBindingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDiscovererInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let discovererId = discovererId else {
+extension DescribeDiscovererInput {
+
+    static func urlPathProvider(_ value: DescribeDiscovererInput) -> Swift.String? {
+        guard let discovererId = value.discovererId else {
             return nil
         }
         return "/v1/discoverers/id/\(discovererId.urlPercentEncoding())"
@@ -1436,9 +1444,10 @@ enum DescribeDiscovererOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRegistryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension DescribeRegistryInput {
+
+    static func urlPathProvider(_ value: DescribeRegistryInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())"
@@ -1562,25 +1571,25 @@ enum DescribeRegistryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeSchemaInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let schemaVersion = schemaVersion {
-                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-                items.append(schemaVersionQueryItem)
-            }
-            return items
+extension DescribeSchemaInput {
+
+    static func queryItemProvider(_ value: DescribeSchemaInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let schemaVersion = value.schemaVersion {
+            let schemaVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+            items.append(schemaVersionQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension DescribeSchemaInput {
+
+    static func urlPathProvider(_ value: DescribeSchemaInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())"
@@ -1891,31 +1900,31 @@ extension SchemasClientTypes {
 
 }
 
-extension ExportSchemaInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let type = type else {
-                let message = "Creating a URL Query Item failed. type is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
-            items.append(typeQueryItem)
-            if let schemaVersion = schemaVersion {
-                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-                items.append(schemaVersionQueryItem)
-            }
-            return items
+extension ExportSchemaInput {
+
+    static func queryItemProvider(_ value: ExportSchemaInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let type = value.type else {
+            let message = "Creating a URL Query Item failed. type is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type).urlPercentEncoding())
+        items.append(typeQueryItem)
+        if let schemaVersion = value.schemaVersion {
+            let schemaVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+            items.append(schemaVersionQueryItem)
+        }
+        return items
     }
 }
 
-extension ExportSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension ExportSchemaInput {
+
+    static func urlPathProvider(_ value: ExportSchemaInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())/export"
@@ -2116,28 +2125,28 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetCodeBindingSourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let schemaVersion = schemaVersion {
-                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-                items.append(schemaVersionQueryItem)
-            }
-            return items
+extension GetCodeBindingSourceInput {
+
+    static func queryItemProvider(_ value: GetCodeBindingSourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let schemaVersion = value.schemaVersion {
+            let schemaVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+            items.append(schemaVersionQueryItem)
         }
+        return items
     }
 }
 
-extension GetCodeBindingSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension GetCodeBindingSourceInput {
+
+    static func urlPathProvider(_ value: GetCodeBindingSourceInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
-        guard let language = language else {
+        guard let language = value.language else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())/language/\(language.urlPercentEncoding())/source"
@@ -2256,8 +2265,9 @@ extension GetDiscoveredSchemaInput: Swift.Encodable {
     }
 }
 
-extension GetDiscoveredSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDiscoveredSchemaInput {
+
+    static func urlPathProvider(_ value: GetDiscoveredSchemaInput) -> Swift.String? {
         return "/v1/discover"
     }
 }
@@ -2364,21 +2374,21 @@ enum GetDiscoveredSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let registryName = registryName {
-                let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
-                items.append(registryNameQueryItem)
-            }
-            return items
+extension GetResourcePolicyInput {
+
+    static func queryItemProvider(_ value: GetResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let registryName = value.registryName {
+            let registryNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
+            items.append(registryNameQueryItem)
         }
+        return items
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/v1/policy"
     }
 }
@@ -2604,33 +2614,33 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListDiscoverersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let sourceArnPrefix = sourceArnPrefix {
-                let sourceArnPrefixQueryItem = ClientRuntime.URLQueryItem(name: "sourceArnPrefix".urlPercentEncoding(), value: Swift.String(sourceArnPrefix).urlPercentEncoding())
-                items.append(sourceArnPrefixQueryItem)
-            }
-            if let discovererIdPrefix = discovererIdPrefix {
-                let discovererIdPrefixQueryItem = ClientRuntime.URLQueryItem(name: "discovererIdPrefix".urlPercentEncoding(), value: Swift.String(discovererIdPrefix).urlPercentEncoding())
-                items.append(discovererIdPrefixQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListDiscoverersInput {
+
+    static func queryItemProvider(_ value: ListDiscoverersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let sourceArnPrefix = value.sourceArnPrefix {
+            let sourceArnPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "sourceArnPrefix".urlPercentEncoding(), value: Swift.String(sourceArnPrefix).urlPercentEncoding())
+            items.append(sourceArnPrefixQueryItem)
+        }
+        if let discovererIdPrefix = value.discovererIdPrefix {
+            let discovererIdPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "discovererIdPrefix".urlPercentEncoding(), value: Swift.String(discovererIdPrefix).urlPercentEncoding())
+            items.append(discovererIdPrefixQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDiscoverersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDiscoverersInput {
+
+    static func urlPathProvider(_ value: ListDiscoverersInput) -> Swift.String? {
         return "/v1/discoverers"
     }
 }
@@ -2741,33 +2751,33 @@ enum ListDiscoverersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRegistriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let scope = scope {
-                let scopeQueryItem = ClientRuntime.URLQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope).urlPercentEncoding())
-                items.append(scopeQueryItem)
-            }
-            if let registryNamePrefix = registryNamePrefix {
-                let registryNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "registryNamePrefix".urlPercentEncoding(), value: Swift.String(registryNamePrefix).urlPercentEncoding())
-                items.append(registryNamePrefixQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListRegistriesInput {
+
+    static func queryItemProvider(_ value: ListRegistriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let scope = value.scope {
+            let scopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope).urlPercentEncoding())
+            items.append(scopeQueryItem)
+        }
+        if let registryNamePrefix = value.registryNamePrefix {
+            let registryNamePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "registryNamePrefix".urlPercentEncoding(), value: Swift.String(registryNamePrefix).urlPercentEncoding())
+            items.append(registryNamePrefixQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRegistriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRegistriesInput {
+
+    static func urlPathProvider(_ value: ListRegistriesInput) -> Swift.String? {
         return "/v1/registries"
     }
 }
@@ -2878,29 +2888,29 @@ enum ListRegistriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSchemaVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListSchemaVersionsInput {
+
+    static func queryItemProvider(_ value: ListSchemaVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSchemaVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension ListSchemaVersionsInput {
+
+    static func urlPathProvider(_ value: ListSchemaVersionsInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())/versions"
@@ -3016,30 +3026,30 @@ enum ListSchemaVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSchemasInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let schemaNamePrefix = schemaNamePrefix {
-                let schemaNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "schemaNamePrefix".urlPercentEncoding(), value: Swift.String(schemaNamePrefix).urlPercentEncoding())
-                items.append(schemaNamePrefixQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListSchemasInput {
+
+    static func queryItemProvider(_ value: ListSchemasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let schemaNamePrefix = value.schemaNamePrefix {
+            let schemaNamePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaNamePrefix".urlPercentEncoding(), value: Swift.String(schemaNamePrefix).urlPercentEncoding())
+            items.append(schemaNamePrefixQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSchemasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension ListSchemasInput {
+
+    static func urlPathProvider(_ value: ListSchemasInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas"
@@ -3153,9 +3163,10 @@ enum ListSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3381,28 +3392,28 @@ extension PreconditionFailedExceptionBody: Swift.Decodable {
     }
 }
 
-extension PutCodeBindingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let schemaVersion = schemaVersion {
-                let schemaVersionQueryItem = ClientRuntime.URLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
-                items.append(schemaVersionQueryItem)
-            }
-            return items
+extension PutCodeBindingInput {
+
+    static func queryItemProvider(_ value: PutCodeBindingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let schemaVersion = value.schemaVersion {
+            let schemaVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaVersion".urlPercentEncoding(), value: Swift.String(schemaVersion).urlPercentEncoding())
+            items.append(schemaVersionQueryItem)
         }
+        return items
     }
 }
 
-extension PutCodeBindingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension PutCodeBindingInput {
+
+    static func urlPathProvider(_ value: PutCodeBindingInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
-        guard let language = language else {
+        guard let language = value.language else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())/language/\(language.urlPercentEncoding())"
@@ -3549,21 +3560,21 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let registryName = registryName {
-                let registryNameQueryItem = ClientRuntime.URLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
-                items.append(registryNameQueryItem)
-            }
-            return items
+extension PutResourcePolicyInput {
+
+    static func queryItemProvider(_ value: PutResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let registryName = value.registryName {
+            let registryNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "registryName".urlPercentEncoding(), value: Swift.String(registryName).urlPercentEncoding())
+            items.append(registryNameQueryItem)
         }
+        return items
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/v1/policy"
     }
 }
@@ -3894,6 +3905,8 @@ extension SchemasClientTypes {
 
 }
 
+public enum SchemasClientTypes {}
+
 extension SchemasClientTypes.SearchSchemaSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case registryName = "RegistryName"
@@ -4024,32 +4037,32 @@ extension SchemasClientTypes {
 
 }
 
-extension SearchSchemasInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let keywords = keywords else {
-                let message = "Creating a URL Query Item failed. keywords is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let keywordsQueryItem = ClientRuntime.URLQueryItem(name: "keywords".urlPercentEncoding(), value: Swift.String(keywords).urlPercentEncoding())
-            items.append(keywordsQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension SearchSchemasInput {
+
+    static func queryItemProvider(_ value: SearchSchemasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let keywords = value.keywords else {
+            let message = "Creating a URL Query Item failed. keywords is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let keywordsQueryItem = ClientRuntime.SDKURLQueryItem(name: "keywords".urlPercentEncoding(), value: Swift.String(keywords).urlPercentEncoding())
+        items.append(keywordsQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchSchemasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension SearchSchemasInput {
+
+    static func urlPathProvider(_ value: SearchSchemasInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/search"
@@ -4231,9 +4244,10 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
-extension StartDiscovererInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let discovererId = discovererId else {
+extension StartDiscovererInput {
+
+    static func urlPathProvider(_ value: StartDiscovererInput) -> Swift.String? {
+        guard let discovererId = value.discovererId else {
             return nil
         }
         return "/v1/discoverers/id/\(discovererId.urlPercentEncoding())/start"
@@ -4328,9 +4342,10 @@ enum StartDiscovererOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopDiscovererInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let discovererId = discovererId else {
+extension StopDiscovererInput {
+
+    static func urlPathProvider(_ value: StopDiscovererInput) -> Swift.String? {
+        guard let discovererId = value.discovererId else {
             return nil
         }
         return "/v1/discoverers/id/\(discovererId.urlPercentEncoding())/stop"
@@ -4441,9 +4456,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4684,26 +4700,26 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4778,9 +4794,10 @@ extension UpdateDiscovererInput: Swift.Encodable {
     }
 }
 
-extension UpdateDiscovererInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let discovererId = discovererId else {
+extension UpdateDiscovererInput {
+
+    static func urlPathProvider(_ value: UpdateDiscovererInput) -> Swift.String? {
+        guard let discovererId = value.discovererId else {
             return nil
         }
         return "/v1/discoverers/id/\(discovererId.urlPercentEncoding())"
@@ -4966,9 +4983,10 @@ extension UpdateRegistryInput: Swift.Encodable {
     }
 }
 
-extension UpdateRegistryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension UpdateRegistryInput {
+
+    static func urlPathProvider(_ value: UpdateRegistryInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())"
@@ -5129,12 +5147,13 @@ extension UpdateSchemaInput: Swift.Encodable {
     }
 }
 
-extension UpdateSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let registryName = registryName else {
+extension UpdateSchemaInput {
+
+    static func urlPathProvider(_ value: UpdateSchemaInput) -> Swift.String? {
+        guard let registryName = value.registryName else {
             return nil
         }
-        guard let schemaName = schemaName else {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/v1/registries/name/\(registryName.urlPercentEncoding())/schemas/name/\(schemaName.urlPercentEncoding())"

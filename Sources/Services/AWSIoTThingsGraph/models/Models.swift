@@ -23,8 +23,9 @@ extension AssociateEntityToThingInput: Swift.Encodable {
     }
 }
 
-extension AssociateEntityToThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateEntityToThingInput {
+
+    static func urlPathProvider(_ value: AssociateEntityToThingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -116,8 +117,9 @@ extension CreateFlowTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateFlowTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFlowTemplateInput {
+
+    static func urlPathProvider(_ value: CreateFlowTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -254,8 +256,9 @@ extension CreateSystemInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateSystemInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSystemInstanceInput {
+
+    static func urlPathProvider(_ value: CreateSystemInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -419,8 +422,9 @@ extension CreateSystemTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateSystemTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSystemTemplateInput {
+
+    static func urlPathProvider(_ value: CreateSystemTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -605,8 +609,9 @@ extension DeleteFlowTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteFlowTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFlowTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteFlowTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -672,8 +677,9 @@ extension DeleteNamespaceInput: Swift.Encodable {
     }
 }
 
-extension DeleteNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNamespaceInput {
+
+    static func urlPathProvider(_ value: DeleteNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -767,8 +773,9 @@ extension DeleteSystemInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeleteSystemInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSystemInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteSystemInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -838,8 +845,9 @@ extension DeleteSystemTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteSystemTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSystemTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteSystemTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -955,8 +963,9 @@ extension DeploySystemInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeploySystemInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeploySystemInstanceInput {
+
+    static func urlPathProvider(_ value: DeploySystemInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1100,8 +1109,9 @@ extension DeprecateFlowTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeprecateFlowTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeprecateFlowTemplateInput {
+
+    static func urlPathProvider(_ value: DeprecateFlowTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1172,8 +1182,9 @@ extension DeprecateSystemTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeprecateSystemTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeprecateSystemTemplateInput {
+
+    static func urlPathProvider(_ value: DeprecateSystemTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1244,8 +1255,9 @@ extension DescribeNamespaceInput: Swift.Encodable {
     }
 }
 
-extension DescribeNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeNamespaceInput {
+
+    static func urlPathProvider(_ value: DescribeNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1389,8 +1401,9 @@ extension DissociateEntityFromThingInput: Swift.Encodable {
     }
 }
 
-extension DissociateEntityFromThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DissociateEntityFromThingInput {
+
+    static func urlPathProvider(_ value: DissociateEntityFromThingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2176,8 +2189,9 @@ extension GetEntitiesInput: Swift.Encodable {
     }
 }
 
-extension GetEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEntitiesInput {
+
+    static func urlPathProvider(_ value: GetEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2308,8 +2322,9 @@ extension GetFlowTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetFlowTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFlowTemplateInput {
+
+    static func urlPathProvider(_ value: GetFlowTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2426,8 +2441,9 @@ extension GetFlowTemplateRevisionsInput: Swift.Encodable {
     }
 }
 
-extension GetFlowTemplateRevisionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFlowTemplateRevisionsInput {
+
+    static func urlPathProvider(_ value: GetFlowTemplateRevisionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2558,8 +2574,9 @@ extension GetNamespaceDeletionStatusInput: Swift.Encodable {
     }
 }
 
-extension GetNamespaceDeletionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetNamespaceDeletionStatusInput {
+
+    static func urlPathProvider(_ value: GetNamespaceDeletionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2684,8 +2701,9 @@ extension GetSystemInstanceInput: Swift.Encodable {
     }
 }
 
-extension GetSystemInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSystemInstanceInput {
+
+    static func urlPathProvider(_ value: GetSystemInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2790,8 +2808,9 @@ extension GetSystemTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetSystemTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSystemTemplateInput {
+
+    static func urlPathProvider(_ value: GetSystemTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2908,8 +2927,9 @@ extension GetSystemTemplateRevisionsInput: Swift.Encodable {
     }
 }
 
-extension GetSystemTemplateRevisionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSystemTemplateRevisionsInput {
+
+    static func urlPathProvider(_ value: GetSystemTemplateRevisionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3045,8 +3065,9 @@ extension GetUploadStatusInput: Swift.Encodable {
     }
 }
 
-extension GetUploadStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUploadStatusInput {
+
+    static func urlPathProvider(_ value: GetUploadStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3316,6 +3337,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTThingsGraphClientTypes {}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3392,8 +3415,9 @@ extension ListFlowExecutionMessagesInput: Swift.Encodable {
     }
 }
 
-extension ListFlowExecutionMessagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFlowExecutionMessagesInput {
+
+    static func urlPathProvider(_ value: ListFlowExecutionMessagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3537,8 +3561,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3970,8 +3995,9 @@ extension SearchEntitiesInput: Swift.Encodable {
     }
 }
 
-extension SearchEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchEntitiesInput {
+
+    static func urlPathProvider(_ value: SearchEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4160,8 +4186,9 @@ extension SearchFlowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension SearchFlowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchFlowExecutionsInput {
+
+    static func urlPathProvider(_ value: SearchFlowExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4332,8 +4359,9 @@ extension SearchFlowTemplatesInput: Swift.Encodable {
     }
 }
 
-extension SearchFlowTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchFlowTemplatesInput {
+
+    static func urlPathProvider(_ value: SearchFlowTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4487,8 +4515,9 @@ extension SearchSystemInstancesInput: Swift.Encodable {
     }
 }
 
-extension SearchSystemInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchSystemInstancesInput {
+
+    static func urlPathProvider(_ value: SearchSystemInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4642,8 +4671,9 @@ extension SearchSystemTemplatesInput: Swift.Encodable {
     }
 }
 
-extension SearchSystemTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchSystemTemplatesInput {
+
+    static func urlPathProvider(_ value: SearchSystemTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4798,8 +4828,9 @@ extension SearchThingsInput: Swift.Encodable {
     }
 }
 
-extension SearchThingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchThingsInput {
+
+    static func urlPathProvider(_ value: SearchThingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5569,8 +5600,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5759,8 +5791,9 @@ extension UndeploySystemInstanceInput: Swift.Encodable {
     }
 }
 
-extension UndeploySystemInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UndeploySystemInstanceInput {
+
+    static func urlPathProvider(_ value: UndeploySystemInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5868,8 +5901,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5966,8 +6000,9 @@ extension UpdateFlowTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFlowTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateFlowTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6093,8 +6128,9 @@ extension UpdateSystemTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateSystemTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSystemTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateSystemTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6220,8 +6256,9 @@ extension UploadEntityDefinitionsInput: Swift.Encodable {
     }
 }
 
-extension UploadEntityDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UploadEntityDefinitionsInput {
+
+    static func urlPathProvider(_ value: UploadEntityDefinitionsInput) -> Swift.String? {
         return "/"
     }
 }

@@ -190,8 +190,9 @@ extension CreateIdMappingWorkflowInput: Swift.Encodable {
     }
 }
 
-extension CreateIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIdMappingWorkflowInput {
+
+    static func urlPathProvider(_ value: CreateIdMappingWorkflowInput) -> Swift.String? {
         return "/idmappingworkflows"
     }
 }
@@ -494,8 +495,9 @@ extension CreateMatchingWorkflowInput: Swift.Encodable {
     }
 }
 
-extension CreateMatchingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMatchingWorkflowInput {
+
+    static func urlPathProvider(_ value: CreateMatchingWorkflowInput) -> Swift.String? {
         return "/matchingworkflows"
     }
 }
@@ -797,8 +799,9 @@ extension CreateSchemaMappingInput: Swift.Encodable {
     }
 }
 
-extension CreateSchemaMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSchemaMappingInput {
+
+    static func urlPathProvider(_ value: CreateSchemaMappingInput) -> Swift.String? {
         return "/schemas"
     }
 }
@@ -974,9 +977,10 @@ enum CreateSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension DeleteIdMappingWorkflowInput {
+
+    static func urlPathProvider(_ value: DeleteIdMappingWorkflowInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/idmappingworkflows/\(workflowName.urlPercentEncoding())"
@@ -1060,9 +1064,10 @@ enum DeleteIdMappingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteMatchingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension DeleteMatchingWorkflowInput {
+
+    static func urlPathProvider(_ value: DeleteMatchingWorkflowInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())"
@@ -1146,9 +1151,10 @@ enum DeleteMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSchemaMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let schemaName = schemaName else {
+extension DeleteSchemaMappingInput {
+
+    static func urlPathProvider(_ value: DeleteSchemaMappingInput) -> Swift.String? {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/schemas/\(schemaName.urlPercentEncoding())"
@@ -1232,6 +1238,8 @@ enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum EntityResolutionClientTypes {}
 
 extension EntityResolutionClientTypes.ErrorDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -1343,12 +1351,13 @@ extension ExceedsLimitExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetIdMappingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension GetIdMappingJobInput {
+
+    static func urlPathProvider(_ value: GetIdMappingJobInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/idmappingworkflows/\(workflowName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
@@ -1490,9 +1499,10 @@ enum GetIdMappingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension GetIdMappingWorkflowInput {
+
+    static func urlPathProvider(_ value: GetIdMappingWorkflowInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/idmappingworkflows/\(workflowName.urlPercentEncoding())"
@@ -1722,9 +1732,10 @@ extension GetMatchIdInput: Swift.Encodable {
     }
 }
 
-extension GetMatchIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension GetMatchIdInput {
+
+    static func urlPathProvider(_ value: GetMatchIdInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())/matches"
@@ -1829,12 +1840,13 @@ enum GetMatchIdOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMatchingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension GetMatchingJobInput {
+
+    static func urlPathProvider(_ value: GetMatchingJobInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
@@ -1976,9 +1988,10 @@ enum GetMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMatchingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension GetMatchingWorkflowInput {
+
+    static func urlPathProvider(_ value: GetMatchingWorkflowInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())"
@@ -2197,12 +2210,13 @@ enum GetMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProviderServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let providerName = providerName else {
+extension GetProviderServiceInput {
+
+    static func urlPathProvider(_ value: GetProviderServiceInput) -> Swift.String? {
+        guard let providerName = value.providerName else {
             return nil
         }
-        guard let providerServiceName = providerServiceName else {
+        guard let providerServiceName = value.providerServiceName else {
             return nil
         }
         return "/providerservices/\(providerName.urlPercentEncoding())/\(providerServiceName.urlPercentEncoding())"
@@ -2389,9 +2403,10 @@ enum GetProviderServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSchemaMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let schemaName = schemaName else {
+extension GetSchemaMappingInput {
+
+    static func urlPathProvider(_ value: GetSchemaMappingInput) -> Swift.String? {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/schemas/\(schemaName.urlPercentEncoding())"
@@ -3245,26 +3260,26 @@ extension EntityResolutionClientTypes {
 
 }
 
-extension ListIdMappingJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIdMappingJobsInput {
+
+    static func queryItemProvider(_ value: ListIdMappingJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIdMappingJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension ListIdMappingJobsInput {
+
+    static func urlPathProvider(_ value: ListIdMappingJobsInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/idmappingworkflows/\(workflowName.urlPercentEncoding())/jobs"
@@ -3375,25 +3390,25 @@ enum ListIdMappingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIdMappingWorkflowsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIdMappingWorkflowsInput {
+
+    static func queryItemProvider(_ value: ListIdMappingWorkflowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIdMappingWorkflowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdMappingWorkflowsInput {
+
+    static func urlPathProvider(_ value: ListIdMappingWorkflowsInput) -> Swift.String? {
         return "/idmappingworkflows"
     }
 }
@@ -3496,26 +3511,26 @@ enum ListIdMappingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMatchingJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMatchingJobsInput {
+
+    static func queryItemProvider(_ value: ListMatchingJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMatchingJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension ListMatchingJobsInput {
+
+    static func urlPathProvider(_ value: ListMatchingJobsInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())/jobs"
@@ -3626,25 +3641,25 @@ enum ListMatchingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMatchingWorkflowsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMatchingWorkflowsInput {
+
+    static func queryItemProvider(_ value: ListMatchingWorkflowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMatchingWorkflowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMatchingWorkflowsInput {
+
+    static func urlPathProvider(_ value: ListMatchingWorkflowsInput) -> Swift.String? {
         return "/matchingworkflows"
     }
 }
@@ -3747,29 +3762,29 @@ enum ListMatchingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProviderServicesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let providerName = providerName {
-                let providerNameQueryItem = ClientRuntime.URLQueryItem(name: "providerName".urlPercentEncoding(), value: Swift.String(providerName).urlPercentEncoding())
-                items.append(providerNameQueryItem)
-            }
-            return items
+extension ListProviderServicesInput {
+
+    static func queryItemProvider(_ value: ListProviderServicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let providerName = value.providerName {
+            let providerNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "providerName".urlPercentEncoding(), value: Swift.String(providerName).urlPercentEncoding())
+            items.append(providerNameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProviderServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProviderServicesInput {
+
+    static func urlPathProvider(_ value: ListProviderServicesInput) -> Swift.String? {
         return "/providerservices"
     }
 }
@@ -3876,25 +3891,25 @@ enum ListProviderServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSchemaMappingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSchemaMappingsInput {
+
+    static func queryItemProvider(_ value: ListSchemaMappingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSchemaMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSchemaMappingsInput {
+
+    static func urlPathProvider(_ value: ListSchemaMappingsInput) -> Swift.String? {
         return "/schemas"
     }
 }
@@ -3997,9 +4012,10 @@ enum ListSchemaMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5146,9 +5162,10 @@ extension EntityResolutionClientTypes {
     }
 }
 
-extension StartIdMappingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension StartIdMappingJobInput {
+
+    static func urlPathProvider(_ value: StartIdMappingJobInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/idmappingworkflows/\(workflowName.urlPercentEncoding())/jobs"
@@ -5235,9 +5252,10 @@ enum StartIdMappingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StartMatchingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension StartMatchingJobInput {
+
+    static func urlPathProvider(_ value: StartMatchingJobInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())/jobs"
@@ -5340,9 +5358,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5470,26 +5489,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5580,9 +5599,10 @@ extension UpdateIdMappingWorkflowInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdMappingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension UpdateIdMappingWorkflowInput {
+
+    static func urlPathProvider(_ value: UpdateIdMappingWorkflowInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/idmappingworkflows/\(workflowName.urlPercentEncoding())"
@@ -5854,9 +5874,10 @@ extension UpdateMatchingWorkflowInput: Swift.Encodable {
     }
 }
 
-extension UpdateMatchingWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowName = workflowName else {
+extension UpdateMatchingWorkflowInput {
+
+    static func urlPathProvider(_ value: UpdateMatchingWorkflowInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
             return nil
         }
         return "/matchingworkflows/\(workflowName.urlPercentEncoding())"
@@ -6116,9 +6137,10 @@ extension UpdateSchemaMappingInput: Swift.Encodable {
     }
 }
 
-extension UpdateSchemaMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let schemaName = schemaName else {
+extension UpdateSchemaMappingInput {
+
+    static func urlPathProvider(_ value: UpdateSchemaMappingInput) -> Swift.String? {
+        guard let schemaName = value.schemaName else {
             return nil
         }
         return "/schemas/\(schemaName.urlPercentEncoding())"

@@ -58,6 +58,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum AccountClientTypes {}
+
 extension AccountClientTypes.AlternateContact: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alternateContactType = "AlternateContactType"
@@ -402,8 +404,9 @@ extension DeleteAlternateContactInput: Swift.Encodable {
     }
 }
 
-extension DeleteAlternateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAlternateContactInput {
+
+    static func urlPathProvider(_ value: DeleteAlternateContactInput) -> Swift.String? {
         return "/deleteAlternateContact"
     }
 }
@@ -487,8 +490,9 @@ extension DisableRegionInput: Swift.Encodable {
     }
 }
 
-extension DisableRegionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableRegionInput {
+
+    static func urlPathProvider(_ value: DisableRegionInput) -> Swift.String? {
         return "/disableRegion"
     }
 }
@@ -572,8 +576,9 @@ extension EnableRegionInput: Swift.Encodable {
     }
 }
 
-extension EnableRegionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableRegionInput {
+
+    static func urlPathProvider(_ value: EnableRegionInput) -> Swift.String? {
         return "/enableRegion"
     }
 }
@@ -657,8 +662,9 @@ extension GetAlternateContactInput: Swift.Encodable {
     }
 }
 
-extension GetAlternateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAlternateContactInput {
+
+    static func urlPathProvider(_ value: GetAlternateContactInput) -> Swift.String? {
         return "/getAlternateContact"
     }
 }
@@ -768,8 +774,9 @@ extension GetContactInformationInput: Swift.Encodable {
     }
 }
 
-extension GetContactInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContactInformationInput {
+
+    static func urlPathProvider(_ value: GetContactInformationInput) -> Swift.String? {
         return "/getContactInformation"
     }
 }
@@ -874,8 +881,9 @@ extension GetRegionOptStatusInput: Swift.Encodable {
     }
 }
 
-extension GetRegionOptStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegionOptStatusInput {
+
+    static func urlPathProvider(_ value: GetRegionOptStatusInput) -> Swift.String? {
         return "/getRegionOptStatus"
     }
 }
@@ -1065,8 +1073,9 @@ extension ListRegionsInput: Swift.Encodable {
     }
 }
 
-extension ListRegionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRegionsInput {
+
+    static func urlPathProvider(_ value: ListRegionsInput) -> Swift.String? {
         return "/listRegions"
     }
 }
@@ -1243,8 +1252,9 @@ extension PutAlternateContactInput: Swift.Encodable {
     }
 }
 
-extension PutAlternateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAlternateContactInput {
+
+    static func urlPathProvider(_ value: PutAlternateContactInput) -> Swift.String? {
         return "/putAlternateContact"
     }
 }
@@ -1363,8 +1373,9 @@ extension PutContactInformationInput: Swift.Encodable {
     }
 }
 
-extension PutContactInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutContactInformationInput {
+
+    static func urlPathProvider(_ value: PutContactInformationInput) -> Swift.String? {
         return "/putContactInformation"
     }
 }

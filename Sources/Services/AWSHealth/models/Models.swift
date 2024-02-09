@@ -307,8 +307,9 @@ extension DescribeAffectedAccountsForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeAffectedAccountsForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAffectedAccountsForOrganizationInput {
+
+    static func urlPathProvider(_ value: DescribeAffectedAccountsForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -479,8 +480,9 @@ extension DescribeAffectedEntitiesForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeAffectedEntitiesForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAffectedEntitiesForOrganizationInput {
+
+    static func urlPathProvider(_ value: DescribeAffectedEntitiesForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -679,8 +681,9 @@ extension DescribeAffectedEntitiesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAffectedEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAffectedEntitiesInput {
+
+    static func urlPathProvider(_ value: DescribeAffectedEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -832,8 +835,9 @@ extension DescribeEntityAggregatesForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeEntityAggregatesForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEntityAggregatesForOrganizationInput {
+
+    static func urlPathProvider(_ value: DescribeEntityAggregatesForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -968,8 +972,9 @@ extension DescribeEntityAggregatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeEntityAggregatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEntityAggregatesInput {
+
+    static func urlPathProvider(_ value: DescribeEntityAggregatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1095,8 +1100,9 @@ extension DescribeEventAggregatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventAggregatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventAggregatesInput {
+
+    static func urlPathProvider(_ value: DescribeEventAggregatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1244,8 +1250,9 @@ extension DescribeEventDetailsForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventDetailsForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventDetailsForOrganizationInput {
+
+    static func urlPathProvider(_ value: DescribeEventDetailsForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1395,8 +1402,9 @@ extension DescribeEventDetailsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventDetailsInput {
+
+    static func urlPathProvider(_ value: DescribeEventDetailsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1551,8 +1559,9 @@ extension DescribeEventTypesInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventTypesInput {
+
+    static func urlPathProvider(_ value: DescribeEventTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1705,8 +1714,9 @@ extension DescribeEventsForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventsForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventsForOrganizationInput {
+
+    static func urlPathProvider(_ value: DescribeEventsForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1859,8 +1869,9 @@ extension DescribeEventsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventsInput {
+
+    static func urlPathProvider(_ value: DescribeEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1996,8 +2007,9 @@ extension DescribeHealthServiceStatusForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeHealthServiceStatusForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeHealthServiceStatusForOrganizationInput {
+
+    static func urlPathProvider(_ value: DescribeHealthServiceStatusForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2074,8 +2086,9 @@ extension DisableHealthServiceAccessForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension DisableHealthServiceAccessForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableHealthServiceAccessForOrganizationInput {
+
+    static func urlPathProvider(_ value: DisableHealthServiceAccessForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2123,8 +2136,9 @@ extension EnableHealthServiceAccessForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension EnableHealthServiceAccessForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableHealthServiceAccessForOrganizationInput {
+
+    static func urlPathProvider(_ value: EnableHealthServiceAccessForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3511,6 +3525,8 @@ extension HealthClientTypes {
     }
 
 }
+
+public enum HealthClientTypes {}
 
 extension InvalidPaginationToken {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

@@ -75,6 +75,8 @@ extension BadRequestExceptionBody: Swift.Decodable {
     }
 }
 
+public enum Cloud9ClientTypes {}
+
 extension ConcurrentAccessException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -314,8 +316,9 @@ extension CreateEnvironmentEC2Input: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentEC2Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentEC2Input {
+
+    static func urlPathProvider(_ value: CreateEnvironmentEC2Input) -> Swift.String? {
         return "/"
     }
 }
@@ -541,8 +544,9 @@ extension CreateEnvironmentMembershipInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentMembershipInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentMembershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -669,8 +673,9 @@ extension DeleteEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -721,8 +726,9 @@ extension DeleteEnvironmentMembershipInput: Swift.Encodable {
     }
 }
 
-extension DeleteEnvironmentMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEnvironmentMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentMembershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -851,8 +857,9 @@ extension DescribeEnvironmentMembershipsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEnvironmentMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEnvironmentMembershipsInput {
+
+    static func urlPathProvider(_ value: DescribeEnvironmentMembershipsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1024,8 +1031,9 @@ extension DescribeEnvironmentStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeEnvironmentStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEnvironmentStatusInput {
+
+    static func urlPathProvider(_ value: DescribeEnvironmentStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1158,8 +1166,9 @@ extension DescribeEnvironmentsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEnvironmentsInput {
+
+    static func urlPathProvider(_ value: DescribeEnvironmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1921,8 +1930,9 @@ extension ListEnvironmentsInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2052,8 +2062,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2463,8 +2474,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2638,8 +2650,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2745,8 +2758,9 @@ extension UpdateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2832,8 +2846,9 @@ extension UpdateEnvironmentMembershipInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnvironmentMembershipInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentMembershipInput) -> Swift.String? {
         return "/"
     }
 }

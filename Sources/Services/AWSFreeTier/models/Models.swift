@@ -227,6 +227,8 @@ extension FreeTierClientTypes {
 
 }
 
+public enum FreeTierClientTypes {}
+
 extension FreeTierClientTypes.FreeTierUsage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actualUsageAmount
@@ -373,8 +375,9 @@ extension GetFreeTierUsageInput: Swift.Encodable {
     }
 }
 
-extension GetFreeTierUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFreeTierUsageInput {
+
+    static func urlPathProvider(_ value: GetFreeTierUsageInput) -> Swift.String? {
         return "/"
     }
 }

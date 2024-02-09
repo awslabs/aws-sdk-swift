@@ -346,19 +346,19 @@ extension BatchCreateAttendeeInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateAttendeeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-create"))
-            return items
-        }
+extension BatchCreateAttendeeInput {
+
+    static func queryItemProvider(_ value: BatchCreateAttendeeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-create"))
+        return items
     }
 }
 
-extension BatchCreateAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension BatchCreateAttendeeInput {
+
+    static func urlPathProvider(_ value: BatchCreateAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees"
@@ -515,19 +515,19 @@ extension BatchUpdateAttendeeCapabilitiesExceptInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateAttendeeCapabilitiesExceptInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-update-except"))
-            return items
-        }
+extension BatchUpdateAttendeeCapabilitiesExceptInput {
+
+    static func queryItemProvider(_ value: BatchUpdateAttendeeCapabilitiesExceptInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-update-except"))
+        return items
     }
 }
 
-extension BatchUpdateAttendeeCapabilitiesExceptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension BatchUpdateAttendeeCapabilitiesExceptInput {
+
+    static func urlPathProvider(_ value: BatchUpdateAttendeeCapabilitiesExceptInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/capabilities"
@@ -613,6 +613,8 @@ enum BatchUpdateAttendeeCapabilitiesExceptOutputError: ClientRuntime.HttpRespons
         }
     }
 }
+
+public enum ChimeSDKMeetingsClientTypes {}
 
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -840,9 +842,10 @@ extension CreateAttendeeInput: Swift.Encodable {
     }
 }
 
-extension CreateAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension CreateAttendeeInput {
+
+    static func urlPathProvider(_ value: CreateAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees"
@@ -1067,8 +1070,9 @@ extension CreateMeetingInput: Swift.Encodable {
     }
 }
 
-extension CreateMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMeetingInput {
+
+    static func urlPathProvider(_ value: CreateMeetingInput) -> Swift.String? {
         return "/meetings"
     }
 }
@@ -1318,18 +1322,18 @@ extension CreateMeetingWithAttendeesInput: Swift.Encodable {
     }
 }
 
-extension CreateMeetingWithAttendeesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "create-attendees"))
-            return items
-        }
+extension CreateMeetingWithAttendeesInput {
+
+    static func queryItemProvider(_ value: CreateMeetingWithAttendeesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "create-attendees"))
+        return items
     }
 }
 
-extension CreateMeetingWithAttendeesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMeetingWithAttendeesInput {
+
+    static func urlPathProvider(_ value: CreateMeetingWithAttendeesInput) -> Swift.String? {
         return "/meetings"
     }
 }
@@ -1561,12 +1565,13 @@ enum CreateMeetingWithAttendeesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension DeleteAttendeeInput {
+
+    static func urlPathProvider(_ value: DeleteAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())"
@@ -1627,9 +1632,10 @@ enum DeleteAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension DeleteMeetingInput {
+
+    static func urlPathProvider(_ value: DeleteMeetingInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())"
@@ -2032,12 +2038,13 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension GetAttendeeInput {
+
+    static func urlPathProvider(_ value: GetAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())"
@@ -2128,9 +2135,10 @@ enum GetAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension GetMeetingInput {
+
+    static func urlPathProvider(_ value: GetMeetingInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())"
@@ -2290,26 +2298,26 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAttendeesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAttendeesInput {
+
+    static func queryItemProvider(_ value: ListAttendeesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAttendeesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension ListAttendeesInput {
+
+    static func urlPathProvider(_ value: ListAttendeesInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees"
@@ -2422,23 +2430,23 @@ enum ListAttendeesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceARN = resourceARN else {
-                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
-            items.append(resourceARNQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceARN = value.resourceARN else {
+            let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        items.append(resourceARNQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -3292,19 +3300,19 @@ extension StartMeetingTranscriptionInput: Swift.Encodable {
     }
 }
 
-extension StartMeetingTranscriptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "start"))
-            return items
-        }
+extension StartMeetingTranscriptionInput {
+
+    static func queryItemProvider(_ value: StartMeetingTranscriptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "start"))
+        return items
     }
 }
 
-extension StartMeetingTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension StartMeetingTranscriptionInput {
+
+    static func urlPathProvider(_ value: StartMeetingTranscriptionInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/transcription"
@@ -3374,19 +3382,19 @@ enum StartMeetingTranscriptionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension StopMeetingTranscriptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "stop"))
-            return items
-        }
+extension StopMeetingTranscriptionInput {
+
+    static func queryItemProvider(_ value: StopMeetingTranscriptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+        return items
     }
 }
 
-extension StopMeetingTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension StopMeetingTranscriptionInput {
+
+    static func urlPathProvider(_ value: StopMeetingTranscriptionInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/transcription"
@@ -3510,18 +3518,18 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
-            return items
-        }
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -4415,18 +4423,18 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
-            return items
-        }
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -4519,12 +4527,13 @@ extension UpdateAttendeeCapabilitiesInput: Swift.Encodable {
     }
 }
 
-extension UpdateAttendeeCapabilitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension UpdateAttendeeCapabilitiesInput {
+
+    static func urlPathProvider(_ value: UpdateAttendeeCapabilitiesInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())/capabilities"

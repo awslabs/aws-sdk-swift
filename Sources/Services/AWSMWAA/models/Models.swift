@@ -57,9 +57,10 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-extension CreateCliTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateCliTokenInput {
+
+    static func urlPathProvider(_ value: CreateCliTokenInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clitoken/\(name.urlPercentEncoding())"
@@ -262,9 +263,10 @@ extension CreateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"
@@ -551,9 +553,10 @@ enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateWebLoginTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateWebLoginTokenInput {
+
+    static func urlPathProvider(_ value: CreateWebLoginTokenInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/webtoken/\(name.urlPercentEncoding())"
@@ -584,11 +587,7 @@ extension CreateWebLoginTokenInputBody: Swift.Decodable {
 
 extension CreateWebLoginTokenOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-<<<<<<< HEAD
-        "CreateWebLoginTokenOutput(webServerHostname: \(Swift.String(describing: webServerHostname)), webToken: \"CONTENT_REDACTED\")"}
-=======
         "CreateWebLoginTokenOutput(airflowIdentity: \(Swift.String(describing: airflowIdentity)), iamIdentity: \(Swift.String(describing: iamIdentity)), webServerHostname: \(Swift.String(describing: webServerHostname)), webToken: \"CONTENT_REDACTED\")"}
->>>>>>> temp-main
 }
 
 extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
@@ -596,11 +595,6 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWebLoginTokenOutputBody = try responseDecoder.decode(responseBody: data)
-<<<<<<< HEAD
-            self.webServerHostname = output.webServerHostname
-            self.webToken = output.webToken
-        } else {
-=======
             self.airflowIdentity = output.airflowIdentity
             self.iamIdentity = output.iamIdentity
             self.webServerHostname = output.webServerHostname
@@ -608,7 +602,6 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.airflowIdentity = nil
             self.iamIdentity = nil
->>>>>>> temp-main
             self.webServerHostname = nil
             self.webToken = nil
         }
@@ -616,33 +609,24 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateWebLoginTokenOutput: Swift.Equatable {
-<<<<<<< HEAD
-=======
     /// The user name of the Apache Airflow identity creating the web login token.
     public var airflowIdentity: Swift.String?
     /// The name of the IAM identity creating the web login token. This might be an IAM user, or an assumed or federated identity. For example, assumed-role/Admin/your-name.
     public var iamIdentity: Swift.String?
->>>>>>> temp-main
     /// The Airflow web server hostname for the environment.
     public var webServerHostname: Swift.String?
     /// An Airflow web server login token.
     public var webToken: Swift.String?
 
     public init(
-<<<<<<< HEAD
-=======
         airflowIdentity: Swift.String? = nil,
         iamIdentity: Swift.String? = nil,
->>>>>>> temp-main
         webServerHostname: Swift.String? = nil,
         webToken: Swift.String? = nil
     )
     {
-<<<<<<< HEAD
-=======
         self.airflowIdentity = airflowIdentity
         self.iamIdentity = iamIdentity
->>>>>>> temp-main
         self.webServerHostname = webServerHostname
         self.webToken = webToken
     }
@@ -651,20 +635,14 @@ public struct CreateWebLoginTokenOutput: Swift.Equatable {
 struct CreateWebLoginTokenOutputBody: Swift.Equatable {
     let webToken: Swift.String?
     let webServerHostname: Swift.String?
-<<<<<<< HEAD
-=======
     let iamIdentity: Swift.String?
     let airflowIdentity: Swift.String?
->>>>>>> temp-main
 }
 
 extension CreateWebLoginTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-<<<<<<< HEAD
-=======
         case airflowIdentity = "AirflowIdentity"
         case iamIdentity = "IamIdentity"
->>>>>>> temp-main
         case webServerHostname = "WebServerHostname"
         case webToken = "WebToken"
     }
@@ -675,13 +653,10 @@ extension CreateWebLoginTokenOutputBody: Swift.Decodable {
         webToken = webTokenDecoded
         let webServerHostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webServerHostname)
         webServerHostname = webServerHostnameDecoded
-<<<<<<< HEAD
-=======
         let iamIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamIdentity)
         iamIdentity = iamIdentityDecoded
         let airflowIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .airflowIdentity)
         airflowIdentity = airflowIdentityDecoded
->>>>>>> temp-main
     }
 }
 
@@ -699,9 +674,10 @@ enum CreateWebLoginTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"
@@ -1291,9 +1267,10 @@ extension MWAAClientTypes {
     }
 }
 
-extension GetEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetEnvironmentInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"
@@ -1495,25 +1472,25 @@ extension MWAAClientTypes {
 
 }
 
-extension ListEnvironmentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListEnvironmentsInput {
+
+    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentsInput) -> Swift.String? {
         return "/environments"
     }
 }
@@ -1615,9 +1592,10 @@ enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1898,6 +1876,8 @@ extension MWAAClientTypes {
         }
     }
 }
+
+public enum MWAAClientTypes {}
 
 extension MWAAClientTypes.MetricDatum: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -2188,9 +2168,10 @@ extension PublishMetricsInput: Swift.Encodable {
     }
 }
 
-extension PublishMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentName = environmentName else {
+extension PublishMetricsInput {
+
+    static func urlPathProvider(_ value: PublishMetricsInput) -> Swift.String? {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/metrics/environments/\(environmentName.urlPercentEncoding())"
@@ -2402,9 +2383,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2584,26 +2566,26 @@ extension MWAAClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2753,9 +2735,10 @@ extension UpdateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"

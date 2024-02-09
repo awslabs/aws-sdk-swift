@@ -57,6 +57,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum CodestarnotificationsClientTypes {}
+
 extension ConcurrentModificationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -222,8 +224,9 @@ extension CreateNotificationRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateNotificationRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNotificationRuleInput {
+
+    static func urlPathProvider(_ value: CreateNotificationRuleInput) -> Swift.String? {
         return "/createNotificationRule"
     }
 }
@@ -413,8 +416,9 @@ extension DeleteNotificationRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteNotificationRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNotificationRuleInput {
+
+    static func urlPathProvider(_ value: DeleteNotificationRuleInput) -> Swift.String? {
         return "/deleteNotificationRule"
     }
 }
@@ -523,8 +527,9 @@ extension DeleteTargetInput: Swift.Encodable {
     }
 }
 
-extension DeleteTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTargetInput {
+
+    static func urlPathProvider(_ value: DeleteTargetInput) -> Swift.String? {
         return "/deleteTarget"
     }
 }
@@ -600,8 +605,9 @@ extension DescribeNotificationRuleInput: Swift.Encodable {
     }
 }
 
-extension DescribeNotificationRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeNotificationRuleInput {
+
+    static func urlPathProvider(_ value: DescribeNotificationRuleInput) -> Swift.String? {
         return "/describeNotificationRule"
     }
 }
@@ -1130,8 +1136,9 @@ extension ListEventTypesInput: Swift.Encodable {
     }
 }
 
-extension ListEventTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventTypesInput {
+
+    static func urlPathProvider(_ value: ListEventTypesInput) -> Swift.String? {
         return "/listEventTypes"
     }
 }
@@ -1369,8 +1376,9 @@ extension ListNotificationRulesInput: Swift.Encodable {
     }
 }
 
-extension ListNotificationRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNotificationRulesInput {
+
+    static func urlPathProvider(_ value: ListNotificationRulesInput) -> Swift.String? {
         return "/listNotificationRules"
     }
 }
@@ -1512,8 +1520,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/listTagsForResource"
     }
 }
@@ -1714,8 +1723,9 @@ extension ListTargetsInput: Swift.Encodable {
     }
 }
 
-extension ListTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTargetsInput {
+
+    static func urlPathProvider(_ value: ListTargetsInput) -> Swift.String? {
         return "/listTargets"
     }
 }
@@ -2052,8 +2062,9 @@ extension SubscribeInput: Swift.Encodable {
     }
 }
 
-extension SubscribeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SubscribeInput {
+
+    static func urlPathProvider(_ value: SubscribeInput) -> Swift.String? {
         return "/subscribe"
     }
 }
@@ -2177,8 +2188,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tagResource"
     }
 }
@@ -2474,8 +2486,9 @@ extension UnsubscribeInput: Swift.Encodable {
     }
 }
 
-extension UnsubscribeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UnsubscribeInput {
+
+    static func urlPathProvider(_ value: UnsubscribeInput) -> Swift.String? {
         return "/unsubscribe"
     }
 }
@@ -2570,26 +2583,26 @@ enum UnsubscribeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/untagResource/\(arn.urlPercentEncoding())"
@@ -2691,8 +2704,9 @@ extension UpdateNotificationRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateNotificationRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNotificationRuleInput {
+
+    static func urlPathProvider(_ value: UpdateNotificationRuleInput) -> Swift.String? {
         return "/updateNotificationRule"
     }
 }

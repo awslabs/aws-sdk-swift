@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension AppStreamClientProtocol {
+extension AppStreamClient {
 
     static func fleetStartedWaiterConfig() throws -> WaiterConfiguration<DescribeFleetsInput, DescribeFleetsOutput> {
         let acceptors: [WaiterConfiguration<DescribeFleetsInput, DescribeFleetsOutput>.Acceptor] = [

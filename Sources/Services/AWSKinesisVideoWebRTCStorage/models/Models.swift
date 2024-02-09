@@ -180,8 +180,9 @@ extension JoinStorageSessionInput: Swift.Encodable {
     }
 }
 
-extension JoinStorageSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension JoinStorageSessionInput {
+
+    static func urlPathProvider(_ value: JoinStorageSessionInput) -> Swift.String? {
         return "/joinStorageSession"
     }
 }
@@ -238,6 +239,8 @@ enum JoinStorageSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum KinesisVideoWebRTCStorageClientTypes {}
 
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

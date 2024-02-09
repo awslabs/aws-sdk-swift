@@ -7,22 +7,24 @@ extension AbortDocumentVersionUploadInput: Swift.CustomDebugStringConvertible {
         "AbortDocumentVersionUploadInput(documentId: \(Swift.String(describing: documentId)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension AbortDocumentVersionUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AbortDocumentVersionUploadInput {
+
+    static func headerProvider(_ value: AbortDocumentVersionUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension AbortDocumentVersionUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension AbortDocumentVersionUploadInput {
+
+    static func urlPathProvider(_ value: AbortDocumentVersionUploadInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
@@ -92,19 +94,21 @@ extension ActivateUserInput: Swift.CustomDebugStringConvertible {
         "ActivateUserInput(userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ActivateUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ActivateUserInput {
+
+    static func headerProvider(_ value: ActivateUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension ActivateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension ActivateUserInput {
+
+    static func urlPathProvider(_ value: ActivateUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/api/v1/users/\(userId.urlPercentEncoding())/activation"
@@ -457,19 +461,21 @@ extension AddResourcePermissionsInput: Swift.Encodable {
     }
 }
 
-extension AddResourcePermissionsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AddResourcePermissionsInput {
+
+    static func headerProvider(_ value: AddResourcePermissionsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension AddResourcePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension AddResourcePermissionsInput {
+
+    static func urlPathProvider(_ value: AddResourcePermissionsInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/permissions"
@@ -1126,22 +1132,24 @@ extension CreateCommentInput: Swift.Encodable {
     }
 }
 
-extension CreateCommentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateCommentInput {
+
+    static func headerProvider(_ value: CreateCommentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension CreateCommentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension CreateCommentInput {
+
+    static func urlPathProvider(_ value: CreateCommentInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())/comment"
@@ -1302,32 +1310,33 @@ extension CreateCustomMetadataInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomMetadataInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateCustomMetadataInput {
+
+    static func headerProvider(_ value: CreateCustomMetadataInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension CreateCustomMetadataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionid".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension CreateCustomMetadataInput {
+
+    static func queryItemProvider(_ value: CreateCustomMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionid".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension CreateCustomMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension CreateCustomMetadataInput {
+
+    static func urlPathProvider(_ value: CreateCustomMetadataInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/customMetadata"
@@ -1434,18 +1443,20 @@ extension CreateFolderInput: Swift.Encodable {
     }
 }
 
-extension CreateFolderInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateFolderInput {
+
+    static func headerProvider(_ value: CreateFolderInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension CreateFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFolderInput {
+
+    static func urlPathProvider(_ value: CreateFolderInput) -> Swift.String? {
         return "/api/v1/folders"
     }
 }
@@ -1572,19 +1583,21 @@ extension CreateLabelsInput: Swift.Encodable {
     }
 }
 
-extension CreateLabelsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateLabelsInput {
+
+    static func headerProvider(_ value: CreateLabelsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension CreateLabelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension CreateLabelsInput {
+
+    static func urlPathProvider(_ value: CreateLabelsInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/labels"
@@ -1685,9 +1698,10 @@ extension CreateNotificationSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateNotificationSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationId = organizationId else {
+extension CreateNotificationSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateNotificationSubscriptionInput) -> Swift.String? {
+        guard let organizationId = value.organizationId else {
             return nil
         }
         return "/api/v1/organizations/\(organizationId.urlPercentEncoding())/subscriptions"
@@ -1846,18 +1860,20 @@ extension CreateUserInput: Swift.Encodable {
     }
 }
 
-extension CreateUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateUserInput {
+
+    static func headerProvider(_ value: CreateUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension CreateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserInput {
+
+    static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
         return "/api/v1/users"
     }
 }
@@ -2114,19 +2130,21 @@ extension DeactivateUserInput: Swift.CustomDebugStringConvertible {
         "DeactivateUserInput(userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeactivateUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeactivateUserInput {
+
+    static func headerProvider(_ value: DeactivateUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeactivateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension DeactivateUserInput {
+
+    static func urlPathProvider(_ value: DeactivateUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/api/v1/users/\(userId.urlPercentEncoding())/activation"
@@ -2253,25 +2271,27 @@ extension DeleteCommentInput: Swift.CustomDebugStringConvertible {
         "DeleteCommentInput(commentId: \(Swift.String(describing: commentId)), documentId: \(Swift.String(describing: documentId)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteCommentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteCommentInput {
+
+    static func headerProvider(_ value: DeleteCommentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteCommentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension DeleteCommentInput {
+
+    static func urlPathProvider(_ value: DeleteCommentInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
-        guard let commentId = commentId else {
+        guard let commentId = value.commentId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())/comment/\(commentId.urlPercentEncoding())"
@@ -2346,42 +2366,43 @@ extension DeleteCustomMetadataInput: Swift.CustomDebugStringConvertible {
         "DeleteCustomMetadataInput(deleteAll: \(Swift.String(describing: deleteAll)), keys: \(Swift.String(describing: keys)), resourceId: \(Swift.String(describing: resourceId)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteCustomMetadataInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteCustomMetadataInput {
+
+    static func headerProvider(_ value: DeleteCustomMetadataInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteCustomMetadataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            if let deleteAll = deleteAll {
-                let deleteAllQueryItem = ClientRuntime.URLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
-                items.append(deleteAllQueryItem)
-            }
-            if let keys = keys {
-                keys.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "keys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension DeleteCustomMetadataInput {
+
+    static func queryItemProvider(_ value: DeleteCustomMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        if let deleteAll = value.deleteAll {
+            let deleteAllQueryItem = ClientRuntime.SDKURLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
+            items.append(deleteAllQueryItem)
+        }
+        if let keys = value.keys {
+            keys.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "keys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension DeleteCustomMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension DeleteCustomMetadataInput {
+
+    static func urlPathProvider(_ value: DeleteCustomMetadataInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/customMetadata"
@@ -2457,19 +2478,21 @@ extension DeleteDocumentInput: Swift.CustomDebugStringConvertible {
         "DeleteDocumentInput(documentId: \(Swift.String(describing: documentId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteDocumentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteDocumentInput {
+
+    static func headerProvider(_ value: DeleteDocumentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteDocumentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension DeleteDocumentInput {
+
+    static func urlPathProvider(_ value: DeleteDocumentInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())"
@@ -2536,37 +2559,38 @@ extension DeleteDocumentVersionInput: Swift.CustomDebugStringConvertible {
         "DeleteDocumentVersionInput(deletePriorVersions: \(Swift.String(describing: deletePriorVersions)), documentId: \(Swift.String(describing: documentId)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteDocumentVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteDocumentVersionInput {
+
+    static func headerProvider(_ value: DeleteDocumentVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteDocumentVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let deletePriorVersions = deletePriorVersions else {
-                let message = "Creating a URL Query Item failed. deletePriorVersions is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let deletePriorVersionsQueryItem = ClientRuntime.URLQueryItem(name: "deletePriorVersions".urlPercentEncoding(), value: Swift.String(deletePriorVersions).urlPercentEncoding())
-            items.append(deletePriorVersionsQueryItem)
-            return items
+extension DeleteDocumentVersionInput {
+
+    static func queryItemProvider(_ value: DeleteDocumentVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let deletePriorVersions = value.deletePriorVersions else {
+            let message = "Creating a URL Query Item failed. deletePriorVersions is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let deletePriorVersionsQueryItem = ClientRuntime.SDKURLQueryItem(name: "deletePriorVersions".urlPercentEncoding(), value: Swift.String(deletePriorVersions).urlPercentEncoding())
+        items.append(deletePriorVersionsQueryItem)
+        return items
     }
 }
 
-extension DeleteDocumentVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension DeleteDocumentVersionInput {
+
+    static func urlPathProvider(_ value: DeleteDocumentVersionInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
         return "/api/v1/documentVersions/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
@@ -2642,19 +2666,21 @@ extension DeleteFolderContentsInput: Swift.CustomDebugStringConvertible {
         "DeleteFolderContentsInput(folderId: \(Swift.String(describing: folderId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteFolderContentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteFolderContentsInput {
+
+    static func headerProvider(_ value: DeleteFolderContentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteFolderContentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let folderId = folderId else {
+extension DeleteFolderContentsInput {
+
+    static func urlPathProvider(_ value: DeleteFolderContentsInput) -> Swift.String? {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/api/v1/folders/\(folderId.urlPercentEncoding())/contents"
@@ -2719,19 +2745,21 @@ extension DeleteFolderInput: Swift.CustomDebugStringConvertible {
         "DeleteFolderInput(folderId: \(Swift.String(describing: folderId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteFolderInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteFolderInput {
+
+    static func headerProvider(_ value: DeleteFolderInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let folderId = folderId else {
+extension DeleteFolderInput {
+
+    static func urlPathProvider(_ value: DeleteFolderInput) -> Swift.String? {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/api/v1/folders/\(folderId.urlPercentEncoding())"
@@ -2798,38 +2826,39 @@ extension DeleteLabelsInput: Swift.CustomDebugStringConvertible {
         "DeleteLabelsInput(deleteAll: \(Swift.String(describing: deleteAll)), labels: \(Swift.String(describing: labels)), resourceId: \(Swift.String(describing: resourceId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteLabelsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteLabelsInput {
+
+    static func headerProvider(_ value: DeleteLabelsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteLabelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let deleteAll = deleteAll {
-                let deleteAllQueryItem = ClientRuntime.URLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
-                items.append(deleteAllQueryItem)
-            }
-            if let labels = labels {
-                labels.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "labels".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension DeleteLabelsInput {
+
+    static func queryItemProvider(_ value: DeleteLabelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let deleteAll = value.deleteAll {
+            let deleteAllQueryItem = ClientRuntime.SDKURLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
+            items.append(deleteAllQueryItem)
         }
+        if let labels = value.labels {
+            labels.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "labels".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension DeleteLabelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension DeleteLabelsInput {
+
+    static func urlPathProvider(_ value: DeleteLabelsInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/labels"
@@ -2896,12 +2925,13 @@ enum DeleteLabelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteNotificationSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationId = organizationId else {
+extension DeleteNotificationSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteNotificationSubscriptionInput) -> Swift.String? {
+        guard let organizationId = value.organizationId else {
             return nil
         }
-        guard let subscriptionId = subscriptionId else {
+        guard let subscriptionId = value.subscriptionId else {
             return nil
         }
         return "/api/v1/organizations/\(organizationId.urlPercentEncoding())/subscriptions/\(subscriptionId.urlPercentEncoding())"
@@ -2964,19 +2994,21 @@ extension DeleteUserInput: Swift.CustomDebugStringConvertible {
         "DeleteUserInput(userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DeleteUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteUserInput {
+
+    static func headerProvider(_ value: DeleteUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DeleteUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension DeleteUserInput {
+
+    static func urlPathProvider(_ value: DeleteUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/api/v1/users/\(userId.urlPercentEncoding())"
@@ -3039,63 +3071,64 @@ extension DescribeActivitiesInput: Swift.CustomDebugStringConvertible {
         "DescribeActivitiesInput(activityTypes: \(Swift.String(describing: activityTypes)), endTime: \(Swift.String(describing: endTime)), includeIndirectActivities: \(Swift.String(describing: includeIndirectActivities)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), organizationId: \(Swift.String(describing: organizationId)), resourceId: \(Swift.String(describing: resourceId)), startTime: \(Swift.String(describing: startTime)), userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeActivitiesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeActivitiesInput {
+
+    static func headerProvider(_ value: DescribeActivitiesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeActivitiesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let endTime = endTime {
-                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-                items.append(endTimeQueryItem)
-            }
-            if let resourceId = resourceId {
-                let resourceIdQueryItem = ClientRuntime.URLQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
-                items.append(resourceIdQueryItem)
-            }
-            if let userId = userId {
-                let userIdQueryItem = ClientRuntime.URLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-                items.append(userIdQueryItem)
-            }
-            if let startTime = startTime {
-                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-                items.append(startTimeQueryItem)
-            }
-            if let includeIndirectActivities = includeIndirectActivities {
-                let includeIndirectActivitiesQueryItem = ClientRuntime.URLQueryItem(name: "includeIndirectActivities".urlPercentEncoding(), value: Swift.String(includeIndirectActivities).urlPercentEncoding())
-                items.append(includeIndirectActivitiesQueryItem)
-            }
-            if let organizationId = organizationId {
-                let organizationIdQueryItem = ClientRuntime.URLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
-                items.append(organizationIdQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let activityTypes = activityTypes {
-                let activityTypesQueryItem = ClientRuntime.URLQueryItem(name: "activityTypes".urlPercentEncoding(), value: Swift.String(activityTypes).urlPercentEncoding())
-                items.append(activityTypesQueryItem)
-            }
-            return items
+extension DescribeActivitiesInput {
+
+    static func queryItemProvider(_ value: DescribeActivitiesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let endTime = value.endTime {
+            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            items.append(endTimeQueryItem)
         }
+        if let resourceId = value.resourceId {
+            let resourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
+            items.append(resourceIdQueryItem)
+        }
+        if let userId = value.userId {
+            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+        }
+        if let startTime = value.startTime {
+            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            items.append(startTimeQueryItem)
+        }
+        if let includeIndirectActivities = value.includeIndirectActivities {
+            let includeIndirectActivitiesQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeIndirectActivities".urlPercentEncoding(), value: Swift.String(includeIndirectActivities).urlPercentEncoding())
+            items.append(includeIndirectActivitiesQueryItem)
+        }
+        if let organizationId = value.organizationId {
+            let organizationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
+            items.append(organizationIdQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let activityTypes = value.activityTypes {
+            let activityTypesQueryItem = ClientRuntime.SDKURLQueryItem(name: "activityTypes".urlPercentEncoding(), value: Swift.String(activityTypes).urlPercentEncoding())
+            items.append(activityTypesQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeActivitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeActivitiesInput {
+
+    static func urlPathProvider(_ value: DescribeActivitiesInput) -> Swift.String? {
         return "/api/v1/activities"
     }
 }
@@ -3236,39 +3269,40 @@ extension DescribeCommentsInput: Swift.CustomDebugStringConvertible {
         "DescribeCommentsInput(documentId: \(Swift.String(describing: documentId)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeCommentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeCommentsInput {
+
+    static func headerProvider(_ value: DescribeCommentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeCommentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension DescribeCommentsInput {
+
+    static func queryItemProvider(_ value: DescribeCommentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeCommentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension DescribeCommentsInput {
+
+    static func urlPathProvider(_ value: DescribeCommentsInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())/comments"
@@ -3394,44 +3428,45 @@ extension DescribeDocumentVersionsInput: Swift.CustomDebugStringConvertible {
         "DescribeDocumentVersionsInput(documentId: \(Swift.String(describing: documentId)), fields: \(Swift.String(describing: fields)), include: \(Swift.String(describing: include)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeDocumentVersionsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeDocumentVersionsInput {
+
+    static func headerProvider(_ value: DescribeDocumentVersionsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeDocumentVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let fields = fields {
-                let fieldsQueryItem = ClientRuntime.URLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
-                items.append(fieldsQueryItem)
-            }
-            if let include = include {
-                let includeQueryItem = ClientRuntime.URLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
-                items.append(includeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension DescribeDocumentVersionsInput {
+
+    static func queryItemProvider(_ value: DescribeDocumentVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let fields = value.fields {
+            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            items.append(fieldsQueryItem)
         }
+        if let include = value.include {
+            let includeQueryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
+            items.append(includeQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeDocumentVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension DescribeDocumentVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeDocumentVersionsInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions"
@@ -3562,52 +3597,53 @@ extension DescribeFolderContentsInput: Swift.CustomDebugStringConvertible {
         "DescribeFolderContentsInput(folderId: \(Swift.String(describing: folderId)), include: \(Swift.String(describing: include)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), order: \(Swift.String(describing: order)), sort: \(Swift.String(describing: sort)), type: \(Swift.String(describing: type)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeFolderContentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeFolderContentsInput {
+
+    static func headerProvider(_ value: DescribeFolderContentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeFolderContentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let order = order {
-                let orderQueryItem = ClientRuntime.URLQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
-                items.append(orderQueryItem)
-            }
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let sort = sort {
-                let sortQueryItem = ClientRuntime.URLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
-                items.append(sortQueryItem)
-            }
-            if let include = include {
-                let includeQueryItem = ClientRuntime.URLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
-                items.append(includeQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension DescribeFolderContentsInput {
+
+    static func queryItemProvider(_ value: DescribeFolderContentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let order = value.order {
+            let orderQueryItem = ClientRuntime.SDKURLQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
+            items.append(orderQueryItem)
         }
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let sort = value.sort {
+            let sortQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
+            items.append(sortQueryItem)
+        }
+        if let include = value.include {
+            let includeQueryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
+            items.append(includeQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeFolderContentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let folderId = folderId else {
+extension DescribeFolderContentsInput {
+
+    static func urlPathProvider(_ value: DescribeFolderContentsInput) -> Swift.String? {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/api/v1/folders/\(folderId.urlPercentEncoding())/contents"
@@ -3763,45 +3799,46 @@ extension DescribeGroupsInput: Swift.CustomDebugStringConvertible {
         "DescribeGroupsInput(limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), organizationId: \(Swift.String(describing: organizationId)), authenticationToken: \"CONTENT_REDACTED\", searchQuery: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeGroupsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeGroupsInput {
+
+    static func headerProvider(_ value: DescribeGroupsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let searchQuery = searchQuery else {
-                let message = "Creating a URL Query Item failed. searchQuery is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let searchQueryQueryItem = ClientRuntime.URLQueryItem(name: "searchQuery".urlPercentEncoding(), value: Swift.String(searchQuery).urlPercentEncoding())
-            items.append(searchQueryQueryItem)
-            if let organizationId = organizationId {
-                let organizationIdQueryItem = ClientRuntime.URLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
-                items.append(organizationIdQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension DescribeGroupsInput {
+
+    static func queryItemProvider(_ value: DescribeGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let searchQuery = value.searchQuery else {
+            let message = "Creating a URL Query Item failed. searchQuery is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let searchQueryQueryItem = ClientRuntime.SDKURLQueryItem(name: "searchQuery".urlPercentEncoding(), value: Swift.String(searchQuery).urlPercentEncoding())
+        items.append(searchQueryQueryItem)
+        if let organizationId = value.organizationId {
+            let organizationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
+            items.append(organizationIdQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeGroupsInput) -> Swift.String? {
         return "/api/v1/groups"
     }
 }
@@ -3917,26 +3954,26 @@ enum DescribeGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeNotificationSubscriptionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension DescribeNotificationSubscriptionsInput {
+
+    static func queryItemProvider(_ value: DescribeNotificationSubscriptionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeNotificationSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationId = organizationId else {
+extension DescribeNotificationSubscriptionsInput {
+
+    static func urlPathProvider(_ value: DescribeNotificationSubscriptionsInput) -> Swift.String? {
+        guard let organizationId = value.organizationId else {
             return nil
         }
         return "/api/v1/organizations/\(organizationId.urlPercentEncoding())/subscriptions"
@@ -4050,40 +4087,41 @@ extension DescribeResourcePermissionsInput: Swift.CustomDebugStringConvertible {
         "DescribeResourcePermissionsInput(limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), principalId: \(Swift.String(describing: principalId)), resourceId: \(Swift.String(describing: resourceId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeResourcePermissionsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeResourcePermissionsInput {
+
+    static func headerProvider(_ value: DescribeResourcePermissionsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeResourcePermissionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let principalId = principalId {
-                let principalIdQueryItem = ClientRuntime.URLQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
-                items.append(principalIdQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension DescribeResourcePermissionsInput {
+
+    static func queryItemProvider(_ value: DescribeResourcePermissionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let principalId = value.principalId {
+            let principalIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
+            items.append(principalIdQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeResourcePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension DescribeResourcePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeResourcePermissionsInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/permissions"
@@ -4207,35 +4245,36 @@ extension DescribeRootFoldersInput: Swift.CustomDebugStringConvertible {
         "DescribeRootFoldersInput(limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeRootFoldersInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeRootFoldersInput {
+
+    static func headerProvider(_ value: DescribeRootFoldersInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeRootFoldersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension DescribeRootFoldersInput {
+
+    static func queryItemProvider(_ value: DescribeRootFoldersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeRootFoldersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRootFoldersInput {
+
+    static func urlPathProvider(_ value: DescribeRootFoldersInput) -> Swift.String? {
         return "/api/v1/me/root"
     }
 }
@@ -4349,63 +4388,64 @@ extension DescribeUsersInput: Swift.CustomDebugStringConvertible {
         "DescribeUsersInput(fields: \(Swift.String(describing: fields)), include: \(Swift.String(describing: include)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), order: \(Swift.String(describing: order)), organizationId: \(Swift.String(describing: organizationId)), sort: \(Swift.String(describing: sort)), userIds: \(Swift.String(describing: userIds)), authenticationToken: \"CONTENT_REDACTED\", query: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribeUsersInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeUsersInput {
+
+    static func headerProvider(_ value: DescribeUsersInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension DescribeUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let order = order {
-                let orderQueryItem = ClientRuntime.URLQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
-                items.append(orderQueryItem)
-            }
-            if let fields = fields {
-                let fieldsQueryItem = ClientRuntime.URLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
-                items.append(fieldsQueryItem)
-            }
-            if let query = query {
-                let queryQueryItem = ClientRuntime.URLQueryItem(name: "query".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
-                items.append(queryQueryItem)
-            }
-            if let include = include {
-                let includeQueryItem = ClientRuntime.URLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include.rawValue).urlPercentEncoding())
-                items.append(includeQueryItem)
-            }
-            if let sort = sort {
-                let sortQueryItem = ClientRuntime.URLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
-                items.append(sortQueryItem)
-            }
-            if let organizationId = organizationId {
-                let organizationIdQueryItem = ClientRuntime.URLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
-                items.append(organizationIdQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let userIds = userIds {
-                let userIdsQueryItem = ClientRuntime.URLQueryItem(name: "userIds".urlPercentEncoding(), value: Swift.String(userIds).urlPercentEncoding())
-                items.append(userIdsQueryItem)
-            }
-            return items
+extension DescribeUsersInput {
+
+    static func queryItemProvider(_ value: DescribeUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let order = value.order {
+            let orderQueryItem = ClientRuntime.SDKURLQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
+            items.append(orderQueryItem)
         }
+        if let fields = value.fields {
+            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            items.append(fieldsQueryItem)
+        }
+        if let query = value.query {
+            let queryQueryItem = ClientRuntime.SDKURLQueryItem(name: "query".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
+            items.append(queryQueryItem)
+        }
+        if let include = value.include {
+            let includeQueryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include.rawValue).urlPercentEncoding())
+            items.append(includeQueryItem)
+        }
+        if let sort = value.sort {
+            let sortQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
+            items.append(sortQueryItem)
+        }
+        if let organizationId = value.organizationId {
+            let organizationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
+            items.append(organizationIdQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let userIds = value.userIds {
+            let userIdsQueryItem = ClientRuntime.SDKURLQueryItem(name: "userIds".urlPercentEncoding(), value: Swift.String(userIds).urlPercentEncoding())
+            items.append(userIdsQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUsersInput {
+
+    static func urlPathProvider(_ value: DescribeUsersInput) -> Swift.String? {
         return "/api/v1/users"
     }
 }
@@ -5686,18 +5726,20 @@ extension GetCurrentUserInput: Swift.CustomDebugStringConvertible {
         "GetCurrentUserInput(authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetCurrentUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetCurrentUserInput {
+
+    static func headerProvider(_ value: GetCurrentUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetCurrentUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCurrentUserInput {
+
+    static func urlPathProvider(_ value: GetCurrentUserInput) -> Swift.String? {
         return "/api/v1/me"
     }
 }
@@ -5784,32 +5826,33 @@ extension GetDocumentInput: Swift.CustomDebugStringConvertible {
         "GetDocumentInput(documentId: \(Swift.String(describing: documentId)), includeCustomMetadata: \(Swift.String(describing: includeCustomMetadata)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetDocumentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetDocumentInput {
+
+    static func headerProvider(_ value: GetDocumentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetDocumentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeCustomMetadata = includeCustomMetadata {
-                let includeCustomMetadataQueryItem = ClientRuntime.URLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
-                items.append(includeCustomMetadataQueryItem)
-            }
-            return items
+extension GetDocumentInput {
+
+    static func queryItemProvider(_ value: GetDocumentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeCustomMetadata = value.includeCustomMetadata {
+            let includeCustomMetadataQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
+            items.append(includeCustomMetadataQueryItem)
         }
+        return items
     }
 }
 
-extension GetDocumentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension GetDocumentInput {
+
+    static func urlPathProvider(_ value: GetDocumentInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())"
@@ -5927,40 +5970,41 @@ extension GetDocumentPathInput: Swift.CustomDebugStringConvertible {
         "GetDocumentPathInput(documentId: \(Swift.String(describing: documentId)), fields: \(Swift.String(describing: fields)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetDocumentPathInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetDocumentPathInput {
+
+    static func headerProvider(_ value: GetDocumentPathInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetDocumentPathInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let fields = fields {
-                let fieldsQueryItem = ClientRuntime.URLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
-                items.append(fieldsQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension GetDocumentPathInput {
+
+    static func queryItemProvider(_ value: GetDocumentPathInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let fields = value.fields {
+            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            items.append(fieldsQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDocumentPathInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension GetDocumentPathInput {
+
+    static func urlPathProvider(_ value: GetDocumentPathInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/path"
@@ -6065,39 +6109,40 @@ extension GetDocumentVersionInput: Swift.CustomDebugStringConvertible {
         "GetDocumentVersionInput(documentId: \(Swift.String(describing: documentId)), fields: \(Swift.String(describing: fields)), includeCustomMetadata: \(Swift.String(describing: includeCustomMetadata)), versionId: \(Swift.String(describing: versionId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetDocumentVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetDocumentVersionInput {
+
+    static func headerProvider(_ value: GetDocumentVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetDocumentVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let fields = fields {
-                let fieldsQueryItem = ClientRuntime.URLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
-                items.append(fieldsQueryItem)
-            }
-            if let includeCustomMetadata = includeCustomMetadata {
-                let includeCustomMetadataQueryItem = ClientRuntime.URLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
-                items.append(includeCustomMetadataQueryItem)
-            }
-            return items
+extension GetDocumentVersionInput {
+
+    static func queryItemProvider(_ value: GetDocumentVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let fields = value.fields {
+            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            items.append(fieldsQueryItem)
         }
+        if let includeCustomMetadata = value.includeCustomMetadata {
+            let includeCustomMetadataQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
+            items.append(includeCustomMetadataQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDocumentVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension GetDocumentVersionInput {
+
+    static func urlPathProvider(_ value: GetDocumentVersionInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
@@ -6224,32 +6269,33 @@ extension GetFolderInput: Swift.CustomDebugStringConvertible {
         "GetFolderInput(folderId: \(Swift.String(describing: folderId)), includeCustomMetadata: \(Swift.String(describing: includeCustomMetadata)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetFolderInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetFolderInput {
+
+    static func headerProvider(_ value: GetFolderInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetFolderInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeCustomMetadata = includeCustomMetadata {
-                let includeCustomMetadataQueryItem = ClientRuntime.URLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
-                items.append(includeCustomMetadataQueryItem)
-            }
-            return items
+extension GetFolderInput {
+
+    static func queryItemProvider(_ value: GetFolderInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeCustomMetadata = value.includeCustomMetadata {
+            let includeCustomMetadataQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
+            items.append(includeCustomMetadataQueryItem)
         }
+        return items
     }
 }
 
-extension GetFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let folderId = folderId else {
+extension GetFolderInput {
+
+    static func urlPathProvider(_ value: GetFolderInput) -> Swift.String? {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/api/v1/folders/\(folderId.urlPercentEncoding())"
@@ -6367,40 +6413,41 @@ extension GetFolderPathInput: Swift.CustomDebugStringConvertible {
         "GetFolderPathInput(fields: \(Swift.String(describing: fields)), folderId: \(Swift.String(describing: folderId)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetFolderPathInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetFolderPathInput {
+
+    static func headerProvider(_ value: GetFolderPathInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetFolderPathInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let fields = fields {
-                let fieldsQueryItem = ClientRuntime.URLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
-                items.append(fieldsQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension GetFolderPathInput {
+
+    static func queryItemProvider(_ value: GetFolderPathInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let fields = value.fields {
+            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            items.append(fieldsQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension GetFolderPathInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let folderId = folderId else {
+extension GetFolderPathInput {
+
+    static func urlPathProvider(_ value: GetFolderPathInput) -> Swift.String? {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/api/v1/folders/\(folderId.urlPercentEncoding())/path"
@@ -6505,43 +6552,44 @@ extension GetResourcesInput: Swift.CustomDebugStringConvertible {
         "GetResourcesInput(collectionType: \(Swift.String(describing: collectionType)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension GetResourcesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetResourcesInput {
+
+    static func headerProvider(_ value: GetResourcesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension GetResourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let userId = userId {
-                let userIdQueryItem = ClientRuntime.URLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-                items.append(userIdQueryItem)
-            }
-            if let collectionType = collectionType {
-                let collectionTypeQueryItem = ClientRuntime.URLQueryItem(name: "collectionType".urlPercentEncoding(), value: Swift.String(collectionType.rawValue).urlPercentEncoding())
-                items.append(collectionTypeQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension GetResourcesInput {
+
+    static func queryItemProvider(_ value: GetResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let userId = value.userId {
+            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
         }
+        if let collectionType = value.collectionType {
+            let collectionTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "collectionType".urlPercentEncoding(), value: Swift.String(collectionType.rawValue).urlPercentEncoding())
+            items.append(collectionTypeQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension GetResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcesInput {
+
+    static func urlPathProvider(_ value: GetResourcesInput) -> Swift.String? {
         return "/api/v1/resources"
     }
 }
@@ -6818,18 +6866,20 @@ extension InitiateDocumentVersionUploadInput: Swift.Encodable {
     }
 }
 
-extension InitiateDocumentVersionUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InitiateDocumentVersionUploadInput {
+
+    static func headerProvider(_ value: InitiateDocumentVersionUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension InitiateDocumentVersionUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InitiateDocumentVersionUploadInput {
+
+    static func urlPathProvider(_ value: InitiateDocumentVersionUploadInput) -> Swift.String? {
         return "/api/v1/documents"
     }
 }
@@ -7929,19 +7979,21 @@ extension RemoveAllResourcePermissionsInput: Swift.CustomDebugStringConvertible 
         "RemoveAllResourcePermissionsInput(resourceId: \(Swift.String(describing: resourceId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension RemoveAllResourcePermissionsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RemoveAllResourcePermissionsInput {
+
+    static func headerProvider(_ value: RemoveAllResourcePermissionsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension RemoveAllResourcePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension RemoveAllResourcePermissionsInput {
+
+    static func urlPathProvider(_ value: RemoveAllResourcePermissionsInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/permissions"
@@ -8003,35 +8055,36 @@ extension RemoveResourcePermissionInput: Swift.CustomDebugStringConvertible {
         "RemoveResourcePermissionInput(principalId: \(Swift.String(describing: principalId)), principalType: \(Swift.String(describing: principalType)), resourceId: \(Swift.String(describing: resourceId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension RemoveResourcePermissionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RemoveResourcePermissionInput {
+
+    static func headerProvider(_ value: RemoveResourcePermissionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension RemoveResourcePermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let principalType = principalType {
-                let principalTypeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(principalType.rawValue).urlPercentEncoding())
-                items.append(principalTypeQueryItem)
-            }
-            return items
+extension RemoveResourcePermissionInput {
+
+    static func queryItemProvider(_ value: RemoveResourcePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let principalType = value.principalType {
+            let principalTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(principalType.rawValue).urlPercentEncoding())
+            items.append(principalTypeQueryItem)
         }
+        return items
     }
 }
 
-extension RemoveResourcePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension RemoveResourcePermissionInput {
+
+    static func urlPathProvider(_ value: RemoveResourcePermissionInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/api/v1/resources/\(resourceId.urlPercentEncoding())/permissions/\(principalId.urlPercentEncoding())"
@@ -8668,19 +8721,21 @@ extension RestoreDocumentVersionsInput: Swift.CustomDebugStringConvertible {
         "RestoreDocumentVersionsInput(documentId: \(Swift.String(describing: documentId)), authenticationToken: \"CONTENT_REDACTED\")"}
 }
 
-extension RestoreDocumentVersionsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RestoreDocumentVersionsInput {
+
+    static func headerProvider(_ value: RestoreDocumentVersionsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension RestoreDocumentVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension RestoreDocumentVersionsInput {
+
+    static func urlPathProvider(_ value: RestoreDocumentVersionsInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
         return "/api/v1/documentVersions/restore/\(documentId.urlPercentEncoding())"
@@ -9026,18 +9081,20 @@ extension SearchResourcesInput: Swift.Encodable {
     }
 }
 
-extension SearchResourcesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SearchResourcesInput {
+
+    static func headerProvider(_ value: SearchResourcesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension SearchResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchResourcesInput {
+
+    static func urlPathProvider(_ value: SearchResourcesInput) -> Swift.String? {
         return "/api/v1/search"
     }
 }
@@ -10100,19 +10157,21 @@ extension UpdateDocumentInput: Swift.Encodable {
     }
 }
 
-extension UpdateDocumentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateDocumentInput {
+
+    static func headerProvider(_ value: UpdateDocumentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension UpdateDocumentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension UpdateDocumentInput {
+
+    static func urlPathProvider(_ value: UpdateDocumentInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())"
@@ -10220,22 +10279,24 @@ extension UpdateDocumentVersionInput: Swift.Encodable {
     }
 }
 
-extension UpdateDocumentVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateDocumentVersionInput {
+
+    static func headerProvider(_ value: UpdateDocumentVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension UpdateDocumentVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let documentId = documentId else {
+extension UpdateDocumentVersionInput {
+
+    static func urlPathProvider(_ value: UpdateDocumentVersionInput) -> Swift.String? {
+        guard let documentId = value.documentId else {
             return nil
         }
-        guard let versionId = versionId else {
+        guard let versionId = value.versionId else {
             return nil
         }
         return "/api/v1/documents/\(documentId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
@@ -10338,19 +10399,21 @@ extension UpdateFolderInput: Swift.Encodable {
     }
 }
 
-extension UpdateFolderInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateFolderInput {
+
+    static func headerProvider(_ value: UpdateFolderInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension UpdateFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let folderId = folderId else {
+extension UpdateFolderInput {
+
+    static func urlPathProvider(_ value: UpdateFolderInput) -> Swift.String? {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/api/v1/folders/\(folderId.urlPercentEncoding())"
@@ -10482,19 +10545,21 @@ extension UpdateUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateUserInput {
+
+    static func headerProvider(_ value: UpdateUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let authenticationToken = authenticationToken {
+        if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
         return items
     }
 }
 
-extension UpdateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension UpdateUserInput {
+
+    static func urlPathProvider(_ value: UpdateUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/api/v1/users/\(userId.urlPercentEncoding())"
@@ -11160,3 +11225,5 @@ extension WorkDocsClientTypes {
         }
     }
 }
+
+public enum WorkDocsClientTypes {}

@@ -40,6 +40,8 @@ extension AmplifyBackendClientTypes {
     }
 }
 
+public enum AmplifyBackendClientTypes {}
+
 extension AmplifyBackendClientTypes {
     public enum AuthResources: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case identityPoolAndUserPool
@@ -757,12 +759,13 @@ extension CloneBackendInput: Swift.Encodable {
     }
 }
 
-extension CloneBackendInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CloneBackendInput {
+
+    static func urlPathProvider(_ value: CloneBackendInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/environments/\(backendEnvironmentName.urlPercentEncoding())/clone"
@@ -934,9 +937,10 @@ extension CreateBackendAPIInput: Swift.Encodable {
     }
 }
 
-extension CreateBackendAPIInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateBackendAPIInput {
+
+    static func urlPathProvider(_ value: CreateBackendAPIInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/api"
@@ -1229,9 +1233,10 @@ extension CreateBackendAuthInput: Swift.Encodable {
     }
 }
 
-extension CreateBackendAuthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateBackendAuthInput {
+
+    static func urlPathProvider(_ value: CreateBackendAuthInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/auth"
@@ -1886,9 +1891,10 @@ extension CreateBackendConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateBackendConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateBackendConfigInput {
+
+    static func urlPathProvider(_ value: CreateBackendConfigInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/config"
@@ -2042,8 +2048,9 @@ extension CreateBackendInput: Swift.Encodable {
     }
 }
 
-extension CreateBackendInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBackendInput {
+
+    static func urlPathProvider(_ value: CreateBackendInput) -> Swift.String? {
         return "/backend"
     }
 }
@@ -2237,9 +2244,10 @@ extension CreateBackendStorageInput: Swift.Encodable {
     }
 }
 
-extension CreateBackendStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateBackendStorageInput {
+
+    static func urlPathProvider(_ value: CreateBackendStorageInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/storage"
@@ -2440,9 +2448,10 @@ extension AmplifyBackendClientTypes {
 
 }
 
-extension CreateTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateTokenInput {
+
+    static func urlPathProvider(_ value: CreateTokenInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/challenge"
@@ -2572,12 +2581,13 @@ extension DeleteBackendAPIInput: Swift.Encodable {
     }
 }
 
-extension DeleteBackendAPIInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteBackendAPIInput {
+
+    static func urlPathProvider(_ value: DeleteBackendAPIInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/api/\(backendEnvironmentName.urlPercentEncoding())/remove"
@@ -2749,12 +2759,13 @@ extension DeleteBackendAuthInput: Swift.Encodable {
     }
 }
 
-extension DeleteBackendAuthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteBackendAuthInput {
+
+    static func urlPathProvider(_ value: DeleteBackendAuthInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/auth/\(backendEnvironmentName.urlPercentEncoding())/remove"
@@ -2905,12 +2916,13 @@ enum DeleteBackendAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBackendInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteBackendInput {
+
+    static func urlPathProvider(_ value: DeleteBackendInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/environments/\(backendEnvironmentName.urlPercentEncoding())/remove"
@@ -3065,12 +3077,13 @@ extension DeleteBackendStorageInput: Swift.Encodable {
     }
 }
 
-extension DeleteBackendStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteBackendStorageInput {
+
+    static func urlPathProvider(_ value: DeleteBackendStorageInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/storage/\(backendEnvironmentName.urlPercentEncoding())/remove"
@@ -3210,12 +3223,13 @@ enum DeleteBackendStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteTokenInput {
+
+    static func urlPathProvider(_ value: DeleteTokenInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/challenge/\(sessionId.urlPercentEncoding())/remove"
@@ -3456,12 +3470,13 @@ extension GenerateBackendAPIModelsInput: Swift.Encodable {
     }
 }
 
-extension GenerateBackendAPIModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GenerateBackendAPIModelsInput {
+
+    static func urlPathProvider(_ value: GenerateBackendAPIModelsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/api/\(backendEnvironmentName.urlPercentEncoding())/generateModels"
@@ -3629,12 +3644,13 @@ extension GetBackendAPIInput: Swift.Encodable {
     }
 }
 
-extension GetBackendAPIInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetBackendAPIInput {
+
+    static func urlPathProvider(_ value: GetBackendAPIInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/api/\(backendEnvironmentName.urlPercentEncoding())/details"
@@ -3702,12 +3718,13 @@ extension GetBackendAPIModelsInput: Swift.Encodable {
     }
 }
 
-extension GetBackendAPIModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetBackendAPIModelsInput {
+
+    static func urlPathProvider(_ value: GetBackendAPIModelsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/api/\(backendEnvironmentName.urlPercentEncoding())/getModels"
@@ -3935,12 +3952,13 @@ extension GetBackendAuthInput: Swift.Encodable {
     }
 }
 
-extension GetBackendAuthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetBackendAuthInput {
+
+    static func urlPathProvider(_ value: GetBackendAuthInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/auth/\(backendEnvironmentName.urlPercentEncoding())/details"
@@ -4094,9 +4112,10 @@ extension GetBackendInput: Swift.Encodable {
     }
 }
 
-extension GetBackendInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetBackendInput {
+
+    static func urlPathProvider(_ value: GetBackendInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/details"
@@ -4137,15 +4156,16 @@ extension GetBackendInputBody: Swift.Decodable {
     }
 }
 
-extension GetBackendJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetBackendJobInput {
+
+    static func urlPathProvider(_ value: GetBackendJobInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/job/\(backendEnvironmentName.urlPercentEncoding())/\(jobId.urlPercentEncoding())"
@@ -4444,12 +4464,13 @@ extension GetBackendStorageInput: Swift.Encodable {
     }
 }
 
-extension GetBackendStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetBackendStorageInput {
+
+    static func urlPathProvider(_ value: GetBackendStorageInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/storage/\(backendEnvironmentName.urlPercentEncoding())/details"
@@ -4647,12 +4668,13 @@ extension AmplifyBackendClientTypes {
 
 }
 
-extension GetTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetTokenInput {
+
+    static func urlPathProvider(_ value: GetTokenInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/challenge/\(sessionId.urlPercentEncoding())"
@@ -4795,12 +4817,13 @@ extension ImportBackendAuthInput: Swift.Encodable {
     }
 }
 
-extension ImportBackendAuthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ImportBackendAuthInput {
+
+    static func urlPathProvider(_ value: ImportBackendAuthInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/auth/\(backendEnvironmentName.urlPercentEncoding())/import"
@@ -4994,12 +5017,13 @@ extension ImportBackendStorageInput: Swift.Encodable {
     }
 }
 
-extension ImportBackendStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ImportBackendStorageInput {
+
+    static func urlPathProvider(_ value: ImportBackendStorageInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/storage/\(backendEnvironmentName.urlPercentEncoding())/import"
@@ -5167,12 +5191,13 @@ extension ListBackendJobsInput: Swift.Encodable {
     }
 }
 
-extension ListBackendJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ListBackendJobsInput {
+
+    static func urlPathProvider(_ value: ListBackendJobsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/job/\(backendEnvironmentName.urlPercentEncoding())"
@@ -5336,8 +5361,9 @@ extension ListS3BucketsInput: Swift.Encodable {
     }
 }
 
-extension ListS3BucketsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListS3BucketsInput {
+
+    static func urlPathProvider(_ value: ListS3BucketsInput) -> Swift.String? {
         return "/s3Buckets"
     }
 }
@@ -5766,9 +5792,10 @@ extension RemoveAllBackendsInput: Swift.Encodable {
     }
 }
 
-extension RemoveAllBackendsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension RemoveAllBackendsInput {
+
+    static func urlPathProvider(_ value: RemoveAllBackendsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/remove"
@@ -5903,9 +5930,10 @@ enum RemoveAllBackendsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveBackendConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension RemoveBackendConfigInput {
+
+    static func urlPathProvider(_ value: RemoveBackendConfigInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/config/remove"
@@ -6582,12 +6610,13 @@ extension UpdateBackendAPIInput: Swift.Encodable {
     }
 }
 
-extension UpdateBackendAPIInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateBackendAPIInput {
+
+    static func urlPathProvider(_ value: UpdateBackendAPIInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/api/\(backendEnvironmentName.urlPercentEncoding())"
@@ -6858,12 +6887,13 @@ extension UpdateBackendAuthInput: Swift.Encodable {
     }
 }
 
-extension UpdateBackendAuthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateBackendAuthInput {
+
+    static func urlPathProvider(_ value: UpdateBackendAuthInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/auth/\(backendEnvironmentName.urlPercentEncoding())"
@@ -7463,9 +7493,10 @@ extension UpdateBackendConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateBackendConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateBackendConfigInput {
+
+    static func urlPathProvider(_ value: UpdateBackendConfigInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/config/update"
@@ -7607,15 +7638,16 @@ extension UpdateBackendJobInput: Swift.Encodable {
     }
 }
 
-extension UpdateBackendJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateBackendJobInput {
+
+    static func urlPathProvider(_ value: UpdateBackendJobInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/job/\(backendEnvironmentName.urlPercentEncoding())/\(jobId.urlPercentEncoding())"
@@ -7815,12 +7847,13 @@ extension UpdateBackendStorageInput: Swift.Encodable {
     }
 }
 
-extension UpdateBackendStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateBackendStorageInput {
+
+    static func urlPathProvider(_ value: UpdateBackendStorageInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let backendEnvironmentName = backendEnvironmentName else {
+        guard let backendEnvironmentName = value.backendEnvironmentName else {
             return nil
         }
         return "/backend/\(appId.urlPercentEncoding())/storage/\(backendEnvironmentName.urlPercentEncoding())"

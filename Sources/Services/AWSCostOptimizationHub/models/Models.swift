@@ -387,6 +387,8 @@ extension CostOptimizationHubClientTypes {
 
 }
 
+public enum CostOptimizationHubClientTypes {}
+
 extension CostOptimizationHubClientTypes.EbsVolume: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
@@ -1625,8 +1627,9 @@ extension GetPreferencesInput: Swift.Encodable {
     }
 }
 
-extension GetPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPreferencesInput {
+
+    static func urlPathProvider(_ value: GetPreferencesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1722,8 +1725,9 @@ extension GetRecommendationInput: Swift.Encodable {
     }
 }
 
-extension GetRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecommendationInput {
+
+    static func urlPathProvider(_ value: GetRecommendationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2278,8 +2282,9 @@ extension ListEnrollmentStatusesInput: Swift.Encodable {
     }
 }
 
-extension ListEnrollmentStatusesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnrollmentStatusesInput {
+
+    static func urlPathProvider(_ value: ListEnrollmentStatusesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2434,8 +2439,9 @@ extension ListRecommendationSummariesInput: Swift.Encodable {
     }
 }
 
-extension ListRecommendationSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecommendationSummariesInput {
+
+    static func urlPathProvider(_ value: ListRecommendationSummariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2625,8 +2631,9 @@ extension ListRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4752,8 +4759,9 @@ extension UpdateEnrollmentStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnrollmentStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnrollmentStatusInput {
+
+    static func urlPathProvider(_ value: UpdateEnrollmentStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4866,8 +4874,9 @@ extension UpdatePreferencesInput: Swift.Encodable {
     }
 }
 
-extension UpdatePreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePreferencesInput {
+
+    static func urlPathProvider(_ value: UpdatePreferencesInput) -> Swift.String? {
         return "/"
     }
 }

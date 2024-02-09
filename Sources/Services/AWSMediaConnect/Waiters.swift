@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension MediaConnectClientProtocol {
+extension MediaConnectClient {
 
     static func flowActiveWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput> {
         let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>.Acceptor] = [

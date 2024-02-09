@@ -1607,8 +1607,9 @@ extension DeleteResourcePermissionInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePermissionInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePermissionInput) -> Swift.String? {
         return "/delete-resource-permission"
     }
 }
@@ -1724,8 +1725,9 @@ extension DeregisterApplicationInput: Swift.Encodable {
     }
 }
 
-extension DeregisterApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterApplicationInput {
+
+    static func urlPathProvider(_ value: DeregisterApplicationInput) -> Swift.String? {
         return "/deregister-application"
     }
 }
@@ -1896,8 +1898,9 @@ extension GetApplicationInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationInput {
+
+    static func urlPathProvider(_ value: GetApplicationInput) -> Swift.String? {
         return "/get-application"
     }
 }
@@ -2034,8 +2037,9 @@ extension GetComponentInput: Swift.Encodable {
     }
 }
 
-extension GetComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComponentInput {
+
+    static func urlPathProvider(_ value: GetComponentInput) -> Swift.String? {
         return "/get-component"
     }
 }
@@ -2175,8 +2179,9 @@ extension GetDatabaseInput: Swift.Encodable {
     }
 }
 
-extension GetDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDatabaseInput {
+
+    static func urlPathProvider(_ value: GetDatabaseInput) -> Swift.String? {
         return "/get-database"
     }
 }
@@ -2317,8 +2322,9 @@ extension GetOperationInput: Swift.Encodable {
     }
 }
 
-extension GetOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOperationInput {
+
+    static func urlPathProvider(_ value: GetOperationInput) -> Swift.String? {
         return "/get-operation"
     }
 }
@@ -2421,8 +2427,9 @@ extension GetResourcePermissionInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePermissionInput {
+
+    static func urlPathProvider(_ value: GetResourcePermissionInput) -> Swift.String? {
         return "/get-resource-permission"
     }
 }
@@ -2774,8 +2781,9 @@ extension ListApplicationsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationsInput {
+
+    static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
         return "/list-applications"
     }
 }
@@ -2926,8 +2934,9 @@ extension ListComponentsInput: Swift.Encodable {
     }
 }
 
-extension ListComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComponentsInput {
+
+    static func urlPathProvider(_ value: ListComponentsInput) -> Swift.String? {
         return "/list-components"
     }
 }
@@ -3074,8 +3083,9 @@ extension ListDatabasesInput: Swift.Encodable {
     }
 }
 
-extension ListDatabasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatabasesInput {
+
+    static func urlPathProvider(_ value: ListDatabasesInput) -> Swift.String? {
         return "/list-databases"
     }
 }
@@ -3232,8 +3242,9 @@ extension ListOperationsInput: Swift.Encodable {
     }
 }
 
-extension ListOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOperationsInput {
+
+    static func urlPathProvider(_ value: ListOperationsInput) -> Swift.String? {
         return "/list-operations"
     }
 }
@@ -3371,9 +3382,10 @@ enum ListOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3739,8 +3751,9 @@ extension PutResourcePermissionInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePermissionInput {
+
+    static func urlPathProvider(_ value: PutResourcePermissionInput) -> Swift.String? {
         return "/put-resource-permission"
     }
 }
@@ -3895,8 +3908,9 @@ extension RegisterApplicationInput: Swift.Encodable {
     }
 }
 
-extension RegisterApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterApplicationInput {
+
+    static func urlPathProvider(_ value: RegisterApplicationInput) -> Swift.String? {
         return "/register-application"
     }
 }
@@ -4250,6 +4264,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum SsmSapClientTypes {}
+
 extension StartApplicationRefreshInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId = "ApplicationId"
@@ -4263,8 +4279,9 @@ extension StartApplicationRefreshInput: Swift.Encodable {
     }
 }
 
-extension StartApplicationRefreshInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartApplicationRefreshInput {
+
+    static func urlPathProvider(_ value: StartApplicationRefreshInput) -> Swift.String? {
         return "/start-application-refresh"
     }
 }
@@ -4369,9 +4386,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4499,26 +4517,26 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4610,8 +4628,9 @@ extension UpdateApplicationSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateApplicationSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApplicationSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationSettingsInput) -> Swift.String? {
         return "/update-application-settings"
     }
 }

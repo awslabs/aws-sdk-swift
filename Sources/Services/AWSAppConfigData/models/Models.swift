@@ -2,6 +2,8 @@
 import AWSClientRuntime
 import ClientRuntime
 
+public enum AppConfigDataClientTypes {}
+
 extension AppConfigDataClientTypes.BadRequestDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invalidparameters = "InvalidParameters"
@@ -156,23 +158,23 @@ extension AppConfigDataClientTypes {
     }
 }
 
-extension GetLatestConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let configurationToken = configurationToken else {
-                let message = "Creating a URL Query Item failed. configurationToken is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let configurationTokenQueryItem = ClientRuntime.URLQueryItem(name: "configuration_token".urlPercentEncoding(), value: Swift.String(configurationToken).urlPercentEncoding())
-            items.append(configurationTokenQueryItem)
-            return items
+extension GetLatestConfigurationInput {
+
+    static func queryItemProvider(_ value: GetLatestConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let configurationToken = value.configurationToken else {
+            let message = "Creating a URL Query Item failed. configurationToken is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let configurationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "configuration_token".urlPercentEncoding(), value: Swift.String(configurationToken).urlPercentEncoding())
+        items.append(configurationTokenQueryItem)
+        return items
     }
 }
 
-extension GetLatestConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLatestConfigurationInput {
+
+    static func urlPathProvider(_ value: GetLatestConfigurationInput) -> Swift.String? {
         return "/configuration"
     }
 }
@@ -578,8 +580,9 @@ extension StartConfigurationSessionInput: Swift.Encodable {
     }
 }
 
-extension StartConfigurationSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartConfigurationSessionInput {
+
+    static func urlPathProvider(_ value: StartConfigurationSessionInput) -> Swift.String? {
         return "/configurationsessions"
     }
 }

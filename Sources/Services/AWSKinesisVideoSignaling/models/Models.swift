@@ -82,8 +82,9 @@ extension GetIceServerConfigInput: Swift.Encodable {
     }
 }
 
-extension GetIceServerConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIceServerConfigInput {
+
+    static func urlPathProvider(_ value: GetIceServerConfigInput) -> Swift.String? {
         return "/v1/get-ice-server-config"
     }
 }
@@ -393,6 +394,8 @@ extension InvalidClientExceptionBody: Swift.Decodable {
     }
 }
 
+public enum KinesisVideoSignalingClientTypes {}
+
 extension NotAuthorizedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -524,8 +527,9 @@ extension SendAlexaOfferToMasterInput: Swift.Encodable {
     }
 }
 
-extension SendAlexaOfferToMasterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendAlexaOfferToMasterInput {
+
+    static func urlPathProvider(_ value: SendAlexaOfferToMasterInput) -> Swift.String? {
         return "/v1/send-alexa-offer-to-master"
     }
 }

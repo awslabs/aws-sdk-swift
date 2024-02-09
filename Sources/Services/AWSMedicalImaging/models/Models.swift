@@ -317,12 +317,13 @@ extension CopyImageSetInput: Swift.Encodable {
     }
 }
 
-extension CopyImageSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension CopyImageSetInput {
+
+    static func urlPathProvider(_ value: CopyImageSetInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let sourceImageSetId = sourceImageSetId else {
+        guard let sourceImageSetId = value.sourceImageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(sourceImageSetId.urlPercentEncoding())/copyImageSet"
@@ -609,8 +610,9 @@ extension CreateDatastoreInput: Swift.Encodable {
     }
 }
 
-extension CreateDatastoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatastoreInput {
+
+    static func urlPathProvider(_ value: CreateDatastoreInput) -> Swift.String? {
         return "/datastore"
     }
 }
@@ -1464,9 +1466,10 @@ extension MedicalImagingClientTypes {
 
 }
 
-extension DeleteDatastoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension DeleteDatastoreInput {
+
+    static func urlPathProvider(_ value: DeleteDatastoreInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())"
@@ -1563,12 +1566,13 @@ enum DeleteDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteImageSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension DeleteImageSetInput {
+
+    static func urlPathProvider(_ value: DeleteImageSetInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let imageSetId = imageSetId else {
+        guard let imageSetId = value.imageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(imageSetId.urlPercentEncoding())/deleteImageSet"
@@ -1692,12 +1696,13 @@ enum DeleteImageSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDICOMImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension GetDICOMImportJobInput {
+
+    static func urlPathProvider(_ value: GetDICOMImportJobInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/getDICOMImportJob/datastore/\(datastoreId.urlPercentEncoding())/job/\(jobId.urlPercentEncoding())"
@@ -1788,9 +1793,10 @@ enum GetDICOMImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDatastoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension GetDatastoreInput {
+
+    static func urlPathProvider(_ value: GetDatastoreInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())"
@@ -1888,12 +1894,13 @@ extension GetImageFrameInput: Swift.Encodable {
     }
 }
 
-extension GetImageFrameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension GetImageFrameInput {
+
+    static func urlPathProvider(_ value: GetImageFrameInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let imageSetId = imageSetId else {
+        guard let imageSetId = value.imageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(imageSetId.urlPercentEncoding())/getImageFrame"
@@ -2006,25 +2013,25 @@ enum GetImageFrameOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImageSetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetImageSetInput {
+
+    static func queryItemProvider(_ value: GetImageSetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetImageSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension GetImageSetInput {
+
+    static func urlPathProvider(_ value: GetImageSetInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let imageSetId = imageSetId else {
+        guard let imageSetId = value.imageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(imageSetId.urlPercentEncoding())/getImageSet"
@@ -2062,25 +2069,25 @@ extension GetImageSetInputBody: Swift.Decodable {
     }
 }
 
-extension GetImageSetMetadataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetImageSetMetadataInput {
+
+    static func queryItemProvider(_ value: GetImageSetMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetImageSetMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension GetImageSetMetadataInput {
+
+    static func urlPathProvider(_ value: GetImageSetMetadataInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let imageSetId = imageSetId else {
+        guard let imageSetId = value.imageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(imageSetId.urlPercentEncoding())/getImageSetMetadata"
@@ -2749,30 +2756,30 @@ extension MedicalImagingClientTypes {
     }
 }
 
-extension ListDICOMImportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let jobStatus = jobStatus {
-                let jobStatusQueryItem = ClientRuntime.URLQueryItem(name: "jobStatus".urlPercentEncoding(), value: Swift.String(jobStatus.rawValue).urlPercentEncoding())
-                items.append(jobStatusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDICOMImportJobsInput {
+
+    static func queryItemProvider(_ value: ListDICOMImportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let jobStatus = value.jobStatus {
+            let jobStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "jobStatus".urlPercentEncoding(), value: Swift.String(jobStatus.rawValue).urlPercentEncoding())
+            items.append(jobStatusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDICOMImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension ListDICOMImportJobsInput {
+
+    static func urlPathProvider(_ value: ListDICOMImportJobsInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
         return "/listDICOMImportJobs/datastore/\(datastoreId.urlPercentEncoding())"
@@ -2889,29 +2896,29 @@ enum ListDICOMImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDatastoresInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let datastoreStatus = datastoreStatus {
-                let datastoreStatusQueryItem = ClientRuntime.URLQueryItem(name: "datastoreStatus".urlPercentEncoding(), value: Swift.String(datastoreStatus.rawValue).urlPercentEncoding())
-                items.append(datastoreStatusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDatastoresInput {
+
+    static func queryItemProvider(_ value: ListDatastoresInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let datastoreStatus = value.datastoreStatus {
+            let datastoreStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "datastoreStatus".urlPercentEncoding(), value: Swift.String(datastoreStatus.rawValue).urlPercentEncoding())
+            items.append(datastoreStatusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDatastoresInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatastoresInput {
+
+    static func urlPathProvider(_ value: ListDatastoresInput) -> Swift.String? {
         return "/datastore"
     }
 }
@@ -3018,29 +3025,29 @@ enum ListDatastoresOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListImageSetVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListImageSetVersionsInput {
+
+    static func queryItemProvider(_ value: ListImageSetVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListImageSetVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension ListImageSetVersionsInput {
+
+    static func urlPathProvider(_ value: ListImageSetVersionsInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let imageSetId = imageSetId else {
+        guard let imageSetId = value.imageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(imageSetId.urlPercentEncoding())/listImageSetVersions"
@@ -3158,9 +3165,10 @@ enum ListImageSetVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3253,6 +3261,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum MedicalImagingClientTypes {}
 
 extension MedicalImagingClientTypes.MetadataUpdates: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -3596,26 +3606,26 @@ extension SearchImageSetsInput: Swift.Encodable {
     }
 }
 
-extension SearchImageSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension SearchImageSetsInput {
+
+    static func queryItemProvider(_ value: SearchImageSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchImageSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension SearchImageSetsInput {
+
+    static func urlPathProvider(_ value: SearchImageSetsInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/searchImageSets"
@@ -3824,9 +3834,10 @@ extension StartDICOMImportJobInput: Swift.Encodable {
     }
 }
 
-extension StartDICOMImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension StartDICOMImportJobInput {
+
+    static func urlPathProvider(_ value: StartDICOMImportJobInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
         return "/startDICOMImportJob/datastore/\(datastoreId.urlPercentEncoding())"
@@ -4009,9 +4020,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4142,26 +4154,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4233,27 +4245,27 @@ extension UpdateImageSetMetadataInput: Swift.Encodable {
     }
 }
 
-extension UpdateImageSetMetadataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let latestVersionId = latestVersionId else {
-                let message = "Creating a URL Query Item failed. latestVersionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let latestVersionIdQueryItem = ClientRuntime.URLQueryItem(name: "latestVersion".urlPercentEncoding(), value: Swift.String(latestVersionId).urlPercentEncoding())
-            items.append(latestVersionIdQueryItem)
-            return items
+extension UpdateImageSetMetadataInput {
+
+    static func queryItemProvider(_ value: UpdateImageSetMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let latestVersionId = value.latestVersionId else {
+            let message = "Creating a URL Query Item failed. latestVersionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let latestVersionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "latestVersion".urlPercentEncoding(), value: Swift.String(latestVersionId).urlPercentEncoding())
+        items.append(latestVersionIdQueryItem)
+        return items
     }
 }
 
-extension UpdateImageSetMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datastoreId = datastoreId else {
+extension UpdateImageSetMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateImageSetMetadataInput) -> Swift.String? {
+        guard let datastoreId = value.datastoreId else {
             return nil
         }
-        guard let imageSetId = imageSetId else {
+        guard let imageSetId = value.imageSetId else {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(imageSetId.urlPercentEncoding())/updateImageSetMetadata"

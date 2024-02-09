@@ -75,9 +75,10 @@ extension AssumeRoleForPodIdentityInput: Swift.Encodable {
     }
 }
 
-extension AssumeRoleForPodIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension AssumeRoleForPodIdentityInput {
+
+    static func urlPathProvider(_ value: AssumeRoleForPodIdentityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/assume-role-for-pod-identity"
@@ -348,6 +349,8 @@ extension EKSAuthClientTypes {
     }
 
 }
+
+public enum EKSAuthClientTypes {}
 
 extension ExpiredTokenException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

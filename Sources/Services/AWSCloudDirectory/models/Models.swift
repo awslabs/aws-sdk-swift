@@ -81,18 +81,20 @@ extension AddFacetToObjectInput: Swift.Encodable {
     }
 }
 
-extension AddFacetToObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AddFacetToObjectInput {
+
+    static func headerProvider(_ value: AddFacetToObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension AddFacetToObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddFacetToObjectInput {
+
+    static func urlPathProvider(_ value: AddFacetToObjectInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/facets"
     }
 }
@@ -199,18 +201,20 @@ extension ApplySchemaInput: Swift.Encodable {
     }
 }
 
-extension ApplySchemaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ApplySchemaInput {
+
+    static func headerProvider(_ value: ApplySchemaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ApplySchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ApplySchemaInput {
+
+    static func urlPathProvider(_ value: ApplySchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/apply"
     }
 }
@@ -339,18 +343,20 @@ extension AttachObjectInput: Swift.Encodable {
     }
 }
 
-extension AttachObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AttachObjectInput {
+
+    static func headerProvider(_ value: AttachObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension AttachObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachObjectInput {
+
+    static func urlPathProvider(_ value: AttachObjectInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/attach"
     }
 }
@@ -485,18 +491,20 @@ extension AttachPolicyInput: Swift.Encodable {
     }
 }
 
-extension AttachPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AttachPolicyInput {
+
+    static func headerProvider(_ value: AttachPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension AttachPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachPolicyInput {
+
+    static func urlPathProvider(_ value: AttachPolicyInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/policy/attach"
     }
 }
@@ -590,18 +598,20 @@ extension AttachToIndexInput: Swift.Encodable {
     }
 }
 
-extension AttachToIndexInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AttachToIndexInput {
+
+    static func headerProvider(_ value: AttachToIndexInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension AttachToIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachToIndexInput {
+
+    static func urlPathProvider(_ value: AttachToIndexInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/index/attach"
     }
 }
@@ -739,18 +749,20 @@ extension AttachTypedLinkInput: Swift.Encodable {
     }
 }
 
-extension AttachTypedLinkInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AttachTypedLinkInput {
+
+    static func headerProvider(_ value: AttachTypedLinkInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension AttachTypedLinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachTypedLinkInput {
+
+    static func urlPathProvider(_ value: AttachTypedLinkInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/attach"
     }
 }
@@ -3879,21 +3891,23 @@ extension BatchReadInput: Swift.Encodable {
     }
 }
 
-extension BatchReadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension BatchReadInput {
+
+    static func headerProvider(_ value: BatchReadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension BatchReadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchReadInput {
+
+    static func urlPathProvider(_ value: BatchReadInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/batchread"
     }
 }
@@ -4795,18 +4809,20 @@ extension BatchWriteInput: Swift.Encodable {
     }
 }
 
-extension BatchWriteInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension BatchWriteInput {
+
+    static func headerProvider(_ value: BatchWriteInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension BatchWriteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchWriteInput {
+
+    static func urlPathProvider(_ value: BatchWriteInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/batchwrite"
     }
 }
@@ -5326,6 +5342,8 @@ extension CannotListParentOfRootExceptionBody: Swift.Decodable {
     }
 }
 
+public enum CloudDirectoryClientTypes {}
+
 extension CloudDirectoryClientTypes {
     public enum ConsistencyLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case eventual
@@ -5371,18 +5389,20 @@ extension CreateDirectoryInput: Swift.Encodable {
     }
 }
 
-extension CreateDirectoryInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateDirectoryInput {
+
+    static func headerProvider(_ value: CreateDirectoryInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension CreateDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDirectoryInput {
+
+    static func urlPathProvider(_ value: CreateDirectoryInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/directory/create"
     }
 }
@@ -5541,18 +5561,20 @@ extension CreateFacetInput: Swift.Encodable {
     }
 }
 
-extension CreateFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateFacetInput {
+
+    static func headerProvider(_ value: CreateFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension CreateFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFacetInput {
+
+    static func urlPathProvider(_ value: CreateFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/facet/create"
     }
 }
@@ -5699,18 +5721,20 @@ extension CreateIndexInput: Swift.Encodable {
     }
 }
 
-extension CreateIndexInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateIndexInput {
+
+    static func headerProvider(_ value: CreateIndexInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension CreateIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIndexInput {
+
+    static func urlPathProvider(_ value: CreateIndexInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/index"
     }
 }
@@ -5875,18 +5899,20 @@ extension CreateObjectInput: Swift.Encodable {
     }
 }
 
-extension CreateObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateObjectInput {
+
+    static func headerProvider(_ value: CreateObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension CreateObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateObjectInput {
+
+    static func urlPathProvider(_ value: CreateObjectInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object"
     }
 }
@@ -6041,8 +6067,9 @@ extension CreateSchemaInput: Swift.Encodable {
     }
 }
 
-extension CreateSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSchemaInput {
+
+    static func urlPathProvider(_ value: CreateSchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/create"
     }
 }
@@ -6146,18 +6173,20 @@ extension CreateTypedLinkFacetInput: Swift.Encodable {
     }
 }
 
-extension CreateTypedLinkFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateTypedLinkFacetInput {
+
+    static func headerProvider(_ value: CreateTypedLinkFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension CreateTypedLinkFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTypedLinkFacetInput {
+
+    static func urlPathProvider(_ value: CreateTypedLinkFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/facet/create"
     }
 }
@@ -6226,18 +6255,20 @@ enum CreateTypedLinkFacetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDirectoryInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteDirectoryInput {
+
+    static func headerProvider(_ value: DeleteDirectoryInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DeleteDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDirectoryInput {
+
+    static func urlPathProvider(_ value: DeleteDirectoryInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/directory"
     }
 }
@@ -6337,18 +6368,20 @@ extension DeleteFacetInput: Swift.Encodable {
     }
 }
 
-extension DeleteFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteFacetInput {
+
+    static func headerProvider(_ value: DeleteFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension DeleteFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFacetInput {
+
+    static func urlPathProvider(_ value: DeleteFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/facet/delete"
     }
 }
@@ -6429,18 +6462,20 @@ extension DeleteObjectInput: Swift.Encodable {
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteObjectInput {
+
+    static func headerProvider(_ value: DeleteObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteObjectInput {
+
+    static func urlPathProvider(_ value: DeleteObjectInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/delete"
     }
 }
@@ -6508,18 +6543,20 @@ enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSchemaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteSchemaInput {
+
+    static func headerProvider(_ value: DeleteSchemaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension DeleteSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSchemaInput {
+
+    static func urlPathProvider(_ value: DeleteSchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema"
     }
 }
@@ -6617,18 +6654,20 @@ extension DeleteTypedLinkFacetInput: Swift.Encodable {
     }
 }
 
-extension DeleteTypedLinkFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteTypedLinkFacetInput {
+
+    static func headerProvider(_ value: DeleteTypedLinkFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension DeleteTypedLinkFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTypedLinkFacetInput {
+
+    static func urlPathProvider(_ value: DeleteTypedLinkFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/facet/delete"
     }
 }
@@ -6712,18 +6751,20 @@ extension DetachFromIndexInput: Swift.Encodable {
     }
 }
 
-extension DetachFromIndexInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DetachFromIndexInput {
+
+    static func headerProvider(_ value: DetachFromIndexInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DetachFromIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachFromIndexInput {
+
+    static func urlPathProvider(_ value: DetachFromIndexInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/index/detach"
     }
 }
@@ -6848,18 +6889,20 @@ extension DetachObjectInput: Swift.Encodable {
     }
 }
 
-extension DetachObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DetachObjectInput {
+
+    static func headerProvider(_ value: DetachObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DetachObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachObjectInput {
+
+    static func urlPathProvider(_ value: DetachObjectInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/detach"
     }
 }
@@ -6983,18 +7026,20 @@ extension DetachPolicyInput: Swift.Encodable {
     }
 }
 
-extension DetachPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DetachPolicyInput {
+
+    static func headerProvider(_ value: DetachPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DetachPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachPolicyInput {
+
+    static func urlPathProvider(_ value: DetachPolicyInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/policy/detach"
     }
 }
@@ -7084,18 +7129,20 @@ extension DetachTypedLinkInput: Swift.Encodable {
     }
 }
 
-extension DetachTypedLinkInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DetachTypedLinkInput {
+
+    static func headerProvider(_ value: DetachTypedLinkInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DetachTypedLinkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachTypedLinkInput {
+
+    static func urlPathProvider(_ value: DetachTypedLinkInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/detach"
     }
 }
@@ -7483,18 +7530,20 @@ extension CloudDirectoryClientTypes {
     }
 }
 
-extension DisableDirectoryInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DisableDirectoryInput {
+
+    static func headerProvider(_ value: DisableDirectoryInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension DisableDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableDirectoryInput {
+
+    static func urlPathProvider(_ value: DisableDirectoryInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/directory/disable"
     }
 }
@@ -7580,18 +7629,20 @@ enum DisableDirectoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension EnableDirectoryInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension EnableDirectoryInput {
+
+    static func headerProvider(_ value: EnableDirectoryInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension EnableDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableDirectoryInput {
+
+    static func urlPathProvider(_ value: EnableDirectoryInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/directory/enable"
     }
 }
@@ -8277,8 +8328,9 @@ extension GetAppliedSchemaVersionInput: Swift.Encodable {
     }
 }
 
-extension GetAppliedSchemaVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAppliedSchemaVersionInput {
+
+    static func urlPathProvider(_ value: GetAppliedSchemaVersionInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/getappliedschema"
     }
 }
@@ -8369,18 +8421,20 @@ enum GetAppliedSchemaVersionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetDirectoryInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetDirectoryInput {
+
+    static func headerProvider(_ value: GetDirectoryInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension GetDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDirectoryInput {
+
+    static func urlPathProvider(_ value: GetDirectoryInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/directory/get"
     }
 }
@@ -8477,18 +8531,20 @@ extension GetFacetInput: Swift.Encodable {
     }
 }
 
-extension GetFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetFacetInput {
+
+    static func headerProvider(_ value: GetFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension GetFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFacetInput {
+
+    static func urlPathProvider(_ value: GetFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/facet"
     }
 }
@@ -8609,18 +8665,20 @@ extension GetLinkAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetLinkAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetLinkAttributesInput {
+
+    static func headerProvider(_ value: GetLinkAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension GetLinkAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLinkAttributesInput {
+
+    static func urlPathProvider(_ value: GetLinkAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/attributes/get"
     }
 }
@@ -8777,21 +8835,23 @@ extension GetObjectAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetObjectAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectAttributesInput {
+
+    static func headerProvider(_ value: GetObjectAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension GetObjectAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetObjectAttributesInput {
+
+    static func urlPathProvider(_ value: GetObjectAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/attributes/get"
     }
 }
@@ -8942,21 +9002,23 @@ extension GetObjectInformationInput: Swift.Encodable {
     }
 }
 
-extension GetObjectInformationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectInformationInput {
+
+    static func headerProvider(_ value: GetObjectInformationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension GetObjectInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetObjectInformationInput {
+
+    static func urlPathProvider(_ value: GetObjectInformationInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/information"
     }
 }
@@ -9076,18 +9138,20 @@ enum GetObjectInformationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSchemaAsJsonInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetSchemaAsJsonInput {
+
+    static func headerProvider(_ value: GetSchemaAsJsonInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension GetSchemaAsJsonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSchemaAsJsonInput {
+
+    static func urlPathProvider(_ value: GetSchemaAsJsonInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/json"
     }
 }
@@ -9194,18 +9258,20 @@ extension GetTypedLinkFacetInformationInput: Swift.Encodable {
     }
 }
 
-extension GetTypedLinkFacetInformationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetTypedLinkFacetInformationInput {
+
+    static func headerProvider(_ value: GetTypedLinkFacetInformationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension GetTypedLinkFacetInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTypedLinkFacetInformationInput {
+
+    static func urlPathProvider(_ value: GetTypedLinkFacetInformationInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/facet/get"
     }
 }
@@ -10144,8 +10210,9 @@ extension ListAppliedSchemaArnsInput: Swift.Encodable {
     }
 }
 
-extension ListAppliedSchemaArnsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppliedSchemaArnsInput {
+
+    static func urlPathProvider(_ value: ListAppliedSchemaArnsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/applied"
     }
 }
@@ -10301,21 +10368,23 @@ extension ListAttachedIndicesInput: Swift.Encodable {
     }
 }
 
-extension ListAttachedIndicesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAttachedIndicesInput {
+
+    static func headerProvider(_ value: ListAttachedIndicesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListAttachedIndicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAttachedIndicesInput {
+
+    static func urlPathProvider(_ value: ListAttachedIndicesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/indices"
     }
 }
@@ -10468,8 +10537,9 @@ extension ListDevelopmentSchemaArnsInput: Swift.Encodable {
     }
 }
 
-extension ListDevelopmentSchemaArnsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDevelopmentSchemaArnsInput {
+
+    static func urlPathProvider(_ value: ListDevelopmentSchemaArnsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/development"
     }
 }
@@ -10608,8 +10678,9 @@ extension ListDirectoriesInput: Swift.Encodable {
     }
 }
 
-extension ListDirectoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDirectoriesInput {
+
+    static func urlPathProvider(_ value: ListDirectoriesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/directory/list"
     }
 }
@@ -10756,18 +10827,20 @@ extension ListFacetAttributesInput: Swift.Encodable {
     }
 }
 
-extension ListFacetAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListFacetAttributesInput {
+
+    static func headerProvider(_ value: ListFacetAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension ListFacetAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFacetAttributesInput {
+
+    static func urlPathProvider(_ value: ListFacetAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/facet/attributes"
     }
 }
@@ -10917,18 +10990,20 @@ extension ListFacetNamesInput: Swift.Encodable {
     }
 }
 
-extension ListFacetNamesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListFacetNamesInput {
+
+    static func headerProvider(_ value: ListFacetNamesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension ListFacetNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFacetNamesInput {
+
+    static func urlPathProvider(_ value: ListFacetNamesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/facet/list"
     }
 }
@@ -11087,18 +11162,20 @@ extension ListIncomingTypedLinksInput: Swift.Encodable {
     }
 }
 
-extension ListIncomingTypedLinksInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListIncomingTypedLinksInput {
+
+    static func headerProvider(_ value: ListIncomingTypedLinksInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListIncomingTypedLinksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIncomingTypedLinksInput {
+
+    static func urlPathProvider(_ value: ListIncomingTypedLinksInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/incoming"
     }
 }
@@ -11293,21 +11370,23 @@ extension ListIndexInput: Swift.Encodable {
     }
 }
 
-extension ListIndexInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListIndexInput {
+
+    static func headerProvider(_ value: ListIndexInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIndexInput {
+
+    static func urlPathProvider(_ value: ListIndexInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/index/targets"
     }
 }
@@ -11484,8 +11563,9 @@ extension ListManagedSchemaArnsInput: Swift.Encodable {
     }
 }
 
-extension ListManagedSchemaArnsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListManagedSchemaArnsInput {
+
+    static func urlPathProvider(_ value: ListManagedSchemaArnsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/managed"
     }
 }
@@ -11634,21 +11714,23 @@ extension ListObjectAttributesInput: Swift.Encodable {
     }
 }
 
-extension ListObjectAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectAttributesInput {
+
+    static func headerProvider(_ value: ListObjectAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListObjectAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectAttributesInput {
+
+    static func urlPathProvider(_ value: ListObjectAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/attributes"
     }
 }
@@ -11815,21 +11897,23 @@ extension ListObjectChildrenInput: Swift.Encodable {
     }
 }
 
-extension ListObjectChildrenInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectChildrenInput {
+
+    static func headerProvider(_ value: ListObjectChildrenInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListObjectChildrenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectChildrenInput {
+
+    static func urlPathProvider(_ value: ListObjectChildrenInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/children"
     }
 }
@@ -11988,18 +12072,20 @@ extension ListObjectParentPathsInput: Swift.Encodable {
     }
 }
 
-extension ListObjectParentPathsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectParentPathsInput {
+
+    static func headerProvider(_ value: ListObjectParentPathsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListObjectParentPathsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectParentPathsInput {
+
+    static func urlPathProvider(_ value: ListObjectParentPathsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/parentpaths"
     }
 }
@@ -12157,21 +12243,23 @@ extension ListObjectParentsInput: Swift.Encodable {
     }
 }
 
-extension ListObjectParentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectParentsInput {
+
+    static func headerProvider(_ value: ListObjectParentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListObjectParentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectParentsInput {
+
+    static func urlPathProvider(_ value: ListObjectParentsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/parent"
     }
 }
@@ -12357,21 +12445,23 @@ extension ListObjectPoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListObjectPoliciesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectPoliciesInput {
+
+    static func headerProvider(_ value: ListObjectPoliciesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListObjectPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectPoliciesInput {
+
+    static func urlPathProvider(_ value: ListObjectPoliciesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/policy"
     }
 }
@@ -12544,18 +12634,20 @@ extension ListOutgoingTypedLinksInput: Swift.Encodable {
     }
 }
 
-extension ListOutgoingTypedLinksInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListOutgoingTypedLinksInput {
+
+    static func headerProvider(_ value: ListOutgoingTypedLinksInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListOutgoingTypedLinksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOutgoingTypedLinksInput {
+
+    static func urlPathProvider(_ value: ListOutgoingTypedLinksInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/outgoing"
     }
 }
@@ -12743,21 +12835,23 @@ extension ListPolicyAttachmentsInput: Swift.Encodable {
     }
 }
 
-extension ListPolicyAttachmentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListPolicyAttachmentsInput {
+
+    static func headerProvider(_ value: ListPolicyAttachmentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let consistencyLevel = consistencyLevel {
+        if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension ListPolicyAttachmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPolicyAttachmentsInput {
+
+    static func urlPathProvider(_ value: ListPolicyAttachmentsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/policy/attachment"
     }
 }
@@ -12916,8 +13010,9 @@ extension ListPublishedSchemaArnsInput: Swift.Encodable {
     }
 }
 
-extension ListPublishedSchemaArnsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPublishedSchemaArnsInput {
+
+    static func urlPathProvider(_ value: ListPublishedSchemaArnsInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/published"
     }
 }
@@ -13064,8 +13159,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/tags"
     }
 }
@@ -13213,18 +13309,20 @@ extension ListTypedLinkFacetAttributesInput: Swift.Encodable {
     }
 }
 
-extension ListTypedLinkFacetAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListTypedLinkFacetAttributesInput {
+
+    static func headerProvider(_ value: ListTypedLinkFacetAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension ListTypedLinkFacetAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTypedLinkFacetAttributesInput {
+
+    static func urlPathProvider(_ value: ListTypedLinkFacetAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes"
     }
 }
@@ -13374,18 +13472,20 @@ extension ListTypedLinkFacetNamesInput: Swift.Encodable {
     }
 }
 
-extension ListTypedLinkFacetNamesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListTypedLinkFacetNamesInput {
+
+    static func headerProvider(_ value: ListTypedLinkFacetNamesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension ListTypedLinkFacetNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTypedLinkFacetNamesInput {
+
+    static func urlPathProvider(_ value: ListTypedLinkFacetNamesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/facet/list"
     }
 }
@@ -13529,18 +13629,20 @@ extension LookupPolicyInput: Swift.Encodable {
     }
 }
 
-extension LookupPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension LookupPolicyInput {
+
+    static func headerProvider(_ value: LookupPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension LookupPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension LookupPolicyInput {
+
+    static func urlPathProvider(_ value: LookupPolicyInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/policy/lookup"
     }
 }
@@ -14397,18 +14499,20 @@ extension PublishSchemaInput: Swift.Encodable {
     }
 }
 
-extension PublishSchemaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PublishSchemaInput {
+
+    static func headerProvider(_ value: PublishSchemaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let developmentSchemaArn = developmentSchemaArn {
+        if let developmentSchemaArn = value.developmentSchemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(developmentSchemaArn)))
         }
         return items
     }
 }
 
-extension PublishSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PublishSchemaInput {
+
+    static func urlPathProvider(_ value: PublishSchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/publish"
     }
 }
@@ -14534,18 +14638,20 @@ extension PutSchemaFromJsonInput: Swift.Encodable {
     }
 }
 
-extension PutSchemaFromJsonInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutSchemaFromJsonInput {
+
+    static func headerProvider(_ value: PutSchemaFromJsonInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension PutSchemaFromJsonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutSchemaFromJsonInput {
+
+    static func urlPathProvider(_ value: PutSchemaFromJsonInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/json"
     }
 }
@@ -14700,18 +14806,20 @@ extension RemoveFacetFromObjectInput: Swift.Encodable {
     }
 }
 
-extension RemoveFacetFromObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RemoveFacetFromObjectInput {
+
+    static func headerProvider(_ value: RemoveFacetFromObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension RemoveFacetFromObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveFacetFromObjectInput {
+
+    static func urlPathProvider(_ value: RemoveFacetFromObjectInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/facets/delete"
     }
 }
@@ -15300,8 +15408,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/tags/add"
     }
 }
@@ -16003,8 +16112,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/tags/remove"
     }
 }
@@ -16140,18 +16250,20 @@ extension UpdateFacetInput: Swift.Encodable {
     }
 }
 
-extension UpdateFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateFacetInput {
+
+    static func headerProvider(_ value: UpdateFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension UpdateFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFacetInput {
+
+    static func urlPathProvider(_ value: UpdateFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/facet"
     }
 }
@@ -16266,18 +16378,20 @@ extension UpdateLinkAttributesInput: Swift.Encodable {
     }
 }
 
-extension UpdateLinkAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateLinkAttributesInput {
+
+    static func headerProvider(_ value: UpdateLinkAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension UpdateLinkAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLinkAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateLinkAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/attributes/update"
     }
 }
@@ -16383,18 +16497,20 @@ extension UpdateObjectAttributesInput: Swift.Encodable {
     }
 }
 
-extension UpdateObjectAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateObjectAttributesInput {
+
+    static func headerProvider(_ value: UpdateObjectAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let directoryArn = directoryArn {
+        if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
         return items
     }
 }
 
-extension UpdateObjectAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateObjectAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateObjectAttributesInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/object/update"
     }
 }
@@ -16524,18 +16640,20 @@ extension UpdateSchemaInput: Swift.Encodable {
     }
 }
 
-extension UpdateSchemaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateSchemaInput {
+
+    static func headerProvider(_ value: UpdateSchemaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension UpdateSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSchemaInput {
+
+    static func urlPathProvider(_ value: UpdateSchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/update"
     }
 }
@@ -16658,18 +16776,20 @@ extension UpdateTypedLinkFacetInput: Swift.Encodable {
     }
 }
 
-extension UpdateTypedLinkFacetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateTypedLinkFacetInput {
+
+    static func headerProvider(_ value: UpdateTypedLinkFacetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let schemaArn = schemaArn {
+        if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
         return items
     }
 }
 
-extension UpdateTypedLinkFacetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTypedLinkFacetInput {
+
+    static func urlPathProvider(_ value: UpdateTypedLinkFacetInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/typedlink/facet"
     }
 }
@@ -16796,8 +16916,9 @@ extension UpgradeAppliedSchemaInput: Swift.Encodable {
     }
 }
 
-extension UpgradeAppliedSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpgradeAppliedSchemaInput {
+
+    static func urlPathProvider(_ value: UpgradeAppliedSchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/upgradeapplied"
     }
 }
@@ -16942,8 +17063,9 @@ extension UpgradePublishedSchemaInput: Swift.Encodable {
     }
 }
 
-extension UpgradePublishedSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpgradePublishedSchemaInput {
+
+    static func urlPathProvider(_ value: UpgradePublishedSchemaInput) -> Swift.String? {
         return "/amazonclouddirectory/2017-01-11/schema/upgradepublished"
     }
 }

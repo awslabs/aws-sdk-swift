@@ -141,8 +141,9 @@ extension CreateEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEndpointInput {
+
+    static func urlPathProvider(_ value: CreateEndpointInput) -> Swift.String? {
         return "/S3Outposts/CreateEndpoint"
     }
 }
@@ -267,29 +268,29 @@ enum CreateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEndpointInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let outpostId = outpostId else {
-                let message = "Creating a URL Query Item failed. outpostId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let outpostIdQueryItem = ClientRuntime.URLQueryItem(name: "outpostId".urlPercentEncoding(), value: Swift.String(outpostId).urlPercentEncoding())
-            items.append(outpostIdQueryItem)
-            guard let endpointId = endpointId else {
-                let message = "Creating a URL Query Item failed. endpointId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endpointIdQueryItem = ClientRuntime.URLQueryItem(name: "endpointId".urlPercentEncoding(), value: Swift.String(endpointId).urlPercentEncoding())
-            items.append(endpointIdQueryItem)
-            return items
+extension DeleteEndpointInput {
+
+    static func queryItemProvider(_ value: DeleteEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let outpostId = value.outpostId else {
+            let message = "Creating a URL Query Item failed. outpostId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let outpostIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "outpostId".urlPercentEncoding(), value: Swift.String(outpostId).urlPercentEncoding())
+        items.append(outpostIdQueryItem)
+        guard let endpointId = value.endpointId else {
+            let message = "Creating a URL Query Item failed. endpointId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let endpointIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "endpointId".urlPercentEncoding(), value: Swift.String(endpointId).urlPercentEncoding())
+        items.append(endpointIdQueryItem)
+        return items
     }
 }
 
-extension DeleteEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteEndpointInput) -> Swift.String? {
         return "/S3Outposts/DeleteEndpoint"
     }
 }
@@ -677,25 +678,25 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListEndpointsInput {
+
+    static func queryItemProvider(_ value: ListEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEndpointsInput {
+
+    static func urlPathProvider(_ value: ListEndpointsInput) -> Swift.String? {
         return "/S3Outposts/ListEndpoints"
     }
 }
@@ -799,25 +800,25 @@ enum ListEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOutpostsWithS3Input: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListOutpostsWithS3Input {
+
+    static func queryItemProvider(_ value: ListOutpostsWithS3Input) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOutpostsWithS3Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOutpostsWithS3Input {
+
+    static func urlPathProvider(_ value: ListOutpostsWithS3Input) -> Swift.String? {
         return "/S3Outposts/ListOutpostsWithS3"
     }
 }
@@ -926,31 +927,31 @@ enum ListOutpostsWithS3OutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSharedEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let outpostId = outpostId else {
-                let message = "Creating a URL Query Item failed. outpostId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let outpostIdQueryItem = ClientRuntime.URLQueryItem(name: "outpostId".urlPercentEncoding(), value: Swift.String(outpostId).urlPercentEncoding())
-            items.append(outpostIdQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSharedEndpointsInput {
+
+    static func queryItemProvider(_ value: ListSharedEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let outpostId = value.outpostId else {
+            let message = "Creating a URL Query Item failed. outpostId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let outpostIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "outpostId".urlPercentEncoding(), value: Swift.String(outpostId).urlPercentEncoding())
+        items.append(outpostIdQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSharedEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSharedEndpointsInput {
+
+    static func urlPathProvider(_ value: ListSharedEndpointsInput) -> Swift.String? {
         return "/S3Outposts/ListSharedEndpoints"
     }
 }
@@ -1278,6 +1279,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum S3OutpostsClientTypes {}
 
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

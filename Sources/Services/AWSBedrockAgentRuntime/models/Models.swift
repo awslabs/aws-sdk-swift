@@ -347,6 +347,8 @@ extension BadGatewayExceptionBody: Swift.Decodable {
     }
 }
 
+public enum BedrockAgentRuntimeClientTypes {}
+
 extension BedrockAgentRuntimeClientTypes.Citation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case generatedResponsePart
@@ -1028,15 +1030,16 @@ extension InvokeAgentInput: Swift.Encodable {
     }
 }
 
-extension InvokeAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension InvokeAgentInput {
+
+    static func urlPathProvider(_ value: InvokeAgentInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentAliasId = agentAliasId else {
+        guard let agentAliasId = value.agentAliasId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentAliases/\(agentAliasId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/text"
@@ -2726,8 +2729,9 @@ extension RetrieveAndGenerateInput: Swift.Encodable {
     }
 }
 
-extension RetrieveAndGenerateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetrieveAndGenerateInput {
+
+    static func urlPathProvider(_ value: RetrieveAndGenerateInput) -> Swift.String? {
         return "/retrieveAndGenerate"
     }
 }
@@ -3031,9 +3035,10 @@ extension RetrieveInput: Swift.Encodable {
     }
 }
 
-extension RetrieveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension RetrieveInput {
+
+    static func urlPathProvider(_ value: RetrieveInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/retrieve"

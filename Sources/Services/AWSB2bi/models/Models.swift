@@ -58,6 +58,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum B2biClientTypes {}
+
 extension B2biClientTypes.CapabilityConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case edi
@@ -298,8 +300,9 @@ extension CreateCapabilityInput: Swift.Encodable {
     }
 }
 
-extension CreateCapabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCapabilityInput {
+
+    static func urlPathProvider(_ value: CreateCapabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -573,8 +576,9 @@ extension CreatePartnershipInput: Swift.Encodable {
     }
 }
 
-extension CreatePartnershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePartnershipInput {
+
+    static func urlPathProvider(_ value: CreatePartnershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -876,8 +880,9 @@ extension CreateProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProfileInput {
+
+    static func urlPathProvider(_ value: CreateProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1159,8 +1164,9 @@ extension CreateTransformerInput: Swift.Encodable {
     }
 }
 
-extension CreateTransformerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTransformerInput {
+
+    static func urlPathProvider(_ value: CreateTransformerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1407,8 +1413,9 @@ extension DeleteCapabilityInput: Swift.Encodable {
     }
 }
 
-extension DeleteCapabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCapabilityInput {
+
+    static func urlPathProvider(_ value: DeleteCapabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1469,8 +1476,9 @@ extension DeletePartnershipInput: Swift.Encodable {
     }
 }
 
-extension DeletePartnershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePartnershipInput {
+
+    static func urlPathProvider(_ value: DeletePartnershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1531,8 +1539,9 @@ extension DeleteProfileInput: Swift.Encodable {
     }
 }
 
-extension DeleteProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProfileInput {
+
+    static func urlPathProvider(_ value: DeleteProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1593,8 +1602,9 @@ extension DeleteTransformerInput: Swift.Encodable {
     }
 }
 
-extension DeleteTransformerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTransformerInput {
+
+    static func urlPathProvider(_ value: DeleteTransformerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1793,8 +1803,9 @@ extension GetCapabilityInput: Swift.Encodable {
     }
 }
 
-extension GetCapabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCapabilityInput {
+
+    static func urlPathProvider(_ value: GetCapabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1969,8 +1980,9 @@ extension GetPartnershipInput: Swift.Encodable {
     }
 }
 
-extension GetPartnershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPartnershipInput {
+
+    static func urlPathProvider(_ value: GetPartnershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2168,8 +2180,9 @@ extension GetProfileInput: Swift.Encodable {
     }
 }
 
-extension GetProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetProfileInput {
+
+    static func urlPathProvider(_ value: GetProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2360,8 +2373,9 @@ extension GetTransformerInput: Swift.Encodable {
     }
 }
 
-extension GetTransformerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTransformerInput {
+
+    static func urlPathProvider(_ value: GetTransformerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2396,17 +2410,16 @@ extension GetTransformerJobInput: Swift.Encodable {
     }
 }
 
-extension GetTransformerJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension GetTransformerJobInput {
+
+    static func queryItemProvider(_ value: GetTransformerJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension GetTransformerJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTransformerJobInput {
+
+    static func urlPathProvider(_ value: GetTransformerJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2749,17 +2762,16 @@ extension ListCapabilitiesInput: Swift.Encodable {
     }
 }
 
-extension ListCapabilitiesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListCapabilitiesInput {
+
+    static func queryItemProvider(_ value: ListCapabilitiesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListCapabilitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCapabilitiesInput {
+
+    static func urlPathProvider(_ value: ListCapabilitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2867,17 +2879,16 @@ extension ListPartnershipsInput: Swift.Encodable {
     }
 }
 
-extension ListPartnershipsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListPartnershipsInput {
+
+    static func queryItemProvider(_ value: ListPartnershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListPartnershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPartnershipsInput {
+
+    static func urlPathProvider(_ value: ListPartnershipsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2994,17 +3005,16 @@ extension ListProfilesInput: Swift.Encodable {
     }
 }
 
-extension ListProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListProfilesInput {
+
+    static func queryItemProvider(_ value: ListProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProfilesInput {
+
+    static func urlPathProvider(_ value: ListProfilesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3112,8 +3122,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3209,17 +3220,16 @@ extension ListTransformersInput: Swift.Encodable {
     }
 }
 
-extension ListTransformersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListTransformersInput {
+
+    static func queryItemProvider(_ value: ListTransformersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListTransformersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTransformersInput {
+
+    static func urlPathProvider(_ value: ListTransformersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3786,8 +3796,9 @@ extension StartTransformerJobInput: Swift.Encodable {
     }
 }
 
-extension StartTransformerJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTransformerJobInput {
+
+    static func urlPathProvider(_ value: StartTransformerJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3966,8 +3977,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4059,8 +4071,9 @@ extension TestMappingInput: Swift.Encodable {
     }
 }
 
-extension TestMappingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestMappingInput {
+
+    static func urlPathProvider(_ value: TestMappingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4189,8 +4202,9 @@ extension TestParsingInput: Swift.Encodable {
     }
 }
 
-extension TestParsingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestParsingInput {
+
+    static func urlPathProvider(_ value: TestParsingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4560,17 +4574,16 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4648,8 +4661,9 @@ extension UpdateCapabilityInput: Swift.Encodable {
     }
 }
 
-extension UpdateCapabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCapabilityInput {
+
+    static func urlPathProvider(_ value: UpdateCapabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4874,8 +4888,9 @@ extension UpdatePartnershipInput: Swift.Encodable {
     }
 }
 
-extension UpdatePartnershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePartnershipInput {
+
+    static func urlPathProvider(_ value: UpdatePartnershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5125,8 +5140,9 @@ extension UpdateProfileInput: Swift.Encodable {
     }
 }
 
-extension UpdateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateProfileInput {
+
+    static func urlPathProvider(_ value: UpdateProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5379,8 +5395,9 @@ extension UpdateTransformerInput: Swift.Encodable {
     }
 }
 
-extension UpdateTransformerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTransformerInput {
+
+    static func urlPathProvider(_ value: UpdateTransformerInput) -> Swift.String? {
         return "/"
     }
 }

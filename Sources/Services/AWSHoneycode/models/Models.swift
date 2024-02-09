@@ -187,12 +187,13 @@ extension BatchCreateTableRowsInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateTableRowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension BatchCreateTableRowsInput {
+
+    static func urlPathProvider(_ value: BatchCreateTableRowsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/rows/batchcreate"
@@ -373,12 +374,13 @@ extension BatchDeleteTableRowsInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteTableRowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension BatchDeleteTableRowsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteTableRowsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/rows/batchdelete"
@@ -538,12 +540,13 @@ extension BatchUpdateTableRowsInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateTableRowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension BatchUpdateTableRowsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateTableRowsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/rows/batchupdate"
@@ -703,12 +706,13 @@ extension BatchUpsertTableRowsInput: Swift.Encodable {
     }
 }
 
-extension BatchUpsertTableRowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension BatchUpsertTableRowsInput {
+
+    static func urlPathProvider(_ value: BatchUpsertTableRowsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/rows/batchupsert"
@@ -1262,15 +1266,16 @@ extension HoneycodeClientTypes {
 
 }
 
-extension DescribeTableDataImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension DescribeTableDataImportJobInput {
+
+    static func urlPathProvider(_ value: DescribeTableDataImportJobInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/import/\(jobId.urlPercentEncoding())"
@@ -1715,8 +1720,9 @@ extension GetScreenDataInput: Swift.Encodable {
     }
 }
 
-extension GetScreenDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetScreenDataInput {
+
+    static func urlPathProvider(_ value: GetScreenDataInput) -> Swift.String? {
         return "/screendata"
     }
 }
@@ -1888,6 +1894,8 @@ enum GetScreenDataOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum HoneycodeClientTypes {}
 
 extension HoneycodeClientTypes {
     public enum ImportDataCharacterEncoding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -2217,18 +2225,19 @@ extension InvokeScreenAutomationInput: Swift.Encodable {
     }
 }
 
-extension InvokeScreenAutomationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension InvokeScreenAutomationInput {
+
+    static func urlPathProvider(_ value: InvokeScreenAutomationInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let appId = appId else {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let screenId = screenId else {
+        guard let screenId = value.screenId else {
             return nil
         }
-        guard let screenAutomationId = screenAutomationId else {
+        guard let screenAutomationId = value.screenAutomationId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/apps/\(appId.urlPercentEncoding())/screens/\(screenId.urlPercentEncoding())/automations/\(screenAutomationId.urlPercentEncoding())"
@@ -2369,25 +2378,25 @@ enum InvokeScreenAutomationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTableColumnsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListTableColumnsInput {
+
+    static func queryItemProvider(_ value: ListTableColumnsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListTableColumnsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension ListTableColumnsInput {
+
+    static func urlPathProvider(_ value: ListTableColumnsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/columns"
@@ -2536,12 +2545,13 @@ extension ListTableRowsInput: Swift.Encodable {
     }
 }
 
-extension ListTableRowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension ListTableRowsInput {
+
+    static func urlPathProvider(_ value: ListTableRowsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/rows/list"
@@ -2738,26 +2748,26 @@ enum ListTableRowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTablesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListTablesInput {
+
+    static func queryItemProvider(_ value: ListTablesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension ListTablesInput {
+
+    static func urlPathProvider(_ value: ListTablesInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables"
@@ -2881,9 +2891,10 @@ enum ListTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2999,12 +3010,13 @@ extension QueryTableRowsInput: Swift.Encodable {
     }
 }
 
-extension QueryTableRowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension QueryTableRowsInput {
+
+    static func urlPathProvider(_ value: QueryTableRowsInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let tableId = tableId else {
+        guard let tableId = value.tableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(tableId.urlPercentEncoding())/rows/query"
@@ -3584,12 +3596,13 @@ extension StartTableDataImportJobInput: Swift.Encodable {
     }
 }
 
-extension StartTableDataImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workbookId = workbookId else {
+extension StartTableDataImportJobInput {
+
+    static func urlPathProvider(_ value: StartTableDataImportJobInput) -> Swift.String? {
+        guard let workbookId = value.workbookId else {
             return nil
         }
-        guard let destinationTableId = destinationTableId else {
+        guard let destinationTableId = value.destinationTableId else {
             return nil
         }
         return "/workbooks/\(workbookId.urlPercentEncoding())/tables/\(destinationTableId.urlPercentEncoding())/import"
@@ -4014,9 +4027,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4148,26 +4162,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

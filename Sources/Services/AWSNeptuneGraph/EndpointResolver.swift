@@ -130,15 +130,6 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
         }
 
         if let signingRegion = signingRegion {
-<<<<<<< HEAD
-            context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)
-        }
-        if let signingName = signingName {
-            context.attributes.set(key: AttributeKeys.signingName, value: signingName)
-        }
-        if let signingAlgorithm = signingAlgorithm {
-            context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
-=======
             context.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
         }
         if let signingName = signingName {
@@ -146,7 +137,6 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
         }
         if let signingAlgorithm = signingAlgorithm {
             context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
->>>>>>> temp-main
         }
 
         if let headers = endpoint.headers {

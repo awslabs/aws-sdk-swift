@@ -205,8 +205,9 @@ extension GetEntitlementsInput: Swift.Encodable {
     }
 }
 
-extension GetEntitlementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEntitlementsInput {
+
+    static func urlPathProvider(_ value: GetEntitlementsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -463,6 +464,8 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum MarketplaceEntitlementClientTypes {}
 
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
