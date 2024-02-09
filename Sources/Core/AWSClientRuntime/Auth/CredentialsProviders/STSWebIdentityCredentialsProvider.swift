@@ -26,9 +26,17 @@ public struct STSWebIdentityCredentialsProvider: CredentialsSourcedByCRT {
     /// - Parameters:
     ///   - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
     ///   - credentialsFilePath: The path to the shared credentials file to use. If not provided it will be resolved internally via the `AWS_SHARED_CREDENTIALS_FILE` environment variable or defaulted `~/.aws/credentials` if not configured.
+    ///   - region: (Optional) region override.
+    ///   - roleArn: (Optional) roleArn override.
+    ///   - roleSessionName: (Optional) roleSessionName override.
+    ///   - tokenFilePath: (Optional) tokenFilePath override.
     public init(
         configFilePath: String? = nil,
-        credentialsFilePath: String? = nil
+        credentialsFilePath: String? = nil,
+        region: String? = nil,
+        roleArn: String? = nil,
+        roleSessionName: String? = nil,
+        tokenFilePath: String? = nil
     ) throws {
         let fileBasedConfig = try CRTFileBasedConfiguration(
             configFilePath: configFilePath,
@@ -38,6 +46,10 @@ public struct STSWebIdentityCredentialsProvider: CredentialsSourcedByCRT {
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
             tlsContext: SDKDefaultIO.shared.tlsContext,
             fileBasedConfiguration: fileBasedConfig,
+            region: region,
+            roleArn: roleArn,
+            roleSessionName: roleSessionName,
+            tokenFilePath: tokenFilePath,
             shutdownCallback: nil
         ))
     }
