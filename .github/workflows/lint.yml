@@ -18,7 +18,7 @@ jobs:
   swiftlint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/realm/swiftlint:0.53.0
+      image: ghcr.io/realm/swiftlint:0.54.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
