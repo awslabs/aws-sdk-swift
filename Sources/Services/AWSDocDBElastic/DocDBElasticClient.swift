@@ -23,9 +23,6 @@ public class DocDBElasticClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -45,16 +42,13 @@ extension DocDBElasticClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-        public typealias AWSAuthSchemeResolver = DocDBElasticAuthSchemeResolver
 
         public var serviceName: String { "DocDB Elastic" }
         public var clientName: String { "DocDBElasticClient" }
-        public var authSchemeResolver: DocDBElasticAuthSchemeResolver
         public var endpointResolver: EndpointResolver
 
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: DocDBElasticAuthSchemeResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultDocDBElasticAuthSchemeResolver()
         }
     }
 }
@@ -72,7 +66,7 @@ public struct DocDBElasticClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
 }
 
-extension DocDBElasticClient: DocDBElasticClientProtocol {
+extension DocDBElasticClient {
     /// Performs the `CreateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
     /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
@@ -90,8 +84,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
-    {
+    public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -101,36 +94,24 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutput>(id: "createCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateClusterInput, CreateClusterOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutput>(CreateClusterInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput, CreateClusterOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateClusterOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateClusterOutput, CreateClusterOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateClusterOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -155,8 +136,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
-    {
+    public func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -166,35 +146,23 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(id: "createClusterSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(CreateClusterSnapshotInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateClusterSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateClusterSnapshotOutput, CreateClusterSnapshotOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateClusterSnapshotOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateClusterSnapshotOutput, CreateClusterSnapshotOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterSnapshotOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateClusterSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -218,8 +186,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
-    {
+    public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -229,30 +196,20 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutput>(id: "deleteCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutput>(DeleteClusterInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput, DeleteClusterOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteClusterOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteClusterOutput, DeleteClusterOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteClusterOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -276,8 +233,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
-    {
+    public func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,30 +243,20 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(id: "deleteClusterSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(DeleteClusterSnapshotInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteClusterSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteClusterSnapshotOutput, DeleteClusterSnapshotOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteClusterSnapshotOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteClusterSnapshotOutput, DeleteClusterSnapshotOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteClusterSnapshotOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterSnapshotOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteClusterSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -333,8 +279,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func getCluster(input: GetClusterInput) async throws -> GetClusterOutput
-    {
+    public func getCluster(input: GetClusterInput) async throws -> GetClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -344,30 +289,20 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetClusterInput, GetClusterOutput>(id: "getCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterInput, GetClusterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterInput, GetClusterOutput>(GetClusterInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClusterInput, GetClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetClusterOutput, GetClusterOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetClusterOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetClusterOutput, GetClusterOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClusterOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetClusterOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -390,8 +325,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput
-    {
+    public func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -401,30 +335,20 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetClusterSnapshotInput, GetClusterSnapshotOutput>(id: "getClusterSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>(GetClusterSnapshotInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetClusterSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetClusterSnapshotOutput, GetClusterSnapshotOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetClusterSnapshotOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetClusterSnapshotOutput, GetClusterSnapshotOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetClusterSnapshotOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClusterSnapshotOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClusterSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetClusterSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -446,8 +370,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput
-    {
+    public func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -457,32 +380,21 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(id: "listClusterSnapshots")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(ListClusterSnapshotsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListClusterSnapshotsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListClusterSnapshotsOutput, ListClusterSnapshotsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListClusterSnapshotsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListClusterSnapshotsOutput, ListClusterSnapshotsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(ListClusterSnapshotsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListClusterSnapshotsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClusterSnapshotsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClusterSnapshotsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListClusterSnapshotsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -504,8 +416,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
-    {
+    public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -515,32 +426,21 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutput>(id: "listClusters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListClustersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListClustersOutput, ListClustersOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListClustersOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListClustersOutput, ListClustersOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListClustersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClustersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClustersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListClustersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClustersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -562,8 +462,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -573,30 +472,20 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -621,8 +510,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput
-    {
+    public func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -632,35 +520,23 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(id: "restoreClusterFromSnapshot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(RestoreClusterFromSnapshotInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreClusterFromSnapshotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RestoreClusterFromSnapshotOutput, RestoreClusterFromSnapshotOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreClusterFromSnapshotOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RestoreClusterFromSnapshotOutput, RestoreClusterFromSnapshotOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreClusterFromSnapshotOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreClusterFromSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestoreClusterFromSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreClusterFromSnapshotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -682,8 +558,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -693,35 +568,23 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput, TagResourceOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput, TagResourceOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -743,8 +606,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -754,32 +616,21 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -803,8 +654,7 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
-    {
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -814,36 +664,24 @@ extension DocDBElasticClient: DocDBElasticClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "docdb-elastic")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateClusterInput, UpdateClusterOutput>(id: "updateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterInput, UpdateClusterOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutput>(UpdateClusterInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput, UpdateClusterOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateClusterOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateClusterOutput, UpdateClusterOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateClusterOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

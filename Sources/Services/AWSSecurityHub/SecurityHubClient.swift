@@ -23,9 +23,6 @@ public class SecurityHubClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -45,16 +42,13 @@ extension SecurityHubClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-        public typealias AWSAuthSchemeResolver = SecurityHubAuthSchemeResolver
 
         public var serviceName: String { "SecurityHub" }
         public var clientName: String { "SecurityHubClient" }
-        public var authSchemeResolver: SecurityHubAuthSchemeResolver
         public var endpointResolver: EndpointResolver
 
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: SecurityHubAuthSchemeResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver()
         }
     }
 }
@@ -72,7 +66,7 @@ public struct SecurityHubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension SecurityHubClient: SecurityHubClientProtocol {
+extension SecurityHubClient {
     /// Performs the `AcceptAdministratorInvitation` operation on the `SecurityHubAPIService` service.
     ///
     /// Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
@@ -89,8 +83,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutput
-    {
+    public func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -100,35 +93,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(id: "acceptAdministratorInvitation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(AcceptAdministratorInvitationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptAdministratorInvitationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AcceptAdministratorInvitationOutput, AcceptAdministratorInvitationOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptAdministratorInvitationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AcceptAdministratorInvitationOutput, AcceptAdministratorInvitationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptAdministratorInvitationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptAdministratorInvitationOutput>(responseClosure(decoder: decoder), responseErrorClosure(AcceptAdministratorInvitationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptAdministratorInvitationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -152,8 +133,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
-    {
+    public func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -163,35 +143,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<AcceptInvitationInput, AcceptInvitationOutput>(id: "acceptInvitation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(AcceptInvitationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptInvitationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AcceptInvitationOutput, AcceptInvitationOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AcceptInvitationInput, AcceptInvitationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptInvitationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AcceptInvitationOutput, AcceptInvitationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptInvitationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptInvitationOutput>(responseClosure(decoder: decoder), responseErrorClosure(AcceptInvitationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptInvitationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -214,8 +182,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchDeleteAutomationRules(input: BatchDeleteAutomationRulesInput) async throws -> BatchDeleteAutomationRulesOutput
-    {
+    public func batchDeleteAutomationRules(input: BatchDeleteAutomationRulesInput) async throws -> BatchDeleteAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -225,35 +192,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(id: "batchDeleteAutomationRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(BatchDeleteAutomationRulesInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteAutomationRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchDeleteAutomationRulesOutput, BatchDeleteAutomationRulesOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDeleteAutomationRulesInput, BatchDeleteAutomationRulesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteAutomationRulesOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchDeleteAutomationRulesOutput, BatchDeleteAutomationRulesOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteAutomationRulesOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteAutomationRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchDeleteAutomationRulesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -276,8 +231,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchDisableStandards(input: BatchDisableStandardsInput) async throws -> BatchDisableStandardsOutput
-    {
+    public func batchDisableStandards(input: BatchDisableStandardsInput) async throws -> BatchDisableStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -287,35 +241,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchDisableStandardsInput, BatchDisableStandardsOutput>(id: "batchDisableStandards")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>(BatchDisableStandardsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDisableStandardsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchDisableStandardsOutput, BatchDisableStandardsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDisableStandardsInput, BatchDisableStandardsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDisableStandardsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchDisableStandardsOutput, BatchDisableStandardsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisableStandardsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisableStandardsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchDisableStandardsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisableStandardsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -338,8 +280,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchEnableStandards(input: BatchEnableStandardsInput) async throws -> BatchEnableStandardsOutput
-    {
+    public func batchEnableStandards(input: BatchEnableStandardsInput) async throws -> BatchEnableStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -349,35 +290,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchEnableStandardsInput, BatchEnableStandardsOutput>(id: "batchEnableStandards")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>(BatchEnableStandardsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchEnableStandardsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchEnableStandardsOutput, BatchEnableStandardsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchEnableStandardsInput, BatchEnableStandardsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchEnableStandardsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchEnableStandardsOutput, BatchEnableStandardsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchEnableStandardsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchEnableStandardsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchEnableStandardsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchEnableStandardsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -401,8 +330,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchGetAutomationRules(input: BatchGetAutomationRulesInput) async throws -> BatchGetAutomationRulesOutput
-    {
+    public func batchGetAutomationRules(input: BatchGetAutomationRulesInput) async throws -> BatchGetAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -412,35 +340,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(id: "batchGetAutomationRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(BatchGetAutomationRulesInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetAutomationRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchGetAutomationRulesOutput, BatchGetAutomationRulesOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetAutomationRulesInput, BatchGetAutomationRulesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetAutomationRulesOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchGetAutomationRulesOutput, BatchGetAutomationRulesOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetAutomationRulesOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetAutomationRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetAutomationRulesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -464,8 +380,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchGetConfigurationPolicyAssociations(input: BatchGetConfigurationPolicyAssociationsInput) async throws -> BatchGetConfigurationPolicyAssociationsOutput
-    {
+    public func batchGetConfigurationPolicyAssociations(input: BatchGetConfigurationPolicyAssociationsInput) async throws -> BatchGetConfigurationPolicyAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -475,39 +390,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(id: "batchGetConfigurationPolicyAssociations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(BatchGetConfigurationPolicyAssociationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetConfigurationPolicyAssociationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchGetConfigurationPolicyAssociationsOutput, BatchGetConfigurationPolicyAssociationsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetConfigurationPolicyAssociationsInput, BatchGetConfigurationPolicyAssociationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetConfigurationPolicyAssociationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchGetConfigurationPolicyAssociationsOutput, BatchGetConfigurationPolicyAssociationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetConfigurationPolicyAssociationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetConfigurationPolicyAssociationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetConfigurationPolicyAssociationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetConfigurationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -529,8 +428,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchGetSecurityControls(input: BatchGetSecurityControlsInput) async throws -> BatchGetSecurityControlsOutput
-    {
+    public func batchGetSecurityControls(input: BatchGetSecurityControlsInput) async throws -> BatchGetSecurityControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -540,35 +438,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(id: "batchGetSecurityControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(BatchGetSecurityControlsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetSecurityControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchGetSecurityControlsOutput, BatchGetSecurityControlsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetSecurityControlsInput, BatchGetSecurityControlsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetSecurityControlsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchGetSecurityControlsOutput, BatchGetSecurityControlsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetSecurityControlsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetSecurityControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetSecurityControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetSecurityControlsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -590,8 +476,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchGetStandardsControlAssociations(input: BatchGetStandardsControlAssociationsInput) async throws -> BatchGetStandardsControlAssociationsOutput
-    {
+    public func batchGetStandardsControlAssociations(input: BatchGetStandardsControlAssociationsInput) async throws -> BatchGetStandardsControlAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -601,35 +486,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(id: "batchGetStandardsControlAssociations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(BatchGetStandardsControlAssociationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetStandardsControlAssociationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchGetStandardsControlAssociationsOutput, BatchGetStandardsControlAssociationsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetStandardsControlAssociationsInput, BatchGetStandardsControlAssociationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetStandardsControlAssociationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchGetStandardsControlAssociationsOutput, BatchGetStandardsControlAssociationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetStandardsControlAssociationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetStandardsControlAssociationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetStandardsControlAssociationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -682,8 +555,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchImportFindings(input: BatchImportFindingsInput) async throws -> BatchImportFindingsOutput
-    {
+    public func batchImportFindings(input: BatchImportFindingsInput) async throws -> BatchImportFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -693,35 +565,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchImportFindingsInput, BatchImportFindingsOutput>(id: "batchImportFindings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>(BatchImportFindingsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchImportFindingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchImportFindingsOutput, BatchImportFindingsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchImportFindingsInput, BatchImportFindingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchImportFindingsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchImportFindingsOutput, BatchImportFindingsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchImportFindingsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchImportFindingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchImportFindingsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchImportFindingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -744,8 +604,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func batchUpdateAutomationRules(input: BatchUpdateAutomationRulesInput) async throws -> BatchUpdateAutomationRulesOutput
-    {
+    public func batchUpdateAutomationRules(input: BatchUpdateAutomationRulesInput) async throws -> BatchUpdateAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -755,35 +614,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(id: "batchUpdateAutomationRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(BatchUpdateAutomationRulesInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateAutomationRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchUpdateAutomationRulesOutput, BatchUpdateAutomationRulesOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateAutomationRulesInput, BatchUpdateAutomationRulesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateAutomationRulesOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchUpdateAutomationRulesOutput, BatchUpdateAutomationRulesOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateAutomationRulesOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateAutomationRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdateAutomationRulesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -826,8 +673,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchUpdateFindings(input: BatchUpdateFindingsInput) async throws -> BatchUpdateFindingsOutput
-    {
+    public func batchUpdateFindings(input: BatchUpdateFindingsInput) async throws -> BatchUpdateFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -837,35 +683,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(id: "batchUpdateFindings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(BatchUpdateFindingsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateFindingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchUpdateFindingsOutput, BatchUpdateFindingsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateFindingsInput, BatchUpdateFindingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateFindingsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchUpdateFindingsOutput, BatchUpdateFindingsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateFindingsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateFindingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdateFindingsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateFindingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -888,8 +722,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func batchUpdateStandardsControlAssociations(input: BatchUpdateStandardsControlAssociationsInput) async throws -> BatchUpdateStandardsControlAssociationsOutput
-    {
+    public func batchUpdateStandardsControlAssociations(input: BatchUpdateStandardsControlAssociationsInput) async throws -> BatchUpdateStandardsControlAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -899,35 +732,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(id: "batchUpdateStandardsControlAssociations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(BatchUpdateStandardsControlAssociationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateStandardsControlAssociationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchUpdateStandardsControlAssociationsOutput, BatchUpdateStandardsControlAssociationsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateStandardsControlAssociationsInput, BatchUpdateStandardsControlAssociationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateStandardsControlAssociationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchUpdateStandardsControlAssociationsOutput, BatchUpdateStandardsControlAssociationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateStandardsControlAssociationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateStandardsControlAssociationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdateStandardsControlAssociationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -950,8 +771,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createActionTarget(input: CreateActionTargetInput) async throws -> CreateActionTargetOutput
-    {
+    public func createActionTarget(input: CreateActionTargetInput) async throws -> CreateActionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -961,35 +781,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateActionTargetInput, CreateActionTargetOutput>(id: "createActionTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActionTargetInput, CreateActionTargetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActionTargetInput, CreateActionTargetOutput>(CreateActionTargetInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateActionTargetInput, CreateActionTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateActionTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateActionTargetOutput, CreateActionTargetOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateActionTargetInput, CreateActionTargetOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateActionTargetInput, CreateActionTargetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateActionTargetOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateActionTargetOutput, CreateActionTargetOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateActionTargetOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateActionTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateActionTargetOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateActionTargetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1012,8 +820,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func createAutomationRule(input: CreateAutomationRuleInput) async throws -> CreateAutomationRuleOutput
-    {
+    public func createAutomationRule(input: CreateAutomationRuleInput) async throws -> CreateAutomationRuleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1023,35 +830,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateAutomationRuleInput, CreateAutomationRuleOutput>(id: "createAutomationRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(CreateAutomationRuleInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAutomationRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateAutomationRuleOutput, CreateAutomationRuleOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAutomationRuleOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateAutomationRuleOutput, CreateAutomationRuleOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAutomationRuleOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAutomationRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAutomationRuleOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1075,8 +870,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createConfigurationPolicy(input: CreateConfigurationPolicyInput) async throws -> CreateConfigurationPolicyOutput
-    {
+    public func createConfigurationPolicy(input: CreateConfigurationPolicyInput) async throws -> CreateConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1086,39 +880,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(id: "createConfigurationPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(CreateConfigurationPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConfigurationPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateConfigurationPolicyOutput, CreateConfigurationPolicyOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateConfigurationPolicyInput, CreateConfigurationPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConfigurationPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateConfigurationPolicyOutput, CreateConfigurationPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateConfigurationPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1141,8 +919,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func createFindingAggregator(input: CreateFindingAggregatorInput) async throws -> CreateFindingAggregatorOutput
-    {
+    public func createFindingAggregator(input: CreateFindingAggregatorInput) async throws -> CreateFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1152,35 +929,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(id: "createFindingAggregator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(CreateFindingAggregatorInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFindingAggregatorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateFindingAggregatorOutput, CreateFindingAggregatorOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFindingAggregatorInput, CreateFindingAggregatorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFindingAggregatorOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateFindingAggregatorOutput, CreateFindingAggregatorOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFindingAggregatorOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFindingAggregatorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateFindingAggregatorOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1203,8 +968,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createInsight(input: CreateInsightInput) async throws -> CreateInsightOutput
-    {
+    public func createInsight(input: CreateInsightInput) async throws -> CreateInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1214,35 +978,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateInsightInput, CreateInsightOutput>(id: "createInsight")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInsightInput, CreateInsightOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInsightInput, CreateInsightOutput>(CreateInsightInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInsightInput, CreateInsightOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInsightOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateInsightOutput, CreateInsightOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInsightInput, CreateInsightOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateInsightInput, CreateInsightOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInsightOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateInsightOutput, CreateInsightOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInsightOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInsightOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateInsightOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInsightOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1280,8 +1032,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput
-    {
+    public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1291,35 +1042,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateMembersInput, CreateMembersOutput>(id: "createMembers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMembersInput, CreateMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMembersInput, CreateMembersOutput>(CreateMembersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMembersInput, CreateMembersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateMembersOutput, CreateMembersOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMembersInput, CreateMembersOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMembersInput, CreateMembersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMembersOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateMembersOutput, CreateMembersOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMembersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMembersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMembersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1341,8 +1080,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput
-    {
+    public func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1352,35 +1090,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeclineInvitationsInput, DeclineInvitationsOutput>(id: "declineInvitations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(DeclineInvitationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeclineInvitationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeclineInvitationsOutput, DeclineInvitationsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeclineInvitationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeclineInvitationsOutput, DeclineInvitationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeclineInvitationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeclineInvitationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeclineInvitationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1402,8 +1128,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteActionTarget(input: DeleteActionTargetInput) async throws -> DeleteActionTargetOutput
-    {
+    public func deleteActionTarget(input: DeleteActionTargetInput) async throws -> DeleteActionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1413,30 +1138,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteActionTargetInput, DeleteActionTargetOutput>(id: "deleteActionTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>(DeleteActionTargetInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteActionTargetInput, DeleteActionTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteActionTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteActionTargetOutput, DeleteActionTargetOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteActionTargetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteActionTargetOutput, DeleteActionTargetOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteActionTargetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteActionTargetOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteActionTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteActionTargetOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteActionTargetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1461,8 +1176,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteConfigurationPolicy(input: DeleteConfigurationPolicyInput) async throws -> DeleteConfigurationPolicyOutput
-    {
+    public func deleteConfigurationPolicy(input: DeleteConfigurationPolicyInput) async throws -> DeleteConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1472,34 +1186,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>(id: "deleteConfigurationPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>(DeleteConfigurationPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationPolicyInput, DeleteConfigurationPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConfigurationPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationPolicyOutput, DeleteConfigurationPolicyOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteConfigurationPolicyOutput, DeleteConfigurationPolicyOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConfigurationPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteConfigurationPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1523,8 +1223,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteFindingAggregator(input: DeleteFindingAggregatorInput) async throws -> DeleteFindingAggregatorOutput
-    {
+    public func deleteFindingAggregator(input: DeleteFindingAggregatorInput) async throws -> DeleteFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1534,30 +1233,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>(id: "deleteFindingAggregator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>(DeleteFindingAggregatorInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFindingAggregatorInput, DeleteFindingAggregatorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFindingAggregatorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteFindingAggregatorOutput, DeleteFindingAggregatorOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFindingAggregatorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteFindingAggregatorOutput, DeleteFindingAggregatorOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFindingAggregatorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFindingAggregatorOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFindingAggregatorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFindingAggregatorOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1580,8 +1269,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput
-    {
+    public func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1591,30 +1279,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteInsightInput, DeleteInsightOutput>(id: "deleteInsight")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInsightInput, DeleteInsightOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInsightInput, DeleteInsightOutput>(DeleteInsightInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInsightInput, DeleteInsightOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInsightOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteInsightOutput, DeleteInsightOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInsightOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteInsightOutput, DeleteInsightOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInsightOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInsightOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInsightOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteInsightOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInsightOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1637,8 +1315,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput
-    {
+    public func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1648,35 +1325,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteInvitationsInput, DeleteInvitationsOutput>(id: "deleteInvitations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(DeleteInvitationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInvitationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteInvitationsOutput, DeleteInvitationsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInvitationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteInvitationsOutput, DeleteInvitationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInvitationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteInvitationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInvitationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1699,8 +1364,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput
-    {
+    public func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,35 +1374,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteMembersInput, DeleteMembersOutput>(id: "deleteMembers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMembersInput, DeleteMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMembersInput, DeleteMembersOutput>(DeleteMembersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMembersInput, DeleteMembersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteMembersOutput, DeleteMembersOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMembersInput, DeleteMembersOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteMembersInput, DeleteMembersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMembersOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteMembersOutput, DeleteMembersOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMembersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMembersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMembersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1760,8 +1412,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func describeActionTargets(input: DescribeActionTargetsInput) async throws -> DescribeActionTargetsOutput
-    {
+    public func describeActionTargets(input: DescribeActionTargetsInput) async throws -> DescribeActionTargetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1771,35 +1422,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeActionTargetsInput, DescribeActionTargetsOutput>(id: "describeActionTargets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>(DescribeActionTargetsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeActionTargetsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeActionTargetsOutput, DescribeActionTargetsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeActionTargetsInput, DescribeActionTargetsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeActionTargetsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeActionTargetsOutput, DescribeActionTargetsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActionTargetsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActionTargetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeActionTargetsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeActionTargetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1822,8 +1461,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput
-    {
+    public func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1833,32 +1471,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeHubInput, DescribeHubOutput>(id: "describeHub")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHubInput, DescribeHubOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHubInput, DescribeHubOutput>(DescribeHubInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHubInput, DescribeHubOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHubOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeHubOutput, DescribeHubOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeHubInput, DescribeHubOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHubOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeHubOutput, DescribeHubOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeHubInput, DescribeHubOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeHubInput, DescribeHubOutput>(DescribeHubInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHubOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHubOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHubOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeHubOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHubOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1880,8 +1507,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-    {
+    public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1891,30 +1517,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(id: "describeOrganizationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigurationOutput, DescribeOrganizationConfigurationOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput, DescribeOrganizationConfigurationOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeOrganizationConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1936,8 +1552,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func describeProducts(input: DescribeProductsInput) async throws -> DescribeProductsOutput
-    {
+    public func describeProducts(input: DescribeProductsInput) async throws -> DescribeProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1947,32 +1562,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeProductsInput, DescribeProductsOutput>(id: "describeProducts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductsInput, DescribeProductsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductsInput, DescribeProductsOutput>(DescribeProductsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductsInput, DescribeProductsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeProductsOutput, DescribeProductsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeProductsInput, DescribeProductsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeProductsOutput, DescribeProductsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeProductsInput, DescribeProductsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeProductsInput, DescribeProductsOutput>(DescribeProductsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeProductsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1993,8 +1597,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    public func describeStandards(input: DescribeStandardsInput) async throws -> DescribeStandardsOutput
-    {
+    public func describeStandards(input: DescribeStandardsInput) async throws -> DescribeStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2004,32 +1607,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeStandardsInput, DescribeStandardsOutput>(id: "describeStandards")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStandardsInput, DescribeStandardsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(DescribeStandardsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStandardsInput, DescribeStandardsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStandardsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeStandardsOutput, DescribeStandardsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeStandardsInput, DescribeStandardsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStandardsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeStandardsOutput, DescribeStandardsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeStandardsInput, DescribeStandardsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeStandardsInput, DescribeStandardsOutput>(DescribeStandardsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStandardsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStandardsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStandardsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeStandardsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStandardsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2051,8 +1643,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func describeStandardsControls(input: DescribeStandardsControlsInput) async throws -> DescribeStandardsControlsOutput
-    {
+    public func describeStandardsControls(input: DescribeStandardsControlsInput) async throws -> DescribeStandardsControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2062,32 +1653,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(id: "describeStandardsControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(DescribeStandardsControlsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStandardsControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeStandardsControlsOutput, DescribeStandardsControlsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStandardsControlsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeStandardsControlsOutput, DescribeStandardsControlsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(DescribeStandardsControlsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStandardsControlsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStandardsControlsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStandardsControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeStandardsControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStandardsControlsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2110,8 +1690,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disableImportFindingsForProduct(input: DisableImportFindingsForProductInput) async throws -> DisableImportFindingsForProductOutput
-    {
+    public func disableImportFindingsForProduct(input: DisableImportFindingsForProductInput) async throws -> DisableImportFindingsForProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2121,30 +1700,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>(id: "disableImportFindingsForProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>(DisableImportFindingsForProductInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableImportFindingsForProductInput, DisableImportFindingsForProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableImportFindingsForProductOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisableImportFindingsForProductOutput, DisableImportFindingsForProductOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableImportFindingsForProductOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisableImportFindingsForProductOutput, DisableImportFindingsForProductOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableImportFindingsForProductOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableImportFindingsForProductOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableImportFindingsForProductOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableImportFindingsForProductOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableImportFindingsForProductOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2167,8 +1736,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
-    {
+    public func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2178,35 +1746,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(id: "disableOrganizationAdminAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableOrganizationAdminAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisableOrganizationAdminAccountOutput, DisableOrganizationAdminAccountOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableOrganizationAdminAccountOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisableOrganizationAdminAccountOutput, DisableOrganizationAdminAccountOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableOrganizationAdminAccountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableOrganizationAdminAccountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2229,8 +1785,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disableSecurityHub(input: DisableSecurityHubInput) async throws -> DisableSecurityHubOutput
-    {
+    public func disableSecurityHub(input: DisableSecurityHubInput) async throws -> DisableSecurityHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2240,30 +1795,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DisableSecurityHubInput, DisableSecurityHubOutput>(id: "disableSecurityHub")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>(DisableSecurityHubInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableSecurityHubInput, DisableSecurityHubOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableSecurityHubOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisableSecurityHubOutput, DisableSecurityHubOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableSecurityHubOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisableSecurityHubOutput, DisableSecurityHubOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableSecurityHubOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableSecurityHubOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableSecurityHubOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableSecurityHubOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableSecurityHubOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2286,8 +1831,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput
-    {
+    public func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2297,30 +1841,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(id: "disassociateFromAdministratorAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(DisassociateFromAdministratorAccountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateFromAdministratorAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateFromAdministratorAccountOutput, DisassociateFromAdministratorAccountOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateFromAdministratorAccountOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateFromAdministratorAccountOutput, DisassociateFromAdministratorAccountOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateFromAdministratorAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateFromAdministratorAccountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateFromAdministratorAccountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2344,8 +1878,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput
-    {
+    public func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2355,30 +1888,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(id: "disassociateFromMasterAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(DisassociateFromMasterAccountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateFromMasterAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateFromMasterAccountOutput, DisassociateFromMasterAccountOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateFromMasterAccountOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateFromMasterAccountOutput, DisassociateFromMasterAccountOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateFromMasterAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateFromMasterAccountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateFromMasterAccountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2402,8 +1925,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutput
-    {
+    public func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2413,35 +1935,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DisassociateMembersInput, DisassociateMembersOutput>(id: "disassociateMembers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMembersInput, DisassociateMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(DisassociateMembersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMembersInput, DisassociateMembersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisassociateMembersOutput, DisassociateMembersOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateMembersInput, DisassociateMembersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateMembersOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisassociateMembersOutput, DisassociateMembersOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMembersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateMembersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateMembersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2464,8 +1974,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func enableImportFindingsForProduct(input: EnableImportFindingsForProductInput) async throws -> EnableImportFindingsForProductOutput
-    {
+    public func enableImportFindingsForProduct(input: EnableImportFindingsForProductInput) async throws -> EnableImportFindingsForProductOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2475,35 +1984,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(id: "enableImportFindingsForProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(EnableImportFindingsForProductInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableImportFindingsForProductOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<EnableImportFindingsForProductOutput, EnableImportFindingsForProductOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableImportFindingsForProductInput, EnableImportFindingsForProductOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableImportFindingsForProductOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<EnableImportFindingsForProductOutput, EnableImportFindingsForProductOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableImportFindingsForProductOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableImportFindingsForProductOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableImportFindingsForProductOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableImportFindingsForProductOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2526,8 +2023,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
-    {
+    public func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2537,35 +2033,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(id: "enableOrganizationAdminAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(EnableOrganizationAdminAccountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableOrganizationAdminAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<EnableOrganizationAdminAccountOutput, EnableOrganizationAdminAccountOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableOrganizationAdminAccountOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<EnableOrganizationAdminAccountOutput, EnableOrganizationAdminAccountOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableOrganizationAdminAccountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableOrganizationAdminAccountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2595,8 +2079,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    public func enableSecurityHub(input: EnableSecurityHubInput) async throws -> EnableSecurityHubOutput
-    {
+    public func enableSecurityHub(input: EnableSecurityHubInput) async throws -> EnableSecurityHubOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2606,35 +2089,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<EnableSecurityHubInput, EnableSecurityHubOutput>(id: "enableSecurityHub")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>(EnableSecurityHubInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableSecurityHubOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<EnableSecurityHubOutput, EnableSecurityHubOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableSecurityHubInput, EnableSecurityHubOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableSecurityHubOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<EnableSecurityHubOutput, EnableSecurityHubOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSecurityHubOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSecurityHubOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableSecurityHubOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableSecurityHubOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2657,8 +2128,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput
-    {
+    public func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2668,30 +2138,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetAdministratorAccountInput, GetAdministratorAccountOutput>(id: "getAdministratorAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(GetAdministratorAccountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAdministratorAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetAdministratorAccountOutput, GetAdministratorAccountOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAdministratorAccountOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetAdministratorAccountOutput, GetAdministratorAccountOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAdministratorAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAdministratorAccountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAdministratorAccountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2715,8 +2175,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getConfigurationPolicy(input: GetConfigurationPolicyInput) async throws -> GetConfigurationPolicyOutput
-    {
+    public func getConfigurationPolicy(input: GetConfigurationPolicyInput) async throws -> GetConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2726,34 +2185,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>(id: "getConfigurationPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>(GetConfigurationPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationPolicyInput, GetConfigurationPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigurationPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetConfigurationPolicyOutput, GetConfigurationPolicyOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigurationPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetConfigurationPolicyOutput, GetConfigurationPolicyOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigurationPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetConfigurationPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2777,8 +2222,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getConfigurationPolicyAssociation(input: GetConfigurationPolicyAssociationInput) async throws -> GetConfigurationPolicyAssociationOutput
-    {
+    public func getConfigurationPolicyAssociation(input: GetConfigurationPolicyAssociationInput) async throws -> GetConfigurationPolicyAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2788,39 +2232,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(id: "getConfigurationPolicyAssociation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(GetConfigurationPolicyAssociationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConfigurationPolicyAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetConfigurationPolicyAssociationOutput, GetConfigurationPolicyAssociationOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetConfigurationPolicyAssociationInput, GetConfigurationPolicyAssociationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConfigurationPolicyAssociationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetConfigurationPolicyAssociationOutput, GetConfigurationPolicyAssociationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationPolicyAssociationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationPolicyAssociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetConfigurationPolicyAssociationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigurationPolicyAssociationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2842,8 +2270,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getEnabledStandards(input: GetEnabledStandardsInput) async throws -> GetEnabledStandardsOutput
-    {
+    public func getEnabledStandards(input: GetEnabledStandardsInput) async throws -> GetEnabledStandardsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2853,35 +2280,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetEnabledStandardsInput, GetEnabledStandardsOutput>(id: "getEnabledStandards")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>(GetEnabledStandardsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEnabledStandardsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetEnabledStandardsOutput, GetEnabledStandardsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEnabledStandardsInput, GetEnabledStandardsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEnabledStandardsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetEnabledStandardsOutput, GetEnabledStandardsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnabledStandardsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnabledStandardsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEnabledStandardsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnabledStandardsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2905,8 +2320,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getFindingAggregator(input: GetFindingAggregatorInput) async throws -> GetFindingAggregatorOutput
-    {
+    public func getFindingAggregator(input: GetFindingAggregatorInput) async throws -> GetFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2916,30 +2330,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetFindingAggregatorInput, GetFindingAggregatorOutput>(id: "getFindingAggregator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>(GetFindingAggregatorInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingAggregatorInput, GetFindingAggregatorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFindingAggregatorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetFindingAggregatorOutput, GetFindingAggregatorOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFindingAggregatorOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetFindingAggregatorOutput, GetFindingAggregatorOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFindingAggregatorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingAggregatorOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingAggregatorOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFindingAggregatorOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2961,8 +2365,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getFindingHistory(input: GetFindingHistoryInput) async throws -> GetFindingHistoryOutput
-    {
+    public func getFindingHistory(input: GetFindingHistoryInput) async throws -> GetFindingHistoryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2972,35 +2375,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetFindingHistoryInput, GetFindingHistoryOutput>(id: "getFindingHistory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>(GetFindingHistoryInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFindingHistoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetFindingHistoryOutput, GetFindingHistoryOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFindingHistoryInput, GetFindingHistoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFindingHistoryOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetFindingHistoryOutput, GetFindingHistoryOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingHistoryOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingHistoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFindingHistoryOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFindingHistoryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3022,8 +2413,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
-    {
+    public func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3033,35 +2423,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetFindingsInput, GetFindingsOutput>(id: "getFindings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingsInput, GetFindingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingsInput, GetFindingsOutput>(GetFindingsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingsInput, GetFindingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFindingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetFindingsOutput, GetFindingsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFindingsInput, GetFindingsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFindingsInput, GetFindingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFindingsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetFindingsOutput, GetFindingsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFindingsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFindingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3084,8 +2462,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getInsightResults(input: GetInsightResultsInput) async throws -> GetInsightResultsOutput
-    {
+    public func getInsightResults(input: GetInsightResultsInput) async throws -> GetInsightResultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3095,30 +2472,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetInsightResultsInput, GetInsightResultsOutput>(id: "getInsightResults")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightResultsInput, GetInsightResultsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightResultsInput, GetInsightResultsOutput>(GetInsightResultsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightResultsInput, GetInsightResultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightResultsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetInsightResultsOutput, GetInsightResultsOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInsightResultsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetInsightResultsOutput, GetInsightResultsOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInsightResultsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInsightResultsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInsightResultsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetInsightResultsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInsightResultsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3141,8 +2508,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput
-    {
+    public func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3152,35 +2518,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetInsightsInput, GetInsightsOutput>(id: "getInsights")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightsInput, GetInsightsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightsInput, GetInsightsOutput>(GetInsightsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightsInput, GetInsightsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetInsightsOutput, GetInsightsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInsightsInput, GetInsightsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetInsightsInput, GetInsightsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInsightsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetInsightsOutput, GetInsightsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInsightsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInsightsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetInsightsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInsightsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3202,8 +2556,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput
-    {
+    public func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3213,30 +2566,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetInvitationsCountInput, GetInvitationsCountOutput>(id: "getInvitationsCount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(GetInvitationsCountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInvitationsCountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetInvitationsCountOutput, GetInvitationsCountOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInvitationsCountOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetInvitationsCountOutput, GetInvitationsCountOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInvitationsCountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvitationsCountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetInvitationsCountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInvitationsCountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3260,8 +2603,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput
-    {
+    public func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3271,30 +2613,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetMasterAccountInput, GetMasterAccountOutput>(id: "getMasterAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(GetMasterAccountInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMasterAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetMasterAccountOutput, GetMasterAccountOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMasterAccountOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetMasterAccountOutput, GetMasterAccountOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMasterAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMasterAccountOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMasterAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMasterAccountOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMasterAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3317,8 +2649,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput
-    {
+    public func getMembers(input: GetMembersInput) async throws -> GetMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3328,35 +2659,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetMembersInput, GetMembersOutput>(id: "getMembers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMembersInput, GetMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMembersInput, GetMembersOutput>(GetMembersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMembersInput, GetMembersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetMembersOutput, GetMembersOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMembersInput, GetMembersOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMembersInput, GetMembersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMembersOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetMembersOutput, GetMembersOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMembersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMembersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMembersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3379,8 +2698,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func getSecurityControlDefinition(input: GetSecurityControlDefinitionInput) async throws -> GetSecurityControlDefinitionOutput
-    {
+    public func getSecurityControlDefinition(input: GetSecurityControlDefinitionInput) async throws -> GetSecurityControlDefinitionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3390,36 +2708,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(id: "getSecurityControlDefinition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(GetSecurityControlDefinitionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSecurityControlDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSecurityControlDefinitionOutput, GetSecurityControlDefinitionOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSecurityControlDefinitionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSecurityControlDefinitionOutput, GetSecurityControlDefinitionOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSecurityControlDefinitionInput, GetSecurityControlDefinitionOutput>(GetSecurityControlDefinitionInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSecurityControlDefinitionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSecurityControlDefinitionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSecurityControlDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSecurityControlDefinitionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSecurityControlDefinitionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3442,8 +2745,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput
-    {
+    public func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3453,35 +2755,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<InviteMembersInput, InviteMembersOutput>(id: "inviteMembers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteMembersInput, InviteMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteMembersInput, InviteMembersOutput>(InviteMembersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InviteMembersInput, InviteMembersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InviteMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<InviteMembersOutput, InviteMembersOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InviteMembersInput, InviteMembersOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<InviteMembersInput, InviteMembersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InviteMembersOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<InviteMembersOutput, InviteMembersOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InviteMembersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InviteMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(InviteMembersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InviteMembersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3504,8 +2794,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listAutomationRules(input: ListAutomationRulesInput) async throws -> ListAutomationRulesOutput
-    {
+    public func listAutomationRules(input: ListAutomationRulesInput) async throws -> ListAutomationRulesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3515,32 +2804,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListAutomationRulesInput, ListAutomationRulesOutput>(id: "listAutomationRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(ListAutomationRulesInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAutomationRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAutomationRulesOutput, ListAutomationRulesOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAutomationRulesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAutomationRulesOutput, ListAutomationRulesOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(ListAutomationRulesInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAutomationRulesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAutomationRulesOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAutomationRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAutomationRulesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAutomationRulesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3563,8 +2841,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listConfigurationPolicies(input: ListConfigurationPoliciesInput) async throws -> ListConfigurationPoliciesOutput
-    {
+    public func listConfigurationPolicies(input: ListConfigurationPoliciesInput) async throws -> ListConfigurationPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3574,36 +2851,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(id: "listConfigurationPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(ListConfigurationPoliciesInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConfigurationPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListConfigurationPoliciesOutput, ListConfigurationPoliciesOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConfigurationPoliciesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListConfigurationPoliciesOutput, ListConfigurationPoliciesOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConfigurationPoliciesInput, ListConfigurationPoliciesOutput>(ListConfigurationPoliciesInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConfigurationPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationPoliciesOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListConfigurationPoliciesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3626,8 +2888,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listConfigurationPolicyAssociations(input: ListConfigurationPolicyAssociationsInput) async throws -> ListConfigurationPolicyAssociationsOutput
-    {
+    public func listConfigurationPolicyAssociations(input: ListConfigurationPolicyAssociationsInput) async throws -> ListConfigurationPolicyAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3637,39 +2898,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(id: "listConfigurationPolicyAssociations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(ListConfigurationPolicyAssociationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConfigurationPolicyAssociationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListConfigurationPolicyAssociationsOutput, ListConfigurationPolicyAssociationsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListConfigurationPolicyAssociationsInput, ListConfigurationPolicyAssociationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConfigurationPolicyAssociationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListConfigurationPolicyAssociationsOutput, ListConfigurationPolicyAssociationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationPolicyAssociationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationPolicyAssociationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListConfigurationPolicyAssociationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3690,8 +2935,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listEnabledProductsForImport(input: ListEnabledProductsForImportInput) async throws -> ListEnabledProductsForImportOutput
-    {
+    public func listEnabledProductsForImport(input: ListEnabledProductsForImportInput) async throws -> ListEnabledProductsForImportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3701,32 +2945,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(id: "listEnabledProductsForImport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(ListEnabledProductsForImportInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEnabledProductsForImportOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListEnabledProductsForImportOutput, ListEnabledProductsForImportOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEnabledProductsForImportOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListEnabledProductsForImportOutput, ListEnabledProductsForImportOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(ListEnabledProductsForImportInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEnabledProductsForImportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnabledProductsForImportOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnabledProductsForImportOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEnabledProductsForImportOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnabledProductsForImportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3749,8 +2982,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listFindingAggregators(input: ListFindingAggregatorsInput) async throws -> ListFindingAggregatorsOutput
-    {
+    public func listFindingAggregators(input: ListFindingAggregatorsInput) async throws -> ListFindingAggregatorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3760,32 +2992,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(id: "listFindingAggregators")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(ListFindingAggregatorsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFindingAggregatorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListFindingAggregatorsOutput, ListFindingAggregatorsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFindingAggregatorsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListFindingAggregatorsOutput, ListFindingAggregatorsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(ListFindingAggregatorsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFindingAggregatorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFindingAggregatorsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFindingAggregatorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFindingAggregatorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFindingAggregatorsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3807,8 +3028,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-    {
+    public func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3818,32 +3038,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListInvitationsInput, ListInvitationsOutput>(id: "listInvitations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvitationsInput, ListInvitationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvitationsInput, ListInvitationsOutput>(ListInvitationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInvitationsInput, ListInvitationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInvitationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListInvitationsOutput, ListInvitationsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInvitationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListInvitationsOutput, ListInvitationsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>(ListInvitationsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInvitationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInvitationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInvitationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInvitationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3865,8 +3074,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-    {
+    public func listMembers(input: ListMembersInput) async throws -> ListMembersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3876,32 +3084,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListMembersInput, ListMembersOutput>(id: "listMembers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembersInput, ListMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembersInput, ListMembersOutput>(ListMembersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMembersInput, ListMembersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListMembersOutput, ListMembersOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMembersOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListMembersOutput, ListMembersOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>(ListMembersInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMembersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMembersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMembersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMembersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3923,8 +3120,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
-    {
+    public func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3934,32 +3130,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(id: "listOrganizationAdminAccounts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOrganizationAdminAccountsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListOrganizationAdminAccountsOutput, ListOrganizationAdminAccountsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrganizationAdminAccountsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListOrganizationAdminAccountsOutput, ListOrganizationAdminAccountsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrganizationAdminAccountsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationAdminAccountsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOrganizationAdminAccountsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3981,8 +3166,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listSecurityControlDefinitions(input: ListSecurityControlDefinitionsInput) async throws -> ListSecurityControlDefinitionsOutput
-    {
+    public func listSecurityControlDefinitions(input: ListSecurityControlDefinitionsInput) async throws -> ListSecurityControlDefinitionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3992,32 +3176,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(id: "listSecurityControlDefinitions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(ListSecurityControlDefinitionsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSecurityControlDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSecurityControlDefinitionsOutput, ListSecurityControlDefinitionsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSecurityControlDefinitionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSecurityControlDefinitionsOutput, ListSecurityControlDefinitionsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(ListSecurityControlDefinitionsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSecurityControlDefinitionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSecurityControlDefinitionsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSecurityControlDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSecurityControlDefinitionsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSecurityControlDefinitionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4039,8 +3212,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    public func listStandardsControlAssociations(input: ListStandardsControlAssociationsInput) async throws -> ListStandardsControlAssociationsOutput
-    {
+    public func listStandardsControlAssociations(input: ListStandardsControlAssociationsInput) async throws -> ListStandardsControlAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4050,32 +3222,21 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(id: "listStandardsControlAssociations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(ListStandardsControlAssociationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStandardsControlAssociationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListStandardsControlAssociationsOutput, ListStandardsControlAssociationsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStandardsControlAssociationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListStandardsControlAssociationsOutput, ListStandardsControlAssociationsOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(ListStandardsControlAssociationsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStandardsControlAssociationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStandardsControlAssociationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStandardsControlAssociationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListStandardsControlAssociationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStandardsControlAssociationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4096,8 +3257,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    {
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4107,30 +3267,20 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4138,8 +3288,6 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     }
 
     /// Performs the `StartConfigurationPolicyAssociation` operation on the `SecurityHubAPIService` service.
-<<<<<<< HEAD
-=======
     ///
     /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -4156,8 +3304,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func startConfigurationPolicyAssociation(input: StartConfigurationPolicyAssociationInput) async throws -> StartConfigurationPolicyAssociationOutput
-    {
+    public func startConfigurationPolicyAssociation(input: StartConfigurationPolicyAssociationInput) async throws -> StartConfigurationPolicyAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4173,7 +3320,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(id: "startConfigurationPolicyAssociation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(StartConfigurationPolicyAssociationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigurationPolicyAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -4207,8 +3354,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func startConfigurationPolicyDisassociation(input: StartConfigurationPolicyDisassociationInput) async throws -> StartConfigurationPolicyDisassociationOutput
-    {
+    public func startConfigurationPolicyDisassociation(input: StartConfigurationPolicyDisassociationInput) async throws -> StartConfigurationPolicyDisassociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4224,7 +3370,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(id: "startConfigurationPolicyDisassociation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(StartConfigurationPolicyDisassociationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigurationPolicyDisassociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -4244,15 +3390,9 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// Performs the `TagResource` operation on the `SecurityHubAPIService` service.
     ///
     /// Adds one or more tags to a resource.
->>>>>>> temp-main
     ///
-    /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// - Parameter TagResourceInput : [no documentation found]
     ///
-<<<<<<< HEAD
-    /// - Parameter StartConfigurationPolicyAssociationInput : [no documentation found]
-    ///
-    /// - Returns: `StartConfigurationPolicyAssociationOutput` : [no documentation found]
-=======
     /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
@@ -4261,8 +3401,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4278,7 +3417,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -4309,8 +3448,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InternalException` : Internal server error.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4326,12 +3464,12 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
@@ -4356,8 +3494,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateActionTarget(input: UpdateActionTargetInput) async throws -> UpdateActionTargetOutput
-    {
+    public func updateActionTarget(input: UpdateActionTargetInput) async throws -> UpdateActionTargetOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4373,7 +3510,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateActionTargetInput, UpdateActionTargetOutput>(id: "updateActionTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>(UpdateActionTargetInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateActionTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -4408,8 +3545,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateConfigurationPolicy(input: UpdateConfigurationPolicyInput) async throws -> UpdateConfigurationPolicyOutput
-    {
+    public func updateConfigurationPolicy(input: UpdateConfigurationPolicyInput) async throws -> UpdateConfigurationPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4425,7 +3561,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(id: "updateConfigurationPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(UpdateConfigurationPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConfigurationPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -4449,7 +3585,6 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - Parameter UpdateFindingAggregatorInput : [no documentation found]
     ///
     /// - Returns: `UpdateFindingAggregatorOutput` : [no documentation found]
->>>>>>> temp-main
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4460,332 +3595,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-<<<<<<< HEAD
-    public func startConfigurationPolicyAssociation(input: StartConfigurationPolicyAssociationInput) async throws -> StartConfigurationPolicyAssociationOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "startConfigurationPolicyAssociation")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(id: "startConfigurationPolicyAssociation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigurationPolicyAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartConfigurationPolicyAssociationOutput, StartConfigurationPolicyAssociationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartConfigurationPolicyAssociationInput, StartConfigurationPolicyAssociationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConfigurationPolicyAssociationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartConfigurationPolicyAssociationOutput, StartConfigurationPolicyAssociationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConfigurationPolicyAssociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartConfigurationPolicyAssociationOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConfigurationPolicyAssociationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `StartConfigurationPolicyDisassociation` operation on the `SecurityHubAPIService` service.
-    ///
-    /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
-    ///
-    /// - Parameter StartConfigurationPolicyDisassociationInput : [no documentation found]
-    ///
-    /// - Returns: `StartConfigurationPolicyDisassociationOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
-    /// - `InternalException` : Internal server error.
-    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
-    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func startConfigurationPolicyDisassociation(input: StartConfigurationPolicyDisassociationInput) async throws -> StartConfigurationPolicyDisassociationOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "startConfigurationPolicyDisassociation")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(id: "startConfigurationPolicyDisassociation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConfigurationPolicyDisassociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartConfigurationPolicyDisassociationOutput, StartConfigurationPolicyDisassociationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartConfigurationPolicyDisassociationInput, StartConfigurationPolicyDisassociationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConfigurationPolicyDisassociationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartConfigurationPolicyDisassociationOutput, StartConfigurationPolicyDisassociationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConfigurationPolicyDisassociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartConfigurationPolicyDisassociationOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConfigurationPolicyDisassociationOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `TagResource` operation on the `SecurityHubAPIService` service.
-    ///
-    /// Adds one or more tags to a resource.
-    ///
-    /// - Parameter TagResourceInput : [no documentation found]
-    ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : Internal server error.
-    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "tagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `UntagResource` operation on the `SecurityHubAPIService` service.
-    ///
-    /// Removes one or more tags from a resource.
-    ///
-    /// - Parameter UntagResourceInput : [no documentation found]
-    ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : Internal server error.
-    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .delete)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "untagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `UpdateActionTarget` operation on the `SecurityHubAPIService` service.
-    ///
-    /// Updates the name and description of a custom action target in Security Hub.
-    ///
-    /// - Parameter UpdateActionTargetInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateActionTargetOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : Internal server error.
-    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
-    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateActionTarget(input: UpdateActionTargetInput) async throws -> UpdateActionTargetOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .patch)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateActionTarget")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<UpdateActionTargetInput, UpdateActionTargetOutput>(id: "updateActionTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateActionTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateActionTargetOutput, UpdateActionTargetOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateActionTargetInput, UpdateActionTargetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateActionTargetOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateActionTargetOutput, UpdateActionTargetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActionTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateActionTargetOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateActionTargetOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `UpdateConfigurationPolicy` operation on the `SecurityHubAPIService` service.
-    ///
-    /// Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
-    ///
-    /// - Parameter UpdateConfigurationPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateConfigurationPolicyOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
-    /// - `InternalException` : Internal server error.
-    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
-    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateConfigurationPolicy(input: UpdateConfigurationPolicyInput) async throws -> UpdateConfigurationPolicyOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .patch)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateConfigurationPolicy")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "securityhub")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(id: "updateConfigurationPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConfigurationPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateConfigurationPolicyOutput, UpdateConfigurationPolicyOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateConfigurationPolicyInput, UpdateConfigurationPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConfigurationPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateConfigurationPolicyOutput, UpdateConfigurationPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateConfigurationPolicyOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationPolicyOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `UpdateFindingAggregator` operation on the `SecurityHubAPIService` service.
-    ///
-    /// Updates the finding aggregation configuration. Used to update the Region linking mode and the list of included or excluded Regions. You cannot use UpdateFindingAggregator to change the aggregation Region. You must run UpdateFindingAggregator from the current aggregation Region.
-    ///
-    /// - Parameter UpdateFindingAggregatorInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateFindingAggregatorOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
-    /// - `InternalException` : Internal server error.
-    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
-    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
-    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
-    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-=======
->>>>>>> temp-main
-    public func updateFindingAggregator(input: UpdateFindingAggregatorInput) async throws -> UpdateFindingAggregatorOutput
-    {
+    public func updateFindingAggregator(input: UpdateFindingAggregatorInput) async throws -> UpdateFindingAggregatorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4795,35 +3605,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(id: "updateFindingAggregator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(UpdateFindingAggregatorInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFindingAggregatorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateFindingAggregatorOutput, UpdateFindingAggregatorOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFindingAggregatorInput, UpdateFindingAggregatorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFindingAggregatorOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateFindingAggregatorOutput, UpdateFindingAggregatorOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFindingAggregatorOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFindingAggregatorOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateFindingAggregatorOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFindingAggregatorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4846,8 +3644,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput
-    {
+    public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4857,35 +3654,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateFindingsInput, UpdateFindingsOutput>(id: "updateFindings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFindingsInput, UpdateFindingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(UpdateFindingsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFindingsInput, UpdateFindingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFindingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateFindingsOutput, UpdateFindingsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFindingsInput, UpdateFindingsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFindingsInput, UpdateFindingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFindingsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateFindingsOutput, UpdateFindingsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFindingsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFindingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateFindingsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFindingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4908,8 +3693,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateInsight(input: UpdateInsightInput) async throws -> UpdateInsightOutput
-    {
+    public func updateInsight(input: UpdateInsightInput) async throws -> UpdateInsightOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4919,35 +3703,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateInsightInput, UpdateInsightOutput>(id: "updateInsight")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInsightInput, UpdateInsightOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInsightInput, UpdateInsightOutput>(UpdateInsightInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInsightInput, UpdateInsightOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInsightOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateInsightOutput, UpdateInsightOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInsightInput, UpdateInsightOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateInsightInput, UpdateInsightOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInsightOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateInsightOutput, UpdateInsightOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInsightOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInsightOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateInsightOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInsightOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4972,8 +3744,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-    {
+    public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4983,35 +3754,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(id: "updateOrganizationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOrganizationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateOrganizationConfigurationOutput, UpdateOrganizationConfigurationOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOrganizationConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput, UpdateOrganizationConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOrganizationConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateOrganizationConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5036,8 +3795,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceInUseException` : The request was rejected because it conflicts with the resource's availability. For example, you tried to update a security control that's currently in the UPDATING state.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateSecurityControl(input: UpdateSecurityControlInput) async throws -> UpdateSecurityControlOutput
-    {
+    public func updateSecurityControl(input: UpdateSecurityControlInput) async throws -> UpdateSecurityControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5047,39 +3805,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateSecurityControlInput, UpdateSecurityControlOutput>(id: "updateSecurityControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>(UpdateSecurityControlInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSecurityControlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSecurityControlOutput, UpdateSecurityControlOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSecurityControlInput, UpdateSecurityControlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSecurityControlOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateSecurityControlOutput, UpdateSecurityControlOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSecurityControlOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSecurityControlOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSecurityControlOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSecurityControlOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5103,8 +3845,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateSecurityHubConfiguration(input: UpdateSecurityHubConfigurationInput) async throws -> UpdateSecurityHubConfigurationOutput
-    {
+    public func updateSecurityHubConfiguration(input: UpdateSecurityHubConfigurationInput) async throws -> UpdateSecurityHubConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5114,35 +3855,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(id: "updateSecurityHubConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(UpdateSecurityHubConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSecurityHubConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSecurityHubConfigurationOutput, UpdateSecurityHubConfigurationOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSecurityHubConfigurationInput, UpdateSecurityHubConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSecurityHubConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateSecurityHubConfigurationOutput, UpdateSecurityHubConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSecurityHubConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSecurityHubConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSecurityHubConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSecurityHubConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5165,8 +3894,7 @@ extension SecurityHubClient: SecurityHubClientProtocol {
     /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
     /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
-    public func updateStandardsControl(input: UpdateStandardsControlInput) async throws -> UpdateStandardsControlOutput
-    {
+    public func updateStandardsControl(input: UpdateStandardsControlInput) async throws -> UpdateStandardsControlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5176,35 +3904,23 @@ extension SecurityHubClient: SecurityHubClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "securityhub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateStandardsControlInput, UpdateStandardsControlOutput>(id: "updateStandardsControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>(UpdateStandardsControlInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStandardsControlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateStandardsControlOutput, UpdateStandardsControlOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateStandardsControlInput, UpdateStandardsControlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStandardsControlOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateStandardsControlOutput, UpdateStandardsControlOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStandardsControlOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStandardsControlOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateStandardsControlOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStandardsControlOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

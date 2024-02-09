@@ -23,9 +23,6 @@ public class GlacierClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -45,16 +42,13 @@ extension GlacierClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-        public typealias AWSAuthSchemeResolver = GlacierAuthSchemeResolver
 
         public var serviceName: String { "Glacier" }
         public var clientName: String { "GlacierClient" }
-        public var authSchemeResolver: GlacierAuthSchemeResolver
         public var endpointResolver: EndpointResolver
 
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: GlacierAuthSchemeResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultGlacierAuthSchemeResolver()
         }
     }
 }
@@ -72,7 +66,7 @@ public struct GlacierClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
     }
 }
 
-extension GlacierClient: GlacierClientProtocol {
+extension GlacierClient {
     /// Performs the `AbortMultipartUpload` operation on the `Glacier` service.
     ///
     /// This operation aborts a multipart upload identified by the upload ID. After the Abort Multipart Upload request succeeds, you cannot upload any more parts to the multipart upload or complete the multipart upload. Aborting a completed upload fails. However, aborting an already-aborted upload will succeed, for a short time. For more information about uploading a part and completing a multipart upload, see [UploadMultipartPart] and [CompleteMultipartUpload]. This operation is idempotent. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html) in the Amazon Glacier Developer Guide.
@@ -88,8 +82,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput
-    {
+    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -99,11 +92,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -117,20 +106,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AbortMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AbortMultipartUploadOutput, AbortMultipartUploadOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AbortMultipartUploadOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AbortMultipartUploadOutput, AbortMultipartUploadOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortMultipartUploadOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AbortMultipartUploadOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(AbortMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
@@ -153,8 +137,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput
-    {
+    public func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -164,11 +147,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -182,20 +161,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortVaultLockInput, AbortVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortVaultLockInput, AbortVaultLockOutput>(AbortVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortVaultLockInput, AbortVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AbortVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AbortVaultLockOutput, AbortVaultLockOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AbortVaultLockOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AbortVaultLockOutput, AbortVaultLockOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortVaultLockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AbortVaultLockOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortVaultLockOutput>(responseClosure(decoder: decoder), responseErrorClosure(AbortVaultLockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortVaultLockOutput>(clientLogMode: config.clientLogMode))
@@ -219,8 +193,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput
-    {
+    public func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -230,11 +203,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -248,24 +217,19 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(AddTagsToVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AddTagsToVaultOutput, AddTagsToVaultOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(AddTagsToVaultInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsToVaultOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AddTagsToVaultOutput, AddTagsToVaultOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToVaultOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AddTagsToVaultOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToVaultOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddTagsToVaultOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToVaultOutput>(clientLogMode: config.clientLogMode))
@@ -288,8 +252,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput
-    {
+    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -299,11 +262,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -317,21 +276,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CompleteMultipartUploadOutput, CompleteMultipartUploadOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteMultipartUploadOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CompleteMultipartUploadOutput, CompleteMultipartUploadOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMultipartUploadOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CompleteMultipartUploadOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CompleteMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
@@ -354,8 +308,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput
-    {
+    public func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -365,11 +318,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -383,20 +332,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>(CompleteVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CompleteVaultLockOutput, CompleteVaultLockOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteVaultLockOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CompleteVaultLockOutput, CompleteVaultLockOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteVaultLockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CompleteVaultLockOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteVaultLockOutput>(responseClosure(decoder: decoder), responseErrorClosure(CompleteVaultLockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteVaultLockOutput>(clientLogMode: config.clientLogMode))
@@ -426,8 +370,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput
-    {
+    public func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -437,11 +380,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -455,20 +394,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVaultInput, CreateVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVaultInput, CreateVaultOutput>(CreateVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVaultInput, CreateVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateVaultOutput, CreateVaultOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVaultOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateVaultOutput, CreateVaultOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVaultOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CreateVaultOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVaultOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVaultOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVaultOutput>(clientLogMode: config.clientLogMode))
@@ -498,8 +432,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput
-    {
+    public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -509,11 +442,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -527,20 +456,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(DeleteArchiveInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteArchiveOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteArchiveOutput, DeleteArchiveOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteArchiveOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteArchiveOutput, DeleteArchiveOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteArchiveOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteArchiveOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteArchiveOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteArchiveOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteArchiveOutput>(clientLogMode: config.clientLogMode))
@@ -563,8 +487,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput
-    {
+    public func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,11 +497,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -592,20 +511,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultInput, DeleteVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultInput, DeleteVaultOutput>(DeleteVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVaultInput, DeleteVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteVaultOutput, DeleteVaultOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVaultOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteVaultOutput, DeleteVaultOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVaultOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVaultOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultOutput>(clientLogMode: config.clientLogMode))
@@ -628,8 +542,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput
-    {
+    public func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -639,11 +552,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -657,20 +566,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>(DeleteVaultAccessPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVaultAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteVaultAccessPolicyOutput, DeleteVaultAccessPolicyOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVaultAccessPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteVaultAccessPolicyOutput, DeleteVaultAccessPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVaultAccessPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultAccessPolicyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultAccessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVaultAccessPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
@@ -693,8 +597,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput
-    {
+    public func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -704,11 +607,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -722,20 +621,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>(DeleteVaultNotificationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVaultNotificationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteVaultNotificationsOutput, DeleteVaultNotificationsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVaultNotificationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteVaultNotificationsOutput, DeleteVaultNotificationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVaultNotificationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultNotificationsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultNotificationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVaultNotificationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
@@ -758,8 +652,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
-    {
+    public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -769,11 +662,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -787,20 +676,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeJobOutput, DescribeJobOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeJobOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeJobOutput, DescribeJobOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJobOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DescribeJobOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeJobOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeJobOutput>(clientLogMode: config.clientLogMode))
@@ -823,8 +707,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput
-    {
+    public func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -834,11 +717,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -852,20 +731,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVaultInput, DescribeVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVaultInput, DescribeVaultOutput>(DescribeVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVaultInput, DescribeVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeVaultOutput, DescribeVaultOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeVaultOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeVaultOutput, DescribeVaultOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVaultOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DescribeVaultOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVaultOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeVaultOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeVaultOutput>(clientLogMode: config.clientLogMode))
@@ -887,8 +761,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput
-    {
+    public func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -898,11 +771,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -916,20 +785,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>(GetDataRetrievalPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataRetrievalPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetDataRetrievalPolicyOutput, GetDataRetrievalPolicyOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataRetrievalPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetDataRetrievalPolicyOutput, GetDataRetrievalPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataRetrievalPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetDataRetrievalPolicyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataRetrievalPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDataRetrievalPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataRetrievalPolicyOutput>(clientLogMode: config.clientLogMode))
@@ -952,8 +816,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput
-    {
+    public func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -963,11 +826,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -981,21 +840,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobOutputInput, GetJobOutputOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobOutputInput, GetJobOutputOutput>(GetJobOutputInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobOutputInput, GetJobOutputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetJobOutputOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetJobOutputOutput, GetJobOutputOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetJobOutputInput, GetJobOutputOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetJobOutputInput, GetJobOutputOutput>(GetJobOutputInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetJobOutputOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetJobOutputOutput, GetJobOutputOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobOutputOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetJobOutputOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobOutputOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetJobOutputOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobOutputOutput>(clientLogMode: config.clientLogMode))
@@ -1018,8 +872,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput
-    {
+    public func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1029,11 +882,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1047,20 +896,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>(GetVaultAccessPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVaultAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetVaultAccessPolicyOutput, GetVaultAccessPolicyOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVaultAccessPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetVaultAccessPolicyOutput, GetVaultAccessPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVaultAccessPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultAccessPolicyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultAccessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVaultAccessPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
@@ -1094,8 +938,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput
-    {
+    public func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1105,11 +948,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1123,20 +962,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultLockInput, GetVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultLockInput, GetVaultLockOutput>(GetVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVaultLockInput, GetVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetVaultLockOutput, GetVaultLockOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVaultLockOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetVaultLockOutput, GetVaultLockOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVaultLockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultLockOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultLockOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVaultLockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVaultLockOutput>(clientLogMode: config.clientLogMode))
@@ -1159,8 +993,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput
-    {
+    public func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1170,11 +1003,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1188,20 +1017,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>(GetVaultNotificationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVaultNotificationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetVaultNotificationsOutput, GetVaultNotificationsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVaultNotificationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetVaultNotificationsOutput, GetVaultNotificationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVaultNotificationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultNotificationsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultNotificationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVaultNotificationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
@@ -1226,8 +1050,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `PolicyEnforcedException` : Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func initiateJob(input: InitiateJobInput) async throws -> InitiateJobOutput
-    {
+    public func initiateJob(input: InitiateJobInput) async throws -> InitiateJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1237,11 +1060,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1255,23 +1074,18 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateJobInput, InitiateJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateJobInput, InitiateJobOutput>(InitiateJobInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateJobInput, InitiateJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<InitiateJobOutput, InitiateJobOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InitiateJobInput, InitiateJobOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<InitiateJobInput, InitiateJobOutput, GlacierClientTypes.JobParameters, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure(), keyPath: \.jobParameters, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InitiateJobOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<InitiateJobOutput, InitiateJobOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateJobOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateJobOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(InitiateJobOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateJobOutput>(clientLogMode: config.clientLogMode))
@@ -1294,8 +1108,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput
-    {
+    public func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1305,11 +1118,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1323,21 +1132,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>(InitiateMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<InitiateMultipartUploadOutput, InitiateMultipartUploadOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>(InitiateMultipartUploadInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InitiateMultipartUploadOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<InitiateMultipartUploadOutput, InitiateMultipartUploadOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateMultipartUploadOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateMultipartUploadOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(InitiateMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
@@ -1369,8 +1173,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput
-    {
+    public func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1380,11 +1183,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1398,23 +1197,18 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>(InitiateVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<InitiateVaultLockOutput, InitiateVaultLockOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput, GlacierClientTypes.VaultLockPolicy, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure(), keyPath: \.policy, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InitiateVaultLockOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<InitiateVaultLockOutput, InitiateVaultLockOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateVaultLockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateVaultLockOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateVaultLockOutput>(responseClosure(decoder: decoder), responseErrorClosure(InitiateVaultLockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateVaultLockOutput>(clientLogMode: config.clientLogMode))
@@ -1437,8 +1231,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-    {
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1448,11 +1241,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1466,21 +1255,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListJobsOutput, ListJobsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListJobsOutput, ListJobsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListJobsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListJobsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutput>(clientLogMode: config.clientLogMode))
@@ -1503,8 +1287,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput
-    {
+    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1514,11 +1297,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1532,21 +1311,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultipartUploadsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListMultipartUploadsOutput, ListMultipartUploadsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultipartUploadsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListMultipartUploadsOutput, ListMultipartUploadsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultipartUploadsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListMultipartUploadsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMultipartUploadsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
@@ -1569,8 +1343,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput
-    {
+    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1580,11 +1353,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1598,21 +1367,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartsInput, ListPartsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPartsInput, ListPartsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPartsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPartsOutput, ListPartsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPartsOutput, ListPartsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListPartsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPartsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartsOutput>(clientLogMode: config.clientLogMode))
@@ -1634,8 +1398,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput
-    {
+    public func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1645,11 +1408,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1663,20 +1422,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>(ListProvisionedCapacityInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisionedCapacityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListProvisionedCapacityOutput, ListProvisionedCapacityOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisionedCapacityOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListProvisionedCapacityOutput, ListProvisionedCapacityOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedCapacityOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListProvisionedCapacityOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedCapacityOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListProvisionedCapacityOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedCapacityOutput>(clientLogMode: config.clientLogMode))
@@ -1699,8 +1453,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput
-    {
+    public func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1710,11 +1463,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1728,20 +1477,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>(ListTagsForVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForVaultOutput, ListTagsForVaultOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForVaultOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForVaultOutput, ListTagsForVaultOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForVaultOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListTagsForVaultOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForVaultOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForVaultOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForVaultOutput>(clientLogMode: config.clientLogMode))
@@ -1764,8 +1508,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput
-    {
+    public func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1775,11 +1518,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1793,21 +1532,16 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVaultsInput, ListVaultsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVaultsInput, ListVaultsOutput>(ListVaultsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVaultsInput, ListVaultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVaultsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListVaultsOutput, ListVaultsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVaultsInput, ListVaultsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVaultsInput, ListVaultsOutput>(ListVaultsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVaultsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListVaultsOutput, ListVaultsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVaultsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListVaultsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVaultsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVaultsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVaultsOutput>(clientLogMode: config.clientLogMode))
@@ -1830,8 +1564,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput
-    {
+    public func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1841,11 +1574,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1859,20 +1588,15 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>(PurchaseProvisionedCapacityInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseProvisionedCapacityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PurchaseProvisionedCapacityOutput, PurchaseProvisionedCapacityOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseProvisionedCapacityOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PurchaseProvisionedCapacityOutput, PurchaseProvisionedCapacityOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseProvisionedCapacityOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<PurchaseProvisionedCapacityOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseProvisionedCapacityOutput>(responseClosure(decoder: decoder), responseErrorClosure(PurchaseProvisionedCapacityOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseProvisionedCapacityOutput>(clientLogMode: config.clientLogMode))
@@ -1895,8 +1619,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput
-    {
+    public func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1906,11 +1629,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1924,24 +1643,19 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(RemoveTagsFromVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromVaultOutput, RemoveTagsFromVaultOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(RemoveTagsFromVaultInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsFromVaultOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RemoveTagsFromVaultOutput, RemoveTagsFromVaultOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromVaultOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<RemoveTagsFromVaultOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromVaultOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveTagsFromVaultOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromVaultOutput>(clientLogMode: config.clientLogMode))
@@ -1963,8 +1677,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput
-    {
+    public func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1974,11 +1687,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -1992,23 +1701,18 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>(SetDataRetrievalPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDataRetrievalPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SetDataRetrievalPolicyOutput, SetDataRetrievalPolicyOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDataRetrievalPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SetDataRetrievalPolicyOutput, SetDataRetrievalPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDataRetrievalPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetDataRetrievalPolicyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDataRetrievalPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetDataRetrievalPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDataRetrievalPolicyOutput>(clientLogMode: config.clientLogMode))
@@ -2031,8 +1735,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput
-    {
+    public func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2042,11 +1745,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -2060,23 +1759,18 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>(SetVaultAccessPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVaultAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SetVaultAccessPolicyOutput, SetVaultAccessPolicyOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput, GlacierClientTypes.VaultAccessPolicy, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure(), keyPath: \.policy, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetVaultAccessPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SetVaultAccessPolicyOutput, SetVaultAccessPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVaultAccessPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetVaultAccessPolicyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVaultAccessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetVaultAccessPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVaultAccessPolicyOutput>(clientLogMode: config.clientLogMode))
@@ -2106,8 +1800,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput
-    {
+    public func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2117,11 +1810,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -2135,23 +1824,18 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>(SetVaultNotificationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVaultNotificationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SetVaultNotificationsOutput, SetVaultNotificationsOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput, GlacierClientTypes.VaultNotificationConfig, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure(), keyPath: \.vaultNotificationConfig, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetVaultNotificationsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SetVaultNotificationsOutput, SetVaultNotificationsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVaultNotificationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetVaultNotificationsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVaultNotificationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetVaultNotificationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVaultNotificationsOutput>(clientLogMode: config.clientLogMode))
@@ -2175,8 +1859,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func uploadArchive(input: UploadArchiveInput) async throws -> UploadArchiveOutput
-    {
+    public func uploadArchive(input: UploadArchiveInput) async throws -> UploadArchiveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2186,11 +1869,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -2204,24 +1883,19 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadArchiveInput, UploadArchiveOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadArchiveInput, UploadArchiveOutput>(UploadArchiveInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadArchiveInput, UploadArchiveOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadArchiveOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UploadArchiveOutput, UploadArchiveOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadArchiveInput, UploadArchiveOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadArchiveInput, UploadArchiveOutput>(UploadArchiveInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadArchiveInput, UploadArchiveOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadArchiveInput, UploadArchiveOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadArchiveOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UploadArchiveOutput, UploadArchiveOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadArchiveOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<UploadArchiveOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadArchiveOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadArchiveOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadArchiveOutput>(clientLogMode: config.clientLogMode))
@@ -2254,8 +1928,7 @@ extension GlacierClient: GlacierClientProtocol {
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    public func uploadMultipartPart(input: UploadMultipartPartInput) async throws -> UploadMultipartPartOutput
-    {
+    public func uploadMultipartPart(input: UploadMultipartPartInput) async throws -> UploadMultipartPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2265,11 +1938,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
@@ -2283,24 +1952,19 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(UploadMultipartPartInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadMultipartPartOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UploadMultipartPartOutput, UploadMultipartPartOutputError>())
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(UploadMultipartPartInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadMultipartPartOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UploadMultipartPartOutput, UploadMultipartPartOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadMultipartPartOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<UploadMultipartPartOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadMultipartPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadMultipartPartOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadMultipartPartOutput>(clientLogMode: config.clientLogMode))

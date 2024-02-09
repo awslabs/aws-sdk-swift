@@ -23,9 +23,6 @@ public class IdentitystoreClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -45,16 +42,13 @@ extension IdentitystoreClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-        public typealias AWSAuthSchemeResolver = IdentitystoreAuthSchemeResolver
 
         public var serviceName: String { "identitystore" }
         public var clientName: String { "IdentitystoreClient" }
-        public var authSchemeResolver: IdentitystoreAuthSchemeResolver
         public var endpointResolver: EndpointResolver
 
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: IdentitystoreAuthSchemeResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultIdentitystoreAuthSchemeResolver()
         }
     }
 }
@@ -72,7 +66,7 @@ public struct IdentitystoreClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
     }
 }
 
-extension IdentitystoreClient: IdentitystoreClientProtocol {
+extension IdentitystoreClient {
     /// Performs the `CreateGroup` operation on the `AWSIdentityStore` service.
     ///
     /// Creates a group within the specified identity store.
@@ -95,8 +89,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-    {
+    public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -106,36 +99,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutput>(id: "createGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutput>(CreateGroupInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateGroupOutput, CreateGroupOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGroupInput, CreateGroupOutput>(xAmzTarget: "AWSIdentityStore.CreateGroup"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGroupInput, CreateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGroupInput, CreateGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateGroupOutput, CreateGroupOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -164,8 +145,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput
-    {
+    public func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -175,36 +155,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateGroupMembershipInput, CreateGroupMembershipOutput>(id: "createGroupMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>(CreateGroupMembershipInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateGroupMembershipOutput, CreateGroupMembershipOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>(xAmzTarget: "AWSIdentityStore.CreateGroupMembership"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupMembershipOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateGroupMembershipOutput, CreateGroupMembershipOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupMembershipOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupMembershipOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -233,8 +201,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-    {
+    public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -244,36 +211,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput>(id: "createUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>(CreateUserInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateUserOutput, CreateUserOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUserInput, CreateUserOutput>(xAmzTarget: "AWSIdentityStore.CreateUser"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateUserOutput, CreateUserOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUserOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -301,8 +256,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// * The requested resource was being concurrently modified by another request.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-    {
+    public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -312,36 +266,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutput>(id: "deleteGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutput>(DeleteGroupInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteGroupOutput, DeleteGroupOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteGroupInput, DeleteGroupOutput>(xAmzTarget: "AWSIdentityStore.DeleteGroup"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteGroupInput, DeleteGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGroupInput, DeleteGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteGroupOutput, DeleteGroupOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -369,8 +311,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// * The requested resource was being concurrently modified by another request.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput
-    {
+    public func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -380,36 +321,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>(id: "deleteGroupMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>(DeleteGroupMembershipInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteGroupMembershipOutput, DeleteGroupMembershipOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>(xAmzTarget: "AWSIdentityStore.DeleteGroupMembership"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupMembershipOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteGroupMembershipOutput, DeleteGroupMembershipOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupMembershipOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupMembershipOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -437,8 +366,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// * The requested resource was being concurrently modified by another request.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-    {
+    public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -448,36 +376,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutput>(id: "deleteUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>(DeleteUserInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput, DeleteUserOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteUserInput, DeleteUserOutput>(xAmzTarget: "AWSIdentityStore.DeleteUser"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteUserOutput, DeleteUserOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -500,8 +416,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
-    {
+    public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -511,36 +426,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeGroupInput, DescribeGroupOutput>(id: "describeGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGroupInput, DescribeGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGroupInput, DescribeGroupOutput>(DescribeGroupInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGroupInput, DescribeGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeGroupOutput, DescribeGroupOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeGroupInput, DescribeGroupOutput>(xAmzTarget: "AWSIdentityStore.DescribeGroup"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeGroupInput, DescribeGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeGroupInput, DescribeGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeGroupOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeGroupOutput, DescribeGroupOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGroupOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeGroupOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -563,8 +466,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput
-    {
+    public func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -574,36 +476,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>(id: "describeGroupMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>(DescribeGroupMembershipInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeGroupMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeGroupMembershipOutput, DescribeGroupMembershipOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>(xAmzTarget: "AWSIdentityStore.DescribeGroupMembership"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeGroupMembershipOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeGroupMembershipOutput, DescribeGroupMembershipOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGroupMembershipOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGroupMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeGroupMembershipOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGroupMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -626,8 +516,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-    {
+    public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -637,36 +526,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeUserInput, DescribeUserOutput>(id: "describeUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserInput, DescribeUserOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserInput, DescribeUserOutput>(DescribeUserInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserInput, DescribeUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeUserOutput, DescribeUserOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeUserInput, DescribeUserOutput>(xAmzTarget: "AWSIdentityStore.DescribeUser"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeUserInput, DescribeUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeUserInput, DescribeUserOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUserOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeUserOutput, DescribeUserOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeUserOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -689,8 +566,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutput
-    {
+    public func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -700,36 +576,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetGroupIdInput, GetGroupIdOutput>(id: "getGroupId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupIdInput, GetGroupIdOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupIdInput, GetGroupIdOutput>(GetGroupIdInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupIdInput, GetGroupIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupIdOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetGroupIdOutput, GetGroupIdOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGroupIdInput, GetGroupIdOutput>(xAmzTarget: "AWSIdentityStore.GetGroupId"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetGroupIdInput, GetGroupIdOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGroupIdInput, GetGroupIdOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupIdOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetGroupIdOutput, GetGroupIdOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupIdOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupIdOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupIdOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupIdOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -752,8 +616,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutput
-    {
+    public func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -763,36 +626,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>(id: "getGroupMembershipId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>(GetGroupMembershipIdInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupMembershipIdOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetGroupMembershipIdOutput, GetGroupMembershipIdOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>(xAmzTarget: "AWSIdentityStore.GetGroupMembershipId"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGroupMembershipIdInput, GetGroupMembershipIdOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupMembershipIdOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetGroupMembershipIdOutput, GetGroupMembershipIdOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupMembershipIdOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupMembershipIdOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupMembershipIdOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupMembershipIdOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -815,8 +666,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutput
-    {
+    public func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -826,36 +676,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetUserIdInput, GetUserIdOutput>(id: "getUserId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserIdInput, GetUserIdOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserIdInput, GetUserIdOutput>(GetUserIdInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserIdInput, GetUserIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserIdOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetUserIdOutput, GetUserIdOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetUserIdInput, GetUserIdOutput>(xAmzTarget: "AWSIdentityStore.GetUserId"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetUserIdInput, GetUserIdOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetUserIdInput, GetUserIdOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserIdOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetUserIdOutput, GetUserIdOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserIdOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserIdOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserIdOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserIdOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -878,8 +716,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutput
-    {
+    public func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -889,36 +726,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<IsMemberInGroupsInput, IsMemberInGroupsOutput>(id: "isMemberInGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>(IsMemberInGroupsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IsMemberInGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<IsMemberInGroupsOutput, IsMemberInGroupsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>(xAmzTarget: "AWSIdentityStore.IsMemberInGroups"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IsMemberInGroupsInput, IsMemberInGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IsMemberInGroupsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<IsMemberInGroupsOutput, IsMemberInGroupsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IsMemberInGroupsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IsMemberInGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(IsMemberInGroupsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IsMemberInGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -941,8 +766,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput
-    {
+    public func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -952,36 +776,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListGroupMembershipsInput, ListGroupMembershipsOutput>(id: "listGroupMemberships")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>(ListGroupMembershipsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupMembershipsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListGroupMembershipsOutput, ListGroupMembershipsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>(xAmzTarget: "AWSIdentityStore.ListGroupMemberships"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupMembershipsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListGroupMembershipsOutput, ListGroupMembershipsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupMembershipsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupMembershipsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupMembershipsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupMembershipsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1004,8 +816,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutput
-    {
+    public func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1015,36 +826,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(id: "listGroupMembershipsForMember")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(ListGroupMembershipsForMemberInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupMembershipsForMemberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListGroupMembershipsForMemberOutput, ListGroupMembershipsForMemberOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(xAmzTarget: "AWSIdentityStore.ListGroupMembershipsForMember"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupMembershipsForMemberOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListGroupMembershipsForMemberOutput, ListGroupMembershipsForMemberOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupMembershipsForMemberOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupMembershipsForMemberOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupMembershipsForMemberOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupMembershipsForMemberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1067,8 +866,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-    {
+    public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1078,36 +876,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutput>(id: "listGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutput>(ListGroupsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListGroupsOutput, ListGroupsOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListGroupsInput, ListGroupsOutput>(xAmzTarget: "AWSIdentityStore.ListGroups"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupsInput, ListGroupsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGroupsInput, ListGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListGroupsOutput, ListGroupsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1130,8 +916,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-    {
+    public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1141,36 +926,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutput>(id: "listUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListUsersOutput, ListUsersOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListUsersInput, ListUsersOutput>(xAmzTarget: "AWSIdentityStore.ListUsers"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListUsersOutput, ListUsersOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUsersOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1199,8 +972,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-    {
+    public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1210,36 +982,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutput>(id: "updateGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutput>(UpdateGroupInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateGroupOutput, UpdateGroupOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateGroupInput, UpdateGroupOutput>(xAmzTarget: "AWSIdentityStore.UpdateGroup"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateGroupInput, UpdateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGroupInput, UpdateGroupOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGroupOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateGroupOutput, UpdateGroupOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGroupOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1268,8 +1028,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
-    {
+    public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1279,36 +1038,24 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "identitystore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutput>(id: "updateUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput>(UpdateUserInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateUserOutput, UpdateUserOutputError>())
-=======
->>>>>>> temp-main
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateUserInput, UpdateUserOutput>(xAmzTarget: "AWSIdentityStore.UpdateUser"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateUserInput, UpdateUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserInput, UpdateUserOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateUserOutput, UpdateUserOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

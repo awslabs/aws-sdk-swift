@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension OpsWorksCMClientProtocol {
+extension OpsWorksCMClient {
 
     static func nodeAssociatedWaiterConfig() throws -> WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutput> {
         let acceptors: [WaiterConfiguration<DescribeNodeAssociationStatusInput, DescribeNodeAssociationStatusOutput>.Acceptor] = [

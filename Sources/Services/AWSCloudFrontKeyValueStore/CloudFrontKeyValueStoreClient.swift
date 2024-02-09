@@ -23,12 +23,6 @@ public class CloudFrontKeyValueStoreClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
-<<<<<<< HEAD
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
-=======
->>>>>>> temp-main
         self.config = config
     }
 
@@ -48,18 +42,6 @@ extension CloudFrontKeyValueStoreClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-<<<<<<< HEAD
-        public typealias AWSAuthSchemeResolver = CloudFrontKeyValueStoreAuthSchemeResolver
-
-        public var serviceName: String { "CloudFront KeyValueStore" }
-        public var clientName: String { "CloudFrontKeyValueStoreClient" }
-        public var authSchemeResolver: CloudFrontKeyValueStoreAuthSchemeResolver
-        public var endpointResolver: EndpointResolver
-
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: CloudFrontKeyValueStoreAuthSchemeResolver? = nil) throws {
-            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultCloudFrontKeyValueStoreAuthSchemeResolver()
-=======
 
         public var serviceName: String { "CloudFront KeyValueStore" }
         public var clientName: String { "CloudFrontKeyValueStoreClient" }
@@ -67,7 +49,6 @@ extension CloudFrontKeyValueStoreClient {
 
         public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
->>>>>>> temp-main
         }
     }
 }
@@ -85,7 +66,7 @@ public struct CloudFrontKeyValueStoreClientLogHandlerFactory: ClientRuntime.SDKL
     }
 }
 
-extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
+extension CloudFrontKeyValueStoreClient {
     /// Performs the `DeleteKey` operation on the `CloudFrontKeyValueStore` service.
     ///
     /// Deletes the key value pair specified by the key.
@@ -103,8 +84,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ServiceQuotaExceededException` : Limit exceeded.
     /// - `ValidationException` : Validation failed.
-    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput
-    {
+    public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -114,36 +94,21 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteKeyInput, DeleteKeyOutput>(id: "deleteKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeyInput, DeleteKeyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeyInput, DeleteKeyOutput>(DeleteKeyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeyInput, DeleteKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteKeyOutput, DeleteKeyOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteKeyInput, DeleteKeyOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteKeyOutput, DeleteKeyOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteKeyInput, DeleteKeyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteKeyInput, DeleteKeyOutput>(DeleteKeyInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteKeyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -165,8 +130,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ConflictException` : Resource is not in expected state.
     /// - `InternalServerException` : Internal server error.
     /// - `ResourceNotFoundException` : Resource was not found.
-    public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput
-    {
+    public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -176,34 +140,20 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(id: "describeKeyValueStore")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(DescribeKeyValueStoreInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeKeyValueStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeKeyValueStoreOutput, DescribeKeyValueStoreOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeyValueStoreOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeKeyValueStoreOutput, DescribeKeyValueStoreOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeKeyValueStoreOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeKeyValueStoreOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeyValueStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeKeyValueStoreOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -225,8 +175,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ConflictException` : Resource is not in expected state.
     /// - `InternalServerException` : Internal server error.
     /// - `ResourceNotFoundException` : Resource was not found.
-    public func getKey(input: GetKeyInput) async throws -> GetKeyOutput
-    {
+    public func getKey(input: GetKeyInput) async throws -> GetKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -236,34 +185,20 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetKeyInput, GetKeyOutput>(id: "getKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyInput, GetKeyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyInput, GetKeyOutput>(GetKeyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyInput, GetKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetKeyOutput, GetKeyOutputError>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetKeyOutput, GetKeyOutputError>())
-=======
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetKeyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -286,8 +221,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ValidationException` : Validation failed.
-    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput
-    {
+    public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -297,36 +231,21 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListKeysInput, ListKeysOutput>(id: "listKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutput>(ListKeysInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeysInput, ListKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeysOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListKeysOutput, ListKeysOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListKeysInput, ListKeysOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeysOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListKeysOutput, ListKeysOutputError>())
-=======
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListKeysInput, ListKeysOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListKeysInput, ListKeysOutput>(ListKeysInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListKeysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeysOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListKeysOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -350,8 +269,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ServiceQuotaExceededException` : Limit exceeded.
     /// - `ValidationException` : Validation failed.
-    public func putKey(input: PutKeyInput) async throws -> PutKeyOutput
-    {
+    public func putKey(input: PutKeyInput) async throws -> PutKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -361,40 +279,24 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutKeyInput, PutKeyOutput>(id: "putKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeyInput, PutKeyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeyInput, PutKeyOutput>(PutKeyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutKeyInput, PutKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutKeyOutput, PutKeyOutputError>())
-=======
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutKeyInput, PutKeyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutKeyInput, PutKeyOutput>(PutKeyInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutKeyInput, PutKeyOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutKeyInput, PutKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutKeyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutKeyOutput, PutKeyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutKeyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutKeyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -418,8 +320,7 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
     /// - `ResourceNotFoundException` : Resource was not found.
     /// - `ServiceQuotaExceededException` : Limit exceeded.
     /// - `ValidationException` : Validation failed.
-    public func updateKeys(input: UpdateKeysInput) async throws -> UpdateKeysOutput
-    {
+    public func updateKeys(input: UpdateKeysInput) async throws -> UpdateKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -429,40 +330,24 @@ extension CloudFrontKeyValueStoreClient: CloudFrontKeyValueStoreClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudfront-keyvaluestore")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateKeysInput, UpdateKeysOutput>(id: "updateKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeysInput, UpdateKeysOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeysInput, UpdateKeysOutput>(UpdateKeysInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeysInput, UpdateKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateKeysOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateKeysOutput, UpdateKeysOutputError>())
-=======
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateKeysInput, UpdateKeysOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateKeysInput, UpdateKeysOutput>(UpdateKeysInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateKeysInput, UpdateKeysOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateKeysInput, UpdateKeysOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateKeysOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateKeysOutput, UpdateKeysOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateKeysOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateKeysOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

@@ -1747,12 +1747,13 @@ extension AssociateAgentKnowledgeBaseInput: Swift.Encodable {
     }
 }
 
-extension AssociateAgentKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension AssociateAgentKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: AssociateAgentKnowledgeBaseInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/knowledgebases"
@@ -1874,6 +1875,8 @@ enum AssociateAgentKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBind
         }
     }
 }
+
+public enum BedrockAgentClientTypes {}
 
 extension BedrockAgentClientTypes.ChunkingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -2047,12 +2050,13 @@ extension CreateAgentActionGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateAgentActionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension CreateAgentActionGroupInput {
+
+    static func urlPathProvider(_ value: CreateAgentActionGroupInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/actiongroups"
@@ -2241,9 +2245,10 @@ extension CreateAgentAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateAgentAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension CreateAgentAliasInput {
+
+    static func urlPathProvider(_ value: CreateAgentAliasInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases"
@@ -2451,8 +2456,9 @@ extension CreateAgentInput: Swift.Encodable {
     }
 }
 
-extension CreateAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAgentInput {
+
+    static func urlPathProvider(_ value: CreateAgentInput) -> Swift.String? {
         return "/agents"
     }
 }
@@ -2660,9 +2666,10 @@ extension CreateDataSourceInput: Swift.Encodable {
     }
 }
 
-extension CreateDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension CreateDataSourceInput {
+
+    static func urlPathProvider(_ value: CreateDataSourceInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources"
@@ -2842,8 +2849,9 @@ extension CreateKnowledgeBaseInput: Swift.Encodable {
     }
 }
 
-extension CreateKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: CreateKnowledgeBaseInput) -> Swift.String? {
         return "/knowledgebases"
     }
 }
@@ -3358,28 +3366,28 @@ extension BedrockAgentClientTypes {
     }
 }
 
-extension DeleteAgentActionGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteAgentActionGroupInput {
+
+    static func queryItemProvider(_ value: DeleteAgentActionGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAgentActionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension DeleteAgentActionGroupInput {
+
+    static func urlPathProvider(_ value: DeleteAgentActionGroupInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
-        guard let actionGroupId = actionGroupId else {
+        guard let actionGroupId = value.actionGroupId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/actiongroups/\(actionGroupId.urlPercentEncoding())"
@@ -3450,12 +3458,13 @@ enum DeleteAgentActionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAgentAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension DeleteAgentAliasInput {
+
+    static func urlPathProvider(_ value: DeleteAgentAliasInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentAliasId = agentAliasId else {
+        guard let agentAliasId = value.agentAliasId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases/\(agentAliasId.urlPercentEncoding())"
@@ -3569,22 +3578,22 @@ enum DeleteAgentAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAgentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteAgentInput {
+
+    static func queryItemProvider(_ value: DeleteAgentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension DeleteAgentInput {
+
+    static func urlPathProvider(_ value: DeleteAgentInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())"
@@ -3687,25 +3696,25 @@ enum DeleteAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAgentVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteAgentVersionInput {
+
+    static func queryItemProvider(_ value: DeleteAgentVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAgentVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension DeleteAgentVersionInput {
+
+    static func urlPathProvider(_ value: DeleteAgentVersionInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())"
@@ -3824,12 +3833,13 @@ enum DeleteAgentVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension DeleteDataSourceInput {
+
+    static func urlPathProvider(_ value: DeleteDataSourceInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())"
@@ -3942,9 +3952,10 @@ enum DeleteDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension DeleteKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: DeleteKnowledgeBaseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -4041,15 +4052,16 @@ enum DeleteKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateAgentKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension DisassociateAgentKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: DisassociateAgentKnowledgeBaseInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
-        guard let knowledgeBaseId = knowledgeBaseId else {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -4163,15 +4175,16 @@ extension BedrockAgentClientTypes {
 
 }
 
-extension GetAgentActionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension GetAgentActionGroupInput {
+
+    static func urlPathProvider(_ value: GetAgentActionGroupInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
-        guard let actionGroupId = actionGroupId else {
+        guard let actionGroupId = value.actionGroupId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/actiongroups/\(actionGroupId.urlPercentEncoding())"
@@ -4268,12 +4281,13 @@ enum GetAgentActionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAgentAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension GetAgentAliasInput {
+
+    static func urlPathProvider(_ value: GetAgentAliasInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentAliasId = agentAliasId else {
+        guard let agentAliasId = value.agentAliasId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases/\(agentAliasId.urlPercentEncoding())"
@@ -4365,9 +4379,10 @@ enum GetAgentAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension GetAgentInput {
+
+    static func urlPathProvider(_ value: GetAgentInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())"
@@ -4397,15 +4412,16 @@ extension GetAgentInputBody: Swift.Decodable {
     }
 }
 
-extension GetAgentKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension GetAgentKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: GetAgentKnowledgeBaseInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
-        guard let knowledgeBaseId = knowledgeBaseId else {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -4559,12 +4575,13 @@ enum GetAgentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAgentVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension GetAgentVersionInput {
+
+    static func urlPathProvider(_ value: GetAgentVersionInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())"
@@ -4656,12 +4673,13 @@ enum GetAgentVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetDataSourceInput {
+
+    static func urlPathProvider(_ value: GetDataSourceInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())"
@@ -4751,15 +4769,16 @@ enum GetDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIngestionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetIngestionJobInput {
+
+    static func urlPathProvider(_ value: GetIngestionJobInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
-        guard let ingestionJobId = ingestionJobId else {
+        guard let ingestionJobId = value.ingestionJobId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/ingestionjobs/\(ingestionJobId.urlPercentEncoding())"
@@ -4854,9 +4873,10 @@ enum GetIngestionJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: GetKnowledgeBaseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -5934,10 +5954,7 @@ extension BedrockAgentClientTypes {
     public enum KnowledgeBaseStorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case opensearchServerless
         case pinecone
-<<<<<<< HEAD
-=======
         case rds
->>>>>>> temp-main
         case redisEnterpriseCloud
         case sdkUnknown(Swift.String)
 
@@ -5945,10 +5962,7 @@ extension BedrockAgentClientTypes {
             return [
                 .opensearchServerless,
                 .pinecone,
-<<<<<<< HEAD
-=======
                 .rds,
->>>>>>> temp-main
                 .redisEnterpriseCloud,
                 .sdkUnknown("")
             ]
@@ -5961,10 +5975,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
             case .pinecone: return "PINECONE"
-<<<<<<< HEAD
-=======
             case .rds: return "RDS"
->>>>>>> temp-main
             case .redisEnterpriseCloud: return "REDIS_ENTERPRISE_CLOUD"
             case let .sdkUnknown(s): return s
             }
@@ -6103,12 +6114,13 @@ extension ListAgentActionGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListAgentActionGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension ListAgentActionGroupsInput {
+
+    static func urlPathProvider(_ value: ListAgentActionGroupsInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/actiongroups"
@@ -6255,9 +6267,10 @@ extension ListAgentAliasesInput: Swift.Encodable {
     }
 }
 
-extension ListAgentAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension ListAgentAliasesInput {
+
+    static func urlPathProvider(_ value: ListAgentAliasesInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases"
@@ -6399,12 +6412,13 @@ extension ListAgentKnowledgeBasesInput: Swift.Encodable {
     }
 }
 
-extension ListAgentKnowledgeBasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension ListAgentKnowledgeBasesInput {
+
+    static func urlPathProvider(_ value: ListAgentKnowledgeBasesInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/knowledgebases"
@@ -6551,9 +6565,10 @@ extension ListAgentVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListAgentVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension ListAgentVersionsInput {
+
+    static func urlPathProvider(_ value: ListAgentVersionsInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions"
@@ -6695,8 +6710,9 @@ extension ListAgentsInput: Swift.Encodable {
     }
 }
 
-extension ListAgentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAgentsInput {
+
+    static func urlPathProvider(_ value: ListAgentsInput) -> Swift.String? {
         return "/agents"
     }
 }
@@ -6830,9 +6846,10 @@ extension ListDataSourcesInput: Swift.Encodable {
     }
 }
 
-extension ListDataSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension ListDataSourcesInput {
+
+    static func urlPathProvider(_ value: ListDataSourcesInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources"
@@ -6983,12 +7000,13 @@ extension ListIngestionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListIngestionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension ListIngestionJobsInput {
+
+    static func urlPathProvider(_ value: ListIngestionJobsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/ingestionjobs"
@@ -7158,8 +7176,9 @@ extension ListKnowledgeBasesInput: Swift.Encodable {
     }
 }
 
-extension ListKnowledgeBasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKnowledgeBasesInput {
+
+    static func urlPathProvider(_ value: ListKnowledgeBasesInput) -> Swift.String? {
         return "/knowledgebases"
     }
 }
@@ -7274,9 +7293,10 @@ enum ListKnowledgeBasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -7600,9 +7620,10 @@ extension BedrockAgentClientTypes {
 
 }
 
-extension PrepareAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension PrepareAgentInput {
+
+    static func urlPathProvider(_ value: PrepareAgentInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())"
@@ -7945,8 +7966,6 @@ extension BedrockAgentClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension BedrockAgentClientTypes.RdsConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentialsSecretArn
@@ -8096,7 +8115,6 @@ extension BedrockAgentClientTypes {
 
 }
 
->>>>>>> temp-main
 extension BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentialsSecretArn
@@ -8524,12 +8542,13 @@ extension StartIngestionJobInput: Swift.Encodable {
     }
 }
 
-extension StartIngestionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension StartIngestionJobInput {
+
+    static func urlPathProvider(_ value: StartIngestionJobInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/ingestionjobs"
@@ -8644,10 +8663,7 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case opensearchServerlessConfiguration
         case pineconeConfiguration
-<<<<<<< HEAD
-=======
         case rdsConfiguration
->>>>>>> temp-main
         case redisEnterpriseCloudConfiguration
         case type
     }
@@ -8660,12 +8676,9 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
         if let pineconeConfiguration = self.pineconeConfiguration {
             try encodeContainer.encode(pineconeConfiguration, forKey: .pineconeConfiguration)
         }
-<<<<<<< HEAD
-=======
         if let rdsConfiguration = self.rdsConfiguration {
             try encodeContainer.encode(rdsConfiguration, forKey: .rdsConfiguration)
         }
->>>>>>> temp-main
         if let redisEnterpriseCloudConfiguration = self.redisEnterpriseCloudConfiguration {
             try encodeContainer.encode(redisEnterpriseCloudConfiguration, forKey: .redisEnterpriseCloudConfiguration)
         }
@@ -8684,11 +8697,8 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
         pineconeConfiguration = pineconeConfigurationDecoded
         let redisEnterpriseCloudConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.self, forKey: .redisEnterpriseCloudConfiguration)
         redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfigurationDecoded
-<<<<<<< HEAD
-=======
         let rdsConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RdsConfiguration.self, forKey: .rdsConfiguration)
         rdsConfiguration = rdsConfigurationDecoded
->>>>>>> temp-main
     }
 }
 
@@ -8699,11 +8709,8 @@ extension BedrockAgentClientTypes {
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the configurations to use Pinecone to store knowledge base data.
         public var pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration?
-<<<<<<< HEAD
-=======
         /// Contains the configurations to use RDS to store knowledge base data.
         public var rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration?
->>>>>>> temp-main
         /// Contains the configurations to use Redis Enterprise Cloud to store knowledge base data.
         public var redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration?
         /// The storage type of a knowledge base.
@@ -8713,20 +8720,14 @@ extension BedrockAgentClientTypes {
         public init(
             opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration? = nil,
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
-<<<<<<< HEAD
-=======
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
->>>>>>> temp-main
             redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration? = nil,
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         )
         {
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
-<<<<<<< HEAD
-=======
             self.rdsConfiguration = rdsConfiguration
->>>>>>> temp-main
             self.redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfiguration
             self.type = type
         }
@@ -8750,9 +8751,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -8884,26 +8886,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -8995,15 +8997,16 @@ extension UpdateAgentActionGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateAgentActionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension UpdateAgentActionGroupInput {
+
+    static func urlPathProvider(_ value: UpdateAgentActionGroupInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
-        guard let actionGroupId = actionGroupId else {
+        guard let actionGroupId = value.actionGroupId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/actiongroups/\(actionGroupId.urlPercentEncoding())"
@@ -9178,12 +9181,13 @@ extension UpdateAgentAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateAgentAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension UpdateAgentAliasInput {
+
+    static func urlPathProvider(_ value: UpdateAgentAliasInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentAliasId = agentAliasId else {
+        guard let agentAliasId = value.agentAliasId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases/\(agentAliasId.urlPercentEncoding())"
@@ -9360,9 +9364,10 @@ extension UpdateAgentInput: Swift.Encodable {
     }
 }
 
-extension UpdateAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension UpdateAgentInput {
+
+    static func urlPathProvider(_ value: UpdateAgentInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())"
@@ -9478,15 +9483,16 @@ extension UpdateAgentKnowledgeBaseInput: Swift.Encodable {
     }
 }
 
-extension UpdateAgentKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let agentId = agentId else {
+extension UpdateAgentKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: UpdateAgentKnowledgeBaseInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
             return nil
         }
-        guard let agentVersion = agentVersion else {
+        guard let agentVersion = value.agentVersion else {
             return nil
         }
-        guard let knowledgeBaseId = knowledgeBaseId else {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -9691,12 +9697,13 @@ extension UpdateDataSourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension UpdateDataSourceInput {
+
+    static func urlPathProvider(_ value: UpdateDataSourceInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())"
@@ -9861,9 +9868,10 @@ extension UpdateKnowledgeBaseInput: Swift.Encodable {
     }
 }
 
-extension UpdateKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension UpdateKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: UpdateKnowledgeBaseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())"

@@ -528,8 +528,9 @@ extension CreateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentInput) -> Swift.String? {
         return "/environment"
     }
 }
@@ -741,12 +742,13 @@ extension CreateKxChangesetInput: Swift.Encodable {
     }
 }
 
-extension CreateKxChangesetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxChangesetInput {
+
+    static func urlPathProvider(_ value: CreateKxChangesetInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/changesets"
@@ -1072,9 +1074,10 @@ extension CreateKxClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateKxClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxClusterInput {
+
+    static func urlPathProvider(_ value: CreateKxClusterInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters"
@@ -1702,9 +1705,10 @@ extension CreateKxDatabaseInput: Swift.Encodable {
     }
 }
 
-extension CreateKxDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxDatabaseInput {
+
+    static func urlPathProvider(_ value: CreateKxDatabaseInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases"
@@ -1938,12 +1942,13 @@ extension CreateKxDataviewInput: Swift.Encodable {
     }
 }
 
-extension CreateKxDataviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxDataviewInput {
+
+    static func urlPathProvider(_ value: CreateKxDataviewInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews"
@@ -2296,8 +2301,9 @@ extension CreateKxEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateKxEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKxEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateKxEnvironmentInput) -> Swift.String? {
         return "/kx/environments"
     }
 }
@@ -2522,9 +2528,10 @@ extension CreateKxScalingGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateKxScalingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxScalingGroupInput {
+
+    static func urlPathProvider(_ value: CreateKxScalingGroupInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups"
@@ -2770,9 +2777,10 @@ extension CreateKxUserInput: Swift.Encodable {
     }
 }
 
-extension CreateKxUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxUserInput {
+
+    static func urlPathProvider(_ value: CreateKxUserInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/users"
@@ -2982,9 +2990,10 @@ extension CreateKxVolumeInput: Swift.Encodable {
     }
 }
 
-extension CreateKxVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension CreateKxVolumeInput {
+
+    static func urlPathProvider(_ value: CreateKxVolumeInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes"
@@ -3334,9 +3343,10 @@ extension FinspaceClientTypes {
 
 }
 
-extension DeleteEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/environment/\(environmentId.urlPercentEncoding())"
@@ -3390,25 +3400,25 @@ enum DeleteEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxClusterInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteKxClusterInput {
+
+    static func queryItemProvider(_ value: DeleteKxClusterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteKxClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxClusterInput {
+
+    static func urlPathProvider(_ value: DeleteKxClusterInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let clusterName = clusterName else {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())"
@@ -3473,27 +3483,27 @@ enum DeleteKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxDatabaseInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let clientToken = clientToken else {
-                let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
-            return items
+extension DeleteKxDatabaseInput {
+
+    static func queryItemProvider(_ value: DeleteKxDatabaseInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let clientToken = value.clientToken else {
+            let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+        items.append(clientTokenQueryItem)
+        return items
     }
 }
 
-extension DeleteKxDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxDatabaseInput {
+
+    static func urlPathProvider(_ value: DeleteKxDatabaseInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())"
@@ -3558,30 +3568,30 @@ enum DeleteKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxDataviewInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let clientToken = clientToken else {
-                let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
-            return items
+extension DeleteKxDataviewInput {
+
+    static func queryItemProvider(_ value: DeleteKxDataviewInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let clientToken = value.clientToken else {
+            let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+        items.append(clientTokenQueryItem)
+        return items
     }
 }
 
-extension DeleteKxDataviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxDataviewInput {
+
+    static func urlPathProvider(_ value: DeleteKxDataviewInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
-        guard let dataviewName = dataviewName else {
+        guard let dataviewName = value.dataviewName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews/\(dataviewName.urlPercentEncoding())"
@@ -3651,22 +3661,22 @@ enum DeleteKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxEnvironmentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteKxEnvironmentInput {
+
+    static func queryItemProvider(_ value: DeleteKxEnvironmentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteKxEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteKxEnvironmentInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())"
@@ -3725,25 +3735,25 @@ enum DeleteKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxScalingGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteKxScalingGroupInput {
+
+    static func queryItemProvider(_ value: DeleteKxScalingGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteKxScalingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxScalingGroupInput {
+
+    static func urlPathProvider(_ value: DeleteKxScalingGroupInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let scalingGroupName = scalingGroupName else {
+        guard let scalingGroupName = value.scalingGroupName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups/\(scalingGroupName.urlPercentEncoding())"
@@ -3808,25 +3818,25 @@ enum DeleteKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteKxUserInput {
+
+    static func queryItemProvider(_ value: DeleteKxUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteKxUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxUserInput {
+
+    static func urlPathProvider(_ value: DeleteKxUserInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
@@ -3890,25 +3900,25 @@ enum DeleteKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKxVolumeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteKxVolumeInput {
+
+    static func queryItemProvider(_ value: DeleteKxVolumeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteKxVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension DeleteKxVolumeInput {
+
+    static func urlPathProvider(_ value: DeleteKxVolumeInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let volumeName = volumeName else {
+        guard let volumeName = value.volumeName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes/\(volumeName.urlPercentEncoding())"
@@ -4448,9 +4458,12 @@ extension FinspaceClientTypes {
 
 }
 
-extension GetEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+public enum FinspaceClientTypes {}
+
+extension GetEnvironmentInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/environment/\(environmentId.urlPercentEncoding())"
@@ -4533,15 +4546,16 @@ enum GetEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxChangesetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxChangesetInput {
+
+    static func urlPathProvider(_ value: GetKxChangesetInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
-        guard let changesetId = changesetId else {
+        guard let changesetId = value.changesetId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/changesets/\(changesetId.urlPercentEncoding())"
@@ -4732,12 +4746,13 @@ enum GetKxChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxClusterInput {
+
+    static func urlPathProvider(_ value: GetKxClusterInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let clusterName = clusterName else {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())"
@@ -5114,30 +5129,30 @@ enum GetKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxConnectionStringInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let clusterName = clusterName else {
-                let message = "Creating a URL Query Item failed. clusterName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let clusterNameQueryItem = ClientRuntime.URLQueryItem(name: "clusterName".urlPercentEncoding(), value: Swift.String(clusterName).urlPercentEncoding())
-            items.append(clusterNameQueryItem)
-            guard let userArn = userArn else {
-                let message = "Creating a URL Query Item failed. userArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let userArnQueryItem = ClientRuntime.URLQueryItem(name: "userArn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
-            items.append(userArnQueryItem)
-            return items
+extension GetKxConnectionStringInput {
+
+    static func queryItemProvider(_ value: GetKxConnectionStringInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let clusterName = value.clusterName else {
+            let message = "Creating a URL Query Item failed. clusterName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let clusterNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "clusterName".urlPercentEncoding(), value: Swift.String(clusterName).urlPercentEncoding())
+        items.append(clusterNameQueryItem)
+        guard let userArn = value.userArn else {
+            let message = "Creating a URL Query Item failed. userArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let userArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "userArn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
+        items.append(userArnQueryItem)
+        return items
     }
 }
 
-extension GetKxConnectionStringInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxConnectionStringInput {
+
+    static func urlPathProvider(_ value: GetKxConnectionStringInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/connectionString"
@@ -5236,12 +5251,13 @@ enum GetKxConnectionStringOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxDatabaseInput {
+
+    static func urlPathProvider(_ value: GetKxDatabaseInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())"
@@ -5420,15 +5436,16 @@ enum GetKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxDataviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxDataviewInput {
+
+    static func urlPathProvider(_ value: GetKxDataviewInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
-        guard let dataviewName = dataviewName else {
+        guard let dataviewName = value.dataviewName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews/\(dataviewName.urlPercentEncoding())"
@@ -5680,9 +5697,10 @@ enum GetKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxEnvironmentInput {
+
+    static func urlPathProvider(_ value: GetKxEnvironmentInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())"
@@ -5944,12 +5962,13 @@ enum GetKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxScalingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxScalingGroupInput {
+
+    static func urlPathProvider(_ value: GetKxScalingGroupInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let scalingGroupName = scalingGroupName else {
+        guard let scalingGroupName = value.scalingGroupName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups/\(scalingGroupName.urlPercentEncoding())"
@@ -6145,12 +6164,13 @@ enum GetKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxUserInput {
+
+    static func urlPathProvider(_ value: GetKxUserInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
@@ -6269,12 +6289,13 @@ enum GetKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKxVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension GetKxVolumeInput {
+
+    static func urlPathProvider(_ value: GetKxVolumeInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let volumeName = volumeName else {
+        guard let volumeName = value.volumeName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes/\(volumeName.urlPercentEncoding())"
@@ -9168,25 +9189,25 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListEnvironmentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListEnvironmentsInput {
+
+    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentsInput) -> Swift.String? {
         return "/environment"
     }
 }
@@ -9288,29 +9309,29 @@ enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxChangesetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKxChangesetsInput {
+
+    static func queryItemProvider(_ value: ListKxChangesetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxChangesetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxChangesetsInput {
+
+    static func urlPathProvider(_ value: ListKxChangesetsInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/changesets"
@@ -9426,29 +9447,29 @@ enum ListKxChangesetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxClusterNodesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKxClusterNodesInput {
+
+    static func queryItemProvider(_ value: ListKxClusterNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxClusterNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxClusterNodesInput {
+
+    static func urlPathProvider(_ value: ListKxClusterNodesInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let clusterName = clusterName else {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/nodes"
@@ -9565,30 +9586,30 @@ enum ListKxClusterNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxClustersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clusterType = clusterType {
-                let clusterTypeQueryItem = ClientRuntime.URLQueryItem(name: "clusterType".urlPercentEncoding(), value: Swift.String(clusterType.rawValue).urlPercentEncoding())
-                items.append(clusterTypeQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListKxClustersInput {
+
+    static func queryItemProvider(_ value: ListKxClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clusterType = value.clusterType {
+            let clusterTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "clusterType".urlPercentEncoding(), value: Swift.String(clusterType.rawValue).urlPercentEncoding())
+            items.append(clusterTypeQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxClustersInput {
+
+    static func urlPathProvider(_ value: ListKxClustersInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters"
@@ -9715,26 +9736,26 @@ enum ListKxClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxDatabasesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKxDatabasesInput {
+
+    static func queryItemProvider(_ value: ListKxDatabasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxDatabasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxDatabasesInput {
+
+    static func urlPathProvider(_ value: ListKxDatabasesInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases"
@@ -9845,29 +9866,29 @@ enum ListKxDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxDataviewsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKxDataviewsInput {
+
+    static func queryItemProvider(_ value: ListKxDataviewsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxDataviewsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxDataviewsInput {
+
+    static func urlPathProvider(_ value: ListKxDataviewsInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews"
@@ -9983,25 +10004,25 @@ enum ListKxDataviewsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxEnvironmentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKxEnvironmentsInput {
+
+    static func queryItemProvider(_ value: ListKxEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKxEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListKxEnvironmentsInput) -> Swift.String? {
         return "/kx/environments"
     }
 }
@@ -10103,26 +10124,26 @@ enum ListKxEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxScalingGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListKxScalingGroupsInput {
+
+    static func queryItemProvider(_ value: ListKxScalingGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxScalingGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxScalingGroupsInput {
+
+    static func urlPathProvider(_ value: ListKxScalingGroupsInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups"
@@ -10235,26 +10256,26 @@ enum ListKxScalingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKxUsersInput {
+
+    static func queryItemProvider(_ value: ListKxUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxUsersInput {
+
+    static func urlPathProvider(_ value: ListKxUsersInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/users"
@@ -10365,30 +10386,30 @@ enum ListKxUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKxVolumesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let volumeType = volumeType {
-                let volumeTypeQueryItem = ClientRuntime.URLQueryItem(name: "volumeType".urlPercentEncoding(), value: Swift.String(volumeType.rawValue).urlPercentEncoding())
-                items.append(volumeTypeQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListKxVolumesInput {
+
+    static func queryItemProvider(_ value: ListKxVolumesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let volumeType = value.volumeType {
+            let volumeTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "volumeType".urlPercentEncoding(), value: Swift.String(volumeType.rawValue).urlPercentEncoding())
+            items.append(volumeTypeQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKxVolumesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension ListKxVolumesInput {
+
+    static func urlPathProvider(_ value: ListKxVolumesInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes"
@@ -10505,9 +10526,10 @@ enum ListKxVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -11010,9 +11032,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -11297,26 +11320,26 @@ extension FinspaceClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -11398,9 +11421,10 @@ extension UpdateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/environment/\(environmentId.urlPercentEncoding())"
@@ -11555,12 +11579,13 @@ extension UpdateKxClusterCodeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxClusterCodeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxClusterCodeConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateKxClusterCodeConfigurationInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let clusterName = clusterName else {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/configuration/code"
@@ -11698,12 +11723,13 @@ extension UpdateKxClusterDatabasesInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxClusterDatabasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxClusterDatabasesInput {
+
+    static func urlPathProvider(_ value: UpdateKxClusterDatabasesInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let clusterName = clusterName else {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/configuration/databases"
@@ -11818,12 +11844,13 @@ extension UpdateKxDatabaseInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxDatabaseInput {
+
+    static func urlPathProvider(_ value: UpdateKxDatabaseInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())"
@@ -11991,15 +12018,16 @@ extension UpdateKxDataviewInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxDataviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxDataviewInput {
+
+    static func urlPathProvider(_ value: UpdateKxDataviewInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let databaseName = databaseName else {
+        guard let databaseName = value.databaseName else {
             return nil
         }
-        guard let dataviewName = dataviewName else {
+        guard let dataviewName = value.dataviewName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews/\(dataviewName.urlPercentEncoding())"
@@ -12309,9 +12337,10 @@ extension UpdateKxEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateKxEnvironmentInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())"
@@ -12391,9 +12420,10 @@ extension UpdateKxEnvironmentNetworkInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxEnvironmentNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxEnvironmentNetworkInput {
+
+    static func urlPathProvider(_ value: UpdateKxEnvironmentNetworkInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/network"
@@ -12923,12 +12953,13 @@ extension UpdateKxUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxUserInput {
+
+    static func urlPathProvider(_ value: UpdateKxUserInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
@@ -13090,12 +13121,13 @@ extension UpdateKxVolumeInput: Swift.Encodable {
     }
 }
 
-extension UpdateKxVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentId = environmentId else {
+extension UpdateKxVolumeInput {
+
+    static func urlPathProvider(_ value: UpdateKxVolumeInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
             return nil
         }
-        guard let volumeName = volumeName else {
+        guard let volumeName = value.volumeName else {
             return nil
         }
         return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes/\(volumeName.urlPercentEncoding())"

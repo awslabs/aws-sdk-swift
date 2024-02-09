@@ -89,9 +89,10 @@ extension SageMakerA2IRuntimeClientTypes {
     }
 }
 
-extension DeleteHumanLoopInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let humanLoopName = humanLoopName else {
+extension DeleteHumanLoopInput {
+
+    static func urlPathProvider(_ value: DeleteHumanLoopInput) -> Swift.String? {
+        guard let humanLoopName = value.humanLoopName else {
             return nil
         }
         return "/human-loops/\(humanLoopName.urlPercentEncoding())"
@@ -144,9 +145,10 @@ enum DeleteHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeHumanLoopInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let humanLoopName = humanLoopName else {
+extension DescribeHumanLoopInput {
+
+    static func urlPathProvider(_ value: DescribeHumanLoopInput) -> Swift.String? {
+        guard let humanLoopName = value.humanLoopName else {
             return nil
         }
         return "/human-loops/\(humanLoopName.urlPercentEncoding())"
@@ -595,43 +597,43 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListHumanLoopsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let flowDefinitionArn = flowDefinitionArn else {
-                let message = "Creating a URL Query Item failed. flowDefinitionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let flowDefinitionArnQueryItem = ClientRuntime.URLQueryItem(name: "FlowDefinitionArn".urlPercentEncoding(), value: Swift.String(flowDefinitionArn).urlPercentEncoding())
-            items.append(flowDefinitionArnQueryItem)
-            if let creationTimeBefore = creationTimeBefore {
-                let creationTimeBeforeQueryItem = ClientRuntime.URLQueryItem(name: "CreationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
-                items.append(creationTimeBeforeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let sortOrder = sortOrder {
-                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "SortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-                items.append(sortOrderQueryItem)
-            }
-            if let creationTimeAfter = creationTimeAfter {
-                let creationTimeAfterQueryItem = ClientRuntime.URLQueryItem(name: "CreationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
-                items.append(creationTimeAfterQueryItem)
-            }
-            return items
+extension ListHumanLoopsInput {
+
+    static func queryItemProvider(_ value: ListHumanLoopsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let flowDefinitionArn = value.flowDefinitionArn else {
+            let message = "Creating a URL Query Item failed. flowDefinitionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let flowDefinitionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "FlowDefinitionArn".urlPercentEncoding(), value: Swift.String(flowDefinitionArn).urlPercentEncoding())
+        items.append(flowDefinitionArnQueryItem)
+        if let creationTimeBefore = value.creationTimeBefore {
+            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            items.append(creationTimeBeforeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "SortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let creationTimeAfter = value.creationTimeAfter {
+            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            items.append(creationTimeAfterQueryItem)
+        }
+        return items
     }
 }
 
-extension ListHumanLoopsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHumanLoopsInput {
+
+    static func urlPathProvider(_ value: ListHumanLoopsInput) -> Swift.String? {
         return "/human-loops"
     }
 }
@@ -807,6 +809,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum SageMakerA2IRuntimeClientTypes {}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -919,8 +923,9 @@ extension StartHumanLoopInput: Swift.Encodable {
     }
 }
 
-extension StartHumanLoopInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartHumanLoopInput {
+
+    static func urlPathProvider(_ value: StartHumanLoopInput) -> Swift.String? {
         return "/human-loops"
     }
 }
@@ -1048,8 +1053,9 @@ extension StopHumanLoopInput: Swift.Encodable {
     }
 }
 
-extension StopHumanLoopInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopHumanLoopInput {
+
+    static func urlPathProvider(_ value: StopHumanLoopInput) -> Swift.String? {
         return "/human-loops/stop"
     }
 }

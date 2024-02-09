@@ -289,8 +289,9 @@ extension BatchGetMetricDataInput: Swift.Encodable {
     }
 }
 
-extension BatchGetMetricDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetMetricDataInput {
+
+    static func urlPathProvider(_ value: BatchGetMetricDataInput) -> Swift.String? {
         return "/v2/email/metrics/batch"
     }
 }
@@ -1015,9 +1016,10 @@ extension SESv2ClientTypes {
     }
 }
 
-extension CancelExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension CancelExportJobInput {
+
+    static func urlPathProvider(_ value: CancelExportJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v2/email/export-jobs/\(jobId.urlPercentEncoding())/cancel"
@@ -1662,9 +1664,10 @@ extension CreateConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension CreateConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetEventDestinationInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations"
@@ -1785,8 +1788,9 @@ extension CreateConfigurationSetInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfigurationSetInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetInput) -> Swift.String? {
         return "/v2/email/configuration-sets"
     }
 }
@@ -1941,9 +1945,10 @@ extension CreateContactInput: Swift.Encodable {
     }
 }
 
-extension CreateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension CreateContactInput {
+
+    static func urlPathProvider(_ value: CreateContactInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts"
@@ -2048,8 +2053,9 @@ extension CreateContactListInput: Swift.Encodable {
     }
 }
 
-extension CreateContactListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateContactListInput {
+
+    static func urlPathProvider(_ value: CreateContactListInput) -> Swift.String? {
         return "/v2/email/contact-lists"
     }
 }
@@ -2206,8 +2212,9 @@ extension CreateCustomVerificationEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: CreateCustomVerificationEmailTemplateInput) -> Swift.String? {
         return "/v2/email/custom-verification-email-templates"
     }
 }
@@ -2337,8 +2344,9 @@ extension CreateDedicatedIpPoolInput: Swift.Encodable {
     }
 }
 
-extension CreateDedicatedIpPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDedicatedIpPoolInput {
+
+    static func urlPathProvider(_ value: CreateDedicatedIpPoolInput) -> Swift.String? {
         return "/v2/email/dedicated-ip-pools"
     }
 }
@@ -2452,8 +2460,9 @@ extension CreateDeliverabilityTestReportInput: Swift.Encodable {
     }
 }
 
-extension CreateDeliverabilityTestReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeliverabilityTestReportInput {
+
+    static func urlPathProvider(_ value: CreateDeliverabilityTestReportInput) -> Swift.String? {
         return "/v2/email/deliverability-dashboard/test"
     }
 }
@@ -2622,8 +2631,9 @@ extension CreateEmailIdentityInput: Swift.Encodable {
     }
 }
 
-extension CreateEmailIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEmailIdentityInput {
+
+    static func urlPathProvider(_ value: CreateEmailIdentityInput) -> Swift.String? {
         return "/v2/email/identities"
     }
 }
@@ -2781,12 +2791,13 @@ extension CreateEmailIdentityPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateEmailIdentityPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension CreateEmailIdentityPolicyInput {
+
+    static func urlPathProvider(_ value: CreateEmailIdentityPolicyInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
-        guard let policyName = policyName else {
+        guard let policyName = value.policyName else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/policies/\(policyName.urlPercentEncoding())"
@@ -2876,8 +2887,9 @@ extension CreateEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEmailTemplateInput {
+
+    static func urlPathProvider(_ value: CreateEmailTemplateInput) -> Swift.String? {
         return "/v2/email/templates"
     }
 }
@@ -2963,8 +2975,9 @@ extension CreateExportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExportJobInput {
+
+    static func urlPathProvider(_ value: CreateExportJobInput) -> Swift.String? {
         return "/v2/email/export-jobs"
     }
 }
@@ -3080,8 +3093,9 @@ extension CreateImportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateImportJobInput {
+
+    static func urlPathProvider(_ value: CreateImportJobInput) -> Swift.String? {
         return "/v2/email/import-jobs"
     }
 }
@@ -3559,12 +3573,13 @@ extension SESv2ClientTypes {
 
 }
 
-extension DeleteConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension DeleteConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetEventDestinationInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
-        guard let eventDestinationName = eventDestinationName else {
+        guard let eventDestinationName = value.eventDestinationName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations/\(eventDestinationName.urlPercentEncoding())"
@@ -3623,9 +3638,10 @@ enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension DeleteConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension DeleteConfigurationSetInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())"
@@ -3680,12 +3696,13 @@ enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension DeleteContactInput {
+
+    static func urlPathProvider(_ value: DeleteContactInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
-        guard let emailAddress = emailAddress else {
+        guard let emailAddress = value.emailAddress else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts/\(emailAddress.urlPercentEncoding())"
@@ -3719,9 +3736,10 @@ extension DeleteContactInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteContactListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension DeleteContactListInput {
+
+    static func urlPathProvider(_ value: DeleteContactListInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())"
@@ -3797,9 +3815,10 @@ enum DeleteContactOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension DeleteCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteCustomVerificationEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/custom-verification-email-templates/\(templateName.urlPercentEncoding())"
@@ -3853,9 +3872,10 @@ enum DeleteCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension DeleteDedicatedIpPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let poolName = poolName else {
+extension DeleteDedicatedIpPoolInput {
+
+    static func urlPathProvider(_ value: DeleteDedicatedIpPoolInput) -> Swift.String? {
+        guard let poolName = value.poolName else {
             return nil
         }
         return "/v2/email/dedicated-ip-pools/\(poolName.urlPercentEncoding())"
@@ -3910,9 +3930,10 @@ enum DeleteDedicatedIpPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEmailIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension DeleteEmailIdentityInput {
+
+    static func urlPathProvider(_ value: DeleteEmailIdentityInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())"
@@ -3967,12 +3988,13 @@ enum DeleteEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEmailIdentityPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension DeleteEmailIdentityPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteEmailIdentityPolicyInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
-        guard let policyName = policyName else {
+        guard let policyName = value.policyName else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/policies/\(policyName.urlPercentEncoding())"
@@ -4031,9 +4053,10 @@ enum DeleteEmailIdentityPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension DeleteEmailTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/templates/\(templateName.urlPercentEncoding())"
@@ -4087,9 +4110,10 @@ enum DeleteEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSuppressedDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailAddress = emailAddress else {
+extension DeleteSuppressedDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteSuppressedDestinationInput) -> Swift.String? {
+        guard let emailAddress = value.emailAddress else {
             return nil
         }
         return "/v2/email/suppression/addresses/\(emailAddress.urlPercentEncoding())"
@@ -6146,8 +6170,9 @@ extension SESv2ClientTypes {
     }
 }
 
-extension GetAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountInput {
+
+    static func urlPathProvider(_ value: GetAccountInput) -> Swift.String? {
         return "/v2/email/account"
     }
 }
@@ -6296,25 +6321,25 @@ enum GetAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBlacklistReportsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let blacklistItemNames = blacklistItemNames else {
-                let message = "Creating a URL Query Item failed. blacklistItemNames is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            blacklistItemNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "BlacklistItemNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension GetBlacklistReportsInput {
+
+    static func queryItemProvider(_ value: GetBlacklistReportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let blacklistItemNames = value.blacklistItemNames else {
+            let message = "Creating a URL Query Item failed. blacklistItemNames is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        blacklistItemNames.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "BlacklistItemNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension GetBlacklistReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBlacklistReportsInput {
+
+    static func urlPathProvider(_ value: GetBlacklistReportsInput) -> Swift.String? {
         return "/v2/email/deliverability-dashboard/blacklist-report"
     }
 }
@@ -6413,9 +6438,10 @@ enum GetBlacklistReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetConfigurationSetEventDestinationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension GetConfigurationSetEventDestinationsInput {
+
+    static func urlPathProvider(_ value: GetConfigurationSetEventDestinationsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations"
@@ -6508,9 +6534,10 @@ enum GetConfigurationSetEventDestinationsOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension GetConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension GetConfigurationSetInput {
+
+    static func urlPathProvider(_ value: GetConfigurationSetInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())"
@@ -6673,12 +6700,13 @@ enum GetConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension GetContactInput {
+
+    static func urlPathProvider(_ value: GetContactInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
-        guard let emailAddress = emailAddress else {
+        guard let emailAddress = value.emailAddress else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts/\(emailAddress.urlPercentEncoding())"
@@ -6712,9 +6740,10 @@ extension GetContactInputBody: Swift.Decodable {
     }
 }
 
-extension GetContactListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension GetContactListInput {
+
+    static func urlPathProvider(_ value: GetContactListInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())"
@@ -7005,9 +7034,10 @@ enum GetContactOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension GetCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: GetCustomVerificationEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/custom-verification-email-templates/\(templateName.urlPercentEncoding())"
@@ -7141,9 +7171,10 @@ enum GetCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension GetDedicatedIpInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ip = ip else {
+extension GetDedicatedIpInput {
+
+    static func urlPathProvider(_ value: GetDedicatedIpInput) -> Swift.String? {
+        guard let ip = value.ip else {
             return nil
         }
         return "/v2/email/dedicated-ips/\(ip.urlPercentEncoding())"
@@ -7227,9 +7258,10 @@ enum GetDedicatedIpOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDedicatedIpPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let poolName = poolName else {
+extension GetDedicatedIpPoolInput {
+
+    static func urlPathProvider(_ value: GetDedicatedIpPoolInput) -> Swift.String? {
+        guard let poolName = value.poolName else {
             return nil
         }
         return "/v2/email/dedicated-ip-pools/\(poolName.urlPercentEncoding())"
@@ -7313,29 +7345,29 @@ enum GetDedicatedIpPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDedicatedIpsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            if let poolName = poolName {
-                let poolNameQueryItem = ClientRuntime.URLQueryItem(name: "PoolName".urlPercentEncoding(), value: Swift.String(poolName).urlPercentEncoding())
-                items.append(poolNameQueryItem)
-            }
-            return items
+extension GetDedicatedIpsInput {
+
+    static func queryItemProvider(_ value: GetDedicatedIpsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        if let poolName = value.poolName {
+            let poolNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "PoolName".urlPercentEncoding(), value: Swift.String(poolName).urlPercentEncoding())
+            items.append(poolNameQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDedicatedIpsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDedicatedIpsInput {
+
+    static func urlPathProvider(_ value: GetDedicatedIpsInput) -> Swift.String? {
         return "/v2/email/dedicated-ips"
     }
 }
@@ -7443,8 +7475,9 @@ enum GetDedicatedIpsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDeliverabilityDashboardOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeliverabilityDashboardOptionsInput {
+
+    static func urlPathProvider(_ value: GetDeliverabilityDashboardOptionsInput) -> Swift.String? {
         return "/v2/email/deliverability-dashboard"
     }
 }
@@ -7577,9 +7610,10 @@ enum GetDeliverabilityDashboardOptionsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension GetDeliverabilityTestReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportId = reportId else {
+extension GetDeliverabilityTestReportInput {
+
+    static func urlPathProvider(_ value: GetDeliverabilityTestReportInput) -> Swift.String? {
+        guard let reportId = value.reportId else {
             return nil
         }
         return "/v2/email/deliverability-dashboard/test-reports/\(reportId.urlPercentEncoding())"
@@ -7724,9 +7758,10 @@ enum GetDeliverabilityTestReportOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetDomainDeliverabilityCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let campaignId = campaignId else {
+extension GetDomainDeliverabilityCampaignInput {
+
+    static func urlPathProvider(_ value: GetDomainDeliverabilityCampaignInput) -> Swift.String? {
+        guard let campaignId = value.campaignId else {
             return nil
         }
         return "/v2/email/deliverability-dashboard/campaigns/\(campaignId.urlPercentEncoding())"
@@ -7811,30 +7846,30 @@ enum GetDomainDeliverabilityCampaignOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetDomainStatisticsReportInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let startDate = startDate else {
-                let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let startDateQueryItem = ClientRuntime.URLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
-            items.append(startDateQueryItem)
-            guard let endDate = endDate else {
-                let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endDateQueryItem = ClientRuntime.URLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
-            items.append(endDateQueryItem)
-            return items
+extension GetDomainStatisticsReportInput {
+
+    static func queryItemProvider(_ value: GetDomainStatisticsReportInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let startDate = value.startDate else {
+            let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let startDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
+        items.append(startDateQueryItem)
+        guard let endDate = value.endDate else {
+            let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let endDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
+        items.append(endDateQueryItem)
+        return items
     }
 }
 
-extension GetDomainStatisticsReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domain = domain else {
+extension GetDomainStatisticsReportInput {
+
+    static func urlPathProvider(_ value: GetDomainStatisticsReportInput) -> Swift.String? {
+        guard let domain = value.domain else {
             return nil
         }
         return "/v2/email/deliverability-dashboard/statistics-report/\(domain.urlPercentEncoding())"
@@ -7949,9 +7984,10 @@ enum GetDomainStatisticsReportOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetEmailIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension GetEmailIdentityInput {
+
+    static func urlPathProvider(_ value: GetEmailIdentityInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())"
@@ -8153,9 +8189,10 @@ enum GetEmailIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetEmailIdentityPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension GetEmailIdentityPoliciesInput {
+
+    static func urlPathProvider(_ value: GetEmailIdentityPoliciesInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/policies"
@@ -8248,9 +8285,10 @@ enum GetEmailIdentityPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension GetEmailTemplateInput {
+
+    static func urlPathProvider(_ value: GetEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/templates/\(templateName.urlPercentEncoding())"
@@ -8346,9 +8384,10 @@ enum GetEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension GetExportJobInput {
+
+    static func urlPathProvider(_ value: GetExportJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v2/email/export-jobs/\(jobId.urlPercentEncoding())"
@@ -8512,9 +8551,10 @@ enum GetExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension GetImportJobInput {
+
+    static func urlPathProvider(_ value: GetImportJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v2/email/import-jobs/\(jobId.urlPercentEncoding())"
@@ -8678,9 +8718,10 @@ enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMessageInsightsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let messageId = messageId else {
+extension GetMessageInsightsInput {
+
+    static func urlPathProvider(_ value: GetMessageInsightsInput) -> Swift.String? {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/v2/email/insights/\(messageId.urlPercentEncoding())"
@@ -8827,9 +8868,10 @@ enum GetMessageInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSuppressedDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailAddress = emailAddress else {
+extension GetSuppressedDestinationInput {
+
+    static func urlPathProvider(_ value: GetSuppressedDestinationInput) -> Swift.String? {
+        guard let emailAddress = value.emailAddress else {
             return nil
         }
         return "/v2/email/suppression/addresses/\(emailAddress.urlPercentEncoding())"
@@ -9751,25 +9793,25 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListConfigurationSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListConfigurationSetsInput {
+
+    static func queryItemProvider(_ value: ListConfigurationSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfigurationSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfigurationSetsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationSetsInput) -> Swift.String? {
         return "/v2/email/configuration-sets"
     }
 }
@@ -9872,25 +9914,25 @@ enum ListConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListContactListsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListContactListsInput {
+
+    static func queryItemProvider(_ value: ListContactListsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListContactListsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListContactListsInput {
+
+    static func urlPathProvider(_ value: ListContactListsInput) -> Swift.String? {
         return "/v2/email/contact-lists"
     }
 }
@@ -10049,26 +10091,26 @@ extension ListContactsInput: Swift.Encodable {
     }
 }
 
-extension ListContactsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListContactsInput {
+
+    static func queryItemProvider(_ value: ListContactsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListContactsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension ListContactsInput {
+
+    static func urlPathProvider(_ value: ListContactsInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts"
@@ -10188,25 +10230,25 @@ enum ListContactsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCustomVerificationEmailTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListCustomVerificationEmailTemplatesInput {
+
+    static func queryItemProvider(_ value: ListCustomVerificationEmailTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCustomVerificationEmailTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomVerificationEmailTemplatesInput {
+
+    static func urlPathProvider(_ value: ListCustomVerificationEmailTemplatesInput) -> Swift.String? {
         return "/v2/email/custom-verification-email-templates"
     }
 }
@@ -10309,25 +10351,25 @@ enum ListCustomVerificationEmailTemplatesOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension ListDedicatedIpPoolsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListDedicatedIpPoolsInput {
+
+    static func queryItemProvider(_ value: ListDedicatedIpPoolsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDedicatedIpPoolsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDedicatedIpPoolsInput {
+
+    static func urlPathProvider(_ value: ListDedicatedIpPoolsInput) -> Swift.String? {
         return "/v2/email/dedicated-ip-pools"
     }
 }
@@ -10430,25 +10472,25 @@ enum ListDedicatedIpPoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDeliverabilityTestReportsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListDeliverabilityTestReportsInput {
+
+    static func queryItemProvider(_ value: ListDeliverabilityTestReportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDeliverabilityTestReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeliverabilityTestReportsInput {
+
+    static func urlPathProvider(_ value: ListDeliverabilityTestReportsInput) -> Swift.String? {
         return "/v2/email/deliverability-dashboard/test-reports"
     }
 }
@@ -10553,38 +10595,38 @@ enum ListDeliverabilityTestReportsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListDomainDeliverabilityCampaignsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let startDate = startDate else {
-                let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let startDateQueryItem = ClientRuntime.URLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
-            items.append(startDateQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            guard let endDate = endDate else {
-                let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endDateQueryItem = ClientRuntime.URLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
-            items.append(endDateQueryItem)
-            return items
+extension ListDomainDeliverabilityCampaignsInput {
+
+    static func queryItemProvider(_ value: ListDomainDeliverabilityCampaignsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let startDate = value.startDate else {
+            let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let startDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
+        items.append(startDateQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        guard let endDate = value.endDate else {
+            let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let endDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
+        items.append(endDateQueryItem)
+        return items
     }
 }
 
-extension ListDomainDeliverabilityCampaignsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscribedDomain = subscribedDomain else {
+extension ListDomainDeliverabilityCampaignsInput {
+
+    static func urlPathProvider(_ value: ListDomainDeliverabilityCampaignsInput) -> Swift.String? {
+        guard let subscribedDomain = value.subscribedDomain else {
             return nil
         }
         return "/v2/email/deliverability-dashboard/domains/\(subscribedDomain.urlPercentEncoding())/campaigns"
@@ -10706,25 +10748,25 @@ enum ListDomainDeliverabilityCampaignsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListEmailIdentitiesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListEmailIdentitiesInput {
+
+    static func queryItemProvider(_ value: ListEmailIdentitiesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEmailIdentitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEmailIdentitiesInput {
+
+    static func urlPathProvider(_ value: ListEmailIdentitiesInput) -> Swift.String? {
         return "/v2/email/identities"
     }
 }
@@ -10827,25 +10869,25 @@ enum ListEmailIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListEmailTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListEmailTemplatesInput {
+
+    static func queryItemProvider(_ value: ListEmailTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEmailTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEmailTemplatesInput {
+
+    static func urlPathProvider(_ value: ListEmailTemplatesInput) -> Swift.String? {
         return "/v2/email/templates"
     }
 }
@@ -10973,8 +11015,9 @@ extension ListExportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExportJobsInput {
+
+    static func urlPathProvider(_ value: ListExportJobsInput) -> Swift.String? {
         return "/v2/email/list-export-jobs"
     }
 }
@@ -11117,25 +11160,25 @@ extension ListImportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListImportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListImportJobsInput {
+
+    static func queryItemProvider(_ value: ListImportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImportJobsInput {
+
+    static func urlPathProvider(_ value: ListImportJobsInput) -> Swift.String? {
         return "/v2/email/import-jobs"
     }
 }
@@ -11366,8 +11409,9 @@ extension ListRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListRecommendationsInput) -> Swift.String? {
         return "/v2/email/vdm/recommendations"
     }
 }
@@ -11499,39 +11543,39 @@ enum ListRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSuppressedDestinationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let startDate = startDate {
-                let startDateQueryItem = ClientRuntime.URLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
-                items.append(startDateQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            if let reasons = reasons {
-                reasons.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "Reason".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let endDate = endDate {
-                let endDateQueryItem = ClientRuntime.URLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
-                items.append(endDateQueryItem)
-            }
-            return items
+extension ListSuppressedDestinationsInput {
+
+    static func queryItemProvider(_ value: ListSuppressedDestinationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let startDate = value.startDate {
+            let startDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "StartDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
+            items.append(startDateQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        if let reasons = value.reasons {
+            reasons.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "Reason".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let endDate = value.endDate {
+            let endDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndDate".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
+            items.append(endDateQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSuppressedDestinationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSuppressedDestinationsInput {
+
+    static func urlPathProvider(_ value: ListSuppressedDestinationsInput) -> Swift.String? {
         return "/v2/email/suppression/addresses"
     }
 }
@@ -11647,23 +11691,23 @@ enum ListSuppressedDestinationsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/v2/email/tags"
     }
 }
@@ -13026,8 +13070,9 @@ extension PutAccountDedicatedIpWarmupAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutAccountDedicatedIpWarmupAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountDedicatedIpWarmupAttributesInput {
+
+    static func urlPathProvider(_ value: PutAccountDedicatedIpWarmupAttributesInput) -> Swift.String? {
         return "/v2/email/account/dedicated-ips/warmup"
     }
 }
@@ -13125,8 +13170,9 @@ extension PutAccountDetailsInput: Swift.Encodable {
     }
 }
 
-extension PutAccountDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountDetailsInput {
+
+    static func urlPathProvider(_ value: PutAccountDetailsInput) -> Swift.String? {
         return "/v2/email/account/details"
     }
 }
@@ -13249,8 +13295,9 @@ extension PutAccountSendingAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutAccountSendingAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountSendingAttributesInput {
+
+    static func urlPathProvider(_ value: PutAccountSendingAttributesInput) -> Swift.String? {
         return "/v2/email/account/sending"
     }
 }
@@ -13323,8 +13370,9 @@ extension PutAccountSuppressionAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutAccountSuppressionAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountSuppressionAttributesInput {
+
+    static func urlPathProvider(_ value: PutAccountSuppressionAttributesInput) -> Swift.String? {
         return "/v2/email/account/suppression"
     }
 }
@@ -13407,8 +13455,9 @@ extension PutAccountVdmAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutAccountVdmAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountVdmAttributesInput {
+
+    static func urlPathProvider(_ value: PutAccountVdmAttributesInput) -> Swift.String? {
         return "/v2/email/account/vdm"
     }
 }
@@ -13482,9 +13531,10 @@ extension PutConfigurationSetDeliveryOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetDeliveryOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension PutConfigurationSetDeliveryOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetDeliveryOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/delivery-options"
@@ -13570,9 +13620,10 @@ extension PutConfigurationSetReputationOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetReputationOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension PutConfigurationSetReputationOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetReputationOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/reputation-options"
@@ -13650,9 +13701,10 @@ extension PutConfigurationSetSendingOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetSendingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension PutConfigurationSetSendingOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetSendingOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/sending"
@@ -13733,9 +13785,10 @@ extension PutConfigurationSetSuppressionOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetSuppressionOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension PutConfigurationSetSuppressionOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetSuppressionOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/suppression-options"
@@ -13826,9 +13879,10 @@ extension PutConfigurationSetTrackingOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetTrackingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension PutConfigurationSetTrackingOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetTrackingOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/tracking-options"
@@ -13906,9 +13960,10 @@ extension PutConfigurationSetVdmOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetVdmOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension PutConfigurationSetVdmOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetVdmOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/vdm-options"
@@ -13986,9 +14041,10 @@ extension PutDedicatedIpInPoolInput: Swift.Encodable {
     }
 }
 
-extension PutDedicatedIpInPoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ip = ip else {
+extension PutDedicatedIpInPoolInput {
+
+    static func urlPathProvider(_ value: PutDedicatedIpInPoolInput) -> Swift.String? {
+        guard let ip = value.ip else {
             return nil
         }
         return "/v2/email/dedicated-ips/\(ip.urlPercentEncoding())/pool"
@@ -14067,9 +14123,10 @@ extension PutDedicatedIpPoolScalingAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutDedicatedIpPoolScalingAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let poolName = poolName else {
+extension PutDedicatedIpPoolScalingAttributesInput {
+
+    static func urlPathProvider(_ value: PutDedicatedIpPoolScalingAttributesInput) -> Swift.String? {
+        guard let poolName = value.poolName else {
             return nil
         }
         return "/v2/email/dedicated-ip-pools/\(poolName.urlPercentEncoding())/scaling"
@@ -14149,9 +14206,10 @@ extension PutDedicatedIpWarmupAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutDedicatedIpWarmupAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ip = ip else {
+extension PutDedicatedIpWarmupAttributesInput {
+
+    static func urlPathProvider(_ value: PutDedicatedIpWarmupAttributesInput) -> Swift.String? {
+        guard let ip = value.ip else {
             return nil
         }
         return "/v2/email/dedicated-ips/\(ip.urlPercentEncoding())/warmup"
@@ -14237,8 +14295,9 @@ extension PutDeliverabilityDashboardOptionInput: Swift.Encodable {
     }
 }
 
-extension PutDeliverabilityDashboardOptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutDeliverabilityDashboardOptionInput {
+
+    static func urlPathProvider(_ value: PutDeliverabilityDashboardOptionInput) -> Swift.String? {
         return "/v2/email/deliverability-dashboard"
     }
 }
@@ -14329,9 +14388,10 @@ extension PutEmailIdentityConfigurationSetAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutEmailIdentityConfigurationSetAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension PutEmailIdentityConfigurationSetAttributesInput {
+
+    static func urlPathProvider(_ value: PutEmailIdentityConfigurationSetAttributesInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/configuration-set"
@@ -14409,9 +14469,10 @@ extension PutEmailIdentityDkimAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutEmailIdentityDkimAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension PutEmailIdentityDkimAttributesInput {
+
+    static func urlPathProvider(_ value: PutEmailIdentityDkimAttributesInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/dkim"
@@ -14493,9 +14554,10 @@ extension PutEmailIdentityDkimSigningAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutEmailIdentityDkimSigningAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension PutEmailIdentityDkimSigningAttributesInput {
+
+    static func urlPathProvider(_ value: PutEmailIdentityDkimSigningAttributesInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v1/email/identities/\(emailIdentity.urlPercentEncoding())/dkim/signing"
@@ -14645,9 +14707,10 @@ extension PutEmailIdentityFeedbackAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutEmailIdentityFeedbackAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension PutEmailIdentityFeedbackAttributesInput {
+
+    static func urlPathProvider(_ value: PutEmailIdentityFeedbackAttributesInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/feedback"
@@ -14729,9 +14792,10 @@ extension PutEmailIdentityMailFromAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutEmailIdentityMailFromAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension PutEmailIdentityMailFromAttributesInput {
+
+    static func urlPathProvider(_ value: PutEmailIdentityMailFromAttributesInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/mail-from"
@@ -14827,8 +14891,9 @@ extension PutSuppressedDestinationInput: Swift.Encodable {
     }
 }
 
-extension PutSuppressedDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutSuppressedDestinationInput {
+
+    static func urlPathProvider(_ value: PutSuppressedDestinationInput) -> Swift.String? {
         return "/v2/email/suppression/addresses"
     }
 }
@@ -15380,6 +15445,8 @@ extension SESv2ClientTypes {
     }
 }
 
+public enum SESv2ClientTypes {}
+
 extension SESv2ClientTypes.SOARecord: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminEmail = "AdminEmail"
@@ -15521,8 +15588,9 @@ extension SendBulkEmailInput: Swift.Encodable {
     }
 }
 
-extension SendBulkEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendBulkEmailInput {
+
+    static func urlPathProvider(_ value: SendBulkEmailInput) -> Swift.String? {
         return "/v2/email/outbound-bulk-emails"
     }
 }
@@ -15739,8 +15807,9 @@ extension SendCustomVerificationEmailInput: Swift.Encodable {
     }
 }
 
-extension SendCustomVerificationEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendCustomVerificationEmailInput {
+
+    static func urlPathProvider(_ value: SendCustomVerificationEmailInput) -> Swift.String? {
         return "/v2/email/outbound-custom-verification-emails"
     }
 }
@@ -15905,8 +15974,9 @@ extension SendEmailInput: Swift.Encodable {
     }
 }
 
-extension SendEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendEmailInput {
+
+    static func urlPathProvider(_ value: SendEmailInput) -> Swift.String? {
         return "/v2/email/outbound-emails"
     }
 }
@@ -16765,8 +16835,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/v2/email/tags"
     }
 }
@@ -16910,9 +16981,10 @@ extension TestRenderEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension TestRenderEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension TestRenderEmailTemplateInput {
+
+    static func urlPathProvider(_ value: TestRenderEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/templates/\(templateName.urlPercentEncoding())/render"
@@ -17293,31 +17365,31 @@ extension SESv2ClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/v2/email/tags"
     }
 }
@@ -17386,12 +17458,13 @@ extension UpdateConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension UpdateConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetEventDestinationInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
-        guard let eventDestinationName = eventDestinationName else {
+        guard let eventDestinationName = value.eventDestinationName else {
             return nil
         }
         return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations/\(eventDestinationName.urlPercentEncoding())"
@@ -17486,12 +17559,13 @@ extension UpdateContactInput: Swift.Encodable {
     }
 }
 
-extension UpdateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension UpdateContactInput {
+
+    static func urlPathProvider(_ value: UpdateContactInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
-        guard let emailAddress = emailAddress else {
+        guard let emailAddress = value.emailAddress else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())/contacts/\(emailAddress.urlPercentEncoding())"
@@ -17581,9 +17655,10 @@ extension UpdateContactListInput: Swift.Encodable {
     }
 }
 
-extension UpdateContactListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let contactListName = contactListName else {
+extension UpdateContactListInput {
+
+    static func urlPathProvider(_ value: UpdateContactListInput) -> Swift.String? {
+        guard let contactListName = value.contactListName else {
             return nil
         }
         return "/v2/email/contact-lists/\(contactListName.urlPercentEncoding())"
@@ -17717,9 +17792,10 @@ extension UpdateCustomVerificationEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension UpdateCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateCustomVerificationEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/custom-verification-email-templates/\(templateName.urlPercentEncoding())"
@@ -17834,12 +17910,13 @@ extension UpdateEmailIdentityPolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateEmailIdentityPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let emailIdentity = emailIdentity else {
+extension UpdateEmailIdentityPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateEmailIdentityPolicyInput) -> Swift.String? {
+        guard let emailIdentity = value.emailIdentity else {
             return nil
         }
-        guard let policyName = policyName else {
+        guard let policyName = value.policyName else {
             return nil
         }
         return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/policies/\(policyName.urlPercentEncoding())"
@@ -17923,9 +18000,10 @@ extension UpdateEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateName = templateName else {
+extension UpdateEmailTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateEmailTemplateInput) -> Swift.String? {
+        guard let templateName = value.templateName else {
             return nil
         }
         return "/v2/email/templates/\(templateName.urlPercentEncoding())"

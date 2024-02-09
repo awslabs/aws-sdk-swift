@@ -293,8 +293,9 @@ extension BatchExecuteStatementInput: Swift.Encodable {
     }
 }
 
-extension BatchExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchExecuteStatementInput {
+
+    static func urlPathProvider(_ value: BatchExecuteStatementInput) -> Swift.String? {
         return "/BatchExecute"
     }
 }
@@ -461,12 +462,6 @@ enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-=======
             case "DatabaseErrorException": return try await DatabaseErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseNotFoundException": return try await DatabaseNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseUnavailableException": return try await DatabaseUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -478,7 +473,6 @@ enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -509,8 +503,9 @@ extension BeginTransactionInput: Swift.Encodable {
     }
 }
 
-extension BeginTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BeginTransactionInput {
+
+    static func urlPathProvider(_ value: BeginTransactionInput) -> Swift.String? {
         return "/BeginTransaction"
     }
 }
@@ -618,12 +613,6 @@ enum BeginTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-=======
             case "DatabaseErrorException": return try await DatabaseErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseNotFoundException": return try await DatabaseNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseUnavailableException": return try await DatabaseUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -635,7 +624,6 @@ enum BeginTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -827,8 +815,9 @@ extension CommitTransactionInput: Swift.Encodable {
     }
 }
 
-extension CommitTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CommitTransactionInput {
+
+    static func urlPathProvider(_ value: CommitTransactionInput) -> Swift.String? {
         return "/CommitTransaction"
     }
 }
@@ -929,13 +918,6 @@ enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-=======
             case "DatabaseErrorException": return try await DatabaseErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseNotFoundException": return try await DatabaseNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseUnavailableException": return try await DatabaseUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -948,14 +930,11 @@ enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DatabaseErrorException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1087,7 +1066,6 @@ public struct DatabaseUnavailableException: ClientRuntime.ModeledError, AWSClien
     public init() { }
 }
 
->>>>>>> temp-main
 extension RDSDataClientTypes {
     public enum DecimalReturnType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case doubleOrLong
@@ -1149,8 +1127,9 @@ extension ExecuteSqlInput: Swift.Encodable {
     }
 }
 
-extension ExecuteSqlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteSqlInput {
+
+    static func urlPathProvider(_ value: ExecuteSqlInput) -> Swift.String? {
         return "/ExecuteSql"
     }
 }
@@ -1340,8 +1319,9 @@ extension ExecuteStatementInput: Swift.Encodable {
     }
 }
 
-extension ExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteStatementInput {
+
+    static func urlPathProvider(_ value: ExecuteStatementInput) -> Swift.String? {
         return "/Execute"
     }
 }
@@ -1591,12 +1571,6 @@ enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-=======
             case "DatabaseErrorException": return try await DatabaseErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseNotFoundException": return try await DatabaseNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseUnavailableException": return try await DatabaseUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1609,7 +1583,6 @@ enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedResultException": return try await UnsupportedResultException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1987,6 +1960,8 @@ extension NotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum RDSDataClientTypes {}
+
 extension RDSDataClientTypes.Record: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case values
@@ -2246,8 +2221,9 @@ extension RollbackTransactionInput: Swift.Encodable {
     }
 }
 
-extension RollbackTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RollbackTransactionInput {
+
+    static func urlPathProvider(_ value: RollbackTransactionInput) -> Swift.String? {
         return "/RollbackTransaction"
     }
 }
@@ -2348,13 +2324,6 @@ enum RollbackTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-=======
             case "DatabaseErrorException": return try await DatabaseErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseNotFoundException": return try await DatabaseNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "DatabaseUnavailableException": return try await DatabaseUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2367,14 +2336,11 @@ enum RollbackTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionNotFoundException": return try await TransactionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SecretsErrorException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2436,7 +2402,6 @@ extension SecretsErrorExceptionBody: Swift.Decodable {
     }
 }
 
->>>>>>> temp-main
 extension ServiceUnavailableError {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         self.httpResponse = httpResponse

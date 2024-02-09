@@ -760,9 +760,10 @@ extension CreatePipeInput: Swift.Encodable {
     }
 }
 
-extension CreatePipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreatePipeInput {
+
+    static func urlPathProvider(_ value: CreatePipeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/pipes/\(name.urlPercentEncoding())"
@@ -1035,9 +1036,10 @@ extension PipesClientTypes {
 
 }
 
-extension DeletePipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeletePipeInput {
+
+    static func urlPathProvider(_ value: DeletePipeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/pipes/\(name.urlPercentEncoding())"
@@ -1171,9 +1173,10 @@ enum DeletePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribePipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribePipeInput {
+
+    static func urlPathProvider(_ value: DescribePipeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/pipes/\(name.urlPercentEncoding())"
@@ -2350,45 +2353,45 @@ extension ListPipesInput: Swift.CustomDebugStringConvertible {
         "ListPipesInput(currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), limit: \(Swift.String(describing: limit)), namePrefix: \(Swift.String(describing: namePrefix)), sourcePrefix: \(Swift.String(describing: sourcePrefix)), targetPrefix: \(Swift.String(describing: targetPrefix)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListPipesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let namePrefix = namePrefix {
-                let namePrefixQueryItem = ClientRuntime.URLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
-                items.append(namePrefixQueryItem)
-            }
-            if let targetPrefix = targetPrefix {
-                let targetPrefixQueryItem = ClientRuntime.URLQueryItem(name: "TargetPrefix".urlPercentEncoding(), value: Swift.String(targetPrefix).urlPercentEncoding())
-                items.append(targetPrefixQueryItem)
-            }
-            if let sourcePrefix = sourcePrefix {
-                let sourcePrefixQueryItem = ClientRuntime.URLQueryItem(name: "SourcePrefix".urlPercentEncoding(), value: Swift.String(sourcePrefix).urlPercentEncoding())
-                items.append(sourcePrefixQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let desiredState = desiredState {
-                let desiredStateQueryItem = ClientRuntime.URLQueryItem(name: "DesiredState".urlPercentEncoding(), value: Swift.String(desiredState.rawValue).urlPercentEncoding())
-                items.append(desiredStateQueryItem)
-            }
-            if let currentState = currentState {
-                let currentStateQueryItem = ClientRuntime.URLQueryItem(name: "CurrentState".urlPercentEncoding(), value: Swift.String(currentState.rawValue).urlPercentEncoding())
-                items.append(currentStateQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "Limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListPipesInput {
+
+    static func queryItemProvider(_ value: ListPipesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let namePrefix = value.namePrefix {
+            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            items.append(namePrefixQueryItem)
         }
+        if let targetPrefix = value.targetPrefix {
+            let targetPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "TargetPrefix".urlPercentEncoding(), value: Swift.String(targetPrefix).urlPercentEncoding())
+            items.append(targetPrefixQueryItem)
+        }
+        if let sourcePrefix = value.sourcePrefix {
+            let sourcePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "SourcePrefix".urlPercentEncoding(), value: Swift.String(sourcePrefix).urlPercentEncoding())
+            items.append(sourcePrefixQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let desiredState = value.desiredState {
+            let desiredStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "DesiredState".urlPercentEncoding(), value: Swift.String(desiredState.rawValue).urlPercentEncoding())
+            items.append(desiredStateQueryItem)
+        }
+        if let currentState = value.currentState {
+            let currentStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "CurrentState".urlPercentEncoding(), value: Swift.String(currentState.rawValue).urlPercentEncoding())
+            items.append(currentStateQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "Limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPipesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPipesInput {
+
+    static func urlPathProvider(_ value: ListPipesInput) -> Swift.String? {
         return "/v1/pipes"
     }
 }
@@ -2515,9 +2518,10 @@ enum ListPipesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5229,6 +5233,8 @@ extension PipesClientTypes {
 
 }
 
+public enum PipesClientTypes {}
+
 extension PipesClientTypes.PlacementConstraint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case expression
@@ -5991,9 +5997,10 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension StartPipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension StartPipeInput {
+
+    static func urlPathProvider(_ value: StartPipeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/pipes/\(name.urlPercentEncoding())/start"
@@ -6127,9 +6134,10 @@ enum StartPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopPipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension StopPipeInput {
+
+    static func urlPathProvider(_ value: StopPipeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/pipes/\(name.urlPercentEncoding())/stop"
@@ -6331,9 +6339,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6491,26 +6500,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6617,9 +6626,10 @@ extension UpdatePipeInput: Swift.Encodable {
     }
 }
 
-extension UpdatePipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdatePipeInput {
+
+    static func urlPathProvider(_ value: UpdatePipeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/pipes/\(name.urlPercentEncoding())"

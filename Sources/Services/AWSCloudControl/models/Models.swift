@@ -70,8 +70,9 @@ extension CancelResourceRequestInput: Swift.Encodable {
     }
 }
 
-extension CancelResourceRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelResourceRequestInput {
+
+    static func urlPathProvider(_ value: CancelResourceRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -211,6 +212,8 @@ extension ClientTokenConflictExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum CloudControlClientTypes {}
 
 extension ConcurrentModificationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -356,8 +359,9 @@ extension CreateResourceInput: Swift.Encodable {
     }
 }
 
-extension CreateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResourceInput {
+
+    static func urlPathProvider(_ value: CreateResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -529,8 +533,9 @@ extension DeleteResourceInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourceInput {
+
+    static func urlPathProvider(_ value: DeleteResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -746,8 +751,9 @@ extension GetResourceInput: Swift.Encodable {
     }
 }
 
-extension GetResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceInput {
+
+    static func urlPathProvider(_ value: GetResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -896,8 +902,9 @@ extension GetResourceRequestStatusInput: Swift.Encodable {
     }
 }
 
-extension GetResourceRequestStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceRequestStatusInput {
+
+    static func urlPathProvider(_ value: GetResourceRequestStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1294,8 +1301,9 @@ extension ListResourceRequestsInput: Swift.Encodable {
     }
 }
 
-extension ListResourceRequestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceRequestsInput {
+
+    static func urlPathProvider(_ value: ListResourceRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1451,8 +1459,9 @@ extension ListResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2672,8 +2681,9 @@ extension UpdateResourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResourceInput {
+
+    static func urlPathProvider(_ value: UpdateResourceInput) -> Swift.String? {
         return "/"
     }
 }

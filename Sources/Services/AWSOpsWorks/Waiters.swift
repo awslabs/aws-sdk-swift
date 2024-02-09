@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension OpsWorksClientProtocol {
+extension OpsWorksClient {
 
     static func appExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAppsInput, DescribeAppsOutput> {
         let acceptors: [WaiterConfiguration<DescribeAppsInput, DescribeAppsOutput>.Acceptor] = [

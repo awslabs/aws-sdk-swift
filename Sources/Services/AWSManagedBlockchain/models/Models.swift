@@ -447,8 +447,9 @@ extension CreateAccessorInput: Swift.Encodable {
     }
 }
 
-extension CreateAccessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessorInput {
+
+    static func urlPathProvider(_ value: CreateAccessorInput) -> Swift.String? {
         return "/accessors"
     }
 }
@@ -618,9 +619,10 @@ extension CreateMemberInput: Swift.Encodable {
     }
 }
 
-extension CreateMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension CreateMemberInput {
+
+    static func urlPathProvider(_ value: CreateMemberInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/members"
@@ -786,8 +788,9 @@ extension CreateNetworkInput: Swift.Encodable {
     }
 }
 
-extension CreateNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNetworkInput {
+
+    static func urlPathProvider(_ value: CreateNetworkInput) -> Swift.String? {
         return "/networks"
     }
 }
@@ -994,9 +997,10 @@ extension CreateNodeInput: Swift.Encodable {
     }
 }
 
-extension CreateNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension CreateNodeInput {
+
+    static func urlPathProvider(_ value: CreateNodeInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/nodes"
@@ -1166,9 +1170,10 @@ extension CreateProposalInput: Swift.Encodable {
     }
 }
 
-extension CreateProposalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension CreateProposalInput {
+
+    static func urlPathProvider(_ value: CreateProposalInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/proposals"
@@ -1309,9 +1314,10 @@ enum CreateProposalOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAccessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessorId = accessorId else {
+extension DeleteAccessorInput {
+
+    static func urlPathProvider(_ value: DeleteAccessorInput) -> Swift.String? {
+        guard let accessorId = value.accessorId else {
             return nil
         }
         return "/accessors/\(accessorId.urlPercentEncoding())"
@@ -1365,12 +1371,13 @@ enum DeleteAccessorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension DeleteMemberInput {
+
+    static func urlPathProvider(_ value: DeleteMemberInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/members/\(memberId.urlPercentEncoding())"
@@ -1430,25 +1437,25 @@ enum DeleteMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteNodeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let memberId = memberId {
-                let memberIdQueryItem = ClientRuntime.URLQueryItem(name: "memberId".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
-                items.append(memberIdQueryItem)
-            }
-            return items
+extension DeleteNodeInput {
+
+    static func queryItemProvider(_ value: DeleteNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let memberId = value.memberId {
+            let memberIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "memberId".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
+            items.append(memberIdQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension DeleteNodeInput {
+
+    static func urlPathProvider(_ value: DeleteNodeInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let nodeId = nodeId else {
+        guard let nodeId = value.nodeId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
@@ -1580,9 +1587,10 @@ extension ManagedBlockchainClientTypes {
     }
 }
 
-extension GetAccessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessorId = accessorId else {
+extension GetAccessorInput {
+
+    static func urlPathProvider(_ value: GetAccessorInput) -> Swift.String? {
+        guard let accessorId = value.accessorId else {
             return nil
         }
         return "/accessors/\(accessorId.urlPercentEncoding())"
@@ -1666,12 +1674,13 @@ enum GetAccessorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension GetMemberInput {
+
+    static func urlPathProvider(_ value: GetMemberInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/members/\(memberId.urlPercentEncoding())"
@@ -1760,9 +1769,10 @@ enum GetMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension GetNetworkInput {
+
+    static func urlPathProvider(_ value: GetNetworkInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())"
@@ -1846,25 +1856,25 @@ enum GetNetworkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetNodeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let memberId = memberId {
-                let memberIdQueryItem = ClientRuntime.URLQueryItem(name: "memberId".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
-                items.append(memberIdQueryItem)
-            }
-            return items
+extension GetNodeInput {
+
+    static func queryItemProvider(_ value: GetNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let memberId = value.memberId {
+            let memberIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "memberId".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
+            items.append(memberIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension GetNodeInput {
+
+    static func urlPathProvider(_ value: GetNodeInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let nodeId = nodeId else {
+        guard let nodeId = value.nodeId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
@@ -1957,12 +1967,13 @@ enum GetNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProposalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension GetProposalInput {
+
+    static func urlPathProvider(_ value: GetProposalInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let proposalId = proposalId else {
+        guard let proposalId = value.proposalId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/proposals/\(proposalId.urlPercentEncoding())"
@@ -2354,29 +2365,29 @@ extension ManagedBlockchainClientTypes {
 
 }
 
-extension ListAccessorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let networkType = networkType {
-                let networkTypeQueryItem = ClientRuntime.URLQueryItem(name: "networkType".urlPercentEncoding(), value: Swift.String(networkType.rawValue).urlPercentEncoding())
-                items.append(networkTypeQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAccessorsInput {
+
+    static func queryItemProvider(_ value: ListAccessorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let networkType = value.networkType {
+            let networkTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "networkType".urlPercentEncoding(), value: Swift.String(networkType.rawValue).urlPercentEncoding())
+            items.append(networkTypeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessorsInput {
+
+    static func urlPathProvider(_ value: ListAccessorsInput) -> Swift.String? {
         return "/accessors"
     }
 }
@@ -2483,25 +2494,25 @@ enum ListAccessorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListInvitationsInput {
+
+    static func queryItemProvider(_ value: ListInvitationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInvitationsInput {
+
+    static func urlPathProvider(_ value: ListInvitationsInput) -> Swift.String? {
         return "/invitations"
     }
 }
@@ -2606,38 +2617,38 @@ enum ListInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let isOwned = isOwned {
-                let isOwnedQueryItem = ClientRuntime.URLQueryItem(name: "isOwned".urlPercentEncoding(), value: Swift.String(isOwned).urlPercentEncoding())
-                items.append(isOwnedQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            return items
+extension ListMembersInput {
+
+    static func queryItemProvider(_ value: ListMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let isOwned = value.isOwned {
+            let isOwnedQueryItem = ClientRuntime.SDKURLQueryItem(name: "isOwned".urlPercentEncoding(), value: Swift.String(isOwned).urlPercentEncoding())
+            items.append(isOwnedQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension ListMembersInput {
+
+    static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/members"
@@ -2759,37 +2770,37 @@ enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListNetworksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let framework = framework {
-                let frameworkQueryItem = ClientRuntime.URLQueryItem(name: "framework".urlPercentEncoding(), value: Swift.String(framework.rawValue).urlPercentEncoding())
-                items.append(frameworkQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            return items
+extension ListNetworksInput {
+
+    static func queryItemProvider(_ value: ListNetworksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let framework = value.framework {
+            let frameworkQueryItem = ClientRuntime.SDKURLQueryItem(name: "framework".urlPercentEncoding(), value: Swift.String(framework.rawValue).urlPercentEncoding())
+            items.append(frameworkQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNetworksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNetworksInput {
+
+    static func urlPathProvider(_ value: ListNetworksInput) -> Swift.String? {
         return "/networks"
     }
 }
@@ -2904,34 +2915,34 @@ enum ListNetworksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListNodesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let memberId = memberId {
-                let memberIdQueryItem = ClientRuntime.URLQueryItem(name: "memberId".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
-                items.append(memberIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListNodesInput {
+
+    static func queryItemProvider(_ value: ListNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let memberId = value.memberId {
+            let memberIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "memberId".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
+            items.append(memberIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension ListNodesInput {
+
+    static func urlPathProvider(_ value: ListNodesInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/nodes"
@@ -3049,29 +3060,29 @@ enum ListNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProposalVotesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListProposalVotesInput {
+
+    static func queryItemProvider(_ value: ListProposalVotesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProposalVotesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension ListProposalVotesInput {
+
+    static func urlPathProvider(_ value: ListProposalVotesInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let proposalId = proposalId else {
+        guard let proposalId = value.proposalId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/proposals/\(proposalId.urlPercentEncoding())/votes"
@@ -3186,26 +3197,26 @@ enum ListProposalVotesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProposalsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListProposalsInput {
+
+    static func queryItemProvider(_ value: ListProposalsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProposalsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension ListProposalsInput {
+
+    static func urlPathProvider(_ value: ListProposalsInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/proposals"
@@ -3316,9 +3327,10 @@ enum ListProposalsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3479,6 +3491,8 @@ extension ManagedBlockchainClientTypes {
     }
 
 }
+
+public enum ManagedBlockchainClientTypes {}
 
 extension ManagedBlockchainClientTypes.Member: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -5656,9 +5670,10 @@ extension ManagedBlockchainClientTypes {
 
 }
 
-extension RejectInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let invitationId = invitationId else {
+extension RejectInvitationInput {
+
+    static func urlPathProvider(_ value: RejectInvitationInput) -> Swift.String? {
+        guard let invitationId = value.invitationId else {
             return nil
         }
         return "/invitations/\(invitationId.urlPercentEncoding())"
@@ -6027,9 +6042,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6222,26 +6238,26 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6312,12 +6328,13 @@ extension UpdateMemberInput: Swift.Encodable {
     }
 }
 
-extension UpdateMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension UpdateMemberInput {
+
+    static func urlPathProvider(_ value: UpdateMemberInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/members/\(memberId.urlPercentEncoding())"
@@ -6404,12 +6421,13 @@ extension UpdateNodeInput: Swift.Encodable {
     }
 }
 
-extension UpdateNodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension UpdateNodeInput {
+
+    static func urlPathProvider(_ value: UpdateNodeInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let nodeId = nodeId else {
+        guard let nodeId = value.nodeId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
@@ -6504,12 +6522,13 @@ extension VoteOnProposalInput: Swift.Encodable {
     }
 }
 
-extension VoteOnProposalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkId = networkId else {
+extension VoteOnProposalInput {
+
+    static func urlPathProvider(_ value: VoteOnProposalInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
             return nil
         }
-        guard let proposalId = proposalId else {
+        guard let proposalId = value.proposalId else {
             return nil
         }
         return "/networks/\(networkId.urlPercentEncoding())/proposals/\(proposalId.urlPercentEncoding())/votes"

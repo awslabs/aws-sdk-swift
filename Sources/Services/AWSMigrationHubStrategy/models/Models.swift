@@ -2480,9 +2480,10 @@ extension DependencyExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetApplicationComponentDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let applicationComponentId = applicationComponentId else {
+extension GetApplicationComponentDetailsInput {
+
+    static func urlPathProvider(_ value: GetApplicationComponentDetailsInput) -> Swift.String? {
+        guard let applicationComponentId = value.applicationComponentId else {
             return nil
         }
         return "/get-applicationcomponent-details/\(applicationComponentId.urlPercentEncoding())"
@@ -2612,9 +2613,10 @@ enum GetApplicationComponentDetailsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetApplicationComponentStrategiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let applicationComponentId = applicationComponentId else {
+extension GetApplicationComponentStrategiesInput {
+
+    static func urlPathProvider(_ value: GetApplicationComponentStrategiesInput) -> Swift.String? {
+        guard let applicationComponentId = value.applicationComponentId else {
             return nil
         }
         return "/get-applicationcomponent-strategies/\(applicationComponentId.urlPercentEncoding())"
@@ -2705,9 +2707,10 @@ enum GetApplicationComponentStrategiesOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension GetAssessmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetAssessmentInput {
+
+    static func urlPathProvider(_ value: GetAssessmentInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/get-assessment/\(id.urlPercentEncoding())"
@@ -2819,9 +2822,10 @@ enum GetAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImportFileTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetImportFileTaskInput {
+
+    static func urlPathProvider(_ value: GetImportFileTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/get-import-file-task/\(id.urlPercentEncoding())"
@@ -3005,8 +3009,9 @@ enum GetImportFileTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLatestAssessmentIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLatestAssessmentIdInput {
+
+    static func urlPathProvider(_ value: GetLatestAssessmentIdInput) -> Swift.String? {
         return "/get-latest-assessment-id"
     }
 }
@@ -3079,8 +3084,9 @@ enum GetLatestAssessmentIdOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPortfolioPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPortfolioPreferencesInput {
+
+    static func urlPathProvider(_ value: GetPortfolioPreferencesInput) -> Swift.String? {
         return "/get-portfolio-preferences"
     }
 }
@@ -3183,8 +3189,9 @@ enum GetPortfolioPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetPortfolioSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPortfolioSummaryInput {
+
+    static func urlPathProvider(_ value: GetPortfolioSummaryInput) -> Swift.String? {
         return "/get-portfolio-summary"
     }
 }
@@ -3256,9 +3263,10 @@ enum GetPortfolioSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRecommendationReportDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetRecommendationReportDetailsInput {
+
+    static func urlPathProvider(_ value: GetRecommendationReportDetailsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/get-recommendation-report-details/\(id.urlPercentEncoding())"
@@ -3352,26 +3360,26 @@ enum GetRecommendationReportDetailsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetServerDetailsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetServerDetailsInput {
+
+    static func queryItemProvider(_ value: GetServerDetailsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetServerDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let serverId = serverId else {
+extension GetServerDetailsInput {
+
+    static func urlPathProvider(_ value: GetServerDetailsInput) -> Swift.String? {
+        guard let serverId = value.serverId else {
             return nil
         }
         return "/get-server-details/\(serverId.urlPercentEncoding())"
@@ -3492,9 +3500,10 @@ enum GetServerDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetServerStrategiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let serverId = serverId else {
+extension GetServerStrategiesInput {
+
+    static func urlPathProvider(_ value: GetServerStrategiesInput) -> Swift.String? {
+        guard let serverId = value.serverId else {
             return nil
         }
         return "/get-server-strategies/\(serverId.urlPercentEncoding())"
@@ -4192,8 +4201,9 @@ extension ListAnalyzableServersInput: Swift.Encodable {
     }
 }
 
-extension ListAnalyzableServersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAnalyzableServersInput {
+
+    static func urlPathProvider(_ value: ListAnalyzableServersInput) -> Swift.String? {
         return "/list-analyzable-servers"
     }
 }
@@ -4353,8 +4363,9 @@ extension ListApplicationComponentsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationComponentsInput {
+
+    static func urlPathProvider(_ value: ListApplicationComponentsInput) -> Swift.String? {
         return "/list-applicationcomponents"
     }
 }
@@ -4509,25 +4520,25 @@ enum ListApplicationComponentsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListCollectorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCollectorsInput {
+
+    static func queryItemProvider(_ value: ListCollectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCollectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCollectorsInput {
+
+    static func urlPathProvider(_ value: ListCollectorsInput) -> Swift.String? {
         return "/list-collectors"
     }
 }
@@ -4630,25 +4641,25 @@ enum ListCollectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListImportFileTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListImportFileTaskInput {
+
+    static func queryItemProvider(_ value: ListImportFileTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListImportFileTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImportFileTaskInput {
+
+    static func urlPathProvider(_ value: ListImportFileTaskInput) -> Swift.String? {
         return "/list-import-file-task"
     }
 }
@@ -4787,8 +4798,9 @@ extension ListServersInput: Swift.Encodable {
     }
 }
 
-extension ListServersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServersInput {
+
+    static func urlPathProvider(_ value: ListServersInput) -> Swift.String? {
         return "/list-servers"
     }
 }
@@ -4999,6 +5011,8 @@ extension MigrationHubStrategyClientTypes {
     }
 
 }
+
+public enum MigrationHubStrategyClientTypes {}
 
 extension MigrationHubStrategyClientTypes.NetworkInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -5452,8 +5466,9 @@ extension PutPortfolioPreferencesInput: Swift.Encodable {
     }
 }
 
-extension PutPortfolioPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPortfolioPreferencesInput {
+
+    static func urlPathProvider(_ value: PutPortfolioPreferencesInput) -> Swift.String? {
         return "/put-portfolio-preferences"
     }
 }
@@ -7110,8 +7125,9 @@ extension StartAssessmentInput: Swift.Encodable {
     }
 }
 
-extension StartAssessmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAssessmentInput {
+
+    static func urlPathProvider(_ value: StartAssessmentInput) -> Swift.String? {
         return "/start-assessment"
     }
 }
@@ -7267,8 +7283,9 @@ extension StartImportFileTaskInput: Swift.Encodable {
     }
 }
 
-extension StartImportFileTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartImportFileTaskInput {
+
+    static func urlPathProvider(_ value: StartImportFileTaskInput) -> Swift.String? {
         return "/start-import-file-task"
     }
 }
@@ -7428,8 +7445,9 @@ extension StartRecommendationReportGenerationInput: Swift.Encodable {
     }
 }
 
-extension StartRecommendationReportGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartRecommendationReportGenerationInput {
+
+    static func urlPathProvider(_ value: StartRecommendationReportGenerationInput) -> Swift.String? {
         return "/start-recommendation-report-generation"
     }
 }
@@ -7547,8 +7565,9 @@ extension StopAssessmentInput: Swift.Encodable {
     }
 }
 
-extension StopAssessmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopAssessmentInput {
+
+    static func urlPathProvider(_ value: StopAssessmentInput) -> Swift.String? {
         return "/stop-assessment"
     }
 }
@@ -8213,8 +8232,9 @@ extension UpdateApplicationComponentConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateApplicationComponentConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApplicationComponentConfigInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationComponentConfigInput) -> Swift.String? {
         return "/update-applicationcomponent-config"
     }
 }
@@ -8346,8 +8366,9 @@ extension UpdateServerConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateServerConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServerConfigInput {
+
+    static func urlPathProvider(_ value: UpdateServerConfigInput) -> Swift.String? {
         return "/update-server-config"
     }
 }

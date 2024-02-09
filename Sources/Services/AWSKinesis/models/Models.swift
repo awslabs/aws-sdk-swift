@@ -81,8 +81,9 @@ extension AddTagsToStreamInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToStreamInput {
+
+    static func urlPathProvider(_ value: AddTagsToStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -442,8 +443,9 @@ extension CreateStreamInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStreamInput {
+
+    static func urlPathProvider(_ value: CreateStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -538,8 +540,9 @@ extension DecreaseStreamRetentionPeriodInput: Swift.Encodable {
     }
 }
 
-extension DecreaseStreamRetentionPeriodInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DecreaseStreamRetentionPeriodInput {
+
+    static func urlPathProvider(_ value: DecreaseStreamRetentionPeriodInput) -> Swift.String? {
         return "/"
     }
 }
@@ -628,8 +631,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -709,8 +713,9 @@ extension DeleteStreamInput: Swift.Encodable {
     }
 }
 
-extension DeleteStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStreamInput {
+
+    static func urlPathProvider(_ value: DeleteStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -806,8 +811,9 @@ extension DeregisterStreamConsumerInput: Swift.Encodable {
     }
 }
 
-extension DeregisterStreamConsumerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterStreamConsumerInput {
+
+    static func urlPathProvider(_ value: DeregisterStreamConsumerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -887,8 +893,9 @@ extension DescribeLimitsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLimitsInput {
+
+    static func urlPathProvider(_ value: DescribeLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1013,8 +1020,9 @@ extension DescribeStreamConsumerInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamConsumerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamConsumerInput {
+
+    static func urlPathProvider(_ value: DescribeStreamConsumerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1142,8 +1150,9 @@ extension DescribeStreamInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamInput {
+
+    static func urlPathProvider(_ value: DescribeStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1274,8 +1283,9 @@ extension DescribeStreamSummaryInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamSummaryInput {
+
+    static func urlPathProvider(_ value: DescribeStreamSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1395,8 +1405,9 @@ extension DisableEnhancedMonitoringInput: Swift.Encodable {
     }
 }
 
-extension DisableEnhancedMonitoringInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableEnhancedMonitoringInput {
+
+    static func urlPathProvider(_ value: DisableEnhancedMonitoringInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1603,8 +1614,9 @@ extension EnableEnhancedMonitoringInput: Swift.Encodable {
     }
 }
 
-extension EnableEnhancedMonitoringInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableEnhancedMonitoringInput {
+
+    static func urlPathProvider(_ value: EnableEnhancedMonitoringInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2017,8 +2029,9 @@ extension GetRecordsInput: Swift.Encodable {
     }
 }
 
-extension GetRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecordsInput {
+
+    static func urlPathProvider(_ value: GetRecordsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2193,8 +2206,9 @@ extension GetResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2316,8 +2330,9 @@ extension GetShardIteratorInput: Swift.Encodable {
     }
 }
 
-extension GetShardIteratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetShardIteratorInput {
+
+    static func urlPathProvider(_ value: GetShardIteratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2526,8 +2541,9 @@ extension IncreaseStreamRetentionPeriodInput: Swift.Encodable {
     }
 }
 
-extension IncreaseStreamRetentionPeriodInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IncreaseStreamRetentionPeriodInput {
+
+    static func urlPathProvider(_ value: IncreaseStreamRetentionPeriodInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3152,6 +3168,8 @@ extension KMSThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+public enum KinesisClientTypes {}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3245,8 +3263,9 @@ extension ListShardsInput: Swift.Encodable {
     }
 }
 
-extension ListShardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListShardsInput {
+
+    static func urlPathProvider(_ value: ListShardsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3427,8 +3446,9 @@ extension ListStreamConsumersInput: Swift.Encodable {
     }
 }
 
-extension ListStreamConsumersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamConsumersInput {
+
+    static func urlPathProvider(_ value: ListStreamConsumersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3581,8 +3601,9 @@ extension ListStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamsInput {
+
+    static func urlPathProvider(_ value: ListStreamsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3761,8 +3782,9 @@ extension ListTagsForStreamInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForStreamInput {
+
+    static func urlPathProvider(_ value: ListTagsForStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3921,8 +3943,9 @@ extension MergeShardsInput: Swift.Encodable {
     }
 }
 
-extension MergeShardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MergeShardsInput {
+
+    static func urlPathProvider(_ value: MergeShardsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4147,8 +4170,9 @@ extension PutRecordInput: Swift.Encodable {
     }
 }
 
-extension PutRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRecordInput {
+
+    static func urlPathProvider(_ value: PutRecordInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4335,8 +4359,9 @@ extension PutRecordsInput: Swift.Encodable {
     }
 }
 
-extension PutRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRecordsInput {
+
+    static func urlPathProvider(_ value: PutRecordsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4630,8 +4655,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4798,8 +4824,9 @@ extension RegisterStreamConsumerInput: Swift.Encodable {
     }
 }
 
-extension RegisterStreamConsumerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterStreamConsumerInput {
+
+    static func urlPathProvider(_ value: RegisterStreamConsumerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4921,8 +4948,9 @@ extension RemoveTagsFromStreamInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromStreamInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5488,8 +5516,9 @@ extension SplitShardInput: Swift.Encodable {
     }
 }
 
-extension SplitShardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SplitShardInput {
+
+    static func urlPathProvider(_ value: SplitShardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5600,8 +5629,9 @@ extension StartStreamEncryptionInput: Swift.Encodable {
     }
 }
 
-extension StartStreamEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartStreamEncryptionInput {
+
+    static func urlPathProvider(_ value: StartStreamEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5782,8 +5812,9 @@ extension StopStreamEncryptionInput: Swift.Encodable {
     }
 }
 
-extension StopStreamEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopStreamEncryptionInput {
+
+    static func urlPathProvider(_ value: StopStreamEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6596,8 +6627,9 @@ extension SubscribeToShardInput: Swift.Encodable {
     }
 }
 
-extension SubscribeToShardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SubscribeToShardInput {
+
+    static func urlPathProvider(_ value: SubscribeToShardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6760,8 +6792,9 @@ extension UpdateShardCountInput: Swift.Encodable {
     }
 }
 
-extension UpdateShardCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateShardCountInput {
+
+    static func urlPathProvider(_ value: UpdateShardCountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6931,8 +6964,9 @@ extension UpdateStreamModeInput: Swift.Encodable {
     }
 }
 
-extension UpdateStreamModeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStreamModeInput {
+
+    static func urlPathProvider(_ value: UpdateStreamModeInput) -> Swift.String? {
         return "/"
     }
 }

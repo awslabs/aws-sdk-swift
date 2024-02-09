@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension CloudControlClientProtocol {
+extension CloudControlClient {
 
     static func resourceRequestSuccessWaiterConfig() throws -> WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutput> {
         let acceptors: [WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutput>.Acceptor] = [

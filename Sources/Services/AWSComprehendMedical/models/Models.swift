@@ -457,6 +457,8 @@ extension ComprehendMedicalClientTypes {
 
 }
 
+public enum ComprehendMedicalClientTypes {}
+
 extension DescribeEntitiesDetectionV2JobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
@@ -470,8 +472,9 @@ extension DescribeEntitiesDetectionV2JobInput: Swift.Encodable {
     }
 }
 
-extension DescribeEntitiesDetectionV2JobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEntitiesDetectionV2JobInput {
+
+    static func urlPathProvider(_ value: DescribeEntitiesDetectionV2JobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -572,8 +575,9 @@ extension DescribeICD10CMInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeICD10CMInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeICD10CMInferenceJobInput {
+
+    static func urlPathProvider(_ value: DescribeICD10CMInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -674,8 +678,9 @@ extension DescribePHIDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension DescribePHIDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePHIDetectionJobInput {
+
+    static func urlPathProvider(_ value: DescribePHIDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -776,8 +781,9 @@ extension DescribeRxNormInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeRxNormInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRxNormInferenceJobInput {
+
+    static func urlPathProvider(_ value: DescribeRxNormInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -878,8 +884,9 @@ extension DescribeSNOMEDCTInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeSNOMEDCTInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSNOMEDCTInferenceJobInput {
+
+    static func urlPathProvider(_ value: DescribeSNOMEDCTInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -980,8 +987,9 @@ extension DetectEntitiesInput: Swift.Encodable {
     }
 }
 
-extension DetectEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectEntitiesInput {
+
+    static func urlPathProvider(_ value: DetectEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1134,8 +1142,9 @@ extension DetectEntitiesV2Input: Swift.Encodable {
     }
 }
 
-extension DetectEntitiesV2Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectEntitiesV2Input {
+
+    static func urlPathProvider(_ value: DetectEntitiesV2Input) -> Swift.String? {
         return "/"
     }
 }
@@ -1288,8 +1297,9 @@ extension DetectPHIInput: Swift.Encodable {
     }
 }
 
-extension DetectPHIInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectPHIInput {
+
+    static func urlPathProvider(_ value: DetectPHIInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2358,8 +2368,9 @@ extension InferICD10CMInput: Swift.Encodable {
     }
 }
 
-extension InferICD10CMInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InferICD10CMInput {
+
+    static func urlPathProvider(_ value: InferICD10CMInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2492,8 +2503,9 @@ extension InferRxNormInput: Swift.Encodable {
     }
 }
 
-extension InferRxNormInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InferRxNormInput {
+
+    static func urlPathProvider(_ value: InferRxNormInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2626,8 +2638,9 @@ extension InferSNOMEDCTInput: Swift.Encodable {
     }
 }
 
-extension InferSNOMEDCTInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InferSNOMEDCTInput {
+
+    static func urlPathProvider(_ value: InferSNOMEDCTInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3075,8 +3088,9 @@ extension ListEntitiesDetectionV2JobsInput: Swift.Encodable {
     }
 }
 
-extension ListEntitiesDetectionV2JobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEntitiesDetectionV2JobsInput {
+
+    static func urlPathProvider(_ value: ListEntitiesDetectionV2JobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3219,8 +3233,9 @@ extension ListICD10CMInferenceJobsInput: Swift.Encodable {
     }
 }
 
-extension ListICD10CMInferenceJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListICD10CMInferenceJobsInput {
+
+    static func urlPathProvider(_ value: ListICD10CMInferenceJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3363,8 +3378,9 @@ extension ListPHIDetectionJobsInput: Swift.Encodable {
     }
 }
 
-extension ListPHIDetectionJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPHIDetectionJobsInput {
+
+    static func urlPathProvider(_ value: ListPHIDetectionJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3507,8 +3523,9 @@ extension ListRxNormInferenceJobsInput: Swift.Encodable {
     }
 }
 
-extension ListRxNormInferenceJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRxNormInferenceJobsInput {
+
+    static func urlPathProvider(_ value: ListRxNormInferenceJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3651,8 +3668,9 @@ extension ListSNOMEDCTInferenceJobsInput: Swift.Encodable {
     }
 }
 
-extension ListSNOMEDCTInferenceJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSNOMEDCTInferenceJobsInput {
+
+    static func urlPathProvider(_ value: ListSNOMEDCTInferenceJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5269,8 +5287,9 @@ extension StartEntitiesDetectionV2JobInput: Swift.Encodable {
     }
 }
 
-extension StartEntitiesDetectionV2JobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartEntitiesDetectionV2JobInput {
+
+    static func urlPathProvider(_ value: StartEntitiesDetectionV2JobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5446,8 +5465,9 @@ extension StartICD10CMInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension StartICD10CMInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartICD10CMInferenceJobInput {
+
+    static func urlPathProvider(_ value: StartICD10CMInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5623,8 +5643,9 @@ extension StartPHIDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StartPHIDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartPHIDetectionJobInput {
+
+    static func urlPathProvider(_ value: StartPHIDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5800,8 +5821,9 @@ extension StartRxNormInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension StartRxNormInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartRxNormInferenceJobInput {
+
+    static func urlPathProvider(_ value: StartRxNormInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5977,8 +5999,9 @@ extension StartSNOMEDCTInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension StartSNOMEDCTInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSNOMEDCTInferenceJobInput {
+
+    static func urlPathProvider(_ value: StartSNOMEDCTInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6130,8 +6153,9 @@ extension StopEntitiesDetectionV2JobInput: Swift.Encodable {
     }
 }
 
-extension StopEntitiesDetectionV2JobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopEntitiesDetectionV2JobInput {
+
+    static func urlPathProvider(_ value: StopEntitiesDetectionV2JobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6231,8 +6255,9 @@ extension StopICD10CMInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension StopICD10CMInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopICD10CMInferenceJobInput {
+
+    static func urlPathProvider(_ value: StopICD10CMInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6332,8 +6357,9 @@ extension StopPHIDetectionJobInput: Swift.Encodable {
     }
 }
 
-extension StopPHIDetectionJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopPHIDetectionJobInput {
+
+    static func urlPathProvider(_ value: StopPHIDetectionJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6433,8 +6459,9 @@ extension StopRxNormInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension StopRxNormInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopRxNormInferenceJobInput {
+
+    static func urlPathProvider(_ value: StopRxNormInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6534,8 +6561,9 @@ extension StopSNOMEDCTInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension StopSNOMEDCTInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopSNOMEDCTInferenceJobInput {
+
+    static func urlPathProvider(_ value: StopSNOMEDCTInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }

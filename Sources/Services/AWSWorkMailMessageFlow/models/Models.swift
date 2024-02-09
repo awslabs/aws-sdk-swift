@@ -2,9 +2,10 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension GetRawMessageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let messageId = messageId else {
+extension GetRawMessageContentInput {
+
+    static func urlPathProvider(_ value: GetRawMessageContentInput) -> Swift.String? {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/messages/\(messageId.urlPercentEncoding())"
@@ -270,9 +271,10 @@ extension PutRawMessageContentInput: Swift.Encodable {
     }
 }
 
-extension PutRawMessageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let messageId = messageId else {
+extension PutRawMessageContentInput {
+
+    static func urlPathProvider(_ value: PutRawMessageContentInput) -> Swift.String? {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/messages/\(messageId.urlPercentEncoding())"
@@ -498,3 +500,5 @@ extension WorkMailMessageFlowClientTypes {
     }
 
 }
+
+public enum WorkMailMessageFlowClientTypes {}

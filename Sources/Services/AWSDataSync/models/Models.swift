@@ -49,8 +49,9 @@ extension AddStorageSystemInput: Swift.Encodable {
     }
 }
 
-extension AddStorageSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddStorageSystemInput {
+
+    static func urlPathProvider(_ value: AddStorageSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -495,8 +496,9 @@ extension CancelTaskExecutionInput: Swift.Encodable {
     }
 }
 
-extension CancelTaskExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelTaskExecutionInput {
+
+    static func urlPathProvider(_ value: CancelTaskExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -660,8 +662,9 @@ extension CreateAgentInput: Swift.Encodable {
     }
 }
 
-extension CreateAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAgentInput {
+
+    static func urlPathProvider(_ value: CreateAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -863,8 +866,9 @@ extension CreateLocationAzureBlobInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationAzureBlobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationAzureBlobInput {
+
+    static func urlPathProvider(_ value: CreateLocationAzureBlobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1066,8 +1070,9 @@ extension CreateLocationEfsInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationEfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationEfsInput {
+
+    static func urlPathProvider(_ value: CreateLocationEfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1244,8 +1249,9 @@ extension CreateLocationFsxLustreInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationFsxLustreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationFsxLustreInput {
+
+    static func urlPathProvider(_ value: CreateLocationFsxLustreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1409,8 +1415,9 @@ extension CreateLocationFsxOntapInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationFsxOntapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationFsxOntapInput {
+
+    static func urlPathProvider(_ value: CreateLocationFsxOntapInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1590,8 +1597,9 @@ extension CreateLocationFsxOpenZfsInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationFsxOpenZfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationFsxOpenZfsInput {
+
+    static func urlPathProvider(_ value: CreateLocationFsxOpenZfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1777,8 +1785,9 @@ extension CreateLocationFsxWindowsInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationFsxWindowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationFsxWindowsInput {
+
+    static func urlPathProvider(_ value: CreateLocationFsxWindowsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2007,8 +2016,9 @@ extension CreateLocationHdfsInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationHdfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationHdfsInput {
+
+    static func urlPathProvider(_ value: CreateLocationHdfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2251,8 +2261,9 @@ extension CreateLocationNfsInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationNfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationNfsInput {
+
+    static func urlPathProvider(_ value: CreateLocationNfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2443,8 +2454,9 @@ extension CreateLocationObjectStorageInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationObjectStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationObjectStorageInput {
+
+    static func urlPathProvider(_ value: CreateLocationObjectStorageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2674,8 +2686,9 @@ extension CreateLocationS3Input: Swift.Encodable {
     }
 }
 
-extension CreateLocationS3Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationS3Input {
+
+    static func urlPathProvider(_ value: CreateLocationS3Input) -> Swift.String? {
         return "/"
     }
 }
@@ -2874,8 +2887,9 @@ extension CreateLocationSmbInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationSmbInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationSmbInput {
+
+    static func urlPathProvider(_ value: CreateLocationSmbInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3099,8 +3113,9 @@ extension CreateTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTaskInput {
+
+    static func urlPathProvider(_ value: CreateTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3340,6 +3355,8 @@ extension DataSyncClientTypes {
 
 }
 
+public enum DataSyncClientTypes {}
+
 extension DeleteAgentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArn = "AgentArn"
@@ -3353,8 +3370,9 @@ extension DeleteAgentInput: Swift.Encodable {
     }
 }
 
-extension DeleteAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAgentInput {
+
+    static func urlPathProvider(_ value: DeleteAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3424,8 +3442,9 @@ extension DeleteLocationInput: Swift.Encodable {
     }
 }
 
-extension DeleteLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLocationInput {
+
+    static func urlPathProvider(_ value: DeleteLocationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3495,8 +3514,9 @@ extension DeleteTaskInput: Swift.Encodable {
     }
 }
 
-extension DeleteTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTaskInput {
+
+    static func urlPathProvider(_ value: DeleteTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3566,8 +3586,9 @@ extension DescribeAgentInput: Swift.Encodable {
     }
 }
 
-extension DescribeAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAgentInput {
+
+    static func urlPathProvider(_ value: DescribeAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3742,8 +3763,9 @@ extension DescribeDiscoveryJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDiscoveryJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDiscoveryJobInput {
+
+    static func urlPathProvider(_ value: DescribeDiscoveryJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3892,8 +3914,9 @@ extension DescribeLocationAzureBlobInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationAzureBlobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationAzureBlobInput {
+
+    static func urlPathProvider(_ value: DescribeLocationAzureBlobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4061,8 +4084,9 @@ extension DescribeLocationEfsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationEfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationEfsInput {
+
+    static func urlPathProvider(_ value: DescribeLocationEfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4223,8 +4247,9 @@ extension DescribeLocationFsxLustreInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationFsxLustreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationFsxLustreInput {
+
+    static func urlPathProvider(_ value: DescribeLocationFsxLustreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4362,8 +4387,9 @@ extension DescribeLocationFsxOntapInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationFsxOntapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationFsxOntapInput {
+
+    static func urlPathProvider(_ value: DescribeLocationFsxOntapInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4531,8 +4557,9 @@ extension DescribeLocationFsxOpenZfsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationFsxOpenZfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationFsxOpenZfsInput {
+
+    static func urlPathProvider(_ value: DescribeLocationFsxOpenZfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4680,8 +4707,9 @@ extension DescribeLocationFsxWindowsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationFsxWindowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationFsxWindowsInput {
+
+    static func urlPathProvider(_ value: DescribeLocationFsxWindowsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4839,8 +4867,9 @@ extension DescribeLocationHdfsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationHdfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationHdfsInput {
+
+    static func urlPathProvider(_ value: DescribeLocationHdfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5067,8 +5096,9 @@ extension DescribeLocationNfsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationNfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationNfsInput {
+
+    static func urlPathProvider(_ value: DescribeLocationNfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5209,8 +5239,9 @@ extension DescribeLocationObjectStorageInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationObjectStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationObjectStorageInput {
+
+    static func urlPathProvider(_ value: DescribeLocationObjectStorageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5390,8 +5421,9 @@ extension DescribeLocationS3Input: Swift.Encodable {
     }
 }
 
-extension DescribeLocationS3Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationS3Input {
+
+    static func urlPathProvider(_ value: DescribeLocationS3Input) -> Swift.String? {
         return "/"
     }
 }
@@ -5551,8 +5583,9 @@ extension DescribeLocationSmbInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationSmbInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationSmbInput {
+
+    static func urlPathProvider(_ value: DescribeLocationSmbInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5722,8 +5755,9 @@ extension DescribeStorageSystemInput: Swift.Encodable {
     }
 }
 
-extension DescribeStorageSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStorageSystemInput {
+
+    static func urlPathProvider(_ value: DescribeStorageSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5945,8 +5979,9 @@ extension DescribeStorageSystemResourceMetricsInput: Swift.Encodable {
     }
 }
 
-extension DescribeStorageSystemResourceMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStorageSystemResourceMetricsInput {
+
+    static func urlPathProvider(_ value: DescribeStorageSystemResourceMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6143,8 +6178,9 @@ extension DescribeStorageSystemResourcesInput: Swift.Encodable {
     }
 }
 
-extension DescribeStorageSystemResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStorageSystemResourcesInput {
+
+    static func urlPathProvider(_ value: DescribeStorageSystemResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6319,8 +6355,9 @@ extension DescribeTaskExecutionInput: Swift.Encodable {
     }
 }
 
-extension DescribeTaskExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTaskExecutionInput {
+
+    static func urlPathProvider(_ value: DescribeTaskExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6619,8 +6656,9 @@ extension DescribeTaskInput: Swift.Encodable {
     }
 }
 
-extension DescribeTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTaskInput {
+
+    static func urlPathProvider(_ value: DescribeTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7529,8 +7567,9 @@ extension GenerateRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GenerateRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GenerateRecommendationsInput {
+
+    static func urlPathProvider(_ value: GenerateRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8080,8 +8119,9 @@ extension ListAgentsInput: Swift.Encodable {
     }
 }
 
-extension ListAgentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAgentsInput {
+
+    static func urlPathProvider(_ value: ListAgentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8216,8 +8256,9 @@ extension ListDiscoveryJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDiscoveryJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDiscoveryJobsInput {
+
+    static func urlPathProvider(_ value: ListDiscoveryJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8361,8 +8402,9 @@ extension ListLocationsInput: Swift.Encodable {
     }
 }
 
-extension ListLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLocationsInput {
+
+    static func urlPathProvider(_ value: ListLocationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8510,8 +8552,9 @@ extension ListStorageSystemsInput: Swift.Encodable {
     }
 }
 
-extension ListStorageSystemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStorageSystemsInput {
+
+    static func urlPathProvider(_ value: ListStorageSystemsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8644,8 +8687,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8789,8 +8833,9 @@ extension ListTaskExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListTaskExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTaskExecutionsInput {
+
+    static func urlPathProvider(_ value: ListTaskExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8936,8 +8981,9 @@ extension ListTasksInput: Swift.Encodable {
     }
 }
 
-extension ListTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTasksInput {
+
+    static func urlPathProvider(_ value: ListTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10933,8 +10979,9 @@ extension RemoveStorageSystemInput: Swift.Encodable {
     }
 }
 
-extension RemoveStorageSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveStorageSystemInput {
+
+    static func urlPathProvider(_ value: RemoveStorageSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11702,8 +11749,9 @@ extension StartDiscoveryJobInput: Swift.Encodable {
     }
 }
 
-extension StartDiscoveryJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDiscoveryJobInput {
+
+    static func urlPathProvider(_ value: StartDiscoveryJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11866,8 +11914,9 @@ extension StartTaskExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartTaskExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTaskExecutionInput {
+
+    static func urlPathProvider(_ value: StartTaskExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12035,8 +12084,9 @@ extension StopDiscoveryJobInput: Swift.Encodable {
     }
 }
 
-extension StopDiscoveryJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopDiscoveryJobInput {
+
+    static func urlPathProvider(_ value: StopDiscoveryJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12238,8 +12288,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13025,8 +13076,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13118,8 +13170,9 @@ extension UpdateAgentInput: Swift.Encodable {
     }
 }
 
-extension UpdateAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAgentInput {
+
+    static func urlPathProvider(_ value: UpdateAgentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13201,8 +13254,9 @@ extension UpdateDiscoveryJobInput: Swift.Encodable {
     }
 }
 
-extension UpdateDiscoveryJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDiscoveryJobInput {
+
+    static func urlPathProvider(_ value: UpdateDiscoveryJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13307,8 +13361,9 @@ extension UpdateLocationAzureBlobInput: Swift.Encodable {
     }
 }
 
-extension UpdateLocationAzureBlobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLocationAzureBlobInput {
+
+    static func urlPathProvider(_ value: UpdateLocationAzureBlobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13488,8 +13543,9 @@ extension UpdateLocationHdfsInput: Swift.Encodable {
     }
 }
 
-extension UpdateLocationHdfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLocationHdfsInput {
+
+    static func urlPathProvider(_ value: UpdateLocationHdfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13684,8 +13740,9 @@ extension UpdateLocationNfsInput: Swift.Encodable {
     }
 }
 
-extension UpdateLocationNfsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLocationNfsInput {
+
+    static func urlPathProvider(_ value: UpdateLocationNfsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13814,8 +13871,9 @@ extension UpdateLocationObjectStorageInput: Swift.Encodable {
     }
 }
 
-extension UpdateLocationObjectStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLocationObjectStorageInput {
+
+    static func urlPathProvider(_ value: UpdateLocationObjectStorageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13981,8 +14039,9 @@ extension UpdateLocationSmbInput: Swift.Encodable {
     }
 }
 
-extension UpdateLocationSmbInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLocationSmbInput {
+
+    static func urlPathProvider(_ value: UpdateLocationSmbInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14131,8 +14190,9 @@ extension UpdateStorageSystemInput: Swift.Encodable {
     }
 }
 
-extension UpdateStorageSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStorageSystemInput {
+
+    static func urlPathProvider(_ value: UpdateStorageSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14254,8 +14314,9 @@ extension UpdateTaskExecutionInput: Swift.Encodable {
     }
 }
 
-extension UpdateTaskExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTaskExecutionInput {
+
+    static func urlPathProvider(_ value: UpdateTaskExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14367,8 +14428,9 @@ extension UpdateTaskInput: Swift.Encodable {
     }
 }
 
-extension UpdateTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTaskInput {
+
+    static func urlPathProvider(_ value: UpdateTaskInput) -> Swift.String? {
         return "/"
     }
 }

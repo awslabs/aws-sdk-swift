@@ -22,8 +22,9 @@ extension AddAttachmentsToSetInput: Swift.Encodable {
     }
 }
 
-extension AddAttachmentsToSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddAttachmentsToSetInput {
+
+    static func urlPathProvider(_ value: AddAttachmentsToSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -168,8 +169,9 @@ extension AddCommunicationToCaseInput: Swift.Encodable {
     }
 }
 
-extension AddCommunicationToCaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddCommunicationToCaseInput {
+
+    static func urlPathProvider(_ value: AddCommunicationToCaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1246,8 +1248,9 @@ extension CreateCaseInput: Swift.Encodable {
     }
 }
 
-extension CreateCaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCaseInput {
+
+    static func urlPathProvider(_ value: CreateCaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1468,8 +1471,9 @@ extension DescribeAttachmentInput: Swift.Encodable {
     }
 }
 
-extension DescribeAttachmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAttachmentInput {
+
+    static func urlPathProvider(_ value: DescribeAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1661,8 +1665,9 @@ extension DescribeCasesInput: Swift.Encodable {
     }
 }
 
-extension DescribeCasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCasesInput {
+
+    static func urlPathProvider(_ value: DescribeCasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1869,8 +1874,9 @@ extension DescribeCommunicationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCommunicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCommunicationsInput {
+
+    static func urlPathProvider(_ value: DescribeCommunicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2033,8 +2039,9 @@ extension DescribeCreateCaseOptionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCreateCaseOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCreateCaseOptionsInput {
+
+    static func urlPathProvider(_ value: DescribeCreateCaseOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2192,8 +2199,9 @@ extension DescribeServicesInput: Swift.Encodable {
     }
 }
 
-extension DescribeServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServicesInput {
+
+    static func urlPathProvider(_ value: DescribeServicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2317,8 +2325,9 @@ extension DescribeSeverityLevelsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSeverityLevelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSeverityLevelsInput {
+
+    static func urlPathProvider(_ value: DescribeSeverityLevelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2433,8 +2442,9 @@ extension DescribeSupportedLanguagesInput: Swift.Encodable {
     }
 }
 
-extension DescribeSupportedLanguagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSupportedLanguagesInput {
+
+    static func urlPathProvider(_ value: DescribeSupportedLanguagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2567,8 +2577,9 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Encodable {
     }
 }
 
-extension DescribeTrustedAdvisorCheckRefreshStatusesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTrustedAdvisorCheckRefreshStatusesInput {
+
+    static func urlPathProvider(_ value: DescribeTrustedAdvisorCheckRefreshStatusesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2689,8 +2700,9 @@ extension DescribeTrustedAdvisorCheckResultInput: Swift.Encodable {
     }
 }
 
-extension DescribeTrustedAdvisorCheckResultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTrustedAdvisorCheckResultInput {
+
+    static func urlPathProvider(_ value: DescribeTrustedAdvisorCheckResultInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2828,8 +2840,9 @@ extension DescribeTrustedAdvisorCheckSummariesInput: Swift.Encodable {
     }
 }
 
-extension DescribeTrustedAdvisorCheckSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTrustedAdvisorCheckSummariesInput {
+
+    static func urlPathProvider(_ value: DescribeTrustedAdvisorCheckSummariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2946,8 +2959,9 @@ extension DescribeTrustedAdvisorChecksInput: Swift.Encodable {
     }
 }
 
-extension DescribeTrustedAdvisorChecksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTrustedAdvisorChecksInput {
+
+    static func urlPathProvider(_ value: DescribeTrustedAdvisorChecksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3192,8 +3206,9 @@ extension RefreshTrustedAdvisorCheckInput: Swift.Encodable {
     }
 }
 
-extension RefreshTrustedAdvisorCheckInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RefreshTrustedAdvisorCheckInput {
+
+    static func urlPathProvider(_ value: RefreshTrustedAdvisorCheckInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3294,8 +3309,9 @@ extension ResolveCaseInput: Swift.Encodable {
     }
 }
 
-extension ResolveCaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResolveCaseInput {
+
+    static func urlPathProvider(_ value: ResolveCaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3515,6 +3531,8 @@ extension SupportClientTypes {
     }
 
 }
+
+public enum SupportClientTypes {}
 
 extension SupportClientTypes.SupportedHour: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {

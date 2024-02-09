@@ -1232,8 +1232,9 @@ extension CreateConnectorInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectorInput {
+
+    static func urlPathProvider(_ value: CreateConnectorInput) -> Swift.String? {
         return "/connectors"
     }
 }
@@ -1391,8 +1392,9 @@ extension CreateDirectoryRegistrationInput: Swift.Encodable {
     }
 }
 
-extension CreateDirectoryRegistrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDirectoryRegistrationInput {
+
+    static func urlPathProvider(_ value: CreateDirectoryRegistrationInput) -> Swift.String? {
         return "/directoryRegistrations"
     }
 }
@@ -1520,12 +1522,13 @@ extension CreateServicePrincipalNameInput: Swift.Encodable {
     }
 }
 
-extension CreateServicePrincipalNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let directoryRegistrationArn = directoryRegistrationArn else {
+extension CreateServicePrincipalNameInput {
+
+    static func urlPathProvider(_ value: CreateServicePrincipalNameInput) -> Swift.String? {
+        guard let directoryRegistrationArn = value.directoryRegistrationArn else {
             return nil
         }
-        guard let connectorArn = connectorArn else {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/directoryRegistrations/\(directoryRegistrationArn.urlPercentEncoding())/servicePrincipalNames/\(connectorArn.urlPercentEncoding())"
@@ -1621,9 +1624,10 @@ extension CreateTemplateGroupAccessControlEntryInput: Swift.Encodable {
     }
 }
 
-extension CreateTemplateGroupAccessControlEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension CreateTemplateGroupAccessControlEntryInput {
+
+    static func urlPathProvider(_ value: CreateTemplateGroupAccessControlEntryInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())/accessControlEntries"
@@ -1749,8 +1753,9 @@ extension CreateTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTemplateInput {
+
+    static func urlPathProvider(_ value: CreateTemplateInput) -> Swift.String? {
         return "/templates"
     }
 }
@@ -1884,9 +1889,10 @@ enum CreateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorArn = connectorArn else {
+extension DeleteConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/connectors/\(connectorArn.urlPercentEncoding())"
@@ -1941,9 +1947,10 @@ enum DeleteConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDirectoryRegistrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let directoryRegistrationArn = directoryRegistrationArn else {
+extension DeleteDirectoryRegistrationInput {
+
+    static func urlPathProvider(_ value: DeleteDirectoryRegistrationInput) -> Swift.String? {
+        guard let directoryRegistrationArn = value.directoryRegistrationArn else {
             return nil
         }
         return "/directoryRegistrations/\(directoryRegistrationArn.urlPercentEncoding())"
@@ -1997,12 +2004,13 @@ enum DeleteDirectoryRegistrationOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DeleteServicePrincipalNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let directoryRegistrationArn = directoryRegistrationArn else {
+extension DeleteServicePrincipalNameInput {
+
+    static func urlPathProvider(_ value: DeleteServicePrincipalNameInput) -> Swift.String? {
+        guard let directoryRegistrationArn = value.directoryRegistrationArn else {
             return nil
         }
-        guard let connectorArn = connectorArn else {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/directoryRegistrations/\(directoryRegistrationArn.urlPercentEncoding())/servicePrincipalNames/\(connectorArn.urlPercentEncoding())"
@@ -2061,12 +2069,13 @@ enum DeleteServicePrincipalNameOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteTemplateGroupAccessControlEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension DeleteTemplateGroupAccessControlEntryInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateGroupAccessControlEntryInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
-        guard let groupSecurityIdentifier = groupSecurityIdentifier else {
+        guard let groupSecurityIdentifier = value.groupSecurityIdentifier else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())/accessControlEntries/\(groupSecurityIdentifier.urlPercentEncoding())"
@@ -2126,9 +2135,10 @@ enum DeleteTemplateGroupAccessControlEntryOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension DeleteTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension DeleteTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())"
@@ -2933,9 +2943,10 @@ extension PcaConnectorAdClientTypes {
 
 }
 
-extension GetConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorArn = connectorArn else {
+extension GetConnectorInput {
+
+    static func urlPathProvider(_ value: GetConnectorInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/connectors/\(connectorArn.urlPercentEncoding())"
@@ -3019,9 +3030,10 @@ enum GetConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDirectoryRegistrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let directoryRegistrationArn = directoryRegistrationArn else {
+extension GetDirectoryRegistrationInput {
+
+    static func urlPathProvider(_ value: GetDirectoryRegistrationInput) -> Swift.String? {
+        guard let directoryRegistrationArn = value.directoryRegistrationArn else {
             return nil
         }
         return "/directoryRegistrations/\(directoryRegistrationArn.urlPercentEncoding())"
@@ -3105,12 +3117,13 @@ enum GetDirectoryRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetServicePrincipalNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let directoryRegistrationArn = directoryRegistrationArn else {
+extension GetServicePrincipalNameInput {
+
+    static func urlPathProvider(_ value: GetServicePrincipalNameInput) -> Swift.String? {
+        guard let directoryRegistrationArn = value.directoryRegistrationArn else {
             return nil
         }
-        guard let connectorArn = connectorArn else {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/directoryRegistrations/\(directoryRegistrationArn.urlPercentEncoding())/servicePrincipalNames/\(connectorArn.urlPercentEncoding())"
@@ -3199,12 +3212,13 @@ enum GetServicePrincipalNameOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetTemplateGroupAccessControlEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension GetTemplateGroupAccessControlEntryInput {
+
+    static func urlPathProvider(_ value: GetTemplateGroupAccessControlEntryInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
-        guard let groupSecurityIdentifier = groupSecurityIdentifier else {
+        guard let groupSecurityIdentifier = value.groupSecurityIdentifier else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())/accessControlEntries/\(groupSecurityIdentifier.urlPercentEncoding())"
@@ -3293,9 +3307,10 @@ enum GetTemplateGroupAccessControlEntryOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension GetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension GetTemplateInput {
+
+    static func urlPathProvider(_ value: GetTemplateInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())"
@@ -3754,25 +3769,25 @@ extension PcaConnectorAdClientTypes {
     }
 }
 
-extension ListConnectorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConnectorsInput {
+
+    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConnectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConnectorsInput {
+
+    static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
         return "/connectors"
     }
 }
@@ -3875,25 +3890,25 @@ enum ListConnectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDirectoryRegistrationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDirectoryRegistrationsInput {
+
+    static func queryItemProvider(_ value: ListDirectoryRegistrationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDirectoryRegistrationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDirectoryRegistrationsInput {
+
+    static func urlPathProvider(_ value: ListDirectoryRegistrationsInput) -> Swift.String? {
         return "/directoryRegistrations"
     }
 }
@@ -3996,26 +4011,26 @@ enum ListDirectoryRegistrationsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListServicePrincipalNamesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListServicePrincipalNamesInput {
+
+    static func queryItemProvider(_ value: ListServicePrincipalNamesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListServicePrincipalNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let directoryRegistrationArn = directoryRegistrationArn else {
+extension ListServicePrincipalNamesInput {
+
+    static func urlPathProvider(_ value: ListServicePrincipalNamesInput) -> Swift.String? {
+        guard let directoryRegistrationArn = value.directoryRegistrationArn else {
             return nil
         }
         return "/directoryRegistrations/\(directoryRegistrationArn.urlPercentEncoding())/servicePrincipalNames"
@@ -4126,9 +4141,10 @@ enum ListServicePrincipalNamesOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4221,26 +4237,26 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplateGroupAccessControlEntriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTemplateGroupAccessControlEntriesInput {
+
+    static func queryItemProvider(_ value: ListTemplateGroupAccessControlEntriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplateGroupAccessControlEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension ListTemplateGroupAccessControlEntriesInput {
+
+    static func urlPathProvider(_ value: ListTemplateGroupAccessControlEntriesInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())/accessControlEntries"
@@ -4351,31 +4367,31 @@ enum ListTemplateGroupAccessControlEntriesOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let connectorArn = connectorArn else {
-                let message = "Creating a URL Query Item failed. connectorArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let connectorArnQueryItem = ClientRuntime.URLQueryItem(name: "ConnectorArn".urlPercentEncoding(), value: Swift.String(connectorArn).urlPercentEncoding())
-            items.append(connectorArnQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTemplatesInput {
+
+    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let connectorArn = value.connectorArn else {
+            let message = "Creating a URL Query Item failed. connectorArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let connectorArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ConnectorArn".urlPercentEncoding(), value: Swift.String(connectorArn).urlPercentEncoding())
+        items.append(connectorArnQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTemplatesInput {
+
+    static func urlPathProvider(_ value: ListTemplatesInput) -> Swift.String? {
         return "/templates"
     }
 }
@@ -4483,6 +4499,8 @@ enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum PcaConnectorAdClientTypes {}
 
 extension PcaConnectorAdClientTypes {
     public enum PrivateKeyAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -5797,9 +5815,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6729,26 +6748,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6824,12 +6843,13 @@ extension UpdateTemplateGroupAccessControlEntryInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplateGroupAccessControlEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension UpdateTemplateGroupAccessControlEntryInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateGroupAccessControlEntryInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
-        guard let groupSecurityIdentifier = groupSecurityIdentifier else {
+        guard let groupSecurityIdentifier = value.groupSecurityIdentifier else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())/accessControlEntries/\(groupSecurityIdentifier.urlPercentEncoding())"
@@ -6925,9 +6945,10 @@ extension UpdateTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateArn = templateArn else {
+extension UpdateTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateInput) -> Swift.String? {
+        guard let templateArn = value.templateArn else {
             return nil
         }
         return "/templates/\(templateArn.urlPercentEncoding())"

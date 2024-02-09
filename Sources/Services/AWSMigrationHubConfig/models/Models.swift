@@ -78,8 +78,9 @@ extension CreateHomeRegionControlInput: Swift.Encodable {
     }
 }
 
-extension CreateHomeRegionControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHomeRegionControlInput {
+
+    static func urlPathProvider(_ value: CreateHomeRegionControlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -199,8 +200,9 @@ extension DeleteHomeRegionControlInput: Swift.Encodable {
     }
 }
 
-extension DeleteHomeRegionControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteHomeRegionControlInput {
+
+    static func urlPathProvider(_ value: DeleteHomeRegionControlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -288,8 +290,9 @@ extension DescribeHomeRegionControlsInput: Swift.Encodable {
     }
 }
 
-extension DescribeHomeRegionControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeHomeRegionControlsInput {
+
+    static func urlPathProvider(_ value: DescribeHomeRegionControlsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -491,8 +494,9 @@ extension GetHomeRegionInput: Swift.Encodable {
     }
 }
 
-extension GetHomeRegionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHomeRegionInput {
+
+    static func urlPathProvider(_ value: GetHomeRegionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -740,6 +744,8 @@ extension InvalidInputExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum MigrationHubConfigClientTypes {}
 
 extension ServiceUnavailableException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

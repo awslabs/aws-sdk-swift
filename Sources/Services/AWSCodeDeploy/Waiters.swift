@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension CodeDeployClientProtocol {
+extension CodeDeployClient {
 
     static func deploymentSuccessfulWaiterConfig() throws -> WaiterConfiguration<GetDeploymentInput, GetDeploymentOutput> {
         let acceptors: [WaiterConfiguration<GetDeploymentInput, GetDeploymentOutput>.Acceptor] = [

@@ -33,8 +33,9 @@ extension AddPermissionInput: Swift.Encodable {
     }
 }
 
-extension AddPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddPermissionInput {
+
+    static func urlPathProvider(_ value: AddPermissionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -331,8 +332,9 @@ extension CancelMessageMoveTaskInput: Swift.Encodable {
     }
 }
 
-extension CancelMessageMoveTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelMessageMoveTaskInput {
+
+    static func urlPathProvider(_ value: CancelMessageMoveTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -441,8 +443,9 @@ extension ChangeMessageVisibilityBatchInput: Swift.Encodable {
     }
 }
 
-extension ChangeMessageVisibilityBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ChangeMessageVisibilityBatchInput {
+
+    static func urlPathProvider(_ value: ChangeMessageVisibilityBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -699,8 +702,9 @@ extension ChangeMessageVisibilityInput: Swift.Encodable {
     }
 }
 
-extension ChangeMessageVisibilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ChangeMessageVisibilityInput {
+
+    static func urlPathProvider(_ value: ChangeMessageVisibilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -806,8 +810,9 @@ extension CreateQueueInput: Swift.Encodable {
     }
 }
 
-extension CreateQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateQueueInput {
+
+    static func urlPathProvider(_ value: CreateQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1070,8 +1075,9 @@ extension DeleteMessageBatchInput: Swift.Encodable {
     }
 }
 
-extension DeleteMessageBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMessageBatchInput {
+
+    static func urlPathProvider(_ value: DeleteMessageBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1314,8 +1320,9 @@ extension DeleteMessageInput: Swift.Encodable {
     }
 }
 
-extension DeleteMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMessageInput {
+
+    static func urlPathProvider(_ value: DeleteMessageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1399,8 +1406,9 @@ extension DeleteQueueInput: Swift.Encodable {
     }
 }
 
-extension DeleteQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteQueueInput {
+
+    static func urlPathProvider(_ value: DeleteQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1535,8 +1543,9 @@ extension GetQueueAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetQueueAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueueAttributesInput {
+
+    static func urlPathProvider(_ value: GetQueueAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1760,8 +1769,9 @@ extension GetQueueUrlInput: Swift.Encodable {
     }
 }
 
-extension GetQueueUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueueUrlInput {
+
+    static func urlPathProvider(_ value: GetQueueUrlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2622,8 +2632,9 @@ extension ListDeadLetterSourceQueuesInput: Swift.Encodable {
     }
 }
 
-extension ListDeadLetterSourceQueuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeadLetterSourceQueuesInput {
+
+    static func urlPathProvider(_ value: ListDeadLetterSourceQueuesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2767,8 +2778,9 @@ extension ListMessageMoveTasksInput: Swift.Encodable {
     }
 }
 
-extension ListMessageMoveTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMessageMoveTasksInput {
+
+    static func urlPathProvider(_ value: ListMessageMoveTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3002,8 +3014,9 @@ extension ListQueueTagsInput: Swift.Encodable {
     }
 }
 
-extension ListQueueTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListQueueTagsInput {
+
+    static func urlPathProvider(_ value: ListQueueTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3122,8 +3135,9 @@ extension ListQueuesInput: Swift.Encodable {
     }
 }
 
-extension ListQueuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListQueuesInput {
+
+    static func urlPathProvider(_ value: ListQueuesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3809,8 +3823,9 @@ extension PurgeQueueInput: Swift.Encodable {
     }
 }
 
-extension PurgeQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PurgeQueueInput {
+
+    static func urlPathProvider(_ value: PurgeQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4226,8 +4241,9 @@ extension ReceiveMessageInput: Swift.Encodable {
     }
 }
 
-extension ReceiveMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReceiveMessageInput {
+
+    static func urlPathProvider(_ value: ReceiveMessageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4475,8 +4491,9 @@ extension RemovePermissionInput: Swift.Encodable {
     }
 }
 
-extension RemovePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemovePermissionInput {
+
+    static func urlPathProvider(_ value: RemovePermissionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4661,6 +4678,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum SQSClientTypes {}
+
 extension SendMessageBatchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entries = "Entries"
@@ -4681,8 +4700,9 @@ extension SendMessageBatchInput: Swift.Encodable {
     }
 }
 
-extension SendMessageBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendMessageBatchInput {
+
+    static func urlPathProvider(_ value: SendMessageBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5116,8 +5136,9 @@ extension SendMessageInput: Swift.Encodable {
     }
 }
 
-extension SendMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendMessageInput {
+
+    static func urlPathProvider(_ value: SendMessageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5374,8 +5395,9 @@ extension SetQueueAttributesInput: Swift.Encodable {
     }
 }
 
-extension SetQueueAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetQueueAttributesInput {
+
+    static func urlPathProvider(_ value: SetQueueAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5570,8 +5592,9 @@ extension StartMessageMoveTaskInput: Swift.Encodable {
     }
 }
 
-extension StartMessageMoveTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMessageMoveTaskInput {
+
+    static func urlPathProvider(_ value: StartMessageMoveTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5696,8 +5719,9 @@ extension TagQueueInput: Swift.Encodable {
     }
 }
 
-extension TagQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagQueueInput {
+
+    static func urlPathProvider(_ value: TagQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5904,8 +5928,9 @@ extension UntagQueueInput: Swift.Encodable {
     }
 }
 
-extension UntagQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagQueueInput {
+
+    static func urlPathProvider(_ value: UntagQueueInput) -> Swift.String? {
         return "/"
     }
 }

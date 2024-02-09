@@ -397,9 +397,10 @@ extension ElasticTranscoderClientTypes {
 
 }
 
-extension CancelJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/jobs/\(id.urlPercentEncoding())"
@@ -805,8 +806,9 @@ extension CreateJobInput: Swift.Encodable {
     }
 }
 
-extension CreateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobInput {
+
+    static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
         return "/2012-09-25/jobs"
     }
 }
@@ -1303,8 +1305,9 @@ extension CreatePipelineInput: Swift.Encodable {
     }
 }
 
-extension CreatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePipelineInput {
+
+    static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
         return "/2012-09-25/pipelines"
     }
 }
@@ -1589,8 +1592,9 @@ extension CreatePresetInput: Swift.Encodable {
     }
 }
 
-extension CreatePresetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePresetInput {
+
+    static func urlPathProvider(_ value: CreatePresetInput) -> Swift.String? {
         return "/2012-09-25/presets"
     }
 }
@@ -1732,9 +1736,10 @@ enum CreatePresetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeletePipelineInput {
+
+    static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/pipelines/\(id.urlPercentEncoding())"
@@ -1791,9 +1796,10 @@ enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePresetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeletePresetInput {
+
+    static func urlPathProvider(_ value: DeletePresetInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/presets/\(id.urlPercentEncoding())"
@@ -1923,6 +1929,8 @@ extension ElasticTranscoderClientTypes {
     }
 
 }
+
+public enum ElasticTranscoderClientTypes {}
 
 extension ElasticTranscoderClientTypes.Encryption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -3069,26 +3077,26 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListJobsByPipelineInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pageToken = pageToken {
-                let pageTokenQueryItem = ClientRuntime.URLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
-                items.append(pageTokenQueryItem)
-            }
-            if let ascending = ascending {
-                let ascendingQueryItem = ClientRuntime.URLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
-                items.append(ascendingQueryItem)
-            }
-            return items
+extension ListJobsByPipelineInput {
+
+    static func queryItemProvider(_ value: ListJobsByPipelineInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pageToken = value.pageToken {
+            let pageTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
+            items.append(pageTokenQueryItem)
         }
+        if let ascending = value.ascending {
+            let ascendingQueryItem = ClientRuntime.SDKURLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
+            items.append(ascendingQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJobsByPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineId = pipelineId else {
+extension ListJobsByPipelineInput {
+
+    static func urlPathProvider(_ value: ListJobsByPipelineInput) -> Swift.String? {
+        guard let pipelineId = value.pipelineId else {
             return nil
         }
         return "/2012-09-25/jobsByPipeline/\(pipelineId.urlPercentEncoding())"
@@ -3201,26 +3209,26 @@ enum ListJobsByPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListJobsByStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pageToken = pageToken {
-                let pageTokenQueryItem = ClientRuntime.URLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
-                items.append(pageTokenQueryItem)
-            }
-            if let ascending = ascending {
-                let ascendingQueryItem = ClientRuntime.URLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
-                items.append(ascendingQueryItem)
-            }
-            return items
+extension ListJobsByStatusInput {
+
+    static func queryItemProvider(_ value: ListJobsByStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pageToken = value.pageToken {
+            let pageTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
+            items.append(pageTokenQueryItem)
         }
+        if let ascending = value.ascending {
+            let ascendingQueryItem = ClientRuntime.SDKURLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
+            items.append(ascendingQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJobsByStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let status = status else {
+extension ListJobsByStatusInput {
+
+    static func urlPathProvider(_ value: ListJobsByStatusInput) -> Swift.String? {
+        guard let status = value.status else {
             return nil
         }
         return "/2012-09-25/jobsByStatus/\(status.urlPercentEncoding())"
@@ -3333,25 +3341,25 @@ enum ListJobsByStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPipelinesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pageToken = pageToken {
-                let pageTokenQueryItem = ClientRuntime.URLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
-                items.append(pageTokenQueryItem)
-            }
-            if let ascending = ascending {
-                let ascendingQueryItem = ClientRuntime.URLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
-                items.append(ascendingQueryItem)
-            }
-            return items
+extension ListPipelinesInput {
+
+    static func queryItemProvider(_ value: ListPipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pageToken = value.pageToken {
+            let pageTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
+            items.append(pageTokenQueryItem)
         }
+        if let ascending = value.ascending {
+            let ascendingQueryItem = ClientRuntime.SDKURLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
+            items.append(ascendingQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPipelinesInput {
+
+    static func urlPathProvider(_ value: ListPipelinesInput) -> Swift.String? {
         return "/2012-09-25/pipelines"
     }
 }
@@ -3456,25 +3464,25 @@ enum ListPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPresetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pageToken = pageToken {
-                let pageTokenQueryItem = ClientRuntime.URLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
-                items.append(pageTokenQueryItem)
-            }
-            if let ascending = ascending {
-                let ascendingQueryItem = ClientRuntime.URLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
-                items.append(ascendingQueryItem)
-            }
-            return items
+extension ListPresetsInput {
+
+    static func queryItemProvider(_ value: ListPresetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pageToken = value.pageToken {
+            let pageTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageToken".urlPercentEncoding(), value: Swift.String(pageToken).urlPercentEncoding())
+            items.append(pageTokenQueryItem)
         }
+        if let ascending = value.ascending {
+            let ascendingQueryItem = ClientRuntime.SDKURLQueryItem(name: "Ascending".urlPercentEncoding(), value: Swift.String(ascending).urlPercentEncoding())
+            items.append(ascendingQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPresetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPresetsInput {
+
+    static func urlPathProvider(_ value: ListPresetsInput) -> Swift.String? {
         return "/2012-09-25/presets"
     }
 }
@@ -4511,9 +4519,10 @@ extension ElasticTranscoderClientTypes {
 
 }
 
-extension ReadJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ReadJobInput {
+
+    static func urlPathProvider(_ value: ReadJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/jobs/\(id.urlPercentEncoding())"
@@ -4599,9 +4608,10 @@ enum ReadJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ReadPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ReadPipelineInput {
+
+    static func urlPathProvider(_ value: ReadPipelineInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/pipelines/\(id.urlPercentEncoding())"
@@ -4706,9 +4716,10 @@ enum ReadPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ReadPresetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ReadPresetInput {
+
+    static func urlPathProvider(_ value: ReadPresetInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/presets/\(id.urlPercentEncoding())"
@@ -4934,8 +4945,9 @@ extension TestRoleInput: Swift.Encodable {
     }
 }
 
-extension TestRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestRoleInput {
+
+    static func urlPathProvider(_ value: TestRoleInput) -> Swift.String? {
         return "/2012-09-25/roleTests"
     }
 }
@@ -5337,9 +5349,10 @@ extension UpdatePipelineInput: Swift.Encodable {
     }
 }
 
-extension UpdatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdatePipelineInput {
+
+    static func urlPathProvider(_ value: UpdatePipelineInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/pipelines/\(id.urlPercentEncoding())"
@@ -5513,9 +5526,10 @@ extension UpdatePipelineNotificationsInput: Swift.Encodable {
     }
 }
 
-extension UpdatePipelineNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdatePipelineNotificationsInput {
+
+    static func urlPathProvider(_ value: UpdatePipelineNotificationsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/pipelines/\(id.urlPercentEncoding())/notifications"
@@ -5711,9 +5725,10 @@ extension UpdatePipelineStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdatePipelineStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdatePipelineStatusInput {
+
+    static func urlPathProvider(_ value: UpdatePipelineStatusInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2012-09-25/pipelines/\(id.urlPercentEncoding())/status"

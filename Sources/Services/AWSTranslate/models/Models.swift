@@ -234,8 +234,9 @@ extension CreateParallelDataInput: Swift.Encodable {
     }
 }
 
-extension CreateParallelDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateParallelDataInput {
+
+    static func urlPathProvider(_ value: CreateParallelDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -401,8 +402,9 @@ extension DeleteParallelDataInput: Swift.Encodable {
     }
 }
 
-extension DeleteParallelDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteParallelDataInput {
+
+    static func urlPathProvider(_ value: DeleteParallelDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -513,8 +515,9 @@ extension DeleteTerminologyInput: Swift.Encodable {
     }
 }
 
-extension DeleteTerminologyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTerminologyInput {
+
+    static func urlPathProvider(_ value: DeleteTerminologyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -585,8 +588,9 @@ extension DescribeTextTranslationJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeTextTranslationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTextTranslationJobInput {
+
+    static func urlPathProvider(_ value: DescribeTextTranslationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1005,8 +1009,9 @@ extension GetParallelDataInput: Swift.Encodable {
     }
 }
 
-extension GetParallelDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetParallelDataInput {
+
+    static func urlPathProvider(_ value: GetParallelDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1141,8 +1146,9 @@ extension GetTerminologyInput: Swift.Encodable {
     }
 }
 
-extension GetTerminologyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTerminologyInput {
+
+    static func urlPathProvider(_ value: GetTerminologyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1294,8 +1300,9 @@ extension ImportTerminologyInput: Swift.Encodable {
     }
 }
 
-extension ImportTerminologyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportTerminologyInput {
+
+    static func urlPathProvider(_ value: ImportTerminologyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1953,8 +1960,9 @@ extension ListLanguagesInput: Swift.Encodable {
     }
 }
 
-extension ListLanguagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLanguagesInput {
+
+    static func urlPathProvider(_ value: ListLanguagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2103,8 +2111,9 @@ extension ListParallelDataInput: Swift.Encodable {
     }
 }
 
-extension ListParallelDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListParallelDataInput {
+
+    static func urlPathProvider(_ value: ListParallelDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2230,8 +2239,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2344,8 +2354,9 @@ extension ListTerminologiesInput: Swift.Encodable {
     }
 }
 
-extension ListTerminologiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTerminologiesInput {
+
+    static func urlPathProvider(_ value: ListTerminologiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2479,8 +2490,9 @@ extension ListTextTranslationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListTextTranslationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTextTranslationJobsInput {
+
+    static func urlPathProvider(_ value: ListTextTranslationJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3249,8 +3261,9 @@ extension StartTextTranslationJobInput: Swift.Encodable {
     }
 }
 
-extension StartTextTranslationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTextTranslationJobInput {
+
+    static func urlPathProvider(_ value: StartTextTranslationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3487,8 +3500,9 @@ extension StopTextTranslationJobInput: Swift.Encodable {
     }
 }
 
-extension StopTextTranslationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopTextTranslationJobInput {
+
+    static func urlPathProvider(_ value: StopTextTranslationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3652,8 +3666,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4546,6 +4561,8 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
+public enum TranslateClientTypes {}
+
 extension TranslateDocumentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case document = "Document"
@@ -4578,8 +4595,9 @@ extension TranslateDocumentInput: Swift.Encodable {
     }
 }
 
-extension TranslateDocumentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TranslateDocumentInput {
+
+    static func urlPathProvider(_ value: TranslateDocumentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4809,8 +4827,9 @@ extension TranslateTextInput: Swift.Encodable {
     }
 }
 
-extension TranslateTextInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TranslateTextInput {
+
+    static func urlPathProvider(_ value: TranslateTextInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5265,8 +5284,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5367,8 +5387,9 @@ extension UpdateParallelDataInput: Swift.Encodable {
     }
 }
 
-extension UpdateParallelDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateParallelDataInput {
+
+    static func urlPathProvider(_ value: UpdateParallelDataInput) -> Swift.String? {
         return "/"
     }
 }

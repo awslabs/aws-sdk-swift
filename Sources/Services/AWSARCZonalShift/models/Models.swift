@@ -2,6 +2,8 @@
 import AWSClientRuntime
 import ClientRuntime
 
+public enum ARCZonalShiftClientTypes {}
+
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -280,9 +282,10 @@ extension ARCZonalShiftClientTypes {
 
 }
 
-extension CancelZonalShiftInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let zonalShiftId = zonalShiftId else {
+extension CancelZonalShiftInput {
+
+    static func urlPathProvider(_ value: CancelZonalShiftInput) -> Swift.String? {
+        guard let zonalShiftId = value.zonalShiftId else {
             return nil
         }
         return "/zonalshifts/\(zonalShiftId.urlPercentEncoding())"
@@ -678,8 +681,9 @@ extension CreatePracticeRunConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreatePracticeRunConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePracticeRunConfigurationInput {
+
+    static func urlPathProvider(_ value: CreatePracticeRunConfigurationInput) -> Swift.String? {
         return "/configuration"
     }
 }
@@ -872,9 +876,10 @@ enum CreatePracticeRunConfigurationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DeletePracticeRunConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension DeletePracticeRunConfigurationInput {
+
+    static func urlPathProvider(_ value: DeletePracticeRunConfigurationInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/configuration/\(resourceIdentifier.urlPercentEncoding())"
@@ -982,9 +987,10 @@ enum DeletePracticeRunConfigurationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetManagedResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension GetManagedResourceInput {
+
+    static func urlPathProvider(_ value: GetManagedResourceInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/managedresources/\(resourceIdentifier.urlPercentEncoding())"
@@ -1212,29 +1218,29 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAutoshiftsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListAutoshiftsInput {
+
+    static func queryItemProvider(_ value: ListAutoshiftsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAutoshiftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAutoshiftsInput {
+
+    static func urlPathProvider(_ value: ListAutoshiftsInput) -> Swift.String? {
         return "/autoshifts"
     }
 }
@@ -1341,25 +1347,25 @@ enum ListAutoshiftsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListManagedResourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListManagedResourcesInput {
+
+    static func queryItemProvider(_ value: ListManagedResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListManagedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListManagedResourcesInput {
+
+    static func urlPathProvider(_ value: ListManagedResourcesInput) -> Swift.String? {
         return "/managedresources"
     }
 }
@@ -1463,33 +1469,33 @@ enum ListManagedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListZonalShiftsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let resourceIdentifier = resourceIdentifier {
-                let resourceIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "resourceIdentifier".urlPercentEncoding(), value: Swift.String(resourceIdentifier).urlPercentEncoding())
-                items.append(resourceIdentifierQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListZonalShiftsInput {
+
+    static func queryItemProvider(_ value: ListZonalShiftsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let resourceIdentifier = value.resourceIdentifier {
+            let resourceIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceIdentifier".urlPercentEncoding(), value: Swift.String(resourceIdentifier).urlPercentEncoding())
+            items.append(resourceIdentifierQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListZonalShiftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListZonalShiftsInput {
+
+    static func urlPathProvider(_ value: ListZonalShiftsInput) -> Swift.String? {
         return "/zonalshifts"
     }
 }
@@ -1993,8 +1999,9 @@ extension StartZonalShiftInput: Swift.Encodable {
     }
 }
 
-extension StartZonalShiftInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartZonalShiftInput {
+
+    static func urlPathProvider(_ value: StartZonalShiftInput) -> Swift.String? {
         return "/zonalshifts"
     }
 }
@@ -2283,9 +2290,10 @@ extension UpdatePracticeRunConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdatePracticeRunConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension UpdatePracticeRunConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdatePracticeRunConfigurationInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/configuration/\(resourceIdentifier.urlPercentEncoding())"
@@ -2488,9 +2496,10 @@ extension UpdateZonalAutoshiftConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateZonalAutoshiftConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension UpdateZonalAutoshiftConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateZonalAutoshiftConfigurationInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/managedresources/\(resourceIdentifier.urlPercentEncoding())"
@@ -2616,9 +2625,10 @@ extension UpdateZonalShiftInput: Swift.Encodable {
     }
 }
 
-extension UpdateZonalShiftInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let zonalShiftId = zonalShiftId else {
+extension UpdateZonalShiftInput {
+
+    static func urlPathProvider(_ value: UpdateZonalShiftInput) -> Swift.String? {
+        guard let zonalShiftId = value.zonalShiftId else {
             return nil
         }
         return "/zonalshifts/\(zonalShiftId.urlPercentEncoding())"

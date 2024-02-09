@@ -704,9 +704,10 @@ extension SageMakerGeospatialClientTypes {
     }
 }
 
-extension DeleteEarthObservationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension DeleteEarthObservationJobInput {
+
+    static func urlPathProvider(_ value: DeleteEarthObservationJobInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/earth-observation-jobs/\(arn.urlPercentEncoding())"
@@ -761,9 +762,10 @@ enum DeleteEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension DeleteVectorEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: DeleteVectorEnrichmentJobInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/vector-enrichment-jobs/\(arn.urlPercentEncoding())"
@@ -1069,8 +1071,9 @@ extension ExportEarthObservationJobInput: Swift.Encodable {
     }
 }
 
-extension ExportEarthObservationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportEarthObservationJobInput {
+
+    static func urlPathProvider(_ value: ExportEarthObservationJobInput) -> Swift.String? {
         return "/export-earth-observation-job"
     }
 }
@@ -1445,8 +1448,9 @@ extension ExportVectorEnrichmentJobInput: Swift.Encodable {
     }
 }
 
-extension ExportVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportVectorEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: ExportVectorEnrichmentJobInput) -> Swift.String? {
         return "/export-vector-enrichment-jobs"
     }
 }
@@ -1851,9 +1855,10 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
-extension GetEarthObservationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension GetEarthObservationJobInput {
+
+    static func urlPathProvider(_ value: GetEarthObservationJobInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/earth-observation-jobs/\(arn.urlPercentEncoding())"
@@ -2092,9 +2097,10 @@ enum GetEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRasterDataCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension GetRasterDataCollectionInput {
+
+    static func urlPathProvider(_ value: GetRasterDataCollectionInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/raster-data-collection/\(arn.urlPercentEncoding())"
@@ -2282,68 +2288,68 @@ enum GetRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetTileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageAssets = imageAssets else {
-                let message = "Creating a URL Query Item failed. imageAssets is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            imageAssets.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "ImageAssets".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            if let imageMask = imageMask {
-                let imageMaskQueryItem = ClientRuntime.URLQueryItem(name: "ImageMask".urlPercentEncoding(), value: Swift.String(imageMask).urlPercentEncoding())
-                items.append(imageMaskQueryItem)
-            }
-            if let executionRoleArn = executionRoleArn {
-                let executionRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "ExecutionRoleArn".urlPercentEncoding(), value: Swift.String(executionRoleArn).urlPercentEncoding())
-                items.append(executionRoleArnQueryItem)
-            }
-            guard let target = target else {
-                let message = "Creating a URL Query Item failed. target is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let targetQueryItem = ClientRuntime.URLQueryItem(name: "Target".urlPercentEncoding(), value: Swift.String(target.rawValue).urlPercentEncoding())
-            items.append(targetQueryItem)
-            if let propertyFilters = propertyFilters {
-                let propertyFiltersQueryItem = ClientRuntime.URLQueryItem(name: "PropertyFilters".urlPercentEncoding(), value: Swift.String(propertyFilters).urlPercentEncoding())
-                items.append(propertyFiltersQueryItem)
-            }
-            if let outputDataType = outputDataType {
-                let outputDataTypeQueryItem = ClientRuntime.URLQueryItem(name: "OutputDataType".urlPercentEncoding(), value: Swift.String(outputDataType.rawValue).urlPercentEncoding())
-                items.append(outputDataTypeQueryItem)
-            }
-            if let timeRangeFilter = timeRangeFilter {
-                let timeRangeFilterQueryItem = ClientRuntime.URLQueryItem(name: "TimeRangeFilter".urlPercentEncoding(), value: Swift.String(timeRangeFilter).urlPercentEncoding())
-                items.append(timeRangeFilterQueryItem)
-            }
-            if let outputFormat = outputFormat {
-                let outputFormatQueryItem = ClientRuntime.URLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat).urlPercentEncoding())
-                items.append(outputFormatQueryItem)
-            }
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension GetTileInput {
+
+    static func queryItemProvider(_ value: GetTileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageAssets = value.imageAssets else {
+            let message = "Creating a URL Query Item failed. imageAssets is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        imageAssets.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ImageAssets".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        if let imageMask = value.imageMask {
+            let imageMaskQueryItem = ClientRuntime.SDKURLQueryItem(name: "ImageMask".urlPercentEncoding(), value: Swift.String(imageMask).urlPercentEncoding())
+            items.append(imageMaskQueryItem)
+        }
+        if let executionRoleArn = value.executionRoleArn {
+            let executionRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ExecutionRoleArn".urlPercentEncoding(), value: Swift.String(executionRoleArn).urlPercentEncoding())
+            items.append(executionRoleArnQueryItem)
+        }
+        guard let target = value.target else {
+            let message = "Creating a URL Query Item failed. target is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let targetQueryItem = ClientRuntime.SDKURLQueryItem(name: "Target".urlPercentEncoding(), value: Swift.String(target.rawValue).urlPercentEncoding())
+        items.append(targetQueryItem)
+        if let propertyFilters = value.propertyFilters {
+            let propertyFiltersQueryItem = ClientRuntime.SDKURLQueryItem(name: "PropertyFilters".urlPercentEncoding(), value: Swift.String(propertyFilters).urlPercentEncoding())
+            items.append(propertyFiltersQueryItem)
+        }
+        if let outputDataType = value.outputDataType {
+            let outputDataTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "OutputDataType".urlPercentEncoding(), value: Swift.String(outputDataType.rawValue).urlPercentEncoding())
+            items.append(outputDataTypeQueryItem)
+        }
+        if let timeRangeFilter = value.timeRangeFilter {
+            let timeRangeFilterQueryItem = ClientRuntime.SDKURLQueryItem(name: "TimeRangeFilter".urlPercentEncoding(), value: Swift.String(timeRangeFilter).urlPercentEncoding())
+            items.append(timeRangeFilterQueryItem)
+        }
+        if let outputFormat = value.outputFormat {
+            let outputFormatQueryItem = ClientRuntime.SDKURLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat).urlPercentEncoding())
+            items.append(outputFormatQueryItem)
+        }
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension GetTileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let z = z else {
+extension GetTileInput {
+
+    static func urlPathProvider(_ value: GetTileInput) -> Swift.String? {
+        guard let z = value.z else {
             return nil
         }
-        guard let x = x else {
+        guard let x = value.x else {
             return nil
         }
-        guard let y = y else {
+        guard let y = value.y else {
             return nil
         }
         return "/tile/\(z)/\(x)/\(y)"
@@ -2477,9 +2483,10 @@ enum GetTileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension GetVectorEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: GetVectorEnrichmentJobInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/vector-enrichment-jobs/\(arn.urlPercentEncoding())"
@@ -3322,8 +3329,9 @@ extension ListEarthObservationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListEarthObservationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEarthObservationJobsInput {
+
+    static func urlPathProvider(_ value: ListEarthObservationJobsInput) -> Swift.String? {
         return "/list-earth-observation-jobs"
     }
 }
@@ -3473,25 +3481,25 @@ extension ListRasterDataCollectionsInput: Swift.CustomDebugStringConvertible {
         "ListRasterDataCollectionsInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListRasterDataCollectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRasterDataCollectionsInput {
+
+    static func queryItemProvider(_ value: ListRasterDataCollectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRasterDataCollectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRasterDataCollectionsInput {
+
+    static func urlPathProvider(_ value: ListRasterDataCollectionsInput) -> Swift.String? {
         return "/raster-data-collections"
     }
 }
@@ -3601,9 +3609,10 @@ enum ListRasterDataCollectionsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3843,8 +3852,9 @@ extension ListVectorEnrichmentJobsInput: Swift.Encodable {
     }
 }
 
-extension ListVectorEnrichmentJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVectorEnrichmentJobsInput {
+
+    static func urlPathProvider(_ value: ListVectorEnrichmentJobsInput) -> Swift.String? {
         return "/list-vector-enrichment-jobs"
     }
 }
@@ -5403,6 +5413,8 @@ extension SageMakerGeospatialClientTypes {
 
 }
 
+public enum SageMakerGeospatialClientTypes {}
+
 extension SearchRasterDataCollectionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SearchRasterDataCollectionInput(arn: \(Swift.String(describing: arn)), rasterDataCollectionQuery: \(Swift.String(describing: rasterDataCollectionQuery)), nextToken: \"CONTENT_REDACTED\")"}
@@ -5429,8 +5441,9 @@ extension SearchRasterDataCollectionInput: Swift.Encodable {
     }
 }
 
-extension SearchRasterDataCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchRasterDataCollectionInput {
+
+    static func urlPathProvider(_ value: SearchRasterDataCollectionInput) -> Swift.String? {
         return "/search-raster-data-collection"
     }
 }
@@ -5768,8 +5781,9 @@ extension StartEarthObservationJobInput: Swift.Encodable {
     }
 }
 
-extension StartEarthObservationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartEarthObservationJobInput {
+
+    static func urlPathProvider(_ value: StartEarthObservationJobInput) -> Swift.String? {
         return "/earth-observation-jobs"
     }
 }
@@ -6066,8 +6080,9 @@ extension StartVectorEnrichmentJobInput: Swift.Encodable {
     }
 }
 
-extension StartVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartVectorEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: StartVectorEnrichmentJobInput) -> Swift.String? {
         return "/vector-enrichment-jobs"
     }
 }
@@ -6349,8 +6364,9 @@ extension StopEarthObservationJobInput: Swift.Encodable {
     }
 }
 
-extension StopEarthObservationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopEarthObservationJobInput {
+
+    static func urlPathProvider(_ value: StopEarthObservationJobInput) -> Swift.String? {
         return "/earth-observation-jobs/stop"
     }
 }
@@ -6423,8 +6439,9 @@ extension StopVectorEnrichmentJobInput: Swift.Encodable {
     }
 }
 
-extension StopVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopVectorEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: StopVectorEnrichmentJobInput) -> Swift.String? {
         return "/vector-enrichment-jobs/stop"
     }
 }
@@ -6500,9 +6517,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6931,26 +6949,26 @@ extension SageMakerGeospatialClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

@@ -363,12 +363,13 @@ extension ServiceCatalogAppRegistryClientTypes {
     }
 }
 
-extension AssociateAttributeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension AssociateAttributeGroupInput {
+
+    static func urlPathProvider(_ value: AssociateAttributeGroupInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
-        guard let attributeGroup = attributeGroup else {
+        guard let attributeGroup = value.attributeGroup else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/attribute-groups/\(attributeGroup.urlPercentEncoding())"
@@ -483,15 +484,16 @@ extension AssociateResourceInput: Swift.Encodable {
     }
 }
 
-extension AssociateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension AssociateResourceInput {
+
+    static func urlPathProvider(_ value: AssociateResourceInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
-        guard let resourceType = resourceType else {
+        guard let resourceType = value.resourceType else {
             return nil
         }
-        guard let resource = resource else {
+        guard let resource = value.resource else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/resources/\(resourceType.rawValue.urlPercentEncoding())/\(resource.urlPercentEncoding())"
@@ -1017,8 +1019,9 @@ extension CreateApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateApplicationInput {
+
+    static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
         return "/applications"
     }
 }
@@ -1173,8 +1176,9 @@ extension CreateAttributeGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateAttributeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAttributeGroupInput {
+
+    static func urlPathProvider(_ value: CreateAttributeGroupInput) -> Swift.String? {
         return "/attribute-groups"
     }
 }
@@ -1305,9 +1309,10 @@ enum CreateAttributeGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension DeleteApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())"
@@ -1389,9 +1394,10 @@ enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAttributeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let attributeGroup = attributeGroup else {
+extension DeleteAttributeGroupInput {
+
+    static func urlPathProvider(_ value: DeleteAttributeGroupInput) -> Swift.String? {
+        guard let attributeGroup = value.attributeGroup else {
             return nil
         }
         return "/attribute-groups/\(attributeGroup.urlPercentEncoding())"
@@ -1473,12 +1479,13 @@ enum DeleteAttributeGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateAttributeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension DisassociateAttributeGroupInput {
+
+    static func urlPathProvider(_ value: DisassociateAttributeGroupInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
-        guard let attributeGroup = attributeGroup else {
+        guard let attributeGroup = value.attributeGroup else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/attribute-groups/\(attributeGroup.urlPercentEncoding())"
@@ -1575,15 +1582,16 @@ enum DisassociateAttributeGroupOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DisassociateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension DisassociateResourceInput {
+
+    static func urlPathProvider(_ value: DisassociateResourceInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
-        guard let resourceType = resourceType else {
+        guard let resourceType = value.resourceType else {
             return nil
         }
-        guard let resource = resource else {
+        guard let resource = value.resource else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/resources/\(resourceType.rawValue.urlPercentEncoding())/\(resource.urlPercentEncoding())"
@@ -1686,9 +1694,10 @@ enum DisassociateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension GetApplicationInput {
+
+    static func urlPathProvider(_ value: GetApplicationInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())"
@@ -1879,38 +1888,38 @@ enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAssociatedResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let resourceTagStatus = resourceTagStatus {
-                resourceTagStatus.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "resourceTagStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension GetAssociatedResourceInput {
+
+    static func queryItemProvider(_ value: GetAssociatedResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let resourceTagStatus = value.resourceTagStatus {
+            resourceTagStatus.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "resourceTagStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetAssociatedResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension GetAssociatedResourceInput {
+
+    static func urlPathProvider(_ value: GetAssociatedResourceInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
-        guard let resourceType = resourceType else {
+        guard let resourceType = value.resourceType else {
             return nil
         }
-        guard let resource = resource else {
+        guard let resource = value.resource else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/resources/\(resourceType.rawValue.urlPercentEncoding())/\(resource.urlPercentEncoding())"
@@ -2043,9 +2052,10 @@ enum GetAssociatedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAttributeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let attributeGroup = attributeGroup else {
+extension GetAttributeGroupInput {
+
+    static func urlPathProvider(_ value: GetAttributeGroupInput) -> Swift.String? {
+        guard let attributeGroup = value.attributeGroup else {
             return nil
         }
         return "/attribute-groups/\(attributeGroup.urlPercentEncoding())"
@@ -2217,8 +2227,9 @@ enum GetAttributeGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetConfigurationInput {
+
+    static func urlPathProvider(_ value: GetConfigurationInput) -> Swift.String? {
         return "/configuration"
     }
 }
@@ -2388,25 +2399,25 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListApplicationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListApplicationsInput {
+
+    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationsInput {
+
+    static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
         return "/applications"
     }
 }
@@ -2507,26 +2518,26 @@ enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAssociatedAttributeGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssociatedAttributeGroupsInput {
+
+    static func queryItemProvider(_ value: ListAssociatedAttributeGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssociatedAttributeGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension ListAssociatedAttributeGroupsInput {
+
+    static func urlPathProvider(_ value: ListAssociatedAttributeGroupsInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/attribute-groups"
@@ -2635,26 +2646,26 @@ enum ListAssociatedAttributeGroupsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListAssociatedResourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssociatedResourcesInput {
+
+    static func queryItemProvider(_ value: ListAssociatedResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssociatedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension ListAssociatedResourcesInput {
+
+    static func urlPathProvider(_ value: ListAssociatedResourcesInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/resources"
@@ -2763,26 +2774,26 @@ enum ListAssociatedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListAttributeGroupsForApplicationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAttributeGroupsForApplicationInput {
+
+    static func queryItemProvider(_ value: ListAttributeGroupsForApplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAttributeGroupsForApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension ListAttributeGroupsForApplicationInput {
+
+    static func urlPathProvider(_ value: ListAttributeGroupsForApplicationInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())/attribute-group-details"
@@ -2891,25 +2902,25 @@ enum ListAttributeGroupsForApplicationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListAttributeGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAttributeGroupsInput {
+
+    static func queryItemProvider(_ value: ListAttributeGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAttributeGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAttributeGroupsInput {
+
+    static func urlPathProvider(_ value: ListAttributeGroupsInput) -> Swift.String? {
         return "/attribute-groups"
     }
 }
@@ -3010,9 +3021,10 @@ enum ListAttributeGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3116,8 +3128,9 @@ extension PutConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutConfigurationInput {
+
+    static func urlPathProvider(_ value: PutConfigurationInput) -> Swift.String? {
         return "/configuration"
     }
 }
@@ -3685,6 +3698,8 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 }
 
+public enum ServiceCatalogAppRegistryClientTypes {}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3772,12 +3787,13 @@ extension ServiceCatalogAppRegistryClientTypes {
     }
 }
 
-extension SyncResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceType = resourceType else {
+extension SyncResourceInput {
+
+    static func urlPathProvider(_ value: SyncResourceInput) -> Swift.String? {
+        guard let resourceType = value.resourceType else {
             return nil
         }
-        guard let resource = resource else {
+        guard let resource = value.resource else {
             return nil
         }
         return "/sync/\(resourceType.rawValue.urlPercentEncoding())/\(resource.urlPercentEncoding())"
@@ -3937,9 +3953,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4079,26 +4096,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4172,9 +4189,10 @@ extension UpdateApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let application = application else {
+extension UpdateApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
+        guard let application = value.application else {
             return nil
         }
         return "/applications/\(application.urlPercentEncoding())"
@@ -4299,9 +4317,10 @@ extension UpdateAttributeGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateAttributeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let attributeGroup = attributeGroup else {
+extension UpdateAttributeGroupInput {
+
+    static func urlPathProvider(_ value: UpdateAttributeGroupInput) -> Swift.String? {
+        guard let attributeGroup = value.attributeGroup else {
             return nil
         }
         return "/attribute-groups/\(attributeGroup.urlPercentEncoding())"

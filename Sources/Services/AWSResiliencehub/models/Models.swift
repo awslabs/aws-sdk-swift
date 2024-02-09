@@ -77,8 +77,9 @@ extension AddDraftAppVersionResourceMappingsInput: Swift.Encodable {
     }
 }
 
-extension AddDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddDraftAppVersionResourceMappingsInput {
+
+    static func urlPathProvider(_ value: AddDraftAppVersionResourceMappingsInput) -> Swift.String? {
         return "/add-draft-app-version-resource-mappings"
     }
 }
@@ -1814,8 +1815,9 @@ extension BatchUpdateRecommendationStatusInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateRecommendationStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchUpdateRecommendationStatusInput {
+
+    static func urlPathProvider(_ value: BatchUpdateRecommendationStatusInput) -> Swift.String? {
         return "/batch-update-recommendation-status"
     }
 }
@@ -2724,8 +2726,9 @@ extension CreateAppInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppInput {
+
+    static func urlPathProvider(_ value: CreateAppInput) -> Swift.String? {
         return "/create-app"
     }
 }
@@ -2930,8 +2933,9 @@ extension CreateAppVersionAppComponentInput: Swift.Encodable {
     }
 }
 
-extension CreateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppVersionAppComponentInput {
+
+    static func urlPathProvider(_ value: CreateAppVersionAppComponentInput) -> Swift.String? {
         return "/create-app-version-app-component"
     }
 }
@@ -3160,8 +3164,9 @@ extension CreateAppVersionResourceInput: Swift.Encodable {
     }
 }
 
-extension CreateAppVersionResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppVersionResourceInput {
+
+    static func urlPathProvider(_ value: CreateAppVersionResourceInput) -> Swift.String? {
         return "/create-app-version-resource"
     }
 }
@@ -3430,8 +3435,9 @@ extension CreateRecommendationTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateRecommendationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRecommendationTemplateInput {
+
+    static func urlPathProvider(_ value: CreateRecommendationTemplateInput) -> Swift.String? {
         return "/create-recommendation-template"
     }
 }
@@ -3654,8 +3660,9 @@ extension CreateResiliencyPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateResiliencyPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResiliencyPolicyInput {
+
+    static func urlPathProvider(_ value: CreateResiliencyPolicyInput) -> Swift.String? {
         return "/create-resiliency-policy"
     }
 }
@@ -3866,8 +3873,9 @@ extension DeleteAppAssessmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteAppAssessmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAppAssessmentInput {
+
+    static func urlPathProvider(_ value: DeleteAppAssessmentInput) -> Swift.String? {
         return "/delete-app-assessment"
     }
 }
@@ -3998,8 +4006,9 @@ extension DeleteAppInput: Swift.Encodable {
     }
 }
 
-extension DeleteAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAppInput {
+
+    static func urlPathProvider(_ value: DeleteAppInput) -> Swift.String? {
         return "/delete-app"
     }
 }
@@ -4078,8 +4087,9 @@ extension DeleteAppInputSourceInput: Swift.Encodable {
     }
 }
 
-extension DeleteAppInputSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAppInputSourceInput {
+
+    static func urlPathProvider(_ value: DeleteAppInputSourceInput) -> Swift.String? {
         return "/delete-app-input-source"
     }
 }
@@ -4288,8 +4298,9 @@ extension DeleteAppVersionAppComponentInput: Swift.Encodable {
     }
 }
 
-extension DeleteAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAppVersionAppComponentInput {
+
+    static func urlPathProvider(_ value: DeleteAppVersionAppComponentInput) -> Swift.String? {
         return "/delete-app-version-app-component"
     }
 }
@@ -4455,8 +4466,9 @@ extension DeleteAppVersionResourceInput: Swift.Encodable {
     }
 }
 
-extension DeleteAppVersionResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAppVersionResourceInput {
+
+    static func urlPathProvider(_ value: DeleteAppVersionResourceInput) -> Swift.String? {
         return "/delete-app-version-resource"
     }
 }
@@ -4633,8 +4645,9 @@ extension DeleteRecommendationTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteRecommendationTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRecommendationTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteRecommendationTemplateInput) -> Swift.String? {
         return "/delete-recommendation-template"
     }
 }
@@ -4760,8 +4773,9 @@ extension DeleteResiliencyPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResiliencyPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResiliencyPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResiliencyPolicyInput) -> Swift.String? {
         return "/delete-resiliency-policy"
     }
 }
@@ -4873,8 +4887,9 @@ extension DescribeAppAssessmentInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppAssessmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppAssessmentInput {
+
+    static func urlPathProvider(_ value: DescribeAppAssessmentInput) -> Swift.String? {
         return "/describe-app-assessment"
     }
 }
@@ -4977,8 +4992,9 @@ extension DescribeAppInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppInput {
+
+    static func urlPathProvider(_ value: DescribeAppInput) -> Swift.String? {
         return "/describe-app"
     }
 }
@@ -5089,8 +5105,9 @@ extension DescribeAppVersionAppComponentInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppVersionAppComponentInput {
+
+    static func urlPathProvider(_ value: DescribeAppVersionAppComponentInput) -> Swift.String? {
         return "/describe-app-version-app-component"
     }
 }
@@ -5237,8 +5254,9 @@ extension DescribeAppVersionInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppVersionInput {
+
+    static func urlPathProvider(_ value: DescribeAppVersionInput) -> Swift.String? {
         return "/describe-app-version"
     }
 }
@@ -5411,8 +5429,9 @@ extension DescribeAppVersionResourceInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppVersionResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppVersionResourceInput {
+
+    static func urlPathProvider(_ value: DescribeAppVersionResourceInput) -> Swift.String? {
         return "/describe-app-version-resource"
     }
 }
@@ -5594,8 +5613,9 @@ extension DescribeAppVersionResourcesResolutionStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppVersionResourcesResolutionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppVersionResourcesResolutionStatusInput {
+
+    static func urlPathProvider(_ value: DescribeAppVersionResourcesResolutionStatusInput) -> Swift.String? {
         return "/describe-app-version-resources-resolution-status"
     }
 }
@@ -5762,8 +5782,9 @@ extension DescribeAppVersionTemplateInput: Swift.Encodable {
     }
 }
 
-extension DescribeAppVersionTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppVersionTemplateInput {
+
+    static func urlPathProvider(_ value: DescribeAppVersionTemplateInput) -> Swift.String? {
         return "/describe-app-version-template"
     }
 }
@@ -5971,8 +5992,9 @@ extension DescribeDraftAppVersionResourcesImportStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeDraftAppVersionResourcesImportStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDraftAppVersionResourcesImportStatusInput {
+
+    static func urlPathProvider(_ value: DescribeDraftAppVersionResourcesImportStatusInput) -> Swift.String? {
         return "/describe-draft-app-version-resources-import-status"
     }
 }
@@ -6118,8 +6140,9 @@ extension DescribeResiliencyPolicyInput: Swift.Encodable {
     }
 }
 
-extension DescribeResiliencyPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeResiliencyPolicyInput {
+
+    static func urlPathProvider(_ value: DescribeResiliencyPolicyInput) -> Swift.String? {
         return "/describe-resiliency-policy"
     }
 }
@@ -6860,8 +6883,9 @@ extension ImportResourcesToDraftAppVersionInput: Swift.Encodable {
     }
 }
 
-extension ImportResourcesToDraftAppVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportResourcesToDraftAppVersionInput {
+
+    static func urlPathProvider(_ value: ImportResourcesToDraftAppVersionInput) -> Swift.String? {
         return "/import-resources-to-draft-app-version"
     }
 }
@@ -7167,8 +7191,9 @@ extension ListAlarmRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListAlarmRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAlarmRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListAlarmRecommendationsInput) -> Swift.String? {
         return "/list-alarm-recommendations"
     }
 }
@@ -7314,8 +7339,9 @@ extension ListAppAssessmentComplianceDriftsInput: Swift.Encodable {
     }
 }
 
-extension ListAppAssessmentComplianceDriftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppAssessmentComplianceDriftsInput {
+
+    static func urlPathProvider(_ value: ListAppAssessmentComplianceDriftsInput) -> Swift.String? {
         return "/list-app-assessment-compliance-drifts"
     }
 }
@@ -7439,51 +7465,51 @@ enum ListAppAssessmentComplianceDriftsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListAppAssessmentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let reverseOrder = reverseOrder {
-                let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
-                items.append(reverseOrderQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let assessmentName = assessmentName {
-                let assessmentNameQueryItem = ClientRuntime.URLQueryItem(name: "assessmentName".urlPercentEncoding(), value: Swift.String(assessmentName).urlPercentEncoding())
-                items.append(assessmentNameQueryItem)
-            }
-            if let appArn = appArn {
-                let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
-                items.append(appArnQueryItem)
-            }
-            if let complianceStatus = complianceStatus {
-                let complianceStatusQueryItem = ClientRuntime.URLQueryItem(name: "complianceStatus".urlPercentEncoding(), value: Swift.String(complianceStatus.rawValue).urlPercentEncoding())
-                items.append(complianceStatusQueryItem)
-            }
-            if let assessmentStatus = assessmentStatus {
-                assessmentStatus.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "assessmentStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let invoker = invoker {
-                let invokerQueryItem = ClientRuntime.URLQueryItem(name: "invoker".urlPercentEncoding(), value: Swift.String(invoker.rawValue).urlPercentEncoding())
-                items.append(invokerQueryItem)
-            }
-            return items
+extension ListAppAssessmentsInput {
+
+    static func queryItemProvider(_ value: ListAppAssessmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let reverseOrder = value.reverseOrder {
+            let reverseOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+            items.append(reverseOrderQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let assessmentName = value.assessmentName {
+            let assessmentNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "assessmentName".urlPercentEncoding(), value: Swift.String(assessmentName).urlPercentEncoding())
+            items.append(assessmentNameQueryItem)
+        }
+        if let appArn = value.appArn {
+            let appArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
+            items.append(appArnQueryItem)
+        }
+        if let complianceStatus = value.complianceStatus {
+            let complianceStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "complianceStatus".urlPercentEncoding(), value: Swift.String(complianceStatus.rawValue).urlPercentEncoding())
+            items.append(complianceStatusQueryItem)
+        }
+        if let assessmentStatus = value.assessmentStatus {
+            assessmentStatus.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "assessmentStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let invoker = value.invoker {
+            let invokerQueryItem = ClientRuntime.SDKURLQueryItem(name: "invoker".urlPercentEncoding(), value: Swift.String(invoker.rawValue).urlPercentEncoding())
+            items.append(invokerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppAssessmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppAssessmentsInput {
+
+    static func urlPathProvider(_ value: ListAppAssessmentsInput) -> Swift.String? {
         return "/list-app-assessments"
     }
 }
@@ -7633,8 +7659,9 @@ extension ListAppComponentCompliancesInput: Swift.Encodable {
     }
 }
 
-extension ListAppComponentCompliancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppComponentCompliancesInput {
+
+    static func urlPathProvider(_ value: ListAppComponentCompliancesInput) -> Swift.String? {
         return "/list-app-component-compliances"
     }
 }
@@ -7780,8 +7807,9 @@ extension ListAppComponentRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListAppComponentRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppComponentRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListAppComponentRecommendationsInput) -> Swift.String? {
         return "/list-app-component-recommendations"
     }
 }
@@ -7931,8 +7959,9 @@ extension ListAppInputSourcesInput: Swift.Encodable {
     }
 }
 
-extension ListAppInputSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppInputSourcesInput {
+
+    static func urlPathProvider(_ value: ListAppInputSourcesInput) -> Swift.String? {
         return "/list-app-input-sources"
     }
 }
@@ -8091,8 +8120,9 @@ extension ListAppVersionAppComponentsInput: Swift.Encodable {
     }
 }
 
-extension ListAppVersionAppComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppVersionAppComponentsInput {
+
+    static func urlPathProvider(_ value: ListAppVersionAppComponentsInput) -> Swift.String? {
         return "/list-app-version-app-components"
     }
 }
@@ -8273,8 +8303,9 @@ extension ListAppVersionResourceMappingsInput: Swift.Encodable {
     }
 }
 
-extension ListAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppVersionResourceMappingsInput {
+
+    static func urlPathProvider(_ value: ListAppVersionResourceMappingsInput) -> Swift.String? {
         return "/list-app-version-resource-mappings"
     }
 }
@@ -8437,8 +8468,9 @@ extension ListAppVersionResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListAppVersionResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppVersionResourcesInput {
+
+    static func urlPathProvider(_ value: ListAppVersionResourcesInput) -> Swift.String? {
         return "/list-app-version-resources"
     }
 }
@@ -8621,8 +8653,9 @@ extension ListAppVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListAppVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppVersionsInput {
+
+    static func urlPathProvider(_ value: ListAppVersionsInput) -> Swift.String? {
         return "/list-app-versions"
     }
 }
@@ -8762,45 +8795,45 @@ enum ListAppVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAppsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let reverseOrder = reverseOrder {
-                let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
-                items.append(reverseOrderQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            if let appArn = appArn {
-                let appArnQueryItem = ClientRuntime.URLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
-                items.append(appArnQueryItem)
-            }
-            if let toLastAssessmentTime = toLastAssessmentTime {
-                let toLastAssessmentTimeQueryItem = ClientRuntime.URLQueryItem(name: "toLastAssessmentTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: toLastAssessmentTime)).urlPercentEncoding())
-                items.append(toLastAssessmentTimeQueryItem)
-            }
-            if let fromLastAssessmentTime = fromLastAssessmentTime {
-                let fromLastAssessmentTimeQueryItem = ClientRuntime.URLQueryItem(name: "fromLastAssessmentTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: fromLastAssessmentTime)).urlPercentEncoding())
-                items.append(fromLastAssessmentTimeQueryItem)
-            }
-            return items
+extension ListAppsInput {
+
+    static func queryItemProvider(_ value: ListAppsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let reverseOrder = value.reverseOrder {
+            let reverseOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+            items.append(reverseOrderQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let appArn = value.appArn {
+            let appArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "appArn".urlPercentEncoding(), value: Swift.String(appArn).urlPercentEncoding())
+            items.append(appArnQueryItem)
+        }
+        if let toLastAssessmentTime = value.toLastAssessmentTime {
+            let toLastAssessmentTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "toLastAssessmentTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: toLastAssessmentTime)).urlPercentEncoding())
+            items.append(toLastAssessmentTimeQueryItem)
+        }
+        if let fromLastAssessmentTime = value.fromLastAssessmentTime {
+            let fromLastAssessmentTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "fromLastAssessmentTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: fromLastAssessmentTime)).urlPercentEncoding())
+            items.append(fromLastAssessmentTimeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppsInput {
+
+    static func urlPathProvider(_ value: ListAppsInput) -> Swift.String? {
         return "/list-apps"
     }
 }
@@ -8924,49 +8957,49 @@ enum ListAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRecommendationTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let reverseOrder = reverseOrder {
-                let reverseOrderQueryItem = ClientRuntime.URLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
-                items.append(reverseOrderQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            guard let assessmentArn = assessmentArn else {
-                let message = "Creating a URL Query Item failed. assessmentArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let assessmentArnQueryItem = ClientRuntime.URLQueryItem(name: "assessmentArn".urlPercentEncoding(), value: Swift.String(assessmentArn).urlPercentEncoding())
-            items.append(assessmentArnQueryItem)
-            if let recommendationTemplateArn = recommendationTemplateArn {
-                let recommendationTemplateArnQueryItem = ClientRuntime.URLQueryItem(name: "recommendationTemplateArn".urlPercentEncoding(), value: Swift.String(recommendationTemplateArn).urlPercentEncoding())
-                items.append(recommendationTemplateArnQueryItem)
-            }
-            if let status = status {
-                status.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListRecommendationTemplatesInput {
+
+    static func queryItemProvider(_ value: ListRecommendationTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let reverseOrder = value.reverseOrder {
+            let reverseOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "reverseOrder".urlPercentEncoding(), value: Swift.String(reverseOrder).urlPercentEncoding())
+            items.append(reverseOrderQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        guard let assessmentArn = value.assessmentArn else {
+            let message = "Creating a URL Query Item failed. assessmentArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let assessmentArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "assessmentArn".urlPercentEncoding(), value: Swift.String(assessmentArn).urlPercentEncoding())
+        items.append(assessmentArnQueryItem)
+        if let recommendationTemplateArn = value.recommendationTemplateArn {
+            let recommendationTemplateArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "recommendationTemplateArn".urlPercentEncoding(), value: Swift.String(recommendationTemplateArn).urlPercentEncoding())
+            items.append(recommendationTemplateArnQueryItem)
+        }
+        if let status = value.status {
+            status.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListRecommendationTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecommendationTemplatesInput {
+
+    static func urlPathProvider(_ value: ListRecommendationTemplatesInput) -> Swift.String? {
         return "/list-recommendation-templates"
     }
 }
@@ -9090,29 +9123,29 @@ enum ListRecommendationTemplatesOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListResiliencyPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let policyName = policyName {
-                let policyNameQueryItem = ClientRuntime.URLQueryItem(name: "policyName".urlPercentEncoding(), value: Swift.String(policyName).urlPercentEncoding())
-                items.append(policyNameQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListResiliencyPoliciesInput {
+
+    static func queryItemProvider(_ value: ListResiliencyPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let policyName = value.policyName {
+            let policyNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "policyName".urlPercentEncoding(), value: Swift.String(policyName).urlPercentEncoding())
+            items.append(policyNameQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListResiliencyPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResiliencyPoliciesInput {
+
+    static func urlPathProvider(_ value: ListResiliencyPoliciesInput) -> Swift.String? {
         return "/list-resiliency-policies"
     }
 }
@@ -9242,8 +9275,9 @@ extension ListSopRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListSopRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSopRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListSopRecommendationsInput) -> Swift.String? {
         return "/list-sop-recommendations"
     }
 }
@@ -9369,25 +9403,25 @@ enum ListSopRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSuggestedResiliencyPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSuggestedResiliencyPoliciesInput {
+
+    static func queryItemProvider(_ value: ListSuggestedResiliencyPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSuggestedResiliencyPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSuggestedResiliencyPoliciesInput {
+
+    static func urlPathProvider(_ value: ListSuggestedResiliencyPoliciesInput) -> Swift.String? {
         return "/list-suggested-resiliency-policies"
     }
 }
@@ -9492,9 +9526,10 @@ enum ListSuggestedResiliencyPoliciesOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9613,8 +9648,9 @@ extension ListTestRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListTestRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTestRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListTestRecommendationsInput) -> Swift.String? {
         return "/list-test-recommendations"
     }
 }
@@ -9769,8 +9805,9 @@ extension ListUnsupportedAppVersionResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListUnsupportedAppVersionResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUnsupportedAppVersionResourcesInput {
+
+    static func urlPathProvider(_ value: ListUnsupportedAppVersionResourcesInput) -> Swift.String? {
         return "/list-unsupported-app-version-resources"
     }
 }
@@ -10427,8 +10464,9 @@ extension PublishAppVersionInput: Swift.Encodable {
     }
 }
 
-extension PublishAppVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PublishAppVersionInput {
+
+    static func urlPathProvider(_ value: PublishAppVersionInput) -> Swift.String? {
         return "/publish-app-version"
     }
 }
@@ -10574,8 +10612,9 @@ extension PutDraftAppVersionTemplateInput: Swift.Encodable {
     }
 }
 
-extension PutDraftAppVersionTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutDraftAppVersionTemplateInput {
+
+    static func urlPathProvider(_ value: PutDraftAppVersionTemplateInput) -> Swift.String? {
         return "/put-draft-app-version-template"
     }
 }
@@ -11297,8 +11336,9 @@ extension RemoveDraftAppVersionResourceMappingsInput: Swift.Encodable {
     }
 }
 
-extension RemoveDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveDraftAppVersionResourceMappingsInput {
+
+    static func urlPathProvider(_ value: RemoveDraftAppVersionResourceMappingsInput) -> Swift.String? {
         return "/remove-draft-app-version-resource-mappings"
     }
 }
@@ -11534,6 +11574,8 @@ extension ResiliencehubClientTypes {
         }
     }
 }
+
+public enum ResiliencehubClientTypes {}
 
 extension ResiliencehubClientTypes.ResiliencyPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -11859,8 +11901,9 @@ extension ResolveAppVersionResourcesInput: Swift.Encodable {
     }
 }
 
-extension ResolveAppVersionResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResolveAppVersionResourcesInput {
+
+    static func urlPathProvider(_ value: ResolveAppVersionResourcesInput) -> Swift.String? {
         return "/resolve-app-version-resources"
     }
 }
@@ -12832,8 +12875,9 @@ extension StartAppAssessmentInput: Swift.Encodable {
     }
 }
 
-extension StartAppAssessmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAppAssessmentInput {
+
+    static func urlPathProvider(_ value: StartAppAssessmentInput) -> Swift.String? {
         return "/start-app-assessment"
     }
 }
@@ -12989,9 +13033,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13515,26 +13560,26 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
         "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13633,8 +13678,9 @@ extension UpdateAppInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAppInput {
+
+    static func urlPathProvider(_ value: UpdateAppInput) -> Swift.String? {
         return "/update-app"
     }
 }
@@ -13817,8 +13863,9 @@ extension UpdateAppVersionAppComponentInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAppVersionAppComponentInput {
+
+    static func urlPathProvider(_ value: UpdateAppVersionAppComponentInput) -> Swift.String? {
         return "/update-app-version-app-component"
     }
 }
@@ -14002,8 +14049,9 @@ extension UpdateAppVersionInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAppVersionInput {
+
+    static func urlPathProvider(_ value: UpdateAppVersionInput) -> Swift.String? {
         return "/update-app-version"
     }
 }
@@ -14213,8 +14261,9 @@ extension UpdateAppVersionResourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppVersionResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAppVersionResourceInput {
+
+    static func urlPathProvider(_ value: UpdateAppVersionResourceInput) -> Swift.String? {
         return "/update-app-version-resource"
     }
 }
@@ -14594,8 +14643,9 @@ extension UpdateResiliencyPolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateResiliencyPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResiliencyPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateResiliencyPolicyInput) -> Swift.String? {
         return "/update-resiliency-policy"
     }
 }

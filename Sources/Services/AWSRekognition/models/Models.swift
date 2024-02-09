@@ -188,8 +188,9 @@ extension AssociateFacesInput: Swift.Encodable {
     }
 }
 
-extension AssociateFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateFacesInput {
+
+    static func urlPathProvider(_ value: AssociateFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -283,11 +284,7 @@ extension AssociateFacesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct AssociateFacesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// An array of AssociatedFace objects containing FaceIDs that are successfully associated with the UserID is returned. Returned if the AssociateFaces action is successful.
-=======
     /// An array of AssociatedFace objects containing FaceIDs that have been successfully associated with the UserID. Returned if the AssociateFaces action is successful.
->>>>>>> temp-main
     public var associatedFaces: [RekognitionClientTypes.AssociatedFace]?
     /// An array of UnsuccessfulAssociation objects containing FaceIDs that are not successfully associated along with the reasons. Returned if the AssociateFaces action is successful.
     public var unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]?
@@ -1094,8 +1091,9 @@ extension CompareFacesInput: Swift.Encodable {
     }
 }
 
-extension CompareFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CompareFacesInput {
+
+    static func urlPathProvider(_ value: CompareFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1924,8 +1922,9 @@ extension CopyProjectVersionInput: Swift.Encodable {
     }
 }
 
-extension CopyProjectVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyProjectVersionInput {
+
+    static func urlPathProvider(_ value: CopyProjectVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2155,8 +2154,9 @@ extension CreateCollectionInput: Swift.Encodable {
     }
 }
 
-extension CreateCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCollectionInput {
+
+    static func urlPathProvider(_ value: CreateCollectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2305,8 +2305,9 @@ extension CreateDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2437,8 +2438,9 @@ extension CreateFaceLivenessSessionInput: Swift.Encodable {
     }
 }
 
-extension CreateFaceLivenessSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFaceLivenessSessionInput {
+
+    static func urlPathProvider(_ value: CreateFaceLivenessSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2609,8 +2611,9 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2765,8 +2768,9 @@ extension CreateProjectVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectVersionInput {
+
+    static func urlPathProvider(_ value: CreateProjectVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3000,8 +3004,9 @@ extension CreateStreamProcessorInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamProcessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStreamProcessorInput {
+
+    static func urlPathProvider(_ value: CreateStreamProcessorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3208,8 +3213,9 @@ extension CreateUserInput: Swift.Encodable {
     }
 }
 
-extension CreateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserInput {
+
+    static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3979,8 +3985,9 @@ extension DeleteCollectionInput: Swift.Encodable {
     }
 }
 
-extension DeleteCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCollectionInput {
+
+    static func urlPathProvider(_ value: DeleteCollectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4083,8 +4090,9 @@ extension DeleteDatasetInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4166,8 +4174,9 @@ extension DeleteFacesInput: Swift.Encodable {
     }
 }
 
-extension DeleteFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFacesInput {
+
+    static func urlPathProvider(_ value: DeleteFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4316,8 +4325,9 @@ extension DeleteProjectInput: Swift.Encodable {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4429,8 +4439,9 @@ extension DeleteProjectPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteProjectPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProjectPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteProjectPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4521,8 +4532,9 @@ extension DeleteProjectVersionInput: Swift.Encodable {
     }
 }
 
-extension DeleteProjectVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProjectVersionInput {
+
+    static func urlPathProvider(_ value: DeleteProjectVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4626,8 +4638,9 @@ extension DeleteStreamProcessorInput: Swift.Encodable {
     }
 }
 
-extension DeleteStreamProcessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStreamProcessorInput {
+
+    static func urlPathProvider(_ value: DeleteStreamProcessorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4709,8 +4722,9 @@ extension DeleteUserInput: Swift.Encodable {
     }
 }
 
-extension DeleteUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteUserInput {
+
+    static func urlPathProvider(_ value: DeleteUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4802,8 +4816,9 @@ extension DescribeCollectionInput: Swift.Encodable {
     }
 }
 
-extension DescribeCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCollectionInput {
+
+    static func urlPathProvider(_ value: DescribeCollectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4946,8 +4961,9 @@ extension DescribeDatasetInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5065,8 +5081,9 @@ extension DescribeProjectVersionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeProjectVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeProjectVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeProjectVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5240,8 +5257,9 @@ extension DescribeProjectsInput: Swift.Encodable {
     }
 }
 
-extension DescribeProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeProjectsInput {
+
+    static func urlPathProvider(_ value: DescribeProjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5404,8 +5422,9 @@ extension DescribeStreamProcessorInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamProcessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamProcessorInput {
+
+    static func urlPathProvider(_ value: DescribeStreamProcessorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5659,8 +5678,9 @@ extension DetectCustomLabelsInput: Swift.Encodable {
     }
 }
 
-extension DetectCustomLabelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectCustomLabelsInput {
+
+    static func urlPathProvider(_ value: DetectCustomLabelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5809,8 +5829,9 @@ extension DetectFacesInput: Swift.Encodable {
     }
 }
 
-extension DetectFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectFacesInput {
+
+    static func urlPathProvider(_ value: DetectFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6283,8 +6304,9 @@ extension DetectLabelsInput: Swift.Encodable {
     }
 }
 
-extension DetectLabelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectLabelsInput {
+
+    static func urlPathProvider(_ value: DetectLabelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6526,8 +6548,9 @@ extension DetectModerationLabelsInput: Swift.Encodable {
     }
 }
 
-extension DetectModerationLabelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectModerationLabelsInput {
+
+    static func urlPathProvider(_ value: DetectModerationLabelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6590,10 +6613,7 @@ extension DetectModerationLabelsOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectModerationLabelsOutputBody = try responseDecoder.decode(responseBody: data)
-<<<<<<< HEAD
-=======
             self.contentTypes = output.contentTypes
->>>>>>> temp-main
             self.humanLoopActivationOutput = output.humanLoopActivationOutput
             self.moderationLabels = output.moderationLabels
             self.moderationModelVersion = output.moderationModelVersion
@@ -6609,11 +6629,8 @@ extension DetectModerationLabelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DetectModerationLabelsOutput: Swift.Equatable {
-<<<<<<< HEAD
-=======
     /// A list of predicted results for the type of content an image contains. For example, the image content might be from animation, sports, or a video game.
     public var contentTypes: [RekognitionClientTypes.ContentType]?
->>>>>>> temp-main
     /// Shows the results of the human in the loop evaluation.
     public var humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
     /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
@@ -6644,10 +6661,7 @@ struct DetectModerationLabelsOutputBody: Swift.Equatable {
     let moderationModelVersion: Swift.String?
     let humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
     let projectVersion: Swift.String?
-<<<<<<< HEAD
-=======
     let contentTypes: [RekognitionClientTypes.ContentType]?
->>>>>>> temp-main
 }
 
 extension DetectModerationLabelsOutputBody: Swift.Decodable {
@@ -6678,8 +6692,6 @@ extension DetectModerationLabelsOutputBody: Swift.Decodable {
         humanLoopActivationOutput = humanLoopActivationOutputDecoded
         let projectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectVersion)
         projectVersion = projectVersionDecoded
-<<<<<<< HEAD
-=======
         let contentTypesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.ContentType?].self, forKey: .contentTypes)
         var contentTypesDecoded0:[RekognitionClientTypes.ContentType]? = nil
         if let contentTypesContainer = contentTypesContainer {
@@ -6691,7 +6703,6 @@ extension DetectModerationLabelsOutputBody: Swift.Decodable {
             }
         }
         contentTypes = contentTypesDecoded0
->>>>>>> temp-main
     }
 }
 
@@ -6733,8 +6744,9 @@ extension DetectProtectiveEquipmentInput: Swift.Encodable {
     }
 }
 
-extension DetectProtectiveEquipmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectProtectiveEquipmentInput {
+
+    static func urlPathProvider(_ value: DetectProtectiveEquipmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6937,8 +6949,9 @@ extension DetectTextInput: Swift.Encodable {
     }
 }
 
-extension DetectTextInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectTextInput {
+
+    static func urlPathProvider(_ value: DetectTextInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7140,8 +7153,9 @@ extension DisassociateFacesInput: Swift.Encodable {
     }
 }
 
-extension DisassociateFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFacesInput {
+
+    static func urlPathProvider(_ value: DisassociateFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7393,8 +7407,9 @@ extension DistributeDatasetEntriesInput: Swift.Encodable {
     }
 }
 
-extension DistributeDatasetEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DistributeDatasetEntriesInput {
+
+    static func urlPathProvider(_ value: DistributeDatasetEntriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8784,8 +8799,9 @@ extension GetCelebrityInfoInput: Swift.Encodable {
     }
 }
 
-extension GetCelebrityInfoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCelebrityInfoInput {
+
+    static func urlPathProvider(_ value: GetCelebrityInfoInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8929,8 +8945,9 @@ extension GetCelebrityRecognitionInput: Swift.Encodable {
     }
 }
 
-extension GetCelebrityRecognitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCelebrityRecognitionInput {
+
+    static func urlPathProvider(_ value: GetCelebrityRecognitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9153,8 +9170,9 @@ extension GetContentModerationInput: Swift.Encodable {
     }
 }
 
-extension GetContentModerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContentModerationInput {
+
+    static func urlPathProvider(_ value: GetContentModerationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9442,8 +9460,9 @@ extension GetFaceDetectionInput: Swift.Encodable {
     }
 }
 
-extension GetFaceDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFaceDetectionInput {
+
+    static func urlPathProvider(_ value: GetFaceDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9642,8 +9661,9 @@ extension GetFaceLivenessSessionResultsInput: Swift.Encodable {
     }
 }
 
-extension GetFaceLivenessSessionResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFaceLivenessSessionResultsInput {
+
+    static func urlPathProvider(_ value: GetFaceLivenessSessionResultsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9809,8 +9829,9 @@ extension GetFaceSearchInput: Swift.Encodable {
     }
 }
 
-extension GetFaceSearchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFaceSearchInput {
+
+    static func urlPathProvider(_ value: GetFaceSearchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10033,8 +10054,9 @@ extension GetLabelDetectionInput: Swift.Encodable {
     }
 }
 
-extension GetLabelDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLabelDetectionInput {
+
+    static func urlPathProvider(_ value: GetLabelDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10314,8 +10336,9 @@ extension GetMediaAnalysisJobInput: Swift.Encodable {
     }
 }
 
-extension GetMediaAnalysisJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMediaAnalysisJobInput {
+
+    static func urlPathProvider(_ value: GetMediaAnalysisJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10546,8 +10569,9 @@ extension GetPersonTrackingInput: Swift.Encodable {
     }
 }
 
-extension GetPersonTrackingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPersonTrackingInput {
+
+    static func urlPathProvider(_ value: GetPersonTrackingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10762,8 +10786,9 @@ extension GetSegmentDetectionInput: Swift.Encodable {
     }
 }
 
-extension GetSegmentDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSegmentDetectionInput {
+
+    static func urlPathProvider(_ value: GetSegmentDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11017,8 +11042,9 @@ extension GetTextDetectionInput: Swift.Encodable {
     }
 }
 
-extension GetTextDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTextDetectionInput {
+
+    static func urlPathProvider(_ value: GetTextDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11798,8 +11824,9 @@ extension IndexFacesInput: Swift.Encodable {
     }
 }
 
-extension IndexFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IndexFacesInput {
+
+    static func urlPathProvider(_ value: IndexFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13440,8 +13467,9 @@ extension ListCollectionsInput: Swift.Encodable {
     }
 }
 
-extension ListCollectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCollectionsInput {
+
+    static func urlPathProvider(_ value: ListCollectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13617,8 +13645,9 @@ extension ListDatasetEntriesInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetEntriesInput {
+
+    static func urlPathProvider(_ value: ListDatasetEntriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13808,8 +13837,9 @@ extension ListDatasetLabelsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetLabelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetLabelsInput {
+
+    static func urlPathProvider(_ value: ListDatasetLabelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13969,8 +13999,9 @@ extension ListFacesInput: Swift.Encodable {
     }
 }
 
-extension ListFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFacesInput {
+
+    static func urlPathProvider(_ value: ListFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14148,8 +14179,9 @@ extension ListMediaAnalysisJobsInput: Swift.Encodable {
     }
 }
 
-extension ListMediaAnalysisJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMediaAnalysisJobsInput {
+
+    static func urlPathProvider(_ value: ListMediaAnalysisJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14287,8 +14319,9 @@ extension ListProjectPoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListProjectPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProjectPoliciesInput {
+
+    static func urlPathProvider(_ value: ListProjectPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14431,8 +14464,9 @@ extension ListStreamProcessorsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamProcessorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamProcessorsInput {
+
+    static func urlPathProvider(_ value: ListStreamProcessorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14561,8 +14595,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14682,8 +14717,9 @@ extension ListUsersInput: Swift.Encodable {
     }
 }
 
-extension ListUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUsersInput {
+
+    static func urlPathProvider(_ value: ListUsersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15421,8 +15457,6 @@ extension RekognitionClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension RekognitionClientTypes.MediaAnalysisModelVersions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case moderation = "Moderation"
@@ -15458,7 +15492,6 @@ extension RekognitionClientTypes {
 
 }
 
->>>>>>> temp-main
 extension RekognitionClientTypes.MediaAnalysisOperationsConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case detectModerationLabels = "DetectModerationLabels"
@@ -15542,21 +15575,15 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-<<<<<<< HEAD
-=======
         case modelVersions = "ModelVersions"
->>>>>>> temp-main
         case s3Object = "S3Object"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-<<<<<<< HEAD
-=======
         if let modelVersions = self.modelVersions {
             try encodeContainer.encode(modelVersions, forKey: .modelVersions)
         }
->>>>>>> temp-main
         if let s3Object = self.s3Object {
             try encodeContainer.encode(s3Object, forKey: .s3Object)
         }
@@ -15566,37 +15593,25 @@ extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ObjectDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.S3Object.self, forKey: .s3Object)
         s3Object = s3ObjectDecoded
-<<<<<<< HEAD
-=======
         let modelVersionsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.MediaAnalysisModelVersions.self, forKey: .modelVersions)
         modelVersions = modelVersionsDecoded
->>>>>>> temp-main
     }
 }
 
 extension RekognitionClientTypes {
     /// Contains the results for a media analysis job created with StartMediaAnalysisJob.
     public struct MediaAnalysisResults: Swift.Equatable {
-<<<<<<< HEAD
-=======
         /// Information about the model versions for the features selected in a given job.
         public var modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions?
->>>>>>> temp-main
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         public var s3Object: RekognitionClientTypes.S3Object?
 
         public init(
-<<<<<<< HEAD
-            s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
-=======
             modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions? = nil,
             s3Object: RekognitionClientTypes.S3Object? = nil
         )
         {
             self.modelVersions = modelVersions
->>>>>>> temp-main
             self.s3Object = s3Object
         }
     }
@@ -17182,8 +17197,9 @@ extension PutProjectPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutProjectPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutProjectPolicyInput {
+
+    static func urlPathProvider(_ value: PutProjectPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17405,8 +17421,9 @@ extension RecognizeCelebritiesInput: Swift.Encodable {
     }
 }
 
-extension RecognizeCelebritiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RecognizeCelebritiesInput {
+
+    static func urlPathProvider(_ value: RecognizeCelebritiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17592,6 +17609,8 @@ extension RekognitionClientTypes {
     }
 
 }
+
+public enum RekognitionClientTypes {}
 
 extension ResourceAlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -18018,8 +18037,9 @@ extension SearchFacesByImageInput: Swift.Encodable {
     }
 }
 
-extension SearchFacesByImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchFacesByImageInput {
+
+    static func urlPathProvider(_ value: SearchFacesByImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18209,8 +18229,9 @@ extension SearchFacesInput: Swift.Encodable {
     }
 }
 
-extension SearchFacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchFacesInput {
+
+    static func urlPathProvider(_ value: SearchFacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18383,8 +18404,9 @@ extension SearchUsersByImageInput: Swift.Encodable {
     }
 }
 
-extension SearchUsersByImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchUsersByImageInput {
+
+    static func urlPathProvider(_ value: SearchUsersByImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18587,8 +18609,9 @@ extension SearchUsersInput: Swift.Encodable {
     }
 }
 
-extension SearchUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchUsersInput {
+
+    static func urlPathProvider(_ value: SearchUsersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19348,8 +19371,9 @@ extension StartCelebrityRecognitionInput: Swift.Encodable {
     }
 }
 
-extension StartCelebrityRecognitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartCelebrityRecognitionInput {
+
+    static func urlPathProvider(_ value: StartCelebrityRecognitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19495,8 +19519,9 @@ extension StartContentModerationInput: Swift.Encodable {
     }
 }
 
-extension StartContentModerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartContentModerationInput {
+
+    static func urlPathProvider(_ value: StartContentModerationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19650,8 +19675,9 @@ extension StartFaceDetectionInput: Swift.Encodable {
     }
 }
 
-extension StartFaceDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFaceDetectionInput {
+
+    static func urlPathProvider(_ value: StartFaceDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19809,8 +19835,9 @@ extension StartFaceSearchInput: Swift.Encodable {
     }
 }
 
-extension StartFaceSearchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFaceSearchInput {
+
+    static func urlPathProvider(_ value: StartFaceSearchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19985,8 +20012,9 @@ extension StartLabelDetectionInput: Swift.Encodable {
     }
 }
 
-extension StartLabelDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartLabelDetectionInput {
+
+    static func urlPathProvider(_ value: StartLabelDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20169,8 +20197,9 @@ extension StartMediaAnalysisJobInput: Swift.Encodable {
     }
 }
 
-extension StartMediaAnalysisJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMediaAnalysisJobInput {
+
+    static func urlPathProvider(_ value: StartMediaAnalysisJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20333,8 +20362,9 @@ extension StartPersonTrackingInput: Swift.Encodable {
     }
 }
 
-extension StartPersonTrackingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartPersonTrackingInput {
+
+    static func urlPathProvider(_ value: StartPersonTrackingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20472,8 +20502,9 @@ extension StartProjectVersionInput: Swift.Encodable {
     }
 }
 
-extension StartProjectVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartProjectVersionInput {
+
+    static func urlPathProvider(_ value: StartProjectVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20663,8 +20694,9 @@ extension StartSegmentDetectionInput: Swift.Encodable {
     }
 }
 
-extension StartSegmentDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSegmentDetectionInput {
+
+    static func urlPathProvider(_ value: StartSegmentDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20863,8 +20895,9 @@ extension StartStreamProcessorInput: Swift.Encodable {
     }
 }
 
-extension StartStreamProcessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartStreamProcessorInput {
+
+    static func urlPathProvider(_ value: StartStreamProcessorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21102,8 +21135,9 @@ extension StartTextDetectionInput: Swift.Encodable {
     }
 }
 
-extension StartTextDetectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTextDetectionInput {
+
+    static func urlPathProvider(_ value: StartTextDetectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21241,8 +21275,9 @@ extension StopProjectVersionInput: Swift.Encodable {
     }
 }
 
-extension StopProjectVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopProjectVersionInput {
+
+    static func urlPathProvider(_ value: StopProjectVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21346,8 +21381,9 @@ extension StopStreamProcessorInput: Swift.Encodable {
     }
 }
 
-extension StopStreamProcessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopStreamProcessorInput {
+
+    static func urlPathProvider(_ value: StopStreamProcessorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21931,8 +21967,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23068,8 +23105,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23164,8 +23202,9 @@ extension UpdateDatasetEntriesInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatasetEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDatasetEntriesInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetEntriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23271,8 +23310,9 @@ extension UpdateStreamProcessorInput: Swift.Encodable {
     }
 }
 
-extension UpdateStreamProcessorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStreamProcessorInput {
+
+    static func urlPathProvider(_ value: UpdateStreamProcessorInput) -> Swift.String? {
         return "/"
     }
 }

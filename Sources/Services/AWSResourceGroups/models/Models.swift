@@ -147,8 +147,9 @@ extension CreateGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGroupInput {
+
+    static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
         return "/groups"
     }
 }
@@ -343,8 +344,9 @@ extension DeleteGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGroupInput) -> Swift.String? {
         return "/delete-group"
     }
 }
@@ -552,8 +554,9 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountSettingsInput {
+
+    static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
         return "/get-account-settings"
     }
 }
@@ -640,8 +643,9 @@ extension GetGroupConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetGroupConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupConfigurationInput {
+
+    static func urlPathProvider(_ value: GetGroupConfigurationInput) -> Swift.String? {
         return "/get-group-configuration"
     }
 }
@@ -747,8 +751,9 @@ extension GetGroupInput: Swift.Encodable {
     }
 }
 
-extension GetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupInput {
+
+    static func urlPathProvider(_ value: GetGroupInput) -> Swift.String? {
         return "/get-group"
     }
 }
@@ -863,8 +868,9 @@ extension GetGroupQueryInput: Swift.Encodable {
     }
 }
 
-extension GetGroupQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupQueryInput {
+
+    static func urlPathProvider(_ value: GetGroupQueryInput) -> Swift.String? {
         return "/get-group-query"
     }
 }
@@ -962,9 +968,10 @@ enum GetGroupQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension GetTagsInput {
+
+    static func urlPathProvider(_ value: GetTagsInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/resources/\(arn.urlPercentEncoding())/tags"
@@ -1642,8 +1649,9 @@ extension GroupResourcesInput: Swift.Encodable {
     }
 }
 
-extension GroupResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GroupResourcesInput {
+
+    static func urlPathProvider(_ value: GroupResourcesInput) -> Swift.String? {
         return "/group-resources"
     }
 }
@@ -1885,8 +1893,9 @@ extension ListGroupResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListGroupResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupResourcesInput {
+
+    static func urlPathProvider(_ value: ListGroupResourcesInput) -> Swift.String? {
         return "/list-group-resources"
     }
 }
@@ -2142,25 +2151,25 @@ extension ListGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGroupsInput {
+
+    static func queryItemProvider(_ value: ListGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupsInput {
+
+    static func urlPathProvider(_ value: ListGroupsInput) -> Swift.String? {
         return "/groups-list"
     }
 }
@@ -2477,8 +2486,9 @@ extension PutGroupConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutGroupConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutGroupConfigurationInput {
+
+    static func urlPathProvider(_ value: PutGroupConfigurationInput) -> Swift.String? {
         return "/put-group-configuration"
     }
 }
@@ -2754,6 +2764,8 @@ extension ResourceGroupsClientTypes {
     }
 }
 
+public enum ResourceGroupsClientTypes {}
+
 extension ResourceGroupsClientTypes.ResourceIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -2962,8 +2974,9 @@ extension SearchResourcesInput: Swift.Encodable {
     }
 }
 
-extension SearchResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchResourcesInput {
+
+    static func urlPathProvider(_ value: SearchResourcesInput) -> Swift.String? {
         return "/resources/search"
     }
 }
@@ -3127,9 +3140,10 @@ extension TagInput: Swift.Encodable {
     }
 }
 
-extension TagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension TagInput {
+
+    static func urlPathProvider(_ value: TagInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/resources/\(arn.urlPercentEncoding())/tags"
@@ -3384,8 +3398,9 @@ extension UngroupResourcesInput: Swift.Encodable {
     }
 }
 
-extension UngroupResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UngroupResourcesInput {
+
+    static func urlPathProvider(_ value: UngroupResourcesInput) -> Swift.String? {
         return "/ungroup-resources"
     }
 }
@@ -3556,9 +3571,10 @@ extension UntagInput: Swift.Encodable {
     }
 }
 
-extension UntagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension UntagInput {
+
+    static func urlPathProvider(_ value: UntagInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/resources/\(arn.urlPercentEncoding())/tags"
@@ -3696,8 +3712,9 @@ extension UpdateAccountSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
         return "/update-account-settings"
     }
 }
@@ -3806,8 +3823,9 @@ extension UpdateGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateGroupInput) -> Swift.String? {
         return "/update-group"
     }
 }
@@ -3934,8 +3952,9 @@ extension UpdateGroupQueryInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGroupQueryInput {
+
+    static func urlPathProvider(_ value: UpdateGroupQueryInput) -> Swift.String? {
         return "/update-group-query"
     }
 }

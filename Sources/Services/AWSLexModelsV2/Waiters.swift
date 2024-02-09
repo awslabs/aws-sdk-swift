@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension LexModelsV2ClientProtocol {
+extension LexModelsV2Client {
 
     static func botAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBotInput, DescribeBotOutput> {
         let acceptors: [WaiterConfiguration<DescribeBotInput, DescribeBotOutput>.Acceptor] = [

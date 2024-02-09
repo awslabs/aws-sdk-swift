@@ -27,9 +27,6 @@ public class S3Client {
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         self.decoder = config.decoder ?? decoder
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -49,12 +46,10 @@ extension S3Client {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-        public typealias AWSAuthSchemeResolver = S3AuthSchemeResolver
 
         public var serviceName: String { "S3" }
         public var clientName: String { "S3Client" }
         public var accelerate: Swift.Bool?
-        public var authSchemeResolver: S3AuthSchemeResolver
         public var disableMultiRegionAccessPoints: Swift.Bool?
         public var disableS3ExpressSessionAuth: Swift.Bool?
         public var endpointResolver: EndpointResolver
@@ -62,9 +57,8 @@ extension S3Client {
         public var useArnRegion: Swift.Bool?
         public var useGlobalEndpoint: Swift.Bool?
 
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: S3AuthSchemeResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultS3AuthSchemeResolver()
         }
     }
 }
@@ -82,7 +76,7 @@ public struct S3ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
     }
 }
 
-extension S3Client: S3ClientProtocol {
+extension S3Client {
     /// Performs the `AbortMultipartUpload` operation on the `AmazonS3` service.
     ///
     /// This operation aborts a multipart upload. After a multipart upload is aborted, no additional parts can be uploaded using that upload ID. The storage consumed by any previously uploaded parts will be freed. However, if any part uploads are currently in progress, those part uploads might or might not succeed. As a result, it might be necessary to abort a given multipart upload multiple times in order to completely free all storage consumed by all parts. To verify that all parts have been removed and prevent getting charged for the part storage, you should call the [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html) API operation and ensure that the parts list is empty. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are not supported. For more information, see [Regional and Zonal endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html) in the Amazon S3 User Guide. Permissions
@@ -112,8 +106,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
-    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput
-    {
+    public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -123,37 +116,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<AbortMultipartUploadInput, AbortMultipartUploadOutput>(id: "abortMultipartUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AbortMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AbortMultipartUploadOutput, AbortMultipartUploadOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AbortMultipartUploadOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AbortMultipartUploadOutput, AbortMultipartUploadOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AbortMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AbortMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortMultipartUploadOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(AbortMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<AbortMultipartUploadOutput>())
@@ -224,8 +202,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter CompleteMultipartUploadInput : [no documentation found]
     ///
     /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
-    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput
-    {
+    public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -235,40 +212,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(id: "completeMultipartUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CompleteMultipartUploadOutput, CompleteMultipartUploadOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, S3ClientTypes.CompletedMultipartUpload, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CompleteMultipartUpload", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CompletedMultipartUpload.writingClosure(_:to:), keyPath: \.multipartUpload, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteMultipartUploadOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CompleteMultipartUploadOutput, CompleteMultipartUploadOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMultipartUploadOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CompleteMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CompleteMultipartUploadOutput>())
@@ -327,8 +289,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
-    public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput
-    {
+    public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -338,37 +299,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CopyObjectInput, CopyObjectOutput>(id: "copyObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyObjectInput, CopyObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyObjectInput, CopyObjectOutput>(CopyObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyObjectInput, CopyObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: true, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CopyObjectOutput, CopyObjectOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CopyObjectInput, CopyObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CopyObjectInput, CopyObjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CopyObjectOutput, CopyObjectOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CopyObjectInput, CopyObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CopyObjectInput, CopyObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CopyObjectInput, CopyObjectOutput>(CopyObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CopyObjectInput, CopyObjectOutput>(CopyObjectInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyObjectOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(CopyObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CopyObjectOutput>())
@@ -418,8 +364,7 @@ extension S3Client: S3ClientProtocol {
     /// __Possible Exceptions:__
     /// - `BucketAlreadyExists` : The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
-    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput
-    {
+    public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -429,39 +374,24 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateBucketInput, CreateBucketOutput>(id: "createBucket")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketInput, CreateBucketOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketInput, CreateBucketOutput>(CreateBucketInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBucketInput, CreateBucketOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableAccessPoints: true, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBucketOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateBucketOutput, CreateBucketOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBucketOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateBucketInput, CreateBucketOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateBucketInput, CreateBucketOutput>(CreateBucketInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBucketInput, CreateBucketOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<CreateBucketInput, CreateBucketOutput, S3ClientTypes.CreateBucketConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateBucketConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CreateBucketConfiguration.writingClosure(_:to:), keyPath: \.createBucketConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBucketOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateBucketOutput, CreateBucketOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBucketOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBucketOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateBucketOutput>())
@@ -543,8 +473,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter CreateMultipartUploadInput : [no documentation found]
     ///
     /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
-    public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput
-    {
+    public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -554,37 +483,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateMultipartUploadInput, CreateMultipartUploadOutput>(id: "createMultipartUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(CreateMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateMultipartUploadOutput, CreateMultipartUploadOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultipartUploadOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateMultipartUploadOutput, CreateMultipartUploadOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(CreateMultipartUploadInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(CreateMultipartUploadInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultipartUploadOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateMultipartUploadOutput>())
@@ -613,8 +527,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput
-    {
+    public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -624,41 +537,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateSessionInput, CreateSessionOutput>(id: "createSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSessionInput, CreateSessionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSessionInput, CreateSessionOutput>(CreateSessionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSessionInput, CreateSessionOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: true, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateSessionOutput, CreateSessionOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateSessionInput, CreateSessionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateSessionInput, CreateSessionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSessionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateSessionOutput, CreateSessionOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateSessionInput, CreateSessionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateSessionInput, CreateSessionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateSessionInput, CreateSessionOutput>(CreateSessionInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateSessionInput, CreateSessionOutput>(CreateSessionInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSessionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSessionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSessionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateSessionOutput>())
@@ -691,8 +585,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketOutput` : [no documentation found]
-    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput
-    {
+    public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -702,35 +595,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketInput, DeleteBucketOutput>(id: "deleteBucket")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketInput, DeleteBucketOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketOutput, DeleteBucketOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketOutput, DeleteBucketOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketOutput>())
@@ -751,8 +630,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketAnalyticsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
-    public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput
-    {
+    public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -762,37 +640,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(id: "deleteBucketAnalyticsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketAnalyticsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketAnalyticsConfigurationOutput, DeleteBucketAnalyticsConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketAnalyticsConfigurationOutput, DeleteBucketAnalyticsConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketAnalyticsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketAnalyticsConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketAnalyticsConfigurationOutput>())
@@ -811,8 +674,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketCorsInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
-    public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput
-    {
+    public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -822,37 +684,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketCorsInput, DeleteBucketCorsOutput>(id: "deleteBucketCors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(DeleteBucketCorsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketCorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketCorsOutput, DeleteBucketCorsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketCorsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketCorsOutput, DeleteBucketCorsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketCorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(DeleteBucketCorsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(DeleteBucketCorsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketCorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketCorsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketCorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketCorsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketCorsOutput>())
@@ -871,8 +718,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketEncryptionInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
-    public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput
-    {
+    public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -882,37 +728,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(id: "deleteBucketEncryption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(DeleteBucketEncryptionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketEncryptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketEncryptionOutput, DeleteBucketEncryptionOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketEncryptionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketEncryptionOutput, DeleteBucketEncryptionOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketEncryptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(DeleteBucketEncryptionInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(DeleteBucketEncryptionInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketEncryptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketEncryptionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketEncryptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketEncryptionOutput>())
@@ -933,8 +764,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
-    public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput
-    {
+    public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -944,35 +774,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(id: "deleteBucketIntelligentTieringConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput, DeleteBucketIntelligentTieringConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketIntelligentTieringConfigurationOutput, DeleteBucketIntelligentTieringConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>())
@@ -993,8 +809,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketInventoryConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
-    public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput
-    {
+    public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1004,37 +819,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(id: "deleteBucketInventoryConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketInventoryConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketInventoryConfigurationOutput, DeleteBucketInventoryConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketInventoryConfigurationOutput, DeleteBucketInventoryConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketInventoryConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketInventoryConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketInventoryConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketInventoryConfigurationOutput>())
@@ -1053,8 +853,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketLifecycleInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
-    public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput
-    {
+    public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1064,37 +863,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(id: "deleteBucketLifecycle")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(DeleteBucketLifecycleInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketLifecycleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketLifecycleOutput, DeleteBucketLifecycleOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketLifecycleOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketLifecycleOutput, DeleteBucketLifecycleOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketLifecycleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(DeleteBucketLifecycleInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(DeleteBucketLifecycleInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketLifecycleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketLifecycleOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketLifecycleOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketLifecycleOutput>())
@@ -1117,8 +901,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketMetricsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
-    public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput
-    {
+    public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1128,37 +911,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(id: "deleteBucketMetricsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketMetricsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketMetricsConfigurationOutput, DeleteBucketMetricsConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketMetricsConfigurationOutput, DeleteBucketMetricsConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketMetricsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketMetricsConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketMetricsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketMetricsConfigurationOutput>())
@@ -1177,8 +945,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketOwnershipControlsInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
-    public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput
-    {
+    public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1188,37 +955,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(id: "deleteBucketOwnershipControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketOwnershipControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketOwnershipControlsOutput, DeleteBucketOwnershipControlsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketOwnershipControlsOutput, DeleteBucketOwnershipControlsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketOwnershipControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOwnershipControlsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketOwnershipControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketOwnershipControlsOutput>())
@@ -1244,8 +996,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
-    public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput
-    {
+    public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1255,37 +1006,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(id: "deleteBucketPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketPolicyOutput, DeleteBucketPolicyOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketPolicyOutput, DeleteBucketPolicyOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketPolicyOutput>())
@@ -1304,8 +1040,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
-    public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput
-    {
+    public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1315,37 +1050,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(id: "deleteBucketReplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketReplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketReplicationOutput, DeleteBucketReplicationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketReplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketReplicationOutput, DeleteBucketReplicationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketReplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketReplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketReplicationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketReplicationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketReplicationOutput>())
@@ -1364,8 +1084,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
-    public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput
-    {
+    public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1375,37 +1094,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(id: "deleteBucketTagging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketTaggingOutput, DeleteBucketTaggingOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketTaggingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketTaggingOutput, DeleteBucketTaggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketTaggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketTaggingOutput>())
@@ -1424,8 +1128,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteBucketWebsiteInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
-    public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput
-    {
+    public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1435,37 +1138,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(id: "deleteBucketWebsite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(DeleteBucketWebsiteInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketWebsiteOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteBucketWebsiteOutput, DeleteBucketWebsiteOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketWebsiteOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteBucketWebsiteOutput, DeleteBucketWebsiteOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBucketWebsiteOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(DeleteBucketWebsiteInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(DeleteBucketWebsiteInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketWebsiteOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketWebsiteOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketWebsiteOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketWebsiteOutput>())
@@ -1510,8 +1198,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteObjectInput : [no documentation found]
     ///
     /// - Returns: `DeleteObjectOutput` : [no documentation found]
-    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
-    {
+    public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1521,37 +1208,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteObjectInput, DeleteObjectOutput>(id: "deleteObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectInput, DeleteObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectInput, DeleteObjectOutput>(DeleteObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteObjectInput, DeleteObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteObjectOutput, DeleteObjectOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectInput, DeleteObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectInput, DeleteObjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteObjectOutput, DeleteObjectOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectInput, DeleteObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectInput, DeleteObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectInput, DeleteObjectOutput>(DeleteObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectInput, DeleteObjectOutput>(DeleteObjectInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectOutput>())
@@ -1570,8 +1242,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteObjectTaggingInput : [no documentation found]
     ///
     /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
-    public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput
-    {
+    public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1581,37 +1252,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(id: "deleteObjectTagging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(DeleteObjectTaggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteObjectTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteObjectTaggingOutput, DeleteObjectTaggingOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectTaggingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteObjectTaggingOutput, DeleteObjectTaggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteObjectTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(DeleteObjectTaggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(DeleteObjectTaggingInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectTaggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectTaggingOutput>())
@@ -1664,8 +1320,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeleteObjectsInput : [no documentation found]
     ///
     /// - Returns: `DeleteObjectsOutput` : [no documentation found]
-    public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput
-    {
+    public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1675,41 +1330,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeleteObjectsInput, DeleteObjectsOutput>(id: "deleteObjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectsInput, DeleteObjectsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteObjectsInput, DeleteObjectsOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<DeleteObjectsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteObjectsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteObjectsOutput, DeleteObjectsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteObjectsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectsInput, DeleteObjectsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectsInput, DeleteObjectsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<DeleteObjectsInput, DeleteObjectsOutput, S3ClientTypes.Delete, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Delete", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Delete.writingClosure(_:to:), keyPath: \.delete, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteObjectsOutput, DeleteObjectsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectsOutput>())
@@ -1732,8 +1372,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
-    public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput
-    {
+    public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1743,37 +1382,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(id: "deletePublicAccessBlock")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePublicAccessBlockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeletePublicAccessBlockOutput, DeletePublicAccessBlockOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePublicAccessBlockOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeletePublicAccessBlockOutput, DeletePublicAccessBlockOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePublicAccessBlockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePublicAccessBlockOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePublicAccessBlockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePublicAccessBlockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeletePublicAccessBlockOutput>())
@@ -1790,8 +1414,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketAccelerateConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
-    public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput
-    {
+    public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1801,37 +1424,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(id: "getBucketAccelerateConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAccelerateConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketAccelerateConfigurationOutput, GetBucketAccelerateConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAccelerateConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketAccelerateConfigurationOutput, GetBucketAccelerateConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAccelerateConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAccelerateConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAccelerateConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAccelerateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAccelerateConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAccelerateConfigurationOutput>())
@@ -1848,8 +1456,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketAclInput : [no documentation found]
     ///
     /// - Returns: `GetBucketAclOutput` : [no documentation found]
-    public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput
-    {
+    public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1859,37 +1466,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketAclInput, GetBucketAclOutput>(id: "getBucketAcl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAclInput, GetBucketAclOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAclInput, GetBucketAclOutput>(GetBucketAclInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketAclInput, GetBucketAclOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketAclOutput, GetBucketAclOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAclInput, GetBucketAclOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAclInput, GetBucketAclOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAclOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketAclOutput, GetBucketAclOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAclInput, GetBucketAclOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAclInput, GetBucketAclOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAclInput, GetBucketAclOutput>(GetBucketAclInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAclInput, GetBucketAclOutput>(GetBucketAclInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAclOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAclOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAclOutput>())
@@ -1910,8 +1502,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketAnalyticsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
-    public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput
-    {
+    public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1921,37 +1512,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(id: "getBucketAnalyticsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAnalyticsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketAnalyticsConfigurationOutput, GetBucketAnalyticsConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketAnalyticsConfigurationOutput, GetBucketAnalyticsConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketAnalyticsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAnalyticsConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAnalyticsConfigurationOutput>())
@@ -1970,8 +1546,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketCorsInput : [no documentation found]
     ///
     /// - Returns: `GetBucketCorsOutput` : [no documentation found]
-    public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput
-    {
+    public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -1981,37 +1556,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketCorsInput, GetBucketCorsOutput>(id: "getBucketCors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(GetBucketCorsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketCorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketCorsOutput, GetBucketCorsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketCorsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketCorsOutput, GetBucketCorsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketCorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(GetBucketCorsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(GetBucketCorsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketCorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketCorsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketCorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketCorsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketCorsOutput>())
@@ -2030,8 +1590,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketEncryptionInput : [no documentation found]
     ///
     /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
-    public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput
-    {
+    public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2041,37 +1600,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketEncryptionInput, GetBucketEncryptionOutput>(id: "getBucketEncryption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(GetBucketEncryptionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketEncryptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketEncryptionOutput, GetBucketEncryptionOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketEncryptionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketEncryptionOutput, GetBucketEncryptionOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketEncryptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(GetBucketEncryptionInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(GetBucketEncryptionInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketEncryptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketEncryptionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketEncryptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketEncryptionOutput>())
@@ -2092,8 +1636,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
-    public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput
-    {
+    public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2103,35 +1646,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(id: "getBucketIntelligentTieringConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketIntelligentTieringConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketIntelligentTieringConfigurationOutput, GetBucketIntelligentTieringConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketIntelligentTieringConfigurationOutput, GetBucketIntelligentTieringConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketIntelligentTieringConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketIntelligentTieringConfigurationOutput>())
@@ -2152,8 +1681,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketInventoryConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
-    public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput
-    {
+    public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2163,37 +1691,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(id: "getBucketInventoryConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketInventoryConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketInventoryConfigurationOutput, GetBucketInventoryConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketInventoryConfigurationOutput, GetBucketInventoryConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketInventoryConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketInventoryConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketInventoryConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketInventoryConfigurationOutput>())
@@ -2228,8 +1741,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput
-    {
+    public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2239,37 +1751,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(id: "getBucketLifecycleConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketLifecycleConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketLifecycleConfigurationOutput, GetBucketLifecycleConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketLifecycleConfigurationOutput, GetBucketLifecycleConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketLifecycleConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLifecycleConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLifecycleConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLifecycleConfigurationOutput>())
@@ -2288,8 +1785,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketLocationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLocationOutput` : [no documentation found]
-    public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput
-    {
+    public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2299,37 +1795,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketLocationInput, GetBucketLocationOutput>(id: "getBucketLocation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(GetBucketLocationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketLocationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketLocationOutput, GetBucketLocationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLocationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketLocationOutput, GetBucketLocationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketLocationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(GetBucketLocationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(GetBucketLocationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLocationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLocationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLocationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLocationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLocationOutput>())
@@ -2348,8 +1829,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketLoggingInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
-    public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput
-    {
+    public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2359,37 +1839,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketLoggingInput, GetBucketLoggingOutput>(id: "getBucketLogging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(GetBucketLoggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketLoggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketLoggingOutput, GetBucketLoggingOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLoggingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketLoggingOutput, GetBucketLoggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketLoggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(GetBucketLoggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(GetBucketLoggingInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLoggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLoggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLoggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLoggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLoggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLoggingOutput>())
@@ -2412,8 +1877,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketMetricsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
-    public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput
-    {
+    public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2423,37 +1887,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(id: "getBucketMetricsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketMetricsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketMetricsConfigurationOutput, GetBucketMetricsConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketMetricsConfigurationOutput, GetBucketMetricsConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketMetricsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketMetricsConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketMetricsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketMetricsConfigurationOutput>())
@@ -2470,8 +1919,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketNotificationConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
-    public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput
-    {
+    public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2481,37 +1929,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(id: "getBucketNotificationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketNotificationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketNotificationConfigurationOutput, GetBucketNotificationConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketNotificationConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketNotificationConfigurationOutput, GetBucketNotificationConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketNotificationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketNotificationConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketNotificationConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketNotificationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketNotificationConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketNotificationConfigurationOutput>())
@@ -2530,8 +1963,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketOwnershipControlsInput : [no documentation found]
     ///
     /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
-    public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput
-    {
+    public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2541,37 +1973,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(id: "getBucketOwnershipControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketOwnershipControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketOwnershipControlsOutput, GetBucketOwnershipControlsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketOwnershipControlsOutput, GetBucketOwnershipControlsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketOwnershipControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketOwnershipControlsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketOwnershipControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketOwnershipControlsOutput>())
@@ -2595,8 +2012,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
-    public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput
-    {
+    public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2606,37 +2022,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketPolicyInput, GetBucketPolicyOutput>(id: "getBucketPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketPolicyOutput, GetBucketPolicyOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketPolicyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketPolicyOutput, GetBucketPolicyOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketPolicyOutput>())
@@ -2659,8 +2060,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketPolicyStatusInput : [no documentation found]
     ///
     /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
-    public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput
-    {
+    public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2670,37 +2070,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(id: "getBucketPolicyStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(GetBucketPolicyStatusInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketPolicyStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketPolicyStatusOutput, GetBucketPolicyStatusOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketPolicyStatusOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketPolicyStatusOutput, GetBucketPolicyStatusOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketPolicyStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(GetBucketPolicyStatusInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(GetBucketPolicyStatusInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketPolicyStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyStatusOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketPolicyStatusOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyStatusOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketPolicyStatusOutput>())
@@ -2719,8 +2104,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
-    public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput
-    {
+    public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2730,37 +2114,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketReplicationInput, GetBucketReplicationOutput>(id: "getBucketReplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketReplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketReplicationOutput, GetBucketReplicationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketReplicationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketReplicationOutput, GetBucketReplicationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketReplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketReplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketReplicationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketReplicationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketReplicationOutput>())
@@ -2777,8 +2146,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketRequestPaymentInput : [no documentation found]
     ///
     /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
-    public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput
-    {
+    public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2788,37 +2156,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(id: "getBucketRequestPayment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(GetBucketRequestPaymentInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketRequestPaymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketRequestPaymentOutput, GetBucketRequestPaymentOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketRequestPaymentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketRequestPaymentOutput, GetBucketRequestPaymentOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketRequestPaymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(GetBucketRequestPaymentInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(GetBucketRequestPaymentInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketRequestPaymentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketRequestPaymentOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketRequestPaymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketRequestPaymentOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketRequestPaymentOutput>())
@@ -2847,8 +2200,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
-    public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput
-    {
+    public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2858,37 +2210,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketTaggingInput, GetBucketTaggingOutput>(id: "getBucketTagging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketTaggingOutput, GetBucketTaggingOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketTaggingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketTaggingOutput, GetBucketTaggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketTaggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketTaggingOutput>())
@@ -2909,8 +2246,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
-    public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput
-    {
+    public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2920,37 +2256,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketVersioningInput, GetBucketVersioningOutput>(id: "getBucketVersioning")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketVersioningOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketVersioningOutput, GetBucketVersioningOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketVersioningOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketVersioningOutput, GetBucketVersioningOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketVersioningOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketVersioningOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketVersioningOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketVersioningOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketVersioningOutput>())
@@ -2969,8 +2290,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetBucketWebsiteInput : [no documentation found]
     ///
     /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
-    public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput
-    {
+    public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -2980,37 +2300,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBucketWebsiteInput, GetBucketWebsiteOutput>(id: "getBucketWebsite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(GetBucketWebsiteInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketWebsiteOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetBucketWebsiteOutput, GetBucketWebsiteOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketWebsiteOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetBucketWebsiteOutput, GetBucketWebsiteOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBucketWebsiteOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(GetBucketWebsiteInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(GetBucketWebsiteInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketWebsiteOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketWebsiteOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketWebsiteOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketWebsiteOutput>())
@@ -3064,8 +2369,7 @@ extension S3Client: S3ClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidObjectState` : Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html). Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see [Restoring Archived Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html) in the Amazon S3 User Guide.
     /// - `NoSuchKey` : The specified key does not exist.
-    public func getObject(input: GetObjectInput) async throws -> GetObjectOutput
-    {
+    public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3075,37 +2379,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectOutput, GetObjectOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectOutput, GetObjectOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3132,8 +2421,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput
-    {
+    public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3143,37 +2431,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectAclInput, GetObjectAclOutput>(id: "getObjectAcl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectAclInput, GetObjectAclOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectAclInput, GetObjectAclOutput>(GetObjectAclInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectAclInput, GetObjectAclOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectAclOutput, GetObjectAclOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectAclInput, GetObjectAclOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectAclInput, GetObjectAclOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectAclOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectAclOutput, GetObjectAclOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectAclInput, GetObjectAclOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectAclInput, GetObjectAclOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectAclInput, GetObjectAclOutput>(GetObjectAclInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectAclInput, GetObjectAclOutput>(GetObjectAclInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectAclOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAclOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectAclOutput>())
@@ -3253,8 +2526,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput
-    {
+    public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3264,37 +2536,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectAttributesInput, GetObjectAttributesOutput>(id: "getObjectAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(GetObjectAttributesInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectAttributesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectAttributesOutput, GetObjectAttributesOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectAttributesOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectAttributesOutput, GetObjectAttributesOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectAttributesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(GetObjectAttributesInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(GetObjectAttributesInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectAttributesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAttributesOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectAttributesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectAttributesOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectAttributesOutput>())
@@ -3311,8 +2568,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectLegalHoldInput : [no documentation found]
     ///
     /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
-    public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput
-    {
+    public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3322,37 +2578,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(id: "getObjectLegalHold")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(GetObjectLegalHoldInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectLegalHoldOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectLegalHoldOutput, GetObjectLegalHoldOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectLegalHoldOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectLegalHoldOutput, GetObjectLegalHoldOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectLegalHoldOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(GetObjectLegalHoldInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(GetObjectLegalHoldInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectLegalHoldOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectLegalHoldOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLegalHoldOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectLegalHoldOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectLegalHoldOutput>())
@@ -3369,8 +2610,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectLockConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
-    public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput
-    {
+    public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3380,37 +2620,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(id: "getObjectLockConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(GetObjectLockConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectLockConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectLockConfigurationOutput, GetObjectLockConfigurationOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectLockConfigurationOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectLockConfigurationOutput, GetObjectLockConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectLockConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(GetObjectLockConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(GetObjectLockConfigurationInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectLockConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectLockConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLockConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectLockConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectLockConfigurationOutput>())
@@ -3427,8 +2652,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectRetentionInput : [no documentation found]
     ///
     /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
-    public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput
-    {
+    public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3438,37 +2662,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectRetentionInput, GetObjectRetentionOutput>(id: "getObjectRetention")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(GetObjectRetentionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectRetentionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectRetentionOutput, GetObjectRetentionOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectRetentionOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectRetentionOutput, GetObjectRetentionOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectRetentionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(GetObjectRetentionInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(GetObjectRetentionInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectRetentionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectRetentionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectRetentionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectRetentionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectRetentionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectRetentionOutput>())
@@ -3489,8 +2698,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectTaggingInput : [no documentation found]
     ///
     /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
-    public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput
-    {
+    public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3500,37 +2708,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectTaggingInput, GetObjectTaggingOutput>(id: "getObjectTagging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(GetObjectTaggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectTaggingOutput, GetObjectTaggingOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectTaggingOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectTaggingOutput, GetObjectTaggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(GetObjectTaggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(GetObjectTaggingInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectTaggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectTaggingOutput>())
@@ -3547,8 +2740,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetObjectTorrentInput : [no documentation found]
     ///
     /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
-    public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput
-    {
+    public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3558,37 +2750,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectTorrentInput, GetObjectTorrentOutput>(id: "getObjectTorrent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(GetObjectTorrentInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectTorrentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectTorrentOutput, GetObjectTorrentOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectTorrentOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectTorrentOutput, GetObjectTorrentOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectTorrentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(GetObjectTorrentInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(GetObjectTorrentInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectTorrentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectTorrentOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTorrentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectTorrentOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectTorrentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3610,8 +2787,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter GetPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
-    public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput
-    {
+    public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3621,37 +2797,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(id: "getPublicAccessBlock")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicAccessBlockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetPublicAccessBlockOutput, GetPublicAccessBlockOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicAccessBlockOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetPublicAccessBlockOutput, GetPublicAccessBlockOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPublicAccessBlockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicAccessBlockOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicAccessBlockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPublicAccessBlockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetPublicAccessBlockOutput>())
@@ -3678,8 +2839,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
-    public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput
-    {
+    public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3689,35 +2849,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<HeadBucketInput, HeadBucketOutput>(id: "headBucket")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<HeadBucketInput, HeadBucketOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<HeadBucketInput, HeadBucketOutput>(HeadBucketInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<HeadBucketInput, HeadBucketOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<HeadBucketOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<HeadBucketOutput, HeadBucketOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<HeadBucketInput, HeadBucketOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, HeadBucketOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<HeadBucketOutput, HeadBucketOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<HeadBucketOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<HeadBucketInput, HeadBucketOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<HeadBucketInput, HeadBucketOutput>(HeadBucketInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, HeadBucketOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<HeadBucketOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(HeadBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<HeadBucketOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<HeadBucketOutput>())
@@ -3778,8 +2924,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
-    public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput
-    {
+    public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3789,37 +2934,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<HeadObjectInput, HeadObjectOutput>(id: "headObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<HeadObjectInput, HeadObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<HeadObjectInput, HeadObjectOutput>(HeadObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<HeadObjectInput, HeadObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<HeadObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<HeadObjectOutput, HeadObjectOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<HeadObjectInput, HeadObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<HeadObjectInput, HeadObjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, HeadObjectOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<HeadObjectOutput, HeadObjectOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<HeadObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<HeadObjectInput, HeadObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<HeadObjectInput, HeadObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<HeadObjectInput, HeadObjectOutput>(HeadObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<HeadObjectInput, HeadObjectOutput>(HeadObjectInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, HeadObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<HeadObjectOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(HeadObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<HeadObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<HeadObjectOutput>())
@@ -3840,8 +2970,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketAnalyticsConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
-    public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput
-    {
+    public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3851,37 +2980,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(id: "listBucketAnalyticsConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketAnalyticsConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListBucketAnalyticsConfigurationsOutput, ListBucketAnalyticsConfigurationsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketAnalyticsConfigurationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListBucketAnalyticsConfigurationsOutput, ListBucketAnalyticsConfigurationsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketAnalyticsConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketAnalyticsConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketAnalyticsConfigurationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketAnalyticsConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketAnalyticsConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketAnalyticsConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketAnalyticsConfigurationsOutput>())
@@ -3902,8 +3016,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketIntelligentTieringConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
-    public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput
-    {
+    public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3913,35 +3026,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(id: "listBucketIntelligentTieringConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListBucketIntelligentTieringConfigurationsOutput, ListBucketIntelligentTieringConfigurationsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketIntelligentTieringConfigurationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListBucketIntelligentTieringConfigurationsOutput, ListBucketIntelligentTieringConfigurationsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketIntelligentTieringConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketIntelligentTieringConfigurationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketIntelligentTieringConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketIntelligentTieringConfigurationsOutput>())
@@ -3962,8 +3061,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketInventoryConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
-    public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput
-    {
+    public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -3973,37 +3071,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(id: "listBucketInventoryConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketInventoryConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListBucketInventoryConfigurationsOutput, ListBucketInventoryConfigurationsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketInventoryConfigurationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListBucketInventoryConfigurationsOutput, ListBucketInventoryConfigurationsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketInventoryConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketInventoryConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketInventoryConfigurationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketInventoryConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketInventoryConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketInventoryConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketInventoryConfigurationsOutput>())
@@ -4024,8 +3107,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketMetricsConfigurationsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
-    public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput
-    {
+    public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4035,37 +3117,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(id: "listBucketMetricsConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketMetricsConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListBucketMetricsConfigurationsOutput, ListBucketMetricsConfigurationsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketMetricsConfigurationsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListBucketMetricsConfigurationsOutput, ListBucketMetricsConfigurationsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketMetricsConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketMetricsConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketMetricsConfigurationsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketMetricsConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketMetricsConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketMetricsConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketMetricsConfigurationsOutput>())
@@ -4080,8 +3147,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListBucketsInput : [no documentation found]
     ///
     /// - Returns: `ListBucketsOutput` : [no documentation found]
-    public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput
-    {
+    public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4091,35 +3157,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListBucketsInput, ListBucketsOutput>(id: "listBuckets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketsInput, ListBucketsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBucketsInput, ListBucketsOutput>(ListBucketsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBucketsInput, ListBucketsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListBucketsOutput, ListBucketsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketsInput, ListBucketsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListBucketsOutput, ListBucketsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBucketsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketsInput, ListBucketsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBucketsInput, ListBucketsOutput>(ListBucketsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketsOutput>())
@@ -4134,8 +3186,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListDirectoryBucketsInput : [no documentation found]
     ///
     /// - Returns: `ListDirectoryBucketsOutput` : [no documentation found]
-    public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput
-    {
+    public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4145,39 +3196,21 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-<<<<<<< HEAD
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
-=======
-                      .withCredentialsProvider(value: config.credentialsProvider)
->>>>>>> temp-main
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(id: "listDirectoryBuckets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(ListDirectoryBucketsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDirectoryBucketsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListDirectoryBucketsOutput, ListDirectoryBucketsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDirectoryBucketsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListDirectoryBucketsOutput, ListDirectoryBucketsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDirectoryBucketsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(ListDirectoryBucketsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDirectoryBucketsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDirectoryBucketsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDirectoryBucketsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDirectoryBucketsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListDirectoryBucketsOutput>())
@@ -4223,8 +3256,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListMultipartUploadsInput : [no documentation found]
     ///
     /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
-    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput
-    {
+    public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4234,37 +3266,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListMultipartUploadsInput, ListMultipartUploadsOutput>(id: "listMultipartUploads")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, prefix: input.prefix, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultipartUploadsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListMultipartUploadsOutput, ListMultipartUploadsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultipartUploadsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListMultipartUploadsOutput, ListMultipartUploadsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultipartUploadsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultipartUploadsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultipartUploadsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMultipartUploadsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListMultipartUploadsOutput>())
@@ -4287,8 +3304,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListObjectVersionsInput : [no documentation found]
     ///
     /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
-    public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput
-    {
+    public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4298,37 +3314,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListObjectVersionsInput, ListObjectVersionsOutput>(id: "listObjectVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(ListObjectVersionsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, prefix: input.prefix, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListObjectVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListObjectVersionsOutput, ListObjectVersionsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectVersionsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListObjectVersionsOutput, ListObjectVersionsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListObjectVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(ListObjectVersionsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(ListObjectVersionsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectVersionsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectVersionsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectVersionsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectVersionsOutput>())
@@ -4358,8 +3359,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput
-    {
+    public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4369,37 +3369,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListObjectsInput, ListObjectsOutput>(id: "listObjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectsInput, ListObjectsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectsInput, ListObjectsOutput>(ListObjectsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectsInput, ListObjectsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, prefix: input.prefix, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListObjectsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListObjectsOutput, ListObjectsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectsInput, ListObjectsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectsInput, ListObjectsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListObjectsOutput, ListObjectsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListObjectsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectsInput, ListObjectsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectsInput, ListObjectsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectsInput, ListObjectsOutput>(ListObjectsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectsInput, ListObjectsOutput>(ListObjectsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectsOutput>())
@@ -4439,8 +3424,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
-    public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output
-    {
+    public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4450,37 +3434,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListObjectsV2Input, ListObjectsV2Output>(id: "listObjectsV2")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectsV2Input, ListObjectsV2Output>(ListObjectsV2Input.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, prefix: input.prefix, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListObjectsV2Output>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListObjectsV2Output, ListObjectsV2OutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectsV2Output>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListObjectsV2Output, ListObjectsV2OutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListObjectsV2Output>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListObjectsV2Input, ListObjectsV2Output>(ListObjectsV2Input.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListObjectsV2Input, ListObjectsV2Output>(ListObjectsV2Input.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectsV2Output>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsV2Output>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsV2Output>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectsV2OutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectsV2Output>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectsV2Output>())
@@ -4514,8 +3483,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter ListPartsInput : [no documentation found]
     ///
     /// - Returns: `ListPartsOutput` : [no documentation found]
-    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput
-    {
+    public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4525,37 +3493,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ListPartsInput, ListPartsOutput>(id: "listParts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartsInput, ListPartsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPartsInput, ListPartsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPartsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListPartsOutput, ListPartsOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListPartsInput, ListPartsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartsOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListPartsOutput, ListPartsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPartsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListPartsInput, ListPartsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPartsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListPartsOutput>())
@@ -4581,8 +3534,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketAccelerateConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
-    public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput
-    {
+    public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4592,40 +3544,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(id: "putBucketAccelerateConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketAccelerateConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketAccelerateConfigurationOutput, PutBucketAccelerateConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketAccelerateConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, S3ClientTypes.AccelerateConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccelerateConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccelerateConfiguration.writingClosure(_:to:), keyPath: \.accelerateConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketAccelerateConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketAccelerateConfigurationOutput, PutBucketAccelerateConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAccelerateConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAccelerateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAccelerateConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAccelerateConfigurationOutput>())
@@ -4716,8 +3653,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketAclInput : [no documentation found]
     ///
     /// - Returns: `PutBucketAclOutput` : [no documentation found]
-    public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput
-    {
+    public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4727,41 +3663,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketAclInput, PutBucketAclOutput>(id: "putBucketAcl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketAclInput, PutBucketAclOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketAclInput, PutBucketAclOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketAclOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketAclOutput, PutBucketAclOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAclInput, PutBucketAclOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAclInput, PutBucketAclOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketAclInput, PutBucketAclOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAclInput, PutBucketAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccessControlPolicy", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketAclOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketAclOutput, PutBucketAclOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAclOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAclOutput>())
@@ -4815,8 +3736,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketAnalyticsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
-    public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput
-    {
+    public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4826,40 +3746,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(id: "putBucketAnalyticsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketAnalyticsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketAnalyticsConfigurationOutput, PutBucketAnalyticsConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketAnalyticsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, S3ClientTypes.AnalyticsConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AnalyticsConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AnalyticsConfiguration.writingClosure(_:to:), keyPath: \.analyticsConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketAnalyticsConfigurationOutput, PutBucketAnalyticsConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAnalyticsConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAnalyticsConfigurationOutput>())
@@ -4889,8 +3794,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketCorsInput : [no documentation found]
     ///
     /// - Returns: `PutBucketCorsOutput` : [no documentation found]
-    public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput
-    {
+    public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4900,41 +3804,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketCorsInput, PutBucketCorsOutput>(id: "putBucketCors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketCorsInput, PutBucketCorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketCorsInput, PutBucketCorsOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketCorsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketCorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketCorsOutput, PutBucketCorsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketCorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketCorsInput, PutBucketCorsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketCorsInput, PutBucketCorsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketCorsInput, PutBucketCorsOutput, S3ClientTypes.CORSConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CORSConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CORSConfiguration.writingClosure(_:to:), keyPath: \.corsConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketCorsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketCorsOutput, PutBucketCorsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketCorsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketCorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketCorsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketCorsOutput>())
@@ -4953,8 +3842,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketEncryptionInput : [no documentation found]
     ///
     /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
-    public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput
-    {
+    public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -4964,41 +3852,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketEncryptionInput, PutBucketEncryptionOutput>(id: "putBucketEncryption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketEncryptionOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketEncryptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketEncryptionOutput, PutBucketEncryptionOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketEncryptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput, S3ClientTypes.ServerSideEncryptionConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ServerSideEncryptionConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ServerSideEncryptionConfiguration.writingClosure(_:to:), keyPath: \.serverSideEncryptionConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketEncryptionOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketEncryptionOutput, PutBucketEncryptionOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketEncryptionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketEncryptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketEncryptionOutput>())
@@ -5022,8 +3895,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketIntelligentTieringConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
-    public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput
-    {
+    public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5033,39 +3905,24 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(id: "putBucketIntelligentTieringConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketIntelligentTieringConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketIntelligentTieringConfigurationOutput, PutBucketIntelligentTieringConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketIntelligentTieringConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, S3ClientTypes.IntelligentTieringConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("IntelligentTieringConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.IntelligentTieringConfiguration.writingClosure(_:to:), keyPath: \.intelligentTieringConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketIntelligentTieringConfigurationOutput, PutBucketIntelligentTieringConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketIntelligentTieringConfigurationOutput>())
@@ -5086,8 +3943,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketInventoryConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
-    public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput
-    {
+    public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5097,40 +3953,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(id: "putBucketInventoryConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketInventoryConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketInventoryConfigurationOutput, PutBucketInventoryConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketInventoryConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, S3ClientTypes.InventoryConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("InventoryConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.InventoryConfiguration.writingClosure(_:to:), keyPath: \.inventoryConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketInventoryConfigurationOutput, PutBucketInventoryConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketInventoryConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketInventoryConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketInventoryConfigurationOutput>())
@@ -5169,8 +4010,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
-    public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput
-    {
+    public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5180,41 +4020,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(id: "putBucketLifecycleConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketLifecycleConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketLifecycleConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketLifecycleConfigurationOutput, PutBucketLifecycleConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketLifecycleConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, S3ClientTypes.BucketLifecycleConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("LifecycleConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.BucketLifecycleConfiguration.writingClosure(_:to:), keyPath: \.lifecycleConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketLifecycleConfigurationOutput, PutBucketLifecycleConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLifecycleConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketLifecycleConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketLifecycleConfigurationOutput>())
@@ -5246,8 +4071,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketLoggingInput : [no documentation found]
     ///
     /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
-    public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput
-    {
+    public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5257,41 +4081,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketLoggingInput, PutBucketLoggingOutput>(id: "putBucketLogging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketLoggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketLoggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketLoggingOutput, PutBucketLoggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketLoggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput, S3ClientTypes.BucketLoggingStatus, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("BucketLoggingStatus", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.BucketLoggingStatus.writingClosure(_:to:), keyPath: \.bucketLoggingStatus, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketLoggingOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketLoggingOutput, PutBucketLoggingOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLoggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLoggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketLoggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLoggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketLoggingOutput>())
@@ -5321,8 +4130,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketMetricsConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
-    public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput
-    {
+    public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5332,40 +4140,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(id: "putBucketMetricsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketMetricsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketMetricsConfigurationOutput, PutBucketMetricsConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketMetricsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, S3ClientTypes.MetricsConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("MetricsConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.MetricsConfiguration.writingClosure(_:to:), keyPath: \.metricsConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketMetricsConfigurationOutput, PutBucketMetricsConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketMetricsConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketMetricsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketMetricsConfigurationOutput>())
@@ -5382,8 +4175,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketNotificationConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
-    public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput
-    {
+    public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5393,40 +4185,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(id: "putBucketNotificationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketNotificationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketNotificationConfigurationOutput, PutBucketNotificationConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketNotificationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, S3ClientTypes.NotificationConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("NotificationConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.NotificationConfiguration.writingClosure(_:to:), keyPath: \.notificationConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketNotificationConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketNotificationConfigurationOutput, PutBucketNotificationConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketNotificationConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketNotificationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketNotificationConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketNotificationConfigurationOutput>())
@@ -5445,8 +4222,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketOwnershipControlsInput : [no documentation found]
     ///
     /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
-    public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput
-    {
+    public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5456,41 +4232,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(id: "putBucketOwnershipControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketOwnershipControlsOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketOwnershipControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketOwnershipControlsOutput, PutBucketOwnershipControlsOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketOwnershipControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, S3ClientTypes.OwnershipControls, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("OwnershipControls", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.OwnershipControls.writingClosure(_:to:), keyPath: \.ownershipControls, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketOwnershipControlsOutput, PutBucketOwnershipControlsOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketOwnershipControlsOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketOwnershipControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketOwnershipControlsOutput>())
@@ -5516,8 +4277,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
-    public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput
-    {
+    public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5527,41 +4287,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketPolicyInput, PutBucketPolicyOutput>(id: "putBucketPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketPolicyOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketPolicyOutput, PutBucketPolicyOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(contentType: "text/plain"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.StringBodyMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(keyPath: \.policy))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketPolicyOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketPolicyOutput, PutBucketPolicyOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketPolicyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketPolicyOutput>())
@@ -5580,8 +4325,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
-    public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput
-    {
+    public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5591,41 +4335,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketReplicationInput, PutBucketReplicationOutput>(id: "putBucketReplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketReplicationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketReplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketReplicationOutput, PutBucketReplicationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketReplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput, S3ClientTypes.ReplicationConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ReplicationConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ReplicationConfiguration.writingClosure(_:to:), keyPath: \.replicationConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketReplicationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketReplicationOutput, PutBucketReplicationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketReplicationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketReplicationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketReplicationOutput>())
@@ -5644,8 +4373,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketRequestPaymentInput : [no documentation found]
     ///
     /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
-    public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput
-    {
+    public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5655,41 +4383,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(id: "putBucketRequestPayment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketRequestPaymentOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketRequestPaymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketRequestPaymentOutput, PutBucketRequestPaymentOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketRequestPaymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, S3ClientTypes.RequestPaymentConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("RequestPaymentConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.RequestPaymentConfiguration.writingClosure(_:to:), keyPath: \.requestPaymentConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketRequestPaymentOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketRequestPaymentOutput, PutBucketRequestPaymentOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketRequestPaymentOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketRequestPaymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketRequestPaymentOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketRequestPaymentOutput>())
@@ -5719,8 +4432,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
-    public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput
-    {
+    public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5730,41 +4442,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketTaggingInput, PutBucketTaggingOutput>(id: "putBucketTagging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketTaggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketTaggingOutput, PutBucketTaggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Tagging", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Tagging.writingClosure(_:to:), keyPath: \.tagging, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketTaggingOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketTaggingOutput, PutBucketTaggingOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketTaggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketTaggingOutput>())
@@ -5785,8 +4482,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
-    public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput
-    {
+    public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5796,41 +4492,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketVersioningInput, PutBucketVersioningOutput>(id: "putBucketVersioning")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketVersioningOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketVersioningOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketVersioningOutput, PutBucketVersioningOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketVersioningOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput, S3ClientTypes.VersioningConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("VersioningConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.VersioningConfiguration.writingClosure(_:to:), keyPath: \.versioningConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketVersioningOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketVersioningOutput, PutBucketVersioningOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketVersioningOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketVersioningOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketVersioningOutput>())
@@ -5891,8 +4572,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutBucketWebsiteInput : [no documentation found]
     ///
     /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
-    public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput
-    {
+    public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -5902,41 +4582,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutBucketWebsiteInput, PutBucketWebsiteOutput>(id: "putBucketWebsite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutBucketWebsiteOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketWebsiteOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutBucketWebsiteOutput, PutBucketWebsiteOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBucketWebsiteOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput, S3ClientTypes.WebsiteConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("WebsiteConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.WebsiteConfiguration.writingClosure(_:to:), keyPath: \.websiteConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketWebsiteOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutBucketWebsiteOutput, PutBucketWebsiteOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketWebsiteOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketWebsiteOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketWebsiteOutput>())
@@ -5994,8 +4659,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectInput : [no documentation found]
     ///
     /// - Returns: `PutObjectOutput` : [no documentation found]
-    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput
-    {
+    public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6005,40 +4669,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectOutput, PutObjectOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectOutput, PutObjectOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
@@ -6125,8 +4774,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
-    public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput
-    {
+    public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6136,41 +4784,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectAclInput, PutObjectAclOutput>(id: "putObjectAcl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectAclInput, PutObjectAclOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectAclInput, PutObjectAclOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutObjectAclOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectAclOutput, PutObjectAclOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectAclOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectAclInput, PutObjectAclOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectAclInput, PutObjectAclOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectAclInput, PutObjectAclOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectAclInput, PutObjectAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccessControlPolicy", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectAclOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectAclOutput, PutObjectAclOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectAclOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectAclOutput>())
@@ -6185,8 +4818,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectLegalHoldInput : [no documentation found]
     ///
     /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
-    public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput
-    {
+    public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6196,41 +4828,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(id: "putObjectLegalHold")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutObjectLegalHoldOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectLegalHoldOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectLegalHoldOutput, PutObjectLegalHoldOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectLegalHoldOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, S3ClientTypes.ObjectLockLegalHold, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("LegalHold", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockLegalHold.writingClosure(_:to:), keyPath: \.legalHold, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectLegalHoldOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectLegalHoldOutput, PutObjectLegalHoldOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectLegalHoldOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLegalHoldOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectLegalHoldOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectLegalHoldOutput>())
@@ -6251,8 +4868,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectLockConfigurationInput : [no documentation found]
     ///
     /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
-    public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput
-    {
+    public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6262,41 +4878,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(id: "putObjectLockConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutObjectLockConfigurationOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectLockConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectLockConfigurationOutput, PutObjectLockConfigurationOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectLockConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, S3ClientTypes.ObjectLockConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ObjectLockConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockConfiguration.writingClosure(_:to:), keyPath: \.objectLockConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectLockConfigurationOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectLockConfigurationOutput, PutObjectLockConfigurationOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectLockConfigurationOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLockConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectLockConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectLockConfigurationOutput>())
@@ -6311,8 +4912,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectRetentionInput : [no documentation found]
     ///
     /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
-    public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput
-    {
+    public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6322,41 +4922,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectRetentionInput, PutObjectRetentionOutput>(id: "putObjectRetention")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutObjectRetentionOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectRetentionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectRetentionOutput, PutObjectRetentionOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectRetentionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput, S3ClientTypes.ObjectLockRetention, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Retention", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockRetention.writingClosure(_:to:), keyPath: \.retention, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectRetentionOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectRetentionOutput, PutObjectRetentionOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectRetentionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectRetentionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectRetentionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectRetentionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectRetentionOutput>())
@@ -6386,8 +4971,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutObjectTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
-    public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput
-    {
+    public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6397,41 +4981,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectTaggingInput, PutObjectTaggingOutput>(id: "putObjectTagging")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutObjectTaggingOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectTaggingOutput, PutObjectTaggingOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectTaggingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Tagging", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Tagging.writingClosure(_:to:), keyPath: \.tagging, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectTaggingOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectTaggingOutput, PutObjectTaggingOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectTaggingOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectTaggingOutput>())
@@ -6454,8 +5023,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter PutPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
-    public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput
-    {
+    public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6465,41 +5033,26 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(id: "putPublicAccessBlock")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.ContentMD5Middleware<PutPublicAccessBlockOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPublicAccessBlockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutPublicAccessBlockOutput, PutPublicAccessBlockOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPublicAccessBlockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, S3ClientTypes.PublicAccessBlockConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("PublicAccessBlockConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:), keyPath: \.publicAccessBlockConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPublicAccessBlockOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutPublicAccessBlockOutput, PutPublicAccessBlockOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPublicAccessBlockOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutPublicAccessBlockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutPublicAccessBlockOutput>())
@@ -6608,8 +5161,7 @@ extension S3Client: S3ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
-    public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput
-    {
+    public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6619,40 +5171,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<RestoreObjectInput, RestoreObjectOutput>(id: "restoreObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreObjectInput, RestoreObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreObjectInput, RestoreObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<RestoreObjectOutput, RestoreObjectOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<RestoreObjectInput, RestoreObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RestoreObjectInput, RestoreObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreObjectInput, RestoreObjectOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<RestoreObjectInput, RestoreObjectOutput, S3ClientTypes.RestoreRequest, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("RestoreRequest", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.RestoreRequest.writingClosure(_:to:), keyPath: \.restoreRequest, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreObjectOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RestoreObjectOutput, RestoreObjectOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreObjectOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestoreObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<RestoreObjectOutput>())
@@ -6691,8 +5228,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter SelectObjectContentInput : Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
     ///
     /// - Returns: `SelectObjectContentOutput` : [no documentation found]
-    public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput
-    {
+    public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6702,40 +5238,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<SelectObjectContentInput, SelectObjectContentOutput>(id: "selectObjectContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SelectObjectContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SelectObjectContentOutput, SelectObjectContentOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SelectObjectContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(contentType: "application/xml"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SelectObjectContentInput, SelectObjectContentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("SelectObjectContentRequest", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: SelectObjectContentInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SelectObjectContentOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SelectObjectContentOutput, SelectObjectContentOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SelectObjectContentOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectObjectContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(SelectObjectContentOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SelectObjectContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -6796,8 +5317,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter UploadPartInput : [no documentation found]
     ///
     /// - Returns: `UploadPartOutput` : [no documentation found]
-    public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput
-    {
+    public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6807,40 +5327,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutput>(id: "uploadPart")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UploadPartOutput, UploadPartOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UploadPartOutput, UploadPartOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
@@ -6916,8 +5421,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter UploadPartCopyInput : [no documentation found]
     ///
     /// - Returns: `UploadPartCopyOutput` : [no documentation found]
-    public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput
-    {
+    public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6927,37 +5431,22 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UploadPartCopyInput, UploadPartCopyOutput>(id: "uploadPartCopy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(UploadPartCopyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: true, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartCopyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UploadPartCopyOutput, UploadPartCopyOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartCopyOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UploadPartCopyOutput, UploadPartCopyOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartCopyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(UploadPartCopyInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(UploadPartCopyInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartCopyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartCopyOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartCopyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartCopyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartCopyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartCopyOutput>())
@@ -6972,8 +5461,7 @@ extension S3Client: S3ClientProtocol {
     /// - Parameter WriteGetObjectResponseInput : [no documentation found]
     ///
     /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
-    public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput
-    {
+    public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -6983,40 +5471,25 @@ extension S3Client: S3ClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: true)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(id: "writeGetObjectResponse")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(WriteGetObjectResponseInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(hostPrefix: "\(input.requestRoute!)."))
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false, useObjectLambdaEndpoint: true)
-<<<<<<< HEAD
-        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<WriteGetObjectResponseOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<WriteGetObjectResponseOutput, WriteGetObjectResponseOutputError>())
-=======
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<WriteGetObjectResponseOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(WriteGetObjectResponseInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(WriteGetObjectResponseInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware(requiresLength: false, unsignedPayload: true))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, WriteGetObjectResponseOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<WriteGetObjectResponseOutput, WriteGetObjectResponseOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WriteGetObjectResponseOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutput>(responseClosure(decoder: decoder), responseErrorClosure(WriteGetObjectResponseOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<WriteGetObjectResponseOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<WriteGetObjectResponseOutput>())

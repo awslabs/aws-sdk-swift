@@ -23,8 +23,9 @@ extension AcceptInvitationInput: Swift.Encodable {
     }
 }
 
-extension AcceptInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptInvitationInput) -> Swift.String? {
         return "/invitations/accept"
     }
 }
@@ -1027,8 +1028,9 @@ extension BatchGetCustomDataIdentifiersInput: Swift.Encodable {
     }
 }
 
-extension BatchGetCustomDataIdentifiersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetCustomDataIdentifiersInput {
+
+    static func urlPathProvider(_ value: BatchGetCustomDataIdentifiersInput) -> Swift.String? {
         return "/custom-data-identifiers/get"
     }
 }
@@ -2832,8 +2834,9 @@ extension CreateAllowListInput: Swift.Encodable {
     }
 }
 
-extension CreateAllowListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAllowListInput {
+
+    static func urlPathProvider(_ value: CreateAllowListInput) -> Swift.String? {
         return "/allow-lists"
     }
 }
@@ -3050,8 +3053,9 @@ extension CreateClassificationJobInput: Swift.Encodable {
     }
 }
 
-extension CreateClassificationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClassificationJobInput {
+
+    static func urlPathProvider(_ value: CreateClassificationJobInput) -> Swift.String? {
         return "/jobs"
     }
 }
@@ -3361,8 +3365,9 @@ extension CreateCustomDataIdentifierInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomDataIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomDataIdentifierInput {
+
+    static func urlPathProvider(_ value: CreateCustomDataIdentifierInput) -> Swift.String? {
         return "/custom-data-identifiers"
     }
 }
@@ -3594,8 +3599,9 @@ extension CreateFindingsFilterInput: Swift.Encodable {
     }
 }
 
-extension CreateFindingsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFindingsFilterInput {
+
+    static func urlPathProvider(_ value: CreateFindingsFilterInput) -> Swift.String? {
         return "/findingsfilters"
     }
 }
@@ -3779,8 +3785,9 @@ extension CreateInvitationsInput: Swift.Encodable {
     }
 }
 
-extension CreateInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInvitationsInput {
+
+    static func urlPathProvider(_ value: CreateInvitationsInput) -> Swift.String? {
         return "/invitations"
     }
 }
@@ -3925,8 +3932,9 @@ extension CreateMemberInput: Swift.Encodable {
     }
 }
 
-extension CreateMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMemberInput {
+
+    static func urlPathProvider(_ value: CreateMemberInput) -> Swift.String? {
         return "/members"
     }
 }
@@ -4050,8 +4058,9 @@ extension CreateSampleFindingsInput: Swift.Encodable {
     }
 }
 
-extension CreateSampleFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSampleFindingsInput {
+
+    static func urlPathProvider(_ value: CreateSampleFindingsInput) -> Swift.String? {
         return "/findings/sample"
     }
 }
@@ -4722,8 +4731,9 @@ extension DeclineInvitationsInput: Swift.Encodable {
     }
 }
 
-extension DeclineInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeclineInvitationsInput {
+
+    static func urlPathProvider(_ value: DeclineInvitationsInput) -> Swift.String? {
         return "/invitations/decline"
     }
 }
@@ -4887,22 +4897,22 @@ extension Macie2ClientTypes {
 
 }
 
-extension DeleteAllowListInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let ignoreJobChecks = ignoreJobChecks {
-                let ignoreJobChecksQueryItem = ClientRuntime.URLQueryItem(name: "ignoreJobChecks".urlPercentEncoding(), value: Swift.String(ignoreJobChecks).urlPercentEncoding())
-                items.append(ignoreJobChecksQueryItem)
-            }
-            return items
+extension DeleteAllowListInput {
+
+    static func queryItemProvider(_ value: DeleteAllowListInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let ignoreJobChecks = value.ignoreJobChecks {
+            let ignoreJobChecksQueryItem = ClientRuntime.SDKURLQueryItem(name: "ignoreJobChecks".urlPercentEncoding(), value: Swift.String(ignoreJobChecks).urlPercentEncoding())
+            items.append(ignoreJobChecksQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAllowListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteAllowListInput {
+
+    static func urlPathProvider(_ value: DeleteAllowListInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/allow-lists/\(id.urlPercentEncoding())"
@@ -4960,9 +4970,10 @@ enum DeleteAllowListOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCustomDataIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteCustomDataIdentifierInput {
+
+    static func urlPathProvider(_ value: DeleteCustomDataIdentifierInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/custom-data-identifiers/\(id.urlPercentEncoding())"
@@ -5018,9 +5029,10 @@ enum DeleteCustomDataIdentifierOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteFindingsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteFindingsFilterInput {
+
+    static func urlPathProvider(_ value: DeleteFindingsFilterInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/findingsfilters/\(id.urlPercentEncoding())"
@@ -5092,8 +5104,9 @@ extension DeleteInvitationsInput: Swift.Encodable {
     }
 }
 
-extension DeleteInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInvitationsInput {
+
+    static func urlPathProvider(_ value: DeleteInvitationsInput) -> Swift.String? {
         return "/invitations/delete"
     }
 }
@@ -5202,9 +5215,10 @@ enum DeleteInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteMemberInput {
+
+    static func urlPathProvider(_ value: DeleteMemberInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/members/\(id.urlPercentEncoding())"
@@ -5288,8 +5302,9 @@ extension DescribeBucketsInput: Swift.Encodable {
     }
 }
 
-extension DescribeBucketsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBucketsInput {
+
+    static func urlPathProvider(_ value: DescribeBucketsInput) -> Swift.String? {
         return "/datasources/s3"
     }
 }
@@ -5431,9 +5446,10 @@ enum DescribeBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeClassificationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension DescribeClassificationJobInput {
+
+    static func urlPathProvider(_ value: DescribeClassificationJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/jobs/\(jobId.urlPercentEncoding())"
@@ -5784,8 +5800,9 @@ enum DescribeClassificationJobOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConfigurationInput) -> Swift.String? {
         return "/admin/configuration"
     }
 }
@@ -5992,8 +6009,9 @@ extension Macie2ClientTypes {
 
 }
 
-extension DisableMacieInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableMacieInput {
+
+    static func urlPathProvider(_ value: DisableMacieInput) -> Swift.String? {
         return "/macie"
     }
 }
@@ -6039,23 +6057,23 @@ enum DisableMacieOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisableOrganizationAdminAccountInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let adminAccountId = adminAccountId else {
-                let message = "Creating a URL Query Item failed. adminAccountId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let adminAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "adminAccountId".urlPercentEncoding(), value: Swift.String(adminAccountId).urlPercentEncoding())
-            items.append(adminAccountIdQueryItem)
-            return items
+extension DisableOrganizationAdminAccountInput {
+
+    static func queryItemProvider(_ value: DisableOrganizationAdminAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let adminAccountId = value.adminAccountId else {
+            let message = "Creating a URL Query Item failed. adminAccountId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let adminAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "adminAccountId".urlPercentEncoding(), value: Swift.String(adminAccountId).urlPercentEncoding())
+        items.append(adminAccountIdQueryItem)
+        return items
     }
 }
 
-extension DisableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableOrganizationAdminAccountInput {
+
+    static func urlPathProvider(_ value: DisableOrganizationAdminAccountInput) -> Swift.String? {
         return "/admin"
     }
 }
@@ -6109,8 +6127,9 @@ enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DisassociateFromAdministratorAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFromAdministratorAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateFromAdministratorAccountInput) -> Swift.String? {
         return "/administrator/disassociate"
     }
 }
@@ -6156,8 +6175,9 @@ enum DisassociateFromAdministratorAccountOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension DisassociateFromMasterAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFromMasterAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateFromMasterAccountInput) -> Swift.String? {
         return "/master/disassociate"
     }
 }
@@ -6203,9 +6223,10 @@ enum DisassociateFromMasterAccountOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DisassociateMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateMemberInput {
+
+    static func urlPathProvider(_ value: DisassociateMemberInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/members/disassociate/\(id.urlPercentEncoding())"
@@ -6352,8 +6373,9 @@ extension EnableMacieInput: Swift.Encodable {
     }
 }
 
-extension EnableMacieInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableMacieInput {
+
+    static func urlPathProvider(_ value: EnableMacieInput) -> Swift.String? {
         return "/macie"
     }
 }
@@ -6446,8 +6468,9 @@ extension EnableOrganizationAdminAccountInput: Swift.Encodable {
     }
 }
 
-extension EnableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableOrganizationAdminAccountInput {
+
+    static func urlPathProvider(_ value: EnableOrganizationAdminAccountInput) -> Swift.String? {
         return "/admin"
     }
 }
@@ -7375,8 +7398,9 @@ extension Macie2ClientTypes {
 
 }
 
-extension GetAdministratorAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAdministratorAccountInput {
+
+    static func urlPathProvider(_ value: GetAdministratorAccountInput) -> Swift.String? {
         return "/administrator"
     }
 }
@@ -7452,9 +7476,10 @@ enum GetAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetAllowListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetAllowListInput {
+
+    static func urlPathProvider(_ value: GetAllowListInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/allow-lists/\(id.urlPercentEncoding())"
@@ -7627,8 +7652,9 @@ enum GetAllowListOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAutomatedDiscoveryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAutomatedDiscoveryConfigurationInput {
+
+    static func urlPathProvider(_ value: GetAutomatedDiscoveryConfigurationInput) -> Swift.String? {
         return "/automated-discovery/configuration"
     }
 }
@@ -7764,8 +7790,9 @@ extension GetBucketStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetBucketStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketStatisticsInput {
+
+    static func urlPathProvider(_ value: GetBucketStatisticsInput) -> Swift.String? {
         return "/datasources/s3/statistics"
     }
 }
@@ -7985,8 +8012,9 @@ enum GetBucketStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetClassificationExportConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetClassificationExportConfigurationInput {
+
+    static func urlPathProvider(_ value: GetClassificationExportConfigurationInput) -> Swift.String? {
         return "/classification-export-configuration"
     }
 }
@@ -8062,9 +8090,10 @@ enum GetClassificationExportConfigurationOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension GetClassificationScopeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetClassificationScopeInput {
+
+    static func urlPathProvider(_ value: GetClassificationScopeInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/classification-scopes/\(id.urlPercentEncoding())"
@@ -8168,9 +8197,10 @@ enum GetClassificationScopeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCustomDataIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetCustomDataIdentifierInput {
+
+    static func urlPathProvider(_ value: GetCustomDataIdentifierInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/custom-data-identifiers/\(id.urlPercentEncoding())"
@@ -8427,8 +8457,9 @@ extension GetFindingStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetFindingStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFindingStatisticsInput {
+
+    static func urlPathProvider(_ value: GetFindingStatisticsInput) -> Swift.String? {
         return "/findings/statistics"
     }
 }
@@ -8560,9 +8591,10 @@ enum GetFindingStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFindingsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFindingsFilterInput {
+
+    static func urlPathProvider(_ value: GetFindingsFilterInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/findingsfilters/\(id.urlPercentEncoding())"
@@ -8747,8 +8779,9 @@ extension GetFindingsInput: Swift.Encodable {
     }
 }
 
-extension GetFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFindingsInput {
+
+    static func urlPathProvider(_ value: GetFindingsInput) -> Swift.String? {
         return "/findings/describe"
     }
 }
@@ -8865,8 +8898,9 @@ enum GetFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFindingsPublicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFindingsPublicationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetFindingsPublicationConfigurationInput) -> Swift.String? {
         return "/findings-publication-configuration"
     }
 }
@@ -8942,8 +8976,9 @@ enum GetFindingsPublicationConfigurationOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension GetInvitationsCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInvitationsCountInput {
+
+    static func urlPathProvider(_ value: GetInvitationsCountInput) -> Swift.String? {
         return "/invitations/count"
     }
 }
@@ -9019,8 +9054,9 @@ enum GetInvitationsCountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMacieSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMacieSessionInput {
+
+    static func urlPathProvider(_ value: GetMacieSessionInput) -> Swift.String? {
         return "/macie"
     }
 }
@@ -9136,8 +9172,9 @@ enum GetMacieSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMasterAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMasterAccountInput {
+
+    static func urlPathProvider(_ value: GetMasterAccountInput) -> Swift.String? {
         return "/master"
     }
 }
@@ -9213,9 +9250,10 @@ enum GetMasterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMemberInput {
+
+    static func urlPathProvider(_ value: GetMemberInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/members/\(id.urlPercentEncoding())"
@@ -9390,23 +9428,23 @@ enum GetMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResourceProfileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension GetResourceProfileInput {
+
+    static func queryItemProvider(_ value: GetResourceProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension GetResourceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceProfileInput {
+
+    static func urlPathProvider(_ value: GetResourceProfileInput) -> Swift.String? {
         return "/resource-profiles"
     }
 }
@@ -9519,8 +9557,9 @@ enum GetResourceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRevealConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRevealConfigurationInput {
+
+    static func urlPathProvider(_ value: GetRevealConfigurationInput) -> Swift.String? {
         return "/reveal-configuration"
     }
 }
@@ -9603,9 +9642,10 @@ enum GetRevealConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSensitiveDataOccurrencesAvailabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let findingId = findingId else {
+extension GetSensitiveDataOccurrencesAvailabilityInput {
+
+    static func urlPathProvider(_ value: GetSensitiveDataOccurrencesAvailabilityInput) -> Swift.String? {
+        guard let findingId = value.findingId else {
             return nil
         }
         return "/findings/\(findingId.urlPercentEncoding())/reveal/availability"
@@ -9655,29 +9695,17 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
     ///
     /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
     ///
-<<<<<<< HEAD
-    /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
-    ///
-    /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
-    ///
-    /// * MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data.
-=======
     /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available in the current Amazon Web Services Region, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
     ///
     /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
     /// * MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data.
->>>>>>> temp-main
     ///
     /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
     ///
     /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
     ///
-<<<<<<< HEAD
-    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
-=======
     /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
->>>>>>> temp-main
     ///
     /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
@@ -9744,9 +9772,10 @@ enum GetSensitiveDataOccurrencesAvailabilityOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension GetSensitiveDataOccurrencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let findingId = findingId else {
+extension GetSensitiveDataOccurrencesInput {
+
+    static func urlPathProvider(_ value: GetSensitiveDataOccurrencesInput) -> Swift.String? {
+        guard let findingId = value.findingId else {
             return nil
         }
         return "/findings/\(findingId.urlPercentEncoding())/reveal"
@@ -9873,9 +9902,10 @@ enum GetSensitiveDataOccurrencesOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetSensitivityInspectionTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetSensitivityInspectionTemplateInput {
+
+    static func urlPathProvider(_ value: GetSensitivityInspectionTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/templates/sensitivity-inspections/\(id.urlPercentEncoding())"
@@ -10031,8 +10061,9 @@ extension GetUsageStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetUsageStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUsageStatisticsInput {
+
+    static func urlPathProvider(_ value: GetUsageStatisticsInput) -> Swift.String? {
         return "/usage/statistics"
     }
 }
@@ -10192,21 +10223,21 @@ enum GetUsageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUsageTotalsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let timeRange = timeRange {
-                let timeRangeQueryItem = ClientRuntime.URLQueryItem(name: "timeRange".urlPercentEncoding(), value: Swift.String(timeRange).urlPercentEncoding())
-                items.append(timeRangeQueryItem)
-            }
-            return items
+extension GetUsageTotalsInput {
+
+    static func queryItemProvider(_ value: GetUsageTotalsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let timeRange = value.timeRange {
+            let timeRangeQueryItem = ClientRuntime.SDKURLQueryItem(name: "timeRange".urlPercentEncoding(), value: Swift.String(timeRange).urlPercentEncoding())
+            items.append(timeRangeQueryItem)
         }
+        return items
     }
 }
 
-extension GetUsageTotalsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUsageTotalsInput {
+
+    static func urlPathProvider(_ value: GetUsageTotalsInput) -> Swift.String? {
         return "/usage"
     }
 }
@@ -11525,25 +11556,25 @@ extension Macie2ClientTypes {
     }
 }
 
-extension ListAllowListsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAllowListsInput {
+
+    static func queryItemProvider(_ value: ListAllowListsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAllowListsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAllowListsInput {
+
+    static func urlPathProvider(_ value: ListAllowListsInput) -> Swift.String? {
         return "/allow-lists"
     }
 }
@@ -11671,8 +11702,9 @@ extension ListClassificationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListClassificationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClassificationJobsInput {
+
+    static func urlPathProvider(_ value: ListClassificationJobsInput) -> Swift.String? {
         return "/jobs/list"
     }
 }
@@ -11805,25 +11837,25 @@ enum ListClassificationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListClassificationScopesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            return items
+extension ListClassificationScopesInput {
+
+    static func queryItemProvider(_ value: ListClassificationScopesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListClassificationScopesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClassificationScopesInput {
+
+    static func urlPathProvider(_ value: ListClassificationScopesInput) -> Swift.String? {
         return "/classification-scopes"
     }
 }
@@ -11943,8 +11975,9 @@ extension ListCustomDataIdentifiersInput: Swift.Encodable {
     }
 }
 
-extension ListCustomDataIdentifiersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomDataIdentifiersInput {
+
+    static func urlPathProvider(_ value: ListCustomDataIdentifiersInput) -> Swift.String? {
         return "/custom-data-identifiers/list"
     }
 }
@@ -12061,25 +12094,25 @@ enum ListCustomDataIdentifiersOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListFindingsFiltersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListFindingsFiltersInput {
+
+    static func queryItemProvider(_ value: ListFindingsFiltersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFindingsFiltersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingsFiltersInput {
+
+    static func urlPathProvider(_ value: ListFindingsFiltersInput) -> Swift.String? {
         return "/findingsfilters"
     }
 }
@@ -12210,8 +12243,9 @@ extension ListFindingsInput: Swift.Encodable {
     }
 }
 
-extension ListFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingsInput {
+
+    static func urlPathProvider(_ value: ListFindingsInput) -> Swift.String? {
         return "/findings"
     }
 }
@@ -12344,25 +12378,25 @@ enum ListFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListInvitationsInput {
+
+    static func queryItemProvider(_ value: ListInvitationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInvitationsInput {
+
+    static func urlPathProvider(_ value: ListInvitationsInput) -> Swift.String? {
         return "/invitations"
     }
 }
@@ -12740,8 +12774,9 @@ extension ListManagedDataIdentifiersInput: Swift.Encodable {
     }
 }
 
-extension ListManagedDataIdentifiersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListManagedDataIdentifiersInput {
+
+    static func urlPathProvider(_ value: ListManagedDataIdentifiersInput) -> Swift.String? {
         return "/managed-data-identifiers/list"
     }
 }
@@ -12843,29 +12878,29 @@ enum ListManagedDataIdentifiersOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let onlyAssociated = onlyAssociated {
-                let onlyAssociatedQueryItem = ClientRuntime.URLQueryItem(name: "onlyAssociated".urlPercentEncoding(), value: Swift.String(onlyAssociated).urlPercentEncoding())
-                items.append(onlyAssociatedQueryItem)
-            }
-            return items
+extension ListMembersInput {
+
+    static func queryItemProvider(_ value: ListMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let onlyAssociated = value.onlyAssociated {
+            let onlyAssociatedQueryItem = ClientRuntime.SDKURLQueryItem(name: "onlyAssociated".urlPercentEncoding(), value: Swift.String(onlyAssociated).urlPercentEncoding())
+            items.append(onlyAssociatedQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMembersInput {
+
+    static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
         return "/members"
     }
 }
@@ -12975,25 +13010,25 @@ enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOrganizationAdminAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListOrganizationAdminAccountsInput {
+
+    static func queryItemProvider(_ value: ListOrganizationAdminAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOrganizationAdminAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOrganizationAdminAccountsInput {
+
+    static func urlPathProvider(_ value: ListOrganizationAdminAccountsInput) -> Swift.String? {
         return "/admin"
     }
 }
@@ -13099,27 +13134,27 @@ enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListResourceProfileArtifactsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListResourceProfileArtifactsInput {
+
+    static func queryItemProvider(_ value: ListResourceProfileArtifactsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListResourceProfileArtifactsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceProfileArtifactsInput {
+
+    static func urlPathProvider(_ value: ListResourceProfileArtifactsInput) -> Swift.String? {
         return "/resource-profiles/artifacts"
     }
 }
@@ -13224,31 +13259,31 @@ enum ListResourceProfileArtifactsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListResourceProfileDetectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListResourceProfileDetectionsInput {
+
+    static func queryItemProvider(_ value: ListResourceProfileDetectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListResourceProfileDetectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceProfileDetectionsInput {
+
+    static func urlPathProvider(_ value: ListResourceProfileDetectionsInput) -> Swift.String? {
         return "/resource-profiles/detections"
     }
 }
@@ -13358,25 +13393,25 @@ enum ListResourceProfileDetectionsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListSensitivityInspectionTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListSensitivityInspectionTemplatesInput {
+
+    static func queryItemProvider(_ value: ListSensitivityInspectionTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSensitivityInspectionTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSensitivityInspectionTemplatesInput {
+
+    static func urlPathProvider(_ value: ListSensitivityInspectionTemplatesInput) -> Swift.String? {
         return "/templates/sensitivity-inspections"
     }
 }
@@ -13480,9 +13515,10 @@ enum ListSensitivityInspectionTemplatesOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13569,6 +13605,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum Macie2ClientTypes {}
 
 extension Macie2ClientTypes {
     /// The status of an Amazon Macie account. Valid values are:
@@ -14505,8 +14543,9 @@ extension PutClassificationExportConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutClassificationExportConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutClassificationExportConfigurationInput {
+
+    static func urlPathProvider(_ value: PutClassificationExportConfigurationInput) -> Swift.String? {
         return "/classification-export-configuration"
     }
 }
@@ -14614,8 +14653,9 @@ extension PutFindingsPublicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutFindingsPublicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutFindingsPublicationConfigurationInput {
+
+    static func urlPathProvider(_ value: PutFindingsPublicationConfigurationInput) -> Swift.String? {
         return "/findings-publication-configuration"
     }
 }
@@ -15220,15 +15260,9 @@ extension Macie2ClientTypes.RetrievalConfiguration: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the access method and settings that are used to retrieve occurrences of sensitive data reported by findings.
     public struct RetrievalConfiguration: Swift.Equatable {
-<<<<<<< HEAD
-        /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). The trust policy must include an sts:ExternalId condition that requires this ID. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume a role. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
-        public var externalId: Swift.String?
-        /// The access method that's used when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
-=======
         /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). This value is null if the value for retrievalMode is CALLER_CREDENTIALS. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume an IAM role. For a Macie administrator to retrieve sensitive data from an affected S3 object for a member account, the trust policy for the role in the member account must include an sts:ExternalId condition that requires this ID.
         public var externalId: Swift.String?
         /// The access method that's used to retrieve sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
->>>>>>> temp-main
         /// This member is required.
         public var retrievalMode: Macie2ClientTypes.RetrievalMode?
         /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
@@ -16463,8 +16497,9 @@ extension SearchResourcesInput: Swift.Encodable {
     }
 }
 
-extension SearchResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchResourcesInput {
+
+    static func urlPathProvider(_ value: SearchResourcesInput) -> Swift.String? {
         return "/datasources/search-resources"
     }
 }
@@ -18298,9 +18333,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -18557,8 +18593,9 @@ extension TestCustomDataIdentifierInput: Swift.Encodable {
     }
 }
 
-extension TestCustomDataIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestCustomDataIdentifierInput {
+
+    static func urlPathProvider(_ value: TestCustomDataIdentifierInput) -> Swift.String? {
         return "/custom-data-identifiers/test"
     }
 }
@@ -18939,29 +18976,17 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         ///
         /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
         ///
-<<<<<<< HEAD
-        /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
-        ///
-        /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
-        ///
-        /// * MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data.
-=======
         /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available in the current Amazon Web Services Region, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
         ///
         /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
         /// * MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data.
->>>>>>> temp-main
         ///
         /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
         ///
         /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
         ///
-<<<<<<< HEAD
-        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
-=======
         /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
->>>>>>> temp-main
         ///
         /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
@@ -19062,26 +19087,26 @@ extension Macie2ClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -19156,9 +19181,10 @@ extension UpdateAllowListInput: Swift.Encodable {
     }
 }
 
-extension UpdateAllowListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateAllowListInput {
+
+    static func urlPathProvider(_ value: UpdateAllowListInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/allow-lists/\(id.urlPercentEncoding())"
@@ -19294,8 +19320,9 @@ extension UpdateAutomatedDiscoveryConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateAutomatedDiscoveryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAutomatedDiscoveryConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAutomatedDiscoveryConfigurationInput) -> Swift.String? {
         return "/automated-discovery/configuration"
     }
 }
@@ -19366,9 +19393,10 @@ extension UpdateClassificationJobInput: Swift.Encodable {
     }
 }
 
-extension UpdateClassificationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension UpdateClassificationJobInput {
+
+    static func urlPathProvider(_ value: UpdateClassificationJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/jobs/\(jobId.urlPercentEncoding())"
@@ -19455,9 +19483,10 @@ extension UpdateClassificationScopeInput: Swift.Encodable {
     }
 }
 
-extension UpdateClassificationScopeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateClassificationScopeInput {
+
+    static func urlPathProvider(_ value: UpdateClassificationScopeInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/classification-scopes/\(id.urlPercentEncoding())"
@@ -19555,9 +19584,10 @@ extension UpdateFindingsFilterInput: Swift.Encodable {
     }
 }
 
-extension UpdateFindingsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateFindingsFilterInput {
+
+    static func urlPathProvider(_ value: UpdateFindingsFilterInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/findingsfilters/\(id.urlPercentEncoding())"
@@ -19721,8 +19751,9 @@ extension UpdateMacieSessionInput: Swift.Encodable {
     }
 }
 
-extension UpdateMacieSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateMacieSessionInput {
+
+    static func urlPathProvider(_ value: UpdateMacieSessionInput) -> Swift.String? {
         return "/macie"
     }
 }
@@ -19803,9 +19834,10 @@ extension UpdateMemberSessionInput: Swift.Encodable {
     }
 }
 
-extension UpdateMemberSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateMemberSessionInput {
+
+    static func urlPathProvider(_ value: UpdateMemberSessionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/macie/members/\(id.urlPercentEncoding())"
@@ -19886,8 +19918,9 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateOrganizationConfigurationInput) -> Swift.String? {
         return "/admin/configuration"
     }
 }
@@ -19964,23 +19997,23 @@ extension UpdateResourceProfileDetectionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceProfileDetectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension UpdateResourceProfileDetectionsInput {
+
+    static func queryItemProvider(_ value: UpdateResourceProfileDetectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension UpdateResourceProfileDetectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResourceProfileDetectionsInput {
+
+    static func urlPathProvider(_ value: UpdateResourceProfileDetectionsInput) -> Swift.String? {
         return "/resource-profiles/detections"
     }
 }
@@ -20066,23 +20099,23 @@ extension UpdateResourceProfileInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceProfileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension UpdateResourceProfileInput {
+
+    static func queryItemProvider(_ value: UpdateResourceProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension UpdateResourceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResourceProfileInput {
+
+    static func urlPathProvider(_ value: UpdateResourceProfileInput) -> Swift.String? {
         return "/resource-profiles"
     }
 }
@@ -20172,11 +20205,7 @@ extension Macie2ClientTypes.UpdateRetrievalConfiguration: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-<<<<<<< HEAD
-    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume when retrieving the sensitive data, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Retrieving sensitive data samples with findings](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd.html) in the Amazon Macie User Guide.
-=======
     /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options and requirements for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
->>>>>>> temp-main
     public struct UpdateRetrievalConfiguration: Swift.Equatable {
         /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.
@@ -20213,8 +20242,9 @@ extension UpdateRevealConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateRevealConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRevealConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateRevealConfigurationInput) -> Swift.String? {
         return "/reveal-configuration"
     }
 }
@@ -20223,11 +20253,7 @@ public struct UpdateRevealConfigurationInput: Swift.Equatable {
     /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     /// This member is required.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
-<<<<<<< HEAD
-    /// The access method and settings to use to retrieve the sensitive data.
-=======
     /// The access method and settings to use when retrieving the sensitive data.
->>>>>>> temp-main
     public var retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration?
 
     public init(
@@ -20277,11 +20303,7 @@ extension UpdateRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
 public struct UpdateRevealConfigurationOutput: Swift.Equatable {
     /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
-<<<<<<< HEAD
-    /// The access method and settings to use to retrieve the sensitive data.
-=======
     /// The access method and settings to use when retrieving the sensitive data.
->>>>>>> temp-main
     public var retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
 
     public init(
@@ -20349,9 +20371,10 @@ extension UpdateSensitivityInspectionTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateSensitivityInspectionTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateSensitivityInspectionTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateSensitivityInspectionTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/templates/sensitivity-inspections/\(id.urlPercentEncoding())"

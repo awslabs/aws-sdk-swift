@@ -1069,6 +1069,8 @@ extension BudgetsClientTypes {
 
 }
 
+public enum BudgetsClientTypes {}
+
 extension BudgetsClientTypes.CalculatedSpend: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actualSpend = "ActualSpend"
@@ -1334,8 +1336,9 @@ extension CreateBudgetActionInput: Swift.Encodable {
     }
 }
 
-extension CreateBudgetActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBudgetActionInput {
+
+    static func urlPathProvider(_ value: CreateBudgetActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1554,8 +1557,9 @@ extension CreateBudgetInput: Swift.Encodable {
     }
 }
 
-extension CreateBudgetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBudgetInput {
+
+    static func urlPathProvider(_ value: CreateBudgetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1671,8 +1675,9 @@ extension CreateNotificationInput: Swift.Encodable {
     }
 }
 
-extension CreateNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNotificationInput {
+
+    static func urlPathProvider(_ value: CreateNotificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1796,8 +1801,9 @@ extension CreateSubscriberInput: Swift.Encodable {
     }
 }
 
-extension CreateSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSubscriberInput {
+
+    static func urlPathProvider(_ value: CreateSubscriberInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2019,8 +2025,9 @@ extension DeleteBudgetActionInput: Swift.Encodable {
     }
 }
 
-extension DeleteBudgetActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBudgetActionInput {
+
+    static func urlPathProvider(_ value: DeleteBudgetActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2168,8 +2175,9 @@ extension DeleteBudgetInput: Swift.Encodable {
     }
 }
 
-extension DeleteBudgetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBudgetInput {
+
+    static func urlPathProvider(_ value: DeleteBudgetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2260,8 +2268,9 @@ extension DeleteNotificationInput: Swift.Encodable {
     }
 }
 
-extension DeleteNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNotificationInput {
+
+    static func urlPathProvider(_ value: DeleteNotificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2365,8 +2374,9 @@ extension DeleteSubscriberInput: Swift.Encodable {
     }
 }
 
-extension DeleteSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSubscriberInput {
+
+    static func urlPathProvider(_ value: DeleteSubscriberInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2487,8 +2497,9 @@ extension DescribeBudgetActionHistoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetActionHistoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetActionHistoriesInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetActionHistoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2661,8 +2672,9 @@ extension DescribeBudgetActionInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetActionInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2813,8 +2825,9 @@ extension DescribeBudgetActionsForAccountInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetActionsForAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetActionsForAccountInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetActionsForAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2964,8 +2977,9 @@ extension DescribeBudgetActionsForBudgetInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetActionsForBudgetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetActionsForBudgetInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetActionsForBudgetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3117,8 +3131,9 @@ extension DescribeBudgetInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3183,8 +3198,9 @@ extension DescribeBudgetNotificationsForAccountInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetNotificationsForAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetNotificationsForAccountInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetNotificationsForAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3395,8 +3411,9 @@ extension DescribeBudgetPerformanceHistoryInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetPerformanceHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetPerformanceHistoryInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetPerformanceHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3551,8 +3568,9 @@ extension DescribeBudgetsInput: Swift.Encodable {
     }
 }
 
-extension DescribeBudgetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBudgetsInput {
+
+    static func urlPathProvider(_ value: DescribeBudgetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3705,8 +3723,9 @@ extension DescribeNotificationsForBudgetInput: Swift.Encodable {
     }
 }
 
-extension DescribeNotificationsForBudgetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeNotificationsForBudgetInput {
+
+    static func urlPathProvider(_ value: DescribeNotificationsForBudgetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3872,8 +3891,9 @@ extension DescribeSubscribersForNotificationInput: Swift.Encodable {
     }
 }
 
-extension DescribeSubscribersForNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSubscribersForNotificationInput {
+
+    static func urlPathProvider(_ value: DescribeSubscribersForNotificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4141,8 +4161,9 @@ extension ExecuteBudgetActionInput: Swift.Encodable {
     }
 }
 
-extension ExecuteBudgetActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteBudgetActionInput {
+
+    static func urlPathProvider(_ value: ExecuteBudgetActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5530,8 +5551,9 @@ extension UpdateBudgetActionInput: Swift.Encodable {
     }
 }
 
-extension UpdateBudgetActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateBudgetActionInput {
+
+    static func urlPathProvider(_ value: UpdateBudgetActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5747,8 +5769,9 @@ extension UpdateBudgetInput: Swift.Encodable {
     }
 }
 
-extension UpdateBudgetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateBudgetInput {
+
+    static func urlPathProvider(_ value: UpdateBudgetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5843,8 +5866,9 @@ extension UpdateNotificationInput: Swift.Encodable {
     }
 }
 
-extension UpdateNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNotificationInput {
+
+    static func urlPathProvider(_ value: UpdateNotificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5962,8 +5986,9 @@ extension UpdateSubscriberInput: Swift.Encodable {
     }
 }
 
-extension UpdateSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSubscriberInput {
+
+    static func urlPathProvider(_ value: UpdateSubscriberInput) -> Swift.String? {
         return "/"
     }
 }

@@ -2,9 +2,10 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension CancelImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let taskIdentifier = taskIdentifier else {
+extension CancelImportTaskInput {
+
+    static func urlPathProvider(_ value: CancelImportTaskInput) -> Swift.String? {
+        guard let taskIdentifier = value.taskIdentifier else {
             return nil
         }
         return "/importtasks/\(taskIdentifier.urlPercentEncoding())"
@@ -282,8 +283,9 @@ extension CreateGraphInput: Swift.Encodable {
     }
 }
 
-extension CreateGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGraphInput {
+
+    static func urlPathProvider(_ value: CreateGraphInput) -> Swift.String? {
         return "/graphs"
     }
 }
@@ -605,8 +607,9 @@ extension CreateGraphSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateGraphSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGraphSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateGraphSnapshotInput) -> Swift.String? {
         return "/snapshots"
     }
 }
@@ -853,8 +856,9 @@ extension CreateGraphUsingImportTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateGraphUsingImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGraphUsingImportTaskInput {
+
+    static func urlPathProvider(_ value: CreateGraphUsingImportTaskInput) -> Swift.String? {
         return "/importtasks"
     }
 }
@@ -1149,9 +1153,10 @@ extension CreatePrivateGraphEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreatePrivateGraphEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension CreatePrivateGraphEndpointInput {
+
+    static func urlPathProvider(_ value: CreatePrivateGraphEndpointInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())/endpoints"
@@ -1323,24 +1328,24 @@ enum CreatePrivateGraphEndpointOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteGraphInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let skipSnapshot = skipSnapshot else {
-                let message = "Creating a URL Query Item failed. skipSnapshot is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let skipSnapshotQueryItem = ClientRuntime.URLQueryItem(name: "skipSnapshot".urlPercentEncoding(), value: Swift.String(skipSnapshot).urlPercentEncoding())
-            items.append(skipSnapshotQueryItem)
-            return items
+extension DeleteGraphInput {
+
+    static func queryItemProvider(_ value: DeleteGraphInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let skipSnapshot = value.skipSnapshot else {
+            let message = "Creating a URL Query Item failed. skipSnapshot is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let skipSnapshotQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipSnapshot".urlPercentEncoding(), value: Swift.String(skipSnapshot).urlPercentEncoding())
+        items.append(skipSnapshotQueryItem)
+        return items
     }
 }
 
-extension DeleteGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension DeleteGraphInput {
+
+    static func urlPathProvider(_ value: DeleteGraphInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())"
@@ -1572,9 +1577,10 @@ enum DeleteGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteGraphSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotIdentifier = snapshotIdentifier else {
+extension DeleteGraphSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteGraphSnapshotInput) -> Swift.String? {
+        guard let snapshotIdentifier = value.snapshotIdentifier else {
             return nil
         }
         return "/snapshots/\(snapshotIdentifier.urlPercentEncoding())"
@@ -1721,12 +1727,13 @@ enum DeleteGraphSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePrivateGraphEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension DeletePrivateGraphEndpointInput {
+
+    static func urlPathProvider(_ value: DeletePrivateGraphEndpointInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
-        guard let vpcId = vpcId else {
+        guard let vpcId = value.vpcId else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())/endpoints/\(vpcId.urlPercentEncoding())"
@@ -1889,9 +1896,10 @@ extension NeptuneGraphClientTypes {
     }
 }
 
-extension GetGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension GetGraphInput {
+
+    static func urlPathProvider(_ value: GetGraphInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())"
@@ -2117,9 +2125,10 @@ enum GetGraphOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGraphSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotIdentifier = snapshotIdentifier else {
+extension GetGraphSnapshotInput {
+
+    static func urlPathProvider(_ value: GetGraphSnapshotInput) -> Swift.String? {
+        guard let snapshotIdentifier = value.snapshotIdentifier else {
             return nil
         }
         return "/snapshots/\(snapshotIdentifier.urlPercentEncoding())"
@@ -2265,9 +2274,10 @@ enum GetGraphSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let taskIdentifier = taskIdentifier else {
+extension GetImportTaskInput {
+
+    static func urlPathProvider(_ value: GetImportTaskInput) -> Swift.String? {
+        guard let taskIdentifier = value.taskIdentifier else {
             return nil
         }
         return "/importtasks/\(taskIdentifier.urlPercentEncoding())"
@@ -2464,12 +2474,13 @@ enum GetImportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPrivateGraphEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension GetPrivateGraphEndpointInput {
+
+    static func urlPathProvider(_ value: GetPrivateGraphEndpointInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
-        guard let vpcId = vpcId else {
+        guard let vpcId = value.vpcId else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())/endpoints/\(vpcId.urlPercentEncoding())"
@@ -3223,29 +3234,29 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListGraphSnapshotsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let graphIdentifier = graphIdentifier {
-                let graphIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "graphIdentifier".urlPercentEncoding(), value: Swift.String(graphIdentifier).urlPercentEncoding())
-                items.append(graphIdentifierQueryItem)
-            }
-            return items
+extension ListGraphSnapshotsInput {
+
+    static func queryItemProvider(_ value: ListGraphSnapshotsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let graphIdentifier = value.graphIdentifier {
+            let graphIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "graphIdentifier".urlPercentEncoding(), value: Swift.String(graphIdentifier).urlPercentEncoding())
+            items.append(graphIdentifierQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGraphSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGraphSnapshotsInput {
+
+    static func urlPathProvider(_ value: ListGraphSnapshotsInput) -> Swift.String? {
         return "/snapshots"
     }
 }
@@ -3353,25 +3364,25 @@ enum ListGraphSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGraphsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGraphsInput {
+
+    static func queryItemProvider(_ value: ListGraphsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGraphsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGraphsInput {
+
+    static func urlPathProvider(_ value: ListGraphsInput) -> Swift.String? {
         return "/graphs"
     }
 }
@@ -3474,25 +3485,25 @@ enum ListGraphsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListImportTasksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListImportTasksInput {
+
+    static func queryItemProvider(_ value: ListImportTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListImportTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImportTasksInput {
+
+    static func urlPathProvider(_ value: ListImportTasksInput) -> Swift.String? {
         return "/importtasks"
     }
 }
@@ -3596,26 +3607,26 @@ enum ListImportTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPrivateGraphEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPrivateGraphEndpointsInput {
+
+    static func queryItemProvider(_ value: ListPrivateGraphEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPrivateGraphEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension ListPrivateGraphEndpointsInput {
+
+    static func urlPathProvider(_ value: ListPrivateGraphEndpointsInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())/endpoints"
@@ -3726,9 +3737,10 @@ enum ListPrivateGraphEndpointsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3819,6 +3831,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum NeptuneGraphClientTypes {}
 
 extension NeptuneGraphClientTypes.NeptuneImportOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4018,9 +4032,10 @@ extension ResetGraphInput: Swift.Encodable {
     }
 }
 
-extension ResetGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension ResetGraphInput {
+
+    static func urlPathProvider(_ value: ResetGraphInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())"
@@ -4352,9 +4367,10 @@ extension RestoreGraphFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreGraphFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotIdentifier = snapshotIdentifier else {
+extension RestoreGraphFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreGraphFromSnapshotInput) -> Swift.String? {
+        guard let snapshotIdentifier = value.snapshotIdentifier else {
             return nil
         }
         return "/snapshots/\(snapshotIdentifier.urlPercentEncoding())/restore"
@@ -4793,9 +4809,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4926,26 +4943,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5024,9 +5041,10 @@ extension UpdateGraphInput: Swift.Encodable {
     }
 }
 
-extension UpdateGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let graphIdentifier = graphIdentifier else {
+extension UpdateGraphInput {
+
+    static func urlPathProvider(_ value: UpdateGraphInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())"

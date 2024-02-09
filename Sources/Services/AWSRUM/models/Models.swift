@@ -576,9 +576,10 @@ extension BatchCreateRumMetricDefinitionsInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateRumMetricDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension BatchCreateRumMetricDefinitionsInput {
+
+    static func urlPathProvider(_ value: BatchCreateRumMetricDefinitionsInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metrics"
@@ -789,36 +790,36 @@ extension RUMClientTypes {
 
 }
 
-extension BatchDeleteRumMetricDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let destination = destination else {
-                let message = "Creating a URL Query Item failed. destination is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let destinationQueryItem = ClientRuntime.URLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
-            items.append(destinationQueryItem)
-            guard let metricDefinitionIds = metricDefinitionIds else {
-                let message = "Creating a URL Query Item failed. metricDefinitionIds is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            metricDefinitionIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "metricDefinitionIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            if let destinationArn = destinationArn {
-                let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
-                items.append(destinationArnQueryItem)
-            }
-            return items
+extension BatchDeleteRumMetricDefinitionsInput {
+
+    static func queryItemProvider(_ value: BatchDeleteRumMetricDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let destination = value.destination else {
+            let message = "Creating a URL Query Item failed. destination is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let destinationQueryItem = ClientRuntime.SDKURLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
+        items.append(destinationQueryItem)
+        guard let metricDefinitionIds = value.metricDefinitionIds else {
+            let message = "Creating a URL Query Item failed. metricDefinitionIds is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        metricDefinitionIds.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "metricDefinitionIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        if let destinationArn = value.destinationArn {
+            let destinationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
+            items.append(destinationArnQueryItem)
+        }
+        return items
     }
 }
 
-extension BatchDeleteRumMetricDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension BatchDeleteRumMetricDefinitionsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteRumMetricDefinitionsInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metrics"
@@ -946,36 +947,36 @@ enum BatchDeleteRumMetricDefinitionsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension BatchGetRumMetricDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let destination = destination else {
-                let message = "Creating a URL Query Item failed. destination is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let destinationQueryItem = ClientRuntime.URLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
-            items.append(destinationQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let destinationArn = destinationArn {
-                let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
-                items.append(destinationArnQueryItem)
-            }
-            return items
+extension BatchGetRumMetricDefinitionsInput {
+
+    static func queryItemProvider(_ value: BatchGetRumMetricDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let destination = value.destination else {
+            let message = "Creating a URL Query Item failed. destination is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let destinationQueryItem = ClientRuntime.SDKURLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
+        items.append(destinationQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let destinationArn = value.destinationArn {
+            let destinationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
+            items.append(destinationArnQueryItem)
+        }
+        return items
     }
 }
 
-extension BatchGetRumMetricDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension BatchGetRumMetricDefinitionsInput {
+
+    static func urlPathProvider(_ value: BatchGetRumMetricDefinitionsInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metrics"
@@ -1207,8 +1208,9 @@ extension CreateAppMonitorInput: Swift.Encodable {
     }
 }
 
-extension CreateAppMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppMonitorInput {
+
+    static func urlPathProvider(_ value: CreateAppMonitorInput) -> Swift.String? {
         return "/appmonitor"
     }
 }
@@ -1496,9 +1498,10 @@ extension RUMClientTypes {
 
 }
 
-extension DeleteAppMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteAppMonitorInput {
+
+    static func urlPathProvider(_ value: DeleteAppMonitorInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/appmonitor/\(name.urlPercentEncoding())"
@@ -1553,28 +1556,28 @@ enum DeleteAppMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRumMetricsDestinationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let destination = destination else {
-                let message = "Creating a URL Query Item failed. destination is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let destinationQueryItem = ClientRuntime.URLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
-            items.append(destinationQueryItem)
-            if let destinationArn = destinationArn {
-                let destinationArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
-                items.append(destinationArnQueryItem)
-            }
-            return items
+extension DeleteRumMetricsDestinationInput {
+
+    static func queryItemProvider(_ value: DeleteRumMetricsDestinationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let destination = value.destination else {
+            let message = "Creating a URL Query Item failed. destination is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let destinationQueryItem = ClientRuntime.SDKURLQueryItem(name: "destination".urlPercentEncoding(), value: Swift.String(destination.rawValue).urlPercentEncoding())
+        items.append(destinationQueryItem)
+        if let destinationArn = value.destinationArn {
+            let destinationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "destinationArn".urlPercentEncoding(), value: Swift.String(destinationArn).urlPercentEncoding())
+            items.append(destinationArnQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteRumMetricsDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension DeleteRumMetricsDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteRumMetricsDestinationInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metricsdestination"
@@ -1666,9 +1669,10 @@ extension GetAppMonitorDataInput: Swift.Encodable {
     }
 }
 
-extension GetAppMonitorDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAppMonitorDataInput {
+
+    static func urlPathProvider(_ value: GetAppMonitorDataInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/appmonitor/\(name.urlPercentEncoding())/data"
@@ -1816,9 +1820,10 @@ enum GetAppMonitorDataOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAppMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAppMonitorInput {
+
+    static func urlPathProvider(_ value: GetAppMonitorInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/appmonitor/\(name.urlPercentEncoding())"
@@ -1967,25 +1972,25 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAppMonitorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAppMonitorsInput {
+
+    static func queryItemProvider(_ value: ListAppMonitorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppMonitorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppMonitorsInput {
+
+    static func urlPathProvider(_ value: ListAppMonitorsInput) -> Swift.String? {
         return "/appmonitors"
     }
 }
@@ -2088,26 +2093,26 @@ enum ListAppMonitorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRumMetricsDestinationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRumMetricsDestinationsInput {
+
+    static func queryItemProvider(_ value: ListRumMetricsDestinationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRumMetricsDestinationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension ListRumMetricsDestinationsInput {
+
+    static func urlPathProvider(_ value: ListRumMetricsDestinationsInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metricsdestination"
@@ -2217,9 +2222,10 @@ enum ListRumMetricsDestinationsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2771,9 +2777,10 @@ extension PutRumEventsInput: Swift.Encodable {
     }
 }
 
-extension PutRumEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension PutRumEventsInput {
+
+    static func urlPathProvider(_ value: PutRumEventsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/appmonitors/\(id.urlPercentEncoding())"
@@ -2896,9 +2903,10 @@ extension PutRumMetricsDestinationInput: Swift.Encodable {
     }
 }
 
-extension PutRumMetricsDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension PutRumMetricsDestinationInput {
+
+    static func urlPathProvider(_ value: PutRumMetricsDestinationInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metricsdestination"
@@ -3037,6 +3045,8 @@ extension RUMClientTypes {
     }
 
 }
+
+public enum RUMClientTypes {}
 
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -3301,9 +3311,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3545,26 +3556,26 @@ extension RUMClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3646,9 +3657,10 @@ extension UpdateAppMonitorInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateAppMonitorInput {
+
+    static func urlPathProvider(_ value: UpdateAppMonitorInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/appmonitor/\(name.urlPercentEncoding())"
@@ -3763,9 +3775,10 @@ extension UpdateRumMetricDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateRumMetricDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appMonitorName = appMonitorName else {
+extension UpdateRumMetricDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateRumMetricDefinitionInput) -> Swift.String? {
+        guard let appMonitorName = value.appMonitorName else {
             return nil
         }
         return "/rummetrics/\(appMonitorName.urlPercentEncoding())/metrics"

@@ -57,6 +57,8 @@ extension AuthExceptionBody: Swift.Decodable {
     }
 }
 
+public enum EC2InstanceConnectClientTypes {}
+
 extension EC2InstanceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -357,8 +359,9 @@ extension SendSSHPublicKeyInput: Swift.Encodable {
     }
 }
 
-extension SendSSHPublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendSSHPublicKeyInput {
+
+    static func urlPathProvider(_ value: SendSSHPublicKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -506,8 +509,9 @@ extension SendSerialConsoleSSHPublicKeyInput: Swift.Encodable {
     }
 }
 
-extension SendSerialConsoleSSHPublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendSerialConsoleSSHPublicKeyInput {
+
+    static func urlPathProvider(_ value: SendSerialConsoleSSHPublicKeyInput) -> Swift.String? {
         return "/"
     }
 }

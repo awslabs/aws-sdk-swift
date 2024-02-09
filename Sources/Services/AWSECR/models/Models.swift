@@ -244,8 +244,9 @@ extension BatchCheckLayerAvailabilityInput: Swift.Encodable {
     }
 }
 
-extension BatchCheckLayerAvailabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchCheckLayerAvailabilityInput {
+
+    static func urlPathProvider(_ value: BatchCheckLayerAvailabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -410,8 +411,9 @@ extension BatchDeleteImageInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteImageInput {
+
+    static func urlPathProvider(_ value: BatchDeleteImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -584,8 +586,9 @@ extension BatchGetImageInput: Swift.Encodable {
     }
 }
 
-extension BatchGetImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetImageInput {
+
+    static func urlPathProvider(_ value: BatchGetImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -761,8 +764,9 @@ extension BatchGetRepositoryScanningConfigurationInput: Swift.Encodable {
     }
 }
 
-extension BatchGetRepositoryScanningConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetRepositoryScanningConfigurationInput {
+
+    static func urlPathProvider(_ value: BatchGetRepositoryScanningConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -915,8 +919,9 @@ extension CompleteLayerUploadInput: Swift.Encodable {
     }
 }
 
-extension CompleteLayerUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CompleteLayerUploadInput {
+
+    static func urlPathProvider(_ value: CompleteLayerUploadInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1103,8 +1108,9 @@ extension CreatePullThroughCacheRuleInput: Swift.Encodable {
     }
 }
 
-extension CreatePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePullThroughCacheRuleInput {
+
+    static func urlPathProvider(_ value: CreatePullThroughCacheRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1328,8 +1334,9 @@ extension CreateRepositoryInput: Swift.Encodable {
     }
 }
 
-extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRepositoryInput {
+
+    static func urlPathProvider(_ value: CreateRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1683,8 +1690,9 @@ extension DeleteLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteLifecyclePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1828,8 +1836,9 @@ extension DeletePullThroughCacheRuleInput: Swift.Encodable {
     }
 }
 
-extension DeletePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePullThroughCacheRuleInput {
+
+    static func urlPathProvider(_ value: DeletePullThroughCacheRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1973,8 +1982,9 @@ extension DeleteRegistryPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteRegistryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRegistryPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteRegistryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2078,8 +2088,9 @@ extension DeleteRepositoryInput: Swift.Encodable {
     }
 }
 
-extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2201,8 +2212,9 @@ extension DeleteRepositoryPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteRepositoryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2339,8 +2351,9 @@ extension DescribeImageReplicationStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeImageReplicationStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImageReplicationStatusInput {
+
+    static func urlPathProvider(_ value: DescribeImageReplicationStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2504,8 +2517,9 @@ extension DescribeImageScanFindingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeImageScanFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImageScanFindingsInput {
+
+    static func urlPathProvider(_ value: DescribeImageScanFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2749,8 +2763,9 @@ extension DescribeImagesInput: Swift.Encodable {
     }
 }
 
-extension DescribeImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImagesInput {
+
+    static func urlPathProvider(_ value: DescribeImagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2934,8 +2949,9 @@ extension DescribePullThroughCacheRulesInput: Swift.Encodable {
     }
 }
 
-extension DescribePullThroughCacheRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePullThroughCacheRulesInput {
+
+    static func urlPathProvider(_ value: DescribePullThroughCacheRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3082,8 +3098,9 @@ extension DescribeRegistryInput: Swift.Encodable {
     }
 }
 
-extension DescribeRegistryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRegistryInput {
+
+    static func urlPathProvider(_ value: DescribeRegistryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3193,8 +3210,9 @@ extension DescribeRepositoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRepositoriesInput {
+
+    static func urlPathProvider(_ value: DescribeRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3331,6 +3349,8 @@ enum DescribeRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum ECRClientTypes {}
 
 extension EmptyUploadException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -3713,8 +3733,9 @@ extension GetAuthorizationTokenInput: Swift.Encodable {
     }
 }
 
-extension GetAuthorizationTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAuthorizationTokenInput {
+
+    static func urlPathProvider(_ value: GetAuthorizationTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3839,8 +3860,9 @@ extension GetDownloadUrlForLayerInput: Swift.Encodable {
     }
 }
 
-extension GetDownloadUrlForLayerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDownloadUrlForLayerInput {
+
+    static func urlPathProvider(_ value: GetDownloadUrlForLayerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3974,8 +3996,9 @@ extension GetLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: GetLifecyclePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4138,8 +4161,9 @@ extension GetLifecyclePolicyPreviewInput: Swift.Encodable {
     }
 }
 
-extension GetLifecyclePolicyPreviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLifecyclePolicyPreviewInput {
+
+    static func urlPathProvider(_ value: GetLifecyclePolicyPreviewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4354,8 +4378,9 @@ extension GetRegistryPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetRegistryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegistryPolicyInput {
+
+    static func urlPathProvider(_ value: GetRegistryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4446,8 +4471,9 @@ extension GetRegistryScanningConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetRegistryScanningConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegistryScanningConfigurationInput {
+
+    static func urlPathProvider(_ value: GetRegistryScanningConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4546,8 +4572,9 @@ extension GetRepositoryPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryPolicyInput {
+
+    static func urlPathProvider(_ value: GetRepositoryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5750,8 +5777,9 @@ extension InitiateLayerUploadInput: Swift.Encodable {
     }
 }
 
-extension InitiateLayerUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InitiateLayerUploadInput {
+
+    static func urlPathProvider(_ value: InitiateLayerUploadInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7108,8 +7136,9 @@ extension ListImagesInput: Swift.Encodable {
     }
 }
 
-extension ListImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImagesInput {
+
+    static func urlPathProvider(_ value: ListImagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7260,8 +7289,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7768,8 +7798,9 @@ extension PutImageInput: Swift.Encodable {
     }
 }
 
-extension PutImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutImageInput {
+
+    static func urlPathProvider(_ value: PutImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7925,8 +7956,9 @@ extension PutImageScanningConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutImageScanningConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutImageScanningConfigurationInput {
+
+    static func urlPathProvider(_ value: PutImageScanningConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8072,8 +8104,9 @@ extension PutImageTagMutabilityInput: Swift.Encodable {
     }
 }
 
-extension PutImageTagMutabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutImageTagMutabilityInput {
+
+    static func urlPathProvider(_ value: PutImageTagMutabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8218,8 +8251,9 @@ extension PutLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: PutLifecyclePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8357,8 +8391,9 @@ extension PutRegistryPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutRegistryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRegistryPolicyInput {
+
+    static func urlPathProvider(_ value: PutRegistryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8475,8 +8510,9 @@ extension PutRegistryScanningConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutRegistryScanningConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRegistryScanningConfigurationInput {
+
+    static func urlPathProvider(_ value: PutRegistryScanningConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8592,8 +8628,9 @@ extension PutReplicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: PutReplicationConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10293,8 +10330,9 @@ extension SetRepositoryPolicyInput: Swift.Encodable {
     }
 }
 
-extension SetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetRepositoryPolicyInput {
+
+    static func urlPathProvider(_ value: SetRepositoryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10447,8 +10485,9 @@ extension StartImageScanInput: Swift.Encodable {
     }
 }
 
-extension StartImageScanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartImageScanInput {
+
+    static func urlPathProvider(_ value: StartImageScanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10607,8 +10646,9 @@ extension StartLifecyclePolicyPreviewInput: Swift.Encodable {
     }
 }
 
-extension StartLifecyclePolicyPreviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartLifecyclePolicyPreviewInput {
+
+    static func urlPathProvider(_ value: StartLifecyclePolicyPreviewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10811,8 +10851,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11329,8 +11370,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11428,8 +11470,9 @@ extension UpdatePullThroughCacheRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdatePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePullThroughCacheRuleInput {
+
+    static func urlPathProvider(_ value: UpdatePullThroughCacheRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11600,8 +11643,9 @@ extension UploadLayerPartInput: Swift.Encodable {
     }
 }
 
-extension UploadLayerPartInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UploadLayerPartInput {
+
+    static func urlPathProvider(_ value: UploadLayerPartInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11883,8 +11927,9 @@ extension ValidatePullThroughCacheRuleInput: Swift.Encodable {
     }
 }
 
-extension ValidatePullThroughCacheRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidatePullThroughCacheRuleInput {
+
+    static func urlPathProvider(_ value: ValidatePullThroughCacheRuleInput) -> Swift.String? {
         return "/"
     }
 }

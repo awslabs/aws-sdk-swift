@@ -190,39 +190,39 @@ extension CodeartifactClientTypes {
 
 }
 
-extension AssociateExternalConnectionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let externalConnection = externalConnection else {
-                let message = "Creating a URL Query Item failed. externalConnection is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let externalConnectionQueryItem = ClientRuntime.URLQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
-            items.append(externalConnectionQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension AssociateExternalConnectionInput {
+
+    static func queryItemProvider(_ value: AssociateExternalConnectionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let externalConnection = value.externalConnection else {
+            let message = "Creating a URL Query Item failed. externalConnection is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let externalConnectionQueryItem = ClientRuntime.SDKURLQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
+        items.append(externalConnectionQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension AssociateExternalConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateExternalConnectionInput {
+
+    static func urlPathProvider(_ value: AssociateExternalConnectionInput) -> Swift.String? {
         return "/v1/repository/external-connection"
     }
 }
@@ -336,6 +336,8 @@ enum AssociateExternalConnectionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+public enum CodeartifactClientTypes {}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -443,55 +445,55 @@ extension CopyPackageVersionsInput: Swift.Encodable {
     }
 }
 
-extension CopyPackageVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let sourceRepository = sourceRepository else {
-                let message = "Creating a URL Query Item failed. sourceRepository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let sourceRepositoryQueryItem = ClientRuntime.URLQueryItem(name: "source-repository".urlPercentEncoding(), value: Swift.String(sourceRepository).urlPercentEncoding())
-            items.append(sourceRepositoryQueryItem)
-            guard let destinationRepository = destinationRepository else {
-                let message = "Creating a URL Query Item failed. destinationRepository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let destinationRepositoryQueryItem = ClientRuntime.URLQueryItem(name: "destination-repository".urlPercentEncoding(), value: Swift.String(destinationRepository).urlPercentEncoding())
-            items.append(destinationRepositoryQueryItem)
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension CopyPackageVersionsInput {
+
+    static func queryItemProvider(_ value: CopyPackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let sourceRepository = value.sourceRepository else {
+            let message = "Creating a URL Query Item failed. sourceRepository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let sourceRepositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "source-repository".urlPercentEncoding(), value: Swift.String(sourceRepository).urlPercentEncoding())
+        items.append(sourceRepositoryQueryItem)
+        guard let destinationRepository = value.destinationRepository else {
+            let message = "Creating a URL Query Item failed. destinationRepository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let destinationRepositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "destination-repository".urlPercentEncoding(), value: Swift.String(destinationRepository).urlPercentEncoding())
+        items.append(destinationRepositoryQueryItem)
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
-extension CopyPackageVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyPackageVersionsInput {
+
+    static func urlPathProvider(_ value: CopyPackageVersionsInput) -> Swift.String? {
         return "/v1/package/versions/copy"
     }
 }
@@ -724,23 +726,23 @@ extension CreateDomainInput: Swift.Encodable {
     }
 }
 
-extension CreateDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            return items
+extension CreateDomainInput {
+
+    static func queryItemProvider(_ value: CreateDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        return items
     }
 }
 
-extension CreateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDomainInput {
+
+    static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
         return "/v1/domain"
     }
 }
@@ -879,33 +881,33 @@ extension CreateRepositoryInput: Swift.Encodable {
     }
 }
 
-extension CreateRepositoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension CreateRepositoryInput {
+
+    static func queryItemProvider(_ value: CreateRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRepositoryInput {
+
+    static func urlPathProvider(_ value: CreateRepositoryInput) -> Swift.String? {
         return "/v1/repository"
     }
 }
@@ -1043,27 +1045,27 @@ enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            return items
+extension DeleteDomainInput {
+
+    static func queryItemProvider(_ value: DeleteDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDomainInput {
+
+    static func urlPathProvider(_ value: DeleteDomainInput) -> Swift.String? {
         return "/v1/domain"
     }
 }
@@ -1149,31 +1151,31 @@ enum DeleteDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDomainPermissionsPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            if let policyRevision = policyRevision {
-                let policyRevisionQueryItem = ClientRuntime.URLQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
-                items.append(policyRevisionQueryItem)
-            }
-            return items
+extension DeleteDomainPermissionsPolicyInput {
+
+    static func queryItemProvider(_ value: DeleteDomainPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        if let policyRevision = value.policyRevision {
+            let policyRevisionQueryItem = ClientRuntime.SDKURLQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
+            items.append(policyRevisionQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteDomainPermissionsPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDomainPermissionsPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteDomainPermissionsPolicyInput) -> Swift.String? {
         return "/v1/domain/permissions/policy"
     }
 }
@@ -1264,49 +1266,49 @@ enum DeleteDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeletePackageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DeletePackageInput {
+
+    static func queryItemProvider(_ value: DeletePackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DeletePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePackageInput {
+
+    static func urlPathProvider(_ value: DeletePackageInput) -> Swift.String? {
         return "/v1/package"
     }
 }
@@ -1440,49 +1442,49 @@ extension DeletePackageVersionsInput: Swift.Encodable {
     }
 }
 
-extension DeletePackageVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DeletePackageVersionsInput {
+
+    static func queryItemProvider(_ value: DeletePackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DeletePackageVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePackageVersionsInput {
+
+    static func urlPathProvider(_ value: DeletePackageVersionsInput) -> Swift.String? {
         return "/v1/package/versions/delete"
     }
 }
@@ -1665,33 +1667,33 @@ enum DeletePackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRepositoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DeleteRepositoryInput {
+
+    static func queryItemProvider(_ value: DeleteRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryInput) -> Swift.String? {
         return "/v1/repository"
     }
 }
@@ -1783,37 +1785,37 @@ enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRepositoryPermissionsPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            if let policyRevision = policyRevision {
-                let policyRevisionQueryItem = ClientRuntime.URLQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
-                items.append(policyRevisionQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DeleteRepositoryPermissionsPolicyInput {
+
+    static func queryItemProvider(_ value: DeleteRepositoryPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        if let policyRevision = value.policyRevision {
+            let policyRevisionQueryItem = ClientRuntime.SDKURLQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
+            items.append(policyRevisionQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DeleteRepositoryPermissionsPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryPermissionsPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryPermissionsPolicyInput) -> Swift.String? {
         return "/v1/repository/permissions/policies"
     }
 }
@@ -1909,27 +1911,27 @@ enum DeleteRepositoryPermissionsPolicyOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            return items
+extension DescribeDomainInput {
+
+    static func queryItemProvider(_ value: DescribeDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainInput {
+
+    static func urlPathProvider(_ value: DescribeDomainInput) -> Swift.String? {
         return "/v1/domain"
     }
 }
@@ -2015,49 +2017,49 @@ enum DescribeDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribePackageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DescribePackageInput {
+
+    static func queryItemProvider(_ value: DescribePackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DescribePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePackageInput {
+
+    static func urlPathProvider(_ value: DescribePackageInput) -> Swift.String? {
         return "/v1/package"
     }
 }
@@ -2171,55 +2173,55 @@ enum DescribePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribePackageVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let packageVersion = packageVersion else {
-                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
-            items.append(packageVersionQueryItem)
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DescribePackageVersionInput {
+
+    static func queryItemProvider(_ value: DescribePackageVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let packageVersion = value.packageVersion else {
+            let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        items.append(packageVersionQueryItem)
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DescribePackageVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePackageVersionInput {
+
+    static func urlPathProvider(_ value: DescribePackageVersionInput) -> Swift.String? {
         return "/v1/package/version"
     }
 }
@@ -2339,33 +2341,33 @@ enum DescribePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRepositoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DescribeRepositoryInput {
+
+    static func queryItemProvider(_ value: DescribeRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DescribeRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRepositoryInput {
+
+    static func urlPathProvider(_ value: DescribeRepositoryInput) -> Swift.String? {
         return "/v1/repository"
     }
 }
@@ -2456,39 +2458,39 @@ enum DescribeRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateExternalConnectionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let externalConnection = externalConnection else {
-                let message = "Creating a URL Query Item failed. externalConnection is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let externalConnectionQueryItem = ClientRuntime.URLQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
-            items.append(externalConnectionQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DisassociateExternalConnectionInput {
+
+    static func queryItemProvider(_ value: DisassociateExternalConnectionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let externalConnection = value.externalConnection else {
+            let message = "Creating a URL Query Item failed. externalConnection is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let externalConnectionQueryItem = ClientRuntime.SDKURLQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
+        items.append(externalConnectionQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DisassociateExternalConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateExternalConnectionInput {
+
+    static func urlPathProvider(_ value: DisassociateExternalConnectionInput) -> Swift.String? {
         return "/v1/repository/external-connection"
     }
 }
@@ -2613,49 +2615,49 @@ extension DisposePackageVersionsInput: Swift.Encodable {
     }
 }
 
-extension DisposePackageVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension DisposePackageVersionsInput {
+
+    static func queryItemProvider(_ value: DisposePackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension DisposePackageVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisposePackageVersionsInput {
+
+    static func urlPathProvider(_ value: DisposePackageVersionsInput) -> Swift.String? {
         return "/v1/package/versions/dispose"
     }
 }
@@ -3161,31 +3163,31 @@ extension CodeartifactClientTypes {
     }
 }
 
-extension GetAuthorizationTokenInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let durationSeconds = durationSeconds {
-                let durationSecondsQueryItem = ClientRuntime.URLQueryItem(name: "duration".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
-                items.append(durationSecondsQueryItem)
-            }
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            return items
+extension GetAuthorizationTokenInput {
+
+    static func queryItemProvider(_ value: GetAuthorizationTokenInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let durationSeconds = value.durationSeconds {
+            let durationSecondsQueryItem = ClientRuntime.SDKURLQueryItem(name: "duration".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
+            items.append(durationSecondsQueryItem)
         }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension GetAuthorizationTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAuthorizationTokenInput {
+
+    static func urlPathProvider(_ value: GetAuthorizationTokenInput) -> Swift.String? {
         return "/v1/authorization-token"
     }
 }
@@ -3285,27 +3287,27 @@ enum GetAuthorizationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDomainPermissionsPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            return items
+extension GetDomainPermissionsPolicyInput {
+
+    static func queryItemProvider(_ value: GetDomainPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDomainPermissionsPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDomainPermissionsPolicyInput {
+
+    static func urlPathProvider(_ value: GetDomainPermissionsPolicyInput) -> Swift.String? {
         return "/v1/domain/permissions/policy"
     }
 }
@@ -3391,65 +3393,65 @@ enum GetDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetPackageVersionAssetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let packageVersion = packageVersion else {
-                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
-            items.append(packageVersionQueryItem)
-            if let packageVersionRevision = packageVersionRevision {
-                let packageVersionRevisionQueryItem = ClientRuntime.URLQueryItem(name: "revision".urlPercentEncoding(), value: Swift.String(packageVersionRevision).urlPercentEncoding())
-                items.append(packageVersionRevisionQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            guard let asset = asset else {
-                let message = "Creating a URL Query Item failed. asset is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let assetQueryItem = ClientRuntime.URLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(asset).urlPercentEncoding())
-            items.append(assetQueryItem)
-            return items
+extension GetPackageVersionAssetInput {
+
+    static func queryItemProvider(_ value: GetPackageVersionAssetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let packageVersion = value.packageVersion else {
+            let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        items.append(packageVersionQueryItem)
+        if let packageVersionRevision = value.packageVersionRevision {
+            let packageVersionRevisionQueryItem = ClientRuntime.SDKURLQueryItem(name: "revision".urlPercentEncoding(), value: Swift.String(packageVersionRevision).urlPercentEncoding())
+            items.append(packageVersionRevisionQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        guard let asset = value.asset else {
+            let message = "Creating a URL Query Item failed. asset is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let assetQueryItem = ClientRuntime.SDKURLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(asset).urlPercentEncoding())
+        items.append(assetQueryItem)
+        return items
     }
 }
 
-extension GetPackageVersionAssetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPackageVersionAssetInput {
+
+    static func urlPathProvider(_ value: GetPackageVersionAssetInput) -> Swift.String? {
         return "/v1/package/version/asset"
     }
 }
@@ -3605,55 +3607,55 @@ enum GetPackageVersionAssetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPackageVersionReadmeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let packageVersion = packageVersion else {
-                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
-            items.append(packageVersionQueryItem)
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension GetPackageVersionReadmeInput {
+
+    static func queryItemProvider(_ value: GetPackageVersionReadmeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let packageVersion = value.packageVersion else {
+            let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        items.append(packageVersionQueryItem)
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension GetPackageVersionReadmeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPackageVersionReadmeInput {
+
+    static func urlPathProvider(_ value: GetPackageVersionReadmeInput) -> Swift.String? {
         return "/v1/package/version/readme"
     }
 }
@@ -3823,39 +3825,39 @@ enum GetPackageVersionReadmeOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetRepositoryEndpointInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension GetRepositoryEndpointInput {
+
+    static func queryItemProvider(_ value: GetRepositoryEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension GetRepositoryEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryEndpointInput {
+
+    static func urlPathProvider(_ value: GetRepositoryEndpointInput) -> Swift.String? {
         return "/v1/repository/endpoint"
     }
 }
@@ -3951,33 +3953,33 @@ enum GetRepositoryEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRepositoryPermissionsPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension GetRepositoryPermissionsPolicyInput {
+
+    static func queryItemProvider(_ value: GetRepositoryPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension GetRepositoryPermissionsPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryPermissionsPolicyInput {
+
+    static func urlPathProvider(_ value: GetRepositoryPermissionsPolicyInput) -> Swift.String? {
         return "/v1/repository/permissions/policy"
     }
 }
@@ -4224,8 +4226,9 @@ extension ListDomainsInput: Swift.Encodable {
     }
 }
 
-extension ListDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainsInput {
+
+    static func urlPathProvider(_ value: ListDomainsInput) -> Swift.String? {
         return "/v1/domains"
     }
 }
@@ -4339,63 +4342,63 @@ enum ListDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPackageVersionAssetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let packageVersion = packageVersion else {
-                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
-            items.append(packageVersionQueryItem)
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension ListPackageVersionAssetsInput {
+
+    static func queryItemProvider(_ value: ListPackageVersionAssetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let packageVersion = value.packageVersion else {
+            let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        items.append(packageVersionQueryItem)
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension ListPackageVersionAssetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPackageVersionAssetsInput {
+
+    static func urlPathProvider(_ value: ListPackageVersionAssetsInput) -> Swift.String? {
         return "/v1/package/version/assets"
     }
 }
@@ -4596,59 +4599,59 @@ enum ListPackageVersionAssetsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListPackageVersionDependenciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let packageVersion = packageVersion else {
-                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
-            items.append(packageVersionQueryItem)
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension ListPackageVersionDependenciesInput {
+
+    static func queryItemProvider(_ value: ListPackageVersionDependenciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let packageVersion = value.packageVersion else {
+            let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        items.append(packageVersionQueryItem)
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension ListPackageVersionDependenciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPackageVersionDependenciesInput {
+
+    static func urlPathProvider(_ value: ListPackageVersionDependenciesInput) -> Swift.String? {
         return "/v1/package/version/dependencies"
     }
 }
@@ -4845,69 +4848,69 @@ enum ListPackageVersionDependenciesOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListPackageVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let originType = originType {
-                let originTypeQueryItem = ClientRuntime.URLQueryItem(name: "originType".urlPercentEncoding(), value: Swift.String(originType.rawValue).urlPercentEncoding())
-                items.append(originTypeQueryItem)
-            }
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            if let sortBy = sortBy {
-                let sortByQueryItem = ClientRuntime.URLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
-                items.append(sortByQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListPackageVersionsInput {
+
+    static func queryItemProvider(_ value: ListPackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let originType = value.originType {
+            let originTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "originType".urlPercentEncoding(), value: Swift.String(originType.rawValue).urlPercentEncoding())
+            items.append(originTypeQueryItem)
         }
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPackageVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPackageVersionsInput {
+
+    static func urlPathProvider(_ value: ListPackageVersionsInput) -> Swift.String? {
         return "/v1/package/versions"
     }
 }
@@ -5109,61 +5112,61 @@ enum ListPackageVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPackagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let upstream = upstream {
-                let upstreamQueryItem = ClientRuntime.URLQueryItem(name: "upstream".urlPercentEncoding(), value: Swift.String(upstream.rawValue).urlPercentEncoding())
-                items.append(upstreamQueryItem)
-            }
-            if let packagePrefix = packagePrefix {
-                let packagePrefixQueryItem = ClientRuntime.URLQueryItem(name: "package-prefix".urlPercentEncoding(), value: Swift.String(packagePrefix).urlPercentEncoding())
-                items.append(packagePrefixQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let publish = publish {
-                let publishQueryItem = ClientRuntime.URLQueryItem(name: "publish".urlPercentEncoding(), value: Swift.String(publish.rawValue).urlPercentEncoding())
-                items.append(publishQueryItem)
-            }
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            if let format = format {
-                let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-                items.append(formatQueryItem)
-            }
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension ListPackagesInput {
+
+    static func queryItemProvider(_ value: ListPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let upstream = value.upstream {
+            let upstreamQueryItem = ClientRuntime.SDKURLQueryItem(name: "upstream".urlPercentEncoding(), value: Swift.String(upstream.rawValue).urlPercentEncoding())
+            items.append(upstreamQueryItem)
         }
+        if let packagePrefix = value.packagePrefix {
+            let packagePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-prefix".urlPercentEncoding(), value: Swift.String(packagePrefix).urlPercentEncoding())
+            items.append(packagePrefixQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let publish = value.publish {
+            let publishQueryItem = ClientRuntime.SDKURLQueryItem(name: "publish".urlPercentEncoding(), value: Swift.String(publish.rawValue).urlPercentEncoding())
+            items.append(publishQueryItem)
+        }
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        if let format = value.format {
+            let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+            items.append(formatQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension ListPackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPackagesInput {
+
+    static func urlPathProvider(_ value: ListPackagesInput) -> Swift.String? {
         return "/v1/packages"
     }
 }
@@ -5309,43 +5312,43 @@ enum ListPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRepositoriesInDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let repositoryPrefix = repositoryPrefix {
-                let repositoryPrefixQueryItem = ClientRuntime.URLQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
-                items.append(repositoryPrefixQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            if let administratorAccount = administratorAccount {
-                let administratorAccountQueryItem = ClientRuntime.URLQueryItem(name: "administrator-account".urlPercentEncoding(), value: Swift.String(administratorAccount).urlPercentEncoding())
-                items.append(administratorAccountQueryItem)
-            }
-            return items
+extension ListRepositoriesInDomainInput {
+
+    static func queryItemProvider(_ value: ListRepositoriesInDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let repositoryPrefix = value.repositoryPrefix {
+            let repositoryPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
+            items.append(repositoryPrefixQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        if let administratorAccount = value.administratorAccount {
+            let administratorAccountQueryItem = ClientRuntime.SDKURLQueryItem(name: "administrator-account".urlPercentEncoding(), value: Swift.String(administratorAccount).urlPercentEncoding())
+            items.append(administratorAccountQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRepositoriesInDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRepositoriesInDomainInput {
+
+    static func urlPathProvider(_ value: ListRepositoriesInDomainInput) -> Swift.String? {
         return "/v1/domain/repositories"
     }
 }
@@ -5466,29 +5469,29 @@ enum ListRepositoriesInDomainOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListRepositoriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let repositoryPrefix = repositoryPrefix {
-                let repositoryPrefixQueryItem = ClientRuntime.URLQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
-                items.append(repositoryPrefixQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListRepositoriesInput {
+
+    static func queryItemProvider(_ value: ListRepositoriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let repositoryPrefix = value.repositoryPrefix {
+            let repositoryPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
+            items.append(repositoryPrefixQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRepositoriesInput {
+
+    static func urlPathProvider(_ value: ListRepositoriesInput) -> Swift.String? {
         return "/v1/repositories"
     }
 }
@@ -5595,23 +5598,23 @@ enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/v1/tags"
     }
 }
@@ -6561,75 +6564,76 @@ extension PublishPackageVersionInput: Swift.Encodable {
     }
 }
 
-extension PublishPackageVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PublishPackageVersionInput {
+
+    static func headerProvider(_ value: PublishPackageVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let assetSHA256 = assetSHA256 {
+        if let assetSHA256 = value.assetSHA256 {
             items.add(Header(name: "x-amz-content-sha256", value: Swift.String(assetSHA256)))
         }
         return items
     }
 }
 
-extension PublishPackageVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let assetName = assetName else {
-                let message = "Creating a URL Query Item failed. assetName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let assetNameQueryItem = ClientRuntime.URLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(assetName).urlPercentEncoding())
-            items.append(assetNameQueryItem)
-            guard let packageVersion = packageVersion else {
-                let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
-            items.append(packageVersionQueryItem)
-            if let unfinished = unfinished {
-                let unfinishedQueryItem = ClientRuntime.URLQueryItem(name: "unfinished".urlPercentEncoding(), value: Swift.String(unfinished).urlPercentEncoding())
-                items.append(unfinishedQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension PublishPackageVersionInput {
+
+    static func queryItemProvider(_ value: PublishPackageVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let assetName = value.assetName else {
+            let message = "Creating a URL Query Item failed. assetName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let assetNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(assetName).urlPercentEncoding())
+        items.append(assetNameQueryItem)
+        guard let packageVersion = value.packageVersion else {
+            let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        items.append(packageVersionQueryItem)
+        if let unfinished = value.unfinished {
+            let unfinishedQueryItem = ClientRuntime.SDKURLQueryItem(name: "unfinished".urlPercentEncoding(), value: Swift.String(unfinished).urlPercentEncoding())
+            items.append(unfinishedQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension PublishPackageVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PublishPackageVersionInput {
+
+    static func urlPathProvider(_ value: PublishPackageVersionInput) -> Swift.String? {
         return "/v1/package/version/publish"
     }
 }
@@ -6852,8 +6856,9 @@ extension PutDomainPermissionsPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutDomainPermissionsPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutDomainPermissionsPolicyInput {
+
+    static func urlPathProvider(_ value: PutDomainPermissionsPolicyInput) -> Swift.String? {
         return "/v1/domain/permissions/policy"
     }
 }
@@ -6982,49 +6987,49 @@ extension PutPackageOriginConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutPackageOriginConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension PutPackageOriginConfigurationInput {
+
+    static func queryItemProvider(_ value: PutPackageOriginConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension PutPackageOriginConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPackageOriginConfigurationInput {
+
+    static func urlPathProvider(_ value: PutPackageOriginConfigurationInput) -> Swift.String? {
         return "/v1/package"
     }
 }
@@ -7166,33 +7171,33 @@ extension PutRepositoryPermissionsPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutRepositoryPermissionsPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension PutRepositoryPermissionsPolicyInput {
+
+    static func queryItemProvider(_ value: PutRepositoryPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension PutRepositoryPermissionsPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRepositoryPermissionsPolicyInput {
+
+    static func urlPathProvider(_ value: PutRepositoryPermissionsPolicyInput) -> Swift.String? {
         return "/v1/repository/permissions/policy"
     }
 }
@@ -7958,23 +7963,23 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/v1/tag"
     }
 }
@@ -8128,23 +8133,23 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/v1/untag"
     }
 }
@@ -8247,49 +8252,49 @@ extension UpdatePackageVersionsStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdatePackageVersionsStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let package = package else {
-                let message = "Creating a URL Query Item failed. package is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
-            items.append(packageQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let format = format else {
-                let message = "Creating a URL Query Item failed. format is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
-            items.append(formatQueryItem)
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension UpdatePackageVersionsStatusInput {
+
+    static func queryItemProvider(_ value: UpdatePackageVersionsStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension UpdatePackageVersionsStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePackageVersionsStatusInput {
+
+    static func urlPathProvider(_ value: UpdatePackageVersionsStatusInput) -> Swift.String? {
         return "/v1/package/versions/update_status"
     }
 }
@@ -8506,33 +8511,33 @@ extension UpdateRepositoryInput: Swift.Encodable {
     }
 }
 
-extension UpdateRepositoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            if let domainOwner = domainOwner {
-                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
-                items.append(domainOwnerQueryItem)
-            }
-            guard let repository = repository else {
-                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
-            items.append(repositoryQueryItem)
-            return items
+extension UpdateRepositoryInput {
+
+    static func queryItemProvider(_ value: UpdateRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let repository = value.repository else {
+            let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        items.append(repositoryQueryItem)
+        return items
     }
 }
 
-extension UpdateRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRepositoryInput {
+
+    static func urlPathProvider(_ value: UpdateRepositoryInput) -> Swift.String? {
         return "/v1/repository"
     }
 }

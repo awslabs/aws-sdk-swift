@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension IAMClientProtocol {
+extension IAMClient {
 
     static func instanceProfileExistsWaiterConfig() throws -> WaiterConfiguration<GetInstanceProfileInput, GetInstanceProfileOutput> {
         let acceptors: [WaiterConfiguration<GetInstanceProfileInput, GetInstanceProfileOutput>.Acceptor] = [

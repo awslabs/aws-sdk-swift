@@ -180,8 +180,9 @@ extension CreateRescoreExecutionPlanInput: Swift.Encodable {
     }
 }
 
-extension CreateRescoreExecutionPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRescoreExecutionPlanInput {
+
+    static func urlPathProvider(_ value: CreateRescoreExecutionPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -332,8 +333,9 @@ extension DeleteRescoreExecutionPlanInput: Swift.Encodable {
     }
 }
 
-extension DeleteRescoreExecutionPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRescoreExecutionPlanInput {
+
+    static func urlPathProvider(_ value: DeleteRescoreExecutionPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -394,8 +396,9 @@ extension DescribeRescoreExecutionPlanInput: Swift.Encodable {
     }
 }
 
-extension DescribeRescoreExecutionPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRescoreExecutionPlanInput {
+
+    static func urlPathProvider(_ value: DescribeRescoreExecutionPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -733,6 +736,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum KendraRankingClientTypes {}
+
 extension ListRescoreExecutionPlansInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -741,17 +746,16 @@ extension ListRescoreExecutionPlansInput: Swift.Encodable {
     }
 }
 
-extension ListRescoreExecutionPlansInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListRescoreExecutionPlansInput {
+
+    static func queryItemProvider(_ value: ListRescoreExecutionPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListRescoreExecutionPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRescoreExecutionPlansInput {
+
+    static func urlPathProvider(_ value: ListRescoreExecutionPlansInput) -> Swift.String? {
         return "/"
     }
 }
@@ -867,8 +871,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1104,8 +1109,9 @@ extension RescoreInput: Swift.Encodable {
     }
 }
 
-extension RescoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RescoreInput {
+
+    static func urlPathProvider(_ value: RescoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1514,8 +1520,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1669,8 +1676,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1770,8 +1778,9 @@ extension UpdateRescoreExecutionPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateRescoreExecutionPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRescoreExecutionPlanInput {
+
+    static func urlPathProvider(_ value: UpdateRescoreExecutionPlanInput) -> Swift.String? {
         return "/"
     }
 }

@@ -8128,15 +8128,16 @@ extension QuickSightClientTypes {
 
 }
 
-extension CancelIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CancelIngestionInput {
+
+    static func urlPathProvider(_ value: CancelIngestionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let ingestionId = ingestionId else {
+        guard let ingestionId = value.ingestionId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/ingestions/\(ingestionId.urlPercentEncoding())"
@@ -11723,22 +11724,22 @@ extension CreateAccountCustomizationInput: Swift.Encodable {
     }
 }
 
-extension CreateAccountCustomizationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension CreateAccountCustomizationInput {
+
+    static func queryItemProvider(_ value: CreateAccountCustomizationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
         }
+        return items
     }
 }
 
-extension CreateAccountCustomizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateAccountCustomizationInput {
+
+    static func urlPathProvider(_ value: CreateAccountCustomizationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/customizations"
@@ -11981,9 +11982,10 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateAccountSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateAccountSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateAccountSubscriptionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/account/\(awsAccountId.urlPercentEncoding())"
@@ -12298,12 +12300,13 @@ extension CreateAnalysisInput: Swift.Encodable {
     }
 }
 
-extension CreateAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateAnalysisInput {
+
+    static func urlPathProvider(_ value: CreateAnalysisInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())"
@@ -12658,12 +12661,13 @@ extension CreateDashboardInput: Swift.Encodable {
     }
 }
 
-extension CreateDashboardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateDashboardInput {
+
+    static func urlPathProvider(_ value: CreateDashboardInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())"
@@ -13050,9 +13054,10 @@ extension CreateDataSetInput: Swift.Encodable {
     }
 }
 
-extension CreateDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateDataSetInput {
+
+    static func urlPathProvider(_ value: CreateDataSetInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets"
@@ -13460,9 +13465,10 @@ extension CreateDataSourceInput: Swift.Encodable {
     }
 }
 
-extension CreateDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateDataSourceInput {
+
+    static func urlPathProvider(_ value: CreateDataSourceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources"
@@ -13740,12 +13746,13 @@ extension CreateFolderInput: Swift.Encodable {
     }
 }
 
-extension CreateFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateFolderInput {
+
+    static func urlPathProvider(_ value: CreateFolderInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())"
@@ -13848,18 +13855,19 @@ extension CreateFolderInputBody: Swift.Decodable {
     }
 }
 
-extension CreateFolderMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateFolderMembershipInput {
+
+    static func urlPathProvider(_ value: CreateFolderMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
-        guard let memberType = memberType else {
+        guard let memberType = value.memberType else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())/members/\(memberType.rawValue.urlPercentEncoding())/\(memberId.urlPercentEncoding())"
@@ -14086,12 +14094,13 @@ extension CreateGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateGroupInput {
+
+    static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups"
@@ -14146,18 +14155,19 @@ extension CreateGroupInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGroupMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateGroupMembershipInput {
+
+    static func urlPathProvider(_ value: CreateGroupMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
-        guard let memberName = memberName else {
+        guard let memberName = value.memberName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
@@ -14387,12 +14397,13 @@ extension CreateIAMPolicyAssignmentInput: Swift.Encodable {
     }
 }
 
-extension CreateIAMPolicyAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateIAMPolicyAssignmentInput {
+
+    static func urlPathProvider(_ value: CreateIAMPolicyAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/iam-policy-assignments"
@@ -14636,15 +14647,16 @@ extension CreateIngestionInput: Swift.Encodable {
     }
 }
 
-extension CreateIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateIngestionInput {
+
+    static func urlPathProvider(_ value: CreateIngestionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let ingestionId = ingestionId else {
+        guard let ingestionId = value.ingestionId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/ingestions/\(ingestionId.urlPercentEncoding())"
@@ -14814,9 +14826,10 @@ extension CreateNamespaceInput: Swift.Encodable {
     }
 }
 
-extension CreateNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateNamespaceInput {
+
+    static func urlPathProvider(_ value: CreateNamespaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())"
@@ -15015,12 +15028,13 @@ extension CreateRefreshScheduleInput: Swift.Encodable {
     }
 }
 
-extension CreateRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: CreateRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules"
@@ -15153,18 +15167,19 @@ enum CreateRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateRoleMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateRoleMembershipInput {
+
+    static func urlPathProvider(_ value: CreateRoleMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let role = role else {
+        guard let role = value.role else {
             return nil
         }
-        guard let memberName = memberName else {
+        guard let memberName = value.memberName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
@@ -15287,15 +15302,16 @@ extension CreateTemplateAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateTemplateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateTemplateAliasInput {
+
+    static func urlPathProvider(_ value: CreateTemplateAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -15465,12 +15481,13 @@ extension CreateTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateTemplateInput {
+
+    static func urlPathProvider(_ value: CreateTemplateInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())"
@@ -15702,15 +15719,16 @@ extension CreateThemeAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateThemeAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateThemeAliasInput {
+
+    static func urlPathProvider(_ value: CreateThemeAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -15877,12 +15895,13 @@ extension CreateThemeInput: Swift.Encodable {
     }
 }
 
-extension CreateThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateThemeInput {
+
+    static func urlPathProvider(_ value: CreateThemeInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())"
@@ -16119,9 +16138,10 @@ extension CreateTopicInput: Swift.Encodable {
     }
 }
 
-extension CreateTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateTopicInput {
+
+    static func urlPathProvider(_ value: CreateTopicInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics"
@@ -16306,12 +16326,13 @@ extension CreateTopicRefreshScheduleInput: Swift.Encodable {
     }
 }
 
-extension CreateTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateTopicRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: CreateTopicRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules"
@@ -16520,9 +16541,10 @@ extension CreateVPCConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateVPCConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension CreateVPCConnectionInput {
+
+    static func urlPathProvider(_ value: CreateVPCConnectionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections"
@@ -23855,22 +23877,22 @@ extension QuickSightClientTypes {
 
 }
 
-extension DeleteAccountCustomizationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension DeleteAccountCustomizationInput {
+
+    static func queryItemProvider(_ value: DeleteAccountCustomizationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAccountCustomizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteAccountCustomizationInput {
+
+    static func urlPathProvider(_ value: DeleteAccountCustomizationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/customizations"
@@ -23971,9 +23993,10 @@ enum DeleteAccountCustomizationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteAccountSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteAccountSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteAccountSubscriptionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/account/\(awsAccountId.urlPercentEncoding())"
@@ -24068,29 +24091,29 @@ enum DeleteAccountSubscriptionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteAnalysisInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let recoveryWindowInDays = recoveryWindowInDays {
-                let recoveryWindowInDaysQueryItem = ClientRuntime.URLQueryItem(name: "recovery-window-in-days".urlPercentEncoding(), value: Swift.String(recoveryWindowInDays).urlPercentEncoding())
-                items.append(recoveryWindowInDaysQueryItem)
-            }
-            if let forceDeleteWithoutRecovery = forceDeleteWithoutRecovery {
-                let forceDeleteWithoutRecoveryQueryItem = ClientRuntime.URLQueryItem(name: "force-delete-without-recovery".urlPercentEncoding(), value: Swift.String(forceDeleteWithoutRecovery).urlPercentEncoding())
-                items.append(forceDeleteWithoutRecoveryQueryItem)
-            }
-            return items
+extension DeleteAnalysisInput {
+
+    static func queryItemProvider(_ value: DeleteAnalysisInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let recoveryWindowInDays = value.recoveryWindowInDays {
+            let recoveryWindowInDaysQueryItem = ClientRuntime.SDKURLQueryItem(name: "recovery-window-in-days".urlPercentEncoding(), value: Swift.String(recoveryWindowInDays).urlPercentEncoding())
+            items.append(recoveryWindowInDaysQueryItem)
         }
+        if let forceDeleteWithoutRecovery = value.forceDeleteWithoutRecovery {
+            let forceDeleteWithoutRecoveryQueryItem = ClientRuntime.SDKURLQueryItem(name: "force-delete-without-recovery".urlPercentEncoding(), value: Swift.String(forceDeleteWithoutRecovery).urlPercentEncoding())
+            items.append(forceDeleteWithoutRecoveryQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteAnalysisInput {
+
+    static func urlPathProvider(_ value: DeleteAnalysisInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())"
@@ -24227,25 +24250,25 @@ enum DeleteAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDashboardInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DeleteDashboardInput {
+
+    static func queryItemProvider(_ value: DeleteDashboardInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteDashboardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteDashboardInput {
+
+    static func urlPathProvider(_ value: DeleteDashboardInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())"
@@ -24368,12 +24391,13 @@ enum DeleteDashboardOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteDataSetInput {
+
+    static func urlPathProvider(_ value: DeleteDataSetInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())"
@@ -24491,12 +24515,13 @@ enum DeleteDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDataSetRefreshPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteDataSetRefreshPropertiesInput {
+
+    static func urlPathProvider(_ value: DeleteDataSetRefreshPropertiesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-properties"
@@ -24596,12 +24621,13 @@ enum DeleteDataSetRefreshPropertiesOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DeleteDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteDataSourceInput {
+
+    static func urlPathProvider(_ value: DeleteDataSourceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())"
@@ -24719,12 +24745,13 @@ enum DeleteDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteFolderInput {
+
+    static func urlPathProvider(_ value: DeleteFolderInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())"
@@ -24758,18 +24785,19 @@ extension DeleteFolderInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteFolderMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteFolderMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteFolderMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
-        guard let memberType = memberType else {
+        guard let memberType = value.memberType else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())/members/\(memberType.rawValue.urlPercentEncoding())/\(memberId.urlPercentEncoding())"
@@ -24966,15 +24994,16 @@ enum DeleteFolderOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGroupInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())"
@@ -25013,18 +25042,19 @@ extension DeleteGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteGroupMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteGroupMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteGroupMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
-        guard let memberName = memberName else {
+        guard let memberName = value.memberName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
@@ -25200,15 +25230,16 @@ enum DeleteGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteIAMPolicyAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteIAMPolicyAssignmentInput {
+
+    static func urlPathProvider(_ value: DeleteIAMPolicyAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let assignmentName = assignmentName else {
+        guard let assignmentName = value.assignmentName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespace/\(namespace.urlPercentEncoding())/iam-policy-assignments/\(assignmentName.urlPercentEncoding())"
@@ -25323,12 +25354,13 @@ enum DeleteIAMPolicyAssignmentOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteIdentityPropagationConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteIdentityPropagationConfigInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityPropagationConfigInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let service = service else {
+        guard let service = value.service else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-propagation-config/\(service.rawValue.urlPercentEncoding())"
@@ -25426,12 +25458,13 @@ enum DeleteIdentityPropagationConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteNamespaceInput {
+
+    static func urlPathProvider(_ value: DeleteNamespaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())"
@@ -25531,15 +25564,16 @@ enum DeleteNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: DeleteRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let scheduleId = scheduleId else {
+        guard let scheduleId = value.scheduleId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules/\(scheduleId.urlPercentEncoding())"
@@ -25663,15 +25697,16 @@ enum DeleteRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteRoleCustomPermissionInput {
+
+    static func urlPathProvider(_ value: DeleteRoleCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let role = role else {
+        guard let role = value.role else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
@@ -25777,18 +25812,19 @@ enum DeleteRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteRoleMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteRoleMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteRoleMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let role = role else {
+        guard let role = value.role else {
             return nil
         }
-        guard let memberName = memberName else {
+        guard let memberName = value.memberName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
@@ -25898,15 +25934,16 @@ enum DeleteRoleMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTemplateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteTemplateAliasInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -26039,25 +26076,25 @@ enum DeleteTemplateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTemplateInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DeleteTemplateInput {
+
+    static func queryItemProvider(_ value: DeleteTemplateInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())"
@@ -26181,15 +26218,16 @@ enum DeleteTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteThemeAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteThemeAliasInput {
+
+    static func urlPathProvider(_ value: DeleteThemeAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -26323,25 +26361,25 @@ enum DeleteThemeAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteThemeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DeleteThemeInput {
+
+    static func queryItemProvider(_ value: DeleteThemeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteThemeInput {
+
+    static func urlPathProvider(_ value: DeleteThemeInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())"
@@ -26465,12 +26503,13 @@ enum DeleteThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteTopicInput {
+
+    static func urlPathProvider(_ value: DeleteTopicInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())"
@@ -26589,15 +26628,16 @@ enum DeleteTopicOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteTopicRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: DeleteTopicRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
-        guard let datasetId = datasetId else {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
@@ -26733,15 +26773,16 @@ enum DeleteTopicRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteUserByPrincipalIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteUserByPrincipalIdInput {
+
+    static func urlPathProvider(_ value: DeleteUserByPrincipalIdInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let principalId = principalId else {
+        guard let principalId = value.principalId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/user-principals/\(principalId.urlPercentEncoding())"
@@ -26847,15 +26888,16 @@ enum DeleteUserByPrincipalIdOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteUserInput {
+
+    static func urlPathProvider(_ value: DeleteUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
@@ -26960,12 +27002,13 @@ enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVPCConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DeleteVPCConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteVPCConnectionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let vpcConnectionId = vpcConnectionId else {
+        guard let vpcConnectionId = value.vpcConnectionId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections/\(vpcConnectionId.urlPercentEncoding())"
@@ -27105,26 +27148,26 @@ enum DeleteVPCConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAccountCustomizationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let resolved = resolved {
-                let resolvedQueryItem = ClientRuntime.URLQueryItem(name: "resolved".urlPercentEncoding(), value: Swift.String(resolved).urlPercentEncoding())
-                items.append(resolvedQueryItem)
-            }
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension DescribeAccountCustomizationInput {
+
+    static func queryItemProvider(_ value: DescribeAccountCustomizationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let resolved = value.resolved {
+            let resolvedQueryItem = ClientRuntime.SDKURLQueryItem(name: "resolved".urlPercentEncoding(), value: Swift.String(resolved).urlPercentEncoding())
+            items.append(resolvedQueryItem)
         }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeAccountCustomizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAccountCustomizationInput {
+
+    static func urlPathProvider(_ value: DescribeAccountCustomizationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/customizations"
@@ -27266,9 +27309,10 @@ enum DescribeAccountCustomizationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAccountSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountSettingsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/settings"
@@ -27372,9 +27416,10 @@ enum DescribeAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeAccountSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAccountSubscriptionInput {
+
+    static func urlPathProvider(_ value: DescribeAccountSubscriptionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/account/\(awsAccountId.urlPercentEncoding())"
@@ -27488,12 +27533,13 @@ enum DescribeAccountSubscriptionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeAnalysisDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAnalysisDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeAnalysisDefinitionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())/definition"
@@ -27677,12 +27723,13 @@ enum DescribeAnalysisDefinitionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAnalysisInput {
+
+    static func urlPathProvider(_ value: DescribeAnalysisInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())"
@@ -27791,12 +27838,13 @@ enum DescribeAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAnalysisPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAnalysisPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeAnalysisPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())/permissions"
@@ -27933,12 +27981,13 @@ enum DescribeAnalysisPermissionsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeAssetBundleExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAssetBundleExportJobInput {
+
+    static func urlPathProvider(_ value: DescribeAssetBundleExportJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let assetBundleExportJobId = assetBundleExportJobId else {
+        guard let assetBundleExportJobId = value.assetBundleExportJobId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-export-jobs/\(assetBundleExportJobId.urlPercentEncoding())"
@@ -28216,12 +28265,13 @@ enum DescribeAssetBundleExportJobOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeAssetBundleImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeAssetBundleImportJobInput {
+
+    static func urlPathProvider(_ value: DescribeAssetBundleImportJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let assetBundleImportJobId = assetBundleImportJobId else {
+        guard let assetBundleImportJobId = value.assetBundleImportJobId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs/\(assetBundleImportJobId.urlPercentEncoding())"
@@ -28473,29 +28523,29 @@ enum DescribeAssetBundleImportJobOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeDashboardDefinitionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aliasName = aliasName {
-                let aliasNameQueryItem = ClientRuntime.URLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
-                items.append(aliasNameQueryItem)
-            }
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DescribeDashboardDefinitionInput {
+
+    static func queryItemProvider(_ value: DescribeDashboardDefinitionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aliasName = value.aliasName {
+            let aliasNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
+            items.append(aliasNameQueryItem)
         }
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeDashboardDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDashboardDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeDashboardDefinitionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/definition"
@@ -28703,29 +28753,29 @@ enum DescribeDashboardDefinitionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeDashboardInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aliasName = aliasName {
-                let aliasNameQueryItem = ClientRuntime.URLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
-                items.append(aliasNameQueryItem)
-            }
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DescribeDashboardInput {
+
+    static func queryItemProvider(_ value: DescribeDashboardInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aliasName = value.aliasName {
+            let aliasNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
+            items.append(aliasNameQueryItem)
         }
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeDashboardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDashboardInput {
+
+    static func urlPathProvider(_ value: DescribeDashboardInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())"
@@ -28842,12 +28892,13 @@ enum DescribeDashboardOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDashboardPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDashboardPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeDashboardPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/permissions"
@@ -28994,15 +29045,16 @@ enum DescribeDashboardPermissionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeDashboardSnapshotJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDashboardSnapshotJobInput {
+
+    static func urlPathProvider(_ value: DescribeDashboardSnapshotJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
-        guard let snapshotJobId = snapshotJobId else {
+        guard let snapshotJobId = value.snapshotJobId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs/\(snapshotJobId.urlPercentEncoding())"
@@ -29204,15 +29256,16 @@ enum DescribeDashboardSnapshotJobOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeDashboardSnapshotJobResultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDashboardSnapshotJobResultInput {
+
+    static func urlPathProvider(_ value: DescribeDashboardSnapshotJobResultInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
-        guard let snapshotJobId = snapshotJobId else {
+        guard let snapshotJobId = value.snapshotJobId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs/\(snapshotJobId.urlPercentEncoding())/result"
@@ -29377,12 +29430,13 @@ enum DescribeDashboardSnapshotJobResultOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DescribeDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDataSetInput {
+
+    static func urlPathProvider(_ value: DescribeDataSetInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())"
@@ -29490,12 +29544,13 @@ enum DescribeDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDataSetPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDataSetPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeDataSetPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/permissions"
@@ -29632,12 +29687,13 @@ enum DescribeDataSetPermissionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeDataSetRefreshPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDataSetRefreshPropertiesInput {
+
+    static func urlPathProvider(_ value: DescribeDataSetRefreshPropertiesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-properties"
@@ -29747,12 +29803,13 @@ enum DescribeDataSetRefreshPropertiesOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DescribeDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDataSourceInput {
+
+    static func urlPathProvider(_ value: DescribeDataSourceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())"
@@ -29860,12 +29917,13 @@ enum DescribeDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDataSourcePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeDataSourcePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeDataSourcePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())/permissions"
@@ -30002,12 +30060,13 @@ enum DescribeDataSourcePermissionsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DescribeFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeFolderInput {
+
+    static func urlPathProvider(_ value: DescribeFolderInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())"
@@ -30116,33 +30175,33 @@ enum DescribeFolderOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeFolderPermissionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension DescribeFolderPermissionsInput {
+
+    static func queryItemProvider(_ value: DescribeFolderPermissionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeFolderPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeFolderPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeFolderPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())/permissions"
@@ -30303,33 +30362,33 @@ enum DescribeFolderPermissionsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeFolderResolvedPermissionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension DescribeFolderResolvedPermissionsInput {
+
+    static func queryItemProvider(_ value: DescribeFolderResolvedPermissionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeFolderResolvedPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeFolderResolvedPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeFolderResolvedPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())/resolved-permissions"
@@ -30490,15 +30549,16 @@ enum DescribeFolderResolvedPermissionsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeGroupInput {
+
+    static func urlPathProvider(_ value: DescribeGroupInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())"
@@ -30537,18 +30597,19 @@ extension DescribeGroupInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeGroupMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeGroupMembershipInput {
+
+    static func urlPathProvider(_ value: DescribeGroupMembershipInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
-        guard let memberName = memberName else {
+        guard let memberName = value.memberName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
@@ -30744,15 +30805,16 @@ enum DescribeGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeIAMPolicyAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeIAMPolicyAssignmentInput {
+
+    static func urlPathProvider(_ value: DescribeIAMPolicyAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let assignmentName = assignmentName else {
+        guard let assignmentName = value.assignmentName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/iam-policy-assignments/\(assignmentName.urlPercentEncoding())"
@@ -30866,15 +30928,16 @@ enum DescribeIAMPolicyAssignmentOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeIngestionInput {
+
+    static func urlPathProvider(_ value: DescribeIngestionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let ingestionId = ingestionId else {
+        guard let ingestionId = value.ingestionId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/ingestions/\(ingestionId.urlPercentEncoding())"
@@ -30988,9 +31051,10 @@ enum DescribeIngestionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeIpRestrictionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeIpRestrictionInput {
+
+    static func urlPathProvider(_ value: DescribeIpRestrictionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/ip-restriction"
@@ -31122,12 +31186,13 @@ enum DescribeIpRestrictionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeNamespaceInput {
+
+    static func urlPathProvider(_ value: DescribeNamespaceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())"
@@ -31236,15 +31301,16 @@ enum DescribeNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: DescribeRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
-        guard let scheduleId = scheduleId else {
+        guard let scheduleId = value.scheduleId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules/\(scheduleId.urlPercentEncoding())"
@@ -31368,15 +31434,16 @@ enum DescribeRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeRoleCustomPermissionInput {
+
+    static func urlPathProvider(_ value: DescribeRoleCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let role = role else {
+        guard let role = value.role else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
@@ -31492,15 +31559,16 @@ enum DescribeRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeTemplateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTemplateAliasInput {
+
+    static func urlPathProvider(_ value: DescribeTemplateAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -31612,29 +31680,29 @@ enum DescribeTemplateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTemplateDefinitionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aliasName = aliasName {
-                let aliasNameQueryItem = ClientRuntime.URLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
-                items.append(aliasNameQueryItem)
-            }
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DescribeTemplateDefinitionInput {
+
+    static func queryItemProvider(_ value: DescribeTemplateDefinitionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aliasName = value.aliasName {
+            let aliasNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
+            items.append(aliasNameQueryItem)
         }
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeTemplateDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTemplateDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeTemplateDefinitionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/definition"
@@ -31826,29 +31894,29 @@ enum DescribeTemplateDefinitionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeTemplateInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aliasName = aliasName {
-                let aliasNameQueryItem = ClientRuntime.URLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
-                items.append(aliasNameQueryItem)
-            }
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DescribeTemplateInput {
+
+    static func queryItemProvider(_ value: DescribeTemplateInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aliasName = value.aliasName {
+            let aliasNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
+            items.append(aliasNameQueryItem)
         }
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTemplateInput {
+
+    static func urlPathProvider(_ value: DescribeTemplateInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())"
@@ -31967,12 +32035,13 @@ enum DescribeTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTemplatePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTemplatePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeTemplatePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/permissions"
@@ -32110,15 +32179,16 @@ enum DescribeTemplatePermissionsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeThemeAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeThemeAliasInput {
+
+    static func urlPathProvider(_ value: DescribeThemeAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -32232,29 +32302,29 @@ enum DescribeThemeAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeThemeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aliasName = aliasName {
-                let aliasNameQueryItem = ClientRuntime.URLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
-                items.append(aliasNameQueryItem)
-            }
-            if let versionNumber = versionNumber {
-                let versionNumberQueryItem = ClientRuntime.URLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
-                items.append(versionNumberQueryItem)
-            }
-            return items
+extension DescribeThemeInput {
+
+    static func queryItemProvider(_ value: DescribeThemeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aliasName = value.aliasName {
+            let aliasNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "alias-name".urlPercentEncoding(), value: Swift.String(aliasName).urlPercentEncoding())
+            items.append(aliasNameQueryItem)
         }
+        if let versionNumber = value.versionNumber {
+            let versionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-number".urlPercentEncoding(), value: Swift.String(versionNumber).urlPercentEncoding())
+            items.append(versionNumberQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeThemeInput {
+
+    static func urlPathProvider(_ value: DescribeThemeInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())"
@@ -32372,12 +32442,13 @@ enum DescribeThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeThemePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeThemePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeThemePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/permissions"
@@ -32515,12 +32586,13 @@ enum DescribeThemePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DescribeTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTopicInput {
+
+    static func urlPathProvider(_ value: DescribeTopicInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())"
@@ -32648,12 +32720,13 @@ enum DescribeTopicOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTopicPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTopicPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeTopicPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/permissions"
@@ -32790,15 +32863,16 @@ enum DescribeTopicPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DescribeTopicRefreshInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTopicRefreshInput {
+
+    static func urlPathProvider(_ value: DescribeTopicRefreshInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
-        guard let refreshId = refreshId else {
+        guard let refreshId = value.refreshId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/refresh/\(refreshId.urlPercentEncoding())"
@@ -32911,15 +32985,16 @@ enum DescribeTopicRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeTopicRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: DescribeTopicRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
-        guard let datasetId = datasetId else {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
@@ -33065,15 +33140,16 @@ enum DescribeTopicRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeUserInput {
+
+    static func urlPathProvider(_ value: DescribeUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
@@ -33188,12 +33264,13 @@ enum DescribeUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVPCConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension DescribeVPCConnectionInput {
+
+    static func urlPathProvider(_ value: DescribeVPCConnectionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let vpcConnectionId = vpcConnectionId else {
+        guard let vpcConnectionId = value.vpcConnectionId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections/\(vpcConnectionId.urlPercentEncoding())"
@@ -39249,9 +39326,10 @@ extension GenerateEmbedUrlForAnonymousUserInput: Swift.Encodable {
     }
 }
 
-extension GenerateEmbedUrlForAnonymousUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension GenerateEmbedUrlForAnonymousUserInput {
+
+    static func urlPathProvider(_ value: GenerateEmbedUrlForAnonymousUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/embed-url/anonymous-user"
@@ -39485,9 +39563,10 @@ extension GenerateEmbedUrlForRegisteredUserInput: Swift.Encodable {
     }
 }
 
-extension GenerateEmbedUrlForRegisteredUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension GenerateEmbedUrlForRegisteredUserInput {
+
+    static func urlPathProvider(_ value: GenerateEmbedUrlForRegisteredUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/embed-url/registered-user"
@@ -40481,57 +40560,57 @@ extension QuickSightClientTypes {
 
 }
 
-extension GetDashboardEmbedUrlInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let identityType = identityType else {
-                let message = "Creating a URL Query Item failed. identityType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let identityTypeQueryItem = ClientRuntime.URLQueryItem(name: "creds-type".urlPercentEncoding(), value: Swift.String(identityType.rawValue).urlPercentEncoding())
-            items.append(identityTypeQueryItem)
-            if let statePersistenceEnabled = statePersistenceEnabled {
-                let statePersistenceEnabledQueryItem = ClientRuntime.URLQueryItem(name: "state-persistence-enabled".urlPercentEncoding(), value: Swift.String(statePersistenceEnabled).urlPercentEncoding())
-                items.append(statePersistenceEnabledQueryItem)
-            }
-            if let userArn = userArn {
-                let userArnQueryItem = ClientRuntime.URLQueryItem(name: "user-arn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
-                items.append(userArnQueryItem)
-            }
-            if let undoRedoDisabled = undoRedoDisabled {
-                let undoRedoDisabledQueryItem = ClientRuntime.URLQueryItem(name: "undo-redo-disabled".urlPercentEncoding(), value: Swift.String(undoRedoDisabled).urlPercentEncoding())
-                items.append(undoRedoDisabledQueryItem)
-            }
-            if let additionalDashboardIds = additionalDashboardIds {
-                additionalDashboardIds.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "additional-dashboard-ids".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let sessionLifetimeInMinutes = sessionLifetimeInMinutes {
-                let sessionLifetimeInMinutesQueryItem = ClientRuntime.URLQueryItem(name: "session-lifetime".urlPercentEncoding(), value: Swift.String(sessionLifetimeInMinutes).urlPercentEncoding())
-                items.append(sessionLifetimeInMinutesQueryItem)
-            }
-            if let resetDisabled = resetDisabled {
-                let resetDisabledQueryItem = ClientRuntime.URLQueryItem(name: "reset-disabled".urlPercentEncoding(), value: Swift.String(resetDisabled).urlPercentEncoding())
-                items.append(resetDisabledQueryItem)
-            }
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension GetDashboardEmbedUrlInput {
+
+    static func queryItemProvider(_ value: GetDashboardEmbedUrlInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let identityType = value.identityType else {
+            let message = "Creating a URL Query Item failed. identityType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let identityTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creds-type".urlPercentEncoding(), value: Swift.String(identityType.rawValue).urlPercentEncoding())
+        items.append(identityTypeQueryItem)
+        if let statePersistenceEnabled = value.statePersistenceEnabled {
+            let statePersistenceEnabledQueryItem = ClientRuntime.SDKURLQueryItem(name: "state-persistence-enabled".urlPercentEncoding(), value: Swift.String(statePersistenceEnabled).urlPercentEncoding())
+            items.append(statePersistenceEnabledQueryItem)
+        }
+        if let userArn = value.userArn {
+            let userArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "user-arn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
+            items.append(userArnQueryItem)
+        }
+        if let undoRedoDisabled = value.undoRedoDisabled {
+            let undoRedoDisabledQueryItem = ClientRuntime.SDKURLQueryItem(name: "undo-redo-disabled".urlPercentEncoding(), value: Swift.String(undoRedoDisabled).urlPercentEncoding())
+            items.append(undoRedoDisabledQueryItem)
+        }
+        if let additionalDashboardIds = value.additionalDashboardIds {
+            additionalDashboardIds.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "additional-dashboard-ids".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let sessionLifetimeInMinutes = value.sessionLifetimeInMinutes {
+            let sessionLifetimeInMinutesQueryItem = ClientRuntime.SDKURLQueryItem(name: "session-lifetime".urlPercentEncoding(), value: Swift.String(sessionLifetimeInMinutes).urlPercentEncoding())
+            items.append(sessionLifetimeInMinutesQueryItem)
+        }
+        if let resetDisabled = value.resetDisabled {
+            let resetDisabledQueryItem = ClientRuntime.SDKURLQueryItem(name: "reset-disabled".urlPercentEncoding(), value: Swift.String(resetDisabled).urlPercentEncoding())
+            items.append(resetDisabledQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDashboardEmbedUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension GetDashboardEmbedUrlInput {
+
+    static func urlPathProvider(_ value: GetDashboardEmbedUrlInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/embed-url"
@@ -40694,30 +40773,30 @@ enum GetDashboardEmbedUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSessionEmbedUrlInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let userArn = userArn {
-                let userArnQueryItem = ClientRuntime.URLQueryItem(name: "user-arn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
-                items.append(userArnQueryItem)
-            }
-            if let entryPoint = entryPoint {
-                let entryPointQueryItem = ClientRuntime.URLQueryItem(name: "entry-point".urlPercentEncoding(), value: Swift.String(entryPoint).urlPercentEncoding())
-                items.append(entryPointQueryItem)
-            }
-            if let sessionLifetimeInMinutes = sessionLifetimeInMinutes {
-                let sessionLifetimeInMinutesQueryItem = ClientRuntime.URLQueryItem(name: "session-lifetime".urlPercentEncoding(), value: Swift.String(sessionLifetimeInMinutes).urlPercentEncoding())
-                items.append(sessionLifetimeInMinutesQueryItem)
-            }
-            return items
+extension GetSessionEmbedUrlInput {
+
+    static func queryItemProvider(_ value: GetSessionEmbedUrlInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let userArn = value.userArn {
+            let userArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "user-arn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
+            items.append(userArnQueryItem)
         }
+        if let entryPoint = value.entryPoint {
+            let entryPointQueryItem = ClientRuntime.SDKURLQueryItem(name: "entry-point".urlPercentEncoding(), value: Swift.String(entryPoint).urlPercentEncoding())
+            items.append(entryPointQueryItem)
+        }
+        if let sessionLifetimeInMinutes = value.sessionLifetimeInMinutes {
+            let sessionLifetimeInMinutesQueryItem = ClientRuntime.SDKURLQueryItem(name: "session-lifetime".urlPercentEncoding(), value: Swift.String(sessionLifetimeInMinutes).urlPercentEncoding())
+            items.append(sessionLifetimeInMinutesQueryItem)
+        }
+        return items
     }
 }
 
-extension GetSessionEmbedUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension GetSessionEmbedUrlInput {
+
+    static func urlPathProvider(_ value: GetSessionEmbedUrlInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/session-embed-url"
@@ -46943,26 +47022,26 @@ extension QuickSightClientTypes {
 
 }
 
-extension ListAnalysesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAnalysesInput {
+
+    static func queryItemProvider(_ value: ListAnalysesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAnalysesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListAnalysesInput {
+
+    static func urlPathProvider(_ value: ListAnalysesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses"
@@ -47091,26 +47170,26 @@ enum ListAnalysesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAssetBundleExportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssetBundleExportJobsInput {
+
+    static func queryItemProvider(_ value: ListAssetBundleExportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssetBundleExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListAssetBundleExportJobsInput {
+
+    static func urlPathProvider(_ value: ListAssetBundleExportJobsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-export-jobs"
@@ -47240,26 +47319,26 @@ enum ListAssetBundleExportJobsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListAssetBundleImportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssetBundleImportJobsInput {
+
+    static func queryItemProvider(_ value: ListAssetBundleImportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssetBundleImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListAssetBundleImportJobsInput {
+
+    static func urlPathProvider(_ value: ListAssetBundleImportJobsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs"
@@ -47524,29 +47603,29 @@ extension QuickSightClientTypes {
 
 }
 
-extension ListDashboardVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDashboardVersionsInput {
+
+    static func queryItemProvider(_ value: ListDashboardVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDashboardVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListDashboardVersionsInput {
+
+    static func urlPathProvider(_ value: ListDashboardVersionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/versions"
@@ -47682,26 +47761,26 @@ enum ListDashboardVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDashboardsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDashboardsInput {
+
+    static func queryItemProvider(_ value: ListDashboardsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDashboardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListDashboardsInput {
+
+    static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards"
@@ -47830,26 +47909,26 @@ enum ListDashboardsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDataSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDataSetsInput {
+
+    static func queryItemProvider(_ value: ListDataSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDataSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListDataSetsInput {
+
+    static func urlPathProvider(_ value: ListDataSetsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets"
@@ -47979,26 +48058,26 @@ enum ListDataSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDataSourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDataSourcesInput {
+
+    static func queryItemProvider(_ value: ListDataSourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDataSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListDataSourcesInput {
+
+    static func urlPathProvider(_ value: ListDataSourcesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources"
@@ -48128,29 +48207,29 @@ enum ListDataSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFolderMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFolderMembersInput {
+
+    static func queryItemProvider(_ value: ListFolderMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFolderMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListFolderMembersInput {
+
+    static func urlPathProvider(_ value: ListFolderMembersInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())/members"
@@ -48287,26 +48366,26 @@ enum ListFolderMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFoldersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFoldersInput {
+
+    static func queryItemProvider(_ value: ListFoldersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFoldersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListFoldersInput {
+
+    static func urlPathProvider(_ value: ListFoldersInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders"
@@ -48438,32 +48517,32 @@ enum ListFoldersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGroupMembershipsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGroupMembershipsInput {
+
+    static func queryItemProvider(_ value: ListGroupMembershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGroupMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListGroupMembershipsInput {
+
+    static func urlPathProvider(_ value: ListGroupMembershipsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())/members"
@@ -48606,29 +48685,29 @@ enum ListGroupMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGroupsInput {
+
+    static func queryItemProvider(_ value: ListGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListGroupsInput {
+
+    static func urlPathProvider(_ value: ListGroupsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups"
@@ -48766,32 +48845,32 @@ enum ListGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIAMPolicyAssignmentsForUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIAMPolicyAssignmentsForUserInput {
+
+    static func queryItemProvider(_ value: ListIAMPolicyAssignmentsForUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIAMPolicyAssignmentsForUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListIAMPolicyAssignmentsForUserInput {
+
+    static func urlPathProvider(_ value: ListIAMPolicyAssignmentsForUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())/iam-policy-assignments"
@@ -48933,33 +49012,33 @@ enum ListIAMPolicyAssignmentsForUserOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListIAMPolicyAssignmentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let assignmentStatus = assignmentStatus {
-                let assignmentStatusQueryItem = ClientRuntime.URLQueryItem(name: "assignment-status".urlPercentEncoding(), value: Swift.String(assignmentStatus.rawValue).urlPercentEncoding())
-                items.append(assignmentStatusQueryItem)
-            }
-            return items
+extension ListIAMPolicyAssignmentsInput {
+
+    static func queryItemProvider(_ value: ListIAMPolicyAssignmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let assignmentStatus = value.assignmentStatus {
+            let assignmentStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "assignment-status".urlPercentEncoding(), value: Swift.String(assignmentStatus.rawValue).urlPercentEncoding())
+            items.append(assignmentStatusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIAMPolicyAssignmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListIAMPolicyAssignmentsInput {
+
+    static func urlPathProvider(_ value: ListIAMPolicyAssignmentsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/v2/iam-policy-assignments"
@@ -49099,26 +49178,26 @@ enum ListIAMPolicyAssignmentsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListIdentityPropagationConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIdentityPropagationConfigsInput {
+
+    static func queryItemProvider(_ value: ListIdentityPropagationConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIdentityPropagationConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListIdentityPropagationConfigsInput {
+
+    static func urlPathProvider(_ value: ListIdentityPropagationConfigsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-propagation-config"
@@ -49248,29 +49327,29 @@ enum ListIdentityPropagationConfigsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListIngestionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIngestionsInput {
+
+    static func queryItemProvider(_ value: ListIngestionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIngestionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListIngestionsInput {
+
+    static func urlPathProvider(_ value: ListIngestionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/ingestions"
@@ -49407,26 +49486,26 @@ enum ListIngestionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListNamespacesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListNamespacesInput {
+
+    static func queryItemProvider(_ value: ListNamespacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNamespacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListNamespacesInput {
+
+    static func urlPathProvider(_ value: ListNamespacesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces"
@@ -49559,12 +49638,13 @@ enum ListNamespacesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRefreshSchedulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListRefreshSchedulesInput {
+
+    static func urlPathProvider(_ value: ListRefreshSchedulesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules"
@@ -49682,32 +49762,32 @@ enum ListRefreshSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRoleMembershipsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRoleMembershipsInput {
+
+    static func queryItemProvider(_ value: ListRoleMembershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRoleMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListRoleMembershipsInput {
+
+    static func urlPathProvider(_ value: ListRoleMembershipsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let role = role else {
+        guard let role = value.role else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members"
@@ -49851,9 +49931,10 @@ enum ListRoleMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resources/\(resourceArn.urlPercentEncoding())/tags"
@@ -49965,29 +50046,29 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplateAliasesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTemplateAliasesInput {
+
+    static func queryItemProvider(_ value: ListTemplateAliasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplateAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListTemplateAliasesInput {
+
+    static func urlPathProvider(_ value: ListTemplateAliasesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/aliases"
@@ -50122,29 +50203,29 @@ enum ListTemplateAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplateVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTemplateVersionsInput {
+
+    static func queryItemProvider(_ value: ListTemplateVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplateVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListTemplateVersionsInput {
+
+    static func urlPathProvider(_ value: ListTemplateVersionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/versions"
@@ -50280,26 +50361,26 @@ enum ListTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTemplatesInput {
+
+    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListTemplatesInput {
+
+    static func urlPathProvider(_ value: ListTemplatesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates"
@@ -50430,29 +50511,29 @@ enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListThemeAliasesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListThemeAliasesInput {
+
+    static func queryItemProvider(_ value: ListThemeAliasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListThemeAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListThemeAliasesInput {
+
+    static func urlPathProvider(_ value: ListThemeAliasesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/aliases"
@@ -50589,29 +50670,29 @@ enum ListThemeAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListThemeVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListThemeVersionsInput {
+
+    static func queryItemProvider(_ value: ListThemeVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListThemeVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListThemeVersionsInput {
+
+    static func urlPathProvider(_ value: ListThemeVersionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/versions"
@@ -50748,30 +50829,30 @@ enum ListThemeVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListThemesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListThemesInput {
+
+    static func queryItemProvider(_ value: ListThemesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListThemesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListThemesInput {
+
+    static func urlPathProvider(_ value: ListThemesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes"
@@ -50913,12 +50994,13 @@ enum ListThemesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTopicRefreshSchedulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListTopicRefreshSchedulesInput {
+
+    static func urlPathProvider(_ value: ListTopicRefreshSchedulesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules"
@@ -51058,26 +51140,26 @@ enum ListTopicRefreshSchedulesOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListTopicsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTopicsInput {
+
+    static func queryItemProvider(_ value: ListTopicsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTopicsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListTopicsInput {
+
+    static func urlPathProvider(_ value: ListTopicsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics"
@@ -51207,32 +51289,32 @@ enum ListTopicsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListUserGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListUserGroupsInput {
+
+    static func queryItemProvider(_ value: ListUserGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListUserGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListUserGroupsInput {
+
+    static func urlPathProvider(_ value: ListUserGroupsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())/groups"
@@ -51374,29 +51456,29 @@ enum ListUserGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListUsersInput {
+
+    static func queryItemProvider(_ value: ListUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListUsersInput {
+
+    static func urlPathProvider(_ value: ListUsersInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users"
@@ -51534,26 +51616,26 @@ enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVPCConnectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListVPCConnectionsInput {
+
+    static func queryItemProvider(_ value: ListVPCConnectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVPCConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension ListVPCConnectionsInput {
+
+    static func urlPathProvider(_ value: ListVPCConnectionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections"
@@ -59001,12 +59083,13 @@ extension PutDataSetRefreshPropertiesInput: Swift.Encodable {
     }
 }
 
-extension PutDataSetRefreshPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension PutDataSetRefreshPropertiesInput {
+
+    static func urlPathProvider(_ value: PutDataSetRefreshPropertiesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-properties"
@@ -59165,6 +59248,8 @@ extension QuickSightClientTypes {
     }
 
 }
+
+public enum QuickSightClientTypes {}
 
 extension QuickSightUserNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -61097,12 +61182,13 @@ extension RegisterUserInput: Swift.Encodable {
     }
 }
 
-extension RegisterUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension RegisterUserInput {
+
+    static func urlPathProvider(_ value: RegisterUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users"
@@ -62472,12 +62558,13 @@ extension ResourceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
-extension RestoreAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension RestoreAnalysisInput {
+
+    static func urlPathProvider(_ value: RestoreAnalysisInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/restore/analyses/\(analysisId.urlPercentEncoding())"
@@ -64376,9 +64463,10 @@ extension SearchAnalysesInput: Swift.Encodable {
     }
 }
 
-extension SearchAnalysesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension SearchAnalysesInput {
+
+    static func urlPathProvider(_ value: SearchAnalysesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/analyses"
@@ -64562,9 +64650,10 @@ extension SearchDashboardsInput: Swift.Encodable {
     }
 }
 
-extension SearchDashboardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension SearchDashboardsInput {
+
+    static func urlPathProvider(_ value: SearchDashboardsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/dashboards"
@@ -64748,9 +64837,10 @@ extension SearchDataSetsInput: Swift.Encodable {
     }
 }
 
-extension SearchDataSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension SearchDataSetsInput {
+
+    static func urlPathProvider(_ value: SearchDataSetsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/data-sets"
@@ -64934,9 +65024,10 @@ extension SearchDataSourcesInput: Swift.Encodable {
     }
 }
 
-extension SearchDataSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension SearchDataSourcesInput {
+
+    static func urlPathProvider(_ value: SearchDataSourcesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/data-sources"
@@ -65120,9 +65211,10 @@ extension SearchFoldersInput: Swift.Encodable {
     }
 }
 
-extension SearchFoldersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension SearchFoldersInput {
+
+    static func urlPathProvider(_ value: SearchFoldersInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/folders"
@@ -65300,29 +65392,29 @@ extension SearchGroupsInput: Swift.Encodable {
     }
 }
 
-extension SearchGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension SearchGroupsInput {
+
+    static func queryItemProvider(_ value: SearchGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension SearchGroupsInput {
+
+    static func urlPathProvider(_ value: SearchGroupsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups-search"
@@ -69351,9 +69443,10 @@ extension StartAssetBundleExportJobInput: Swift.Encodable {
     }
 }
 
-extension StartAssetBundleExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension StartAssetBundleExportJobInput {
+
+    static func urlPathProvider(_ value: StartAssetBundleExportJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-export-jobs/export"
@@ -69601,9 +69694,10 @@ extension StartAssetBundleImportJobInput: Swift.Encodable {
     }
 }
 
-extension StartAssetBundleImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension StartAssetBundleImportJobInput {
+
+    static func urlPathProvider(_ value: StartAssetBundleImportJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs/import"
@@ -69800,12 +69894,13 @@ extension StartDashboardSnapshotJobInput: Swift.Encodable {
     }
 }
 
-extension StartDashboardSnapshotJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension StartDashboardSnapshotJobInput {
+
+    static func urlPathProvider(_ value: StartDashboardSnapshotJobInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs"
@@ -72447,9 +72542,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resources/\(resourceArn.urlPercentEncoding())/tags"
@@ -78833,26 +78929,26 @@ extension QuickSightClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "keys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "keys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resources/\(resourceArn.urlPercentEncoding())/tags"
@@ -78963,22 +79059,22 @@ extension UpdateAccountCustomizationInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountCustomizationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            return items
+extension UpdateAccountCustomizationInput {
+
+    static func queryItemProvider(_ value: UpdateAccountCustomizationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateAccountCustomizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateAccountCustomizationInput {
+
+    static func urlPathProvider(_ value: UpdateAccountCustomizationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/customizations"
@@ -79150,9 +79246,10 @@ extension UpdateAccountSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/settings"
@@ -79307,12 +79404,13 @@ extension UpdateAnalysisInput: Swift.Encodable {
     }
 }
 
-extension UpdateAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateAnalysisInput {
+
+    static func urlPathProvider(_ value: UpdateAnalysisInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())"
@@ -79517,12 +79615,13 @@ extension UpdateAnalysisPermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateAnalysisPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateAnalysisPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateAnalysisPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let analysisId = analysisId else {
+        guard let analysisId = value.analysisId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())/permissions"
@@ -79739,12 +79838,13 @@ extension UpdateDashboardInput: Swift.Encodable {
     }
 }
 
-extension UpdateDashboardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDashboardInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())"
@@ -79868,12 +79968,13 @@ extension UpdateDashboardLinksInput: Swift.Encodable {
     }
 }
 
-extension UpdateDashboardLinksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDashboardLinksInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardLinksInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/linked-entities"
@@ -80017,6 +80118,7 @@ enum UpdateDashboardLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -80166,12 +80268,13 @@ extension UpdateDashboardPermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateDashboardPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDashboardPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/permissions"
@@ -80391,15 +80494,16 @@ enum UpdateDashboardPermissionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension UpdateDashboardPublishedVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDashboardPublishedVersionInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardPublishedVersionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dashboardId = dashboardId else {
+        guard let dashboardId = value.dashboardId else {
             return nil
         }
-        guard let versionNumber = versionNumber else {
+        guard let versionNumber = value.versionNumber else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/versions/\(versionNumber)"
@@ -80594,12 +80698,13 @@ extension UpdateDataSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDataSetInput {
+
+    static func urlPathProvider(_ value: UpdateDataSetInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())"
@@ -80911,12 +81016,13 @@ extension UpdateDataSetPermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSetPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDataSetPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateDataSetPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/permissions"
@@ -81106,12 +81212,13 @@ extension UpdateDataSourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDataSourceInput {
+
+    static func urlPathProvider(_ value: UpdateDataSourceInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())"
@@ -81307,12 +81414,13 @@ extension UpdateDataSourcePermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSourcePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateDataSourcePermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateDataSourcePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSourceId = dataSourceId else {
+        guard let dataSourceId = value.dataSourceId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())/permissions"
@@ -81481,12 +81589,13 @@ extension UpdateFolderInput: Swift.Encodable {
     }
 }
 
-extension UpdateFolderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateFolderInput {
+
+    static func urlPathProvider(_ value: UpdateFolderInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())"
@@ -81642,12 +81751,13 @@ extension UpdateFolderPermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateFolderPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateFolderPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateFolderPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let folderId = folderId else {
+        guard let folderId = value.folderId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/folders/\(folderId.urlPercentEncoding())/permissions"
@@ -81837,15 +81947,16 @@ extension UpdateGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateGroupInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let groupName = groupName else {
+        guard let groupName = value.groupName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/groups/\(groupName.urlPercentEncoding())"
@@ -81998,15 +82109,16 @@ extension UpdateIAMPolicyAssignmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateIAMPolicyAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateIAMPolicyAssignmentInput {
+
+    static func urlPathProvider(_ value: UpdateIAMPolicyAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let assignmentName = assignmentName else {
+        guard let assignmentName = value.assignmentName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/iam-policy-assignments/\(assignmentName.urlPercentEncoding())"
@@ -82248,12 +82360,13 @@ extension UpdateIdentityPropagationConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdentityPropagationConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateIdentityPropagationConfigInput {
+
+    static func urlPathProvider(_ value: UpdateIdentityPropagationConfigInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let service = service else {
+        guard let service = value.service else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-propagation-config/\(service.rawValue.urlPercentEncoding())"
@@ -82391,9 +82504,10 @@ extension UpdateIpRestrictionInput: Swift.Encodable {
     }
 }
 
-extension UpdateIpRestrictionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateIpRestrictionInput {
+
+    static func urlPathProvider(_ value: UpdateIpRestrictionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/ip-restriction"
@@ -82538,9 +82652,10 @@ extension UpdatePublicSharingSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdatePublicSharingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdatePublicSharingSettingsInput {
+
+    static func urlPathProvider(_ value: UpdatePublicSharingSettingsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/public-sharing-settings"
@@ -82658,12 +82773,13 @@ extension UpdateRefreshScheduleInput: Swift.Encodable {
     }
 }
 
-extension UpdateRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: UpdateRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let dataSetId = dataSetId else {
+        guard let dataSetId = value.dataSetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules"
@@ -82808,15 +82924,16 @@ extension UpdateRoleCustomPermissionInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateRoleCustomPermissionInput {
+
+    static func urlPathProvider(_ value: UpdateRoleCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let role = role else {
+        guard let role = value.role else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
@@ -82947,15 +83064,16 @@ extension UpdateTemplateAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateTemplateAliasInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -83109,12 +83227,13 @@ extension UpdateTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())"
@@ -83321,12 +83440,13 @@ extension UpdateTemplatePermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplatePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateTemplatePermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateTemplatePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let templateId = templateId else {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())/permissions"
@@ -83515,15 +83635,16 @@ extension UpdateThemeAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateThemeAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateThemeAliasInput {
+
+    static func urlPathProvider(_ value: UpdateThemeAliasInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
-        guard let aliasName = aliasName else {
+        guard let aliasName = value.aliasName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/aliases/\(aliasName.urlPercentEncoding())"
@@ -83675,12 +83796,13 @@ extension UpdateThemeInput: Swift.Encodable {
     }
 }
 
-extension UpdateThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateThemeInput {
+
+    static func urlPathProvider(_ value: UpdateThemeInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())"
@@ -83880,12 +84002,13 @@ extension UpdateThemePermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateThemePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateThemePermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateThemePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let themeId = themeId else {
+        guard let themeId = value.themeId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/themes/\(themeId.urlPercentEncoding())/permissions"
@@ -84074,12 +84197,13 @@ extension UpdateTopicInput: Swift.Encodable {
     }
 }
 
-extension UpdateTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateTopicInput {
+
+    static func urlPathProvider(_ value: UpdateTopicInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())"
@@ -84245,12 +84369,13 @@ extension UpdateTopicPermissionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateTopicPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateTopicPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateTopicPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/permissions"
@@ -84440,15 +84565,16 @@ extension UpdateTopicRefreshScheduleInput: Swift.Encodable {
     }
 }
 
-extension UpdateTopicRefreshScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateTopicRefreshScheduleInput {
+
+    static func urlPathProvider(_ value: UpdateTopicRefreshScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let topicId = topicId else {
+        guard let topicId = value.topicId else {
             return nil
         }
-        guard let datasetId = datasetId else {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
@@ -84633,15 +84759,16 @@ extension UpdateUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateUserInput {
+
+    static func urlPathProvider(_ value: UpdateUserInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let namespace = namespace else {
+        guard let namespace = value.namespace else {
             return nil
         }
-        guard let userName = userName else {
+        guard let userName = value.userName else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())"
@@ -84881,12 +85008,13 @@ extension UpdateVPCConnectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateVPCConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let awsAccountId = awsAccountId else {
+extension UpdateVPCConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateVPCConnectionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
             return nil
         }
-        guard let vpcConnectionId = vpcConnectionId else {
+        guard let vpcConnectionId = value.vpcConnectionId else {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/vpc-connections/\(vpcConnectionId.urlPercentEncoding())"

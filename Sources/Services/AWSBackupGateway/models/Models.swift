@@ -85,8 +85,9 @@ extension AssociateGatewayToServerInput: Swift.Encodable {
     }
 }
 
-extension AssociateGatewayToServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateGatewayToServerInput {
+
+    static func urlPathProvider(_ value: AssociateGatewayToServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -181,6 +182,8 @@ enum AssociateGatewayToServerOutputError: ClientRuntime.HttpResponseErrorBinding
         }
     }
 }
+
+public enum BackupGatewayClientTypes {}
 
 extension BackupGatewayClientTypes {
     static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestJSONError, _ id: String?) async throws -> Swift.Error? {
@@ -389,8 +392,9 @@ extension CreateGatewayInput: Swift.Encodable {
     }
 }
 
-extension CreateGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGatewayInput {
+
+    static func urlPathProvider(_ value: CreateGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -524,8 +528,9 @@ extension DeleteGatewayInput: Swift.Encodable {
     }
 }
 
-extension DeleteGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -625,8 +630,9 @@ extension DeleteHypervisorInput: Swift.Encodable {
     }
 }
 
-extension DeleteHypervisorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteHypervisorInput {
+
+    static func urlPathProvider(_ value: DeleteHypervisorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -728,8 +734,9 @@ extension DisassociateGatewayFromServerInput: Swift.Encodable {
     }
 }
 
-extension DisassociateGatewayFromServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateGatewayFromServerInput {
+
+    static func urlPathProvider(_ value: DisassociateGatewayFromServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1039,8 +1046,9 @@ extension GetBandwidthRateLimitScheduleInput: Swift.Encodable {
     }
 }
 
-extension GetBandwidthRateLimitScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBandwidthRateLimitScheduleInput {
+
+    static func urlPathProvider(_ value: GetBandwidthRateLimitScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1159,8 +1167,9 @@ extension GetGatewayInput: Swift.Encodable {
     }
 }
 
-extension GetGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGatewayInput {
+
+    static func urlPathProvider(_ value: GetGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1260,8 +1269,9 @@ extension GetHypervisorInput: Swift.Encodable {
     }
 }
 
-extension GetHypervisorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHypervisorInput {
+
+    static func urlPathProvider(_ value: GetHypervisorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1361,8 +1371,9 @@ extension GetHypervisorPropertyMappingsInput: Swift.Encodable {
     }
 }
 
-extension GetHypervisorPropertyMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHypervisorPropertyMappingsInput {
+
+    static func urlPathProvider(_ value: GetHypervisorPropertyMappingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1491,8 +1502,9 @@ extension GetVirtualMachineInput: Swift.Encodable {
     }
 }
 
-extension GetVirtualMachineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetVirtualMachineInput {
+
+    static func urlPathProvider(_ value: GetVirtualMachineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1848,8 +1860,9 @@ extension ImportHypervisorConfigurationInput: Swift.Encodable {
     }
 }
 
-extension ImportHypervisorConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportHypervisorConfigurationInput {
+
+    static func urlPathProvider(_ value: ImportHypervisorConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2069,8 +2082,9 @@ extension ListGatewaysInput: Swift.Encodable {
     }
 }
 
-extension ListGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGatewaysInput {
+
+    static func urlPathProvider(_ value: ListGatewaysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2199,8 +2213,9 @@ extension ListHypervisorsInput: Swift.Encodable {
     }
 }
 
-extension ListHypervisorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHypervisorsInput {
+
+    static func urlPathProvider(_ value: ListHypervisorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2325,8 +2340,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2453,8 +2469,9 @@ extension ListVirtualMachinesInput: Swift.Encodable {
     }
 }
 
-extension ListVirtualMachinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVirtualMachinesInput {
+
+    static func urlPathProvider(_ value: ListVirtualMachinesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2661,8 +2678,9 @@ extension PutBandwidthRateLimitScheduleInput: Swift.Encodable {
     }
 }
 
-extension PutBandwidthRateLimitScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBandwidthRateLimitScheduleInput {
+
+    static func urlPathProvider(_ value: PutBandwidthRateLimitScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2791,8 +2809,9 @@ extension PutHypervisorPropertyMappingsInput: Swift.Encodable {
     }
 }
 
-extension PutHypervisorPropertyMappingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutHypervisorPropertyMappingsInput {
+
+    static func urlPathProvider(_ value: PutHypervisorPropertyMappingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2937,8 +2956,9 @@ extension PutMaintenanceStartTimeInput: Swift.Encodable {
     }
 }
 
-extension PutMaintenanceStartTimeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutMaintenanceStartTimeInput {
+
+    static func urlPathProvider(_ value: PutMaintenanceStartTimeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3138,8 +3158,9 @@ extension StartVirtualMachinesMetadataSyncInput: Swift.Encodable {
     }
 }
 
-extension StartVirtualMachinesMetadataSyncInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartVirtualMachinesMetadataSyncInput {
+
+    static func urlPathProvider(_ value: StartVirtualMachinesMetadataSyncInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3335,8 +3356,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3471,8 +3493,9 @@ extension TestHypervisorConfigurationInput: Swift.Encodable {
     }
 }
 
-extension TestHypervisorConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestHypervisorConfigurationInput {
+
+    static func urlPathProvider(_ value: TestHypervisorConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3641,8 +3664,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3764,8 +3788,9 @@ extension UpdateGatewayInformationInput: Swift.Encodable {
     }
 }
 
-extension UpdateGatewayInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGatewayInformationInput {
+
+    static func urlPathProvider(_ value: UpdateGatewayInformationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3874,8 +3899,9 @@ extension UpdateGatewaySoftwareNowInput: Swift.Encodable {
     }
 }
 
-extension UpdateGatewaySoftwareNowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGatewaySoftwareNowInput {
+
+    static func urlPathProvider(_ value: UpdateGatewaySoftwareNowInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4000,8 +4026,9 @@ extension UpdateHypervisorInput: Swift.Encodable {
     }
 }
 
-extension UpdateHypervisorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateHypervisorInput {
+
+    static func urlPathProvider(_ value: UpdateHypervisorInput) -> Swift.String? {
         return "/"
     }
 }

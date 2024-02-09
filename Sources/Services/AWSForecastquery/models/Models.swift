@@ -113,6 +113,8 @@ extension ForecastqueryClientTypes {
 
 }
 
+public enum ForecastqueryClientTypes {}
+
 extension InvalidInputException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -310,8 +312,9 @@ extension QueryForecastInput: Swift.Encodable {
     }
 }
 
-extension QueryForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension QueryForecastInput {
+
+    static func urlPathProvider(_ value: QueryForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -474,8 +477,9 @@ extension QueryWhatIfForecastInput: Swift.Encodable {
     }
 }
 
-extension QueryWhatIfForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension QueryWhatIfForecastInput {
+
+    static func urlPathProvider(_ value: QueryWhatIfForecastInput) -> Swift.String? {
         return "/"
     }
 }

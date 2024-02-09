@@ -53,8 +53,9 @@ extension BatchDeleteWorldsInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteWorldsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteWorldsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteWorldsInput) -> Swift.String? {
         return "/batchDeleteWorlds"
     }
 }
@@ -175,8 +176,9 @@ extension BatchDescribeSimulationJobInput: Swift.Encodable {
     }
 }
 
-extension BatchDescribeSimulationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDescribeSimulationJobInput {
+
+    static func urlPathProvider(_ value: BatchDescribeSimulationJobInput) -> Swift.String? {
         return "/batchDescribeSimulationJob"
     }
 }
@@ -359,8 +361,9 @@ extension CancelDeploymentJobInput: Swift.Encodable {
     }
 }
 
-extension CancelDeploymentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelDeploymentJobInput {
+
+    static func urlPathProvider(_ value: CancelDeploymentJobInput) -> Swift.String? {
         return "/cancelDeploymentJob"
     }
 }
@@ -433,8 +436,9 @@ extension CancelSimulationJobBatchInput: Swift.Encodable {
     }
 }
 
-extension CancelSimulationJobBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelSimulationJobBatchInput {
+
+    static func urlPathProvider(_ value: CancelSimulationJobBatchInput) -> Swift.String? {
         return "/cancelSimulationJobBatch"
     }
 }
@@ -505,8 +509,9 @@ extension CancelSimulationJobInput: Swift.Encodable {
     }
 }
 
-extension CancelSimulationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelSimulationJobInput {
+
+    static func urlPathProvider(_ value: CancelSimulationJobInput) -> Swift.String? {
         return "/cancelSimulationJob"
     }
 }
@@ -577,8 +582,9 @@ extension CancelWorldExportJobInput: Swift.Encodable {
     }
 }
 
-extension CancelWorldExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelWorldExportJobInput {
+
+    static func urlPathProvider(_ value: CancelWorldExportJobInput) -> Swift.String? {
         return "/cancelWorldExportJob"
     }
 }
@@ -649,8 +655,9 @@ extension CancelWorldGenerationJobInput: Swift.Encodable {
     }
 }
 
-extension CancelWorldGenerationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelWorldGenerationJobInput {
+
+    static func urlPathProvider(_ value: CancelWorldGenerationJobInput) -> Swift.String? {
         return "/cancelWorldGenerationJob"
     }
 }
@@ -940,8 +947,9 @@ extension CreateDeploymentJobInput: Swift.Encodable {
     }
 }
 
-extension CreateDeploymentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeploymentJobInput {
+
+    static func urlPathProvider(_ value: CreateDeploymentJobInput) -> Swift.String? {
         return "/createDeploymentJob"
     }
 }
@@ -1204,8 +1212,9 @@ extension CreateFleetInput: Swift.Encodable {
     }
 }
 
-extension CreateFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFleetInput {
+
+    static func urlPathProvider(_ value: CreateFleetInput) -> Swift.String? {
         return "/createFleet"
     }
 }
@@ -1386,8 +1395,9 @@ extension CreateRobotApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateRobotApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRobotApplicationInput {
+
+    static func urlPathProvider(_ value: CreateRobotApplicationInput) -> Swift.String? {
         return "/createRobotApplication"
     }
 }
@@ -1654,8 +1664,9 @@ extension CreateRobotApplicationVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateRobotApplicationVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRobotApplicationVersionInput {
+
+    static func urlPathProvider(_ value: CreateRobotApplicationVersionInput) -> Swift.String? {
         return "/createRobotApplicationVersion"
     }
 }
@@ -1884,8 +1895,9 @@ extension CreateRobotInput: Swift.Encodable {
     }
 }
 
-extension CreateRobotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRobotInput {
+
+    static func urlPathProvider(_ value: CreateRobotInput) -> Swift.String? {
         return "/createRobot"
     }
 }
@@ -2113,8 +2125,9 @@ extension CreateSimulationApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateSimulationApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSimulationApplicationInput {
+
+    static func urlPathProvider(_ value: CreateSimulationApplicationInput) -> Swift.String? {
         return "/createSimulationApplication"
     }
 }
@@ -2418,8 +2431,9 @@ extension CreateSimulationApplicationVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateSimulationApplicationVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSimulationApplicationVersionInput {
+
+    static func urlPathProvider(_ value: CreateSimulationApplicationVersionInput) -> Swift.String? {
         return "/createSimulationApplicationVersion"
     }
 }
@@ -2709,8 +2723,9 @@ extension CreateSimulationJobInput: Swift.Encodable {
     }
 }
 
-extension CreateSimulationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSimulationJobInput {
+
+    static func urlPathProvider(_ value: CreateSimulationJobInput) -> Swift.String? {
         return "/createSimulationJob"
     }
 }
@@ -3167,8 +3182,9 @@ extension CreateWorldExportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateWorldExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorldExportJobInput {
+
+    static func urlPathProvider(_ value: CreateWorldExportJobInput) -> Swift.String? {
         return "/createWorldExportJob"
     }
 }
@@ -3424,8 +3440,9 @@ extension CreateWorldGenerationJobInput: Swift.Encodable {
     }
 }
 
-extension CreateWorldGenerationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorldGenerationJobInput {
+
+    static func urlPathProvider(_ value: CreateWorldGenerationJobInput) -> Swift.String? {
         return "/createWorldGenerationJob"
     }
 }
@@ -3697,8 +3714,9 @@ extension CreateWorldTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateWorldTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorldTemplateInput {
+
+    static func urlPathProvider(_ value: CreateWorldTemplateInput) -> Swift.String? {
         return "/createWorldTemplate"
     }
 }
@@ -4102,8 +4120,9 @@ extension DeleteFleetInput: Swift.Encodable {
     }
 }
 
-extension DeleteFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFleetInput {
+
+    static func urlPathProvider(_ value: DeleteFleetInput) -> Swift.String? {
         return "/deleteFleet"
     }
 }
@@ -4179,8 +4198,9 @@ extension DeleteRobotApplicationInput: Swift.Encodable {
     }
 }
 
-extension DeleteRobotApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRobotApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteRobotApplicationInput) -> Swift.String? {
         return "/deleteRobotApplication"
     }
 }
@@ -4258,8 +4278,9 @@ extension DeleteRobotInput: Swift.Encodable {
     }
 }
 
-extension DeleteRobotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRobotInput {
+
+    static func urlPathProvider(_ value: DeleteRobotInput) -> Swift.String? {
         return "/deleteRobot"
     }
 }
@@ -4335,8 +4356,9 @@ extension DeleteSimulationApplicationInput: Swift.Encodable {
     }
 }
 
-extension DeleteSimulationApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSimulationApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteSimulationApplicationInput) -> Swift.String? {
         return "/deleteSimulationApplication"
     }
 }
@@ -4414,8 +4436,9 @@ extension DeleteWorldTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteWorldTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorldTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteWorldTemplateInput) -> Swift.String? {
         return "/deleteWorldTemplate"
     }
 }
@@ -4961,8 +4984,9 @@ extension DeregisterRobotInput: Swift.Encodable {
     }
 }
 
-extension DeregisterRobotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterRobotInput {
+
+    static func urlPathProvider(_ value: DeregisterRobotInput) -> Swift.String? {
         return "/deregisterRobot"
     }
 }
@@ -5084,8 +5108,9 @@ extension DescribeDeploymentJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDeploymentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDeploymentJobInput {
+
+    static func urlPathProvider(_ value: DescribeDeploymentJobInput) -> Swift.String? {
         return "/describeDeploymentJob"
     }
 }
@@ -5305,8 +5330,9 @@ extension DescribeFleetInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetInput {
+
+    static func urlPathProvider(_ value: DescribeFleetInput) -> Swift.String? {
         return "/describeFleet"
     }
 }
@@ -5501,8 +5527,9 @@ extension DescribeRobotApplicationInput: Swift.Encodable {
     }
 }
 
-extension DescribeRobotApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRobotApplicationInput {
+
+    static func urlPathProvider(_ value: DescribeRobotApplicationInput) -> Swift.String? {
         return "/describeRobotApplication"
     }
 }
@@ -5719,8 +5746,9 @@ extension DescribeRobotInput: Swift.Encodable {
     }
 }
 
-extension DescribeRobotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRobotInput {
+
+    static func urlPathProvider(_ value: DescribeRobotInput) -> Swift.String? {
         return "/describeRobot"
     }
 }
@@ -5926,8 +5954,9 @@ extension DescribeSimulationApplicationInput: Swift.Encodable {
     }
 }
 
-extension DescribeSimulationApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSimulationApplicationInput {
+
+    static func urlPathProvider(_ value: DescribeSimulationApplicationInput) -> Swift.String? {
         return "/describeSimulationApplication"
     }
 }
@@ -6164,8 +6193,9 @@ extension DescribeSimulationJobBatchInput: Swift.Encodable {
     }
 }
 
-extension DescribeSimulationJobBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSimulationJobBatchInput {
+
+    static func urlPathProvider(_ value: DescribeSimulationJobBatchInput) -> Swift.String? {
         return "/describeSimulationJobBatch"
     }
 }
@@ -6411,8 +6441,9 @@ extension DescribeSimulationJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeSimulationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSimulationJobInput {
+
+    static func urlPathProvider(_ value: DescribeSimulationJobInput) -> Swift.String? {
         return "/describeSimulationJob"
     }
 }
@@ -6749,8 +6780,9 @@ extension DescribeWorldExportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorldExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorldExportJobInput {
+
+    static func urlPathProvider(_ value: DescribeWorldExportJobInput) -> Swift.String? {
         return "/describeWorldExportJob"
     }
 }
@@ -6959,8 +6991,9 @@ extension DescribeWorldGenerationJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorldGenerationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorldGenerationJobInput {
+
+    static func urlPathProvider(_ value: DescribeWorldGenerationJobInput) -> Swift.String? {
         return "/describeWorldGenerationJob"
     }
 }
@@ -7179,8 +7212,9 @@ extension DescribeWorldInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorldInput {
+
+    static func urlPathProvider(_ value: DescribeWorldInput) -> Swift.String? {
         return "/describeWorld"
     }
 }
@@ -7340,8 +7374,9 @@ extension DescribeWorldTemplateInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorldTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorldTemplateInput {
+
+    static func urlPathProvider(_ value: DescribeWorldTemplateInput) -> Swift.String? {
         return "/describeWorldTemplate"
     }
 }
@@ -7945,8 +7980,9 @@ extension GetWorldTemplateBodyInput: Swift.Encodable {
     }
 }
 
-extension GetWorldTemplateBodyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorldTemplateBodyInput {
+
+    static func urlPathProvider(_ value: GetWorldTemplateBodyInput) -> Swift.String? {
         return "/getWorldTemplateBody"
     }
 }
@@ -8394,8 +8430,9 @@ extension ListDeploymentJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentJobsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentJobsInput) -> Swift.String? {
         return "/listDeploymentJobs"
     }
 }
@@ -8552,8 +8589,9 @@ extension ListFleetsInput: Swift.Encodable {
     }
 }
 
-extension ListFleetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFleetsInput {
+
+    static func urlPathProvider(_ value: ListFleetsInput) -> Swift.String? {
         return "/listFleets"
     }
 }
@@ -8714,8 +8752,9 @@ extension ListRobotApplicationsInput: Swift.Encodable {
     }
 }
 
-extension ListRobotApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRobotApplicationsInput {
+
+    static func urlPathProvider(_ value: ListRobotApplicationsInput) -> Swift.String? {
         return "/listRobotApplications"
     }
 }
@@ -8877,8 +8916,9 @@ extension ListRobotsInput: Swift.Encodable {
     }
 }
 
-extension ListRobotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRobotsInput {
+
+    static func urlPathProvider(_ value: ListRobotsInput) -> Swift.String? {
         return "/listRobots"
     }
 }
@@ -9039,8 +9079,9 @@ extension ListSimulationApplicationsInput: Swift.Encodable {
     }
 }
 
-extension ListSimulationApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSimulationApplicationsInput {
+
+    static func urlPathProvider(_ value: ListSimulationApplicationsInput) -> Swift.String? {
         return "/listSimulationApplications"
     }
 }
@@ -9202,8 +9243,9 @@ extension ListSimulationJobBatchesInput: Swift.Encodable {
     }
 }
 
-extension ListSimulationJobBatchesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSimulationJobBatchesInput {
+
+    static func urlPathProvider(_ value: ListSimulationJobBatchesInput) -> Swift.String? {
         return "/listSimulationJobBatches"
     }
 }
@@ -9356,8 +9398,9 @@ extension ListSimulationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListSimulationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSimulationJobsInput {
+
+    static func urlPathProvider(_ value: ListSimulationJobsInput) -> Swift.String? {
         return "/listSimulationJobs"
     }
 }
@@ -9488,9 +9531,10 @@ enum ListSimulationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9606,8 +9650,9 @@ extension ListWorldExportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListWorldExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorldExportJobsInput {
+
+    static func urlPathProvider(_ value: ListWorldExportJobsInput) -> Swift.String? {
         return "/listWorldExportJobs"
     }
 }
@@ -9762,8 +9807,9 @@ extension ListWorldGenerationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListWorldGenerationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorldGenerationJobsInput {
+
+    static func urlPathProvider(_ value: ListWorldGenerationJobsInput) -> Swift.String? {
         return "/listWorldGenerationJobs"
     }
 }
@@ -9911,8 +9957,9 @@ extension ListWorldTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListWorldTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorldTemplatesInput {
+
+    static func urlPathProvider(_ value: ListWorldTemplatesInput) -> Swift.String? {
         return "/listWorldTemplates"
     }
 }
@@ -10049,8 +10096,9 @@ extension ListWorldsInput: Swift.Encodable {
     }
 }
 
-extension ListWorldsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorldsInput {
+
+    static func urlPathProvider(_ value: ListWorldsInput) -> Swift.String? {
         return "/listWorlds"
     }
 }
@@ -10502,8 +10550,9 @@ extension RegisterRobotInput: Swift.Encodable {
     }
 }
 
-extension RegisterRobotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterRobotInput {
+
+    static func urlPathProvider(_ value: RegisterRobotInput) -> Swift.String? {
         return "/registerRobot"
     }
 }
@@ -10810,8 +10859,9 @@ extension RestartSimulationJobInput: Swift.Encodable {
     }
 }
 
-extension RestartSimulationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestartSimulationJobInput {
+
+    static func urlPathProvider(_ value: RestartSimulationJobInput) -> Swift.String? {
         return "/restartSimulationJob"
     }
 }
@@ -10869,6 +10919,8 @@ enum RestartSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum RoboMakerClientTypes {}
 
 extension RoboMakerClientTypes.Robot: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -13078,8 +13130,9 @@ extension StartSimulationJobBatchInput: Swift.Encodable {
     }
 }
 
-extension StartSimulationJobBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSimulationJobBatchInput {
+
+    static func urlPathProvider(_ value: StartSimulationJobBatchInput) -> Swift.String? {
         return "/startSimulationJobBatch"
     }
 }
@@ -13363,8 +13416,9 @@ extension SyncDeploymentJobInput: Swift.Encodable {
     }
 }
 
-extension SyncDeploymentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SyncDeploymentJobInput {
+
+    static func urlPathProvider(_ value: SyncDeploymentJobInput) -> Swift.String? {
         return "/syncDeploymentJob"
     }
 }
@@ -13561,9 +13615,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13891,26 +13946,26 @@ extension RoboMakerClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -14000,8 +14055,9 @@ extension UpdateRobotApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateRobotApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRobotApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateRobotApplicationInput) -> Swift.String? {
         return "/updateRobotApplication"
     }
 }
@@ -14251,8 +14307,9 @@ extension UpdateSimulationApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSimulationApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSimulationApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateSimulationApplicationInput) -> Swift.String? {
         return "/updateSimulationApplication"
     }
 }
@@ -14524,8 +14581,9 @@ extension UpdateWorldTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorldTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWorldTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateWorldTemplateInput) -> Swift.String? {
         return "/updateWorldTemplate"
     }
 }

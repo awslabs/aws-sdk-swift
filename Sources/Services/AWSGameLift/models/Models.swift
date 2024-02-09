@@ -31,8 +31,9 @@ extension AcceptMatchInput: Swift.Encodable {
     }
 }
 
-extension AcceptMatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptMatchInput {
+
+    static func urlPathProvider(_ value: AcceptMatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -801,8 +802,9 @@ extension ClaimGameServerInput: Swift.Encodable {
     }
 }
 
-extension ClaimGameServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ClaimGameServerInput {
+
+    static func urlPathProvider(_ value: ClaimGameServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1254,8 +1256,9 @@ extension CreateAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAliasInput {
+
+    static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1415,8 +1418,9 @@ extension CreateBuildInput: Swift.Encodable {
     }
 }
 
-extension CreateBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBuildInput {
+
+    static func urlPathProvider(_ value: CreateBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1694,8 +1698,9 @@ extension CreateFleetInput: Swift.Encodable {
     }
 }
 
-extension CreateFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFleetInput {
+
+    static func urlPathProvider(_ value: CreateFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1974,8 +1979,9 @@ extension CreateFleetLocationsInput: Swift.Encodable {
     }
 }
 
-extension CreateFleetLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFleetLocationsInput {
+
+    static func urlPathProvider(_ value: CreateFleetLocationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2253,8 +2259,9 @@ extension CreateGameServerGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGameServerGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGameServerGroupInput {
+
+    static func urlPathProvider(_ value: CreateGameServerGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2513,8 +2520,9 @@ extension CreateGameSessionInput: Swift.Encodable {
     }
 }
 
-extension CreateGameSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGameSessionInput {
+
+    static func urlPathProvider(_ value: CreateGameSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2744,8 +2752,9 @@ extension CreateGameSessionQueueInput: Swift.Encodable {
     }
 }
 
-extension CreateGameSessionQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGameSessionQueueInput {
+
+    static func urlPathProvider(_ value: CreateGameSessionQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2946,8 +2955,9 @@ extension CreateLocationInput: Swift.Encodable {
     }
 }
 
-extension CreateLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLocationInput {
+
+    static func urlPathProvider(_ value: CreateLocationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3132,8 +3142,9 @@ extension CreateMatchmakingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateMatchmakingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMatchmakingConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateMatchmakingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3393,8 +3404,9 @@ extension CreateMatchmakingRuleSetInput: Swift.Encodable {
     }
 }
 
-extension CreateMatchmakingRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMatchmakingRuleSetInput {
+
+    static func urlPathProvider(_ value: CreateMatchmakingRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3536,8 +3548,9 @@ extension CreatePlayerSessionInput: Swift.Encodable {
     }
 }
 
-extension CreatePlayerSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePlayerSessionInput {
+
+    static func urlPathProvider(_ value: CreatePlayerSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3677,8 +3690,9 @@ extension CreatePlayerSessionsInput: Swift.Encodable {
     }
 }
 
-extension CreatePlayerSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePlayerSessionsInput {
+
+    static func urlPathProvider(_ value: CreatePlayerSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3845,8 +3859,9 @@ extension CreateScriptInput: Swift.Encodable {
     }
 }
 
-extension CreateScriptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateScriptInput {
+
+    static func urlPathProvider(_ value: CreateScriptInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3992,8 +4007,9 @@ extension CreateVpcPeeringAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension CreateVpcPeeringAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVpcPeeringAuthorizationInput {
+
+    static func urlPathProvider(_ value: CreateVpcPeeringAuthorizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4111,8 +4127,9 @@ extension CreateVpcPeeringConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateVpcPeeringConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVpcPeeringConnectionInput {
+
+    static func urlPathProvider(_ value: CreateVpcPeeringConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4201,8 +4218,9 @@ extension DeleteAliasInput: Swift.Encodable {
     }
 }
 
-extension DeleteAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAliasInput {
+
+    static func urlPathProvider(_ value: DeleteAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4274,8 +4292,9 @@ extension DeleteBuildInput: Swift.Encodable {
     }
 }
 
-extension DeleteBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBuildInput {
+
+    static func urlPathProvider(_ value: DeleteBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4347,8 +4366,9 @@ extension DeleteFleetInput: Swift.Encodable {
     }
 }
 
-extension DeleteFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFleetInput {
+
+    static func urlPathProvider(_ value: DeleteFleetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4402,8 +4422,9 @@ extension DeleteFleetLocationsInput: Swift.Encodable {
     }
 }
 
-extension DeleteFleetLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFleetLocationsInput {
+
+    static func urlPathProvider(_ value: DeleteFleetLocationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4582,8 +4603,9 @@ extension DeleteGameServerGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteGameServerGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGameServerGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGameServerGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4698,8 +4720,9 @@ extension DeleteGameSessionQueueInput: Swift.Encodable {
     }
 }
 
-extension DeleteGameSessionQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGameSessionQueueInput {
+
+    static func urlPathProvider(_ value: DeleteGameSessionQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4771,8 +4794,9 @@ extension DeleteLocationInput: Swift.Encodable {
     }
 }
 
-extension DeleteLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLocationInput {
+
+    static func urlPathProvider(_ value: DeleteLocationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4843,8 +4867,9 @@ extension DeleteMatchmakingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteMatchmakingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMatchmakingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteMatchmakingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4916,8 +4941,9 @@ extension DeleteMatchmakingRuleSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteMatchmakingRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMatchmakingRuleSetInput {
+
+    static func urlPathProvider(_ value: DeleteMatchmakingRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4993,8 +5019,9 @@ extension DeleteScalingPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteScalingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScalingPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteScalingPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5074,8 +5101,9 @@ extension DeleteScriptInput: Swift.Encodable {
     }
 }
 
-extension DeleteScriptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScriptInput {
+
+    static func urlPathProvider(_ value: DeleteScriptInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5151,8 +5179,9 @@ extension DeleteVpcPeeringAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension DeleteVpcPeeringAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVpcPeeringAuthorizationInput {
+
+    static func urlPathProvider(_ value: DeleteVpcPeeringAuthorizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5236,8 +5265,9 @@ extension DeleteVpcPeeringConnectionInput: Swift.Encodable {
     }
 }
 
-extension DeleteVpcPeeringConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVpcPeeringConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteVpcPeeringConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5321,8 +5351,9 @@ extension DeregisterComputeInput: Swift.Encodable {
     }
 }
 
-extension DeregisterComputeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterComputeInput {
+
+    static func urlPathProvider(_ value: DeregisterComputeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5406,8 +5437,9 @@ extension DeregisterGameServerInput: Swift.Encodable {
     }
 }
 
-extension DeregisterGameServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterGameServerInput {
+
+    static func urlPathProvider(_ value: DeregisterGameServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5487,8 +5519,9 @@ extension DescribeAliasInput: Swift.Encodable {
     }
 }
 
-extension DescribeAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAliasInput {
+
+    static func urlPathProvider(_ value: DescribeAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5589,8 +5622,9 @@ extension DescribeBuildInput: Swift.Encodable {
     }
 }
 
-extension DescribeBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBuildInput {
+
+    static func urlPathProvider(_ value: DescribeBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5695,8 +5729,9 @@ extension DescribeComputeInput: Swift.Encodable {
     }
 }
 
-extension DescribeComputeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeComputeInput {
+
+    static func urlPathProvider(_ value: DescribeComputeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5810,8 +5845,9 @@ extension DescribeEC2InstanceLimitsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEC2InstanceLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEC2InstanceLimitsInput {
+
+    static func urlPathProvider(_ value: DescribeEC2InstanceLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5939,8 +5975,9 @@ extension DescribeFleetAttributesInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeFleetAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6095,8 +6132,9 @@ extension DescribeFleetCapacityInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetCapacityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetCapacityInput {
+
+    static func urlPathProvider(_ value: DescribeFleetCapacityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6256,8 +6294,9 @@ extension DescribeFleetEventsInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetEventsInput {
+
+    static func urlPathProvider(_ value: DescribeFleetEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6424,8 +6463,9 @@ extension DescribeFleetLocationAttributesInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetLocationAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetLocationAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeFleetLocationAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6603,8 +6643,9 @@ extension DescribeFleetLocationCapacityInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetLocationCapacityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetLocationCapacityInput {
+
+    static func urlPathProvider(_ value: DescribeFleetLocationCapacityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6719,8 +6760,9 @@ extension DescribeFleetLocationUtilizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetLocationUtilizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetLocationUtilizationInput {
+
+    static func urlPathProvider(_ value: DescribeFleetLocationUtilizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6835,8 +6877,9 @@ extension DescribeFleetPortSettingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetPortSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetPortSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeFleetPortSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7006,8 +7049,9 @@ extension DescribeFleetUtilizationInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetUtilizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetUtilizationInput {
+
+    static func urlPathProvider(_ value: DescribeFleetUtilizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7151,8 +7195,9 @@ extension DescribeGameServerGroupInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameServerGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameServerGroupInput {
+
+    static func urlPathProvider(_ value: DescribeGameServerGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7257,8 +7302,9 @@ extension DescribeGameServerInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameServerInput {
+
+    static func urlPathProvider(_ value: DescribeGameServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7329,8 +7375,9 @@ extension DescribeGameServerInstancesInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameServerInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameServerInstancesInput {
+
+    static func urlPathProvider(_ value: DescribeGameServerInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7561,8 +7608,9 @@ extension DescribeGameSessionDetailsInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameSessionDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameSessionDetailsInput {
+
+    static func urlPathProvider(_ value: DescribeGameSessionDetailsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7731,8 +7779,9 @@ extension DescribeGameSessionPlacementInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameSessionPlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameSessionPlacementInput {
+
+    static func urlPathProvider(_ value: DescribeGameSessionPlacementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7844,8 +7893,9 @@ extension DescribeGameSessionQueuesInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameSessionQueuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameSessionQueuesInput {
+
+    static func urlPathProvider(_ value: DescribeGameSessionQueuesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8013,8 +8063,9 @@ extension DescribeGameSessionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeGameSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGameSessionsInput {
+
+    static func urlPathProvider(_ value: DescribeGameSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8199,8 +8250,9 @@ extension DescribeInstancesInput: Swift.Encodable {
     }
 }
 
-extension DescribeInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInstancesInput {
+
+    static func urlPathProvider(_ value: DescribeInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8368,8 +8420,9 @@ extension DescribeMatchmakingConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeMatchmakingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMatchmakingConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeMatchmakingConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8523,8 +8576,9 @@ extension DescribeMatchmakingInput: Swift.Encodable {
     }
 }
 
-extension DescribeMatchmakingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMatchmakingInput {
+
+    static func urlPathProvider(_ value: DescribeMatchmakingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8653,8 +8707,9 @@ extension DescribeMatchmakingRuleSetsInput: Swift.Encodable {
     }
 }
 
-extension DescribeMatchmakingRuleSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMatchmakingRuleSetsInput {
+
+    static func urlPathProvider(_ value: DescribeMatchmakingRuleSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8824,8 +8879,9 @@ extension DescribePlayerSessionsInput: Swift.Encodable {
     }
 }
 
-extension DescribePlayerSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePlayerSessionsInput {
+
+    static func urlPathProvider(_ value: DescribePlayerSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8992,8 +9048,9 @@ extension DescribeRuntimeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeRuntimeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRuntimeConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeRuntimeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9110,8 +9167,9 @@ extension DescribeScalingPoliciesInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalingPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalingPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeScalingPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9278,8 +9336,9 @@ extension DescribeScriptInput: Swift.Encodable {
     }
 }
 
-extension DescribeScriptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScriptInput {
+
+    static func urlPathProvider(_ value: DescribeScriptInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9375,8 +9434,9 @@ extension DescribeVpcPeeringAuthorizationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeVpcPeeringAuthorizationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVpcPeeringAuthorizationsInput {
+
+    static func urlPathProvider(_ value: DescribeVpcPeeringAuthorizationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9470,8 +9530,9 @@ extension DescribeVpcPeeringConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeVpcPeeringConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVpcPeeringConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeVpcPeeringConnectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11416,6 +11477,8 @@ extension GameLiftClientTypes {
         }
     }
 }
+
+public enum GameLiftClientTypes {}
 
 extension GameLiftClientTypes.GameProperty: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -13468,8 +13531,9 @@ extension GetComputeAccessInput: Swift.Encodable {
     }
 }
 
-extension GetComputeAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComputeAccessInput {
+
+    static func urlPathProvider(_ value: GetComputeAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13628,8 +13692,9 @@ extension GetComputeAuthTokenInput: Swift.Encodable {
     }
 }
 
-extension GetComputeAuthTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComputeAuthTokenInput {
+
+    static func urlPathProvider(_ value: GetComputeAuthTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13789,8 +13854,9 @@ extension GetGameSessionLogUrlInput: Swift.Encodable {
     }
 }
 
-extension GetGameSessionLogUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGameSessionLogUrlInput {
+
+    static func urlPathProvider(_ value: GetGameSessionLogUrlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13895,8 +13961,9 @@ extension GetInstanceAccessInput: Swift.Encodable {
     }
 }
 
-extension GetInstanceAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInstanceAccessInput {
+
+    static func urlPathProvider(_ value: GetInstanceAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14893,8 +14960,9 @@ extension ListAliasesInput: Swift.Encodable {
     }
 }
 
-extension ListAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAliasesInput {
+
+    static func urlPathProvider(_ value: ListAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15048,8 +15116,9 @@ extension ListBuildsInput: Swift.Encodable {
     }
 }
 
-extension ListBuildsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBuildsInput {
+
+    static func urlPathProvider(_ value: ListBuildsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15201,8 +15270,9 @@ extension ListComputeInput: Swift.Encodable {
     }
 }
 
-extension ListComputeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComputeInput {
+
+    static func urlPathProvider(_ value: ListComputeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15357,8 +15427,9 @@ extension ListFleetsInput: Swift.Encodable {
     }
 }
 
-extension ListFleetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFleetsInput {
+
+    static func urlPathProvider(_ value: ListFleetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15505,8 +15576,9 @@ extension ListGameServerGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListGameServerGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGameServerGroupsInput {
+
+    static func urlPathProvider(_ value: ListGameServerGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15644,8 +15716,9 @@ extension ListGameServersInput: Swift.Encodable {
     }
 }
 
-extension ListGameServersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGameServersInput {
+
+    static func urlPathProvider(_ value: ListGameServersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15799,8 +15872,9 @@ extension ListLocationsInput: Swift.Encodable {
     }
 }
 
-extension ListLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLocationsInput {
+
+    static func urlPathProvider(_ value: ListLocationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15947,8 +16021,9 @@ extension ListScriptsInput: Swift.Encodable {
     }
 }
 
-extension ListScriptsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListScriptsInput {
+
+    static func urlPathProvider(_ value: ListScriptsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16074,8 +16149,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17935,8 +18011,9 @@ extension PutScalingPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutScalingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutScalingPolicyInput {
+
+    static func urlPathProvider(_ value: PutScalingPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18164,8 +18241,9 @@ extension RegisterComputeInput: Swift.Encodable {
     }
 }
 
-extension RegisterComputeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterComputeInput {
+
+    static func urlPathProvider(_ value: RegisterComputeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18324,8 +18402,9 @@ extension RegisterGameServerInput: Swift.Encodable {
     }
 }
 
-extension RegisterGameServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterGameServerInput {
+
+    static func urlPathProvider(_ value: RegisterGameServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18461,8 +18540,9 @@ extension RequestUploadCredentialsInput: Swift.Encodable {
     }
 }
 
-extension RequestUploadCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RequestUploadCredentialsInput {
+
+    static func urlPathProvider(_ value: RequestUploadCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18578,8 +18658,9 @@ extension ResolveAliasInput: Swift.Encodable {
     }
 }
 
-extension ResolveAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResolveAliasInput {
+
+    static func urlPathProvider(_ value: ResolveAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18743,8 +18824,9 @@ extension ResumeGameServerGroupInput: Swift.Encodable {
     }
 }
 
-extension ResumeGameServerGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResumeGameServerGroupInput {
+
+    static func urlPathProvider(_ value: ResumeGameServerGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19494,8 +19576,9 @@ extension SearchGameSessionsInput: Swift.Encodable {
     }
 }
 
-extension SearchGameSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchGameSessionsInput {
+
+    static func urlPathProvider(_ value: SearchGameSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19800,8 +19883,9 @@ extension StartFleetActionsInput: Swift.Encodable {
     }
 }
 
-extension StartFleetActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFleetActionsInput {
+
+    static func urlPathProvider(_ value: StartFleetActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19976,8 +20060,9 @@ extension StartGameSessionPlacementInput: Swift.Encodable {
     }
 }
 
-extension StartGameSessionPlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartGameSessionPlacementInput {
+
+    static func urlPathProvider(_ value: StartGameSessionPlacementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20178,8 +20263,9 @@ extension StartMatchBackfillInput: Swift.Encodable {
     }
 }
 
-extension StartMatchBackfillInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMatchBackfillInput {
+
+    static func urlPathProvider(_ value: StartMatchBackfillInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20329,8 +20415,9 @@ extension StartMatchmakingInput: Swift.Encodable {
     }
 }
 
-extension StartMatchmakingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMatchmakingInput {
+
+    static func urlPathProvider(_ value: StartMatchmakingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20468,8 +20555,9 @@ extension StopFleetActionsInput: Swift.Encodable {
     }
 }
 
-extension StopFleetActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopFleetActionsInput {
+
+    static func urlPathProvider(_ value: StopFleetActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20607,8 +20695,9 @@ extension StopGameSessionPlacementInput: Swift.Encodable {
     }
 }
 
-extension StopGameSessionPlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopGameSessionPlacementInput {
+
+    static func urlPathProvider(_ value: StopGameSessionPlacementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20709,8 +20798,9 @@ extension StopMatchmakingInput: Swift.Encodable {
     }
 }
 
-extension StopMatchmakingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopMatchmakingInput {
+
+    static func urlPathProvider(_ value: StopMatchmakingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20788,8 +20878,9 @@ extension SuspendGameServerGroupInput: Swift.Encodable {
     }
 }
 
-extension SuspendGameServerGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SuspendGameServerGroupInput {
+
+    static func urlPathProvider(_ value: SuspendGameServerGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20962,8 +21053,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21351,8 +21443,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21453,8 +21546,9 @@ extension UpdateAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAliasInput {
+
+    static func urlPathProvider(_ value: UpdateAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21587,8 +21681,9 @@ extension UpdateBuildInput: Swift.Encodable {
     }
 }
 
-extension UpdateBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateBuildInput {
+
+    static func urlPathProvider(_ value: UpdateBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21732,8 +21827,9 @@ extension UpdateFleetAttributesInput: Swift.Encodable {
     }
 }
 
-extension UpdateFleetAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFleetAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateFleetAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21924,8 +22020,9 @@ extension UpdateFleetCapacityInput: Swift.Encodable {
     }
 }
 
-extension UpdateFleetCapacityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFleetCapacityInput {
+
+    static func urlPathProvider(_ value: UpdateFleetCapacityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22096,8 +22193,9 @@ extension UpdateFleetPortSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateFleetPortSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFleetPortSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateFleetPortSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22264,8 +22362,9 @@ extension UpdateGameServerGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateGameServerGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGameServerGroupInput {
+
+    static func urlPathProvider(_ value: UpdateGameServerGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22429,8 +22528,9 @@ extension UpdateGameServerInput: Swift.Encodable {
     }
 }
 
-extension UpdateGameServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGameServerInput {
+
+    static func urlPathProvider(_ value: UpdateGameServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22587,8 +22687,9 @@ extension UpdateGameSessionInput: Swift.Encodable {
     }
 }
 
-extension UpdateGameSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGameSessionInput {
+
+    static func urlPathProvider(_ value: UpdateGameSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22778,8 +22879,9 @@ extension UpdateGameSessionQueueInput: Swift.Encodable {
     }
 }
 
-extension UpdateGameSessionQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGameSessionQueueInput {
+
+    static func urlPathProvider(_ value: UpdateGameSessionQueueInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23012,8 +23114,9 @@ extension UpdateMatchmakingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateMatchmakingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateMatchmakingConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateMatchmakingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23244,8 +23347,9 @@ extension UpdateRuntimeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateRuntimeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRuntimeConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateRuntimeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23372,8 +23476,9 @@ extension UpdateScriptInput: Swift.Encodable {
     }
 }
 
-extension UpdateScriptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateScriptInput {
+
+    static func urlPathProvider(_ value: UpdateScriptInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23506,8 +23611,9 @@ extension ValidateMatchmakingRuleSetInput: Swift.Encodable {
     }
 }
 
-extension ValidateMatchmakingRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidateMatchmakingRuleSetInput {
+
+    static func urlPathProvider(_ value: ValidateMatchmakingRuleSetInput) -> Swift.String? {
         return "/"
     }
 }

@@ -271,6 +271,8 @@ extension ChannelUnsupportedSchemaBody: Swift.Decodable {
     }
 }
 
+public enum CloudTrailDataClientTypes {}
+
 extension DuplicatedAuditEventId {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -397,27 +399,27 @@ extension PutAuditEventsInput: Swift.Encodable {
     }
 }
 
-extension PutAuditEventsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let channelArn = channelArn else {
-                let message = "Creating a URL Query Item failed. channelArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let channelArnQueryItem = ClientRuntime.URLQueryItem(name: "channelArn".urlPercentEncoding(), value: Swift.String(channelArn).urlPercentEncoding())
-            items.append(channelArnQueryItem)
-            if let externalId = externalId {
-                let externalIdQueryItem = ClientRuntime.URLQueryItem(name: "externalId".urlPercentEncoding(), value: Swift.String(externalId).urlPercentEncoding())
-                items.append(externalIdQueryItem)
-            }
-            return items
+extension PutAuditEventsInput {
+
+    static func queryItemProvider(_ value: PutAuditEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let channelArn = value.channelArn else {
+            let message = "Creating a URL Query Item failed. channelArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let channelArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "channelArn".urlPercentEncoding(), value: Swift.String(channelArn).urlPercentEncoding())
+        items.append(channelArnQueryItem)
+        if let externalId = value.externalId {
+            let externalIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "externalId".urlPercentEncoding(), value: Swift.String(externalId).urlPercentEncoding())
+            items.append(externalIdQueryItem)
+        }
+        return items
     }
 }
 
-extension PutAuditEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAuditEventsInput {
+
+    static func urlPathProvider(_ value: PutAuditEventsInput) -> Swift.String? {
         return "/PutAuditEvents"
     }
 }

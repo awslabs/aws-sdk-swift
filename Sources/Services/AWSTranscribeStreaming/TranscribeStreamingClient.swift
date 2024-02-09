@@ -23,9 +23,6 @@ public class TranscribeStreamingClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
-        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
-        modeledAuthSchemes.append(SigV4AuthScheme())
-        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -45,16 +42,13 @@ extension TranscribeStreamingClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
-        public typealias AWSAuthSchemeResolver = TranscribeStreamingAuthSchemeResolver
 
         public var serviceName: String { "Transcribe Streaming" }
         public var clientName: String { "TranscribeStreamingClient" }
-        public var authSchemeResolver: TranscribeStreamingAuthSchemeResolver
         public var endpointResolver: EndpointResolver
 
-        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: TranscribeStreamingAuthSchemeResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-            self.authSchemeResolver = authSchemeResolver ?? DefaultTranscribeStreamingAuthSchemeResolver()
         }
     }
 }
@@ -72,7 +66,7 @@ public struct TranscribeStreamingClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
 }
 
-extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
+extension TranscribeStreamingClient {
     /// Performs the `StartCallAnalyticsStreamTranscription` operation on the `Transcribe` service.
     ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. Use this operation for [Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html) transcriptions. The following parameters are required:
@@ -98,8 +92,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    public func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput
-    {
+    public func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -109,37 +102,25 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         try context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(id: "startCallAnalyticsStreamTranscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartCallAnalyticsStreamTranscriptionOutput, StartCallAnalyticsStreamTranscriptionOutputError>())
-=======
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput, TranscribeStreamingClientTypes.AudioStream>(keyPath: \.audioStream, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartCallAnalyticsStreamTranscriptionOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartCallAnalyticsStreamTranscriptionOutput, StartCallAnalyticsStreamTranscriptionOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCallAnalyticsStreamTranscriptionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartCallAnalyticsStreamTranscriptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -171,8 +152,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    public func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput
-    {
+    public func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -182,37 +162,25 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         try context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(id: "startMedicalStreamTranscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMedicalStreamTranscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartMedicalStreamTranscriptionOutput, StartMedicalStreamTranscriptionOutputError>())
-=======
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput, TranscribeStreamingClientTypes.AudioStream>(keyPath: \.audioStream, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMedicalStreamTranscriptionOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartMedicalStreamTranscriptionOutput, StartMedicalStreamTranscriptionOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalStreamTranscriptionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalStreamTranscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMedicalStreamTranscriptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -244,8 +212,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
-    public func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput
-    {
+    public func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -255,37 +222,25 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         try context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(id: "startStreamTranscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(StartStreamTranscriptionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartStreamTranscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-<<<<<<< HEAD
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartStreamTranscriptionOutput, StartStreamTranscriptionOutputError>())
-=======
->>>>>>> temp-main
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(StartStreamTranscriptionInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput, TranscribeStreamingClientTypes.AudioStream>(keyPath: \.audioStream, defaultBody: "{}"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartStreamTranscriptionOutput>(options: config.retryStrategyOptions))
-<<<<<<< HEAD
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartStreamTranscriptionOutput, StartStreamTranscriptionOutputError>())
-=======
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartStreamTranscriptionOutput>(config: sigv4Config))
->>>>>>> temp-main
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStreamTranscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartStreamTranscriptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

@@ -450,8 +450,9 @@ extension CreatePipelineInput: Swift.Encodable {
     }
 }
 
-extension CreatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePipelineInput {
+
+    static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
         return "/2022-01-01/osis/createPipeline"
     }
 }
@@ -617,9 +618,10 @@ enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineName = pipelineName else {
+extension DeletePipelineInput {
+
+    static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
+        guard let pipelineName = value.pipelineName else {
             return nil
         }
         return "/2022-01-01/osis/deletePipeline/\(pipelineName.urlPercentEncoding())"
@@ -709,9 +711,10 @@ extension OSISClientTypes {
 
 }
 
-extension GetPipelineBlueprintInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let blueprintName = blueprintName else {
+extension GetPipelineBlueprintInput {
+
+    static func urlPathProvider(_ value: GetPipelineBlueprintInput) -> Swift.String? {
+        guard let blueprintName = value.blueprintName else {
             return nil
         }
         return "/2022-01-01/osis/getPipelineBlueprint/\(blueprintName.urlPercentEncoding())"
@@ -794,9 +797,10 @@ enum GetPipelineBlueprintOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPipelineChangeProgressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineName = pipelineName else {
+extension GetPipelineChangeProgressInput {
+
+    static func urlPathProvider(_ value: GetPipelineChangeProgressInput) -> Swift.String? {
+        guard let pipelineName = value.pipelineName else {
             return nil
         }
         return "/2022-01-01/osis/getPipelineChangeProgress/\(pipelineName.urlPercentEncoding())"
@@ -888,9 +892,10 @@ enum GetPipelineChangeProgressOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineName = pipelineName else {
+extension GetPipelineInput {
+
+    static func urlPathProvider(_ value: GetPipelineInput) -> Swift.String? {
+        guard let pipelineName = value.pipelineName else {
             return nil
         }
         return "/2022-01-01/osis/getPipeline/\(pipelineName.urlPercentEncoding())"
@@ -1138,8 +1143,9 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListPipelineBlueprintsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPipelineBlueprintsInput {
+
+    static func urlPathProvider(_ value: ListPipelineBlueprintsInput) -> Swift.String? {
         return "/2022-01-01/osis/listPipelineBlueprints"
     }
 }
@@ -1221,25 +1227,25 @@ enum ListPipelineBlueprintsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPipelinesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPipelinesInput {
+
+    static func queryItemProvider(_ value: ListPipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPipelinesInput {
+
+    static func urlPathProvider(_ value: ListPipelinesInput) -> Swift.String? {
         return "/2022-01-01/osis/listPipelines"
     }
 }
@@ -1342,23 +1348,23 @@ enum ListPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/2022-01-01/osis/listTagsForResource"
     }
 }
@@ -1492,6 +1498,8 @@ extension OSISClientTypes {
     }
 
 }
+
+public enum OSISClientTypes {}
 
 extension OSISClientTypes.Pipeline: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -2179,9 +2187,10 @@ extension OSISClientTypes {
 
 }
 
-extension StartPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineName = pipelineName else {
+extension StartPipelineInput {
+
+    static func urlPathProvider(_ value: StartPipelineInput) -> Swift.String? {
+        guard let pipelineName = value.pipelineName else {
             return nil
         }
         return "/2022-01-01/osis/startPipeline/\(pipelineName.urlPercentEncoding())"
@@ -2265,9 +2274,10 @@ enum StartPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopPipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineName = pipelineName else {
+extension StopPipelineInput {
+
+    static func urlPathProvider(_ value: StopPipelineInput) -> Swift.String? {
+        guard let pipelineName = value.pipelineName else {
             return nil
         }
         return "/2022-01-01/osis/stopPipeline/\(pipelineName.urlPercentEncoding())"
@@ -2414,23 +2424,23 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/2022-01-01/osis/tagResource"
     }
 }
@@ -2519,23 +2529,23 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/2022-01-01/osis/untagResource"
     }
 }
@@ -2640,9 +2650,10 @@ extension UpdatePipelineInput: Swift.Encodable {
     }
 }
 
-extension UpdatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let pipelineName = pipelineName else {
+extension UpdatePipelineInput {
+
+    static func urlPathProvider(_ value: UpdatePipelineInput) -> Swift.String? {
+        guard let pipelineName = value.pipelineName else {
             return nil
         }
         return "/2022-01-01/osis/updatePipeline/\(pipelineName.urlPercentEncoding())"
@@ -2790,8 +2801,9 @@ extension ValidatePipelineInput: Swift.Encodable {
     }
 }
 
-extension ValidatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidatePipelineInput {
+
+    static func urlPathProvider(_ value: ValidatePipelineInput) -> Swift.String? {
         return "/2022-01-01/osis/validatePipeline"
     }
 }

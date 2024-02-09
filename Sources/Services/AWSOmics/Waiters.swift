@@ -2,5 +2,5 @@
 
 import ClientRuntime
 
-extension OmicsClientProtocol {
+extension OmicsClient {
 }

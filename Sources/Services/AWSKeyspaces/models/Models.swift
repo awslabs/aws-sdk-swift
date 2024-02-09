@@ -653,8 +653,9 @@ extension CreateKeyspaceInput: Swift.Encodable {
     }
 }
 
-extension CreateKeyspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyspaceInput {
+
+    static func urlPathProvider(_ value: CreateKeyspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -840,8 +841,9 @@ extension CreateTableInput: Swift.Encodable {
     }
 }
 
-extension CreateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTableInput {
+
+    static func urlPathProvider(_ value: CreateTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1092,47 +1094,6 @@ extension CreateTableOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.resourceArn = output.resourceArn
-        } else {
-            self.resourceArn = nil
-        }
-    }
-}
-
-public struct CreateTableOutput: Swift.Equatable {
-    /// The unique identifier of the table in the format of an Amazon Resource Name (ARN).
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-    }
-}
-
-struct CreateTableOutputBody: Swift.Equatable {
-    let resourceArn: Swift.String?
-}
-
-extension CreateTableOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceArn
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
-        resourceArn = resourceArnDecoded
-    }
-}
-
 enum CreateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1162,8 +1123,9 @@ extension DeleteKeyspaceInput: Swift.Encodable {
     }
 }
 
-extension DeleteKeyspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteKeyspaceInput {
+
+    static func urlPathProvider(_ value: DeleteKeyspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1240,8 +1202,9 @@ extension DeleteTableInput: Swift.Encodable {
     }
 }
 
-extension DeleteTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTableInput {
+
+    static func urlPathProvider(_ value: DeleteTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1415,8 +1378,9 @@ extension GetKeyspaceInput: Swift.Encodable {
     }
 }
 
-extension GetKeyspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetKeyspaceInput {
+
+    static func urlPathProvider(_ value: GetKeyspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1547,8 +1511,6 @@ enum GetKeyspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetTableAutoScalingSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
@@ -1566,8 +1528,9 @@ extension GetTableAutoScalingSettingsInput: Swift.Encodable {
     }
 }
 
-extension GetTableAutoScalingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableAutoScalingSettingsInput {
+
+    static func urlPathProvider(_ value: GetTableAutoScalingSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1717,7 +1680,6 @@ enum GetTableAutoScalingSettingsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> temp-main
 extension GetTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyspaceName
@@ -1735,8 +1697,9 @@ extension GetTableInput: Swift.Encodable {
     }
 }
 
-extension GetTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableInput {
+
+    static func urlPathProvider(_ value: GetTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1980,21 +1943,6 @@ enum GetTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum GetTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2131,6 +2079,8 @@ extension KeyspacesClientTypes {
 
 }
 
+public enum KeyspacesClientTypes {}
+
 extension ListKeyspacesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -2148,8 +2098,9 @@ extension ListKeyspacesInput: Swift.Encodable {
     }
 }
 
-extension ListKeyspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeyspacesInput {
+
+    static func urlPathProvider(_ value: ListKeyspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2286,8 +2237,9 @@ extension ListTablesInput: Swift.Encodable {
     }
 }
 
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTablesInput {
+
+    static func urlPathProvider(_ value: ListTablesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2432,8 +2384,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3067,8 +3020,9 @@ extension RestoreTableInput: Swift.Encodable {
     }
 }
 
-extension RestoreTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreTableInput {
+
+    static func urlPathProvider(_ value: RestoreTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3221,47 +3175,6 @@ extension RestoreTableInputBody: Swift.Decodable {
             }
         }
         replicaSpecifications = replicaSpecificationsDecoded0
-    }
-}
-
-extension RestoreTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.restoredTableARN = output.restoredTableARN
-        } else {
-            self.restoredTableARN = nil
-        }
-    }
-}
-
-public struct RestoreTableOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the restored table.
-    /// This member is required.
-    public var restoredTableARN: Swift.String?
-
-    public init(
-        restoredTableARN: Swift.String? = nil
-    )
-    {
-        self.restoredTableARN = restoredTableARN
-    }
-}
-
-struct RestoreTableOutputBody: Swift.Equatable {
-    let restoredTableARN: Swift.String?
-}
-
-extension RestoreTableOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case restoredTableARN
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let restoredTableARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .restoredTableARN)
-        restoredTableARN = restoredTableARNDecoded
     }
 }
 
@@ -3765,8 +3678,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3843,8 +3757,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case disableScaleIn
@@ -3911,7 +3823,6 @@ extension KeyspacesClientTypes {
 
 }
 
->>>>>>> temp-main
 extension KeyspacesClientTypes {
     public enum ThroughputMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case payPerRequest
@@ -4029,8 +3940,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4167,8 +4079,9 @@ extension UpdateTableInput: Swift.Encodable {
     }
 }
 
-extension UpdateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTableInput {
+
+    static func urlPathProvider(_ value: UpdateTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4335,47 +4248,6 @@ extension UpdateTableInputBody: Swift.Decodable {
             }
         }
         replicaSpecifications = replicaSpecificationsDecoded0
-    }
-}
-
-extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.resourceArn = output.resourceArn
-        } else {
-            self.resourceArn = nil
-        }
-    }
-}
-
-public struct UpdateTableOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the modified table.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-    }
-}
-
-struct UpdateTableOutputBody: Swift.Equatable {
-    let resourceArn: Swift.String?
-}
-
-extension UpdateTableOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceArn
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
-        resourceArn = resourceArnDecoded
     }
 }
 

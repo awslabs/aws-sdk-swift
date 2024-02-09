@@ -155,8 +155,9 @@ extension AssociateServiceQuotaTemplateInput: Swift.Encodable {
     }
 }
 
-extension AssociateServiceQuotaTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateServiceQuotaTemplateInput {
+
+    static func urlPathProvider(_ value: AssociateServiceQuotaTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -224,8 +225,9 @@ extension DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceQuotaIncreaseRequestFromTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceQuotaIncreaseRequestFromTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteServiceQuotaIncreaseRequestFromTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -369,8 +371,9 @@ extension DisassociateServiceQuotaTemplateInput: Swift.Encodable {
     }
 }
 
-extension DisassociateServiceQuotaTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateServiceQuotaTemplateInput {
+
+    static func urlPathProvider(_ value: DisassociateServiceQuotaTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -525,8 +528,9 @@ extension GetAWSDefaultServiceQuotaInput: Swift.Encodable {
     }
 }
 
-extension GetAWSDefaultServiceQuotaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAWSDefaultServiceQuotaInput {
+
+    static func urlPathProvider(_ value: GetAWSDefaultServiceQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -632,8 +636,9 @@ extension GetAssociationForServiceQuotaTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetAssociationForServiceQuotaTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAssociationForServiceQuotaTemplateInput {
+
+    static func urlPathProvider(_ value: GetAssociationForServiceQuotaTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -723,8 +728,9 @@ extension GetRequestedServiceQuotaChangeInput: Swift.Encodable {
     }
 }
 
-extension GetRequestedServiceQuotaChangeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRequestedServiceQuotaChangeInput {
+
+    static func urlPathProvider(_ value: GetRequestedServiceQuotaChangeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -834,8 +840,9 @@ extension GetServiceQuotaIncreaseRequestFromTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetServiceQuotaIncreaseRequestFromTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceQuotaIncreaseRequestFromTemplateInput {
+
+    static func urlPathProvider(_ value: GetServiceQuotaIncreaseRequestFromTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -967,8 +974,9 @@ extension GetServiceQuotaInput: Swift.Encodable {
     }
 }
 
-extension GetServiceQuotaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceQuotaInput {
+
+    static func urlPathProvider(_ value: GetServiceQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1260,8 +1268,9 @@ extension ListAWSDefaultServiceQuotasInput: Swift.Encodable {
     }
 }
 
-extension ListAWSDefaultServiceQuotasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAWSDefaultServiceQuotasInput {
+
+    static func urlPathProvider(_ value: ListAWSDefaultServiceQuotasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1419,8 +1428,9 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Encodable {
     }
 }
 
-extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRequestedServiceQuotaChangeHistoryByQuotaInput {
+
+    static func urlPathProvider(_ value: ListRequestedServiceQuotaChangeHistoryByQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1599,8 +1609,9 @@ extension ListRequestedServiceQuotaChangeHistoryInput: Swift.Encodable {
     }
 }
 
-extension ListRequestedServiceQuotaChangeHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRequestedServiceQuotaChangeHistoryInput {
+
+    static func urlPathProvider(_ value: ListRequestedServiceQuotaChangeHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1765,8 +1776,9 @@ extension ListServiceQuotaIncreaseRequestsInTemplateInput: Swift.Encodable {
     }
 }
 
-extension ListServiceQuotaIncreaseRequestsInTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceQuotaIncreaseRequestsInTemplateInput {
+
+    static func urlPathProvider(_ value: ListServiceQuotaIncreaseRequestsInTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1929,8 +1941,9 @@ extension ListServiceQuotasInput: Swift.Encodable {
     }
 }
 
-extension ListServiceQuotasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceQuotasInput {
+
+    static func urlPathProvider(_ value: ListServiceQuotasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2088,8 +2101,9 @@ extension ListServicesInput: Swift.Encodable {
     }
 }
 
-extension ListServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicesInput {
+
+    static func urlPathProvider(_ value: ListServicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2217,8 +2231,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2630,8 +2645,9 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateInput: Swift.Encodable {
     }
 }
 
-extension PutServiceQuotaIncreaseRequestIntoTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutServiceQuotaIncreaseRequestIntoTemplateInput {
+
+    static func urlPathProvider(_ value: PutServiceQuotaIncreaseRequestIntoTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2964,8 +2980,9 @@ extension RequestServiceQuotaIncreaseInput: Swift.Encodable {
     }
 }
 
-extension RequestServiceQuotaIncreaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RequestServiceQuotaIncreaseInput {
+
+    static func urlPathProvider(_ value: RequestServiceQuotaIncreaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3828,6 +3845,8 @@ extension ServiceQuotaTemplateNotInUseExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ServiceQuotasClientTypes {}
+
 extension ServiceQuotasClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -3950,8 +3969,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4215,8 +4235,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

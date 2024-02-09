@@ -122,12 +122,13 @@ public struct ActivateKeySigningKeyInputStripHostedZoneMiddleware: ClientRuntime
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension ActivateKeySigningKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension ActivateKeySigningKeyInput {
+
+    static func urlPathProvider(_ value: ActivateKeySigningKeyInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2013-04-01/keysigningkey/\(hostedZoneId.urlPercentEncoding())/\(name.urlPercentEncoding())/activate"
@@ -439,9 +440,10 @@ public struct AssociateVPCWithHostedZoneInputStripHostedZoneMiddleware: ClientRu
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension AssociateVPCWithHostedZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension AssociateVPCWithHostedZoneInput {
+
+    static func urlPathProvider(_ value: AssociateVPCWithHostedZoneInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/associatevpc"
@@ -706,9 +708,10 @@ extension ChangeCidrCollectionInput {
     }
 }
 
-extension ChangeCidrCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ChangeCidrCollectionInput {
+
+    static func urlPathProvider(_ value: ChangeCidrCollectionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/cidrcollection/\(id.urlPercentEncoding())"
@@ -930,9 +933,10 @@ public struct ChangeResourceRecordSetsInputStripHostedZoneMiddleware: ClientRunt
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension ChangeResourceRecordSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension ChangeResourceRecordSetsInput {
+
+    static func urlPathProvider(_ value: ChangeResourceRecordSetsInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrset"
@@ -1125,12 +1129,13 @@ extension ChangeTagsForResourceInput {
     }
 }
 
-extension ChangeTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceType = resourceType else {
+extension ChangeTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ChangeTagsForResourceInput) -> Swift.String? {
+        guard let resourceType = value.resourceType else {
             return nil
         }
-        guard let resourceId = resourceId else {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/2013-04-01/tags/\(resourceType.rawValue.urlPercentEncoding())/\(resourceId.urlPercentEncoding())"
@@ -2217,8 +2222,6 @@ extension ConflictingTypesBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension Route53ClientTypes.Coordinates: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case latitude = "Latitude"
@@ -2262,7 +2265,6 @@ extension Route53ClientTypes {
 
 }
 
->>>>>>> temp-main
 extension CreateCidrCollectionInput {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callerReference = "CallerReference"
@@ -2276,8 +2278,9 @@ extension CreateCidrCollectionInput {
     }
 }
 
-extension CreateCidrCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCidrCollectionInput {
+
+    static func urlPathProvider(_ value: CreateCidrCollectionInput) -> Swift.String? {
         return "/2013-04-01/cidrcollection"
     }
 }
@@ -2395,8 +2398,9 @@ extension CreateHealthCheckInput {
     }
 }
 
-extension CreateHealthCheckInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHealthCheckInput {
+
+    static func urlPathProvider(_ value: CreateHealthCheckInput) -> Swift.String? {
         return "/2013-04-01/healthcheck"
     }
 }
@@ -2534,8 +2538,9 @@ extension CreateHostedZoneInput {
     }
 }
 
-extension CreateHostedZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHostedZoneInput {
+
+    static func urlPathProvider(_ value: CreateHostedZoneInput) -> Swift.String? {
         return "/2013-04-01/hostedzone"
     }
 }
@@ -2731,8 +2736,9 @@ extension CreateKeySigningKeyInput {
     }
 }
 
-extension CreateKeySigningKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeySigningKeyInput {
+
+    static func urlPathProvider(_ value: CreateKeySigningKeyInput) -> Swift.String? {
         return "/2013-04-01/keysigningkey"
     }
 }
@@ -2910,8 +2916,9 @@ extension CreateQueryLoggingConfigInput {
     }
 }
 
-extension CreateQueryLoggingConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateQueryLoggingConfigInput {
+
+    static func urlPathProvider(_ value: CreateQueryLoggingConfigInput) -> Swift.String? {
         return "/2013-04-01/queryloggingconfig"
     }
 }
@@ -3033,8 +3040,9 @@ extension CreateReusableDelegationSetInput {
     }
 }
 
-extension CreateReusableDelegationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReusableDelegationSetInput {
+
+    static func urlPathProvider(_ value: CreateReusableDelegationSetInput) -> Swift.String? {
         return "/2013-04-01/delegationset"
     }
 }
@@ -3158,8 +3166,9 @@ extension CreateTrafficPolicyInput {
     }
 }
 
-extension CreateTrafficPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrafficPolicyInput {
+
+    static func urlPathProvider(_ value: CreateTrafficPolicyInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicy"
     }
 }
@@ -3230,8 +3239,9 @@ extension CreateTrafficPolicyInstanceInput {
     }
 }
 
-extension CreateTrafficPolicyInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrafficPolicyInstanceInput {
+
+    static func urlPathProvider(_ value: CreateTrafficPolicyInstanceInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicyinstance"
     }
 }
@@ -3446,9 +3456,10 @@ extension CreateTrafficPolicyVersionInput {
     }
 }
 
-extension CreateTrafficPolicyVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CreateTrafficPolicyVersionInput {
+
+    static func urlPathProvider(_ value: CreateTrafficPolicyVersionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/trafficpolicy/\(id.urlPercentEncoding())"
@@ -3600,9 +3611,10 @@ public struct CreateVPCAssociationAuthorizationInputStripHostedZoneMiddleware: C
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension CreateVPCAssociationAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension CreateVPCAssociationAuthorizationInput {
+
+    static func urlPathProvider(_ value: CreateVPCAssociationAuthorizationInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/authorizevpcassociation"
@@ -3831,12 +3843,13 @@ public struct DeactivateKeySigningKeyInputStripHostedZoneMiddleware: ClientRunti
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension DeactivateKeySigningKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension DeactivateKeySigningKeyInput {
+
+    static func urlPathProvider(_ value: DeactivateKeySigningKeyInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2013-04-01/keysigningkey/\(hostedZoneId.urlPercentEncoding())/\(name.urlPercentEncoding())/deactivate"
@@ -4260,9 +4273,10 @@ extension DelegationSetNotReusableBody: Swift.Decodable {
     }
 }
 
-extension DeleteCidrCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteCidrCollectionInput {
+
+    static func urlPathProvider(_ value: DeleteCidrCollectionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/cidrcollection/\(id.urlPercentEncoding())"
@@ -4305,9 +4319,10 @@ enum DeleteCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteHealthCheckInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let healthCheckId = healthCheckId else {
+extension DeleteHealthCheckInput {
+
+    static func urlPathProvider(_ value: DeleteHealthCheckInput) -> Swift.String? {
+        guard let healthCheckId = value.healthCheckId else {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())"
@@ -4351,9 +4366,10 @@ enum DeleteHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteHostedZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteHostedZoneInput {
+
+    static func urlPathProvider(_ value: DeleteHostedZoneInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(id.urlPercentEncoding())"
@@ -4455,12 +4471,13 @@ public struct DeleteKeySigningKeyInputStripHostedZoneMiddleware: ClientRuntime.M
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension DeleteKeySigningKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension DeleteKeySigningKeyInput {
+
+    static func urlPathProvider(_ value: DeleteKeySigningKeyInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2013-04-01/keysigningkey/\(hostedZoneId.urlPercentEncoding())/\(name.urlPercentEncoding())"
@@ -4541,9 +4558,10 @@ enum DeleteKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteQueryLoggingConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteQueryLoggingConfigInput {
+
+    static func urlPathProvider(_ value: DeleteQueryLoggingConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/queryloggingconfig/\(id.urlPercentEncoding())"
@@ -4585,9 +4603,10 @@ enum DeleteQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteReusableDelegationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteReusableDelegationSetInput {
+
+    static func urlPathProvider(_ value: DeleteReusableDelegationSetInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/delegationset/\(id.urlPercentEncoding())"
@@ -4632,12 +4651,13 @@ enum DeleteReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DeleteTrafficPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteTrafficPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteTrafficPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let version = version else {
+        guard let version = value.version else {
             return nil
         }
         return "/2013-04-01/trafficpolicy/\(id.urlPercentEncoding())/\(version)"
@@ -4663,9 +4683,10 @@ public struct DeleteTrafficPolicyInput: Swift.Equatable {
     }
 }
 
-extension DeleteTrafficPolicyInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteTrafficPolicyInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteTrafficPolicyInstanceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/trafficpolicyinstance/\(id.urlPercentEncoding())"
@@ -4769,9 +4790,10 @@ public struct DeleteVPCAssociationAuthorizationInputStripHostedZoneMiddleware: C
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension DeleteVPCAssociationAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension DeleteVPCAssociationAuthorizationInput {
+
+    static func urlPathProvider(_ value: DeleteVPCAssociationAuthorizationInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/deauthorizevpcassociation"
@@ -4906,9 +4928,10 @@ public struct DisableHostedZoneDNSSECInputStripHostedZoneMiddleware: ClientRunti
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension DisableHostedZoneDNSSECInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension DisableHostedZoneDNSSECInput {
+
+    static func urlPathProvider(_ value: DisableHostedZoneDNSSECInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/disable-dnssec"
@@ -5024,9 +5047,10 @@ public struct DisassociateVPCFromHostedZoneInputStripHostedZoneMiddleware: Clien
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension DisassociateVPCFromHostedZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension DisassociateVPCFromHostedZoneInput {
+
+    static func urlPathProvider(_ value: DisassociateVPCFromHostedZoneInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/disassociatevpc"
@@ -5157,9 +5181,10 @@ public struct EnableHostedZoneDNSSECInputStripHostedZoneMiddleware: ClientRuntim
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension EnableHostedZoneDNSSECInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension EnableHostedZoneDNSSECInput {
+
+    static func urlPathProvider(_ value: EnableHostedZoneDNSSECInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/enable-dnssec"
@@ -5285,11 +5310,7 @@ extension Route53ClientTypes {
         ///
         /// Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public var continentCode: Swift.String?
-<<<<<<< HEAD
-        /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the contry code UA forr Ukraine.
-=======
         /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the country code UA for Ukraine.
->>>>>>> temp-main
         public var countryCode: Swift.String?
         /// For geolocation resource record sets, the two-letter code for a state of the United States. Route 53 doesn't support any other values for SubdivisionCode. For a list of state abbreviations, see [Appendix B: Two–Letter State and Possession Abbreviations](https://pe.usps.com/text/pub28/28apb.htm) on the United States Postal Service website. If you specify subdivisioncode, you must also specify US for CountryCode.
         public var subdivisionCode: Swift.String?
@@ -5442,9 +5463,10 @@ extension Route53ClientTypes {
 
 }
 
-extension GetAccountLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let type = type else {
+extension GetAccountLimitInput {
+
+    static func urlPathProvider(_ value: GetAccountLimitInput) -> Swift.String? {
+        guard let type = value.type else {
             return nil
         }
         return "/2013-04-01/accountlimit/\(type.rawValue.urlPercentEncoding())"
@@ -5538,9 +5560,10 @@ enum GetAccountLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetChangeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetChangeInput {
+
+    static func urlPathProvider(_ value: GetChangeInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/change/\(id.urlPercentEncoding())"
@@ -5614,8 +5637,9 @@ enum GetChangeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCheckerIpRangesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCheckerIpRangesInput {
+
+    static func urlPathProvider(_ value: GetCheckerIpRangesInput) -> Swift.String? {
         return "/2013-04-01/checkeripranges"
     }
 }
@@ -5719,9 +5743,10 @@ public struct GetDNSSECInputStripHostedZoneMiddleware: ClientRuntime.Middleware 
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension GetDNSSECInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension GetDNSSECInput {
+
+    static func urlPathProvider(_ value: GetDNSSECInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/dnssec"
@@ -5822,29 +5847,29 @@ enum GetDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGeoLocationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let continentCode = continentCode {
-                let continentCodeQueryItem = ClientRuntime.URLQueryItem(name: "continentcode".urlPercentEncoding(), value: Swift.String(continentCode).urlPercentEncoding())
-                items.append(continentCodeQueryItem)
-            }
-            if let countryCode = countryCode {
-                let countryCodeQueryItem = ClientRuntime.URLQueryItem(name: "countrycode".urlPercentEncoding(), value: Swift.String(countryCode).urlPercentEncoding())
-                items.append(countryCodeQueryItem)
-            }
-            if let subdivisionCode = subdivisionCode {
-                let subdivisionCodeQueryItem = ClientRuntime.URLQueryItem(name: "subdivisioncode".urlPercentEncoding(), value: Swift.String(subdivisionCode).urlPercentEncoding())
-                items.append(subdivisionCodeQueryItem)
-            }
-            return items
+extension GetGeoLocationInput {
+
+    static func queryItemProvider(_ value: GetGeoLocationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let continentCode = value.continentCode {
+            let continentCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "continentcode".urlPercentEncoding(), value: Swift.String(continentCode).urlPercentEncoding())
+            items.append(continentCodeQueryItem)
         }
+        if let countryCode = value.countryCode {
+            let countryCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "countrycode".urlPercentEncoding(), value: Swift.String(countryCode).urlPercentEncoding())
+            items.append(countryCodeQueryItem)
+        }
+        if let subdivisionCode = value.subdivisionCode {
+            let subdivisionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "subdivisioncode".urlPercentEncoding(), value: Swift.String(subdivisionCode).urlPercentEncoding())
+            items.append(subdivisionCodeQueryItem)
+        }
+        return items
     }
 }
 
-extension GetGeoLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGeoLocationInput {
+
+    static func urlPathProvider(_ value: GetGeoLocationInput) -> Swift.String? {
         return "/2013-04-01/geolocation"
     }
 }
@@ -5867,11 +5892,7 @@ public struct GetGeoLocationInput: Swift.Equatable {
     ///
     /// * SA: South America
     public var continentCode: Swift.String?
-<<<<<<< HEAD
-    /// Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the contry code UA forr Ukraine.
-=======
     /// Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the country code UA for Ukraine.
->>>>>>> temp-main
     public var countryCode: Swift.String?
     /// The code for the subdivision, such as a particular state within the United States. For a list of US state abbreviations, see [Appendix B: Two–Letter State and Possession Abbreviations](https://pe.usps.com/text/pub28/28apb.htm) on the United States Postal Service website. For a list of all supported subdivision codes, use the [ListGeoLocations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html) API.
     public var subdivisionCode: Swift.String?
@@ -5941,8 +5962,9 @@ enum GetGeoLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetHealthCheckCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHealthCheckCountInput {
+
+    static func urlPathProvider(_ value: GetHealthCheckCountInput) -> Swift.String? {
         return "/2013-04-01/healthcheckcount"
     }
 }
@@ -6004,9 +6026,10 @@ enum GetHealthCheckCountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetHealthCheckInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let healthCheckId = healthCheckId else {
+extension GetHealthCheckInput {
+
+    static func urlPathProvider(_ value: GetHealthCheckInput) -> Swift.String? {
+        guard let healthCheckId = value.healthCheckId else {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())"
@@ -6027,9 +6050,10 @@ public struct GetHealthCheckInput: Swift.Equatable {
     }
 }
 
-extension GetHealthCheckLastFailureReasonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let healthCheckId = healthCheckId else {
+extension GetHealthCheckLastFailureReasonInput {
+
+    static func urlPathProvider(_ value: GetHealthCheckLastFailureReasonInput) -> Swift.String? {
+        guard let healthCheckId = value.healthCheckId else {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())/lastfailurereason"
@@ -6174,9 +6198,10 @@ enum GetHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetHealthCheckStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let healthCheckId = healthCheckId else {
+extension GetHealthCheckStatusInput {
+
+    static func urlPathProvider(_ value: GetHealthCheckStatusInput) -> Swift.String? {
+        guard let healthCheckId = value.healthCheckId else {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())/status"
@@ -6267,8 +6292,9 @@ enum GetHealthCheckStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetHostedZoneCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHostedZoneCountInput {
+
+    static func urlPathProvider(_ value: GetHostedZoneCountInput) -> Swift.String? {
         return "/2013-04-01/hostedzonecount"
     }
 }
@@ -6331,9 +6357,10 @@ enum GetHostedZoneCountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetHostedZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetHostedZoneInput {
+
+    static func urlPathProvider(_ value: GetHostedZoneInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(id.urlPercentEncoding())"
@@ -6379,12 +6406,13 @@ public struct GetHostedZoneLimitInputStripHostedZoneMiddleware: ClientRuntime.Mi
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension GetHostedZoneLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension GetHostedZoneLimitInput {
+
+    static func urlPathProvider(_ value: GetHostedZoneLimitInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
-        guard let type = type else {
+        guard let type = value.type else {
             return nil
         }
         return "/2013-04-01/hostedzonelimit/\(hostedZoneId.urlPercentEncoding())/\(type.rawValue.urlPercentEncoding())"
@@ -6569,9 +6597,10 @@ enum GetHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetQueryLoggingConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetQueryLoggingConfigInput {
+
+    static func urlPathProvider(_ value: GetQueryLoggingConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/queryloggingconfig/\(id.urlPercentEncoding())"
@@ -6643,9 +6672,10 @@ enum GetQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetReusableDelegationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetReusableDelegationSetInput {
+
+    static func urlPathProvider(_ value: GetReusableDelegationSetInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/delegationset/\(id.urlPercentEncoding())"
@@ -6666,12 +6696,13 @@ public struct GetReusableDelegationSetInput: Swift.Equatable {
     }
 }
 
-extension GetReusableDelegationSetLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let delegationSetId = delegationSetId else {
+extension GetReusableDelegationSetLimitInput {
+
+    static func urlPathProvider(_ value: GetReusableDelegationSetLimitInput) -> Swift.String? {
+        guard let delegationSetId = value.delegationSetId else {
             return nil
         }
-        guard let type = type else {
+        guard let type = value.type else {
             return nil
         }
         return "/2013-04-01/reusabledelegationsetlimit/\(delegationSetId.urlPercentEncoding())/\(type.rawValue.urlPercentEncoding())"
@@ -6815,12 +6846,13 @@ enum GetReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetTrafficPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetTrafficPolicyInput {
+
+    static func urlPathProvider(_ value: GetTrafficPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let version = version else {
+        guard let version = value.version else {
             return nil
         }
         return "/2013-04-01/trafficpolicy/\(id.urlPercentEncoding())/\(version)"
@@ -6846,8 +6878,9 @@ public struct GetTrafficPolicyInput: Swift.Equatable {
     }
 }
 
-extension GetTrafficPolicyInstanceCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTrafficPolicyInstanceCountInput {
+
+    static func urlPathProvider(_ value: GetTrafficPolicyInstanceCountInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicyinstancecount"
     }
 }
@@ -6909,9 +6942,10 @@ enum GetTrafficPolicyInstanceCountOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetTrafficPolicyInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetTrafficPolicyInstanceInput {
+
+    static func urlPathProvider(_ value: GetTrafficPolicyInstanceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/trafficpolicyinstance/\(id.urlPercentEncoding())"
@@ -9605,30 +9639,30 @@ extension Route53ClientTypes {
 
 }
 
-extension ListCidrBlocksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let locationName = locationName {
-                let locationNameQueryItem = ClientRuntime.URLQueryItem(name: "location".urlPercentEncoding(), value: Swift.String(locationName).urlPercentEncoding())
-                items.append(locationNameQueryItem)
-            }
-            return items
+extension ListCidrBlocksInput {
+
+    static func queryItemProvider(_ value: ListCidrBlocksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let locationName = value.locationName {
+            let locationNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "location".urlPercentEncoding(), value: Swift.String(locationName).urlPercentEncoding())
+            items.append(locationNameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCidrBlocksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionId = collectionId else {
+extension ListCidrBlocksInput {
+
+    static func urlPathProvider(_ value: ListCidrBlocksInput) -> Swift.String? {
+        guard let collectionId = value.collectionId else {
             return nil
         }
         return "/2013-04-01/cidrcollection/\(collectionId.urlPercentEncoding())/cidrblocks"
@@ -9739,25 +9773,25 @@ enum ListCidrBlocksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCidrCollectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCidrCollectionsInput {
+
+    static func queryItemProvider(_ value: ListCidrCollectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCidrCollectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCidrCollectionsInput {
+
+    static func urlPathProvider(_ value: ListCidrCollectionsInput) -> Swift.String? {
         return "/2013-04-01/cidrcollection"
     }
 }
@@ -9855,26 +9889,26 @@ enum ListCidrCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCidrLocationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCidrLocationsInput {
+
+    static func queryItemProvider(_ value: ListCidrLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCidrLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionId = collectionId else {
+extension ListCidrLocationsInput {
+
+    static func urlPathProvider(_ value: ListCidrLocationsInput) -> Swift.String? {
+        guard let collectionId = value.collectionId else {
             return nil
         }
         return "/2013-04-01/cidrcollection/\(collectionId.urlPercentEncoding())"
@@ -9980,33 +10014,33 @@ enum ListCidrLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGeoLocationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let startContinentCode = startContinentCode {
-                let startContinentCodeQueryItem = ClientRuntime.URLQueryItem(name: "startcontinentcode".urlPercentEncoding(), value: Swift.String(startContinentCode).urlPercentEncoding())
-                items.append(startContinentCodeQueryItem)
-            }
-            if let startCountryCode = startCountryCode {
-                let startCountryCodeQueryItem = ClientRuntime.URLQueryItem(name: "startcountrycode".urlPercentEncoding(), value: Swift.String(startCountryCode).urlPercentEncoding())
-                items.append(startCountryCodeQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let startSubdivisionCode = startSubdivisionCode {
-                let startSubdivisionCodeQueryItem = ClientRuntime.URLQueryItem(name: "startsubdivisioncode".urlPercentEncoding(), value: Swift.String(startSubdivisionCode).urlPercentEncoding())
-                items.append(startSubdivisionCodeQueryItem)
-            }
-            return items
+extension ListGeoLocationsInput {
+
+    static func queryItemProvider(_ value: ListGeoLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let startContinentCode = value.startContinentCode {
+            let startContinentCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startcontinentcode".urlPercentEncoding(), value: Swift.String(startContinentCode).urlPercentEncoding())
+            items.append(startContinentCodeQueryItem)
         }
+        if let startCountryCode = value.startCountryCode {
+            let startCountryCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startcountrycode".urlPercentEncoding(), value: Swift.String(startCountryCode).urlPercentEncoding())
+            items.append(startCountryCodeQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let startSubdivisionCode = value.startSubdivisionCode {
+            let startSubdivisionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startsubdivisioncode".urlPercentEncoding(), value: Swift.String(startSubdivisionCode).urlPercentEncoding())
+            items.append(startSubdivisionCodeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGeoLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGeoLocationsInput {
+
+    static func urlPathProvider(_ value: ListGeoLocationsInput) -> Swift.String? {
         return "/2013-04-01/geolocations"
     }
 }
@@ -10157,25 +10191,25 @@ enum ListGeoLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListHealthChecksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListHealthChecksInput {
+
+    static func queryItemProvider(_ value: ListHealthChecksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListHealthChecksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHealthChecksInput {
+
+    static func urlPathProvider(_ value: ListHealthChecksInput) -> Swift.String? {
         return "/2013-04-01/healthcheck"
     }
 }
@@ -10310,29 +10344,29 @@ enum ListHealthChecksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListHostedZonesByNameInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let hostedZoneId = hostedZoneId {
-                let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
-                items.append(hostedZoneIdQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let dnsName = dnsName {
-                let dnsNameQueryItem = ClientRuntime.URLQueryItem(name: "dnsname".urlPercentEncoding(), value: Swift.String(dnsName).urlPercentEncoding())
-                items.append(dnsNameQueryItem)
-            }
-            return items
+extension ListHostedZonesByNameInput {
+
+    static func queryItemProvider(_ value: ListHostedZonesByNameInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let hostedZoneId = value.hostedZoneId {
+            let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+            items.append(hostedZoneIdQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let dnsName = value.dnsName {
+            let dnsNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "dnsname".urlPercentEncoding(), value: Swift.String(dnsName).urlPercentEncoding())
+            items.append(dnsNameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListHostedZonesByNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHostedZonesByNameInput {
+
+    static func urlPathProvider(_ value: ListHostedZonesByNameInput) -> Swift.String? {
         return "/2013-04-01/hostedzonesbyname"
     }
 }
@@ -10490,37 +10524,37 @@ enum ListHostedZonesByNameOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListHostedZonesByVPCInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let vpcRegion = vpcRegion else {
-                let message = "Creating a URL Query Item failed. vpcRegion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let vpcRegionQueryItem = ClientRuntime.URLQueryItem(name: "vpcregion".urlPercentEncoding(), value: Swift.String(vpcRegion.rawValue).urlPercentEncoding())
-            items.append(vpcRegionQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let vpcId = vpcId else {
-                let message = "Creating a URL Query Item failed. vpcId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let vpcIdQueryItem = ClientRuntime.URLQueryItem(name: "vpcid".urlPercentEncoding(), value: Swift.String(vpcId).urlPercentEncoding())
-            items.append(vpcIdQueryItem)
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListHostedZonesByVPCInput {
+
+    static func queryItemProvider(_ value: ListHostedZonesByVPCInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let vpcRegion = value.vpcRegion else {
+            let message = "Creating a URL Query Item failed. vpcRegion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let vpcRegionQueryItem = ClientRuntime.SDKURLQueryItem(name: "vpcregion".urlPercentEncoding(), value: Swift.String(vpcRegion.rawValue).urlPercentEncoding())
+        items.append(vpcRegionQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let vpcId = value.vpcId else {
+            let message = "Creating a URL Query Item failed. vpcId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let vpcIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "vpcid".urlPercentEncoding(), value: Swift.String(vpcId).urlPercentEncoding())
+        items.append(vpcIdQueryItem)
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListHostedZonesByVPCInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHostedZonesByVPCInput {
+
+    static func urlPathProvider(_ value: ListHostedZonesByVPCInput) -> Swift.String? {
         return "/2013-04-01/hostedzonesbyvpc"
     }
 }
@@ -10642,33 +10676,33 @@ enum ListHostedZonesByVPCOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListHostedZonesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let delegationSetId = delegationSetId {
-                let delegationSetIdQueryItem = ClientRuntime.URLQueryItem(name: "delegationsetid".urlPercentEncoding(), value: Swift.String(delegationSetId).urlPercentEncoding())
-                items.append(delegationSetIdQueryItem)
-            }
-            if let hostedZoneType = hostedZoneType {
-                let hostedZoneTypeQueryItem = ClientRuntime.URLQueryItem(name: "hostedzonetype".urlPercentEncoding(), value: Swift.String(hostedZoneType.rawValue).urlPercentEncoding())
-                items.append(hostedZoneTypeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListHostedZonesInput {
+
+    static func queryItemProvider(_ value: ListHostedZonesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let delegationSetId = value.delegationSetId {
+            let delegationSetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "delegationsetid".urlPercentEncoding(), value: Swift.String(delegationSetId).urlPercentEncoding())
+            items.append(delegationSetIdQueryItem)
         }
+        if let hostedZoneType = value.hostedZoneType {
+            let hostedZoneTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzonetype".urlPercentEncoding(), value: Swift.String(hostedZoneType.rawValue).urlPercentEncoding())
+            items.append(hostedZoneTypeQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListHostedZonesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHostedZonesInput {
+
+    static func urlPathProvider(_ value: ListHostedZonesInput) -> Swift.String? {
         return "/2013-04-01/hostedzone"
     }
 }
@@ -10811,29 +10845,29 @@ enum ListHostedZonesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListQueryLoggingConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let hostedZoneId = hostedZoneId {
-                let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
-                items.append(hostedZoneIdQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListQueryLoggingConfigsInput {
+
+    static func queryItemProvider(_ value: ListQueryLoggingConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let hostedZoneId = value.hostedZoneId {
+            let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+            items.append(hostedZoneIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListQueryLoggingConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListQueryLoggingConfigsInput {
+
+    static func urlPathProvider(_ value: ListQueryLoggingConfigsInput) -> Swift.String? {
         return "/2013-04-01/queryloggingconfig"
     }
 }
@@ -10938,28 +10972,27 @@ enum ListQueryLoggingConfigsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListResourceRecordSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let startRecordType = startRecordType {
-                let startRecordTypeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
-                items.append(startRecordTypeQueryItem)
-            }
-            if let startRecordIdentifier = startRecordIdentifier {
-                let startRecordIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "identifier".urlPercentEncoding(), value: Swift.String(startRecordIdentifier).urlPercentEncoding())
-                items.append(startRecordIdentifierQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let startRecordName = startRecordName {
-                let startRecordNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
-                items.append(startRecordNameQueryItem)
-            }
-            return items
+extension ListResourceRecordSetsInput {
+
+    static func queryItemProvider(_ value: ListResourceRecordSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let startRecordType = value.startRecordType {
+            let startRecordTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
+            items.append(startRecordTypeQueryItem)
         }
+        if let startRecordIdentifier = value.startRecordIdentifier {
+            let startRecordIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "identifier".urlPercentEncoding(), value: Swift.String(startRecordIdentifier).urlPercentEncoding())
+            items.append(startRecordIdentifierQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let startRecordName = value.startRecordName {
+            let startRecordNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
+            items.append(startRecordNameQueryItem)
+        }
+        return items
     }
 }
 
@@ -10988,9 +11021,10 @@ public struct ListResourceRecordSetsInputStripHostedZoneMiddleware: ClientRuntim
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension ListResourceRecordSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension ListResourceRecordSetsInput {
+
+    static func urlPathProvider(_ value: ListResourceRecordSetsInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrset"
@@ -11166,25 +11200,25 @@ enum ListResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListReusableDelegationSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListReusableDelegationSetsInput {
+
+    static func queryItemProvider(_ value: ListReusableDelegationSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListReusableDelegationSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReusableDelegationSetsInput {
+
+    static func urlPathProvider(_ value: ListReusableDelegationSetsInput) -> Swift.String? {
         return "/2013-04-01/delegationset"
     }
 }
@@ -11318,12 +11352,13 @@ enum ListReusableDelegationSetsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceType = resourceType else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceType = value.resourceType else {
             return nil
         }
-        guard let resourceId = resourceId else {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/2013-04-01/tags/\(resourceType.rawValue.urlPercentEncoding())/\(resourceId.urlPercentEncoding())"
@@ -11420,9 +11455,10 @@ extension ListTagsForResourcesInput {
     }
 }
 
-extension ListTagsForResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceType = resourceType else {
+extension ListTagsForResourcesInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourcesInput) -> Swift.String? {
+        guard let resourceType = value.resourceType else {
             return nil
         }
         return "/2013-04-01/tags/\(resourceType.rawValue.urlPercentEncoding())"
@@ -11558,25 +11594,25 @@ enum ListTagsForResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTrafficPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let trafficPolicyIdMarker = trafficPolicyIdMarker {
-                let trafficPolicyIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyid".urlPercentEncoding(), value: Swift.String(trafficPolicyIdMarker).urlPercentEncoding())
-                items.append(trafficPolicyIdMarkerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListTrafficPoliciesInput {
+
+    static func queryItemProvider(_ value: ListTrafficPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let trafficPolicyIdMarker = value.trafficPolicyIdMarker {
+            let trafficPolicyIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyid".urlPercentEncoding(), value: Swift.String(trafficPolicyIdMarker).urlPercentEncoding())
+            items.append(trafficPolicyIdMarkerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrafficPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrafficPoliciesInput {
+
+    static func urlPathProvider(_ value: ListTrafficPoliciesInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicies"
     }
 }
@@ -11700,35 +11736,35 @@ enum ListTrafficPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTrafficPolicyInstancesByHostedZoneInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
-                let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
-                items.append(trafficPolicyInstanceNameMarkerQueryItem)
-            }
-            guard let hostedZoneId = hostedZoneId else {
-                let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
-            items.append(hostedZoneIdQueryItem)
-            if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
-                let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
-                items.append(trafficPolicyInstanceTypeMarkerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListTrafficPolicyInstancesByHostedZoneInput {
+
+    static func queryItemProvider(_ value: ListTrafficPolicyInstancesByHostedZoneInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let trafficPolicyInstanceNameMarker = value.trafficPolicyInstanceNameMarker {
+            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+            items.append(trafficPolicyInstanceNameMarkerQueryItem)
         }
+        guard let hostedZoneId = value.hostedZoneId else {
+            let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+        items.append(hostedZoneIdQueryItem)
+        if let trafficPolicyInstanceTypeMarker = value.trafficPolicyInstanceTypeMarker {
+            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+            items.append(trafficPolicyInstanceTypeMarkerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrafficPolicyInstancesByHostedZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrafficPolicyInstancesByHostedZoneInput {
+
+    static func urlPathProvider(_ value: ListTrafficPolicyInstancesByHostedZoneInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicyinstances/hostedzone"
     }
 }
@@ -11872,45 +11908,45 @@ enum ListTrafficPolicyInstancesByHostedZoneOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension ListTrafficPolicyInstancesByPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
-                let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
-                items.append(trafficPolicyInstanceNameMarkerQueryItem)
-            }
-            guard let trafficPolicyId = trafficPolicyId else {
-                let message = "Creating a URL Query Item failed. trafficPolicyId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let trafficPolicyIdQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(trafficPolicyId).urlPercentEncoding())
-            items.append(trafficPolicyIdQueryItem)
-            if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
-                let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
-                items.append(trafficPolicyInstanceTypeMarkerQueryItem)
-            }
-            if let hostedZoneIdMarker = hostedZoneIdMarker {
-                let hostedZoneIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
-                items.append(hostedZoneIdMarkerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            guard let trafficPolicyVersion = trafficPolicyVersion else {
-                let message = "Creating a URL Query Item failed. trafficPolicyVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let trafficPolicyVersionQueryItem = ClientRuntime.URLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(trafficPolicyVersion).urlPercentEncoding())
-            items.append(trafficPolicyVersionQueryItem)
-            return items
+extension ListTrafficPolicyInstancesByPolicyInput {
+
+    static func queryItemProvider(_ value: ListTrafficPolicyInstancesByPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let trafficPolicyInstanceNameMarker = value.trafficPolicyInstanceNameMarker {
+            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+            items.append(trafficPolicyInstanceNameMarkerQueryItem)
         }
+        guard let trafficPolicyId = value.trafficPolicyId else {
+            let message = "Creating a URL Query Item failed. trafficPolicyId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let trafficPolicyIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(trafficPolicyId).urlPercentEncoding())
+        items.append(trafficPolicyIdQueryItem)
+        if let trafficPolicyInstanceTypeMarker = value.trafficPolicyInstanceTypeMarker {
+            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+            items.append(trafficPolicyInstanceTypeMarkerQueryItem)
+        }
+        if let hostedZoneIdMarker = value.hostedZoneIdMarker {
+            let hostedZoneIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
+            items.append(hostedZoneIdMarkerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        guard let trafficPolicyVersion = value.trafficPolicyVersion else {
+            let message = "Creating a URL Query Item failed. trafficPolicyVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let trafficPolicyVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(trafficPolicyVersion).urlPercentEncoding())
+        items.append(trafficPolicyVersionQueryItem)
+        return items
     }
 }
 
-extension ListTrafficPolicyInstancesByPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrafficPolicyInstancesByPolicyInput {
+
+    static func urlPathProvider(_ value: ListTrafficPolicyInstancesByPolicyInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicyinstances/trafficpolicy"
     }
 }
@@ -12073,33 +12109,33 @@ enum ListTrafficPolicyInstancesByPolicyOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListTrafficPolicyInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker {
-                let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
-                items.append(trafficPolicyInstanceNameMarkerQueryItem)
-            }
-            if let trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker {
-                let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
-                items.append(trafficPolicyInstanceTypeMarkerQueryItem)
-            }
-            if let hostedZoneIdMarker = hostedZoneIdMarker {
-                let hostedZoneIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
-                items.append(hostedZoneIdMarkerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListTrafficPolicyInstancesInput {
+
+    static func queryItemProvider(_ value: ListTrafficPolicyInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let trafficPolicyInstanceNameMarker = value.trafficPolicyInstanceNameMarker {
+            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+            items.append(trafficPolicyInstanceNameMarkerQueryItem)
         }
+        if let trafficPolicyInstanceTypeMarker = value.trafficPolicyInstanceTypeMarker {
+            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+            items.append(trafficPolicyInstanceTypeMarkerQueryItem)
+        }
+        if let hostedZoneIdMarker = value.hostedZoneIdMarker {
+            let hostedZoneIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
+            items.append(hostedZoneIdMarkerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrafficPolicyInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrafficPolicyInstancesInput {
+
+    static func urlPathProvider(_ value: ListTrafficPolicyInstancesInput) -> Swift.String? {
         return "/2013-04-01/trafficpolicyinstances"
     }
 }
@@ -12251,26 +12287,26 @@ enum ListTrafficPolicyInstancesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTrafficPolicyVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let trafficPolicyVersionMarker = trafficPolicyVersionMarker {
-                let trafficPolicyVersionMarkerQueryItem = ClientRuntime.URLQueryItem(name: "trafficpolicyversion".urlPercentEncoding(), value: Swift.String(trafficPolicyVersionMarker).urlPercentEncoding())
-                items.append(trafficPolicyVersionMarkerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListTrafficPolicyVersionsInput {
+
+    static func queryItemProvider(_ value: ListTrafficPolicyVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let trafficPolicyVersionMarker = value.trafficPolicyVersionMarker {
+            let trafficPolicyVersionMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyversion".urlPercentEncoding(), value: Swift.String(trafficPolicyVersionMarker).urlPercentEncoding())
+            items.append(trafficPolicyVersionMarkerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrafficPolicyVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ListTrafficPolicyVersionsInput {
+
+    static func urlPathProvider(_ value: ListTrafficPolicyVersionsInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/trafficpolicies/\(id.urlPercentEncoding())/versions"
@@ -12402,20 +12438,19 @@ enum ListTrafficPolicyVersionsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListVPCAssociationAuthorizationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListVPCAssociationAuthorizationsInput {
+
+    static func queryItemProvider(_ value: ListVPCAssociationAuthorizationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -12444,9 +12479,10 @@ public struct ListVPCAssociationAuthorizationsInputStripHostedZoneMiddleware: Cl
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension ListVPCAssociationAuthorizationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let hostedZoneId = hostedZoneId else {
+extension ListVPCAssociationAuthorizationsInput {
+
+    static func urlPathProvider(_ value: ListVPCAssociationAuthorizationsInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/authorizevpcassociation"
@@ -13686,10 +13722,7 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
         try writer[.init("CidrRoutingConfig")].write(value.cidrRoutingConfig, writingClosure: Route53ClientTypes.CidrRoutingConfig.writingClosure(_:to:))
         try writer[.init("Failover")].write(value.failover)
         try writer[.init("GeoLocation")].write(value.geoLocation, writingClosure: Route53ClientTypes.GeoLocation.writingClosure(_:to:))
-<<<<<<< HEAD
-=======
         try writer[.init("GeoProximityLocation")].write(value.geoProximityLocation, writingClosure: Route53ClientTypes.GeoProximityLocation.writingClosure(_:to:))
->>>>>>> temp-main
         try writer[.init("HealthCheckId")].write(value.healthCheckId)
         try writer[.init("MultiValueAnswer")].write(value.multiValueAnswer)
         try writer[.init("Name")].write(value.name)
@@ -13749,11 +13782,8 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
         trafficPolicyInstanceId = trafficPolicyInstanceIdDecoded
         let cidrRoutingConfigDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.CidrRoutingConfig.self, forKey: .cidrRoutingConfig)
         cidrRoutingConfig = cidrRoutingConfigDecoded
-<<<<<<< HEAD
-=======
         let geoProximityLocationDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.GeoProximityLocation.self, forKey: .geoProximityLocation)
         geoProximityLocation = geoProximityLocationDecoded
->>>>>>> temp-main
     }
 }
 
@@ -14251,6 +14281,8 @@ extension Route53ClientTypes {
     }
 }
 
+public enum Route53ClientTypes {}
+
 extension Route53ClientTypes {
     public enum Statistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case average
@@ -14418,47 +14450,47 @@ extension Route53ClientTypes {
     }
 }
 
-extension TestDNSAnswerInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let recordName = recordName else {
-                let message = "Creating a URL Query Item failed. recordName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let recordNameQueryItem = ClientRuntime.URLQueryItem(name: "recordname".urlPercentEncoding(), value: Swift.String(recordName).urlPercentEncoding())
-            items.append(recordNameQueryItem)
-            if let edns0ClientSubnetIP = edns0ClientSubnetIP {
-                let edns0ClientSubnetIPQueryItem = ClientRuntime.URLQueryItem(name: "edns0clientsubnetip".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetIP).urlPercentEncoding())
-                items.append(edns0ClientSubnetIPQueryItem)
-            }
-            guard let recordType = recordType else {
-                let message = "Creating a URL Query Item failed. recordType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let recordTypeQueryItem = ClientRuntime.URLQueryItem(name: "recordtype".urlPercentEncoding(), value: Swift.String(recordType.rawValue).urlPercentEncoding())
-            items.append(recordTypeQueryItem)
-            guard let hostedZoneId = hostedZoneId else {
-                let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let hostedZoneIdQueryItem = ClientRuntime.URLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
-            items.append(hostedZoneIdQueryItem)
-            if let resolverIP = resolverIP {
-                let resolverIPQueryItem = ClientRuntime.URLQueryItem(name: "resolverip".urlPercentEncoding(), value: Swift.String(resolverIP).urlPercentEncoding())
-                items.append(resolverIPQueryItem)
-            }
-            if let edns0ClientSubnetMask = edns0ClientSubnetMask {
-                let edns0ClientSubnetMaskQueryItem = ClientRuntime.URLQueryItem(name: "edns0clientsubnetmask".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetMask).urlPercentEncoding())
-                items.append(edns0ClientSubnetMaskQueryItem)
-            }
-            return items
+extension TestDNSAnswerInput {
+
+    static func queryItemProvider(_ value: TestDNSAnswerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let recordName = value.recordName else {
+            let message = "Creating a URL Query Item failed. recordName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let recordNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "recordname".urlPercentEncoding(), value: Swift.String(recordName).urlPercentEncoding())
+        items.append(recordNameQueryItem)
+        if let edns0ClientSubnetIP = value.edns0ClientSubnetIP {
+            let edns0ClientSubnetIPQueryItem = ClientRuntime.SDKURLQueryItem(name: "edns0clientsubnetip".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetIP).urlPercentEncoding())
+            items.append(edns0ClientSubnetIPQueryItem)
+        }
+        guard let recordType = value.recordType else {
+            let message = "Creating a URL Query Item failed. recordType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let recordTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "recordtype".urlPercentEncoding(), value: Swift.String(recordType.rawValue).urlPercentEncoding())
+        items.append(recordTypeQueryItem)
+        guard let hostedZoneId = value.hostedZoneId else {
+            let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+        items.append(hostedZoneIdQueryItem)
+        if let resolverIP = value.resolverIP {
+            let resolverIPQueryItem = ClientRuntime.SDKURLQueryItem(name: "resolverip".urlPercentEncoding(), value: Swift.String(resolverIP).urlPercentEncoding())
+            items.append(resolverIPQueryItem)
+        }
+        if let edns0ClientSubnetMask = value.edns0ClientSubnetMask {
+            let edns0ClientSubnetMaskQueryItem = ClientRuntime.SDKURLQueryItem(name: "edns0clientsubnetmask".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetMask).urlPercentEncoding())
+            items.append(edns0ClientSubnetMaskQueryItem)
+        }
+        return items
     }
 }
 
-extension TestDNSAnswerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestDNSAnswerInput {
+
+    static func urlPathProvider(_ value: TestDNSAnswerInput) -> Swift.String? {
         return "/2013-04-01/testdnsanswer"
     }
 }
@@ -15525,9 +15557,10 @@ extension UpdateHealthCheckInput {
     }
 }
 
-extension UpdateHealthCheckInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let healthCheckId = healthCheckId else {
+extension UpdateHealthCheckInput {
+
+    static func urlPathProvider(_ value: UpdateHealthCheckInput) -> Swift.String? {
+        guard let healthCheckId = value.healthCheckId else {
             return nil
         }
         return "/2013-04-01/healthcheck/\(healthCheckId.urlPercentEncoding())"
@@ -15864,9 +15897,10 @@ extension UpdateHostedZoneCommentInput {
     }
 }
 
-extension UpdateHostedZoneCommentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateHostedZoneCommentInput {
+
+    static func urlPathProvider(_ value: UpdateHostedZoneCommentInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/hostedzone/\(id.urlPercentEncoding())"
@@ -15972,12 +16006,13 @@ extension UpdateTrafficPolicyCommentInput {
     }
 }
 
-extension UpdateTrafficPolicyCommentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateTrafficPolicyCommentInput {
+
+    static func urlPathProvider(_ value: UpdateTrafficPolicyCommentInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let version = version else {
+        guard let version = value.version else {
             return nil
         }
         return "/2013-04-01/trafficpolicy/\(id.urlPercentEncoding())/\(version)"
@@ -16093,9 +16128,10 @@ extension UpdateTrafficPolicyInstanceInput {
     }
 }
 
-extension UpdateTrafficPolicyInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateTrafficPolicyInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateTrafficPolicyInstanceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2013-04-01/trafficpolicyinstance/\(id.urlPercentEncoding())"

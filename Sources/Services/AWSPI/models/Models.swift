@@ -349,8 +349,9 @@ extension CreatePerformanceAnalysisReportInput: Swift.Encodable {
     }
 }
 
-extension CreatePerformanceAnalysisReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePerformanceAnalysisReportInput {
+
+    static func urlPathProvider(_ value: CreatePerformanceAnalysisReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -584,8 +585,9 @@ extension DeletePerformanceAnalysisReportInput: Swift.Encodable {
     }
 }
 
-extension DeletePerformanceAnalysisReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePerformanceAnalysisReportInput {
+
+    static func urlPathProvider(_ value: DeletePerformanceAnalysisReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -723,8 +725,9 @@ extension DescribeDimensionKeysInput: Swift.Encodable {
     }
 }
 
-extension DescribeDimensionKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDimensionKeysInput {
+
+    static func urlPathProvider(_ value: DescribeDimensionKeysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1629,8 +1632,9 @@ extension GetDimensionKeyDetailsInput: Swift.Encodable {
     }
 }
 
-extension GetDimensionKeyDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDimensionKeyDetailsInput {
+
+    static func urlPathProvider(_ value: GetDimensionKeyDetailsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1811,8 +1815,9 @@ extension GetPerformanceAnalysisReportInput: Swift.Encodable {
     }
 }
 
-extension GetPerformanceAnalysisReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPerformanceAnalysisReportInput {
+
+    static func urlPathProvider(_ value: GetPerformanceAnalysisReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1950,8 +1955,9 @@ extension GetResourceMetadataInput: Swift.Encodable {
     }
 }
 
-extension GetResourceMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceMetadataInput {
+
+    static func urlPathProvider(_ value: GetResourceMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2114,8 +2120,9 @@ extension GetResourceMetricsInput: Swift.Encodable {
     }
 }
 
-extension GetResourceMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceMetricsInput {
+
+    static func urlPathProvider(_ value: GetResourceMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2676,8 +2683,9 @@ extension ListAvailableResourceDimensionsInput: Swift.Encodable {
     }
 }
 
-extension ListAvailableResourceDimensionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAvailableResourceDimensionsInput {
+
+    static func urlPathProvider(_ value: ListAvailableResourceDimensionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2858,8 +2866,9 @@ extension ListAvailableResourceMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListAvailableResourceMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAvailableResourceMetricsInput {
+
+    static func urlPathProvider(_ value: ListAvailableResourceMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3045,8 +3054,9 @@ extension ListPerformanceAnalysisReportsInput: Swift.Encodable {
     }
 }
 
-extension ListPerformanceAnalysisReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPerformanceAnalysisReportsInput {
+
+    static func urlPathProvider(_ value: ListPerformanceAnalysisReportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3202,8 +3212,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3557,6 +3568,8 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
+
+public enum PIClientTypes {}
 
 extension PIClientTypes.PerformanceInsightsMetric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4025,8 +4038,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4166,8 +4180,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

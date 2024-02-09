@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension AutoScalingClientProtocol {
+extension AutoScalingClient {
 
     static func groupExistsWaiterConfig() throws -> WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput> {
         let acceptors: [WaiterConfiguration<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>.Acceptor] = [

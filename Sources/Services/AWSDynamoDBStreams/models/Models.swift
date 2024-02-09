@@ -210,8 +210,9 @@ extension DescribeStreamInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamInput {
+
+    static func urlPathProvider(_ value: DescribeStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -315,6 +316,8 @@ enum DescribeStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum DynamoDBStreamsClientTypes {}
+
 extension ExpiredIteratorException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -388,8 +391,9 @@ extension GetRecordsInput: Swift.Encodable {
     }
 }
 
-extension GetRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecordsInput {
+
+    static func urlPathProvider(_ value: GetRecordsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -532,8 +536,9 @@ extension GetShardIteratorInput: Swift.Encodable {
     }
 }
 
-extension GetShardIteratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetShardIteratorInput {
+
+    static func urlPathProvider(_ value: GetShardIteratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -920,8 +925,9 @@ extension ListStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamsInput {
+
+    static func urlPathProvider(_ value: ListStreamsInput) -> Swift.String? {
         return "/"
     }
 }

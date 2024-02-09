@@ -2,12 +2,13 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension CancelJournalKinesisStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ledgerName = ledgerName else {
+extension CancelJournalKinesisStreamInput {
+
+    static func urlPathProvider(_ value: CancelJournalKinesisStreamInput) -> Swift.String? {
+        guard let ledgerName = value.ledgerName else {
             return nil
         }
-        guard let streamId = streamId else {
+        guard let streamId = value.streamId else {
             return nil
         }
         return "/ledgers/\(ledgerName.urlPercentEncoding())/journal-kinesis-streams/\(streamId.urlPercentEncoding())"
@@ -130,8 +131,9 @@ extension CreateLedgerInput: Swift.Encodable {
     }
 }
 
-extension CreateLedgerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLedgerInput {
+
+    static func urlPathProvider(_ value: CreateLedgerInput) -> Swift.String? {
         return "/ledgers"
     }
 }
@@ -346,9 +348,10 @@ enum CreateLedgerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteLedgerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteLedgerInput {
+
+    static func urlPathProvider(_ value: DeleteLedgerInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())"
@@ -401,12 +404,13 @@ enum DeleteLedgerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeJournalKinesisStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ledgerName = ledgerName else {
+extension DescribeJournalKinesisStreamInput {
+
+    static func urlPathProvider(_ value: DescribeJournalKinesisStreamInput) -> Swift.String? {
+        guard let ledgerName = value.ledgerName else {
             return nil
         }
-        guard let streamId = streamId else {
+        guard let streamId = value.streamId else {
             return nil
         }
         return "/ledgers/\(ledgerName.urlPercentEncoding())/journal-kinesis-streams/\(streamId.urlPercentEncoding())"
@@ -493,12 +497,13 @@ enum DescribeJournalKinesisStreamOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeJournalS3ExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribeJournalS3ExportInput {
+
+    static func urlPathProvider(_ value: DescribeJournalS3ExportInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
-        guard let exportId = exportId else {
+        guard let exportId = value.exportId else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/journal-s3-exports/\(exportId.urlPercentEncoding())"
@@ -584,9 +589,10 @@ enum DescribeJournalS3ExportOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeLedgerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribeLedgerInput {
+
+    static func urlPathProvider(_ value: DescribeLedgerInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())"
@@ -823,9 +829,10 @@ extension ExportJournalToS3Input: Swift.Encodable {
     }
 }
 
-extension ExportJournalToS3Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension ExportJournalToS3Input {
+
+    static func urlPathProvider(_ value: ExportJournalToS3Input) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/journal-s3-exports"
@@ -1018,9 +1025,10 @@ extension GetBlockInput: Swift.Encodable {
     }
 }
 
-extension GetBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetBlockInput {
+
+    static func urlPathProvider(_ value: GetBlockInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/block"
@@ -1138,9 +1146,10 @@ enum GetBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDigestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetDigestInput {
+
+    static func urlPathProvider(_ value: GetDigestInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/digest"
@@ -1265,9 +1274,10 @@ extension GetRevisionInput: Swift.Encodable {
     }
 }
 
-extension GetRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetRevisionInput {
+
+    static func urlPathProvider(_ value: GetRevisionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/revision"
@@ -1994,26 +2004,26 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListJournalKinesisStreamsForLedgerInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListJournalKinesisStreamsForLedgerInput {
+
+    static func queryItemProvider(_ value: ListJournalKinesisStreamsForLedgerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJournalKinesisStreamsForLedgerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ledgerName = ledgerName else {
+extension ListJournalKinesisStreamsForLedgerInput {
+
+    static func urlPathProvider(_ value: ListJournalKinesisStreamsForLedgerInput) -> Swift.String? {
+        guard let ledgerName = value.ledgerName else {
             return nil
         }
         return "/ledgers/\(ledgerName.urlPercentEncoding())/journal-kinesis-streams"
@@ -2124,26 +2134,26 @@ enum ListJournalKinesisStreamsForLedgerOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListJournalS3ExportsForLedgerInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListJournalS3ExportsForLedgerInput {
+
+    static func queryItemProvider(_ value: ListJournalS3ExportsForLedgerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJournalS3ExportsForLedgerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension ListJournalS3ExportsForLedgerInput {
+
+    static func urlPathProvider(_ value: ListJournalS3ExportsForLedgerInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/journal-s3-exports"
@@ -2251,25 +2261,25 @@ enum ListJournalS3ExportsForLedgerOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListJournalS3ExportsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListJournalS3ExportsInput {
+
+    static func queryItemProvider(_ value: ListJournalS3ExportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJournalS3ExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListJournalS3ExportsInput {
+
+    static func urlPathProvider(_ value: ListJournalS3ExportsInput) -> Swift.String? {
         return "/journal-s3-exports"
     }
 }
@@ -2370,25 +2380,25 @@ enum ListJournalS3ExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLedgersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListLedgersInput {
+
+    static func queryItemProvider(_ value: ListLedgersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLedgersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLedgersInput {
+
+    static func urlPathProvider(_ value: ListLedgersInput) -> Swift.String? {
         return "/ledgers"
     }
 }
@@ -2491,9 +2501,10 @@ enum ListLedgersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2647,6 +2658,8 @@ extension QLDBClientTypes {
         }
     }
 }
+
+public enum QLDBClientTypes {}
 
 extension ResourceAlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
@@ -3133,9 +3146,10 @@ extension StreamJournalToKinesisInput: Swift.Encodable {
     }
 }
 
-extension StreamJournalToKinesisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ledgerName = ledgerName else {
+extension StreamJournalToKinesisInput {
+
+    static func urlPathProvider(_ value: StreamJournalToKinesisInput) -> Swift.String? {
+        guard let ledgerName = value.ledgerName else {
             return nil
         }
         return "/ledgers/\(ledgerName.urlPercentEncoding())/journal-kinesis-streams"
@@ -3340,9 +3354,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3412,26 +3427,26 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3504,9 +3519,10 @@ extension UpdateLedgerInput: Swift.Encodable {
     }
 }
 
-extension UpdateLedgerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateLedgerInput {
+
+    static func urlPathProvider(_ value: UpdateLedgerInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())"
@@ -3689,9 +3705,10 @@ extension UpdateLedgerPermissionsModeInput: Swift.Encodable {
     }
 }
 
-extension UpdateLedgerPermissionsModeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateLedgerPermissionsModeInput {
+
+    static func urlPathProvider(_ value: UpdateLedgerPermissionsModeInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/ledgers/\(name.urlPercentEncoding())/permissions-mode"

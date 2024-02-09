@@ -24,8 +24,9 @@ extension AcceptDomainTransferFromAnotherAwsAccountInput: Swift.Encodable {
     }
 }
 
-extension AcceptDomainTransferFromAnotherAwsAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptDomainTransferFromAnotherAwsAccountInput {
+
+    static func urlPathProvider(_ value: AcceptDomainTransferFromAnotherAwsAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -141,8 +142,9 @@ extension AssociateDelegationSignerToDomainInput: Swift.Encodable {
     }
 }
 
-extension AssociateDelegationSignerToDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateDelegationSignerToDomainInput {
+
+    static func urlPathProvider(_ value: AssociateDelegationSignerToDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -329,8 +331,9 @@ extension CancelDomainTransferToAnotherAwsAccountInput: Swift.Encodable {
     }
 }
 
-extension CancelDomainTransferToAnotherAwsAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelDomainTransferToAnotherAwsAccountInput {
+
+    static func urlPathProvider(_ value: CancelDomainTransferToAnotherAwsAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -436,8 +439,9 @@ extension CheckDomainAvailabilityInput: Swift.Encodable {
     }
 }
 
-extension CheckDomainAvailabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckDomainAvailabilityInput {
+
+    static func urlPathProvider(_ value: CheckDomainAvailabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -566,8 +570,9 @@ extension CheckDomainTransferabilityInput: Swift.Encodable {
     }
 }
 
-extension CheckDomainTransferabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckDomainTransferabilityInput {
+
+    static func urlPathProvider(_ value: CheckDomainTransferabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1750,8 +1755,9 @@ extension DeleteDomainInput: Swift.Encodable {
     }
 }
 
-extension DeleteDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDomainInput {
+
+    static func urlPathProvider(_ value: DeleteDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1859,8 +1865,9 @@ extension DeleteTagsForDomainInput: Swift.Encodable {
     }
 }
 
-extension DeleteTagsForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTagsForDomainInput {
+
+    static func urlPathProvider(_ value: DeleteTagsForDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1949,8 +1956,9 @@ extension DisableDomainAutoRenewInput: Swift.Encodable {
     }
 }
 
-extension DisableDomainAutoRenewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableDomainAutoRenewInput {
+
+    static func urlPathProvider(_ value: DisableDomainAutoRenewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2019,8 +2027,9 @@ extension DisableDomainTransferLockInput: Swift.Encodable {
     }
 }
 
-extension DisableDomainTransferLockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableDomainTransferLockInput {
+
+    static func urlPathProvider(_ value: DisableDomainTransferLockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2128,8 +2137,9 @@ extension DisassociateDelegationSignerFromDomainInput: Swift.Encodable {
     }
 }
 
-extension DisassociateDelegationSignerFromDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateDelegationSignerFromDomainInput {
+
+    static func urlPathProvider(_ value: DisassociateDelegationSignerFromDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2847,8 +2857,9 @@ extension EnableDomainAutoRenewInput: Swift.Encodable {
     }
 }
 
-extension EnableDomainAutoRenewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableDomainAutoRenewInput {
+
+    static func urlPathProvider(_ value: EnableDomainAutoRenewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2918,8 +2929,9 @@ extension EnableDomainTransferLockInput: Swift.Encodable {
     }
 }
 
-extension EnableDomainTransferLockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableDomainTransferLockInput {
+
+    static func urlPathProvider(_ value: EnableDomainTransferLockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3654,8 +3666,9 @@ extension GetContactReachabilityStatusInput: Swift.Encodable {
     }
 }
 
-extension GetContactReachabilityStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContactReachabilityStatusInput {
+
+    static func urlPathProvider(_ value: GetContactReachabilityStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3764,8 +3777,9 @@ extension GetDomainDetailInput: Swift.Encodable {
     }
 }
 
-extension GetDomainDetailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDomainDetailInput {
+
+    static func urlPathProvider(_ value: GetDomainDetailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4116,8 +4130,9 @@ extension GetDomainSuggestionsInput: Swift.Encodable {
     }
 }
 
-extension GetDomainSuggestionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDomainSuggestionsInput {
+
+    static func urlPathProvider(_ value: GetDomainSuggestionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4254,8 +4269,9 @@ extension GetOperationDetailInput: Swift.Encodable {
     }
 }
 
-extension GetOperationDetailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOperationDetailInput {
+
+    static func urlPathProvider(_ value: GetOperationDetailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4538,8 +4554,9 @@ extension ListDomainsInput: Swift.Encodable {
     }
 }
 
-extension ListDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainsInput {
+
+    static func urlPathProvider(_ value: ListDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4720,8 +4737,9 @@ extension ListOperationsInput: Swift.Encodable {
     }
 }
 
-extension ListOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOperationsInput {
+
+    static func urlPathProvider(_ value: ListOperationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4942,8 +4960,9 @@ extension ListPricesInput: Swift.Encodable {
     }
 }
 
-extension ListPricesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPricesInput {
+
+    static func urlPathProvider(_ value: ListPricesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5076,8 +5095,9 @@ extension ListTagsForDomainInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForDomainInput {
+
+    static func urlPathProvider(_ value: ListTagsForDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5624,8 +5644,9 @@ extension PushDomainInput: Swift.Encodable {
     }
 }
 
-extension PushDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PushDomainInput {
+
+    static func urlPathProvider(_ value: PushDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5780,8 +5801,9 @@ extension RegisterDomainInput: Swift.Encodable {
     }
 }
 
-extension RegisterDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterDomainInput {
+
+    static func urlPathProvider(_ value: RegisterDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5973,8 +5995,9 @@ extension RejectDomainTransferFromAnotherAwsAccountInput: Swift.Encodable {
     }
 }
 
-extension RejectDomainTransferFromAnotherAwsAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectDomainTransferFromAnotherAwsAccountInput {
+
+    static func urlPathProvider(_ value: RejectDomainTransferFromAnotherAwsAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6084,8 +6107,9 @@ extension RenewDomainInput: Swift.Encodable {
     }
 }
 
-extension RenewDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RenewDomainInput {
+
+    static func urlPathProvider(_ value: RenewDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6205,8 +6229,9 @@ extension ResendContactReachabilityEmailInput: Swift.Encodable {
     }
 }
 
-extension ResendContactReachabilityEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResendContactReachabilityEmailInput {
+
+    static func urlPathProvider(_ value: ResendContactReachabilityEmailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6330,8 +6355,9 @@ extension ResendOperationAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension ResendOperationAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResendOperationAuthorizationInput {
+
+    static func urlPathProvider(_ value: ResendOperationAuthorizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6399,8 +6425,9 @@ extension RetrieveDomainAuthCodeInput: Swift.Encodable {
     }
 }
 
-extension RetrieveDomainAuthCodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetrieveDomainAuthCodeInput {
+
+    static func urlPathProvider(_ value: RetrieveDomainAuthCodeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6492,6 +6519,8 @@ enum RetrieveDomainAuthCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum Route53DomainsClientTypes {}
 
 extension Route53DomainsClientTypes.SortCondition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -6779,8 +6808,9 @@ extension TransferDomainInput: Swift.Encodable {
     }
 }
 
-extension TransferDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TransferDomainInput {
+
+    static func urlPathProvider(_ value: TransferDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6998,8 +7028,9 @@ extension TransferDomainToAnotherAwsAccountInput: Swift.Encodable {
     }
 }
 
-extension TransferDomainToAnotherAwsAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TransferDomainToAnotherAwsAccountInput {
+
+    static func urlPathProvider(_ value: TransferDomainToAnotherAwsAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7248,8 +7279,9 @@ extension UpdateDomainContactInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDomainContactInput {
+
+    static func urlPathProvider(_ value: UpdateDomainContactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7397,8 +7429,9 @@ extension UpdateDomainContactPrivacyInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainContactPrivacyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDomainContactPrivacyInput {
+
+    static func urlPathProvider(_ value: UpdateDomainContactPrivacyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7542,8 +7575,9 @@ extension UpdateDomainNameserversInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainNameserversInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDomainNameserversInput {
+
+    static func urlPathProvider(_ value: UpdateDomainNameserversInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7681,8 +7715,9 @@ extension UpdateTagsForDomainInput: Swift.Encodable {
     }
 }
 
-extension UpdateTagsForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTagsForDomainInput {
+
+    static func urlPathProvider(_ value: UpdateTagsForDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7782,8 +7817,9 @@ extension ViewBillingInput: Swift.Encodable {
     }
 }
 
-extension ViewBillingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ViewBillingInput {
+
+    static func urlPathProvider(_ value: ViewBillingInput) -> Swift.String? {
         return "/"
     }
 }

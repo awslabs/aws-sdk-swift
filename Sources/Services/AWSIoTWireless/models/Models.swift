@@ -320,8 +320,9 @@ extension AssociateAwsAccountWithPartnerAccountInput: Swift.Encodable {
     }
 }
 
-extension AssociateAwsAccountWithPartnerAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateAwsAccountWithPartnerAccountInput {
+
+    static func urlPathProvider(_ value: AssociateAwsAccountWithPartnerAccountInput) -> Swift.String? {
         return "/partner-accounts"
     }
 }
@@ -459,9 +460,10 @@ extension AssociateMulticastGroupWithFuotaTaskInput: Swift.Encodable {
     }
 }
 
-extension AssociateMulticastGroupWithFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension AssociateMulticastGroupWithFuotaTaskInput {
+
+    static func urlPathProvider(_ value: AssociateMulticastGroupWithFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())/multicast-group"
@@ -541,9 +543,10 @@ extension AssociateWirelessDeviceWithFuotaTaskInput: Swift.Encodable {
     }
 }
 
-extension AssociateWirelessDeviceWithFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension AssociateWirelessDeviceWithFuotaTaskInput {
+
+    static func urlPathProvider(_ value: AssociateWirelessDeviceWithFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())/wireless-device"
@@ -623,9 +626,10 @@ extension AssociateWirelessDeviceWithMulticastGroupInput: Swift.Encodable {
     }
 }
 
-extension AssociateWirelessDeviceWithMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension AssociateWirelessDeviceWithMulticastGroupInput {
+
+    static func urlPathProvider(_ value: AssociateWirelessDeviceWithMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/wireless-device"
@@ -705,9 +709,10 @@ extension AssociateWirelessDeviceWithThingInput: Swift.Encodable {
     }
 }
 
-extension AssociateWirelessDeviceWithThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension AssociateWirelessDeviceWithThingInput {
+
+    static func urlPathProvider(_ value: AssociateWirelessDeviceWithThingInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())/thing"
@@ -787,9 +792,10 @@ extension AssociateWirelessGatewayWithCertificateInput: Swift.Encodable {
     }
 }
 
-extension AssociateWirelessGatewayWithCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension AssociateWirelessGatewayWithCertificateInput {
+
+    static func urlPathProvider(_ value: AssociateWirelessGatewayWithCertificateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/certificate"
@@ -899,9 +905,10 @@ extension AssociateWirelessGatewayWithThingInput: Swift.Encodable {
     }
 }
 
-extension AssociateWirelessGatewayWithThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension AssociateWirelessGatewayWithThingInput {
+
+    static func urlPathProvider(_ value: AssociateWirelessGatewayWithThingInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/thing"
@@ -1061,9 +1068,10 @@ extension IoTWirelessClientTypes {
 
 }
 
-extension CancelMulticastGroupSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CancelMulticastGroupSessionInput {
+
+    static func urlPathProvider(_ value: CancelMulticastGroupSessionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/session"
@@ -1771,8 +1779,9 @@ extension CreateDestinationInput: Swift.Encodable {
     }
 }
 
-extension CreateDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDestinationInput {
+
+    static func urlPathProvider(_ value: CreateDestinationInput) -> Swift.String? {
         return "/destinations"
     }
 }
@@ -1964,8 +1973,9 @@ extension CreateDeviceProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateDeviceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeviceProfileInput {
+
+    static func urlPathProvider(_ value: CreateDeviceProfileInput) -> Swift.String? {
         return "/device-profiles"
     }
 }
@@ -2156,8 +2166,9 @@ extension CreateFuotaTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFuotaTaskInput {
+
+    static func urlPathProvider(_ value: CreateFuotaTaskInput) -> Swift.String? {
         return "/fuota-tasks"
     }
 }
@@ -2371,8 +2382,9 @@ extension CreateMulticastGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMulticastGroupInput {
+
+    static func urlPathProvider(_ value: CreateMulticastGroupInput) -> Swift.String? {
         return "/multicast-groups"
     }
 }
@@ -2566,8 +2578,9 @@ extension CreateNetworkAnalyzerConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateNetworkAnalyzerConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNetworkAnalyzerConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateNetworkAnalyzerConfigurationInput) -> Swift.String? {
         return "/network-analyzer-configurations"
     }
 }
@@ -2787,8 +2800,9 @@ extension CreateServiceProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceProfileInput {
+
+    static func urlPathProvider(_ value: CreateServiceProfileInput) -> Swift.String? {
         return "/service-profiles"
     }
 }
@@ -2967,8 +2981,9 @@ extension CreateWirelessDeviceInput: Swift.Encodable {
     }
 }
 
-extension CreateWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: CreateWirelessDeviceInput) -> Swift.String? {
         return "/wireless-devices"
     }
 }
@@ -3174,8 +3189,9 @@ extension CreateWirelessGatewayInput: Swift.Encodable {
     }
 }
 
-extension CreateWirelessGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWirelessGatewayInput {
+
+    static func urlPathProvider(_ value: CreateWirelessGatewayInput) -> Swift.String? {
         return "/wireless-gateways"
     }
 }
@@ -3347,8 +3363,9 @@ extension CreateWirelessGatewayTaskDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateWirelessGatewayTaskDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWirelessGatewayTaskDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateWirelessGatewayTaskDefinitionInput) -> Swift.String? {
         return "/wireless-gateway-task-definitions"
     }
 }
@@ -3502,9 +3519,10 @@ extension CreateWirelessGatewayTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateWirelessGatewayTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CreateWirelessGatewayTaskInput {
+
+    static func urlPathProvider(_ value: CreateWirelessGatewayTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/tasks"
@@ -3687,9 +3705,10 @@ extension IoTWirelessClientTypes {
 
 }
 
-extension DeleteDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteDestinationInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/destinations/\(name.urlPercentEncoding())"
@@ -3744,9 +3763,10 @@ enum DeleteDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDeviceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteDeviceProfileInput {
+
+    static func urlPathProvider(_ value: DeleteDeviceProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/device-profiles/\(id.urlPercentEncoding())"
@@ -3801,9 +3821,10 @@ enum DeleteDeviceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteFuotaTaskInput {
+
+    static func urlPathProvider(_ value: DeleteFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())"
@@ -3857,9 +3878,10 @@ enum DeleteFuotaTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteMulticastGroupInput {
+
+    static func urlPathProvider(_ value: DeleteMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())"
@@ -3914,9 +3936,10 @@ enum DeleteMulticastGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteNetworkAnalyzerConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationName = configurationName else {
+extension DeleteNetworkAnalyzerConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkAnalyzerConfigurationInput) -> Swift.String? {
+        guard let configurationName = value.configurationName else {
             return nil
         }
         return "/network-analyzer-configurations/\(configurationName.urlPercentEncoding())"
@@ -3971,28 +3994,28 @@ enum DeleteNetworkAnalyzerConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DeleteQueuedMessagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let wirelessDeviceType = wirelessDeviceType {
-                let wirelessDeviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
-                items.append(wirelessDeviceTypeQueryItem)
-            }
-            guard let messageId = messageId else {
-                let message = "Creating a URL Query Item failed. messageId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let messageIdQueryItem = ClientRuntime.URLQueryItem(name: "messageId".urlPercentEncoding(), value: Swift.String(messageId).urlPercentEncoding())
-            items.append(messageIdQueryItem)
-            return items
+extension DeleteQueuedMessagesInput {
+
+    static func queryItemProvider(_ value: DeleteQueuedMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let wirelessDeviceType = value.wirelessDeviceType {
+            let wirelessDeviceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
+            items.append(wirelessDeviceTypeQueryItem)
         }
+        guard let messageId = value.messageId else {
+            let message = "Creating a URL Query Item failed. messageId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let messageIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageId".urlPercentEncoding(), value: Swift.String(messageId).urlPercentEncoding())
+        items.append(messageIdQueryItem)
+        return items
     }
 }
 
-extension DeleteQueuedMessagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteQueuedMessagesInput {
+
+    static func urlPathProvider(_ value: DeleteQueuedMessagesInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())/data"
@@ -4055,9 +4078,10 @@ enum DeleteQueuedMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteServiceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteServiceProfileInput {
+
+    static func urlPathProvider(_ value: DeleteServiceProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/service-profiles/\(id.urlPercentEncoding())"
@@ -4112,9 +4136,10 @@ enum DeleteServiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWirelessDeviceImportTaskInput {
+
+    static func urlPathProvider(_ value: DeleteWirelessDeviceImportTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless_device_import_task/\(id.urlPercentEncoding())"
@@ -4169,9 +4194,10 @@ enum DeleteWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DeleteWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: DeleteWirelessDeviceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())"
@@ -4225,9 +4251,10 @@ enum DeleteWirelessDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteWirelessGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWirelessGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteWirelessGatewayInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())"
@@ -4281,9 +4308,10 @@ enum DeleteWirelessGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteWirelessGatewayTaskDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWirelessGatewayTaskDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteWirelessGatewayTaskDefinitionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateway-task-definitions/\(id.urlPercentEncoding())"
@@ -4337,9 +4365,10 @@ enum DeleteWirelessGatewayTaskDefinitionOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension DeleteWirelessGatewayTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWirelessGatewayTaskInput {
+
+    static func urlPathProvider(_ value: DeleteWirelessGatewayTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/tasks"
@@ -4393,22 +4422,22 @@ enum DeleteWirelessGatewayTaskOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeregisterWirelessDeviceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let wirelessDeviceType = wirelessDeviceType {
-                let wirelessDeviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
-                items.append(wirelessDeviceTypeQueryItem)
-            }
-            return items
+extension DeregisterWirelessDeviceInput {
+
+    static func queryItemProvider(_ value: DeregisterWirelessDeviceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let wirelessDeviceType = value.wirelessDeviceType {
+            let wirelessDeviceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
+            items.append(wirelessDeviceTypeQueryItem)
         }
+        return items
     }
 }
 
-extension DeregisterWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension DeregisterWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: DeregisterWirelessDeviceInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/wireless-devices/\(identifier.urlPercentEncoding())/deregister"
@@ -4756,24 +4785,24 @@ extension IoTWirelessClientTypes {
     }
 }
 
-extension DisassociateAwsAccountFromPartnerAccountInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let partnerType = partnerType else {
-                let message = "Creating a URL Query Item failed. partnerType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let partnerTypeQueryItem = ClientRuntime.URLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
-            items.append(partnerTypeQueryItem)
-            return items
+extension DisassociateAwsAccountFromPartnerAccountInput {
+
+    static func queryItemProvider(_ value: DisassociateAwsAccountFromPartnerAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let partnerType = value.partnerType else {
+            let message = "Creating a URL Query Item failed. partnerType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let partnerTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
+        items.append(partnerTypeQueryItem)
+        return items
     }
 }
 
-extension DisassociateAwsAccountFromPartnerAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let partnerAccountId = partnerAccountId else {
+extension DisassociateAwsAccountFromPartnerAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateAwsAccountFromPartnerAccountInput) -> Swift.String? {
+        guard let partnerAccountId = value.partnerAccountId else {
             return nil
         }
         return "/partner-accounts/\(partnerAccountId.urlPercentEncoding())"
@@ -4831,12 +4860,13 @@ enum DisassociateAwsAccountFromPartnerAccountOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension DisassociateMulticastGroupFromFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateMulticastGroupFromFuotaTaskInput {
+
+    static func urlPathProvider(_ value: DisassociateMulticastGroupFromFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let multicastGroupId = multicastGroupId else {
+        guard let multicastGroupId = value.multicastGroupId else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())/multicast-groups/\(multicastGroupId.urlPercentEncoding())"
@@ -4895,12 +4925,13 @@ enum DisassociateMulticastGroupFromFuotaTaskOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension DisassociateWirelessDeviceFromFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateWirelessDeviceFromFuotaTaskInput {
+
+    static func urlPathProvider(_ value: DisassociateWirelessDeviceFromFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let wirelessDeviceId = wirelessDeviceId else {
+        guard let wirelessDeviceId = value.wirelessDeviceId else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())/wireless-devices/\(wirelessDeviceId.urlPercentEncoding())"
@@ -4960,12 +4991,13 @@ enum DisassociateWirelessDeviceFromFuotaTaskOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension DisassociateWirelessDeviceFromMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateWirelessDeviceFromMulticastGroupInput {
+
+    static func urlPathProvider(_ value: DisassociateWirelessDeviceFromMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
-        guard let wirelessDeviceId = wirelessDeviceId else {
+        guard let wirelessDeviceId = value.wirelessDeviceId else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/wireless-devices/\(wirelessDeviceId.urlPercentEncoding())"
@@ -5024,9 +5056,10 @@ enum DisassociateWirelessDeviceFromMulticastGroupOutputError: ClientRuntime.Http
     }
 }
 
-extension DisassociateWirelessDeviceFromThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateWirelessDeviceFromThingInput {
+
+    static func urlPathProvider(_ value: DisassociateWirelessDeviceFromThingInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())/thing"
@@ -5081,9 +5114,10 @@ enum DisassociateWirelessDeviceFromThingOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension DisassociateWirelessGatewayFromCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateWirelessGatewayFromCertificateInput {
+
+    static func urlPathProvider(_ value: DisassociateWirelessGatewayFromCertificateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/certificate"
@@ -5137,9 +5171,10 @@ enum DisassociateWirelessGatewayFromCertificateOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension DisassociateWirelessGatewayFromThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DisassociateWirelessGatewayFromThingInput {
+
+    static func urlPathProvider(_ value: DisassociateWirelessGatewayFromThingInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/thing"
@@ -5928,9 +5963,10 @@ extension IoTWirelessClientTypes {
 
 }
 
-extension GetDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetDestinationInput {
+
+    static func urlPathProvider(_ value: GetDestinationInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/destinations/\(name.urlPercentEncoding())"
@@ -6064,9 +6100,10 @@ enum GetDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDeviceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetDeviceProfileInput {
+
+    static func urlPathProvider(_ value: GetDeviceProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/device-profiles/\(id.urlPercentEncoding())"
@@ -6190,8 +6227,9 @@ enum GetDeviceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetEventConfigurationByResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEventConfigurationByResourceTypesInput {
+
+    static func urlPathProvider(_ value: GetEventConfigurationByResourceTypesInput) -> Swift.String? {
         return "/event-configurations-resource-types"
     }
 }
@@ -6303,9 +6341,10 @@ enum GetEventConfigurationByResourceTypesOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension GetFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFuotaTaskInput {
+
+    static func urlPathProvider(_ value: GetFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())"
@@ -6499,8 +6538,9 @@ enum GetFuotaTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLogLevelsByResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLogLevelsByResourceTypesInput {
+
+    static func urlPathProvider(_ value: GetLogLevelsByResourceTypesInput) -> Swift.String? {
         return "/log-levels"
     }
 }
@@ -6612,9 +6652,10 @@ enum GetLogLevelsByResourceTypesOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMulticastGroupInput {
+
+    static func urlPathProvider(_ value: GetMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())"
@@ -6758,9 +6799,10 @@ enum GetMulticastGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMulticastGroupSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMulticastGroupSessionInput {
+
+    static func urlPathProvider(_ value: GetMulticastGroupSessionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/session"
@@ -6844,9 +6886,10 @@ enum GetMulticastGroupSessionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetNetworkAnalyzerConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationName = configurationName else {
+extension GetNetworkAnalyzerConfigurationInput {
+
+    static func urlPathProvider(_ value: GetNetworkAnalyzerConfigurationInput) -> Swift.String? {
+        guard let configurationName = value.configurationName else {
             return nil
         }
         return "/network-analyzer-configurations/\(configurationName.urlPercentEncoding())"
@@ -7017,24 +7060,24 @@ enum GetNetworkAnalyzerConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetPartnerAccountInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let partnerType = partnerType else {
-                let message = "Creating a URL Query Item failed. partnerType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let partnerTypeQueryItem = ClientRuntime.URLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
-            items.append(partnerTypeQueryItem)
-            return items
+extension GetPartnerAccountInput {
+
+    static func queryItemProvider(_ value: GetPartnerAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let partnerType = value.partnerType else {
+            let message = "Creating a URL Query Item failed. partnerType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let partnerTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
+        items.append(partnerTypeQueryItem)
+        return items
     }
 }
 
-extension GetPartnerAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let partnerAccountId = partnerAccountId else {
+extension GetPartnerAccountInput {
+
+    static func urlPathProvider(_ value: GetPartnerAccountInput) -> Swift.String? {
+        guard let partnerAccountId = value.partnerAccountId else {
             return nil
         }
         return "/partner-accounts/\(partnerAccountId.urlPercentEncoding())"
@@ -7132,24 +7175,24 @@ enum GetPartnerAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPositionConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension GetPositionConfigurationInput {
+
+    static func queryItemProvider(_ value: GetPositionConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension GetPositionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension GetPositionConfigurationInput {
+
+    static func urlPathProvider(_ value: GetPositionConfigurationInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/position-configurations/\(resourceIdentifier.urlPercentEncoding())"
@@ -7282,8 +7325,9 @@ extension GetPositionEstimateInput: Swift.Encodable {
     }
 }
 
-extension GetPositionEstimateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPositionEstimateInput {
+
+    static func urlPathProvider(_ value: GetPositionEstimateInput) -> Swift.String? {
         return "/position-estimate"
     }
 }
@@ -7413,24 +7457,24 @@ enum GetPositionEstimateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPositionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension GetPositionInput {
+
+    static func queryItemProvider(_ value: GetPositionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension GetPositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension GetPositionInput {
+
+    static func urlPathProvider(_ value: GetPositionInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/positions/\(resourceIdentifier.urlPercentEncoding())"
@@ -7580,28 +7624,28 @@ enum GetPositionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResourceEventConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let partnerType = partnerType {
-                let partnerTypeQueryItem = ClientRuntime.URLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
-                items.append(partnerTypeQueryItem)
-            }
-            guard let identifierType = identifierType else {
-                let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let identifierTypeQueryItem = ClientRuntime.URLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
-            items.append(identifierTypeQueryItem)
-            return items
+extension GetResourceEventConfigurationInput {
+
+    static func queryItemProvider(_ value: GetResourceEventConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let partnerType = value.partnerType {
+            let partnerTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
+            items.append(partnerTypeQueryItem)
         }
+        guard let identifierType = value.identifierType else {
+            let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let identifierTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
+        items.append(identifierTypeQueryItem)
+        return items
     }
 }
 
-extension GetResourceEventConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetResourceEventConfigurationInput {
+
+    static func urlPathProvider(_ value: GetResourceEventConfigurationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/event-configurations/\(identifier.urlPercentEncoding())"
@@ -7734,24 +7778,24 @@ enum GetResourceEventConfigurationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetResourceLogLevelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension GetResourceLogLevelInput {
+
+    static func queryItemProvider(_ value: GetResourceLogLevelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension GetResourceLogLevelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension GetResourceLogLevelInput {
+
+    static func urlPathProvider(_ value: GetResourceLogLevelInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/log-levels/\(resourceIdentifier.urlPercentEncoding())"
@@ -7840,24 +7884,24 @@ enum GetResourceLogLevelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResourcePositionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension GetResourcePositionInput {
+
+    static func queryItemProvider(_ value: GetResourcePositionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension GetResourcePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension GetResourcePositionInput {
+
+    static func urlPathProvider(_ value: GetResourcePositionInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/resource-positions/\(resourceIdentifier.urlPercentEncoding())"
@@ -7947,21 +7991,21 @@ enum GetResourcePositionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetServiceEndpointInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let serviceType = serviceType {
-                let serviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "serviceType".urlPercentEncoding(), value: Swift.String(serviceType.rawValue).urlPercentEncoding())
-                items.append(serviceTypeQueryItem)
-            }
-            return items
+extension GetServiceEndpointInput {
+
+    static func queryItemProvider(_ value: GetServiceEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let serviceType = value.serviceType {
+            let serviceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "serviceType".urlPercentEncoding(), value: Swift.String(serviceType.rawValue).urlPercentEncoding())
+            items.append(serviceTypeQueryItem)
         }
+        return items
     }
 }
 
-extension GetServiceEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceEndpointInput {
+
+    static func urlPathProvider(_ value: GetServiceEndpointInput) -> Swift.String? {
         return "/service-endpoint"
     }
 }
@@ -8061,9 +8105,10 @@ enum GetServiceEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetServiceProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetServiceProfileInput {
+
+    static func urlPathProvider(_ value: GetServiceProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/service-profiles/\(id.urlPercentEncoding())"
@@ -8177,9 +8222,10 @@ enum GetServiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWirelessDeviceImportTaskInput {
+
+    static func urlPathProvider(_ value: GetWirelessDeviceImportTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless_device_import_task/\(id.urlPercentEncoding())"
@@ -8364,24 +8410,24 @@ enum GetWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetWirelessDeviceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let identifierType = identifierType else {
-                let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let identifierTypeQueryItem = ClientRuntime.URLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
-            items.append(identifierTypeQueryItem)
-            return items
+extension GetWirelessDeviceInput {
+
+    static func queryItemProvider(_ value: GetWirelessDeviceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let identifierType = value.identifierType else {
+            let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let identifierTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
+        items.append(identifierTypeQueryItem)
+        return items
     }
 }
 
-extension GetWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: GetWirelessDeviceInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/wireless-devices/\(identifier.urlPercentEncoding())"
@@ -8570,9 +8616,10 @@ enum GetWirelessDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWirelessDeviceStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let wirelessDeviceId = wirelessDeviceId else {
+extension GetWirelessDeviceStatisticsInput {
+
+    static func urlPathProvider(_ value: GetWirelessDeviceStatisticsInput) -> Swift.String? {
+        guard let wirelessDeviceId = value.wirelessDeviceId else {
             return nil
         }
         return "/wireless-devices/\(wirelessDeviceId.urlPercentEncoding())/statistics"
@@ -8686,9 +8733,10 @@ enum GetWirelessDeviceStatisticsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetWirelessGatewayCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWirelessGatewayCertificateInput {
+
+    static func urlPathProvider(_ value: GetWirelessGatewayCertificateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/certificate"
@@ -8782,9 +8830,10 @@ enum GetWirelessGatewayCertificateOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetWirelessGatewayFirmwareInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWirelessGatewayFirmwareInformationInput {
+
+    static func urlPathProvider(_ value: GetWirelessGatewayFirmwareInformationInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/firmware-information"
@@ -8868,24 +8917,24 @@ enum GetWirelessGatewayFirmwareInformationOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetWirelessGatewayInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let identifierType = identifierType else {
-                let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let identifierTypeQueryItem = ClientRuntime.URLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
-            items.append(identifierTypeQueryItem)
-            return items
+extension GetWirelessGatewayInput {
+
+    static func queryItemProvider(_ value: GetWirelessGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let identifierType = value.identifierType else {
+            let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let identifierTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
+        items.append(identifierTypeQueryItem)
+        return items
     }
 }
 
-extension GetWirelessGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetWirelessGatewayInput {
+
+    static func urlPathProvider(_ value: GetWirelessGatewayInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/wireless-gateways/\(identifier.urlPercentEncoding())"
@@ -9034,9 +9083,10 @@ enum GetWirelessGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWirelessGatewayStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let wirelessGatewayId = wirelessGatewayId else {
+extension GetWirelessGatewayStatisticsInput {
+
+    static func urlPathProvider(_ value: GetWirelessGatewayStatisticsInput) -> Swift.String? {
+        guard let wirelessGatewayId = value.wirelessGatewayId else {
             return nil
         }
         return "/wireless-gateways/\(wirelessGatewayId.urlPercentEncoding())/statistics"
@@ -9140,9 +9190,10 @@ enum GetWirelessGatewayStatisticsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetWirelessGatewayTaskDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWirelessGatewayTaskDefinitionInput {
+
+    static func urlPathProvider(_ value: GetWirelessGatewayTaskDefinitionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateway-task-definitions/\(id.urlPercentEncoding())"
@@ -9256,9 +9307,10 @@ enum GetWirelessGatewayTaskDefinitionOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetWirelessGatewayTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWirelessGatewayTaskInput {
+
+    static func urlPathProvider(_ value: GetWirelessGatewayTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())/tasks"
@@ -10002,6 +10054,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTWirelessClientTypes {}
+
 extension IoTWirelessClientTypes.Ip: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipAddress = "IpAddress"
@@ -10118,25 +10172,25 @@ extension IoTWirelessClientTypes {
 
 }
 
-extension ListDestinationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDestinationsInput {
+
+    static func queryItemProvider(_ value: ListDestinationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDestinationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDestinationsInput {
+
+    static func urlPathProvider(_ value: ListDestinationsInput) -> Swift.String? {
         return "/destinations"
     }
 }
@@ -10239,29 +10293,29 @@ enum ListDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDeviceProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let deviceProfileType = deviceProfileType {
-                let deviceProfileTypeQueryItem = ClientRuntime.URLQueryItem(name: "deviceProfileType".urlPercentEncoding(), value: Swift.String(deviceProfileType.rawValue).urlPercentEncoding())
-                items.append(deviceProfileTypeQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDeviceProfilesInput {
+
+    static func queryItemProvider(_ value: ListDeviceProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let deviceProfileType = value.deviceProfileType {
+            let deviceProfileTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "deviceProfileType".urlPercentEncoding(), value: Swift.String(deviceProfileType.rawValue).urlPercentEncoding())
+            items.append(deviceProfileTypeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDeviceProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeviceProfilesInput {
+
+    static func urlPathProvider(_ value: ListDeviceProfilesInput) -> Swift.String? {
         return "/device-profiles"
     }
 }
@@ -10368,35 +10422,35 @@ enum ListDeviceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDevicesForWirelessDeviceImportTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension ListDevicesForWirelessDeviceImportTaskInput {
+
+    static func queryItemProvider(_ value: ListDevicesForWirelessDeviceImportTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension ListDevicesForWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDevicesForWirelessDeviceImportTaskInput {
+
+    static func urlPathProvider(_ value: ListDevicesForWirelessDeviceImportTaskInput) -> Swift.String? {
         return "/wireless_device_import_task"
     }
 }
@@ -10520,31 +10574,31 @@ enum ListDevicesForWirelessDeviceImportTaskOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension ListEventConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension ListEventConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListEventConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension ListEventConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListEventConfigurationsInput) -> Swift.String? {
         return "/event-configurations"
     }
 }
@@ -10652,25 +10706,25 @@ enum ListEventConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListFuotaTasksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFuotaTasksInput {
+
+    static func queryItemProvider(_ value: ListFuotaTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFuotaTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFuotaTasksInput {
+
+    static func urlPathProvider(_ value: ListFuotaTasksInput) -> Swift.String? {
         return "/fuota-tasks"
     }
 }
@@ -10773,26 +10827,26 @@ enum ListFuotaTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMulticastGroupsByFuotaTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMulticastGroupsByFuotaTaskInput {
+
+    static func queryItemProvider(_ value: ListMulticastGroupsByFuotaTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMulticastGroupsByFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ListMulticastGroupsByFuotaTaskInput {
+
+    static func urlPathProvider(_ value: ListMulticastGroupsByFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())/multicast-groups"
@@ -10903,25 +10957,25 @@ enum ListMulticastGroupsByFuotaTaskOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListMulticastGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMulticastGroupsInput {
+
+    static func queryItemProvider(_ value: ListMulticastGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMulticastGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMulticastGroupsInput {
+
+    static func urlPathProvider(_ value: ListMulticastGroupsInput) -> Swift.String? {
         return "/multicast-groups"
     }
 }
@@ -11024,25 +11078,25 @@ enum ListMulticastGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListNetworkAnalyzerConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListNetworkAnalyzerConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListNetworkAnalyzerConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNetworkAnalyzerConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNetworkAnalyzerConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListNetworkAnalyzerConfigurationsInput) -> Swift.String? {
         return "/network-analyzer-configurations"
     }
 }
@@ -11145,25 +11199,25 @@ enum ListNetworkAnalyzerConfigurationsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListPartnerAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPartnerAccountsInput {
+
+    static func queryItemProvider(_ value: ListPartnerAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPartnerAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPartnerAccountsInput {
+
+    static func urlPathProvider(_ value: ListPartnerAccountsInput) -> Swift.String? {
         return "/partner-accounts"
     }
 }
@@ -11266,29 +11320,29 @@ enum ListPartnerAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPositionConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let resourceType = resourceType {
-                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-                items.append(resourceTypeQueryItem)
-            }
-            return items
+extension ListPositionConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListPositionConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPositionConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPositionConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListPositionConfigurationsInput) -> Swift.String? {
         return "/position-configurations"
     }
 }
@@ -11397,30 +11451,30 @@ enum ListPositionConfigurationsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListQueuedMessagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let wirelessDeviceType = wirelessDeviceType {
-                let wirelessDeviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
-                items.append(wirelessDeviceTypeQueryItem)
-            }
-            return items
+extension ListQueuedMessagesInput {
+
+    static func queryItemProvider(_ value: ListQueuedMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let wirelessDeviceType = value.wirelessDeviceType {
+            let wirelessDeviceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
+            items.append(wirelessDeviceTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListQueuedMessagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ListQueuedMessagesInput {
+
+    static func urlPathProvider(_ value: ListQueuedMessagesInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())/data"
@@ -11535,25 +11589,25 @@ enum ListQueuedMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListServiceProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListServiceProfilesInput {
+
+    static func queryItemProvider(_ value: ListServiceProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListServiceProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceProfilesInput {
+
+    static func urlPathProvider(_ value: ListServiceProfilesInput) -> Swift.String? {
         return "/service-profiles"
     }
 }
@@ -11656,23 +11710,23 @@ enum ListServiceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -11763,25 +11817,25 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListWirelessDeviceImportTasksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListWirelessDeviceImportTasksInput {
+
+    static func queryItemProvider(_ value: ListWirelessDeviceImportTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWirelessDeviceImportTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWirelessDeviceImportTasksInput {
+
+    static func urlPathProvider(_ value: ListWirelessDeviceImportTasksInput) -> Swift.String? {
         return "/wireless_device_import_tasks"
     }
 }
@@ -11886,49 +11940,49 @@ enum ListWirelessDeviceImportTasksOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListWirelessDevicesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let fuotaTaskId = fuotaTaskId {
-                let fuotaTaskIdQueryItem = ClientRuntime.URLQueryItem(name: "fuotaTaskId".urlPercentEncoding(), value: Swift.String(fuotaTaskId).urlPercentEncoding())
-                items.append(fuotaTaskIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let deviceProfileId = deviceProfileId {
-                let deviceProfileIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceProfileId".urlPercentEncoding(), value: Swift.String(deviceProfileId).urlPercentEncoding())
-                items.append(deviceProfileIdQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let multicastGroupId = multicastGroupId {
-                let multicastGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "multicastGroupId".urlPercentEncoding(), value: Swift.String(multicastGroupId).urlPercentEncoding())
-                items.append(multicastGroupIdQueryItem)
-            }
-            if let destinationName = destinationName {
-                let destinationNameQueryItem = ClientRuntime.URLQueryItem(name: "destinationName".urlPercentEncoding(), value: Swift.String(destinationName).urlPercentEncoding())
-                items.append(destinationNameQueryItem)
-            }
-            if let wirelessDeviceType = wirelessDeviceType {
-                let wirelessDeviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "wirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
-                items.append(wirelessDeviceTypeQueryItem)
-            }
-            if let serviceProfileId = serviceProfileId {
-                let serviceProfileIdQueryItem = ClientRuntime.URLQueryItem(name: "serviceProfileId".urlPercentEncoding(), value: Swift.String(serviceProfileId).urlPercentEncoding())
-                items.append(serviceProfileIdQueryItem)
-            }
-            return items
+extension ListWirelessDevicesInput {
+
+    static func queryItemProvider(_ value: ListWirelessDevicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let fuotaTaskId = value.fuotaTaskId {
+            let fuotaTaskIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "fuotaTaskId".urlPercentEncoding(), value: Swift.String(fuotaTaskId).urlPercentEncoding())
+            items.append(fuotaTaskIdQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let deviceProfileId = value.deviceProfileId {
+            let deviceProfileIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "deviceProfileId".urlPercentEncoding(), value: Swift.String(deviceProfileId).urlPercentEncoding())
+            items.append(deviceProfileIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let multicastGroupId = value.multicastGroupId {
+            let multicastGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "multicastGroupId".urlPercentEncoding(), value: Swift.String(multicastGroupId).urlPercentEncoding())
+            items.append(multicastGroupIdQueryItem)
+        }
+        if let destinationName = value.destinationName {
+            let destinationNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "destinationName".urlPercentEncoding(), value: Swift.String(destinationName).urlPercentEncoding())
+            items.append(destinationNameQueryItem)
+        }
+        if let wirelessDeviceType = value.wirelessDeviceType {
+            let wirelessDeviceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "wirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
+            items.append(wirelessDeviceTypeQueryItem)
+        }
+        if let serviceProfileId = value.serviceProfileId {
+            let serviceProfileIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "serviceProfileId".urlPercentEncoding(), value: Swift.String(serviceProfileId).urlPercentEncoding())
+            items.append(serviceProfileIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWirelessDevicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWirelessDevicesInput {
+
+    static func urlPathProvider(_ value: ListWirelessDevicesInput) -> Swift.String? {
         return "/wireless-devices"
     }
 }
@@ -12055,29 +12109,29 @@ enum ListWirelessDevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListWirelessGatewayTaskDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let taskDefinitionType = taskDefinitionType {
-                let taskDefinitionTypeQueryItem = ClientRuntime.URLQueryItem(name: "taskDefinitionType".urlPercentEncoding(), value: Swift.String(taskDefinitionType.rawValue).urlPercentEncoding())
-                items.append(taskDefinitionTypeQueryItem)
-            }
-            return items
+extension ListWirelessGatewayTaskDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListWirelessGatewayTaskDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let taskDefinitionType = value.taskDefinitionType {
+            let taskDefinitionTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "taskDefinitionType".urlPercentEncoding(), value: Swift.String(taskDefinitionType.rawValue).urlPercentEncoding())
+            items.append(taskDefinitionTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWirelessGatewayTaskDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWirelessGatewayTaskDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListWirelessGatewayTaskDefinitionsInput) -> Swift.String? {
         return "/wireless-gateway-task-definitions"
     }
 }
@@ -12184,25 +12238,25 @@ enum ListWirelessGatewayTaskDefinitionsOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListWirelessGatewaysInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListWirelessGatewaysInput {
+
+    static func queryItemProvider(_ value: ListWirelessGatewaysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWirelessGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWirelessGatewaysInput {
+
+    static func urlPathProvider(_ value: ListWirelessGatewaysInput) -> Swift.String? {
         return "/wireless-gateways"
     }
 }
@@ -15405,24 +15459,24 @@ extension PutPositionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutPositionConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension PutPositionConfigurationInput {
+
+    static func queryItemProvider(_ value: PutPositionConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension PutPositionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension PutPositionConfigurationInput {
+
+    static func urlPathProvider(_ value: PutPositionConfigurationInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/position-configurations/\(resourceIdentifier.urlPercentEncoding())"
@@ -15515,24 +15569,24 @@ extension PutResourceLogLevelInput: Swift.Encodable {
     }
 }
 
-extension PutResourceLogLevelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension PutResourceLogLevelInput {
+
+    static func queryItemProvider(_ value: PutResourceLogLevelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension PutResourceLogLevelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension PutResourceLogLevelInput {
+
+    static func urlPathProvider(_ value: PutResourceLogLevelInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/log-levels/\(resourceIdentifier.urlPercentEncoding())"
@@ -15603,8 +15657,9 @@ enum PutResourceLogLevelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ResetAllResourceLogLevelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetAllResourceLogLevelsInput {
+
+    static func urlPathProvider(_ value: ResetAllResourceLogLevelsInput) -> Swift.String? {
         return "/log-levels"
     }
 }
@@ -15648,24 +15703,24 @@ enum ResetAllResourceLogLevelsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ResetResourceLogLevelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension ResetResourceLogLevelInput {
+
+    static func queryItemProvider(_ value: ResetResourceLogLevelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension ResetResourceLogLevelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension ResetResourceLogLevelInput {
+
+    static func urlPathProvider(_ value: ResetResourceLogLevelInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/log-levels/\(resourceIdentifier.urlPercentEncoding())"
@@ -15928,9 +15983,10 @@ extension SendDataToMulticastGroupInput: Swift.Encodable {
     }
 }
 
-extension SendDataToMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension SendDataToMulticastGroupInput {
+
+    static func urlPathProvider(_ value: SendDataToMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/data"
@@ -16057,9 +16113,10 @@ extension SendDataToWirelessDeviceInput: Swift.Encodable {
     }
 }
 
-extension SendDataToWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension SendDataToWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: SendDataToWirelessDeviceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())/data"
@@ -17254,9 +17311,10 @@ extension StartBulkAssociateWirelessDeviceWithMulticastGroupInput: Swift.Encodab
     }
 }
 
-extension StartBulkAssociateWirelessDeviceWithMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StartBulkAssociateWirelessDeviceWithMulticastGroupInput {
+
+    static func urlPathProvider(_ value: StartBulkAssociateWirelessDeviceWithMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/bulk"
@@ -17358,9 +17416,10 @@ extension StartBulkDisassociateWirelessDeviceFromMulticastGroupInput: Swift.Enco
     }
 }
 
-extension StartBulkDisassociateWirelessDeviceFromMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StartBulkDisassociateWirelessDeviceFromMulticastGroupInput {
+
+    static func urlPathProvider(_ value: StartBulkDisassociateWirelessDeviceFromMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/bulk"
@@ -17455,9 +17514,10 @@ extension StartFuotaTaskInput: Swift.Encodable {
     }
 }
 
-extension StartFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StartFuotaTaskInput {
+
+    static func urlPathProvider(_ value: StartFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())"
@@ -17536,9 +17596,10 @@ extension StartMulticastGroupSessionInput: Swift.Encodable {
     }
 }
 
-extension StartMulticastGroupSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StartMulticastGroupSessionInput {
+
+    static func urlPathProvider(_ value: StartMulticastGroupSessionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())/session"
@@ -17637,8 +17698,9 @@ extension StartSingleWirelessDeviceImportTaskInput: Swift.Encodable {
     }
 }
 
-extension StartSingleWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSingleWirelessDeviceImportTaskInput {
+
+    static func urlPathProvider(_ value: StartSingleWirelessDeviceImportTaskInput) -> Swift.String? {
         return "/wireless_single_device_import_task"
     }
 }
@@ -17808,8 +17870,9 @@ extension StartWirelessDeviceImportTaskInput: Swift.Encodable {
     }
 }
 
-extension StartWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartWirelessDeviceImportTaskInput {
+
+    static func urlPathProvider(_ value: StartWirelessDeviceImportTaskInput) -> Swift.String? {
         return "/wireless_device_import_task"
     }
 }
@@ -18072,23 +18135,23 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -18416,9 +18479,10 @@ extension IoTWirelessClientTypes {
 
 }
 
-extension TestWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension TestWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: TestWirelessDeviceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())/test"
@@ -18676,31 +18740,31 @@ extension IoTWirelessClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -18852,9 +18916,10 @@ extension UpdateDestinationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateDestinationInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/destinations/\(name.urlPercentEncoding())"
@@ -18972,8 +19037,9 @@ extension UpdateEventConfigurationByResourceTypesInput: Swift.Encodable {
     }
 }
 
-extension UpdateEventConfigurationByResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEventConfigurationByResourceTypesInput {
+
+    static func urlPathProvider(_ value: UpdateEventConfigurationByResourceTypesInput) -> Swift.String? {
         return "/event-configurations-resource-types"
     }
 }
@@ -19160,9 +19226,10 @@ extension UpdateFuotaTaskInput: Swift.Encodable {
     }
 }
 
-extension UpdateFuotaTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateFuotaTaskInput {
+
+    static func urlPathProvider(_ value: UpdateFuotaTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/fuota-tasks/\(id.urlPercentEncoding())"
@@ -19311,8 +19378,9 @@ extension UpdateLogLevelsByResourceTypesInput: Swift.Encodable {
     }
 }
 
-extension UpdateLogLevelsByResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLogLevelsByResourceTypesInput {
+
+    static func urlPathProvider(_ value: UpdateLogLevelsByResourceTypesInput) -> Swift.String? {
         return "/log-levels"
     }
 }
@@ -19426,9 +19494,10 @@ extension UpdateMulticastGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateMulticastGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateMulticastGroupInput {
+
+    static func urlPathProvider(_ value: UpdateMulticastGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/multicast-groups/\(id.urlPercentEncoding())"
@@ -19569,9 +19638,10 @@ extension UpdateNetworkAnalyzerConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateNetworkAnalyzerConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationName = configurationName else {
+extension UpdateNetworkAnalyzerConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateNetworkAnalyzerConfigurationInput) -> Swift.String? {
+        guard let configurationName = value.configurationName else {
             return nil
         }
         return "/network-analyzer-configurations/\(configurationName.urlPercentEncoding())"
@@ -19759,24 +19829,24 @@ extension UpdatePartnerAccountInput: Swift.Encodable {
     }
 }
 
-extension UpdatePartnerAccountInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let partnerType = partnerType else {
-                let message = "Creating a URL Query Item failed. partnerType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let partnerTypeQueryItem = ClientRuntime.URLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
-            items.append(partnerTypeQueryItem)
-            return items
+extension UpdatePartnerAccountInput {
+
+    static func queryItemProvider(_ value: UpdatePartnerAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let partnerType = value.partnerType else {
+            let message = "Creating a URL Query Item failed. partnerType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let partnerTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
+        items.append(partnerTypeQueryItem)
+        return items
     }
 }
 
-extension UpdatePartnerAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let partnerAccountId = partnerAccountId else {
+extension UpdatePartnerAccountInput {
+
+    static func urlPathProvider(_ value: UpdatePartnerAccountInput) -> Swift.String? {
+        guard let partnerAccountId = value.partnerAccountId else {
             return nil
         }
         return "/partner-accounts/\(partnerAccountId.urlPercentEncoding())"
@@ -19862,24 +19932,24 @@ extension UpdatePositionInput: Swift.Encodable {
     }
 }
 
-extension UpdatePositionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension UpdatePositionInput {
+
+    static func queryItemProvider(_ value: UpdatePositionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension UpdatePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension UpdatePositionInput {
+
+    static func urlPathProvider(_ value: UpdatePositionInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/positions/\(resourceIdentifier.urlPercentEncoding())"
@@ -19990,28 +20060,28 @@ extension UpdateResourceEventConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceEventConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let partnerType = partnerType {
-                let partnerTypeQueryItem = ClientRuntime.URLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
-                items.append(partnerTypeQueryItem)
-            }
-            guard let identifierType = identifierType else {
-                let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let identifierTypeQueryItem = ClientRuntime.URLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
-            items.append(identifierTypeQueryItem)
-            return items
+extension UpdateResourceEventConfigurationInput {
+
+    static func queryItemProvider(_ value: UpdateResourceEventConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let partnerType = value.partnerType {
+            let partnerTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "partnerType".urlPercentEncoding(), value: Swift.String(partnerType.rawValue).urlPercentEncoding())
+            items.append(partnerTypeQueryItem)
         }
+        guard let identifierType = value.identifierType else {
+            let message = "Creating a URL Query Item failed. identifierType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let identifierTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "identifierType".urlPercentEncoding(), value: Swift.String(identifierType.rawValue).urlPercentEncoding())
+        items.append(identifierTypeQueryItem)
+        return items
     }
 }
 
-extension UpdateResourceEventConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UpdateResourceEventConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateResourceEventConfigurationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/event-configurations/\(identifier.urlPercentEncoding())"
@@ -20131,24 +20201,24 @@ extension UpdateResourcePositionInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourcePositionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceType = resourceType else {
-                let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
-            items.append(resourceTypeQueryItem)
-            return items
+extension UpdateResourcePositionInput {
+
+    static func queryItemProvider(_ value: UpdateResourcePositionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
     }
 }
 
-extension UpdateResourcePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceIdentifier = resourceIdentifier else {
+extension UpdateResourcePositionInput {
+
+    static func urlPathProvider(_ value: UpdateResourcePositionInput) -> Swift.String? {
+        guard let resourceIdentifier = value.resourceIdentifier else {
             return nil
         }
         return "/resource-positions/\(resourceIdentifier.urlPercentEncoding())"
@@ -20231,9 +20301,10 @@ extension UpdateWirelessDeviceImportTaskInput: Swift.Encodable {
     }
 }
 
-extension UpdateWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateWirelessDeviceImportTaskInput {
+
+    static func urlPathProvider(_ value: UpdateWirelessDeviceImportTaskInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless_device_import_task/\(id.urlPercentEncoding())"
@@ -20329,9 +20400,10 @@ extension UpdateWirelessDeviceInput: Swift.Encodable {
     }
 }
 
-extension UpdateWirelessDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateWirelessDeviceInput {
+
+    static func urlPathProvider(_ value: UpdateWirelessDeviceInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-devices/\(id.urlPercentEncoding())"
@@ -20466,9 +20538,10 @@ extension UpdateWirelessGatewayInput: Swift.Encodable {
     }
 }
 
-extension UpdateWirelessGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateWirelessGatewayInput {
+
+    static func urlPathProvider(_ value: UpdateWirelessGatewayInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/wireless-gateways/\(id.urlPercentEncoding())"

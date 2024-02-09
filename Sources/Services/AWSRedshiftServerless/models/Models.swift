@@ -159,11 +159,7 @@ extension RedshiftServerlessClientTypes.ConfigParameter: Swift.Codable {
 extension RedshiftServerlessClientTypes {
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
     public struct ConfigParameter: Swift.Equatable {
-<<<<<<< HEAD
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
-=======
         /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
->>>>>>> temp-main
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
         public var parameterValue: Swift.String?
@@ -264,8 +260,9 @@ extension ConvertRecoveryPointToSnapshotInput: Swift.Encodable {
     }
 }
 
-extension ConvertRecoveryPointToSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConvertRecoveryPointToSnapshotInput {
+
+    static func urlPathProvider(_ value: ConvertRecoveryPointToSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -410,8 +407,9 @@ extension CreateCustomDomainAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomDomainAssociationInput {
+
+    static func urlPathProvider(_ value: CreateCustomDomainAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -584,8 +582,9 @@ extension CreateEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension CreateEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEndpointAccessInput {
+
+    static func urlPathProvider(_ value: CreateEndpointAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -798,8 +797,9 @@ extension CreateNamespaceInput: Swift.Encodable {
     }
 }
 
-extension CreateNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNamespaceInput {
+
+    static func urlPathProvider(_ value: CreateNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1047,8 +1047,9 @@ extension CreateScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension CreateScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateScheduledActionInput {
+
+    static func urlPathProvider(_ value: CreateScheduledActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1229,8 +1230,9 @@ extension CreateSnapshotCopyConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotCopyConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotCopyConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotCopyConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1374,8 +1376,9 @@ extension CreateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1607,8 +1610,9 @@ extension CreateUsageLimitInput: Swift.Encodable {
     }
 }
 
-extension CreateUsageLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUsageLimitInput {
+
+    static func urlPathProvider(_ value: CreateUsageLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1796,8 +1800,9 @@ extension CreateWorkgroupInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkgroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkgroupInput {
+
+    static func urlPathProvider(_ value: CreateWorkgroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1805,11 +1810,7 @@ extension CreateWorkgroupInput: ClientRuntime.URLPathProvider {
 public struct CreateWorkgroupInput: Swift.Equatable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-<<<<<<< HEAD
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
-=======
     /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
->>>>>>> temp-main
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     public var enhancedVpcRouting: Swift.Bool?
@@ -2025,8 +2026,9 @@ extension DeleteCustomDomainAssociationInput: Swift.Encodable {
     }
 }
 
-extension DeleteCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCustomDomainAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteCustomDomainAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2108,8 +2110,9 @@ extension DeleteEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension DeleteEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEndpointAccessInput {
+
+    static func urlPathProvider(_ value: DeleteEndpointAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2218,8 +2221,9 @@ extension DeleteNamespaceInput: Swift.Encodable {
     }
 }
 
-extension DeleteNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteNamespaceInput {
+
+    static func urlPathProvider(_ value: DeleteNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2337,8 +2341,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2408,8 +2413,9 @@ extension DeleteScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension DeleteScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScheduledActionInput {
+
+    static func urlPathProvider(_ value: DeleteScheduledActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2509,8 +2515,9 @@ extension DeleteSnapshotCopyConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteSnapshotCopyConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSnapshotCopyConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteSnapshotCopyConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2613,8 +2620,9 @@ extension DeleteSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeleteSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2715,8 +2723,9 @@ extension DeleteUsageLimitInput: Swift.Encodable {
     }
 }
 
-extension DeleteUsageLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteUsageLimitInput {
+
+    static func urlPathProvider(_ value: DeleteUsageLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2817,8 +2826,9 @@ extension DeleteWorkgroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteWorkgroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorkgroupInput {
+
+    static func urlPathProvider(_ value: DeleteWorkgroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3148,8 +3158,9 @@ extension GetCredentialsInput: Swift.Encodable {
     }
 }
 
-extension GetCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCredentialsInput {
+
+    static func urlPathProvider(_ value: GetCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3321,8 +3332,9 @@ extension GetCustomDomainAssociationInput: Swift.Encodable {
     }
 }
 
-extension GetCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCustomDomainAssociationInput {
+
+    static func urlPathProvider(_ value: GetCustomDomainAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3464,8 +3476,9 @@ extension GetEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension GetEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEndpointAccessInput {
+
+    static func urlPathProvider(_ value: GetEndpointAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3566,8 +3579,9 @@ extension GetNamespaceInput: Swift.Encodable {
     }
 }
 
-extension GetNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetNamespaceInput {
+
+    static func urlPathProvider(_ value: GetNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3668,8 +3682,9 @@ extension GetRecoveryPointInput: Swift.Encodable {
     }
 }
 
-extension GetRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecoveryPointInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3770,8 +3785,9 @@ extension GetResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3871,8 +3887,9 @@ extension GetScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension GetScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetScheduledActionInput {
+
+    static func urlPathProvider(_ value: GetScheduledActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3980,8 +3997,9 @@ extension GetSnapshotInput: Swift.Encodable {
     }
 }
 
-extension GetSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSnapshotInput {
+
+    static func urlPathProvider(_ value: GetSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4096,8 +4114,9 @@ extension GetTableRestoreStatusInput: Swift.Encodable {
     }
 }
 
-extension GetTableRestoreStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableRestoreStatusInput {
+
+    static func urlPathProvider(_ value: GetTableRestoreStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4196,8 +4215,9 @@ extension GetUsageLimitInput: Swift.Encodable {
     }
 }
 
-extension GetUsageLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUsageLimitInput {
+
+    static func urlPathProvider(_ value: GetUsageLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4298,8 +4318,9 @@ extension GetWorkgroupInput: Swift.Encodable {
     }
 }
 
-extension GetWorkgroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkgroupInput {
+
+    static func urlPathProvider(_ value: GetWorkgroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4572,8 +4593,9 @@ extension ListCustomDomainAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomDomainAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomDomainAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCustomDomainAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4717,8 +4739,9 @@ extension ListEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension ListEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEndpointAccessInput {
+
+    static func urlPathProvider(_ value: ListEndpointAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4857,8 +4880,9 @@ extension ListNamespacesInput: Swift.Encodable {
     }
 }
 
-extension ListNamespacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNamespacesInput {
+
+    static func urlPathProvider(_ value: ListNamespacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4985,8 +5009,9 @@ extension ListRecoveryPointsInput: Swift.Encodable {
     }
 }
 
-extension ListRecoveryPointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecoveryPointsInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5135,8 +5160,9 @@ extension ListScheduledActionsInput: Swift.Encodable {
     }
 }
 
-extension ListScheduledActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListScheduledActionsInput {
+
+    static func urlPathProvider(_ value: ListScheduledActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5263,8 +5289,9 @@ extension ListSnapshotCopyConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListSnapshotCopyConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSnapshotCopyConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListSnapshotCopyConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5409,8 +5436,9 @@ extension ListSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension ListSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSnapshotsInput {
+
+    static func urlPathProvider(_ value: ListSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5572,8 +5600,9 @@ extension ListTableRestoreStatusInput: Swift.Encodable {
     }
 }
 
-extension ListTableRestoreStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTableRestoreStatusInput {
+
+    static func urlPathProvider(_ value: ListTableRestoreStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5707,8 +5736,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5822,8 +5852,9 @@ extension ListUsageLimitsInput: Swift.Encodable {
     }
 }
 
-extension ListUsageLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUsageLimitsInput {
+
+    static func urlPathProvider(_ value: ListUsageLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5959,8 +5990,9 @@ extension ListWorkgroupsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkgroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkgroupsInput {
+
+    static func urlPathProvider(_ value: ListWorkgroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6409,8 +6441,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6593,6 +6626,8 @@ extension RedshiftServerlessClientTypes {
 
 }
 
+public enum RedshiftServerlessClientTypes {}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6725,8 +6760,9 @@ extension RestoreFromRecoveryPointInput: Swift.Encodable {
     }
 }
 
-extension RestoreFromRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreFromRecoveryPointInput {
+
+    static func urlPathProvider(_ value: RestoreFromRecoveryPointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6879,8 +6915,9 @@ extension RestoreFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreFromSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7087,8 +7124,9 @@ extension RestoreTableFromRecoveryPointInput: Swift.Encodable {
     }
 }
 
-extension RestoreTableFromRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreTableFromRecoveryPointInput {
+
+    static func urlPathProvider(_ value: RestoreTableFromRecoveryPointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7302,8 +7340,9 @@ extension RestoreTableFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreTableFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreTableFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreTableFromSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8400,8 +8439,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8664,8 +8704,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8762,8 +8803,9 @@ extension UpdateCustomDomainAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomDomainAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCustomDomainAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateCustomDomainAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8921,8 +8963,9 @@ extension UpdateEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension UpdateEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEndpointAccessInput {
+
+    static func urlPathProvider(_ value: UpdateEndpointAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9084,8 +9127,9 @@ extension UpdateNamespaceInput: Swift.Encodable {
     }
 }
 
-extension UpdateNamespaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNamespaceInput {
+
+    static func urlPathProvider(_ value: UpdateNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9297,8 +9341,9 @@ extension UpdateScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension UpdateScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateScheduledActionInput {
+
+    static func urlPathProvider(_ value: UpdateScheduledActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9459,8 +9504,9 @@ extension UpdateSnapshotCopyConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSnapshotCopyConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSnapshotCopyConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSnapshotCopyConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9575,8 +9621,9 @@ extension UpdateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension UpdateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSnapshotInput {
+
+    static func urlPathProvider(_ value: UpdateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9693,8 +9740,9 @@ extension UpdateUsageLimitInput: Swift.Encodable {
     }
 }
 
-extension UpdateUsageLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateUsageLimitInput {
+
+    static func urlPathProvider(_ value: UpdateUsageLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9852,8 +9900,9 @@ extension UpdateWorkgroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkgroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWorkgroupInput {
+
+    static func urlPathProvider(_ value: UpdateWorkgroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9861,11 +9910,7 @@ extension UpdateWorkgroupInput: ClientRuntime.URLPathProvider {
 public struct UpdateWorkgroupInput: Swift.Equatable {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-<<<<<<< HEAD
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
-=======
     /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
->>>>>>> temp-main
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
@@ -10595,11 +10640,7 @@ extension RedshiftServerlessClientTypes {
     public struct Workgroup: Swift.Equatable {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
-<<<<<<< HEAD
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
-=======
         /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
->>>>>>> temp-main
         public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
         /// The creation date of the workgroup.
         public var creationDate: ClientRuntime.Date?

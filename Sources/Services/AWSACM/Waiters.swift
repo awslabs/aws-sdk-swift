@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ACMClientProtocol {
+extension ACMClient {
 
     static func certificateValidatedWaiterConfig() throws -> WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput> {
         let acceptors: [WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput>.Acceptor] = [

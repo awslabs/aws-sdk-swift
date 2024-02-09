@@ -371,18 +371,20 @@ extension AssociateAccessGrantsIdentityCenterInput {
     }
 }
 
-extension AssociateAccessGrantsIdentityCenterInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AssociateAccessGrantsIdentityCenterInput {
+
+    static func headerProvider(_ value: AssociateAccessGrantsIdentityCenterInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension AssociateAccessGrantsIdentityCenterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateAccessGrantsIdentityCenterInput {
+
+    static func urlPathProvider(_ value: AssociateAccessGrantsIdentityCenterInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/identitycenter"
     }
 }
@@ -1084,18 +1086,20 @@ extension CreateAccessGrantInput {
     }
 }
 
-extension CreateAccessGrantInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateAccessGrantInput {
+
+    static func headerProvider(_ value: CreateAccessGrantInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateAccessGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessGrantInput {
+
+    static func urlPathProvider(_ value: CreateAccessGrantInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/grant"
     }
 }
@@ -1355,18 +1359,20 @@ extension CreateAccessGrantsInstanceInput {
     }
 }
 
-extension CreateAccessGrantsInstanceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateAccessGrantsInstanceInput {
+
+    static func headerProvider(_ value: CreateAccessGrantsInstanceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateAccessGrantsInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessGrantsInstanceInput {
+
+    static func urlPathProvider(_ value: CreateAccessGrantsInstanceInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance"
     }
 }
@@ -1523,18 +1529,20 @@ extension CreateAccessGrantsLocationInput {
     }
 }
 
-extension CreateAccessGrantsLocationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateAccessGrantsLocationInput {
+
+    static func headerProvider(_ value: CreateAccessGrantsLocationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateAccessGrantsLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessGrantsLocationInput {
+
+    static func urlPathProvider(_ value: CreateAccessGrantsLocationInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/location"
     }
 }
@@ -1707,19 +1715,21 @@ extension CreateAccessPointForObjectLambdaInput {
     }
 }
 
-extension CreateAccessPointForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateAccessPointForObjectLambdaInput {
+
+    static func headerProvider(_ value: CreateAccessPointForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateAccessPointForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateAccessPointForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: CreateAccessPointForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())"
@@ -1841,19 +1851,21 @@ extension CreateAccessPointInput {
     }
 }
 
-extension CreateAccessPointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateAccessPointInput {
+
+    static func headerProvider(_ value: CreateAccessPointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateAccessPointInput {
+
+    static func urlPathProvider(_ value: CreateAccessPointInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())"
@@ -2026,40 +2038,42 @@ extension CreateBucketInput {
     }
 }
 
-extension CreateBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateBucketInput {
+
+    static func headerProvider(_ value: CreateBucketInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWrite = grantWrite {
+        if let grantWrite = value.grantWrite {
             items.add(Header(name: "x-amz-grant-write", value: Swift.String(grantWrite)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if let objectLockEnabledForBucket = objectLockEnabledForBucket {
+        if let objectLockEnabledForBucket = value.objectLockEnabledForBucket {
             items.add(Header(name: "x-amz-bucket-object-lock-enabled", value: Swift.String(objectLockEnabledForBucket)))
         }
-        if let outpostId = outpostId {
+        if let outpostId = value.outpostId {
             items.add(Header(name: "x-amz-outpost-id", value: Swift.String(outpostId)))
         }
         return items
     }
 }
 
-extension CreateBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension CreateBucketInput {
+
+    static func urlPathProvider(_ value: CreateBucketInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())"
@@ -2220,18 +2234,20 @@ extension CreateJobInput {
     }
 }
 
-extension CreateJobInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateJobInput {
+
+    static func headerProvider(_ value: CreateJobInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobInput {
+
+    static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
         return "/v20180820/jobs"
     }
 }
@@ -2471,18 +2487,20 @@ extension CreateMultiRegionAccessPointInput {
     }
 }
 
-extension CreateMultiRegionAccessPointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateMultiRegionAccessPointInput {
+
+    static func headerProvider(_ value: CreateMultiRegionAccessPointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateMultiRegionAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMultiRegionAccessPointInput {
+
+    static func urlPathProvider(_ value: CreateMultiRegionAccessPointInput) -> Swift.String? {
         return "/v20180820/async-requests/mrap/create"
     }
 }
@@ -2618,18 +2636,20 @@ extension CreateStorageLensGroupInput {
     }
 }
 
-extension CreateStorageLensGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateStorageLensGroupInput {
+
+    static func headerProvider(_ value: CreateStorageLensGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension CreateStorageLensGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStorageLensGroupInput {
+
+    static func urlPathProvider(_ value: CreateStorageLensGroupInput) -> Swift.String? {
         return "/v20180820/storagelensgroup"
     }
 }
@@ -2775,19 +2795,21 @@ extension S3ControlClientTypes {
 
 }
 
-extension DeleteAccessGrantInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessGrantInput {
+
+    static func headerProvider(_ value: DeleteAccessGrantInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessGrantId = accessGrantId else {
+extension DeleteAccessGrantInput {
+
+    static func urlPathProvider(_ value: DeleteAccessGrantInput) -> Swift.String? {
+        guard let accessGrantId = value.accessGrantId else {
             return nil
         }
         return "/v20180820/accessgrantsinstance/grant/\(accessGrantId.urlPercentEncoding())"
@@ -2831,18 +2853,20 @@ enum DeleteAccessGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAccessGrantsInstanceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessGrantsInstanceInput {
+
+    static func headerProvider(_ value: DeleteAccessGrantsInstanceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessGrantsInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAccessGrantsInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteAccessGrantsInstanceInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance"
     }
 }
@@ -2879,18 +2903,20 @@ enum DeleteAccessGrantsInstanceOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteAccessGrantsInstanceResourcePolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessGrantsInstanceResourcePolicyInput {
+
+    static func headerProvider(_ value: DeleteAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessGrantsInstanceResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAccessGrantsInstanceResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteAccessGrantsInstanceResourcePolicyInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/resourcepolicy"
     }
 }
@@ -2927,19 +2953,21 @@ enum DeleteAccessGrantsInstanceResourcePolicyOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension DeleteAccessGrantsLocationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessGrantsLocationInput {
+
+    static func headerProvider(_ value: DeleteAccessGrantsLocationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessGrantsLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessGrantsLocationId = accessGrantsLocationId else {
+extension DeleteAccessGrantsLocationInput {
+
+    static func urlPathProvider(_ value: DeleteAccessGrantsLocationInput) -> Swift.String? {
+        guard let accessGrantsLocationId = value.accessGrantsLocationId else {
             return nil
         }
         return "/v20180820/accessgrantsinstance/location/\(accessGrantsLocationId.urlPercentEncoding())"
@@ -2983,19 +3011,21 @@ enum DeleteAccessGrantsLocationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteAccessPointForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessPointForObjectLambdaInput {
+
+    static func headerProvider(_ value: DeleteAccessPointForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessPointForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteAccessPointForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())"
@@ -3039,19 +3069,21 @@ enum DeleteAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DeleteAccessPointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessPointInput {
+
+    static func headerProvider(_ value: DeleteAccessPointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteAccessPointInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())"
@@ -3095,19 +3127,21 @@ enum DeleteAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAccessPointPolicyForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessPointPolicyForObjectLambdaInput {
+
+    static func headerProvider(_ value: DeleteAccessPointPolicyForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessPointPolicyForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteAccessPointPolicyForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointPolicyForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/policy"
@@ -3151,19 +3185,21 @@ enum DeleteAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension DeleteAccessPointPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteAccessPointPolicyInput {
+
+    static func headerProvider(_ value: DeleteAccessPointPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteAccessPointPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteAccessPointPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointPolicyInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())/policy"
@@ -3207,19 +3243,21 @@ enum DeleteAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketInput {
+
+    static func headerProvider(_ value: DeleteBucketInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension DeleteBucketInput {
+
+    static func urlPathProvider(_ value: DeleteBucketInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())"
@@ -3244,19 +3282,21 @@ public struct DeleteBucketInput: Swift.Equatable {
     }
 }
 
-extension DeleteBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketLifecycleConfigurationInput {
+
+    static func headerProvider(_ value: DeleteBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension DeleteBucketLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketLifecycleConfigurationInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/lifecycleconfiguration"
@@ -3319,19 +3359,21 @@ enum DeleteBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketPolicyInput {
+
+    static func headerProvider(_ value: DeleteBucketPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension DeleteBucketPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteBucketPolicyInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/policy"
@@ -3375,19 +3417,21 @@ enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketReplicationInput {
+
+    static func headerProvider(_ value: DeleteBucketReplicationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension DeleteBucketReplicationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketReplicationInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
@@ -3431,19 +3475,21 @@ enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketTaggingInput {
+
+    static func headerProvider(_ value: DeleteBucketTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension DeleteBucketTaggingInput {
+
+    static func urlPathProvider(_ value: DeleteBucketTaggingInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/tagging"
@@ -3487,19 +3533,21 @@ enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteJobTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteJobTaggingInput {
+
+    static func headerProvider(_ value: DeleteJobTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteJobTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension DeleteJobTaggingInput {
+
+    static func urlPathProvider(_ value: DeleteJobTaggingInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())/tagging"
@@ -3642,18 +3690,20 @@ extension DeleteMultiRegionAccessPointInput {
     }
 }
 
-extension DeleteMultiRegionAccessPointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteMultiRegionAccessPointInput {
+
+    static func headerProvider(_ value: DeleteMultiRegionAccessPointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteMultiRegionAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMultiRegionAccessPointInput {
+
+    static func urlPathProvider(_ value: DeleteMultiRegionAccessPointInput) -> Swift.String? {
         return "/v20180820/async-requests/mrap/delete"
     }
 }
@@ -3767,18 +3817,20 @@ enum DeleteMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DeletePublicAccessBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeletePublicAccessBlockInput {
+
+    static func headerProvider(_ value: DeletePublicAccessBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeletePublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePublicAccessBlockInput {
+
+    static func urlPathProvider(_ value: DeletePublicAccessBlockInput) -> Swift.String? {
         return "/v20180820/configuration/publicAccessBlock"
     }
 }
@@ -3815,19 +3867,21 @@ enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteStorageLensConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStorageLensConfigurationInput {
+
+    static func headerProvider(_ value: DeleteStorageLensConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteStorageLensConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configId = configId else {
+extension DeleteStorageLensConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteStorageLensConfigurationInput) -> Swift.String? {
+        guard let configId = value.configId else {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())"
@@ -3871,19 +3925,21 @@ enum DeleteStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DeleteStorageLensConfigurationTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStorageLensConfigurationTaggingInput {
+
+    static func headerProvider(_ value: DeleteStorageLensConfigurationTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteStorageLensConfigurationTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configId = configId else {
+extension DeleteStorageLensConfigurationTaggingInput {
+
+    static func urlPathProvider(_ value: DeleteStorageLensConfigurationTaggingInput) -> Swift.String? {
+        guard let configId = value.configId else {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())/tagging"
@@ -3927,19 +3983,21 @@ enum DeleteStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension DeleteStorageLensGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStorageLensGroupInput {
+
+    static func headerProvider(_ value: DeleteStorageLensGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DeleteStorageLensGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteStorageLensGroupInput {
+
+    static func urlPathProvider(_ value: DeleteStorageLensGroupInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/storagelensgroup/\(name.urlPercentEncoding())"
@@ -3983,19 +4041,21 @@ enum DeleteStorageLensGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeJobInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeJobInput {
+
+    static func headerProvider(_ value: DescribeJobInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DescribeJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension DescribeJobInput {
+
+    static func urlPathProvider(_ value: DescribeJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())"
@@ -4073,19 +4133,21 @@ enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeMultiRegionAccessPointOperationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeMultiRegionAccessPointOperationInput {
+
+    static func headerProvider(_ value: DescribeMultiRegionAccessPointOperationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DescribeMultiRegionAccessPointOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let requestTokenARN = requestTokenARN else {
+extension DescribeMultiRegionAccessPointOperationInput {
+
+    static func urlPathProvider(_ value: DescribeMultiRegionAccessPointOperationInput) -> Swift.String? {
+        guard let requestTokenARN = value.requestTokenARN else {
             return nil
         }
         return "/v20180820/async-requests/mrap/\(requestTokenARN.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4274,18 +4336,20 @@ extension S3ControlClientTypes {
 
 }
 
-extension DissociateAccessGrantsIdentityCenterInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DissociateAccessGrantsIdentityCenterInput {
+
+    static func headerProvider(_ value: DissociateAccessGrantsIdentityCenterInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension DissociateAccessGrantsIdentityCenterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DissociateAccessGrantsIdentityCenterInput {
+
+    static func urlPathProvider(_ value: DissociateAccessGrantsIdentityCenterInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/identitycenter"
     }
 }
@@ -4663,19 +4727,21 @@ extension S3ControlClientTypes {
     }
 }
 
-extension GetAccessGrantInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessGrantInput {
+
+    static func headerProvider(_ value: GetAccessGrantInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessGrantId = accessGrantId else {
+extension GetAccessGrantInput {
+
+    static func urlPathProvider(_ value: GetAccessGrantInput) -> Swift.String? {
+        guard let accessGrantId = value.accessGrantId else {
             return nil
         }
         return "/v20180820/accessgrantsinstance/grant/\(accessGrantId.urlPercentEncoding())"
@@ -4835,33 +4901,34 @@ enum GetAccessGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAccessGrantsInstanceForPrefixInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessGrantsInstanceForPrefixInput {
+
+    static func headerProvider(_ value: GetAccessGrantsInstanceForPrefixInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessGrantsInstanceForPrefixInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let s3Prefix = s3Prefix else {
-                let message = "Creating a URL Query Item failed. s3Prefix is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let s3PrefixQueryItem = ClientRuntime.URLQueryItem(name: "s3prefix".urlPercentEncoding(), value: Swift.String(s3Prefix).urlPercentEncoding())
-            items.append(s3PrefixQueryItem)
-            return items
+extension GetAccessGrantsInstanceForPrefixInput {
+
+    static func queryItemProvider(_ value: GetAccessGrantsInstanceForPrefixInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let s3Prefix = value.s3Prefix else {
+            let message = "Creating a URL Query Item failed. s3Prefix is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let s3PrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "s3prefix".urlPercentEncoding(), value: Swift.String(s3Prefix).urlPercentEncoding())
+        items.append(s3PrefixQueryItem)
+        return items
     }
 }
 
-extension GetAccessGrantsInstanceForPrefixInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccessGrantsInstanceForPrefixInput {
+
+    static func urlPathProvider(_ value: GetAccessGrantsInstanceForPrefixInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/prefix"
     }
 }
@@ -4943,18 +5010,20 @@ enum GetAccessGrantsInstanceForPrefixOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetAccessGrantsInstanceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessGrantsInstanceInput {
+
+    static func headerProvider(_ value: GetAccessGrantsInstanceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessGrantsInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccessGrantsInstanceInput {
+
+    static func urlPathProvider(_ value: GetAccessGrantsInstanceInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance"
     }
 }
@@ -5051,18 +5120,20 @@ enum GetAccessGrantsInstanceOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetAccessGrantsInstanceResourcePolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessGrantsInstanceResourcePolicyInput {
+
+    static func headerProvider(_ value: GetAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessGrantsInstanceResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccessGrantsInstanceResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetAccessGrantsInstanceResourcePolicyInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/resourcepolicy"
     }
 }
@@ -5149,19 +5220,21 @@ enum GetAccessGrantsInstanceResourcePolicyOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetAccessGrantsLocationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessGrantsLocationInput {
+
+    static func headerProvider(_ value: GetAccessGrantsLocationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessGrantsLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessGrantsLocationId = accessGrantsLocationId else {
+extension GetAccessGrantsLocationInput {
+
+    static func urlPathProvider(_ value: GetAccessGrantsLocationInput) -> Swift.String? {
+        guard let accessGrantsLocationId = value.accessGrantsLocationId else {
             return nil
         }
         return "/v20180820/accessgrantsinstance/location/\(accessGrantsLocationId.urlPercentEncoding())"
@@ -5275,19 +5348,21 @@ enum GetAccessGrantsLocationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetAccessPointConfigurationForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointConfigurationForObjectLambdaInput {
+
+    static func headerProvider(_ value: GetAccessPointConfigurationForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointConfigurationForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointConfigurationForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: GetAccessPointConfigurationForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/configuration"
@@ -5361,19 +5436,21 @@ enum GetAccessPointConfigurationForObjectLambdaOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension GetAccessPointForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointForObjectLambdaInput {
+
+    static func headerProvider(_ value: GetAccessPointForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: GetAccessPointForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())"
@@ -5477,19 +5554,21 @@ enum GetAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetAccessPointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointInput {
+
+    static func headerProvider(_ value: GetAccessPointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointInput {
+
+    static func urlPathProvider(_ value: GetAccessPointInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())"
@@ -5670,19 +5749,21 @@ enum GetAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAccessPointPolicyForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointPolicyForObjectLambdaInput {
+
+    static func headerProvider(_ value: GetAccessPointPolicyForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointPolicyForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointPolicyForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: GetAccessPointPolicyForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/policy"
@@ -5756,19 +5837,21 @@ enum GetAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension GetAccessPointPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointPolicyInput {
+
+    static func headerProvider(_ value: GetAccessPointPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointPolicyInput {
+
+    static func urlPathProvider(_ value: GetAccessPointPolicyInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())/policy"
@@ -5842,19 +5925,21 @@ enum GetAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAccessPointPolicyStatusForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointPolicyStatusForObjectLambdaInput {
+
+    static func headerProvider(_ value: GetAccessPointPolicyStatusForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointPolicyStatusForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointPolicyStatusForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: GetAccessPointPolicyStatusForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/policyStatus"
@@ -5928,19 +6013,21 @@ enum GetAccessPointPolicyStatusForObjectLambdaOutputError: ClientRuntime.HttpRes
     }
 }
 
-extension GetAccessPointPolicyStatusInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAccessPointPolicyStatusInput {
+
+    static func headerProvider(_ value: GetAccessPointPolicyStatusInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetAccessPointPolicyStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetAccessPointPolicyStatusInput {
+
+    static func urlPathProvider(_ value: GetAccessPointPolicyStatusInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())/policyStatus"
@@ -6014,19 +6101,21 @@ enum GetAccessPointPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketInput {
+
+    static func headerProvider(_ value: GetBucketInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension GetBucketInput {
+
+    static func urlPathProvider(_ value: GetBucketInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())"
@@ -6051,19 +6140,21 @@ public struct GetBucketInput: Swift.Equatable {
     }
 }
 
-extension GetBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketLifecycleConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension GetBucketLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketLifecycleConfigurationInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/lifecycleconfiguration"
@@ -6223,19 +6314,21 @@ enum GetBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketPolicyInput {
+
+    static func headerProvider(_ value: GetBucketPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension GetBucketPolicyInput {
+
+    static func urlPathProvider(_ value: GetBucketPolicyInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/policy"
@@ -6309,19 +6402,21 @@ enum GetBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketReplicationInput {
+
+    static func headerProvider(_ value: GetBucketReplicationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension GetBucketReplicationInput {
+
+    static func urlPathProvider(_ value: GetBucketReplicationInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
@@ -6395,19 +6490,21 @@ enum GetBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketTaggingInput {
+
+    static func headerProvider(_ value: GetBucketTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension GetBucketTaggingInput {
+
+    static func urlPathProvider(_ value: GetBucketTaggingInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/tagging"
@@ -6499,19 +6596,21 @@ enum GetBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketVersioningInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketVersioningInput {
+
+    static func headerProvider(_ value: GetBucketVersioningInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetBucketVersioningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension GetBucketVersioningInput {
+
+    static func urlPathProvider(_ value: GetBucketVersioningInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/versioning"
@@ -6595,51 +6694,52 @@ enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDataAccessInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetDataAccessInput {
+
+    static func headerProvider(_ value: GetDataAccessInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetDataAccessInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let target = target else {
-                let message = "Creating a URL Query Item failed. target is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let targetQueryItem = ClientRuntime.URLQueryItem(name: "target".urlPercentEncoding(), value: Swift.String(target).urlPercentEncoding())
-            items.append(targetQueryItem)
-            guard let permission = permission else {
-                let message = "Creating a URL Query Item failed. permission is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let permissionQueryItem = ClientRuntime.URLQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
-            items.append(permissionQueryItem)
-            if let targetType = targetType {
-                let targetTypeQueryItem = ClientRuntime.URLQueryItem(name: "targetType".urlPercentEncoding(), value: Swift.String(targetType.rawValue).urlPercentEncoding())
-                items.append(targetTypeQueryItem)
-            }
-            if let durationSeconds = durationSeconds {
-                let durationSecondsQueryItem = ClientRuntime.URLQueryItem(name: "durationSeconds".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
-                items.append(durationSecondsQueryItem)
-            }
-            if let privilege = privilege {
-                let privilegeQueryItem = ClientRuntime.URLQueryItem(name: "privilege".urlPercentEncoding(), value: Swift.String(privilege.rawValue).urlPercentEncoding())
-                items.append(privilegeQueryItem)
-            }
-            return items
+extension GetDataAccessInput {
+
+    static func queryItemProvider(_ value: GetDataAccessInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let target = value.target else {
+            let message = "Creating a URL Query Item failed. target is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let targetQueryItem = ClientRuntime.SDKURLQueryItem(name: "target".urlPercentEncoding(), value: Swift.String(target).urlPercentEncoding())
+        items.append(targetQueryItem)
+        guard let permission = value.permission else {
+            let message = "Creating a URL Query Item failed. permission is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let permissionQueryItem = ClientRuntime.SDKURLQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
+        items.append(permissionQueryItem)
+        if let targetType = value.targetType {
+            let targetTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "targetType".urlPercentEncoding(), value: Swift.String(targetType.rawValue).urlPercentEncoding())
+            items.append(targetTypeQueryItem)
+        }
+        if let durationSeconds = value.durationSeconds {
+            let durationSecondsQueryItem = ClientRuntime.SDKURLQueryItem(name: "durationSeconds".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
+            items.append(durationSecondsQueryItem)
+        }
+        if let privilege = value.privilege {
+            let privilegeQueryItem = ClientRuntime.SDKURLQueryItem(name: "privilege".urlPercentEncoding(), value: Swift.String(privilege.rawValue).urlPercentEncoding())
+            items.append(privilegeQueryItem)
+        }
+        return items
     }
 }
 
-extension GetDataAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataAccessInput {
+
+    static func urlPathProvider(_ value: GetDataAccessInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/dataaccess"
     }
 }
@@ -6753,19 +6853,21 @@ enum GetDataAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetJobTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetJobTaggingInput {
+
+    static func headerProvider(_ value: GetJobTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetJobTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension GetJobTaggingInput {
+
+    static func urlPathProvider(_ value: GetJobTaggingInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())/tagging"
@@ -6859,19 +6961,21 @@ enum GetJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMultiRegionAccessPointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetMultiRegionAccessPointInput {
+
+    static func headerProvider(_ value: GetMultiRegionAccessPointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetMultiRegionAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetMultiRegionAccessPointInput {
+
+    static func urlPathProvider(_ value: GetMultiRegionAccessPointInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/mrap/instances/\(name.urlPercentEncoding(encodeForwardSlash: false))"
@@ -6945,19 +7049,21 @@ enum GetMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetMultiRegionAccessPointPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetMultiRegionAccessPointPolicyInput {
+
+    static func headerProvider(_ value: GetMultiRegionAccessPointPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetMultiRegionAccessPointPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetMultiRegionAccessPointPolicyInput {
+
+    static func urlPathProvider(_ value: GetMultiRegionAccessPointPolicyInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/mrap/instances/\(name.urlPercentEncoding(encodeForwardSlash: false))/policy"
@@ -7031,19 +7137,21 @@ enum GetMultiRegionAccessPointPolicyOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetMultiRegionAccessPointPolicyStatusInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetMultiRegionAccessPointPolicyStatusInput {
+
+    static func headerProvider(_ value: GetMultiRegionAccessPointPolicyStatusInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetMultiRegionAccessPointPolicyStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetMultiRegionAccessPointPolicyStatusInput {
+
+    static func urlPathProvider(_ value: GetMultiRegionAccessPointPolicyStatusInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/mrap/instances/\(name.urlPercentEncoding(encodeForwardSlash: false))/policystatus"
@@ -7117,19 +7225,21 @@ enum GetMultiRegionAccessPointPolicyStatusOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetMultiRegionAccessPointRoutesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetMultiRegionAccessPointRoutesInput {
+
+    static func headerProvider(_ value: GetMultiRegionAccessPointRoutesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetMultiRegionAccessPointRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mrap = mrap else {
+extension GetMultiRegionAccessPointRoutesInput {
+
+    static func urlPathProvider(_ value: GetMultiRegionAccessPointRoutesInput) -> Swift.String? {
+        guard let mrap = value.mrap else {
             return nil
         }
         return "/v20180820/mrap/instances/\(mrap.urlPercentEncoding(encodeForwardSlash: false))/routes"
@@ -7230,18 +7340,20 @@ enum GetMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetPublicAccessBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetPublicAccessBlockInput {
+
+    static func headerProvider(_ value: GetPublicAccessBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetPublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPublicAccessBlockInput {
+
+    static func urlPathProvider(_ value: GetPublicAccessBlockInput) -> Swift.String? {
         return "/v20180820/configuration/publicAccessBlock"
     }
 }
@@ -7308,19 +7420,21 @@ enum GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetStorageLensConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetStorageLensConfigurationInput {
+
+    static func headerProvider(_ value: GetStorageLensConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetStorageLensConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configId = configId else {
+extension GetStorageLensConfigurationInput {
+
+    static func urlPathProvider(_ value: GetStorageLensConfigurationInput) -> Swift.String? {
+        guard let configId = value.configId else {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())"
@@ -7393,19 +7507,21 @@ enum GetStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetStorageLensConfigurationTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetStorageLensConfigurationTaggingInput {
+
+    static func headerProvider(_ value: GetStorageLensConfigurationTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetStorageLensConfigurationTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configId = configId else {
+extension GetStorageLensConfigurationTaggingInput {
+
+    static func urlPathProvider(_ value: GetStorageLensConfigurationTaggingInput) -> Swift.String? {
+        guard let configId = value.configId else {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())/tagging"
@@ -7496,19 +7612,21 @@ enum GetStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension GetStorageLensGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetStorageLensGroupInput {
+
+    static func headerProvider(_ value: GetStorageLensGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension GetStorageLensGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetStorageLensGroupInput {
+
+    static func urlPathProvider(_ value: GetStorageLensGroupInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/storagelensgroup/\(name.urlPercentEncoding())"
@@ -9727,55 +9845,56 @@ extension S3ControlClientTypes {
 
 }
 
-extension ListAccessGrantsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccessGrantsInput {
+
+    static func headerProvider(_ value: ListAccessGrantsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListAccessGrantsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let grantScope = grantScope {
-                let grantScopeQueryItem = ClientRuntime.URLQueryItem(name: "grantscope".urlPercentEncoding(), value: Swift.String(grantScope).urlPercentEncoding())
-                items.append(grantScopeQueryItem)
-            }
-            if let granteeType = granteeType {
-                let granteeTypeQueryItem = ClientRuntime.URLQueryItem(name: "granteetype".urlPercentEncoding(), value: Swift.String(granteeType.rawValue).urlPercentEncoding())
-                items.append(granteeTypeQueryItem)
-            }
-            if let applicationArn = applicationArn {
-                let applicationArnQueryItem = ClientRuntime.URLQueryItem(name: "application_arn".urlPercentEncoding(), value: Swift.String(applicationArn).urlPercentEncoding())
-                items.append(applicationArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let permission = permission {
-                let permissionQueryItem = ClientRuntime.URLQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
-                items.append(permissionQueryItem)
-            }
-            if let granteeIdentifier = granteeIdentifier {
-                let granteeIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "granteeidentifier".urlPercentEncoding(), value: Swift.String(granteeIdentifier).urlPercentEncoding())
-                items.append(granteeIdentifierQueryItem)
-            }
-            return items
+extension ListAccessGrantsInput {
+
+    static func queryItemProvider(_ value: ListAccessGrantsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let grantScope = value.grantScope {
+            let grantScopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "grantscope".urlPercentEncoding(), value: Swift.String(grantScope).urlPercentEncoding())
+            items.append(grantScopeQueryItem)
         }
+        if let granteeType = value.granteeType {
+            let granteeTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "granteetype".urlPercentEncoding(), value: Swift.String(granteeType.rawValue).urlPercentEncoding())
+            items.append(granteeTypeQueryItem)
+        }
+        if let applicationArn = value.applicationArn {
+            let applicationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "application_arn".urlPercentEncoding(), value: Swift.String(applicationArn).urlPercentEncoding())
+            items.append(applicationArnQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let permission = value.permission {
+            let permissionQueryItem = ClientRuntime.SDKURLQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
+            items.append(permissionQueryItem)
+        }
+        if let granteeIdentifier = value.granteeIdentifier {
+            let granteeIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "granteeidentifier".urlPercentEncoding(), value: Swift.String(granteeIdentifier).urlPercentEncoding())
+            items.append(granteeIdentifierQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessGrantsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessGrantsInput {
+
+    static func urlPathProvider(_ value: ListAccessGrantsInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/grants"
     }
 }
@@ -9890,35 +10009,36 @@ extension S3ControlClientTypes {
 
 }
 
-extension ListAccessGrantsInstancesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccessGrantsInstancesInput {
+
+    static func headerProvider(_ value: ListAccessGrantsInstancesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListAccessGrantsInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAccessGrantsInstancesInput {
+
+    static func queryItemProvider(_ value: ListAccessGrantsInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessGrantsInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessGrantsInstancesInput {
+
+    static func urlPathProvider(_ value: ListAccessGrantsInstancesInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstances"
     }
 }
@@ -10085,39 +10205,40 @@ extension S3ControlClientTypes {
 
 }
 
-extension ListAccessGrantsLocationsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccessGrantsLocationsInput {
+
+    static func headerProvider(_ value: ListAccessGrantsLocationsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListAccessGrantsLocationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let locationScope = locationScope {
-                let locationScopeQueryItem = ClientRuntime.URLQueryItem(name: "locationscope".urlPercentEncoding(), value: Swift.String(locationScope).urlPercentEncoding())
-                items.append(locationScopeQueryItem)
-            }
-            return items
+extension ListAccessGrantsLocationsInput {
+
+    static func queryItemProvider(_ value: ListAccessGrantsLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let locationScope = value.locationScope {
+            let locationScopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "locationscope".urlPercentEncoding(), value: Swift.String(locationScope).urlPercentEncoding())
+            items.append(locationScopeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessGrantsLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessGrantsLocationsInput {
+
+    static func urlPathProvider(_ value: ListAccessGrantsLocationsInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/locations"
     }
 }
@@ -10299,35 +10420,36 @@ enum ListAccessGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAccessPointsForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccessPointsForObjectLambdaInput {
+
+    static func headerProvider(_ value: ListAccessPointsForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListAccessPointsForObjectLambdaInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAccessPointsForObjectLambdaInput {
+
+    static func queryItemProvider(_ value: ListAccessPointsForObjectLambdaInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessPointsForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessPointsForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: ListAccessPointsForObjectLambdaInput) -> Swift.String? {
         return "/v20180820/accesspointforobjectlambda"
     }
 }
@@ -10429,39 +10551,40 @@ enum ListAccessPointsForObjectLambdaOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListAccessPointsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListAccessPointsInput {
+
+    static func headerProvider(_ value: ListAccessPointsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListAccessPointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let bucket = bucket {
-                let bucketQueryItem = ClientRuntime.URLQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
-                items.append(bucketQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAccessPointsInput {
+
+    static func queryItemProvider(_ value: ListAccessPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let bucket = value.bucket {
+            let bucketQueryItem = ClientRuntime.SDKURLQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+            items.append(bucketQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessPointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessPointsInput {
+
+    static func urlPathProvider(_ value: ListAccessPointsInput) -> Swift.String? {
         return "/v20180820/accesspoint"
     }
 }
@@ -10567,41 +10690,42 @@ enum ListAccessPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListJobsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListJobsInput {
+
+    static func headerProvider(_ value: ListJobsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let jobStatuses = jobStatuses {
-                jobStatuses.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "jobStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListJobsInput {
+
+    static func queryItemProvider(_ value: ListJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let jobStatuses = value.jobStatuses {
+            jobStatuses.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "jobStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
         return "/v20180820/jobs"
     }
 }
@@ -10710,35 +10834,36 @@ enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMultiRegionAccessPointsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListMultiRegionAccessPointsInput {
+
+    static func headerProvider(_ value: ListMultiRegionAccessPointsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListMultiRegionAccessPointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMultiRegionAccessPointsInput {
+
+    static func queryItemProvider(_ value: ListMultiRegionAccessPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMultiRegionAccessPointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMultiRegionAccessPointsInput {
+
+    static func urlPathProvider(_ value: ListMultiRegionAccessPointsInput) -> Swift.String? {
         return "/v20180820/mrap/instances"
     }
 }
@@ -10840,38 +10965,39 @@ enum ListMultiRegionAccessPointsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListRegionalBucketsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListRegionalBucketsInput {
+
+    static func headerProvider(_ value: ListRegionalBucketsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
-        if let outpostId = outpostId {
+        if let outpostId = value.outpostId {
             items.add(Header(name: "x-amz-outpost-id", value: Swift.String(outpostId)))
         }
         return items
     }
 }
 
-extension ListRegionalBucketsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRegionalBucketsInput {
+
+    static func queryItemProvider(_ value: ListRegionalBucketsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRegionalBucketsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRegionalBucketsInput {
+
+    static func urlPathProvider(_ value: ListRegionalBucketsInput) -> Swift.String? {
         return "/v20180820/bucket"
     }
 }
@@ -11037,31 +11163,32 @@ extension S3ControlClientTypes {
 
 }
 
-extension ListStorageLensConfigurationsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListStorageLensConfigurationsInput {
+
+    static func headerProvider(_ value: ListStorageLensConfigurationsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListStorageLensConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListStorageLensConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListStorageLensConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListStorageLensConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStorageLensConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListStorageLensConfigurationsInput) -> Swift.String? {
         return "/v20180820/storagelens"
     }
 }
@@ -11210,31 +11337,32 @@ extension S3ControlClientTypes {
 
 }
 
-extension ListStorageLensGroupsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListStorageLensGroupsInput {
+
+    static func headerProvider(_ value: ListStorageLensGroupsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListStorageLensGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListStorageLensGroupsInput {
+
+    static func queryItemProvider(_ value: ListStorageLensGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListStorageLensGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStorageLensGroupsInput {
+
+    static func urlPathProvider(_ value: ListStorageLensGroupsInput) -> Swift.String? {
         return "/v20180820/storagelensgroup"
     }
 }
@@ -11331,19 +11459,21 @@ enum ListStorageLensGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListTagsForResourceInput {
+
+    static func headerProvider(_ value: ListTagsForResourceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v20180820/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -12981,18 +13111,20 @@ extension PutAccessGrantsInstanceResourcePolicyInput {
     }
 }
 
-extension PutAccessGrantsInstanceResourcePolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutAccessGrantsInstanceResourcePolicyInput {
+
+    static func headerProvider(_ value: PutAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutAccessGrantsInstanceResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccessGrantsInstanceResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutAccessGrantsInstanceResourcePolicyInput) -> Swift.String? {
         return "/v20180820/accessgrantsinstance/resourcepolicy"
     }
 }
@@ -13119,19 +13251,21 @@ extension PutAccessPointConfigurationForObjectLambdaInput {
     }
 }
 
-extension PutAccessPointConfigurationForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutAccessPointConfigurationForObjectLambdaInput {
+
+    static func headerProvider(_ value: PutAccessPointConfigurationForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutAccessPointConfigurationForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension PutAccessPointConfigurationForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: PutAccessPointConfigurationForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/configuration"
@@ -13207,19 +13341,21 @@ extension PutAccessPointPolicyForObjectLambdaInput {
     }
 }
 
-extension PutAccessPointPolicyForObjectLambdaInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutAccessPointPolicyForObjectLambdaInput {
+
+    static func headerProvider(_ value: PutAccessPointPolicyForObjectLambdaInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutAccessPointPolicyForObjectLambdaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension PutAccessPointPolicyForObjectLambdaInput {
+
+    static func urlPathProvider(_ value: PutAccessPointPolicyForObjectLambdaInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspointforobjectlambda/\(name.urlPercentEncoding())/policy"
@@ -13295,19 +13431,21 @@ extension PutAccessPointPolicyInput {
     }
 }
 
-extension PutAccessPointPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutAccessPointPolicyInput {
+
+    static func headerProvider(_ value: PutAccessPointPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutAccessPointPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension PutAccessPointPolicyInput {
+
+    static func urlPathProvider(_ value: PutAccessPointPolicyInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/accesspoint/\(name.urlPercentEncoding())/policy"
@@ -13383,19 +13521,21 @@ extension PutBucketLifecycleConfigurationInput {
     }
 }
 
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketLifecycleConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension PutBucketLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketLifecycleConfigurationInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/lifecycleconfiguration"
@@ -13470,22 +13610,24 @@ extension PutBucketPolicyInput {
     }
 }
 
-extension PutBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketPolicyInput {
+
+    static func headerProvider(_ value: PutBucketPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
-        if let confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess {
+        if let confirmRemoveSelfBucketAccess = value.confirmRemoveSelfBucketAccess {
             items.add(Header(name: "x-amz-confirm-remove-self-bucket-access", value: Swift.String(confirmRemoveSelfBucketAccess)))
         }
         return items
     }
 }
 
-extension PutBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension PutBucketPolicyInput {
+
+    static func urlPathProvider(_ value: PutBucketPolicyInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/policy"
@@ -13565,19 +13707,21 @@ extension PutBucketReplicationInput {
     }
 }
 
-extension PutBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketReplicationInput {
+
+    static func headerProvider(_ value: PutBucketReplicationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension PutBucketReplicationInput {
+
+    static func urlPathProvider(_ value: PutBucketReplicationInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/replication"
@@ -13653,19 +13797,21 @@ extension PutBucketTaggingInput {
     }
 }
 
-extension PutBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketTaggingInput {
+
+    static func headerProvider(_ value: PutBucketTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension PutBucketTaggingInput {
+
+    static func urlPathProvider(_ value: PutBucketTaggingInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/tagging"
@@ -13741,22 +13887,24 @@ extension PutBucketVersioningInput {
     }
 }
 
-extension PutBucketVersioningInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketVersioningInput {
+
+    static func headerProvider(_ value: PutBucketVersioningInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
-        if let mfa = mfa {
+        if let mfa = value.mfa {
             items.add(Header(name: "x-amz-mfa", value: Swift.String(mfa)))
         }
         return items
     }
 }
 
-extension PutBucketVersioningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bucket = bucket else {
+extension PutBucketVersioningInput {
+
+    static func urlPathProvider(_ value: PutBucketVersioningInput) -> Swift.String? {
+        guard let bucket = value.bucket else {
             return nil
         }
         return "/v20180820/bucket/\(bucket.urlPercentEncoding())/versioning"
@@ -13836,19 +13984,21 @@ extension PutJobTaggingInput {
     }
 }
 
-extension PutJobTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutJobTaggingInput {
+
+    static func headerProvider(_ value: PutJobTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutJobTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension PutJobTaggingInput {
+
+    static func urlPathProvider(_ value: PutJobTaggingInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())/tagging"
@@ -13968,18 +14118,20 @@ extension PutMultiRegionAccessPointPolicyInput {
     }
 }
 
-extension PutMultiRegionAccessPointPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutMultiRegionAccessPointPolicyInput {
+
+    static func headerProvider(_ value: PutMultiRegionAccessPointPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutMultiRegionAccessPointPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutMultiRegionAccessPointPolicyInput {
+
+    static func urlPathProvider(_ value: PutMultiRegionAccessPointPolicyInput) -> Swift.String? {
         return "/v20180820/async-requests/mrap/put-policy"
     }
 }
@@ -14109,18 +14261,20 @@ extension PutPublicAccessBlockInput {
     }
 }
 
-extension PutPublicAccessBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutPublicAccessBlockInput {
+
+    static func headerProvider(_ value: PutPublicAccessBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutPublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPublicAccessBlockInput {
+
+    static func urlPathProvider(_ value: PutPublicAccessBlockInput) -> Swift.String? {
         return "/v20180820/configuration/publicAccessBlock"
     }
 }
@@ -14191,19 +14345,21 @@ extension PutStorageLensConfigurationInput {
     }
 }
 
-extension PutStorageLensConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutStorageLensConfigurationInput {
+
+    static func headerProvider(_ value: PutStorageLensConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutStorageLensConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configId = configId else {
+extension PutStorageLensConfigurationInput {
+
+    static func urlPathProvider(_ value: PutStorageLensConfigurationInput) -> Swift.String? {
+        guard let configId = value.configId else {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())"
@@ -14304,19 +14460,21 @@ extension PutStorageLensConfigurationTaggingInput {
     }
 }
 
-extension PutStorageLensConfigurationTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutStorageLensConfigurationTaggingInput {
+
+    static func headerProvider(_ value: PutStorageLensConfigurationTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension PutStorageLensConfigurationTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configId = configId else {
+extension PutStorageLensConfigurationTaggingInput {
+
+    static func urlPathProvider(_ value: PutStorageLensConfigurationTaggingInput) -> Swift.String? {
+        guard let configId = value.configId else {
             return nil
         }
         return "/v20180820/storagelens/\(configId.urlPercentEncoding())/tagging"
@@ -15431,6 +15589,8 @@ extension S3ControlClientTypes {
         }
     }
 }
+
+public enum S3ControlClientTypes {}
 
 extension S3ControlClientTypes.S3CopyObjectOperation: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -17822,19 +17982,21 @@ extension SubmitMultiRegionAccessPointRoutesInput {
     }
 }
 
-extension SubmitMultiRegionAccessPointRoutesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SubmitMultiRegionAccessPointRoutesInput {
+
+    static func headerProvider(_ value: SubmitMultiRegionAccessPointRoutesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension SubmitMultiRegionAccessPointRoutesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mrap = mrap else {
+extension SubmitMultiRegionAccessPointRoutesInput {
+
+    static func urlPathProvider(_ value: SubmitMultiRegionAccessPointRoutesInput) -> Swift.String? {
+        guard let mrap = value.mrap else {
             return nil
         }
         return "/v20180820/mrap/instances/\(mrap.urlPercentEncoding(encodeForwardSlash: false))/routes"
@@ -17970,19 +18132,21 @@ extension TagResourceInput {
     }
 }
 
-extension TagResourceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension TagResourceInput {
+
+    static func headerProvider(_ value: TagResourceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v20180820/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -18313,36 +18477,37 @@ extension S3ControlClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UntagResourceInput {
+
+    static func headerProvider(_ value: UntagResourceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v20180820/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -18402,19 +18567,21 @@ extension UpdateAccessGrantsLocationInput {
     }
 }
 
-extension UpdateAccessGrantsLocationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateAccessGrantsLocationInput {
+
+    static func headerProvider(_ value: UpdateAccessGrantsLocationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension UpdateAccessGrantsLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessGrantsLocationId = accessGrantsLocationId else {
+extension UpdateAccessGrantsLocationInput {
+
+    static func urlPathProvider(_ value: UpdateAccessGrantsLocationInput) -> Swift.String? {
+        guard let accessGrantsLocationId = value.accessGrantsLocationId else {
             return nil
         }
         return "/v20180820/accessgrantsinstance/location/\(accessGrantsLocationId.urlPercentEncoding())"
@@ -18549,34 +18716,35 @@ enum UpdateAccessGrantsLocationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension UpdateJobPriorityInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateJobPriorityInput {
+
+    static func headerProvider(_ value: UpdateJobPriorityInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension UpdateJobPriorityInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let priority = priority else {
-                let message = "Creating a URL Query Item failed. priority is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let priorityQueryItem = ClientRuntime.URLQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
-            items.append(priorityQueryItem)
-            return items
+extension UpdateJobPriorityInput {
+
+    static func queryItemProvider(_ value: UpdateJobPriorityInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let priority = value.priority else {
+            let message = "Creating a URL Query Item failed. priority is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let priorityQueryItem = ClientRuntime.SDKURLQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
+        items.append(priorityQueryItem)
+        return items
     }
 }
 
-extension UpdateJobPriorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension UpdateJobPriorityInput {
+
+    static func urlPathProvider(_ value: UpdateJobPriorityInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())/priority"
@@ -18671,38 +18839,39 @@ enum UpdateJobPriorityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateJobStatusInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateJobStatusInput {
+
+    static func headerProvider(_ value: UpdateJobStatusInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension UpdateJobStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let statusUpdateReason = statusUpdateReason {
-                let statusUpdateReasonQueryItem = ClientRuntime.URLQueryItem(name: "statusUpdateReason".urlPercentEncoding(), value: Swift.String(statusUpdateReason).urlPercentEncoding())
-                items.append(statusUpdateReasonQueryItem)
-            }
-            guard let requestedJobStatus = requestedJobStatus else {
-                let message = "Creating a URL Query Item failed. requestedJobStatus is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let requestedJobStatusQueryItem = ClientRuntime.URLQueryItem(name: "requestedJobStatus".urlPercentEncoding(), value: Swift.String(requestedJobStatus.rawValue).urlPercentEncoding())
-            items.append(requestedJobStatusQueryItem)
-            return items
+extension UpdateJobStatusInput {
+
+    static func queryItemProvider(_ value: UpdateJobStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let statusUpdateReason = value.statusUpdateReason {
+            let statusUpdateReasonQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusUpdateReason".urlPercentEncoding(), value: Swift.String(statusUpdateReason).urlPercentEncoding())
+            items.append(statusUpdateReasonQueryItem)
         }
+        guard let requestedJobStatus = value.requestedJobStatus else {
+            let message = "Creating a URL Query Item failed. requestedJobStatus is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let requestedJobStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "requestedJobStatus".urlPercentEncoding(), value: Swift.String(requestedJobStatus.rawValue).urlPercentEncoding())
+        items.append(requestedJobStatusQueryItem)
+        return items
     }
 }
 
-extension UpdateJobStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension UpdateJobStatusInput {
+
+    static func urlPathProvider(_ value: UpdateJobStatusInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/v20180820/jobs/\(jobId.urlPercentEncoding())/status"
@@ -18821,19 +18990,21 @@ extension UpdateStorageLensGroupInput {
     }
 }
 
-extension UpdateStorageLensGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateStorageLensGroupInput {
+
+    static func headerProvider(_ value: UpdateStorageLensGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accountId = accountId {
+        if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
         return items
     }
 }
 
-extension UpdateStorageLensGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateStorageLensGroupInput {
+
+    static func urlPathProvider(_ value: UpdateStorageLensGroupInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v20180820/storagelensgroup/\(name.urlPercentEncoding())"

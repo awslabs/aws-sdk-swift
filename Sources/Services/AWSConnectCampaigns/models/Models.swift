@@ -467,6 +467,8 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ConnectCampaignsClientTypes {}
+
 extension CreateCampaignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectInstanceId
@@ -499,8 +501,9 @@ extension CreateCampaignInput: Swift.Encodable {
     }
 }
 
-extension CreateCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCampaignInput {
+
+    static func urlPathProvider(_ value: CreateCampaignInput) -> Swift.String? {
         return "/campaigns"
     }
 }
@@ -666,9 +669,10 @@ enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteCampaignInput {
+
+    static func urlPathProvider(_ value: DeleteCampaignInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())"
@@ -722,9 +726,10 @@ enum DeleteCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteConnectInstanceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectInstanceId = connectInstanceId else {
+extension DeleteConnectInstanceConfigInput {
+
+    static func urlPathProvider(_ value: DeleteConnectInstanceConfigInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
             return nil
         }
         return "/connect-instance/\(connectInstanceId.urlPercentEncoding())/config"
@@ -780,9 +785,10 @@ enum DeleteConnectInstanceConfigOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DeleteInstanceOnboardingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectInstanceId = connectInstanceId else {
+extension DeleteInstanceOnboardingJobInput {
+
+    static func urlPathProvider(_ value: DeleteInstanceOnboardingJobInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
             return nil
         }
         return "/connect-instance/\(connectInstanceId.urlPercentEncoding())/onboarding"
@@ -837,9 +843,10 @@ enum DeleteInstanceOnboardingJobOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeCampaignInput {
+
+    static func urlPathProvider(_ value: DescribeCampaignInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())"
@@ -1343,8 +1350,9 @@ extension GetCampaignStateBatchInput: Swift.Encodable {
     }
 }
 
-extension GetCampaignStateBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCampaignStateBatchInput {
+
+    static func urlPathProvider(_ value: GetCampaignStateBatchInput) -> Swift.String? {
         return "/campaigns-state"
     }
 }
@@ -1471,9 +1479,10 @@ enum GetCampaignStateBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCampaignStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetCampaignStateInput {
+
+    static func urlPathProvider(_ value: GetCampaignStateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/state"
@@ -1559,9 +1568,10 @@ enum GetCampaignStateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetConnectInstanceConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectInstanceId = connectInstanceId else {
+extension GetConnectInstanceConfigInput {
+
+    static func urlPathProvider(_ value: GetConnectInstanceConfigInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
             return nil
         }
         return "/connect-instance/\(connectInstanceId.urlPercentEncoding())/config"
@@ -1646,9 +1656,10 @@ enum GetConnectInstanceConfigOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetInstanceOnboardingJobStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectInstanceId = connectInstanceId else {
+extension GetInstanceOnboardingJobStatusInput {
+
+    static func urlPathProvider(_ value: GetInstanceOnboardingJobStatusInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
             return nil
         }
         return "/connect-instance/\(connectInstanceId.urlPercentEncoding())/onboarding"
@@ -2234,8 +2245,9 @@ extension ListCampaignsInput: Swift.Encodable {
     }
 }
 
-extension ListCampaignsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCampaignsInput {
+
+    static func urlPathProvider(_ value: ListCampaignsInput) -> Swift.String? {
         return "/campaigns-summary"
     }
 }
@@ -2358,9 +2370,10 @@ enum ListCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/tags/\(arn.urlPercentEncoding())"
@@ -2521,9 +2534,10 @@ extension ConnectCampaignsClientTypes {
 
 }
 
-extension PauseCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension PauseCampaignInput {
+
+    static func urlPathProvider(_ value: PauseCampaignInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/pause"
@@ -2688,9 +2702,10 @@ extension PutDialRequestBatchInput: Swift.Encodable {
     }
 }
 
-extension PutDialRequestBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension PutDialRequestBatchInput {
+
+    static func urlPathProvider(_ value: PutDialRequestBatchInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/dial-requests"
@@ -2892,9 +2907,10 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-extension ResumeCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension ResumeCampaignInput {
+
+    static func urlPathProvider(_ value: ResumeCampaignInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/resume"
@@ -3016,9 +3032,10 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension StartCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StartCampaignInput {
+
+    static func urlPathProvider(_ value: StartCampaignInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/start"
@@ -3088,9 +3105,10 @@ extension StartInstanceOnboardingJobInput: Swift.Encodable {
     }
 }
 
-extension StartInstanceOnboardingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectInstanceId = connectInstanceId else {
+extension StartInstanceOnboardingJobInput {
+
+    static func urlPathProvider(_ value: StartInstanceOnboardingJobInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
             return nil
         }
         return "/connect-instance/\(connectInstanceId.urlPercentEncoding())/onboarding"
@@ -3189,9 +3207,10 @@ enum StartInstanceOnboardingJobOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension StopCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StopCampaignInput {
+
+    static func urlPathProvider(_ value: StopCampaignInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/stop"
@@ -3354,9 +3373,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/tags/\(arn.urlPercentEncoding())"
@@ -3497,26 +3517,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let arn = arn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let arn = value.arn else {
             return nil
         }
         return "/tags/\(arn.urlPercentEncoding())"
@@ -3589,9 +3609,10 @@ extension UpdateCampaignDialerConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateCampaignDialerConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateCampaignDialerConfigInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignDialerConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/dialer-config"
@@ -3671,9 +3692,10 @@ extension UpdateCampaignNameInput: Swift.Encodable {
     }
 }
 
-extension UpdateCampaignNameInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateCampaignNameInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignNameInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/name"
@@ -3761,9 +3783,10 @@ extension UpdateCampaignOutboundCallConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateCampaignOutboundCallConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateCampaignOutboundCallConfigInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignOutboundCallConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/campaigns/\(id.urlPercentEncoding())/outbound-call-config"

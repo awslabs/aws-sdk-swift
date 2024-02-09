@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension DynamoDBClientProtocol {
+extension DynamoDBClient {
 
     static func tableExistsWaiterConfig() throws -> WaiterConfiguration<DescribeTableInput, DescribeTableOutput> {
         let acceptors: [WaiterConfiguration<DescribeTableInput, DescribeTableOutput>.Acceptor] = [

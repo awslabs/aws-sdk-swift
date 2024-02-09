@@ -199,8 +199,9 @@ extension DescribeAcceleratorOfferingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAcceleratorOfferingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAcceleratorOfferingsInput {
+
+    static func urlPathProvider(_ value: DescribeAcceleratorOfferingsInput) -> Swift.String? {
         return "/describe-accelerator-offerings"
     }
 }
@@ -313,8 +314,9 @@ enum DescribeAcceleratorOfferingsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeAcceleratorTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAcceleratorTypesInput {
+
+    static func urlPathProvider(_ value: DescribeAcceleratorTypesInput) -> Swift.String? {
         return "/describe-accelerator-types"
     }
 }
@@ -424,8 +426,9 @@ extension DescribeAcceleratorsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAcceleratorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAcceleratorsInput {
+
+    static func urlPathProvider(_ value: DescribeAcceleratorsInput) -> Swift.String? {
         return "/describe-accelerators"
     }
 }
@@ -682,6 +685,8 @@ extension ElasticInferenceClientTypes {
 
 }
 
+public enum ElasticInferenceClientTypes {}
+
 extension ElasticInferenceClientTypes.Filter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -839,9 +844,10 @@ extension ElasticInferenceClientTypes {
 
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1073,9 +1079,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1148,26 +1155,26 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

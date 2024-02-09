@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ElasticLoadBalancingClientProtocol {
+extension ElasticLoadBalancingClient {
 
     static func anyInstanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput> {
         let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>.Acceptor] = [

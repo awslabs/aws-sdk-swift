@@ -198,19 +198,21 @@ extension CreateDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateDatasetInput {
+
+    static func headerProvider(_ value: CreateDatasetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/datasets"
@@ -348,19 +350,21 @@ extension CreateModelInput: Swift.Encodable {
     }
 }
 
-extension CreateModelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateModelInput {
+
+    static func headerProvider(_ value: CreateModelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension CreateModelInput {
+
+    static func urlPathProvider(_ value: CreateModelInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models"
@@ -508,18 +512,20 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateProjectInput {
+
+    static func headerProvider(_ value: CreateProjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/2020-11-20/projects"
     }
 }
@@ -965,22 +971,24 @@ extension LookoutVisionClientTypes {
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteDatasetInput {
+
+    static func headerProvider(_ value: DeleteDatasetInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let datasetType = datasetType else {
+        guard let datasetType = value.datasetType else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/datasets/\(datasetType.urlPercentEncoding())"
@@ -1044,22 +1052,24 @@ enum DeleteDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteModelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteModelInput {
+
+    static func headerProvider(_ value: DeleteModelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DeleteModelInput {
+
+    static func urlPathProvider(_ value: DeleteModelInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let modelVersion = modelVersion else {
+        guard let modelVersion = value.modelVersion else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models/\(modelVersion.urlPercentEncoding())"
@@ -1153,19 +1163,21 @@ enum DeleteModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteProjectInput {
+
+    static func headerProvider(_ value: DeleteProjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())"
@@ -1254,12 +1266,13 @@ enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DescribeDatasetInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let datasetType = datasetType else {
+        guard let datasetType = value.datasetType else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/datasets/\(datasetType.urlPercentEncoding())"
@@ -1349,12 +1362,13 @@ enum DescribeDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DescribeModelInput {
+
+    static func urlPathProvider(_ value: DescribeModelInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let modelVersion = modelVersion else {
+        guard let modelVersion = value.modelVersion else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models/\(modelVersion.urlPercentEncoding())"
@@ -1444,12 +1458,13 @@ enum DescribeModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeModelPackagingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DescribeModelPackagingJobInput {
+
+    static func urlPathProvider(_ value: DescribeModelPackagingJobInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let jobName = jobName else {
+        guard let jobName = value.jobName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/modelpackagingjobs/\(jobName.urlPercentEncoding())"
@@ -1538,9 +1553,10 @@ enum DescribeModelPackagingJobOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DescribeProjectInput {
+
+    static func urlPathProvider(_ value: DescribeProjectInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())"
@@ -1638,22 +1654,24 @@ extension DetectAnomaliesInput: Swift.Encodable {
     }
 }
 
-extension DetectAnomaliesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DetectAnomaliesInput {
+
+    static func headerProvider(_ value: DetectAnomaliesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
         return items
     }
 }
 
-extension DetectAnomaliesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DetectAnomaliesInput {
+
+    static func urlPathProvider(_ value: DetectAnomaliesInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let modelVersion = modelVersion else {
+        guard let modelVersion = value.modelVersion else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models/\(modelVersion.urlPercentEncoding())/detect"
@@ -2178,49 +2196,49 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListDatasetEntriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let sourceRefContains = sourceRefContains {
-                let sourceRefContainsQueryItem = ClientRuntime.URLQueryItem(name: "sourceRefContains".urlPercentEncoding(), value: Swift.String(sourceRefContains).urlPercentEncoding())
-                items.append(sourceRefContainsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let labeled = labeled {
-                let labeledQueryItem = ClientRuntime.URLQueryItem(name: "labeled".urlPercentEncoding(), value: Swift.String(labeled).urlPercentEncoding())
-                items.append(labeledQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let beforeCreationDate = beforeCreationDate {
-                let beforeCreationDateQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeCreationDate)).urlPercentEncoding())
-                items.append(beforeCreationDateQueryItem)
-            }
-            if let afterCreationDate = afterCreationDate {
-                let afterCreationDateQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterCreationDate)).urlPercentEncoding())
-                items.append(afterCreationDateQueryItem)
-            }
-            if let anomalyClass = anomalyClass {
-                let anomalyClassQueryItem = ClientRuntime.URLQueryItem(name: "anomalyClass".urlPercentEncoding(), value: Swift.String(anomalyClass).urlPercentEncoding())
-                items.append(anomalyClassQueryItem)
-            }
-            return items
+extension ListDatasetEntriesInput {
+
+    static func queryItemProvider(_ value: ListDatasetEntriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let sourceRefContains = value.sourceRefContains {
+            let sourceRefContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "sourceRefContains".urlPercentEncoding(), value: Swift.String(sourceRefContains).urlPercentEncoding())
+            items.append(sourceRefContainsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let labeled = value.labeled {
+            let labeledQueryItem = ClientRuntime.SDKURLQueryItem(name: "labeled".urlPercentEncoding(), value: Swift.String(labeled).urlPercentEncoding())
+            items.append(labeledQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let beforeCreationDate = value.beforeCreationDate {
+            let beforeCreationDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeCreationDate)).urlPercentEncoding())
+            items.append(beforeCreationDateQueryItem)
+        }
+        if let afterCreationDate = value.afterCreationDate {
+            let afterCreationDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterCreationDate)).urlPercentEncoding())
+            items.append(afterCreationDateQueryItem)
+        }
+        if let anomalyClass = value.anomalyClass {
+            let anomalyClassQueryItem = ClientRuntime.SDKURLQueryItem(name: "anomalyClass".urlPercentEncoding(), value: Swift.String(anomalyClass).urlPercentEncoding())
+            items.append(anomalyClassQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDatasetEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension ListDatasetEntriesInput {
+
+    static func urlPathProvider(_ value: ListDatasetEntriesInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let datasetType = datasetType else {
+        guard let datasetType = value.datasetType else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/datasets/\(datasetType.urlPercentEncoding())/entries"
@@ -2357,26 +2375,26 @@ enum ListDatasetEntriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListModelPackagingJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListModelPackagingJobsInput {
+
+    static func queryItemProvider(_ value: ListModelPackagingJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListModelPackagingJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension ListModelPackagingJobsInput {
+
+    static func urlPathProvider(_ value: ListModelPackagingJobsInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/modelpackagingjobs"
@@ -2487,26 +2505,26 @@ enum ListModelPackagingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListModelsInput {
+
+    static func queryItemProvider(_ value: ListModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension ListModelsInput {
+
+    static func urlPathProvider(_ value: ListModelsInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models"
@@ -2618,25 +2636,25 @@ enum ListModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListProjectsInput {
+
+    static func queryItemProvider(_ value: ListProjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
         return "/2020-11-20/projects"
     }
 }
@@ -2741,9 +2759,10 @@ enum ListProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/2020-11-20/tags/\(resourceArn.urlPercentEncoding())"
@@ -2836,6 +2855,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
+
+public enum LookoutVisionClientTypes {}
 
 extension LookoutVisionClientTypes.ModelDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4145,22 +4166,24 @@ extension StartModelInput: Swift.Encodable {
     }
 }
 
-extension StartModelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartModelInput {
+
+    static func headerProvider(_ value: StartModelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension StartModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension StartModelInput {
+
+    static func urlPathProvider(_ value: StartModelInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let modelVersion = modelVersion else {
+        guard let modelVersion = value.modelVersion else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models/\(modelVersion.urlPercentEncoding())/start"
@@ -4300,19 +4323,21 @@ extension StartModelPackagingJobInput: Swift.Encodable {
     }
 }
 
-extension StartModelPackagingJobInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartModelPackagingJobInput {
+
+    static func headerProvider(_ value: StartModelPackagingJobInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension StartModelPackagingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension StartModelPackagingJobInput {
+
+    static func urlPathProvider(_ value: StartModelPackagingJobInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/modelpackagingjobs"
@@ -4439,22 +4464,24 @@ enum StartModelPackagingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopModelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StopModelInput {
+
+    static func headerProvider(_ value: StopModelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension StopModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension StopModelInput {
+
+    static func urlPathProvider(_ value: StopModelInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let modelVersion = modelVersion else {
+        guard let modelVersion = value.modelVersion else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/models/\(modelVersion.urlPercentEncoding())/stop"
@@ -4611,9 +4638,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/2020-11-20/tags/\(resourceArn.urlPercentEncoding())"
@@ -4955,26 +4983,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/2020-11-20/tags/\(resourceArn.urlPercentEncoding())"
@@ -5047,22 +5075,24 @@ extension UpdateDatasetEntriesInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatasetEntriesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateDatasetEntriesInput {
+
+    static func headerProvider(_ value: UpdateDatasetEntriesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientToken = clientToken {
+        if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
 }
 
-extension UpdateDatasetEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension UpdateDatasetEntriesInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetEntriesInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let datasetType = datasetType else {
+        guard let datasetType = value.datasetType else {
             return nil
         }
         return "/2020-11-20/projects/\(projectName.urlPercentEncoding())/datasets/\(datasetType.urlPercentEncoding())/entries"

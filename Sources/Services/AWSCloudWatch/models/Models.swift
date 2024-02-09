@@ -427,6 +427,8 @@ extension CloudWatchClientTypes {
     }
 }
 
+public enum CloudWatchClientTypes {}
+
 extension CloudWatchClientTypes {
     public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case greaterthanorequaltothreshold
@@ -1216,8 +1218,9 @@ extension DeleteAlarmsInput: Swift.Encodable {
     }
 }
 
-extension DeleteAlarmsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAlarmsInput {
+
+    static func urlPathProvider(_ value: DeleteAlarmsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1323,8 +1326,9 @@ extension DeleteAnomalyDetectorInput: Swift.Encodable {
     }
 }
 
-extension DeleteAnomalyDetectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAnomalyDetectorInput {
+
+    static func urlPathProvider(_ value: DeleteAnomalyDetectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1488,8 +1492,9 @@ extension DeleteDashboardsInput: Swift.Encodable {
     }
 }
 
-extension DeleteDashboardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDashboardsInput {
+
+    static func urlPathProvider(_ value: DeleteDashboardsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1582,8 +1587,9 @@ extension DeleteInsightRulesInput: Swift.Encodable {
     }
 }
 
-extension DeleteInsightRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInsightRulesInput {
+
+    static func urlPathProvider(_ value: DeleteInsightRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1714,8 +1720,9 @@ extension DeleteMetricStreamInput: Swift.Encodable {
     }
 }
 
-extension DeleteMetricStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMetricStreamInput {
+
+    static func urlPathProvider(_ value: DeleteMetricStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1812,8 +1819,9 @@ extension DescribeAlarmHistoryInput: Swift.Encodable {
     }
 }
 
-extension DescribeAlarmHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAlarmHistoryInput {
+
+    static func urlPathProvider(_ value: DescribeAlarmHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2035,8 +2043,9 @@ extension DescribeAlarmsForMetricInput: Swift.Encodable {
     }
 }
 
-extension DescribeAlarmsForMetricInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAlarmsForMetricInput {
+
+    static func urlPathProvider(_ value: DescribeAlarmsForMetricInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2256,8 +2265,9 @@ extension DescribeAlarmsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAlarmsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAlarmsInput {
+
+    static func urlPathProvider(_ value: DescribeAlarmsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2537,8 +2547,9 @@ extension DescribeAnomalyDetectorsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAnomalyDetectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAnomalyDetectorsInput {
+
+    static func urlPathProvider(_ value: DescribeAnomalyDetectorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2740,8 +2751,9 @@ extension DescribeInsightRulesInput: Swift.Encodable {
     }
 }
 
-extension DescribeInsightRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInsightRulesInput {
+
+    static func urlPathProvider(_ value: DescribeInsightRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2973,8 +2985,9 @@ extension DisableAlarmActionsInput: Swift.Encodable {
     }
 }
 
-extension DisableAlarmActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableAlarmActionsInput {
+
+    static func urlPathProvider(_ value: DisableAlarmActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3064,8 +3077,9 @@ extension DisableInsightRulesInput: Swift.Encodable {
     }
 }
 
-extension DisableInsightRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableInsightRulesInput {
+
+    static func urlPathProvider(_ value: DisableInsightRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3205,8 +3219,9 @@ extension EnableAlarmActionsInput: Swift.Encodable {
     }
 }
 
-extension EnableAlarmActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableAlarmActionsInput {
+
+    static func urlPathProvider(_ value: EnableAlarmActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3296,8 +3311,9 @@ extension EnableInsightRulesInput: Swift.Encodable {
     }
 }
 
-extension EnableInsightRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableInsightRulesInput {
+
+    static func urlPathProvider(_ value: EnableInsightRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3458,8 +3474,9 @@ extension GetDashboardInput: Swift.Encodable {
     }
 }
 
-extension GetDashboardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDashboardInput {
+
+    static func urlPathProvider(_ value: GetDashboardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3604,8 +3621,9 @@ extension GetInsightRuleReportInput: Swift.Encodable {
     }
 }
 
-extension GetInsightRuleReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInsightRuleReportInput {
+
+    static func urlPathProvider(_ value: GetInsightRuleReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3913,8 +3931,9 @@ extension GetMetricDataInput: Swift.Encodable {
     }
 }
 
-extension GetMetricDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMetricDataInput {
+
+    static func urlPathProvider(_ value: GetMetricDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4191,8 +4210,9 @@ extension GetMetricStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetMetricStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMetricStatisticsInput {
+
+    static func urlPathProvider(_ value: GetMetricStatisticsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4452,8 +4472,9 @@ extension GetMetricStreamInput: Swift.Encodable {
     }
 }
 
-extension GetMetricStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMetricStreamInput {
+
+    static func urlPathProvider(_ value: GetMetricStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4717,8 +4738,9 @@ extension GetMetricWidgetImageInput: Swift.Encodable {
     }
 }
 
-extension GetMetricWidgetImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMetricWidgetImageInput {
+
+    static func urlPathProvider(_ value: GetMetricWidgetImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5652,8 +5674,9 @@ extension ListDashboardsInput: Swift.Encodable {
     }
 }
 
-extension ListDashboardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDashboardsInput {
+
+    static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5790,8 +5813,9 @@ extension ListManagedInsightRulesInput: Swift.Encodable {
     }
 }
 
-extension ListManagedInsightRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListManagedInsightRulesInput {
+
+    static func urlPathProvider(_ value: ListManagedInsightRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5935,8 +5959,9 @@ extension ListMetricStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListMetricStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMetricStreamsInput {
+
+    static func urlPathProvider(_ value: ListMetricStreamsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6096,8 +6121,9 @@ extension ListMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMetricsInput {
+
+    static func urlPathProvider(_ value: ListMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6312,8 +6338,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8266,8 +8293,9 @@ extension PutAnomalyDetectorInput: Swift.Encodable {
     }
 }
 
-extension PutAnomalyDetectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAnomalyDetectorInput {
+
+    static func urlPathProvider(_ value: PutAnomalyDetectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8496,8 +8524,9 @@ extension PutCompositeAlarmInput: Swift.Encodable {
     }
 }
 
-extension PutCompositeAlarmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutCompositeAlarmInput {
+
+    static func urlPathProvider(_ value: PutCompositeAlarmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8736,8 +8765,9 @@ extension PutDashboardInput: Swift.Encodable {
     }
 }
 
-extension PutDashboardInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutDashboardInput {
+
+    static func urlPathProvider(_ value: PutDashboardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8878,8 +8908,9 @@ extension PutInsightRuleInput: Swift.Encodable {
     }
 }
 
-extension PutInsightRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutInsightRuleInput {
+
+    static func urlPathProvider(_ value: PutInsightRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8997,8 +9028,9 @@ extension PutManagedInsightRulesInput: Swift.Encodable {
     }
 }
 
-extension PutManagedInsightRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutManagedInsightRulesInput {
+
+    static func urlPathProvider(_ value: PutManagedInsightRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9246,8 +9278,9 @@ extension PutMetricAlarmInput: Swift.Encodable {
     }
 }
 
-extension PutMetricAlarmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutMetricAlarmInput {
+
+    static func urlPathProvider(_ value: PutMetricAlarmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9720,8 +9753,9 @@ extension PutMetricDataInput: Swift.Encodable {
     }
 }
 
-extension PutMetricDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutMetricDataInput {
+
+    static func urlPathProvider(_ value: PutMetricDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9875,8 +9909,9 @@ extension PutMetricStreamInput: Swift.Encodable {
     }
 }
 
-extension PutMetricStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutMetricStreamInput {
+
+    static func urlPathProvider(_ value: PutMetricStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10359,8 +10394,9 @@ extension SetAlarmStateInput: Swift.Encodable {
     }
 }
 
-extension SetAlarmStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetAlarmStateInput {
+
+    static func urlPathProvider(_ value: SetAlarmStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10659,8 +10695,9 @@ extension StartMetricStreamsInput: Swift.Encodable {
     }
 }
 
-extension StartMetricStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMetricStreamsInput {
+
+    static func urlPathProvider(_ value: StartMetricStreamsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10936,8 +10973,9 @@ extension StopMetricStreamsInput: Swift.Encodable {
     }
 }
 
-extension StopMetricStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopMetricStreamsInput {
+
+    static func urlPathProvider(_ value: StopMetricStreamsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11080,8 +11118,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11187,8 +11226,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

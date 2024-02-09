@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension ElastiCacheClientProtocol {
+extension ElastiCacheClient {
 
     static func cacheClusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput> {
         let acceptors: [WaiterConfiguration<DescribeCacheClustersInput, DescribeCacheClustersOutput>.Acceptor] = [

@@ -191,37 +191,39 @@ extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
         "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), customAttributes: \"CONTENT_REDACTED\")"}
 }
 
-extension InvokeEndpointAsyncInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeEndpointAsyncInput {
+
+    static func headerProvider(_ value: InvokeEndpointAsyncInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "X-Amzn-SageMaker-Accept", value: Swift.String(accept)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "X-Amzn-SageMaker-Content-Type", value: Swift.String(contentType)))
         }
-        if let customAttributes = customAttributes {
+        if let customAttributes = value.customAttributes {
             items.add(Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
         }
-        if let inferenceId = inferenceId {
+        if let inferenceId = value.inferenceId {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
         }
-        if let inputLocation = inputLocation {
+        if let inputLocation = value.inputLocation {
             items.add(Header(name: "X-Amzn-SageMaker-InputLocation", value: Swift.String(inputLocation)))
         }
-        if let invocationTimeoutSeconds = invocationTimeoutSeconds {
+        if let invocationTimeoutSeconds = value.invocationTimeoutSeconds {
             items.add(Header(name: "X-Amzn-SageMaker-InvocationTimeoutSeconds", value: Swift.String(invocationTimeoutSeconds)))
         }
-        if let requestTTLSeconds = requestTTLSeconds {
+        if let requestTTLSeconds = value.requestTTLSeconds {
             items.add(Header(name: "X-Amzn-SageMaker-RequestTTLSeconds", value: Swift.String(requestTTLSeconds)))
         }
         return items
     }
 }
 
-extension InvokeEndpointAsyncInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let endpointName = endpointName else {
+extension InvokeEndpointAsyncInput {
+
+    static func urlPathProvider(_ value: InvokeEndpointAsyncInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
             return nil
         }
         return "/endpoints/\(endpointName.urlPercentEncoding())/async-invocations"
@@ -368,43 +370,45 @@ extension InvokeEndpointInput: Swift.Encodable {
     }
 }
 
-extension InvokeEndpointInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeEndpointInput {
+
+    static func headerProvider(_ value: InvokeEndpointInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let customAttributes = customAttributes {
+        if let customAttributes = value.customAttributes {
             items.add(Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
         }
-        if let enableExplanations = enableExplanations {
+        if let enableExplanations = value.enableExplanations {
             items.add(Header(name: "X-Amzn-SageMaker-Enable-Explanations", value: Swift.String(enableExplanations)))
         }
-        if let inferenceComponentName = inferenceComponentName {
+        if let inferenceComponentName = value.inferenceComponentName {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Component", value: Swift.String(inferenceComponentName)))
         }
-        if let inferenceId = inferenceId {
+        if let inferenceId = value.inferenceId {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
         }
-        if let targetContainerHostname = targetContainerHostname {
+        if let targetContainerHostname = value.targetContainerHostname {
             items.add(Header(name: "X-Amzn-SageMaker-Target-Container-Hostname", value: Swift.String(targetContainerHostname)))
         }
-        if let targetModel = targetModel {
+        if let targetModel = value.targetModel {
             items.add(Header(name: "X-Amzn-SageMaker-Target-Model", value: Swift.String(targetModel)))
         }
-        if let targetVariant = targetVariant {
+        if let targetVariant = value.targetVariant {
             items.add(Header(name: "X-Amzn-SageMaker-Target-Variant", value: Swift.String(targetVariant)))
         }
         return items
     }
 }
 
-extension InvokeEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let endpointName = endpointName else {
+extension InvokeEndpointInput {
+
+    static func urlPathProvider(_ value: InvokeEndpointInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
             return nil
         }
         return "/endpoints/\(endpointName.urlPercentEncoding())/invocations"
@@ -589,37 +593,39 @@ extension InvokeEndpointWithResponseStreamInput: Swift.Encodable {
     }
 }
 
-extension InvokeEndpointWithResponseStreamInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeEndpointWithResponseStreamInput {
+
+    static func headerProvider(_ value: InvokeEndpointWithResponseStreamInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "X-Amzn-SageMaker-Accept", value: Swift.String(accept)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let customAttributes = customAttributes {
+        if let customAttributes = value.customAttributes {
             items.add(Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
         }
-        if let inferenceComponentName = inferenceComponentName {
+        if let inferenceComponentName = value.inferenceComponentName {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Component", value: Swift.String(inferenceComponentName)))
         }
-        if let inferenceId = inferenceId {
+        if let inferenceId = value.inferenceId {
             items.add(Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
         }
-        if let targetContainerHostname = targetContainerHostname {
+        if let targetContainerHostname = value.targetContainerHostname {
             items.add(Header(name: "X-Amzn-SageMaker-Target-Container-Hostname", value: Swift.String(targetContainerHostname)))
         }
-        if let targetVariant = targetVariant {
+        if let targetVariant = value.targetVariant {
             items.add(Header(name: "X-Amzn-SageMaker-Target-Variant", value: Swift.String(targetVariant)))
         }
         return items
     }
 }
 
-extension InvokeEndpointWithResponseStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let endpointName = endpointName else {
+extension InvokeEndpointWithResponseStreamInput {
+
+    static func urlPathProvider(_ value: InvokeEndpointWithResponseStreamInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
             return nil
         }
         return "/endpoints/\(endpointName.urlPercentEncoding())/invocations-response-stream"
@@ -1075,6 +1081,8 @@ extension SageMakerRuntimeClientTypes {
     }
 
 }
+
+public enum SageMakerRuntimeClientTypes {}
 
 extension ServiceUnavailable {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {

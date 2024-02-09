@@ -2,9 +2,12 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension DeleteConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+public enum ApiGatewayManagementApiClientTypes {}
+
+extension DeleteConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/@connections/\(connectionId.urlPercentEncoding())"
@@ -76,9 +79,10 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init() { }
 }
 
-extension GetConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+extension GetConnectionInput {
+
+    static func urlPathProvider(_ value: GetConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/@connections/\(connectionId.urlPercentEncoding())"
@@ -334,9 +338,10 @@ extension PostToConnectionInput: Swift.Encodable {
     }
 }
 
-extension PostToConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+extension PostToConnectionInput {
+
+    static func urlPathProvider(_ value: PostToConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/@connections/\(connectionId.urlPercentEncoding())"

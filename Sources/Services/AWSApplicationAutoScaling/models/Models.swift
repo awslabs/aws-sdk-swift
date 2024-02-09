@@ -84,6 +84,8 @@ extension ApplicationAutoScalingClientTypes {
 
 }
 
+public enum ApplicationAutoScalingClientTypes {}
+
 extension ConcurrentUpdateException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -280,8 +282,9 @@ extension DeleteScalingPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteScalingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScalingPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteScalingPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -471,8 +474,9 @@ extension DeleteScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension DeleteScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScheduledActionInput {
+
+    static func urlPathProvider(_ value: DeleteScheduledActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -658,8 +662,9 @@ extension DeregisterScalableTargetInput: Swift.Encodable {
     }
 }
 
-extension DeregisterScalableTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterScalableTargetInput {
+
+    static func urlPathProvider(_ value: DeregisterScalableTargetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -847,8 +852,9 @@ extension DescribeScalableTargetsInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalableTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalableTargetsInput {
+
+    static func urlPathProvider(_ value: DescribeScalableTargetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1109,8 +1115,9 @@ extension DescribeScalingActivitiesInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalingActivitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalingActivitiesInput {
+
+    static func urlPathProvider(_ value: DescribeScalingActivitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1373,8 +1380,9 @@ extension DescribeScalingPoliciesInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalingPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalingPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeScalingPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1647,8 +1655,9 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeScheduledActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScheduledActionsInput {
+
+    static func urlPathProvider(_ value: DescribeScheduledActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2117,8 +2126,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2686,8 +2696,9 @@ extension PutScalingPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutScalingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutScalingPolicyInput {
+
+    static func urlPathProvider(_ value: PutScalingPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2973,8 +2984,9 @@ extension PutScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension PutScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutScheduledActionInput {
+
+    static func urlPathProvider(_ value: PutScheduledActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3233,8 +3245,9 @@ extension RegisterScalableTargetInput: Swift.Encodable {
     }
 }
 
-extension RegisterScalableTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterScalableTargetInput {
+
+    static func urlPathProvider(_ value: RegisterScalableTargetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4947,8 +4960,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5441,8 +5455,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

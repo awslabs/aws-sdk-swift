@@ -240,18 +240,20 @@ extension CompleteAttachmentUploadInput: Swift.Encodable {
     }
 }
 
-extension CompleteAttachmentUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CompleteAttachmentUploadInput {
+
+    static func headerProvider(_ value: CompleteAttachmentUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension CompleteAttachmentUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CompleteAttachmentUploadInput {
+
+    static func urlPathProvider(_ value: CompleteAttachmentUploadInput) -> Swift.String? {
         return "/participant/complete-attachment-upload"
     }
 }
@@ -390,6 +392,8 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ConnectParticipantClientTypes {}
+
 extension ConnectParticipantClientTypes.ConnectionCredentials: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionToken = "ConnectionToken"
@@ -487,18 +491,20 @@ extension CreateParticipantConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateParticipantConnectionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateParticipantConnectionInput {
+
+    static func headerProvider(_ value: CreateParticipantConnectionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let participantToken = participantToken {
+        if let participantToken = value.participantToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(participantToken)))
         }
         return items
     }
 }
 
-extension CreateParticipantConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateParticipantConnectionInput {
+
+    static func urlPathProvider(_ value: CreateParticipantConnectionInput) -> Swift.String? {
         return "/participant/connection"
     }
 }
@@ -617,19 +623,21 @@ enum CreateParticipantConnectionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeViewInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeViewInput {
+
+    static func headerProvider(_ value: DescribeViewInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension DescribeViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let viewToken = viewToken else {
+extension DescribeViewInput {
+
+    static func urlPathProvider(_ value: DescribeViewInput) -> Swift.String? {
+        guard let viewToken = value.viewToken else {
             return nil
         }
         return "/participant/views/\(viewToken.urlPercentEncoding())"
@@ -731,18 +739,20 @@ extension DisconnectParticipantInput: Swift.Encodable {
     }
 }
 
-extension DisconnectParticipantInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DisconnectParticipantInput {
+
+    static func headerProvider(_ value: DisconnectParticipantInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension DisconnectParticipantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisconnectParticipantInput {
+
+    static func urlPathProvider(_ value: DisconnectParticipantInput) -> Swift.String? {
         return "/participant/disconnect"
     }
 }
@@ -817,18 +827,20 @@ extension GetAttachmentInput: Swift.Encodable {
     }
 }
 
-extension GetAttachmentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetAttachmentInput {
+
+    static func headerProvider(_ value: GetAttachmentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension GetAttachmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAttachmentInput {
+
+    static func urlPathProvider(_ value: GetAttachmentInput) -> Swift.String? {
         return "/participant/attachment"
     }
 }
@@ -964,18 +976,20 @@ extension GetTranscriptInput: Swift.Encodable {
     }
 }
 
-extension GetTranscriptInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetTranscriptInput {
+
+    static func headerProvider(_ value: GetTranscriptInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension GetTranscriptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTranscriptInput {
+
+    static func urlPathProvider(_ value: GetTranscriptInput) -> Swift.String? {
         return "/participant/transcript"
     }
 }
@@ -1680,18 +1694,20 @@ extension SendEventInput: Swift.Encodable {
     }
 }
 
-extension SendEventInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SendEventInput {
+
+    static func headerProvider(_ value: SendEventInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension SendEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendEventInput {
+
+    static func urlPathProvider(_ value: SendEventInput) -> Swift.String? {
         return "/participant/event"
     }
 }
@@ -1810,10 +1826,7 @@ enum SendEventOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1843,18 +1856,20 @@ extension SendMessageInput: Swift.Encodable {
     }
 }
 
-extension SendMessageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SendMessageInput {
+
+    static func headerProvider(_ value: SendMessageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension SendMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendMessageInput {
+
+    static func urlPathProvider(_ value: SendMessageInput) -> Swift.String? {
         return "/participant/message"
     }
 }
@@ -2093,18 +2108,20 @@ extension StartAttachmentUploadInput: Swift.Encodable {
     }
 }
 
-extension StartAttachmentUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartAttachmentUploadInput {
+
+    static func headerProvider(_ value: StartAttachmentUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let connectionToken = connectionToken {
+        if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
         return items
     }
 }
 
-extension StartAttachmentUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAttachmentUploadInput {
+
+    static func urlPathProvider(_ value: StartAttachmentUploadInput) -> Swift.String? {
         return "/participant/start-attachment-upload"
     }
 }

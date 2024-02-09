@@ -57,24 +57,24 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-extension AssociateBrowserSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let browserSettingsArn = browserSettingsArn else {
-                let message = "Creating a URL Query Item failed. browserSettingsArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let browserSettingsArnQueryItem = ClientRuntime.URLQueryItem(name: "browserSettingsArn".urlPercentEncoding(), value: Swift.String(browserSettingsArn).urlPercentEncoding())
-            items.append(browserSettingsArnQueryItem)
-            return items
+extension AssociateBrowserSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateBrowserSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let browserSettingsArn = value.browserSettingsArn else {
+            let message = "Creating a URL Query Item failed. browserSettingsArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let browserSettingsArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "browserSettingsArn".urlPercentEncoding(), value: Swift.String(browserSettingsArn).urlPercentEncoding())
+        items.append(browserSettingsArnQueryItem)
+        return items
     }
 }
 
-extension AssociateBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension AssociateBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateBrowserSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/browserSettings"
@@ -176,24 +176,24 @@ enum AssociateBrowserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension AssociateIpAccessSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let ipAccessSettingsArn = ipAccessSettingsArn else {
-                let message = "Creating a URL Query Item failed. ipAccessSettingsArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let ipAccessSettingsArnQueryItem = ClientRuntime.URLQueryItem(name: "ipAccessSettingsArn".urlPercentEncoding(), value: Swift.String(ipAccessSettingsArn).urlPercentEncoding())
-            items.append(ipAccessSettingsArnQueryItem)
-            return items
+extension AssociateIpAccessSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateIpAccessSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let ipAccessSettingsArn = value.ipAccessSettingsArn else {
+            let message = "Creating a URL Query Item failed. ipAccessSettingsArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let ipAccessSettingsArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ipAccessSettingsArn".urlPercentEncoding(), value: Swift.String(ipAccessSettingsArn).urlPercentEncoding())
+        items.append(ipAccessSettingsArnQueryItem)
+        return items
     }
 }
 
-extension AssociateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension AssociateIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateIpAccessSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/ipAccessSettings"
@@ -295,24 +295,24 @@ enum AssociateIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension AssociateNetworkSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let networkSettingsArn = networkSettingsArn else {
-                let message = "Creating a URL Query Item failed. networkSettingsArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let networkSettingsArnQueryItem = ClientRuntime.URLQueryItem(name: "networkSettingsArn".urlPercentEncoding(), value: Swift.String(networkSettingsArn).urlPercentEncoding())
-            items.append(networkSettingsArnQueryItem)
-            return items
+extension AssociateNetworkSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateNetworkSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let networkSettingsArn = value.networkSettingsArn else {
+            let message = "Creating a URL Query Item failed. networkSettingsArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let networkSettingsArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "networkSettingsArn".urlPercentEncoding(), value: Swift.String(networkSettingsArn).urlPercentEncoding())
+        items.append(networkSettingsArnQueryItem)
+        return items
     }
 }
 
-extension AssociateNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension AssociateNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateNetworkSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/networkSettings"
@@ -414,24 +414,24 @@ enum AssociateNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension AssociateTrustStoreInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let trustStoreArn = trustStoreArn else {
-                let message = "Creating a URL Query Item failed. trustStoreArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let trustStoreArnQueryItem = ClientRuntime.URLQueryItem(name: "trustStoreArn".urlPercentEncoding(), value: Swift.String(trustStoreArn).urlPercentEncoding())
-            items.append(trustStoreArnQueryItem)
-            return items
+extension AssociateTrustStoreInput {
+
+    static func queryItemProvider(_ value: AssociateTrustStoreInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let trustStoreArn = value.trustStoreArn else {
+            let message = "Creating a URL Query Item failed. trustStoreArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let trustStoreArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "trustStoreArn".urlPercentEncoding(), value: Swift.String(trustStoreArn).urlPercentEncoding())
+        items.append(trustStoreArnQueryItem)
+        return items
     }
 }
 
-extension AssociateTrustStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension AssociateTrustStoreInput {
+
+    static func urlPathProvider(_ value: AssociateTrustStoreInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/trustStores"
@@ -532,24 +532,24 @@ enum AssociateTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension AssociateUserAccessLoggingSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
-                let message = "Creating a URL Query Item failed. userAccessLoggingSettingsArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let userAccessLoggingSettingsArnQueryItem = ClientRuntime.URLQueryItem(name: "userAccessLoggingSettingsArn".urlPercentEncoding(), value: Swift.String(userAccessLoggingSettingsArn).urlPercentEncoding())
-            items.append(userAccessLoggingSettingsArnQueryItem)
-            return items
+extension AssociateUserAccessLoggingSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateUserAccessLoggingSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let userAccessLoggingSettingsArn = value.userAccessLoggingSettingsArn else {
+            let message = "Creating a URL Query Item failed. userAccessLoggingSettingsArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let userAccessLoggingSettingsArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "userAccessLoggingSettingsArn".urlPercentEncoding(), value: Swift.String(userAccessLoggingSettingsArn).urlPercentEncoding())
+        items.append(userAccessLoggingSettingsArnQueryItem)
+        return items
     }
 }
 
-extension AssociateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension AssociateUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateUserAccessLoggingSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userAccessLoggingSettings"
@@ -651,24 +651,24 @@ enum AssociateUserAccessLoggingSettingsOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension AssociateUserSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let userSettingsArn = userSettingsArn else {
-                let message = "Creating a URL Query Item failed. userSettingsArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let userSettingsArnQueryItem = ClientRuntime.URLQueryItem(name: "userSettingsArn".urlPercentEncoding(), value: Swift.String(userSettingsArn).urlPercentEncoding())
-            items.append(userSettingsArnQueryItem)
-            return items
+extension AssociateUserSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateUserSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let userSettingsArn = value.userSettingsArn else {
+            let message = "Creating a URL Query Item failed. userSettingsArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let userSettingsArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "userSettingsArn".urlPercentEncoding(), value: Swift.String(userSettingsArn).urlPercentEncoding())
+        items.append(userSettingsArnQueryItem)
+        return items
     }
 }
 
-extension AssociateUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension AssociateUserSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateUserSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userSettings"
@@ -1347,8 +1347,9 @@ extension CreateBrowserSettingsInput: Swift.Encodable {
     }
 }
 
-extension CreateBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: CreateBrowserSettingsInput) -> Swift.String? {
         return "/browserSettings"
     }
 }
@@ -1527,8 +1528,9 @@ extension CreateIdentityProviderInput: Swift.Encodable {
     }
 }
 
-extension CreateIdentityProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIdentityProviderInput {
+
+    static func urlPathProvider(_ value: CreateIdentityProviderInput) -> Swift.String? {
         return "/identityProviders"
     }
 }
@@ -1783,8 +1785,9 @@ extension CreateIpAccessSettingsInput: Swift.Encodable {
     }
 }
 
-extension CreateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: CreateIpAccessSettingsInput) -> Swift.String? {
         return "/ipAccessSettings"
     }
 }
@@ -1988,8 +1991,9 @@ extension CreateNetworkSettingsInput: Swift.Encodable {
     }
 }
 
-extension CreateNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: CreateNetworkSettingsInput) -> Swift.String? {
         return "/networkSettings"
     }
 }
@@ -2185,8 +2189,9 @@ extension CreatePortalInput: Swift.Encodable {
     }
 }
 
-extension CreatePortalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePortalInput {
+
+    static func urlPathProvider(_ value: CreatePortalInput) -> Swift.String? {
         return "/portals"
     }
 }
@@ -2373,8 +2378,9 @@ extension CreateTrustStoreInput: Swift.Encodable {
     }
 }
 
-extension CreateTrustStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrustStoreInput {
+
+    static func urlPathProvider(_ value: CreateTrustStoreInput) -> Swift.String? {
         return "/trustStores"
     }
 }
@@ -2523,8 +2529,9 @@ extension CreateUserAccessLoggingSettingsInput: Swift.Encodable {
     }
 }
 
-extension CreateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: CreateUserAccessLoggingSettingsInput) -> Swift.String? {
         return "/userAccessLoggingSettings"
     }
 }
@@ -2708,8 +2715,9 @@ extension CreateUserSettingsInput: Swift.Encodable {
     }
 }
 
-extension CreateUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserSettingsInput {
+
+    static func urlPathProvider(_ value: CreateUserSettingsInput) -> Swift.String? {
         return "/userSettings"
     }
 }
@@ -2910,9 +2918,10 @@ enum CreateUserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let browserSettingsArn = browserSettingsArn else {
+extension DeleteBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteBrowserSettingsInput) -> Swift.String? {
+        guard let browserSettingsArn = value.browserSettingsArn else {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -2966,9 +2975,10 @@ enum DeleteBrowserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteIdentityProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityProviderArn = identityProviderArn else {
+extension DeleteIdentityProviderInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityProviderInput) -> Swift.String? {
+        guard let identityProviderArn = value.identityProviderArn else {
             return nil
         }
         return "/identityProviders/\(identityProviderArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3022,9 +3032,10 @@ enum DeleteIdentityProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+extension DeleteIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteIpAccessSettingsInput) -> Swift.String? {
+        guard let ipAccessSettingsArn = value.ipAccessSettingsArn else {
             return nil
         }
         return "/ipAccessSettings/\(ipAccessSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3078,9 +3089,10 @@ enum DeleteIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkSettingsArn = networkSettingsArn else {
+extension DeleteNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkSettingsInput) -> Swift.String? {
+        guard let networkSettingsArn = value.networkSettingsArn else {
             return nil
         }
         return "/networkSettings/\(networkSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3134,9 +3146,10 @@ enum DeleteNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePortalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DeletePortalInput {
+
+    static func urlPathProvider(_ value: DeletePortalInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3190,9 +3203,10 @@ enum DeletePortalOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTrustStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustStoreArn = trustStoreArn else {
+extension DeleteTrustStoreInput {
+
+    static func urlPathProvider(_ value: DeleteTrustStoreInput) -> Swift.String? {
+        guard let trustStoreArn = value.trustStoreArn else {
             return nil
         }
         return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3246,9 +3260,10 @@ enum DeleteTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
+extension DeleteUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteUserAccessLoggingSettingsInput) -> Swift.String? {
+        guard let userAccessLoggingSettingsArn = value.userAccessLoggingSettingsArn else {
             return nil
         }
         return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3302,9 +3317,10 @@ enum DeleteUserAccessLoggingSettingsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userSettingsArn = userSettingsArn else {
+extension DeleteUserSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteUserSettingsInput) -> Swift.String? {
+        guard let userSettingsArn = value.userSettingsArn else {
             return nil
         }
         return "/userSettings/\(userSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3358,9 +3374,10 @@ enum DeleteUserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DisassociateBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateBrowserSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/browserSettings"
@@ -3414,9 +3431,10 @@ enum DisassociateBrowserSettingsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DisassociateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DisassociateIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateIpAccessSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/ipAccessSettings"
@@ -3470,9 +3488,10 @@ enum DisassociateIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DisassociateNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DisassociateNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateNetworkSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/networkSettings"
@@ -3526,9 +3545,10 @@ enum DisassociateNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DisassociateTrustStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DisassociateTrustStoreInput {
+
+    static func urlPathProvider(_ value: DisassociateTrustStoreInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/trustStores"
@@ -3582,9 +3602,10 @@ enum DisassociateTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DisassociateUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateUserAccessLoggingSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userAccessLoggingSettings"
@@ -3638,9 +3659,10 @@ enum DisassociateUserAccessLoggingSettingsOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension DisassociateUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension DisassociateUserSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateUserSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/userSettings"
@@ -3726,9 +3748,10 @@ extension WorkSpacesWebClientTypes {
     }
 }
 
-extension GetBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let browserSettingsArn = browserSettingsArn else {
+extension GetBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: GetBrowserSettingsInput) -> Swift.String? {
+        guard let browserSettingsArn = value.browserSettingsArn else {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3812,9 +3835,10 @@ enum GetBrowserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIdentityProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityProviderArn = identityProviderArn else {
+extension GetIdentityProviderInput {
+
+    static func urlPathProvider(_ value: GetIdentityProviderInput) -> Swift.String? {
+        guard let identityProviderArn = value.identityProviderArn else {
             return nil
         }
         return "/identityProviders/\(identityProviderArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3898,9 +3922,10 @@ enum GetIdentityProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+extension GetIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: GetIpAccessSettingsInput) -> Swift.String? {
+        guard let ipAccessSettingsArn = value.ipAccessSettingsArn else {
             return nil
         }
         return "/ipAccessSettings/\(ipAccessSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3984,9 +4009,10 @@ enum GetIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkSettingsArn = networkSettingsArn else {
+extension GetNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: GetNetworkSettingsInput) -> Swift.String? {
+        guard let networkSettingsArn = value.networkSettingsArn else {
             return nil
         }
         return "/networkSettings/\(networkSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4070,9 +4096,10 @@ enum GetNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPortalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension GetPortalInput {
+
+    static func urlPathProvider(_ value: GetPortalInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4156,9 +4183,10 @@ enum GetPortalOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPortalServiceProviderMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension GetPortalServiceProviderMetadataInput {
+
+    static func urlPathProvider(_ value: GetPortalServiceProviderMetadataInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portalIdp/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4253,24 +4281,24 @@ enum GetPortalServiceProviderMetadataOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetTrustStoreCertificateInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let thumbprint = thumbprint else {
-                let message = "Creating a URL Query Item failed. thumbprint is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let thumbprintQueryItem = ClientRuntime.URLQueryItem(name: "thumbprint".urlPercentEncoding(), value: Swift.String(thumbprint).urlPercentEncoding())
-            items.append(thumbprintQueryItem)
-            return items
+extension GetTrustStoreCertificateInput {
+
+    static func queryItemProvider(_ value: GetTrustStoreCertificateInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let thumbprint = value.thumbprint else {
+            let message = "Creating a URL Query Item failed. thumbprint is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let thumbprintQueryItem = ClientRuntime.SDKURLQueryItem(name: "thumbprint".urlPercentEncoding(), value: Swift.String(thumbprint).urlPercentEncoding())
+        items.append(thumbprintQueryItem)
+        return items
     }
 }
 
-extension GetTrustStoreCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustStoreArn = trustStoreArn else {
+extension GetTrustStoreCertificateInput {
+
+    static func urlPathProvider(_ value: GetTrustStoreCertificateInput) -> Swift.String? {
+        guard let trustStoreArn = value.trustStoreArn else {
             return nil
         }
         return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))/certificate"
@@ -4370,9 +4398,10 @@ enum GetTrustStoreCertificateOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetTrustStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustStoreArn = trustStoreArn else {
+extension GetTrustStoreInput {
+
+    static func urlPathProvider(_ value: GetTrustStoreInput) -> Swift.String? {
+        guard let trustStoreArn = value.trustStoreArn else {
             return nil
         }
         return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4456,9 +4485,10 @@ enum GetTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
+extension GetUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: GetUserAccessLoggingSettingsInput) -> Swift.String? {
+        guard let userAccessLoggingSettingsArn = value.userAccessLoggingSettingsArn else {
             return nil
         }
         return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4542,9 +4572,10 @@ enum GetUserAccessLoggingSettingsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userSettingsArn = userSettingsArn else {
+extension GetUserSettingsInput {
+
+    static func urlPathProvider(_ value: GetUserSettingsInput) -> Swift.String? {
+        guard let userSettingsArn = value.userSettingsArn else {
             return nil
         }
         return "/userSettings/\(userSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -5185,25 +5216,25 @@ extension WorkSpacesWebClientTypes {
 
 }
 
-extension ListBrowserSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBrowserSettingsInput {
+
+    static func queryItemProvider(_ value: ListBrowserSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: ListBrowserSettingsInput) -> Swift.String? {
         return "/browserSettings"
     }
 }
@@ -5306,26 +5337,26 @@ enum ListBrowserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIdentityProvidersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIdentityProvidersInput {
+
+    static func queryItemProvider(_ value: ListIdentityProvidersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIdentityProvidersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension ListIdentityProvidersInput {
+
+    static func urlPathProvider(_ value: ListIdentityProvidersInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/identityProviders"
@@ -5435,25 +5466,25 @@ enum ListIdentityProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIpAccessSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIpAccessSettingsInput {
+
+    static func queryItemProvider(_ value: ListIpAccessSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: ListIpAccessSettingsInput) -> Swift.String? {
         return "/ipAccessSettings"
     }
 }
@@ -5556,25 +5587,25 @@ enum ListIpAccessSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListNetworkSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListNetworkSettingsInput {
+
+    static func queryItemProvider(_ value: ListNetworkSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: ListNetworkSettingsInput) -> Swift.String? {
         return "/networkSettings"
     }
 }
@@ -5677,25 +5708,25 @@ enum ListNetworkSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPortalsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPortalsInput {
+
+    static func queryItemProvider(_ value: ListPortalsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPortalsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPortalsInput {
+
+    static func urlPathProvider(_ value: ListPortalsInput) -> Swift.String? {
         return "/portals"
     }
 }
@@ -5798,9 +5829,10 @@ enum ListPortalsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -5893,26 +5925,26 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTrustStoreCertificatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTrustStoreCertificatesInput {
+
+    static func queryItemProvider(_ value: ListTrustStoreCertificatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrustStoreCertificatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustStoreArn = trustStoreArn else {
+extension ListTrustStoreCertificatesInput {
+
+    static func urlPathProvider(_ value: ListTrustStoreCertificatesInput) -> Swift.String? {
+        guard let trustStoreArn = value.trustStoreArn else {
             return nil
         }
         return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))/certificates"
@@ -6034,25 +6066,25 @@ enum ListTrustStoreCertificatesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTrustStoresInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTrustStoresInput {
+
+    static func queryItemProvider(_ value: ListTrustStoresInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrustStoresInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrustStoresInput {
+
+    static func urlPathProvider(_ value: ListTrustStoresInput) -> Swift.String? {
         return "/trustStores"
     }
 }
@@ -6155,25 +6187,25 @@ enum ListTrustStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListUserAccessLoggingSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListUserAccessLoggingSettingsInput {
+
+    static func queryItemProvider(_ value: ListUserAccessLoggingSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: ListUserAccessLoggingSettingsInput) -> Swift.String? {
         return "/userAccessLoggingSettings"
     }
 }
@@ -6276,25 +6308,25 @@ enum ListUserAccessLoggingSettingsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListUserSettingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListUserSettingsInput {
+
+    static func queryItemProvider(_ value: ListUserSettingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUserSettingsInput {
+
+    static func urlPathProvider(_ value: ListUserSettingsInput) -> Swift.String? {
         return "/userSettings"
     }
 }
@@ -7214,9 +7246,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -7542,26 +7575,26 @@ extension WorkSpacesWebClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -7642,9 +7675,10 @@ extension UpdateBrowserSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateBrowserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let browserSettingsArn = browserSettingsArn else {
+extension UpdateBrowserSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateBrowserSettingsInput) -> Swift.String? {
+        guard let browserSettingsArn = value.browserSettingsArn else {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -7781,9 +7815,10 @@ extension UpdateIdentityProviderInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdentityProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityProviderArn = identityProviderArn else {
+extension UpdateIdentityProviderInput {
+
+    static func urlPathProvider(_ value: UpdateIdentityProviderInput) -> Swift.String? {
+        guard let identityProviderArn = value.identityProviderArn else {
             return nil
         }
         return "/identityProviders/\(identityProviderArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -8013,9 +8048,10 @@ extension UpdateIpAccessSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateIpAccessSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let ipAccessSettingsArn = ipAccessSettingsArn else {
+extension UpdateIpAccessSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateIpAccessSettingsInput) -> Swift.String? {
+        guard let ipAccessSettingsArn = value.ipAccessSettingsArn else {
             return nil
         }
         return "/ipAccessSettings/\(ipAccessSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -8175,9 +8211,10 @@ extension UpdateNetworkSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateNetworkSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkSettingsArn = networkSettingsArn else {
+extension UpdateNetworkSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateNetworkSettingsInput) -> Swift.String? {
+        guard let networkSettingsArn = value.networkSettingsArn else {
             return nil
         }
         return "/networkSettings/\(networkSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -8337,9 +8374,10 @@ extension UpdatePortalInput: Swift.Encodable {
     }
 }
 
-extension UpdatePortalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let portalArn = portalArn else {
+extension UpdatePortalInput {
+
+    static func urlPathProvider(_ value: UpdatePortalInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -8470,9 +8508,10 @@ extension UpdateTrustStoreInput: Swift.Encodable {
     }
 }
 
-extension UpdateTrustStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustStoreArn = trustStoreArn else {
+extension UpdateTrustStoreInput {
+
+    static func urlPathProvider(_ value: UpdateTrustStoreInput) -> Swift.String? {
+        guard let trustStoreArn = value.trustStoreArn else {
             return nil
         }
         return "/trustStores/\(trustStoreArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -8620,9 +8659,10 @@ extension UpdateUserAccessLoggingSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserAccessLoggingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userAccessLoggingSettingsArn = userAccessLoggingSettingsArn else {
+extension UpdateUserAccessLoggingSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateUserAccessLoggingSettingsInput) -> Swift.String? {
+        guard let userAccessLoggingSettingsArn = value.userAccessLoggingSettingsArn else {
             return nil
         }
         return "/userAccessLoggingSettings/\(userAccessLoggingSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -8776,9 +8816,10 @@ extension UpdateUserSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userSettingsArn = userSettingsArn else {
+extension UpdateUserSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateUserSettingsInput) -> Swift.String? {
+        guard let userSettingsArn = value.userSettingsArn else {
             return nil
         }
         return "/userSettings/\(userSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -9484,3 +9525,5 @@ extension WorkSpacesWebClientTypes {
         }
     }
 }
+
+public enum WorkSpacesWebClientTypes {}

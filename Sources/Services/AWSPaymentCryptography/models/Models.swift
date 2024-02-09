@@ -175,8 +175,9 @@ extension CreateAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAliasInput {
+
+    static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -309,8 +310,9 @@ extension CreateKeyInput: Swift.Encodable {
     }
 }
 
-extension CreateKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyInput {
+
+    static func urlPathProvider(_ value: CreateKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -458,8 +460,9 @@ extension DeleteAliasInput: Swift.Encodable {
     }
 }
 
-extension DeleteAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAliasInput {
+
+    static func urlPathProvider(_ value: DeleteAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -537,8 +540,9 @@ extension DeleteKeyInput: Swift.Encodable {
     }
 }
 
-extension DeleteKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteKeyInput {
+
+    static func urlPathProvider(_ value: DeleteKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -719,8 +723,6 @@ extension PaymentCryptographyClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension PaymentCryptographyClientTypes.ExportKeyCryptogram: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
@@ -783,7 +785,6 @@ extension PaymentCryptographyClientTypes {
 
 }
 
->>>>>>> temp-main
 extension ExportKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportAttributes = "ExportAttributes"
@@ -805,8 +806,9 @@ extension ExportKeyInput: Swift.Encodable {
     }
 }
 
-extension ExportKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportKeyInput {
+
+    static func urlPathProvider(_ value: ExportKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -901,11 +903,7 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial: Swift.Codable {
 }
 
 extension PaymentCryptographyClientTypes {
-<<<<<<< HEAD
-    /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
-=======
     /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
->>>>>>> temp-main
     public enum ExportKeyMaterial: Swift.Equatable {
         /// Parameter information for key material export using symmetric TR-31 key exchange method.
         case tr31keyblock(PaymentCryptographyClientTypes.ExportTr31KeyBlock)
@@ -931,11 +929,7 @@ extension ExportKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ExportKeyOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock.
-=======
     /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock. or a RSA WrappedKeyCryptogram.
->>>>>>> temp-main
     public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 
     public init(
@@ -1112,8 +1106,9 @@ extension GetAliasInput: Swift.Encodable {
     }
 }
 
-extension GetAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAliasInput {
+
+    static func urlPathProvider(_ value: GetAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1217,8 +1212,9 @@ extension GetKeyInput: Swift.Encodable {
     }
 }
 
-extension GetKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetKeyInput {
+
+    static func urlPathProvider(_ value: GetKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1326,8 +1322,9 @@ extension GetParametersForExportInput: Swift.Encodable {
     }
 }
 
-extension GetParametersForExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetParametersForExportInput {
+
+    static func urlPathProvider(_ value: GetParametersForExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1495,24 +1492,18 @@ extension GetParametersForImportInput: Swift.Encodable {
     }
 }
 
-extension GetParametersForImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetParametersForImportInput {
+
+    static func urlPathProvider(_ value: GetParametersForImportInput) -> Swift.String? {
         return "/"
     }
 }
 
 public struct GetParametersForImportInput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
-    /// This member is required.
-    public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
-    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048, RSA_3072, RSA_4096 are the only allowed algorithms for TR-34 WrappedKeyBlock import.
-=======
     /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
     /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048, RSA_3072, RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import.
->>>>>>> temp-main
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
@@ -1578,11 +1569,7 @@ public struct GetParametersForImportOutput: Swift.Equatable {
     /// The validity period of the import token.
     /// This member is required.
     public var parametersValidUntilTimestamp: ClientRuntime.Date?
-<<<<<<< HEAD
-    /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock.
-=======
     /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock or RSA WrappedKeyCryptogram.
->>>>>>> temp-main
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
     /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
@@ -1671,8 +1658,9 @@ extension GetPublicKeyCertificateInput: Swift.Encodable {
     }
 }
 
-extension GetPublicKeyCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPublicKeyCertificateInput {
+
+    static func urlPathProvider(_ value: GetPublicKeyCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1749,8 +1737,6 @@ struct GetPublicKeyCertificateOutputBody: Swift.Equatable {
 }
 
 extension GetPublicKeyCertificateOutputBody: Swift.Decodable {
-<<<<<<< HEAD
-=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyCertificate = "KeyCertificate"
         case keyCertificateChain = "KeyCertificateChain"
@@ -1782,7 +1768,6 @@ enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding 
 }
 
 extension PaymentCryptographyClientTypes.ImportKeyCryptogram: Swift.Codable {
->>>>>>> temp-main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportable = "Exportable"
         case importToken = "ImportToken"
@@ -1825,22 +1810,6 @@ extension PaymentCryptographyClientTypes.ImportKeyCryptogram: Swift.Codable {
     }
 }
 
-<<<<<<< HEAD
-enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-=======
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
     public struct ImportKeyCryptogram: Swift.Equatable {
@@ -1875,7 +1844,6 @@ extension PaymentCryptographyClientTypes {
         }
     }
 
->>>>>>> temp-main
 }
 
 extension ImportKeyInput: Swift.Encodable {
@@ -1906,8 +1874,9 @@ extension ImportKeyInput: Swift.Encodable {
     }
 }
 
-extension ImportKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportKeyInput {
+
+    static func urlPathProvider(_ value: ImportKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2034,11 +2003,7 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial: Swift.Codable {
 }
 
 extension PaymentCryptographyClientTypes {
-<<<<<<< HEAD
-    /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
-=======
     /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
->>>>>>> temp-main
     public enum ImportKeyMaterial: Swift.Equatable {
         /// Parameter information for root public key certificate import.
         case rootcertificatepublickey(PaymentCryptographyClientTypes.RootCertificatePublicKey)
@@ -3095,8 +3060,9 @@ extension ListAliasesInput: Swift.Encodable {
     }
 }
 
-extension ListAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAliasesInput {
+
+    static func urlPathProvider(_ value: ListAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3234,8 +3200,9 @@ extension ListKeysInput: Swift.Encodable {
     }
 }
 
-extension ListKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeysInput {
+
+    static func urlPathProvider(_ value: ListKeysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3381,8 +3348,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3508,6 +3476,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum PaymentCryptographyClientTypes {}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3577,8 +3547,9 @@ extension RestoreKeyInput: Swift.Encodable {
     }
 }
 
-extension RestoreKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreKeyInput {
+
+    static func urlPathProvider(_ value: RestoreKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3846,8 +3817,9 @@ extension StartKeyUsageInput: Swift.Encodable {
     }
 }
 
-extension StartKeyUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartKeyUsageInput {
+
+    static func urlPathProvider(_ value: StartKeyUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3953,8 +3925,9 @@ extension StopKeyUsageInput: Swift.Encodable {
     }
 }
 
-extension StopKeyUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopKeyUsageInput {
+
+    static func urlPathProvider(_ value: StopKeyUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4113,8 +4086,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4361,8 +4335,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4458,8 +4433,9 @@ extension UpdateAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAliasInput {
+
+    static func urlPathProvider(_ value: UpdateAliasInput) -> Swift.String? {
         return "/"
     }
 }

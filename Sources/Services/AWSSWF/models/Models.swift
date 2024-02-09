@@ -1982,8 +1982,9 @@ extension CountClosedWorkflowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension CountClosedWorkflowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CountClosedWorkflowExecutionsInput {
+
+    static func urlPathProvider(_ value: CountClosedWorkflowExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2158,8 +2159,9 @@ extension CountOpenWorkflowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension CountOpenWorkflowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CountOpenWorkflowExecutionsInput {
+
+    static func urlPathProvider(_ value: CountOpenWorkflowExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2307,8 +2309,9 @@ extension CountPendingActivityTasksInput: Swift.Encodable {
     }
 }
 
-extension CountPendingActivityTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CountPendingActivityTasksInput {
+
+    static func urlPathProvider(_ value: CountPendingActivityTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2432,8 +2435,9 @@ extension CountPendingDecisionTasksInput: Swift.Encodable {
     }
 }
 
-extension CountPendingDecisionTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CountPendingDecisionTasksInput {
+
+    static func urlPathProvider(_ value: CountPendingDecisionTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3207,8 +3211,9 @@ extension DeprecateActivityTypeInput: Swift.Encodable {
     }
 }
 
-extension DeprecateActivityTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeprecateActivityTypeInput {
+
+    static func urlPathProvider(_ value: DeprecateActivityTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3287,8 +3292,9 @@ extension DeprecateDomainInput: Swift.Encodable {
     }
 }
 
-extension DeprecateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeprecateDomainInput {
+
+    static func urlPathProvider(_ value: DeprecateDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3362,8 +3368,9 @@ extension DeprecateWorkflowTypeInput: Swift.Encodable {
     }
 }
 
-extension DeprecateWorkflowTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeprecateWorkflowTypeInput {
+
+    static func urlPathProvider(_ value: DeprecateWorkflowTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3446,8 +3453,9 @@ extension DescribeActivityTypeInput: Swift.Encodable {
     }
 }
 
-extension DescribeActivityTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeActivityTypeInput {
+
+    static func urlPathProvider(_ value: DescribeActivityTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3572,8 +3580,9 @@ extension DescribeDomainInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainInput {
+
+    static func urlPathProvider(_ value: DescribeDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3689,8 +3698,9 @@ extension DescribeWorkflowExecutionInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkflowExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkflowExecutionInput {
+
+    static func urlPathProvider(_ value: DescribeWorkflowExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3846,8 +3856,9 @@ extension DescribeWorkflowTypeInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkflowTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkflowTypeInput {
+
+    static func urlPathProvider(_ value: DescribeWorkflowTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4700,8 +4711,9 @@ extension GetWorkflowExecutionHistoryInput: Swift.Encodable {
     }
 }
 
-extension GetWorkflowExecutionHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkflowExecutionHistoryInput {
+
+    static func urlPathProvider(_ value: GetWorkflowExecutionHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5958,8 +5970,9 @@ extension ListActivityTypesInput: Swift.Encodable {
     }
 }
 
-extension ListActivityTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListActivityTypesInput {
+
+    static func urlPathProvider(_ value: ListActivityTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6156,8 +6169,9 @@ extension ListClosedWorkflowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListClosedWorkflowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClosedWorkflowExecutionsInput {
+
+    static func urlPathProvider(_ value: ListClosedWorkflowExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6361,8 +6375,9 @@ extension ListDomainsInput: Swift.Encodable {
     }
 }
 
-extension ListDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainsInput {
+
+    static func urlPathProvider(_ value: ListDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6533,8 +6548,9 @@ extension ListOpenWorkflowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListOpenWorkflowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOpenWorkflowExecutionsInput {
+
+    static func urlPathProvider(_ value: ListOpenWorkflowExecutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6711,8 +6727,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6841,8 +6858,9 @@ extension ListWorkflowTypesInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowTypesInput {
+
+    static func urlPathProvider(_ value: ListWorkflowTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7124,8 +7142,9 @@ extension PollForActivityTaskInput: Swift.Encodable {
     }
 }
 
-extension PollForActivityTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PollForActivityTaskInput {
+
+    static func urlPathProvider(_ value: PollForActivityTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7322,8 +7341,9 @@ extension PollForDecisionTaskInput: Swift.Encodable {
     }
 }
 
-extension PollForDecisionTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PollForDecisionTaskInput {
+
+    static func urlPathProvider(_ value: PollForDecisionTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7551,8 +7571,9 @@ extension RecordActivityTaskHeartbeatInput: Swift.Encodable {
     }
 }
 
-extension RecordActivityTaskHeartbeatInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RecordActivityTaskHeartbeatInput {
+
+    static func urlPathProvider(_ value: RecordActivityTaskHeartbeatInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7839,8 +7860,9 @@ extension RegisterActivityTypeInput: Swift.Encodable {
     }
 }
 
-extension RegisterActivityTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterActivityTypeInput {
+
+    static func urlPathProvider(_ value: RegisterActivityTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8000,8 +8022,9 @@ extension RegisterDomainInput: Swift.Encodable {
     }
 }
 
-extension RegisterDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterDomainInput {
+
+    static func urlPathProvider(_ value: RegisterDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8142,8 +8165,9 @@ extension RegisterWorkflowTypeInput: Swift.Encodable {
     }
 }
 
-extension RegisterWorkflowTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterWorkflowTypeInput {
+
+    static func urlPathProvider(_ value: RegisterWorkflowTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8725,8 +8749,9 @@ extension RequestCancelWorkflowExecutionInput: Swift.Encodable {
     }
 }
 
-extension RequestCancelWorkflowExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RequestCancelWorkflowExecutionInput {
+
+    static func urlPathProvider(_ value: RequestCancelWorkflowExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8862,8 +8887,9 @@ extension RespondActivityTaskCanceledInput: Swift.Encodable {
     }
 }
 
-extension RespondActivityTaskCanceledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RespondActivityTaskCanceledInput {
+
+    static func urlPathProvider(_ value: RespondActivityTaskCanceledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8944,8 +8970,9 @@ extension RespondActivityTaskCompletedInput: Swift.Encodable {
     }
 }
 
-extension RespondActivityTaskCompletedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RespondActivityTaskCompletedInput {
+
+    static func urlPathProvider(_ value: RespondActivityTaskCompletedInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9030,8 +9057,9 @@ extension RespondActivityTaskFailedInput: Swift.Encodable {
     }
 }
 
-extension RespondActivityTaskFailedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RespondActivityTaskFailedInput {
+
+    static func urlPathProvider(_ value: RespondActivityTaskFailedInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9135,8 +9163,9 @@ extension RespondDecisionTaskCompletedInput: Swift.Encodable {
     }
 }
 
-extension RespondDecisionTaskCompletedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RespondDecisionTaskCompletedInput {
+
+    static func urlPathProvider(_ value: RespondDecisionTaskCompletedInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9233,6 +9262,8 @@ enum RespondDecisionTaskCompletedOutputError: ClientRuntime.HttpResponseErrorBin
         }
     }
 }
+
+public enum SWFClientTypes {}
 
 extension SWFClientTypes.ScheduleActivityTaskDecisionAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -10018,8 +10049,9 @@ extension SignalWorkflowExecutionInput: Swift.Encodable {
     }
 }
 
-extension SignalWorkflowExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SignalWorkflowExecutionInput {
+
+    static func urlPathProvider(_ value: SignalWorkflowExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10906,8 +10938,9 @@ extension StartWorkflowExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartWorkflowExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartWorkflowExecutionInput {
+
+    static func urlPathProvider(_ value: StartWorkflowExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11154,8 +11187,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11300,8 +11334,9 @@ extension TerminateWorkflowExecutionInput: Swift.Encodable {
     }
 }
 
-extension TerminateWorkflowExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TerminateWorkflowExecutionInput {
+
+    static func urlPathProvider(_ value: TerminateWorkflowExecutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11764,8 +11799,9 @@ extension UndeprecateActivityTypeInput: Swift.Encodable {
     }
 }
 
-extension UndeprecateActivityTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UndeprecateActivityTypeInput {
+
+    static func urlPathProvider(_ value: UndeprecateActivityTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11844,8 +11880,9 @@ extension UndeprecateDomainInput: Swift.Encodable {
     }
 }
 
-extension UndeprecateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UndeprecateDomainInput {
+
+    static func urlPathProvider(_ value: UndeprecateDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11919,8 +11956,9 @@ extension UndeprecateWorkflowTypeInput: Swift.Encodable {
     }
 }
 
-extension UndeprecateWorkflowTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UndeprecateWorkflowTypeInput {
+
+    static func urlPathProvider(_ value: UndeprecateWorkflowTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12062,8 +12100,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

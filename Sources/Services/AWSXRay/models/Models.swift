@@ -301,8 +301,9 @@ extension BatchGetTracesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetTracesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetTracesInput {
+
+    static func urlPathProvider(_ value: BatchGetTracesInput) -> Swift.String? {
         return "/Traces"
     }
 }
@@ -471,8 +472,9 @@ extension CreateGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGroupInput {
+
+    static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
         return "/CreateGroup"
     }
 }
@@ -627,8 +629,9 @@ extension CreateSamplingRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateSamplingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSamplingRuleInput {
+
+    static func urlPathProvider(_ value: CreateSamplingRuleInput) -> Swift.String? {
         return "/CreateSamplingRule"
     }
 }
@@ -761,8 +764,9 @@ extension DeleteGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGroupInput) -> Swift.String? {
         return "/DeleteGroup"
     }
 }
@@ -842,8 +846,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/DeleteResourcePolicy"
     }
 }
@@ -925,8 +930,9 @@ extension DeleteSamplingRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteSamplingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSamplingRuleInput {
+
+    static func urlPathProvider(_ value: DeleteSamplingRuleInput) -> Swift.String? {
         return "/DeleteSamplingRule"
     }
 }
@@ -1965,8 +1971,9 @@ extension XRayClientTypes {
 
 }
 
-extension GetEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: GetEncryptionConfigInput) -> Swift.String? {
         return "/EncryptionConfig"
     }
 }
@@ -2054,8 +2061,9 @@ extension GetGroupInput: Swift.Encodable {
     }
 }
 
-extension GetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupInput {
+
+    static func urlPathProvider(_ value: GetGroupInput) -> Swift.String? {
         return "/GetGroup"
     }
 }
@@ -2161,8 +2169,9 @@ extension GetGroupsInput: Swift.Encodable {
     }
 }
 
-extension GetGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupsInput {
+
+    static func urlPathProvider(_ value: GetGroupsInput) -> Swift.String? {
         return "/Groups"
     }
 }
@@ -2287,8 +2296,9 @@ extension GetInsightEventsInput: Swift.Encodable {
     }
 }
 
-extension GetInsightEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInsightEventsInput {
+
+    static func urlPathProvider(_ value: GetInsightEventsInput) -> Swift.String? {
         return "/InsightEvents"
     }
 }
@@ -2434,8 +2444,9 @@ extension GetInsightImpactGraphInput: Swift.Encodable {
     }
 }
 
-extension GetInsightImpactGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInsightImpactGraphInput {
+
+    static func urlPathProvider(_ value: GetInsightImpactGraphInput) -> Swift.String? {
         return "/InsightImpactGraph"
     }
 }
@@ -2629,8 +2640,9 @@ extension GetInsightInput: Swift.Encodable {
     }
 }
 
-extension GetInsightInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInsightInput {
+
+    static func urlPathProvider(_ value: GetInsightInput) -> Swift.String? {
         return "/Insight"
     }
 }
@@ -2756,8 +2768,9 @@ extension GetInsightSummariesInput: Swift.Encodable {
     }
 }
 
-extension GetInsightSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInsightSummariesInput {
+
+    static func urlPathProvider(_ value: GetInsightSummariesInput) -> Swift.String? {
         return "/InsightSummaries"
     }
 }
@@ -2933,8 +2946,9 @@ extension GetSamplingRulesInput: Swift.Encodable {
     }
 }
 
-extension GetSamplingRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSamplingRulesInput {
+
+    static func urlPathProvider(_ value: GetSamplingRulesInput) -> Swift.String? {
         return "/GetSamplingRules"
     }
 }
@@ -3051,8 +3065,9 @@ extension GetSamplingStatisticSummariesInput: Swift.Encodable {
     }
 }
 
-extension GetSamplingStatisticSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSamplingStatisticSummariesInput {
+
+    static func urlPathProvider(_ value: GetSamplingStatisticSummariesInput) -> Swift.String? {
         return "/SamplingStatisticSummaries"
     }
 }
@@ -3172,8 +3187,9 @@ extension GetSamplingTargetsInput: Swift.Encodable {
     }
 }
 
-extension GetSamplingTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSamplingTargetsInput {
+
+    static func urlPathProvider(_ value: GetSamplingTargetsInput) -> Swift.String? {
         return "/SamplingTargets"
     }
 }
@@ -3335,8 +3351,9 @@ extension GetServiceGraphInput: Swift.Encodable {
     }
 }
 
-extension GetServiceGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceGraphInput {
+
+    static func urlPathProvider(_ value: GetServiceGraphInput) -> Swift.String? {
         return "/ServiceGraph"
     }
 }
@@ -3545,8 +3562,9 @@ extension GetTimeSeriesServiceStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetTimeSeriesServiceStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTimeSeriesServiceStatisticsInput {
+
+    static func urlPathProvider(_ value: GetTimeSeriesServiceStatisticsInput) -> Swift.String? {
         return "/TimeSeriesServiceStatistics"
     }
 }
@@ -3738,8 +3756,9 @@ extension GetTraceGraphInput: Swift.Encodable {
     }
 }
 
-extension GetTraceGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTraceGraphInput {
+
+    static func urlPathProvider(_ value: GetTraceGraphInput) -> Swift.String? {
         return "/TraceGraph"
     }
 }
@@ -3898,8 +3917,9 @@ extension GetTraceSummariesInput: Swift.Encodable {
     }
 }
 
-extension GetTraceSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTraceSummariesInput {
+
+    static func urlPathProvider(_ value: GetTraceSummariesInput) -> Swift.String? {
         return "/TraceSummaries"
     }
 }
@@ -5182,8 +5202,9 @@ extension ListResourcePoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListResourcePoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcePoliciesInput {
+
+    static func urlPathProvider(_ value: ListResourcePoliciesInput) -> Swift.String? {
         return "/ListResourcePolicies"
     }
 }
@@ -5304,8 +5325,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/ListTagsForResource"
     }
 }
@@ -5656,8 +5678,9 @@ extension PutEncryptionConfigInput: Swift.Encodable {
     }
 }
 
-extension PutEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: PutEncryptionConfigInput) -> Swift.String? {
         return "/PutEncryptionConfig"
     }
 }
@@ -5785,8 +5808,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/PutResourcePolicy"
     }
 }
@@ -5929,8 +5953,9 @@ extension PutTelemetryRecordsInput: Swift.Encodable {
     }
 }
 
-extension PutTelemetryRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutTelemetryRecordsInput {
+
+    static func urlPathProvider(_ value: PutTelemetryRecordsInput) -> Swift.String? {
         return "/TelemetryRecords"
     }
 }
@@ -6035,8 +6060,9 @@ extension PutTraceSegmentsInput: Swift.Encodable {
     }
 }
 
-extension PutTraceSegmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutTraceSegmentsInput {
+
+    static func urlPathProvider(_ value: PutTraceSegmentsInput) -> Swift.String? {
         return "/TraceSegments"
     }
 }
@@ -7867,8 +7893,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/TagResource"
     }
 }
@@ -8900,8 +8927,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/UntagResource"
     }
 }
@@ -9001,8 +9029,9 @@ extension UpdateGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateGroupInput) -> Swift.String? {
         return "/UpdateGroup"
     }
 }
@@ -9128,8 +9157,9 @@ extension UpdateSamplingRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateSamplingRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSamplingRuleInput {
+
+    static func urlPathProvider(_ value: UpdateSamplingRuleInput) -> Swift.String? {
         return "/UpdateSamplingRule"
     }
 }
@@ -9271,3 +9301,5 @@ extension XRayClientTypes {
     }
 
 }
+
+public enum XRayClientTypes {}

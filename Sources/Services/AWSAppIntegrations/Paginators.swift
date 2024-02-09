@@ -3,8 +3,6 @@
 import ClientRuntime
 
 extension AppIntegrationsClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListApplicationAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -36,7 +34,6 @@ extension PaginatorSequence where OperationStackInput == ListApplicationAssociat
     }
 }
 extension AppIntegrationsClient {
->>>>>>> temp-main
     /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

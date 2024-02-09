@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-extension SSMIncidentsClientProtocol {
+extension SSMIncidentsClient {
 
     static func waitForReplicationSetActiveWaiterConfig() throws -> WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput> {
         let acceptors: [WaiterConfiguration<GetReplicationSetInput, GetReplicationSetOutput>.Acceptor] = [

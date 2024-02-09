@@ -327,8 +327,9 @@ extension BatchGetIncidentFindingsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetIncidentFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetIncidentFindingsInput {
+
+    static func urlPathProvider(_ value: BatchGetIncidentFindingsInput) -> Swift.String? {
         return "/batchGetIncidentFindings"
     }
 }
@@ -819,8 +820,9 @@ extension CreateReplicationSetInput: Swift.Encodable {
     }
 }
 
-extension CreateReplicationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReplicationSetInput {
+
+    static func urlPathProvider(_ value: CreateReplicationSetInput) -> Swift.String? {
         return "/createReplicationSet"
     }
 }
@@ -1002,8 +1004,9 @@ extension CreateResponsePlanInput: Swift.Encodable {
     }
 }
 
-extension CreateResponsePlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResponsePlanInput {
+
+    static func urlPathProvider(_ value: CreateResponsePlanInput) -> Swift.String? {
         return "/createResponsePlan"
     }
 }
@@ -1231,8 +1234,9 @@ extension CreateTimelineEventInput: Swift.Encodable {
     }
 }
 
-extension CreateTimelineEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTimelineEventInput {
+
+    static func urlPathProvider(_ value: CreateTimelineEventInput) -> Swift.String? {
         return "/createTimelineEvent"
     }
 }
@@ -1399,8 +1403,9 @@ extension DeleteIncidentRecordInput: Swift.Encodable {
     }
 }
 
-extension DeleteIncidentRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIncidentRecordInput {
+
+    static func urlPathProvider(_ value: DeleteIncidentRecordInput) -> Swift.String? {
         return "/deleteIncidentRecord"
     }
 }
@@ -1494,23 +1499,23 @@ extension SSMIncidentsClientTypes {
 
 }
 
-extension DeleteReplicationSetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension DeleteReplicationSetInput {
+
+    static func queryItemProvider(_ value: DeleteReplicationSetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension DeleteReplicationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReplicationSetInput {
+
+    static func urlPathProvider(_ value: DeleteReplicationSetInput) -> Swift.String? {
         return "/deleteReplicationSet"
     }
 }
@@ -1579,8 +1584,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/deleteResourcePolicy"
     }
 }
@@ -1661,8 +1667,9 @@ extension DeleteResponsePlanInput: Swift.Encodable {
     }
 }
 
-extension DeleteResponsePlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResponsePlanInput {
+
+    static func urlPathProvider(_ value: DeleteResponsePlanInput) -> Swift.String? {
         return "/deleteResponsePlan"
     }
 }
@@ -1737,8 +1744,9 @@ extension DeleteTimelineEventInput: Swift.Encodable {
     }
 }
 
-extension DeleteTimelineEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTimelineEventInput {
+
+    static func urlPathProvider(_ value: DeleteTimelineEventInput) -> Swift.String? {
         return "/deleteTimelineEvent"
     }
 }
@@ -2220,23 +2228,23 @@ extension SSMIncidentsClientTypes {
 
 }
 
-extension GetIncidentRecordInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension GetIncidentRecordInput {
+
+    static func queryItemProvider(_ value: GetIncidentRecordInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension GetIncidentRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIncidentRecordInput {
+
+    static func urlPathProvider(_ value: GetIncidentRecordInput) -> Swift.String? {
         return "/getIncidentRecord"
     }
 }
@@ -2319,23 +2327,23 @@ enum GetIncidentRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetReplicationSetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension GetReplicationSetInput {
+
+    static func queryItemProvider(_ value: GetReplicationSetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension GetReplicationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetReplicationSetInput {
+
+    static func urlPathProvider(_ value: GetReplicationSetInput) -> Swift.String? {
         return "/getReplicationSet"
     }
 }
@@ -2435,23 +2443,23 @@ extension GetResourcePoliciesInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension GetResourcePoliciesInput {
+
+    static func queryItemProvider(_ value: GetResourcePoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension GetResourcePoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePoliciesInput {
+
+    static func urlPathProvider(_ value: GetResourcePoliciesInput) -> Swift.String? {
         return "/getResourcePolicies"
     }
 }
@@ -2572,23 +2580,23 @@ enum GetResourcePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResponsePlanInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension GetResponsePlanInput {
+
+    static func queryItemProvider(_ value: GetResponsePlanInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension GetResponsePlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResponsePlanInput {
+
+    static func urlPathProvider(_ value: GetResponsePlanInput) -> Swift.String? {
         return "/getResponsePlan"
     }
 }
@@ -2770,29 +2778,29 @@ enum GetResponsePlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetTimelineEventInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let eventId = eventId else {
-                let message = "Creating a URL Query Item failed. eventId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let eventIdQueryItem = ClientRuntime.URLQueryItem(name: "eventId".urlPercentEncoding(), value: Swift.String(eventId).urlPercentEncoding())
-            items.append(eventIdQueryItem)
-            guard let incidentRecordArn = incidentRecordArn else {
-                let message = "Creating a URL Query Item failed. incidentRecordArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let incidentRecordArnQueryItem = ClientRuntime.URLQueryItem(name: "incidentRecordArn".urlPercentEncoding(), value: Swift.String(incidentRecordArn).urlPercentEncoding())
-            items.append(incidentRecordArnQueryItem)
-            return items
+extension GetTimelineEventInput {
+
+    static func queryItemProvider(_ value: GetTimelineEventInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let eventId = value.eventId else {
+            let message = "Creating a URL Query Item failed. eventId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let eventIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "eventId".urlPercentEncoding(), value: Swift.String(eventId).urlPercentEncoding())
+        items.append(eventIdQueryItem)
+        guard let incidentRecordArn = value.incidentRecordArn else {
+            let message = "Creating a URL Query Item failed. incidentRecordArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let incidentRecordArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "incidentRecordArn".urlPercentEncoding(), value: Swift.String(incidentRecordArn).urlPercentEncoding())
+        items.append(incidentRecordArnQueryItem)
+        return items
     }
 }
 
-extension GetTimelineEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTimelineEventInput {
+
+    static func urlPathProvider(_ value: GetTimelineEventInput) -> Swift.String? {
         return "/getTimelineEvent"
     }
 }
@@ -3690,8 +3698,9 @@ extension ListIncidentFindingsInput: Swift.Encodable {
     }
 }
 
-extension ListIncidentFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIncidentFindingsInput {
+
+    static func urlPathProvider(_ value: ListIncidentFindingsInput) -> Swift.String? {
         return "/listIncidentFindings"
     }
 }
@@ -3840,8 +3849,9 @@ extension ListIncidentRecordsInput: Swift.Encodable {
     }
 }
 
-extension ListIncidentRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIncidentRecordsInput {
+
+    static func urlPathProvider(_ value: ListIncidentRecordsInput) -> Swift.String? {
         return "/listIncidentRecords"
     }
 }
@@ -4011,8 +4021,9 @@ extension ListRelatedItemsInput: Swift.Encodable {
     }
 }
 
-extension ListRelatedItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRelatedItemsInput {
+
+    static func urlPathProvider(_ value: ListRelatedItemsInput) -> Swift.String? {
         return "/listRelatedItems"
     }
 }
@@ -4153,8 +4164,9 @@ extension ListReplicationSetsInput: Swift.Encodable {
     }
 }
 
-extension ListReplicationSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReplicationSetsInput {
+
+    static func urlPathProvider(_ value: ListReplicationSetsInput) -> Swift.String? {
         return "/listReplicationSets"
     }
 }
@@ -4286,8 +4298,9 @@ extension ListResponsePlansInput: Swift.Encodable {
     }
 }
 
-extension ListResponsePlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResponsePlansInput {
+
+    static func urlPathProvider(_ value: ListResponsePlansInput) -> Swift.String? {
         return "/listResponsePlans"
     }
 }
@@ -4402,9 +4415,10 @@ enum ListResponsePlansOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4534,8 +4548,9 @@ extension ListTimelineEventsInput: Swift.Encodable {
     }
 }
 
-extension ListTimelineEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTimelineEventsInput {
+
+    static func urlPathProvider(_ value: ListTimelineEventsInput) -> Swift.String? {
         return "/listTimelineEvents"
     }
 }
@@ -4911,8 +4926,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/putResourcePolicy"
     }
 }
@@ -5660,6 +5676,8 @@ extension SSMIncidentsClientTypes {
 
 }
 
+public enum SSMIncidentsClientTypes {}
+
 extension SSMIncidentsClientTypes {
     public enum ServiceCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ssmIncidents
@@ -6008,8 +6026,9 @@ extension StartIncidentInput: Swift.Encodable {
     }
 }
 
-extension StartIncidentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartIncidentInput {
+
+    static func urlPathProvider(_ value: StartIncidentInput) -> Swift.String? {
         return "/startIncident"
     }
 }
@@ -6175,9 +6194,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6541,26 +6561,26 @@ extension SSMIncidentsClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6641,8 +6661,9 @@ extension UpdateDeletionProtectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateDeletionProtectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDeletionProtectionInput {
+
+    static func urlPathProvider(_ value: UpdateDeletionProtectionInput) -> Swift.String? {
         return "/updateDeletionProtection"
     }
 }
@@ -6762,8 +6783,9 @@ extension UpdateIncidentRecordInput: Swift.Encodable {
     }
 }
 
-extension UpdateIncidentRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIncidentRecordInput {
+
+    static func urlPathProvider(_ value: UpdateIncidentRecordInput) -> Swift.String? {
         return "/updateIncidentRecord"
     }
 }
@@ -6919,8 +6941,9 @@ extension UpdateRelatedItemsInput: Swift.Encodable {
     }
 }
 
-extension UpdateRelatedItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRelatedItemsInput {
+
+    static func urlPathProvider(_ value: UpdateRelatedItemsInput) -> Swift.String? {
         return "/updateRelatedItems"
     }
 }
@@ -7068,8 +7091,9 @@ extension UpdateReplicationSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateReplicationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateReplicationSetInput {
+
+    static func urlPathProvider(_ value: UpdateReplicationSetInput) -> Swift.String? {
         return "/updateReplicationSet"
     }
 }
@@ -7231,8 +7255,9 @@ extension UpdateResponsePlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateResponsePlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResponsePlanInput {
+
+    static func urlPathProvider(_ value: UpdateResponsePlanInput) -> Swift.String? {
         return "/updateResponsePlan"
     }
 }
@@ -7483,8 +7508,9 @@ extension UpdateTimelineEventInput: Swift.Encodable {
     }
 }
 
-extension UpdateTimelineEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTimelineEventInput {
+
+    static func urlPathProvider(_ value: UpdateTimelineEventInput) -> Swift.String? {
         return "/updateTimelineEvent"
     }
 }

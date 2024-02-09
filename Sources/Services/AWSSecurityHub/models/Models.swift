@@ -19,8 +19,9 @@ extension AcceptAdministratorInvitationInput: Swift.Encodable {
     }
 }
 
-extension AcceptAdministratorInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptAdministratorInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptAdministratorInvitationInput) -> Swift.String? {
         return "/administrator"
     }
 }
@@ -105,8 +106,9 @@ extension AcceptInvitationInput: Swift.Encodable {
     }
 }
 
-extension AcceptInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptInvitationInput) -> Swift.String? {
         return "/master"
     }
 }
@@ -44591,8 +44593,9 @@ extension BatchDeleteAutomationRulesInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteAutomationRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteAutomationRulesInput {
+
+    static func urlPathProvider(_ value: BatchDeleteAutomationRulesInput) -> Swift.String? {
         return "/automationrules/delete"
     }
 }
@@ -44734,8 +44737,9 @@ extension BatchDisableStandardsInput: Swift.Encodable {
     }
 }
 
-extension BatchDisableStandardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDisableStandardsInput {
+
+    static func urlPathProvider(_ value: BatchDisableStandardsInput) -> Swift.String? {
         return "/standards/deregister"
     }
 }
@@ -44858,8 +44862,9 @@ extension BatchEnableStandardsInput: Swift.Encodable {
     }
 }
 
-extension BatchEnableStandardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchEnableStandardsInput {
+
+    static func urlPathProvider(_ value: BatchEnableStandardsInput) -> Swift.String? {
         return "/standards/register"
     }
 }
@@ -44982,8 +44987,9 @@ extension BatchGetAutomationRulesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetAutomationRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetAutomationRulesInput {
+
+    static func urlPathProvider(_ value: BatchGetAutomationRulesInput) -> Swift.String? {
         return "/automationrules/get"
     }
 }
@@ -45126,8 +45132,9 @@ extension BatchGetConfigurationPolicyAssociationsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetConfigurationPolicyAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetConfigurationPolicyAssociationsInput {
+
+    static func urlPathProvider(_ value: BatchGetConfigurationPolicyAssociationsInput) -> Swift.String? {
         return "/configurationPolicyAssociation/batchget"
     }
 }
@@ -45270,8 +45277,9 @@ extension BatchGetSecurityControlsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetSecurityControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetSecurityControlsInput {
+
+    static func urlPathProvider(_ value: BatchGetSecurityControlsInput) -> Swift.String? {
         return "/securityControls/batchGet"
     }
 }
@@ -45413,8 +45421,9 @@ extension BatchGetStandardsControlAssociationsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetStandardsControlAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetStandardsControlAssociationsInput {
+
+    static func urlPathProvider(_ value: BatchGetStandardsControlAssociationsInput) -> Swift.String? {
         return "/associations/batchGet"
     }
 }
@@ -45556,8 +45565,9 @@ extension BatchImportFindingsInput: Swift.Encodable {
     }
 }
 
-extension BatchImportFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchImportFindingsInput {
+
+    static func urlPathProvider(_ value: BatchImportFindingsInput) -> Swift.String? {
         return "/findings/import"
     }
 }
@@ -45701,8 +45711,9 @@ extension BatchUpdateAutomationRulesInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateAutomationRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchUpdateAutomationRulesInput {
+
+    static func urlPathProvider(_ value: BatchUpdateAutomationRulesInput) -> Swift.String? {
         return "/automationrules/update"
     }
 }
@@ -45889,8 +45900,9 @@ extension BatchUpdateFindingsInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchUpdateFindingsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateFindingsInput) -> Swift.String? {
         return "/findings/batchupdate"
     }
 }
@@ -46232,8 +46244,9 @@ extension BatchUpdateStandardsControlAssociationsInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateStandardsControlAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchUpdateStandardsControlAssociationsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateStandardsControlAssociationsInput) -> Swift.String? {
         return "/associations"
     }
 }
@@ -47601,8 +47614,9 @@ extension CreateActionTargetInput: Swift.Encodable {
     }
 }
 
-extension CreateActionTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateActionTargetInput {
+
+    static func urlPathProvider(_ value: CreateActionTargetInput) -> Swift.String? {
         return "/actionTargets"
     }
 }
@@ -47757,8 +47771,9 @@ extension CreateAutomationRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateAutomationRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAutomationRuleInput {
+
+    static func urlPathProvider(_ value: CreateAutomationRuleInput) -> Swift.String? {
         return "/automationrules/create"
     }
 }
@@ -47953,8 +47968,9 @@ extension CreateConfigurationPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfigurationPolicyInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationPolicyInput) -> Swift.String? {
         return "/configurationPolicy/create"
     }
 }
@@ -48158,8 +48174,9 @@ extension CreateFindingAggregatorInput: Swift.Encodable {
     }
 }
 
-extension CreateFindingAggregatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFindingAggregatorInput {
+
+    static func urlPathProvider(_ value: CreateFindingAggregatorInput) -> Swift.String? {
         return "/findingAggregator/create"
     }
 }
@@ -48331,8 +48348,9 @@ extension CreateInsightInput: Swift.Encodable {
     }
 }
 
-extension CreateInsightInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInsightInput {
+
+    static func urlPathProvider(_ value: CreateInsightInput) -> Swift.String? {
         return "/insights"
     }
 }
@@ -48456,8 +48474,9 @@ extension CreateMembersInput: Swift.Encodable {
     }
 }
 
-extension CreateMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMembersInput {
+
+    static func urlPathProvider(_ value: CreateMembersInput) -> Swift.String? {
         return "/members"
     }
 }
@@ -48964,8 +48983,9 @@ extension DeclineInvitationsInput: Swift.Encodable {
     }
 }
 
-extension DeclineInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeclineInvitationsInput {
+
+    static func urlPathProvider(_ value: DeclineInvitationsInput) -> Swift.String? {
         return "/invitations/decline"
     }
 }
@@ -49071,9 +49091,10 @@ enum DeclineInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteActionTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let actionTargetArn = actionTargetArn else {
+extension DeleteActionTargetInput {
+
+    static func urlPathProvider(_ value: DeleteActionTargetInput) -> Swift.String? {
+        guard let actionTargetArn = value.actionTargetArn else {
             return nil
         }
         return "/actionTargets/\(actionTargetArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -49157,9 +49178,10 @@ enum DeleteActionTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteConfigurationPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension DeleteConfigurationPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationPolicyInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
@@ -49215,9 +49237,10 @@ enum DeleteConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteFindingAggregatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let findingAggregatorArn = findingAggregatorArn else {
+extension DeleteFindingAggregatorInput {
+
+    static func urlPathProvider(_ value: DeleteFindingAggregatorInput) -> Swift.String? {
+        guard let findingAggregatorArn = value.findingAggregatorArn else {
             return nil
         }
         return "/findingAggregator/delete/\(findingAggregatorArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -49272,9 +49295,10 @@ enum DeleteFindingAggregatorOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteInsightInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let insightArn = insightArn else {
+extension DeleteInsightInput {
+
+    static func urlPathProvider(_ value: DeleteInsightInput) -> Swift.String? {
+        guard let insightArn = value.insightArn else {
             return nil
         }
         return "/insights/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -49375,8 +49399,9 @@ extension DeleteInvitationsInput: Swift.Encodable {
     }
 }
 
-extension DeleteInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInvitationsInput {
+
+    static func urlPathProvider(_ value: DeleteInvitationsInput) -> Swift.String? {
         return "/invitations/delete"
     }
 }
@@ -49499,8 +49524,9 @@ extension DeleteMembersInput: Swift.Encodable {
     }
 }
 
-extension DeleteMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMembersInput {
+
+    static func urlPathProvider(_ value: DeleteMembersInput) -> Swift.String? {
         return "/members/delete"
     }
 }
@@ -49631,8 +49657,9 @@ extension DescribeActionTargetsInput: Swift.Encodable {
     }
 }
 
-extension DescribeActionTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeActionTargetsInput {
+
+    static func urlPathProvider(_ value: DescribeActionTargetsInput) -> Swift.String? {
         return "/actionTargets/get"
     }
 }
@@ -49764,21 +49791,21 @@ enum DescribeActionTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeHubInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let hubArn = hubArn {
-                let hubArnQueryItem = ClientRuntime.URLQueryItem(name: "HubArn".urlPercentEncoding(), value: Swift.String(hubArn).urlPercentEncoding())
-                items.append(hubArnQueryItem)
-            }
-            return items
+extension DescribeHubInput {
+
+    static func queryItemProvider(_ value: DescribeHubInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let hubArn = value.hubArn {
+            let hubArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "HubArn".urlPercentEncoding(), value: Swift.String(hubArn).urlPercentEncoding())
+            items.append(hubArnQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeHubInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeHubInput {
+
+    static func urlPathProvider(_ value: DescribeHubInput) -> Swift.String? {
         return "/accounts"
     }
 }
@@ -49889,8 +49916,9 @@ enum DescribeHubOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConfigurationInput) -> Swift.String? {
         return "/organization/configuration"
     }
 }
@@ -49993,29 +50021,29 @@ enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeProductsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let productArn = productArn {
-                let productArnQueryItem = ClientRuntime.URLQueryItem(name: "ProductArn".urlPercentEncoding(), value: Swift.String(productArn).urlPercentEncoding())
-                items.append(productArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension DescribeProductsInput {
+
+    static func queryItemProvider(_ value: DescribeProductsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let productArn = value.productArn {
+            let productArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ProductArn".urlPercentEncoding(), value: Swift.String(productArn).urlPercentEncoding())
+            items.append(productArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeProductsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeProductsInput {
+
+    static func urlPathProvider(_ value: DescribeProductsInput) -> Swift.String? {
         return "/products"
     }
 }
@@ -50123,26 +50151,26 @@ enum DescribeProductsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeStandardsControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension DescribeStandardsControlsInput {
+
+    static func queryItemProvider(_ value: DescribeStandardsControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeStandardsControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let standardsSubscriptionArn = standardsSubscriptionArn else {
+extension DescribeStandardsControlsInput {
+
+    static func urlPathProvider(_ value: DescribeStandardsControlsInput) -> Swift.String? {
+        guard let standardsSubscriptionArn = value.standardsSubscriptionArn else {
             return nil
         }
         return "/standards/controls/\(standardsSubscriptionArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -50252,25 +50280,25 @@ enum DescribeStandardsControlsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeStandardsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension DescribeStandardsInput {
+
+    static func queryItemProvider(_ value: DescribeStandardsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeStandardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStandardsInput {
+
+    static func urlPathProvider(_ value: DescribeStandardsInput) -> Swift.String? {
         return "/standards"
     }
 }
@@ -50372,9 +50400,10 @@ enum DescribeStandardsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisableImportFindingsForProductInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let productSubscriptionArn = productSubscriptionArn else {
+extension DisableImportFindingsForProductInput {
+
+    static func urlPathProvider(_ value: DisableImportFindingsForProductInput) -> Swift.String? {
+        guard let productSubscriptionArn = value.productSubscriptionArn else {
             return nil
         }
         return "/productSubscriptions/\(productSubscriptionArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -50441,8 +50470,9 @@ extension DisableOrganizationAdminAccountInput: Swift.Encodable {
     }
 }
 
-extension DisableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableOrganizationAdminAccountInput {
+
+    static func urlPathProvider(_ value: DisableOrganizationAdminAccountInput) -> Swift.String? {
         return "/organization/admin/disable"
     }
 }
@@ -50501,8 +50531,9 @@ enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DisableSecurityHubInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableSecurityHubInput {
+
+    static func urlPathProvider(_ value: DisableSecurityHubInput) -> Swift.String? {
         return "/accounts"
     }
 }
@@ -50546,8 +50577,9 @@ enum DisableSecurityHubOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateFromAdministratorAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFromAdministratorAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateFromAdministratorAccountInput) -> Swift.String? {
         return "/administrator/disassociate"
     }
 }
@@ -50591,8 +50623,9 @@ enum DisassociateFromAdministratorAccountOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension DisassociateFromMasterAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFromMasterAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateFromMasterAccountInput) -> Swift.String? {
         return "/master/disassociate"
     }
 }
@@ -50652,8 +50685,9 @@ extension DisassociateMembersInput: Swift.Encodable {
     }
 }
 
-extension DisassociateMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateMembersInput {
+
+    static func urlPathProvider(_ value: DisassociateMembersInput) -> Swift.String? {
         return "/members/disassociate"
     }
 }
@@ -50845,8 +50879,9 @@ extension EnableImportFindingsForProductInput: Swift.Encodable {
     }
 }
 
-extension EnableImportFindingsForProductInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableImportFindingsForProductInput {
+
+    static func urlPathProvider(_ value: EnableImportFindingsForProductInput) -> Swift.String? {
         return "/productSubscriptions"
     }
 }
@@ -50948,8 +50983,9 @@ extension EnableOrganizationAdminAccountInput: Swift.Encodable {
     }
 }
 
-extension EnableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableOrganizationAdminAccountInput {
+
+    static func urlPathProvider(_ value: EnableOrganizationAdminAccountInput) -> Swift.String? {
         return "/organization/admin/enable"
     }
 }
@@ -51032,8 +51068,9 @@ extension EnableSecurityHubInput: Swift.Encodable {
     }
 }
 
-extension EnableSecurityHubInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableSecurityHubInput {
+
+    static func urlPathProvider(_ value: EnableSecurityHubInput) -> Swift.String? {
         return "/accounts"
     }
 }
@@ -52097,8 +52134,9 @@ extension SecurityHubClientTypes {
 
 }
 
-extension GetAdministratorAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAdministratorAccountInput {
+
+    static func urlPathProvider(_ value: GetAdministratorAccountInput) -> Swift.String? {
         return "/administrator"
     }
 }
@@ -52185,8 +52223,9 @@ extension GetConfigurationPolicyAssociationInput: Swift.Encodable {
     }
 }
 
-extension GetConfigurationPolicyAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetConfigurationPolicyAssociationInput {
+
+    static func urlPathProvider(_ value: GetConfigurationPolicyAssociationInput) -> Swift.String? {
         return "/configurationPolicyAssociation/get"
     }
 }
@@ -52336,9 +52375,10 @@ enum GetConfigurationPolicyAssociationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension GetConfigurationPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetConfigurationPolicyInput {
+
+    static func urlPathProvider(_ value: GetConfigurationPolicyInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/configurationPolicy/get/\(identifier.urlPercentEncoding())"
@@ -52507,8 +52547,9 @@ extension GetEnabledStandardsInput: Swift.Encodable {
     }
 }
 
-extension GetEnabledStandardsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnabledStandardsInput {
+
+    static func urlPathProvider(_ value: GetEnabledStandardsInput) -> Swift.String? {
         return "/standards/get"
     }
 }
@@ -52639,9 +52680,10 @@ enum GetEnabledStandardsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFindingAggregatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let findingAggregatorArn = findingAggregatorArn else {
+extension GetFindingAggregatorInput {
+
+    static func urlPathProvider(_ value: GetFindingAggregatorInput) -> Swift.String? {
+        guard let findingAggregatorArn = value.findingAggregatorArn else {
             return nil
         }
         return "/findingAggregator/get/\(findingAggregatorArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -52794,8 +52836,9 @@ extension GetFindingHistoryInput: Swift.Encodable {
     }
 }
 
-extension GetFindingHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFindingHistoryInput {
+
+    static func urlPathProvider(_ value: GetFindingHistoryInput) -> Swift.String? {
         return "/findingHistory/get"
     }
 }
@@ -52962,8 +53005,9 @@ extension GetFindingsInput: Swift.Encodable {
     }
 }
 
-extension GetFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFindingsInput {
+
+    static func urlPathProvider(_ value: GetFindingsInput) -> Swift.String? {
         return "/findings"
     }
 }
@@ -53103,9 +53147,10 @@ enum GetFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetInsightResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let insightArn = insightArn else {
+extension GetInsightResultsInput {
+
+    static func urlPathProvider(_ value: GetInsightResultsInput) -> Swift.String? {
+        guard let insightArn = value.insightArn else {
             return nil
         }
         return "/insights/results/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -53214,8 +53259,9 @@ extension GetInsightsInput: Swift.Encodable {
     }
 }
 
-extension GetInsightsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInsightsInput {
+
+    static func urlPathProvider(_ value: GetInsightsInput) -> Swift.String? {
         return "/insights/get"
     }
 }
@@ -53348,8 +53394,9 @@ enum GetInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetInvitationsCountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInvitationsCountInput {
+
+    static func urlPathProvider(_ value: GetInvitationsCountInput) -> Swift.String? {
         return "/invitations/count"
     }
 }
@@ -53422,8 +53469,9 @@ enum GetInvitationsCountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMasterAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMasterAccountInput {
+
+    static func urlPathProvider(_ value: GetMasterAccountInput) -> Swift.String? {
         return "/master"
     }
 }
@@ -53513,8 +53561,9 @@ extension GetMembersInput: Swift.Encodable {
     }
 }
 
-extension GetMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMembersInput {
+
+    static func urlPathProvider(_ value: GetMembersInput) -> Swift.String? {
         return "/members/get"
     }
 }
@@ -53640,23 +53689,23 @@ enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSecurityControlDefinitionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let securityControlId = securityControlId else {
-                let message = "Creating a URL Query Item failed. securityControlId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let securityControlIdQueryItem = ClientRuntime.URLQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
-            items.append(securityControlIdQueryItem)
-            return items
+extension GetSecurityControlDefinitionInput {
+
+    static func queryItemProvider(_ value: GetSecurityControlDefinitionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let securityControlId = value.securityControlId else {
+            let message = "Creating a URL Query Item failed. securityControlId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let securityControlIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
+        items.append(securityControlIdQueryItem)
+        return items
     }
 }
 
-extension GetSecurityControlDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSecurityControlDefinitionInput {
+
+    static func urlPathProvider(_ value: GetSecurityControlDefinitionInput) -> Swift.String? {
         return "/securityControl/definition"
     }
 }
@@ -54468,8 +54517,9 @@ extension InviteMembersInput: Swift.Encodable {
     }
 }
 
-extension InviteMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InviteMembersInput {
+
+    static func urlPathProvider(_ value: InviteMembersInput) -> Swift.String? {
         return "/members/invite"
     }
 }
@@ -54842,25 +54892,25 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAutomationRulesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAutomationRulesInput {
+
+    static func queryItemProvider(_ value: ListAutomationRulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAutomationRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAutomationRulesInput {
+
+    static func urlPathProvider(_ value: ListAutomationRulesInput) -> Swift.String? {
         return "/automationrules/list"
     }
 }
@@ -54964,25 +55014,25 @@ enum ListAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListConfigurationPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConfigurationPoliciesInput {
+
+    static func queryItemProvider(_ value: ListConfigurationPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfigurationPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfigurationPoliciesInput {
+
+    static func urlPathProvider(_ value: ListConfigurationPoliciesInput) -> Swift.String? {
         return "/configurationPolicy/list"
     }
 }
@@ -55107,8 +55157,9 @@ extension ListConfigurationPolicyAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListConfigurationPolicyAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfigurationPolicyAssociationsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationPolicyAssociationsInput) -> Swift.String? {
         return "/configurationPolicyAssociation/list"
     }
 }
@@ -55231,25 +55282,25 @@ enum ListConfigurationPolicyAssociationsOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension ListEnabledProductsForImportInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListEnabledProductsForImportInput {
+
+    static func queryItemProvider(_ value: ListEnabledProductsForImportInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEnabledProductsForImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnabledProductsForImportInput {
+
+    static func urlPathProvider(_ value: ListEnabledProductsForImportInput) -> Swift.String? {
         return "/productSubscriptions"
     }
 }
@@ -55351,25 +55402,25 @@ enum ListEnabledProductsForImportOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListFindingAggregatorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFindingAggregatorsInput {
+
+    static func queryItemProvider(_ value: ListFindingAggregatorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFindingAggregatorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingAggregatorsInput {
+
+    static func urlPathProvider(_ value: ListFindingAggregatorsInput) -> Swift.String? {
         return "/findingAggregator/list"
     }
 }
@@ -55473,25 +55524,25 @@ enum ListFindingAggregatorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListInvitationsInput {
+
+    static func queryItemProvider(_ value: ListInvitationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInvitationsInput {
+
+    static func urlPathProvider(_ value: ListInvitationsInput) -> Swift.String? {
         return "/invitations"
     }
 }
@@ -55594,29 +55645,29 @@ enum ListInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let onlyAssociated = onlyAssociated {
-                let onlyAssociatedQueryItem = ClientRuntime.URLQueryItem(name: "OnlyAssociated".urlPercentEncoding(), value: Swift.String(onlyAssociated).urlPercentEncoding())
-                items.append(onlyAssociatedQueryItem)
-            }
-            return items
+extension ListMembersInput {
+
+    static func queryItemProvider(_ value: ListMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let onlyAssociated = value.onlyAssociated {
+            let onlyAssociatedQueryItem = ClientRuntime.SDKURLQueryItem(name: "OnlyAssociated".urlPercentEncoding(), value: Swift.String(onlyAssociated).urlPercentEncoding())
+            items.append(onlyAssociatedQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMembersInput {
+
+    static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
         return "/members"
     }
 }
@@ -55723,25 +55774,25 @@ enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOrganizationAdminAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListOrganizationAdminAccountsInput {
+
+    static func queryItemProvider(_ value: ListOrganizationAdminAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOrganizationAdminAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOrganizationAdminAccountsInput {
+
+    static func urlPathProvider(_ value: ListOrganizationAdminAccountsInput) -> Swift.String? {
         return "/organization/admin"
     }
 }
@@ -55844,29 +55895,29 @@ enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListSecurityControlDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let standardsArn = standardsArn {
-                let standardsArnQueryItem = ClientRuntime.URLQueryItem(name: "StandardsArn".urlPercentEncoding(), value: Swift.String(standardsArn).urlPercentEncoding())
-                items.append(standardsArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSecurityControlDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListSecurityControlDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let standardsArn = value.standardsArn {
+            let standardsArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "StandardsArn".urlPercentEncoding(), value: Swift.String(standardsArn).urlPercentEncoding())
+            items.append(standardsArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSecurityControlDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSecurityControlDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListSecurityControlDefinitionsInput) -> Swift.String? {
         return "/securityControls/definitions"
     }
 }
@@ -55974,31 +56025,31 @@ enum ListSecurityControlDefinitionsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListStandardsControlAssociationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let securityControlId = securityControlId else {
-                let message = "Creating a URL Query Item failed. securityControlId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let securityControlIdQueryItem = ClientRuntime.URLQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
-            items.append(securityControlIdQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListStandardsControlAssociationsInput {
+
+    static func queryItemProvider(_ value: ListStandardsControlAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let securityControlId = value.securityControlId else {
+            let message = "Creating a URL Query Item failed. securityControlId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let securityControlIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
+        items.append(securityControlIdQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStandardsControlAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStandardsControlAssociationsInput {
+
+    static func urlPathProvider(_ value: ListStandardsControlAssociationsInput) -> Swift.String? {
         return "/associations"
     }
 }
@@ -56107,9 +56158,10 @@ enum ListStandardsControlAssociationsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -62100,6 +62152,8 @@ extension SecurityHubClientTypes {
 
 }
 
+public enum SecurityHubClientTypes {}
+
 extension SecurityHubClientTypes.SecurityHubPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabledStandardIdentifiers = "EnabledStandardIdentifiers"
@@ -63662,8 +63716,9 @@ extension StartConfigurationPolicyAssociationInput: Swift.Encodable {
     }
 }
 
-extension StartConfigurationPolicyAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartConfigurationPolicyAssociationInput {
+
+    static func urlPathProvider(_ value: StartConfigurationPolicyAssociationInput) -> Swift.String? {
         return "/configurationPolicyAssociation/associate"
     }
 }
@@ -63839,8 +63894,9 @@ extension StartConfigurationPolicyDisassociationInput: Swift.Encodable {
     }
 }
 
-extension StartConfigurationPolicyDisassociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartConfigurationPolicyDisassociationInput {
+
+    static func urlPathProvider(_ value: StartConfigurationPolicyDisassociationInput) -> Swift.String? {
         return "/configurationPolicyAssociation/disassociate"
     }
 }
@@ -64369,9 +64425,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -65117,26 +65174,26 @@ extension SecurityHubClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -65210,9 +65267,10 @@ extension UpdateActionTargetInput: Swift.Encodable {
     }
 }
 
-extension UpdateActionTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let actionTargetArn = actionTargetArn else {
+extension UpdateActionTargetInput {
+
+    static func urlPathProvider(_ value: UpdateActionTargetInput) -> Swift.String? {
+        guard let actionTargetArn = value.actionTargetArn else {
             return nil
         }
         return "/actionTargets/\(actionTargetArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -65427,9 +65485,10 @@ extension UpdateConfigurationPolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UpdateConfigurationPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationPolicyInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
@@ -65634,8 +65693,9 @@ extension UpdateFindingAggregatorInput: Swift.Encodable {
     }
 }
 
-extension UpdateFindingAggregatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFindingAggregatorInput {
+
+    static func urlPathProvider(_ value: UpdateFindingAggregatorInput) -> Swift.String? {
         return "/findingAggregator/update"
     }
 }
@@ -65817,8 +65877,9 @@ extension UpdateFindingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFindingsInput {
+
+    static func urlPathProvider(_ value: UpdateFindingsInput) -> Swift.String? {
         return "/findings"
     }
 }
@@ -65914,9 +65975,10 @@ extension UpdateInsightInput: Swift.Encodable {
     }
 }
 
-extension UpdateInsightInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let insightArn = insightArn else {
+extension UpdateInsightInput {
+
+    static func urlPathProvider(_ value: UpdateInsightInput) -> Swift.String? {
+        guard let insightArn = value.insightArn else {
             return nil
         }
         return "/insights/\(insightArn.urlPercentEncoding(encodeForwardSlash: false))"
@@ -66018,8 +66080,9 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateOrganizationConfigurationInput) -> Swift.String? {
         return "/organization/configuration"
     }
 }
@@ -66120,8 +66183,9 @@ extension UpdateSecurityControlInput: Swift.Encodable {
     }
 }
 
-extension UpdateSecurityControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSecurityControlInput {
+
+    static func urlPathProvider(_ value: UpdateSecurityControlInput) -> Swift.String? {
         return "/securityControl/update"
     }
 }
@@ -66225,8 +66289,9 @@ extension UpdateSecurityHubConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSecurityHubConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSecurityHubConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSecurityHubConfigurationInput) -> Swift.String? {
         return "/accounts"
     }
 }
@@ -66310,9 +66375,10 @@ extension UpdateStandardsControlInput: Swift.Encodable {
     }
 }
 
-extension UpdateStandardsControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let standardsControlArn = standardsControlArn else {
+extension UpdateStandardsControlInput {
+
+    static func urlPathProvider(_ value: UpdateStandardsControlInput) -> Swift.String? {
+        guard let standardsControlArn = value.standardsControlArn else {
             return nil
         }
         return "/standards/control/\(standardsControlArn.urlPercentEncoding(encodeForwardSlash: false))"

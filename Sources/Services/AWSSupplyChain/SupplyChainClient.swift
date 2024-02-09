@@ -66,7 +66,7 @@ public struct SupplyChainClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
     }
 }
 
-extension SupplyChainClient: SupplyChainClientProtocol {
+extension SupplyChainClient {
     /// Performs the `CreateBillOfMaterialsImportJob` operation on the `GalaxyPublicAPIGateway` service.
     ///
     /// CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide. The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
@@ -85,8 +85,7 @@ extension SupplyChainClient: SupplyChainClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an AWS service.
-    public func createBillOfMaterialsImportJob(input: CreateBillOfMaterialsImportJobInput) async throws -> CreateBillOfMaterialsImportJobOutput
-    {
+    public func createBillOfMaterialsImportJob(input: CreateBillOfMaterialsImportJobInput) async throws -> CreateBillOfMaterialsImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -103,7 +102,7 @@ extension SupplyChainClient: SupplyChainClientProtocol {
                       .build()
         var operation = ClientRuntime.OperationStack<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(id: "createBillOfMaterialsImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(CreateBillOfMaterialsImportJobInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBillOfMaterialsImportJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -138,8 +137,7 @@ extension SupplyChainClient: SupplyChainClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an AWS service.
-    public func getBillOfMaterialsImportJob(input: GetBillOfMaterialsImportJobInput) async throws -> GetBillOfMaterialsImportJobOutput
-    {
+    public func getBillOfMaterialsImportJob(input: GetBillOfMaterialsImportJobInput) async throws -> GetBillOfMaterialsImportJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -155,7 +153,7 @@ extension SupplyChainClient: SupplyChainClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(id: "getBillOfMaterialsImportJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(GetBillOfMaterialsImportJobInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBillOfMaterialsImportJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

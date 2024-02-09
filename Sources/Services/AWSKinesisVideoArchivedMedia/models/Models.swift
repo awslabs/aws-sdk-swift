@@ -683,8 +683,9 @@ extension GetClipInput: Swift.Encodable {
     }
 }
 
-extension GetClipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetClipInput {
+
+    static func urlPathProvider(_ value: GetClipInput) -> Swift.String? {
         return "/getClip"
     }
 }
@@ -844,8 +845,9 @@ extension GetDASHStreamingSessionURLInput: Swift.Encodable {
     }
 }
 
-extension GetDASHStreamingSessionURLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDASHStreamingSessionURLInput {
+
+    static func urlPathProvider(_ value: GetDASHStreamingSessionURLInput) -> Swift.String? {
         return "/getDASHStreamingSessionURL"
     }
 }
@@ -1046,8 +1048,9 @@ extension GetHLSStreamingSessionURLInput: Swift.Encodable {
     }
 }
 
-extension GetHLSStreamingSessionURLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHLSStreamingSessionURLInput {
+
+    static func urlPathProvider(_ value: GetHLSStreamingSessionURLInput) -> Swift.String? {
         return "/getHLSStreamingSessionURL"
     }
 }
@@ -1280,8 +1283,9 @@ extension GetImagesInput: Swift.Encodable {
     }
 }
 
-extension GetImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImagesInput {
+
+    static func urlPathProvider(_ value: GetImagesInput) -> Swift.String? {
         return "/getImages"
     }
 }
@@ -1481,10 +1485,7 @@ enum GetImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "NoDataRetentionException": return try await NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> temp-main
             case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -1516,8 +1517,9 @@ extension GetMediaForFragmentListInput: Swift.Encodable {
     }
 }
 
-extension GetMediaForFragmentListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMediaForFragmentListInput {
+
+    static func urlPathProvider(_ value: GetMediaForFragmentListInput) -> Swift.String? {
         return "/getMediaForFragmentList"
     }
 }
@@ -2170,6 +2172,8 @@ extension InvalidMediaFrameExceptionBody: Swift.Decodable {
     }
 }
 
+public enum KinesisVideoArchivedMediaClientTypes {}
+
 extension ListFragmentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fragmentSelector = "FragmentSelector"
@@ -2199,8 +2203,9 @@ extension ListFragmentsInput: Swift.Encodable {
     }
 }
 
-extension ListFragmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFragmentsInput {
+
+    static func urlPathProvider(_ value: ListFragmentsInput) -> Swift.String? {
         return "/listFragments"
     }
 }
