@@ -14,19 +14,9 @@ public class S3Client {
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
-    let encoder: ClientRuntime.RequestEncoder
-    let decoder: ClientRuntime.ResponseDecoder
 
     public init(config: S3Client.S3ClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-        let encoder = ClientRuntime.JSONEncoder()
-        self.encoder = config.encoder ?? encoder
-        let decoder = ClientRuntime.XMLDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        decoder.trimValueWhitespaces = false
-        decoder.removeWhitespaceElements = true
-        self.decoder = config.decoder ?? decoder
         self.config = config
     }
 
@@ -108,8 +98,6 @@ extension S3Client {
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "abortMultipartUpload")
@@ -132,7 +120,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AbortMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortMultipartUploadOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(AbortMultipartUploadOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(responseClosure(AbortMultipartUploadOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AbortMultipartUploadOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<AbortMultipartUploadOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -204,8 +192,6 @@ extension S3Client {
     /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "completeMultipartUpload")
@@ -226,12 +212,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, S3ClientTypes.CompletedMultipartUpload, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CompleteMultipartUpload", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CompletedMultipartUpload.writingClosure(_:to:), keyPath: \.multipartUpload, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, S3ClientTypes.CompletedMultipartUpload, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CompleteMultipartUpload", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CompletedMultipartUpload.writingClosure(_:to:), keyPath: \.multipartUpload, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMultipartUploadOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CompleteMultipartUploadOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(responseClosure(CompleteMultipartUploadOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CompleteMultipartUploadOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CompleteMultipartUploadOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -291,8 +277,6 @@ extension S3Client {
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
     public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "copyObject")
@@ -315,7 +299,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyObjectOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(CopyObjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyObjectOutput>(responseClosure(CopyObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CopyObjectOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CopyObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -366,8 +350,6 @@ extension S3Client {
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createBucket")
@@ -387,12 +369,12 @@ extension S3Client {
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateBucketInput, CreateBucketOutput>(CreateBucketInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBucketInput, CreateBucketOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<CreateBucketInput, CreateBucketOutput, S3ClientTypes.CreateBucketConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateBucketConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CreateBucketConfiguration.writingClosure(_:to:), keyPath: \.createBucketConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<CreateBucketInput, CreateBucketOutput, S3ClientTypes.CreateBucketConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateBucketConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CreateBucketConfiguration.writingClosure(_:to:), keyPath: \.createBucketConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBucketOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBucketOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateBucketOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(responseClosure(CreateBucketOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateBucketOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBucketOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateBucketOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -475,8 +457,6 @@ extension S3Client {
     /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createMultipartUpload")
@@ -499,7 +479,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultipartUploadOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMultipartUploadOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultipartUploadOutput>(responseClosure(CreateMultipartUploadOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateMultipartUploadOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateMultipartUploadOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -529,8 +509,6 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createSession")
@@ -553,7 +531,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSessionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(responseClosure(CreateSessionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateSessionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSessionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateSessionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -587,8 +565,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketOutput` : [no documentation found]
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucket")
@@ -610,7 +586,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(responseClosure(DeleteBucketOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -632,8 +608,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketAnalyticsConfiguration")
@@ -656,7 +630,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketAnalyticsConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketAnalyticsConfigurationOutput>(responseClosure(DeleteBucketAnalyticsConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketAnalyticsConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketAnalyticsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -676,8 +650,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketCors")
@@ -700,7 +672,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketCorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketCorsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketCorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketCorsOutput>(responseClosure(DeleteBucketCorsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketCorsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketCorsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketCorsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -720,8 +692,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketEncryption")
@@ -744,7 +714,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketEncryptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketEncryptionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketEncryptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketEncryptionOutput>(responseClosure(DeleteBucketEncryptionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketEncryptionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketEncryptionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -766,8 +736,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketIntelligentTieringConfiguration")
@@ -789,7 +757,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(responseClosure(DeleteBucketIntelligentTieringConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketIntelligentTieringConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -811,8 +779,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketInventoryConfiguration")
@@ -835,7 +801,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketInventoryConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketInventoryConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketInventoryConfigurationOutput>(responseClosure(DeleteBucketInventoryConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketInventoryConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketInventoryConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -855,8 +821,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketLifecycle")
@@ -879,7 +843,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketLifecycleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketLifecycleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketLifecycleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleOutput>(responseClosure(DeleteBucketLifecycleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketLifecycleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketLifecycleOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -903,8 +867,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketMetricsConfiguration")
@@ -927,7 +889,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketMetricsConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketMetricsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketMetricsConfigurationOutput>(responseClosure(DeleteBucketMetricsConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketMetricsConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketMetricsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -947,8 +909,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketOwnershipControls")
@@ -971,7 +931,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOwnershipControlsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketOwnershipControlsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOwnershipControlsOutput>(responseClosure(DeleteBucketOwnershipControlsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketOwnershipControlsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketOwnershipControlsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -998,8 +958,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketPolicy")
@@ -1022,7 +980,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(responseClosure(DeleteBucketPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketPolicyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1042,8 +1000,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketReplication")
@@ -1066,7 +1022,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketReplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketReplicationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketReplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(responseClosure(DeleteBucketReplicationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketReplicationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketReplicationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1086,8 +1042,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketTagging")
@@ -1110,7 +1064,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketTaggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketTaggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(responseClosure(DeleteBucketTaggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketTaggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1130,8 +1084,6 @@ extension S3Client {
     /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketWebsite")
@@ -1154,7 +1106,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBucketWebsiteOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketWebsiteOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketWebsiteOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketWebsiteOutput>(responseClosure(DeleteBucketWebsiteOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteBucketWebsiteOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketWebsiteOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1200,8 +1152,6 @@ extension S3Client {
     /// - Returns: `DeleteObjectOutput` : [no documentation found]
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteObject")
@@ -1224,7 +1174,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(responseClosure(DeleteObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteObjectOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1244,8 +1194,6 @@ extension S3Client {
     /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteObjectTagging")
@@ -1268,7 +1216,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectTaggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectTaggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectTaggingOutput>(responseClosure(DeleteObjectTaggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteObjectTaggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1322,8 +1270,6 @@ extension S3Client {
     /// - Returns: `DeleteObjectsOutput` : [no documentation found]
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteObjects")
@@ -1345,12 +1291,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<DeleteObjectsInput, DeleteObjectsOutput, S3ClientTypes.Delete, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Delete", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Delete.writingClosure(_:to:), keyPath: \.delete, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<DeleteObjectsInput, DeleteObjectsOutput, S3ClientTypes.Delete, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Delete", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Delete.writingClosure(_:to:), keyPath: \.delete, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteObjectsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectsOutput>(responseClosure(DeleteObjectsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteObjectsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1374,8 +1321,6 @@ extension S3Client {
     /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deletePublicAccessBlock")
@@ -1398,7 +1343,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePublicAccessBlockOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePublicAccessBlockOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePublicAccessBlockOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(responseClosure(DeletePublicAccessBlockOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeletePublicAccessBlockOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeletePublicAccessBlockOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1416,8 +1361,6 @@ extension S3Client {
     /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAccelerateConfiguration")
@@ -1440,7 +1383,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAccelerateConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAccelerateConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAccelerateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAccelerateConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAccelerateConfigurationOutput>(responseClosure(GetBucketAccelerateConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketAccelerateConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAccelerateConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1458,8 +1401,6 @@ extension S3Client {
     /// - Returns: `GetBucketAclOutput` : [no documentation found]
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAcl")
@@ -1482,7 +1423,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAclOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAclOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAclOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAclOutput>(responseClosure(GetBucketAclOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketAclOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1504,8 +1445,6 @@ extension S3Client {
     /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAnalyticsConfiguration")
@@ -1528,7 +1467,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAnalyticsConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAnalyticsConfigurationOutput>(responseClosure(GetBucketAnalyticsConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketAnalyticsConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAnalyticsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1548,8 +1487,6 @@ extension S3Client {
     /// - Returns: `GetBucketCorsOutput` : [no documentation found]
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketCors")
@@ -1572,7 +1509,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketCorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketCorsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketCorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketCorsOutput>(responseClosure(GetBucketCorsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketCorsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketCorsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketCorsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1592,8 +1529,6 @@ extension S3Client {
     /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketEncryption")
@@ -1616,7 +1551,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketEncryptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketEncryptionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketEncryptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketEncryptionOutput>(responseClosure(GetBucketEncryptionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketEncryptionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketEncryptionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1638,8 +1573,6 @@ extension S3Client {
     /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketIntelligentTieringConfiguration")
@@ -1661,7 +1594,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketIntelligentTieringConfigurationOutput>(responseClosure(GetBucketIntelligentTieringConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketIntelligentTieringConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketIntelligentTieringConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1683,8 +1616,6 @@ extension S3Client {
     /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketInventoryConfiguration")
@@ -1707,7 +1638,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketInventoryConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketInventoryConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketInventoryConfigurationOutput>(responseClosure(GetBucketInventoryConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketInventoryConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketInventoryConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1743,8 +1674,6 @@ extension S3Client {
     /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketLifecycleConfiguration")
@@ -1767,7 +1696,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLifecycleConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLifecycleConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(responseClosure(GetBucketLifecycleConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketLifecycleConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLifecycleConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1787,8 +1716,6 @@ extension S3Client {
     /// - Returns: `GetBucketLocationOutput` : [no documentation found]
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketLocation")
@@ -1811,7 +1738,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLocationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLocationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLocationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLocationOutput>(responseClosure(GetBucketLocationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketLocationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLocationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLocationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1831,8 +1758,6 @@ extension S3Client {
     /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketLogging")
@@ -1855,7 +1780,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketLoggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLoggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLoggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLoggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLoggingOutput>(responseClosure(GetBucketLoggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketLoggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLoggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLoggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1879,8 +1804,6 @@ extension S3Client {
     /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketMetricsConfiguration")
@@ -1903,7 +1826,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketMetricsConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketMetricsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketMetricsConfigurationOutput>(responseClosure(GetBucketMetricsConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketMetricsConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketMetricsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1921,8 +1844,6 @@ extension S3Client {
     /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketNotificationConfiguration")
@@ -1945,7 +1866,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketNotificationConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketNotificationConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketNotificationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketNotificationConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketNotificationConfigurationOutput>(responseClosure(GetBucketNotificationConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketNotificationConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketNotificationConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1965,8 +1886,6 @@ extension S3Client {
     /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketOwnershipControls")
@@ -1989,7 +1908,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketOwnershipControlsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketOwnershipControlsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketOwnershipControlsOutput>(responseClosure(GetBucketOwnershipControlsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketOwnershipControlsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketOwnershipControlsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2014,8 +1933,6 @@ extension S3Client {
     /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketPolicy")
@@ -2038,7 +1955,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(responseClosure(GetBucketPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketPolicyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2062,8 +1979,6 @@ extension S3Client {
     /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketPolicyStatus")
@@ -2086,7 +2001,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketPolicyStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketPolicyStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyStatusOutput>(responseClosure(GetBucketPolicyStatusOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketPolicyStatusOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyStatusOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketPolicyStatusOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2106,8 +2021,6 @@ extension S3Client {
     /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketReplication")
@@ -2130,7 +2043,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketReplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketReplicationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketReplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(responseClosure(GetBucketReplicationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketReplicationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketReplicationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2148,8 +2061,6 @@ extension S3Client {
     /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketRequestPayment")
@@ -2172,7 +2083,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketRequestPaymentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketRequestPaymentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketRequestPaymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketRequestPaymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketRequestPaymentOutput>(responseClosure(GetBucketRequestPaymentOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketRequestPaymentOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketRequestPaymentOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2202,8 +2113,6 @@ extension S3Client {
     /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketTagging")
@@ -2226,7 +2135,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketTaggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketTaggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(responseClosure(GetBucketTaggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketTaggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2248,8 +2157,6 @@ extension S3Client {
     /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketVersioning")
@@ -2272,7 +2179,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketVersioningOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketVersioningOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketVersioningOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(responseClosure(GetBucketVersioningOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketVersioningOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketVersioningOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2292,8 +2199,6 @@ extension S3Client {
     /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketWebsite")
@@ -2316,7 +2221,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBucketWebsiteOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketWebsiteOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketWebsiteOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketWebsiteOutput>(responseClosure(GetBucketWebsiteOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetBucketWebsiteOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketWebsiteOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2371,8 +2276,6 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
@@ -2395,8 +2298,9 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(GetObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectOutput>(validationMode: true))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2423,8 +2327,6 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectAcl")
@@ -2447,7 +2349,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectAclOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAclOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectAclOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAclOutput>(responseClosure(GetObjectAclOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectAclOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2528,8 +2430,6 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectAttributes")
@@ -2552,7 +2452,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectAttributesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAttributesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(responseClosure(GetObjectAttributesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectAttributesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectAttributesOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectAttributesOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2570,8 +2470,6 @@ extension S3Client {
     /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectLegalHold")
@@ -2594,7 +2492,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectLegalHoldOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectLegalHoldOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLegalHoldOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectLegalHoldOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLegalHoldOutput>(responseClosure(GetObjectLegalHoldOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectLegalHoldOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectLegalHoldOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2612,8 +2510,6 @@ extension S3Client {
     /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectLockConfiguration")
@@ -2636,7 +2532,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectLockConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectLockConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLockConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectLockConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLockConfigurationOutput>(responseClosure(GetObjectLockConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectLockConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectLockConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2654,8 +2550,6 @@ extension S3Client {
     /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectRetention")
@@ -2678,7 +2572,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectRetentionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectRetentionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectRetentionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectRetentionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectRetentionOutput>(responseClosure(GetObjectRetentionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectRetentionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectRetentionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectRetentionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2700,8 +2594,6 @@ extension S3Client {
     /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectTagging")
@@ -2724,7 +2616,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectTaggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectTaggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTaggingOutput>(responseClosure(GetObjectTaggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectTaggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2742,8 +2634,6 @@ extension S3Client {
     /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectTorrent")
@@ -2766,7 +2656,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectTorrentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectTorrentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTorrentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectTorrentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTorrentOutput>(responseClosure(GetObjectTorrentOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetObjectTorrentOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectTorrentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2789,8 +2679,6 @@ extension S3Client {
     /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getPublicAccessBlock")
@@ -2813,7 +2701,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPublicAccessBlockOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicAccessBlockOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPublicAccessBlockOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(responseClosure(GetPublicAccessBlockOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetPublicAccessBlockOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetPublicAccessBlockOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2841,8 +2729,6 @@ extension S3Client {
     /// - `NotFound` : The specified content does not exist.
     public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .head)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "headBucket")
@@ -2864,7 +2750,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, HeadBucketOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<HeadBucketOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(HeadBucketOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadBucketOutput>(responseClosure(HeadBucketOutput.httpBinding, responseDocumentBinding), responseErrorClosure(HeadBucketOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<HeadBucketOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<HeadBucketOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2926,8 +2812,6 @@ extension S3Client {
     /// - `NotFound` : The specified content does not exist.
     public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .head)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "headObject")
@@ -2950,7 +2834,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, HeadObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<HeadObjectOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(HeadObjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadObjectOutput>(responseClosure(HeadObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(HeadObjectOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<HeadObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<HeadObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -2972,8 +2856,6 @@ extension S3Client {
     /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketAnalyticsConfigurations")
@@ -2996,7 +2878,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketAnalyticsConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketAnalyticsConfigurationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketAnalyticsConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketAnalyticsConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketAnalyticsConfigurationsOutput>(responseClosure(ListBucketAnalyticsConfigurationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListBucketAnalyticsConfigurationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketAnalyticsConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketAnalyticsConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3018,8 +2900,6 @@ extension S3Client {
     /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketIntelligentTieringConfigurations")
@@ -3041,7 +2921,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketIntelligentTieringConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketIntelligentTieringConfigurationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketIntelligentTieringConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(responseClosure(ListBucketIntelligentTieringConfigurationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListBucketIntelligentTieringConfigurationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketIntelligentTieringConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3063,8 +2943,6 @@ extension S3Client {
     /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketInventoryConfigurations")
@@ -3087,7 +2965,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketInventoryConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketInventoryConfigurationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketInventoryConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketInventoryConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketInventoryConfigurationsOutput>(responseClosure(ListBucketInventoryConfigurationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListBucketInventoryConfigurationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketInventoryConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketInventoryConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3109,8 +2987,6 @@ extension S3Client {
     /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketMetricsConfigurations")
@@ -3133,7 +3009,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketMetricsConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketMetricsConfigurationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketMetricsConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketMetricsConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketMetricsConfigurationsOutput>(responseClosure(ListBucketMetricsConfigurationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListBucketMetricsConfigurationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketMetricsConfigurationsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketMetricsConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3149,8 +3025,6 @@ extension S3Client {
     /// - Returns: `ListBucketsOutput` : [no documentation found]
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBuckets")
@@ -3172,7 +3046,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBucketsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketsOutput>(responseClosure(ListBucketsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListBucketsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3188,8 +3062,6 @@ extension S3Client {
     /// - Returns: `ListDirectoryBucketsOutput` : [no documentation found]
     public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listDirectoryBuckets")
@@ -3211,7 +3083,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDirectoryBucketsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDirectoryBucketsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDirectoryBucketsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDirectoryBucketsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDirectoryBucketsOutput>(responseClosure(ListDirectoryBucketsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListDirectoryBucketsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListDirectoryBucketsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3258,8 +3130,6 @@ extension S3Client {
     /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listMultipartUploads")
@@ -3282,7 +3152,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultipartUploadsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultipartUploadsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMultipartUploadsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(responseClosure(ListMultipartUploadsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListMultipartUploadsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListMultipartUploadsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3306,8 +3176,6 @@ extension S3Client {
     /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listObjectVersions")
@@ -3330,7 +3198,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectVersionsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectVersionsOutput>(responseClosure(ListObjectVersionsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListObjectVersionsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectVersionsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectVersionsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3361,8 +3229,6 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listObjects")
@@ -3385,7 +3251,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsOutput>(responseClosure(ListObjectsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListObjectsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3426,8 +3292,6 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listObjectsV2")
@@ -3450,7 +3314,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListObjectsV2Output>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsV2Output>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsV2Output>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectsV2OutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsV2Output>(responseClosure(ListObjectsV2Output.httpBinding, responseDocumentBinding), responseErrorClosure(ListObjectsV2OutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectsV2Output>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectsV2Output>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3485,8 +3349,6 @@ extension S3Client {
     /// - Returns: `ListPartsOutput` : [no documentation found]
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listParts")
@@ -3509,7 +3371,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPartsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutput>(responseClosure(ListPartsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListPartsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListPartsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3536,8 +3398,6 @@ extension S3Client {
     /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketAccelerateConfiguration")
@@ -3558,12 +3418,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, S3ClientTypes.AccelerateConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccelerateConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccelerateConfiguration.writingClosure(_:to:), keyPath: \.accelerateConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, S3ClientTypes.AccelerateConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccelerateConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccelerateConfiguration.writingClosure(_:to:), keyPath: \.accelerateConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketAccelerateConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAccelerateConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAccelerateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAccelerateConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAccelerateConfigurationOutput>(responseClosure(PutBucketAccelerateConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketAccelerateConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAccelerateConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3655,8 +3516,6 @@ extension S3Client {
     /// - Returns: `PutBucketAclOutput` : [no documentation found]
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketAcl")
@@ -3678,12 +3537,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketAclInput, PutBucketAclOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAclInput, PutBucketAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccessControlPolicy", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAclInput, PutBucketAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccessControlPolicy", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketAclInput, PutBucketAclOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketAclOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAclOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAclOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAclOutput>(responseClosure(PutBucketAclOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketAclOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3738,8 +3598,6 @@ extension S3Client {
     /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketAnalyticsConfiguration")
@@ -3760,12 +3618,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, S3ClientTypes.AnalyticsConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AnalyticsConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AnalyticsConfiguration.writingClosure(_:to:), keyPath: \.analyticsConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, S3ClientTypes.AnalyticsConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AnalyticsConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AnalyticsConfiguration.writingClosure(_:to:), keyPath: \.analyticsConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketAnalyticsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAnalyticsConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAnalyticsConfigurationOutput>(responseClosure(PutBucketAnalyticsConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketAnalyticsConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAnalyticsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3796,8 +3654,6 @@ extension S3Client {
     /// - Returns: `PutBucketCorsOutput` : [no documentation found]
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketCors")
@@ -3819,12 +3675,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketCorsInput, PutBucketCorsOutput, S3ClientTypes.CORSConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CORSConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CORSConfiguration.writingClosure(_:to:), keyPath: \.corsConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketCorsInput, PutBucketCorsOutput, S3ClientTypes.CORSConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CORSConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.CORSConfiguration.writingClosure(_:to:), keyPath: \.corsConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketCorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketCorsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketCorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketCorsOutput>(responseClosure(PutBucketCorsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketCorsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketCorsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketCorsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3844,8 +3701,6 @@ extension S3Client {
     /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketEncryption")
@@ -3867,12 +3722,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput, S3ClientTypes.ServerSideEncryptionConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ServerSideEncryptionConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ServerSideEncryptionConfiguration.writingClosure(_:to:), keyPath: \.serverSideEncryptionConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput, S3ClientTypes.ServerSideEncryptionConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ServerSideEncryptionConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ServerSideEncryptionConfiguration.writingClosure(_:to:), keyPath: \.serverSideEncryptionConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketEncryptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketEncryptionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketEncryptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketEncryptionOutput>(responseClosure(PutBucketEncryptionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketEncryptionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketEncryptionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3897,8 +3753,6 @@ extension S3Client {
     /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketIntelligentTieringConfiguration")
@@ -3918,12 +3772,12 @@ extension S3Client {
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, S3ClientTypes.IntelligentTieringConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("IntelligentTieringConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.IntelligentTieringConfiguration.writingClosure(_:to:), keyPath: \.intelligentTieringConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, S3ClientTypes.IntelligentTieringConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("IntelligentTieringConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.IntelligentTieringConfiguration.writingClosure(_:to:), keyPath: \.intelligentTieringConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketIntelligentTieringConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketIntelligentTieringConfigurationOutput>(responseClosure(PutBucketIntelligentTieringConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketIntelligentTieringConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketIntelligentTieringConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -3945,8 +3799,6 @@ extension S3Client {
     /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketInventoryConfiguration")
@@ -3967,12 +3819,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, S3ClientTypes.InventoryConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("InventoryConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.InventoryConfiguration.writingClosure(_:to:), keyPath: \.inventoryConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, S3ClientTypes.InventoryConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("InventoryConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.InventoryConfiguration.writingClosure(_:to:), keyPath: \.inventoryConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketInventoryConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketInventoryConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketInventoryConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketInventoryConfigurationOutput>(responseClosure(PutBucketInventoryConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketInventoryConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketInventoryConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4012,8 +3864,6 @@ extension S3Client {
     /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketLifecycleConfiguration")
@@ -4035,12 +3885,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, S3ClientTypes.BucketLifecycleConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("LifecycleConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.BucketLifecycleConfiguration.writingClosure(_:to:), keyPath: \.lifecycleConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, S3ClientTypes.BucketLifecycleConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("LifecycleConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.BucketLifecycleConfiguration.writingClosure(_:to:), keyPath: \.lifecycleConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLifecycleConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketLifecycleConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(responseClosure(PutBucketLifecycleConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketLifecycleConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketLifecycleConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4073,8 +3924,6 @@ extension S3Client {
     /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketLogging")
@@ -4096,12 +3945,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput, S3ClientTypes.BucketLoggingStatus, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("BucketLoggingStatus", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.BucketLoggingStatus.writingClosure(_:to:), keyPath: \.bucketLoggingStatus, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput, S3ClientTypes.BucketLoggingStatus, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("BucketLoggingStatus", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.BucketLoggingStatus.writingClosure(_:to:), keyPath: \.bucketLoggingStatus, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketLoggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLoggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLoggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketLoggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLoggingOutput>(responseClosure(PutBucketLoggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketLoggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLoggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketLoggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4132,8 +3982,6 @@ extension S3Client {
     /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketMetricsConfiguration")
@@ -4154,12 +4002,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, S3ClientTypes.MetricsConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("MetricsConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.MetricsConfiguration.writingClosure(_:to:), keyPath: \.metricsConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, S3ClientTypes.MetricsConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("MetricsConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.MetricsConfiguration.writingClosure(_:to:), keyPath: \.metricsConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketMetricsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketMetricsConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketMetricsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketMetricsConfigurationOutput>(responseClosure(PutBucketMetricsConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketMetricsConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketMetricsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4177,8 +4025,6 @@ extension S3Client {
     /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketNotificationConfiguration")
@@ -4199,12 +4045,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, S3ClientTypes.NotificationConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("NotificationConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.NotificationConfiguration.writingClosure(_:to:), keyPath: \.notificationConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, S3ClientTypes.NotificationConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("NotificationConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.NotificationConfiguration.writingClosure(_:to:), keyPath: \.notificationConfiguration, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketNotificationConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketNotificationConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketNotificationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketNotificationConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketNotificationConfigurationOutput>(responseClosure(PutBucketNotificationConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketNotificationConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketNotificationConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4224,8 +4070,6 @@ extension S3Client {
     /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketOwnershipControls")
@@ -4247,12 +4091,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, S3ClientTypes.OwnershipControls, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("OwnershipControls", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.OwnershipControls.writingClosure(_:to:), keyPath: \.ownershipControls, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, S3ClientTypes.OwnershipControls, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("OwnershipControls", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.OwnershipControls.writingClosure(_:to:), keyPath: \.ownershipControls, defaultBody: nil))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketOwnershipControlsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketOwnershipControlsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketOwnershipControlsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketOwnershipControlsOutput>(responseClosure(PutBucketOwnershipControlsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketOwnershipControlsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketOwnershipControlsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4279,8 +4123,6 @@ extension S3Client {
     /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketPolicy")
@@ -4303,11 +4145,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(contentType: "text/plain"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.StringBodyMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(keyPath: \.policy))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(responseClosure(PutBucketPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketPolicyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4327,8 +4170,6 @@ extension S3Client {
     /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketReplication")
@@ -4350,12 +4191,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput, S3ClientTypes.ReplicationConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ReplicationConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ReplicationConfiguration.writingClosure(_:to:), keyPath: \.replicationConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput, S3ClientTypes.ReplicationConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ReplicationConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ReplicationConfiguration.writingClosure(_:to:), keyPath: \.replicationConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketReplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketReplicationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketReplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(responseClosure(PutBucketReplicationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketReplicationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketReplicationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4375,8 +4217,6 @@ extension S3Client {
     /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketRequestPayment")
@@ -4398,12 +4238,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, S3ClientTypes.RequestPaymentConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("RequestPaymentConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.RequestPaymentConfiguration.writingClosure(_:to:), keyPath: \.requestPaymentConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, S3ClientTypes.RequestPaymentConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("RequestPaymentConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.RequestPaymentConfiguration.writingClosure(_:to:), keyPath: \.requestPaymentConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketRequestPaymentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketRequestPaymentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketRequestPaymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketRequestPaymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketRequestPaymentOutput>(responseClosure(PutBucketRequestPaymentOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketRequestPaymentOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketRequestPaymentOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4434,8 +4275,6 @@ extension S3Client {
     /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketTagging")
@@ -4457,12 +4296,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Tagging", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Tagging.writingClosure(_:to:), keyPath: \.tagging, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Tagging", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Tagging.writingClosure(_:to:), keyPath: \.tagging, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketTaggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketTaggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(responseClosure(PutBucketTaggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketTaggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4484,8 +4324,6 @@ extension S3Client {
     /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketVersioning")
@@ -4507,12 +4345,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput, S3ClientTypes.VersioningConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("VersioningConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.VersioningConfiguration.writingClosure(_:to:), keyPath: \.versioningConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput, S3ClientTypes.VersioningConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("VersioningConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.VersioningConfiguration.writingClosure(_:to:), keyPath: \.versioningConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketVersioningOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketVersioningOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketVersioningOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(responseClosure(PutBucketVersioningOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketVersioningOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketVersioningOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4574,8 +4413,6 @@ extension S3Client {
     /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketWebsite")
@@ -4597,12 +4434,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput, S3ClientTypes.WebsiteConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("WebsiteConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.WebsiteConfiguration.writingClosure(_:to:), keyPath: \.websiteConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput, S3ClientTypes.WebsiteConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("WebsiteConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.WebsiteConfiguration.writingClosure(_:to:), keyPath: \.websiteConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBucketWebsiteOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketWebsiteOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketWebsiteOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketWebsiteOutput>(responseClosure(PutBucketWebsiteOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutBucketWebsiteOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketWebsiteOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4661,8 +4499,6 @@ extension S3Client {
     /// - Returns: `PutObjectOutput` : [no documentation found]
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -4684,11 +4520,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4776,8 +4613,6 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectAcl")
@@ -4799,12 +4634,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectAclInput, PutObjectAclOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectAclInput, PutObjectAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccessControlPolicy", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectAclInput, PutObjectAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AccessControlPolicy", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.AccessControlPolicy.writingClosure(_:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectAclInput, PutObjectAclOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectAclOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectAclOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectAclOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectAclOutput>(responseClosure(PutObjectAclOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectAclOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectAclOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4820,8 +4656,6 @@ extension S3Client {
     /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectLegalHold")
@@ -4843,12 +4677,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, S3ClientTypes.ObjectLockLegalHold, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("LegalHold", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockLegalHold.writingClosure(_:to:), keyPath: \.legalHold, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, S3ClientTypes.ObjectLockLegalHold, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("LegalHold", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockLegalHold.writingClosure(_:to:), keyPath: \.legalHold, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectLegalHoldOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectLegalHoldOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLegalHoldOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectLegalHoldOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLegalHoldOutput>(responseClosure(PutObjectLegalHoldOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectLegalHoldOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectLegalHoldOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4870,8 +4705,6 @@ extension S3Client {
     /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectLockConfiguration")
@@ -4893,12 +4726,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, S3ClientTypes.ObjectLockConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ObjectLockConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockConfiguration.writingClosure(_:to:), keyPath: \.objectLockConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, S3ClientTypes.ObjectLockConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ObjectLockConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockConfiguration.writingClosure(_:to:), keyPath: \.objectLockConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectLockConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectLockConfigurationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLockConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectLockConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLockConfigurationOutput>(responseClosure(PutObjectLockConfigurationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectLockConfigurationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectLockConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4914,8 +4748,6 @@ extension S3Client {
     /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectRetention")
@@ -4937,12 +4769,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput, S3ClientTypes.ObjectLockRetention, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Retention", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockRetention.writingClosure(_:to:), keyPath: \.retention, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput, S3ClientTypes.ObjectLockRetention, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Retention", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.ObjectLockRetention.writingClosure(_:to:), keyPath: \.retention, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectRetentionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectRetentionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectRetentionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectRetentionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectRetentionOutput>(responseClosure(PutObjectRetentionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectRetentionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectRetentionOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectRetentionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -4973,8 +4806,6 @@ extension S3Client {
     /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectTagging")
@@ -4996,12 +4827,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Tagging", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Tagging.writingClosure(_:to:), keyPath: \.tagging, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("Tagging", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.Tagging.writingClosure(_:to:), keyPath: \.tagging, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectTaggingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectTaggingOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectTaggingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectTaggingOutput>(responseClosure(PutObjectTaggingOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutObjectTaggingOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5025,8 +4857,6 @@ extension S3Client {
     /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putPublicAccessBlock")
@@ -5048,12 +4878,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, S3ClientTypes.PublicAccessBlockConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("PublicAccessBlockConfiguration", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:), keyPath: \.publicAccessBlockConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, S3ClientTypes.PublicAccessBlockConfiguration, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("PublicAccessBlockConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.PublicAccessBlockConfiguration.writingClosure(_:to:), keyPath: \.publicAccessBlockConfiguration, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPublicAccessBlockOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPublicAccessBlockOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutPublicAccessBlockOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(responseClosure(PutPublicAccessBlockOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutPublicAccessBlockOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutPublicAccessBlockOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5163,8 +4994,6 @@ extension S3Client {
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
     public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "restoreObject")
@@ -5185,12 +5014,13 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreObjectInput, RestoreObjectOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<RestoreObjectInput, RestoreObjectOutput, S3ClientTypes.RestoreRequest, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("RestoreRequest", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.RestoreRequest.writingClosure(_:to:), keyPath: \.restoreRequest, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.PayloadBodyMiddleware<RestoreObjectInput, RestoreObjectOutput, S3ClientTypes.RestoreRequest, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("RestoreRequest", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: S3ClientTypes.RestoreRequest.writingClosure(_:to:), keyPath: \.restoreRequest, defaultBody: nil))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<RestoreObjectInput, RestoreObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestoreObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreObjectOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestoreObjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreObjectOutput>(responseClosure(RestoreObjectOutput.httpBinding, responseDocumentBinding), responseErrorClosure(RestoreObjectOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<RestoreObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5230,8 +5060,6 @@ extension S3Client {
     /// - Returns: `SelectObjectContentOutput` : [no documentation found]
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "selectObjectContent")
@@ -5252,12 +5080,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SelectObjectContentInput, SelectObjectContentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("SelectObjectContentRequest", namespace: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: SelectObjectContentInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SelectObjectContentInput, SelectObjectContentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("SelectObjectContentRequest", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/"))), inputWritingClosure: SelectObjectContentInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SelectObjectContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SelectObjectContentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectObjectContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(SelectObjectContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SelectObjectContentOutput>(responseClosure(SelectObjectContentOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SelectObjectContentOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SelectObjectContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5319,8 +5147,6 @@ extension S3Client {
     /// - Returns: `UploadPartOutput` : [no documentation found]
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
@@ -5342,11 +5168,12 @@ extension S3Client {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(UploadPartOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadPartOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5423,8 +5250,6 @@ extension S3Client {
     /// - Returns: `UploadPartCopyOutput` : [no documentation found]
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPartCopy")
@@ -5447,7 +5272,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartCopyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartCopyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartCopyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartCopyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartCopyOutput>(responseClosure(UploadPartCopyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadPartCopyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartCopyOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartCopyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -5463,8 +5288,6 @@ extension S3Client {
     /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "writeGetObjectResponse")
@@ -5490,7 +5313,7 @@ extension S3Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, WriteGetObjectResponseOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WriteGetObjectResponseOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutput>(responseClosure(decoder: decoder), responseErrorClosure(WriteGetObjectResponseOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutput>(responseClosure(WriteGetObjectResponseOutput.httpBinding, responseDocumentBinding), responseErrorClosure(WriteGetObjectResponseOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<WriteGetObjectResponseOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<WriteGetObjectResponseOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

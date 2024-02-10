@@ -11,19 +11,9 @@ public class Route53Client {
     let client: ClientRuntime.SdkHttpClient
     let config: Route53Client.Route53ClientConfiguration
     let serviceName = "Route 53"
-    let encoder: ClientRuntime.RequestEncoder
-    let decoder: ClientRuntime.ResponseDecoder
 
     public init(config: Route53Client.Route53ClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-        let encoder = ClientRuntime.JSONEncoder()
-        self.encoder = config.encoder ?? encoder
-        let decoder = ClientRuntime.XMLDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-        decoder.trimValueWhitespaces = false
-        decoder.removeWhitespaceElements = true
-        self.decoder = config.decoder ?? decoder
         self.config = config
     }
 
@@ -87,8 +77,6 @@ extension Route53Client {
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     public func activateKeySigningKey(input: ActivateKeySigningKeyInput) async throws -> ActivateKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "activateKeySigningKey")
@@ -110,7 +98,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ActivateKeySigningKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateKeySigningKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateKeySigningKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(ActivateKeySigningKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateKeySigningKeyOutput>(responseClosure(ActivateKeySigningKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ActivateKeySigningKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -152,8 +140,6 @@ extension Route53Client {
     /// - `PublicZoneVPCAssociation` : You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't support associating a VPC with a public hosted zone.
     public func associateVPCWithHostedZone(input: AssociateVPCWithHostedZoneInput) async throws -> AssociateVPCWithHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "associateVPCWithHostedZone")
@@ -173,12 +159,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateVPCWithHostedZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AssociateVPCWithHostedZoneRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: AssociateVPCWithHostedZoneInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("AssociateVPCWithHostedZoneRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: AssociateVPCWithHostedZoneInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateVPCWithHostedZoneOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateVPCWithHostedZoneOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateVPCWithHostedZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateVPCWithHostedZoneOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateVPCWithHostedZoneOutput>(responseClosure(AssociateVPCWithHostedZoneOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AssociateVPCWithHostedZoneOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateVPCWithHostedZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -207,8 +193,6 @@ extension Route53Client {
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     public func changeCidrCollection(input: ChangeCidrCollectionInput) async throws -> ChangeCidrCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "changeCidrCollection")
@@ -227,12 +211,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeCidrCollectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ChangeCidrCollectionRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ChangeCidrCollectionInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ChangeCidrCollectionRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ChangeCidrCollectionInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeCidrCollectionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeCidrCollectionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeCidrCollectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(ChangeCidrCollectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeCidrCollectionOutput>(responseClosure(ChangeCidrCollectionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ChangeCidrCollectionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeCidrCollectionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -265,8 +249,6 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func changeResourceRecordSets(input: ChangeResourceRecordSetsInput) async throws -> ChangeResourceRecordSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "changeResourceRecordSets")
@@ -286,12 +268,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeResourceRecordSetsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ChangeResourceRecordSetsRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ChangeResourceRecordSetsInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ChangeResourceRecordSetsRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ChangeResourceRecordSetsInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeResourceRecordSetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeResourceRecordSetsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeResourceRecordSetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ChangeResourceRecordSetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeResourceRecordSetsOutput>(responseClosure(ChangeResourceRecordSetsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ChangeResourceRecordSetsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -315,8 +297,6 @@ extension Route53Client {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     public func changeTagsForResource(input: ChangeTagsForResourceInput) async throws -> ChangeTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "changeTagsForResource")
@@ -335,12 +315,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ChangeTagsForResourceRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ChangeTagsForResourceInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ChangeTagsForResourceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ChangeTagsForResourceInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeTagsForResourceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ChangeTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeTagsForResourceOutput>(responseClosure(ChangeTagsForResourceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ChangeTagsForResourceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -363,8 +343,6 @@ extension Route53Client {
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createCidrCollection(input: CreateCidrCollectionInput) async throws -> CreateCidrCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createCidrCollection")
@@ -383,12 +361,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCidrCollectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateCidrCollectionRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateCidrCollectionInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateCidrCollectionRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateCidrCollectionInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCidrCollectionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCidrCollectionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCidrCollectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCidrCollectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCidrCollectionOutput>(responseClosure(CreateCidrCollectionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateCidrCollectionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCidrCollectionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -420,8 +398,6 @@ extension Route53Client {
     /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createHealthCheck")
@@ -440,12 +416,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateHealthCheckOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateHealthCheckRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateHealthCheckInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateHealthCheckRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateHealthCheckInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateHealthCheckOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHealthCheckOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHealthCheckOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateHealthCheckOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHealthCheckOutput>(responseClosure(CreateHealthCheckOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateHealthCheckOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHealthCheckOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -497,8 +473,6 @@ extension Route53Client {
     /// - `TooManyHostedZones` : This operation can't be completed either because the current account has reached the limit on the number of hosted zones or because you've reached the limit on the number of hosted zones that can be associated with a reusable delegation set. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit on hosted zones that can be created by an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To get the current limit on hosted zones that can be associated with a reusable delegation set, see [GetReusableDelegationSetLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSetLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createHostedZone(input: CreateHostedZoneInput) async throws -> CreateHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createHostedZone")
@@ -517,12 +491,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateHostedZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateHostedZoneRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateHostedZoneInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateHostedZoneRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateHostedZoneInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateHostedZoneOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHostedZoneOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHostedZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateHostedZoneOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHostedZoneOutput>(responseClosure(CreateHostedZoneOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateHostedZoneOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHostedZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -551,8 +525,6 @@ extension Route53Client {
     /// - `TooManyKeySigningKeys` : You've reached the limit for the number of key-signing keys (KSKs). Remove at least one KSK, and then try again.
     public func createKeySigningKey(input: CreateKeySigningKeyInput) async throws -> CreateKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createKeySigningKey")
@@ -571,12 +543,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateKeySigningKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateKeySigningKeyRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateKeySigningKeyInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateKeySigningKeyRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateKeySigningKeyInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateKeySigningKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeySigningKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeySigningKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateKeySigningKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeySigningKeyOutput>(responseClosure(CreateKeySigningKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateKeySigningKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -652,8 +624,6 @@ extension Route53Client {
     /// - `QueryLoggingConfigAlreadyExists` : You can create only one query logging configuration for a hosted zone, and a query logging configuration already exists for this hosted zone.
     public func createQueryLoggingConfig(input: CreateQueryLoggingConfigInput) async throws -> CreateQueryLoggingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createQueryLoggingConfig")
@@ -672,12 +642,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateQueryLoggingConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateQueryLoggingConfigRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateQueryLoggingConfigInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateQueryLoggingConfigRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateQueryLoggingConfigInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateQueryLoggingConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateQueryLoggingConfigOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateQueryLoggingConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigOutput>(responseClosure(CreateQueryLoggingConfigOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateQueryLoggingConfigOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -724,8 +694,6 @@ extension Route53Client {
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createReusableDelegationSet(input: CreateReusableDelegationSetInput) async throws -> CreateReusableDelegationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createReusableDelegationSet")
@@ -744,12 +712,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReusableDelegationSetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateReusableDelegationSetRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateReusableDelegationSetInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateReusableDelegationSetRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateReusableDelegationSetInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReusableDelegationSetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReusableDelegationSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReusableDelegationSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateReusableDelegationSetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReusableDelegationSetOutput>(responseClosure(CreateReusableDelegationSetOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateReusableDelegationSetOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -772,8 +740,6 @@ extension Route53Client {
     /// - `TrafficPolicyAlreadyExists` : A traffic policy that has the same value for Name already exists.
     public func createTrafficPolicy(input: CreateTrafficPolicyInput) async throws -> CreateTrafficPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createTrafficPolicy")
@@ -792,12 +758,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrafficPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateTrafficPolicyRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateTrafficPolicyInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateTrafficPolicyRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateTrafficPolicyInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrafficPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrafficPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTrafficPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutput>(responseClosure(CreateTrafficPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateTrafficPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -821,8 +787,6 @@ extension Route53Client {
     /// - `TrafficPolicyInstanceAlreadyExists` : There is already a traffic policy instance with the specified ID.
     public func createTrafficPolicyInstance(input: CreateTrafficPolicyInstanceInput) async throws -> CreateTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createTrafficPolicyInstance")
@@ -841,12 +805,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrafficPolicyInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateTrafficPolicyInstanceRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateTrafficPolicyInstanceInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateTrafficPolicyInstanceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateTrafficPolicyInstanceInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrafficPolicyInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrafficPolicyInstanceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTrafficPolicyInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyInstanceOutput>(responseClosure(CreateTrafficPolicyInstanceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateTrafficPolicyInstanceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -870,8 +834,6 @@ extension Route53Client {
     /// - `TooManyTrafficPolicyVersionsForCurrentPolicy` : This traffic policy version can't be created because you've reached the limit of 1000 on the number of versions that you can create for the current traffic policy. To create more traffic policy versions, you can use [GetTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html) to get the traffic policy document for a specified traffic policy version, and then use [CreateTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html) to create a new traffic policy using the traffic policy document.
     public func createTrafficPolicyVersion(input: CreateTrafficPolicyVersionInput) async throws -> CreateTrafficPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createTrafficPolicyVersion")
@@ -890,12 +852,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrafficPolicyVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateTrafficPolicyVersionRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateTrafficPolicyVersionInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateTrafficPolicyVersionRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateTrafficPolicyVersionInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrafficPolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrafficPolicyVersionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTrafficPolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyVersionOutput>(responseClosure(CreateTrafficPolicyVersionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateTrafficPolicyVersionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrafficPolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -919,8 +881,6 @@ extension Route53Client {
     /// - `TooManyVPCAssociationAuthorizations` : You've created the maximum number of authorizations that can be created for the specified hosted zone. To authorize another VPC to be associated with the hosted zone, submit a DeleteVPCAssociationAuthorization request to remove an existing authorization. To get a list of existing authorizations, submit a ListVPCAssociationAuthorizations request.
     public func createVPCAssociationAuthorization(input: CreateVPCAssociationAuthorizationInput) async throws -> CreateVPCAssociationAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createVPCAssociationAuthorization")
@@ -940,12 +900,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVPCAssociationAuthorizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateVPCAssociationAuthorizationRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateVPCAssociationAuthorizationInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("CreateVPCAssociationAuthorizationRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: CreateVPCAssociationAuthorizationInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVPCAssociationAuthorizationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVPCAssociationAuthorizationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVPCAssociationAuthorizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVPCAssociationAuthorizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVPCAssociationAuthorizationOutput>(responseClosure(CreateVPCAssociationAuthorizationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateVPCAssociationAuthorizationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -971,8 +931,6 @@ extension Route53Client {
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     public func deactivateKeySigningKey(input: DeactivateKeySigningKeyInput) async throws -> DeactivateKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deactivateKeySigningKey")
@@ -994,7 +952,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeactivateKeySigningKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateKeySigningKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateKeySigningKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeactivateKeySigningKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateKeySigningKeyOutput>(responseClosure(DeactivateKeySigningKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeactivateKeySigningKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1017,8 +975,6 @@ extension Route53Client {
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     public func deleteCidrCollection(input: DeleteCidrCollectionInput) async throws -> DeleteCidrCollectionOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteCidrCollection")
@@ -1039,7 +995,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCidrCollectionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCidrCollectionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCidrCollectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCidrCollectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCidrCollectionOutput>(responseClosure(DeleteCidrCollectionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteCidrCollectionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCidrCollectionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1061,8 +1017,6 @@ extension Route53Client {
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func deleteHealthCheck(input: DeleteHealthCheckInput) async throws -> DeleteHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteHealthCheck")
@@ -1083,7 +1037,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHealthCheckOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHealthCheckOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHealthCheckOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteHealthCheckOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHealthCheckOutput>(responseClosure(DeleteHealthCheckOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteHealthCheckOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHealthCheckOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1111,8 +1065,6 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func deleteHostedZone(input: DeleteHostedZoneInput) async throws -> DeleteHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteHostedZone")
@@ -1133,7 +1085,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHostedZoneOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHostedZoneOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHostedZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteHostedZoneOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHostedZoneOutput>(responseClosure(DeleteHostedZoneOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteHostedZoneOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHostedZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1158,8 +1110,6 @@ extension Route53Client {
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     public func deleteKeySigningKey(input: DeleteKeySigningKeyInput) async throws -> DeleteKeySigningKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteKeySigningKey")
@@ -1181,7 +1131,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteKeySigningKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeySigningKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeySigningKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteKeySigningKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeySigningKeyOutput>(responseClosure(DeleteKeySigningKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteKeySigningKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1203,8 +1153,6 @@ extension Route53Client {
     /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
     public func deleteQueryLoggingConfig(input: DeleteQueryLoggingConfigInput) async throws -> DeleteQueryLoggingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteQueryLoggingConfig")
@@ -1225,7 +1173,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQueryLoggingConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQueryLoggingConfigOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteQueryLoggingConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigOutput>(responseClosure(DeleteQueryLoggingConfigOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteQueryLoggingConfigOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1248,8 +1196,6 @@ extension Route53Client {
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func deleteReusableDelegationSet(input: DeleteReusableDelegationSetInput) async throws -> DeleteReusableDelegationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteReusableDelegationSet")
@@ -1270,7 +1216,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReusableDelegationSetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReusableDelegationSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReusableDelegationSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteReusableDelegationSetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReusableDelegationSetOutput>(responseClosure(DeleteReusableDelegationSetOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteReusableDelegationSetOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1299,8 +1245,6 @@ extension Route53Client {
     /// - `TrafficPolicyInUse` : One or more traffic policy instances were created by using the specified traffic policy.
     public func deleteTrafficPolicy(input: DeleteTrafficPolicyInput) async throws -> DeleteTrafficPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteTrafficPolicy")
@@ -1321,7 +1265,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrafficPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrafficPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTrafficPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutput>(responseClosure(DeleteTrafficPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteTrafficPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1343,8 +1287,6 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func deleteTrafficPolicyInstance(input: DeleteTrafficPolicyInstanceInput) async throws -> DeleteTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteTrafficPolicyInstance")
@@ -1365,7 +1307,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrafficPolicyInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrafficPolicyInstanceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTrafficPolicyInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyInstanceOutput>(responseClosure(DeleteTrafficPolicyInstanceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteTrafficPolicyInstanceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1389,8 +1331,6 @@ extension Route53Client {
     /// - `VPCAssociationAuthorizationNotFound` : The VPC that you specified is not authorized to be associated with the hosted zone.
     public func deleteVPCAssociationAuthorization(input: DeleteVPCAssociationAuthorizationInput) async throws -> DeleteVPCAssociationAuthorizationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteVPCAssociationAuthorization")
@@ -1410,12 +1350,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVPCAssociationAuthorizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("DeleteVPCAssociationAuthorizationRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: DeleteVPCAssociationAuthorizationInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("DeleteVPCAssociationAuthorizationRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: DeleteVPCAssociationAuthorizationInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVPCAssociationAuthorizationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVPCAssociationAuthorizationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVPCAssociationAuthorizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVPCAssociationAuthorizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVPCAssociationAuthorizationOutput>(responseClosure(DeleteVPCAssociationAuthorizationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteVPCAssociationAuthorizationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1442,8 +1382,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func disableHostedZoneDNSSEC(input: DisableHostedZoneDNSSECInput) async throws -> DisableHostedZoneDNSSECOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "disableHostedZoneDNSSEC")
@@ -1465,7 +1403,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableHostedZoneDNSSECOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableHostedZoneDNSSECOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableHostedZoneDNSSECOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableHostedZoneDNSSECOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableHostedZoneDNSSECOutput>(responseClosure(DisableHostedZoneDNSSECOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DisableHostedZoneDNSSECOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1509,8 +1447,6 @@ extension Route53Client {
     /// - `VPCAssociationNotFound` : The specified VPC and hosted zone are not currently associated.
     public func disassociateVPCFromHostedZone(input: DisassociateVPCFromHostedZoneInput) async throws -> DisassociateVPCFromHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "disassociateVPCFromHostedZone")
@@ -1530,12 +1466,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateVPCFromHostedZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("DisassociateVPCFromHostedZoneRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: DisassociateVPCFromHostedZoneInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("DisassociateVPCFromHostedZoneRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: DisassociateVPCFromHostedZoneInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateVPCFromHostedZoneOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateVPCFromHostedZoneOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateVPCFromHostedZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateVPCFromHostedZoneOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateVPCFromHostedZoneOutput>(responseClosure(DisassociateVPCFromHostedZoneOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DisassociateVPCFromHostedZoneOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateVPCFromHostedZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1563,8 +1499,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func enableHostedZoneDNSSEC(input: EnableHostedZoneDNSSECInput) async throws -> EnableHostedZoneDNSSECOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "enableHostedZoneDNSSEC")
@@ -1586,7 +1520,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableHostedZoneDNSSECOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableHostedZoneDNSSECOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableHostedZoneDNSSECOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableHostedZoneDNSSECOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableHostedZoneDNSSECOutput>(responseClosure(EnableHostedZoneDNSSECOutput.httpBinding, responseDocumentBinding), responseErrorClosure(EnableHostedZoneDNSSECOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1606,8 +1540,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func getAccountLimit(input: GetAccountLimitInput) async throws -> GetAccountLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAccountLimit")
@@ -1628,7 +1560,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountLimitOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountLimitOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountLimitOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountLimitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountLimitOutput>(responseClosure(GetAccountLimitOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetAccountLimitOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountLimitOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1653,8 +1585,6 @@ extension Route53Client {
     /// - `NoSuchChange` : A change with the specified change ID does not exist.
     public func getChange(input: GetChangeInput) async throws -> GetChangeOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getChange")
@@ -1675,7 +1605,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChangeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChangeOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChangeOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetChangeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChangeOutput>(responseClosure(GetChangeOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetChangeOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChangeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1690,8 +1620,6 @@ extension Route53Client {
     /// - Returns: `GetCheckerIpRangesOutput` : A complex type that contains the CheckerIpRanges element.
     public func getCheckerIpRanges(input: GetCheckerIpRangesInput) async throws -> GetCheckerIpRangesOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getCheckerIpRanges")
@@ -1712,7 +1640,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCheckerIpRangesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCheckerIpRangesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCheckerIpRangesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCheckerIpRangesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCheckerIpRangesOutput>(responseClosure(GetCheckerIpRangesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetCheckerIpRangesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCheckerIpRangesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1734,8 +1662,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func getDNSSEC(input: GetDNSSECInput) async throws -> GetDNSSECOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDNSSEC")
@@ -1757,7 +1683,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDNSSECOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDNSSECOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDNSSECOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDNSSECOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDNSSECOutput>(responseClosure(GetDNSSECOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetDNSSECOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDNSSECOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1778,8 +1704,6 @@ extension Route53Client {
     /// - `NoSuchGeoLocation` : Amazon Route 53 doesn't support the specified geographic location. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
     public func getGeoLocation(input: GetGeoLocationInput) async throws -> GetGeoLocationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getGeoLocation")
@@ -1801,7 +1725,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGeoLocationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGeoLocationOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGeoLocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGeoLocationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGeoLocationOutput>(responseClosure(GetGeoLocationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetGeoLocationOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGeoLocationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1823,8 +1747,6 @@ extension Route53Client {
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func getHealthCheck(input: GetHealthCheckInput) async throws -> GetHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHealthCheck")
@@ -1845,7 +1767,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHealthCheckOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHealthCheckOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckOutput>(responseClosure(GetHealthCheckOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHealthCheckOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1860,8 +1782,6 @@ extension Route53Client {
     /// - Returns: `GetHealthCheckCountOutput` : A complex type that contains the response to a GetHealthCheckCount request.
     public func getHealthCheckCount(input: GetHealthCheckCountInput) async throws -> GetHealthCheckCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHealthCheckCount")
@@ -1882,7 +1802,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHealthCheckCountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckCountOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckCountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHealthCheckCountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckCountOutput>(responseClosure(GetHealthCheckCountOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHealthCheckCountOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckCountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1903,8 +1823,6 @@ extension Route53Client {
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func getHealthCheckLastFailureReason(input: GetHealthCheckLastFailureReasonInput) async throws -> GetHealthCheckLastFailureReasonOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHealthCheckLastFailureReason")
@@ -1925,7 +1843,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHealthCheckLastFailureReasonOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckLastFailureReasonOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckLastFailureReasonOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHealthCheckLastFailureReasonOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckLastFailureReasonOutput>(responseClosure(GetHealthCheckLastFailureReasonOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHealthCheckLastFailureReasonOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckLastFailureReasonOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1946,8 +1864,6 @@ extension Route53Client {
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func getHealthCheckStatus(input: GetHealthCheckStatusInput) async throws -> GetHealthCheckStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHealthCheckStatus")
@@ -1968,7 +1884,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHealthCheckStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHealthCheckStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckStatusOutput>(responseClosure(GetHealthCheckStatusOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHealthCheckStatusOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckStatusOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1989,8 +1905,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func getHostedZone(input: GetHostedZoneInput) async throws -> GetHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHostedZone")
@@ -2011,7 +1925,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHostedZoneOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostedZoneOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHostedZoneOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneOutput>(responseClosure(GetHostedZoneOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHostedZoneOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostedZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2031,8 +1945,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func getHostedZoneCount(input: GetHostedZoneCountInput) async throws -> GetHostedZoneCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHostedZoneCount")
@@ -2053,7 +1965,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHostedZoneCountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostedZoneCountOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneCountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHostedZoneCountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneCountOutput>(responseClosure(GetHostedZoneCountOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHostedZoneCountOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostedZoneCountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2075,8 +1987,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func getHostedZoneLimit(input: GetHostedZoneLimitInput) async throws -> GetHostedZoneLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getHostedZoneLimit")
@@ -2098,7 +2008,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetHostedZoneLimitOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostedZoneLimitOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneLimitOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetHostedZoneLimitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneLimitOutput>(responseClosure(GetHostedZoneLimitOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetHostedZoneLimitOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostedZoneLimitOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2119,8 +2029,6 @@ extension Route53Client {
     /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
     public func getQueryLoggingConfig(input: GetQueryLoggingConfigInput) async throws -> GetQueryLoggingConfigOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getQueryLoggingConfig")
@@ -2141,7 +2049,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryLoggingConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryLoggingConfigOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryLoggingConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetQueryLoggingConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryLoggingConfigOutput>(responseClosure(GetQueryLoggingConfigOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetQueryLoggingConfigOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2163,8 +2071,6 @@ extension Route53Client {
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func getReusableDelegationSet(input: GetReusableDelegationSetInput) async throws -> GetReusableDelegationSetOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getReusableDelegationSet")
@@ -2185,7 +2091,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetReusableDelegationSetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReusableDelegationSetOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetReusableDelegationSetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetOutput>(responseClosure(GetReusableDelegationSetOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetReusableDelegationSetOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2206,8 +2112,6 @@ extension Route53Client {
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func getReusableDelegationSetLimit(input: GetReusableDelegationSetLimitInput) async throws -> GetReusableDelegationSetLimitOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getReusableDelegationSetLimit")
@@ -2228,7 +2132,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetReusableDelegationSetLimitOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReusableDelegationSetLimitOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetLimitOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetReusableDelegationSetLimitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetLimitOutput>(responseClosure(GetReusableDelegationSetLimitOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetReusableDelegationSetLimitOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReusableDelegationSetLimitOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2249,8 +2153,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     public func getTrafficPolicy(input: GetTrafficPolicyInput) async throws -> GetTrafficPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getTrafficPolicy")
@@ -2271,7 +2173,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrafficPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrafficPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTrafficPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutput>(responseClosure(GetTrafficPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetTrafficPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2292,8 +2194,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func getTrafficPolicyInstance(input: GetTrafficPolicyInstanceInput) async throws -> GetTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getTrafficPolicyInstance")
@@ -2314,7 +2214,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrafficPolicyInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrafficPolicyInstanceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTrafficPolicyInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceOutput>(responseClosure(GetTrafficPolicyInstanceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetTrafficPolicyInstanceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2329,8 +2229,6 @@ extension Route53Client {
     /// - Returns: `GetTrafficPolicyInstanceCountOutput` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
     public func getTrafficPolicyInstanceCount(input: GetTrafficPolicyInstanceCountInput) async throws -> GetTrafficPolicyInstanceCountOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getTrafficPolicyInstanceCount")
@@ -2351,7 +2249,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrafficPolicyInstanceCountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrafficPolicyInstanceCountOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceCountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTrafficPolicyInstanceCountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceCountOutput>(responseClosure(GetTrafficPolicyInstanceCountOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetTrafficPolicyInstanceCountOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceCountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2373,8 +2271,6 @@ extension Route53Client {
     /// - `NoSuchCidrLocationException` : The CIDR collection location doesn't match any locations in your account.
     public func listCidrBlocks(input: ListCidrBlocksInput) async throws -> ListCidrBlocksOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listCidrBlocks")
@@ -2396,7 +2292,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCidrBlocksOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCidrBlocksOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrBlocksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCidrBlocksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrBlocksOutput>(responseClosure(ListCidrBlocksOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListCidrBlocksOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCidrBlocksOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2416,8 +2312,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func listCidrCollections(input: ListCidrCollectionsInput) async throws -> ListCidrCollectionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listCidrCollections")
@@ -2439,7 +2333,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCidrCollectionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCidrCollectionsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrCollectionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCidrCollectionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrCollectionsOutput>(responseClosure(ListCidrCollectionsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListCidrCollectionsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCidrCollectionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2460,8 +2354,6 @@ extension Route53Client {
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     public func listCidrLocations(input: ListCidrLocationsInput) async throws -> ListCidrLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listCidrLocations")
@@ -2483,7 +2375,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCidrLocationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCidrLocationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrLocationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCidrLocationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrLocationsOutput>(responseClosure(ListCidrLocationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListCidrLocationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCidrLocationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2503,8 +2395,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func listGeoLocations(input: ListGeoLocationsInput) async throws -> ListGeoLocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listGeoLocations")
@@ -2526,7 +2416,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGeoLocationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGeoLocationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGeoLocationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGeoLocationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGeoLocationsOutput>(responseClosure(ListGeoLocationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListGeoLocationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGeoLocationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2547,8 +2437,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func listHealthChecks(input: ListHealthChecksInput) async throws -> ListHealthChecksOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listHealthChecks")
@@ -2570,7 +2458,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHealthChecksOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHealthChecksOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHealthChecksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListHealthChecksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHealthChecksOutput>(responseClosure(ListHealthChecksOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListHealthChecksOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHealthChecksOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2592,8 +2480,6 @@ extension Route53Client {
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func listHostedZones(input: ListHostedZonesInput) async throws -> ListHostedZonesOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listHostedZones")
@@ -2615,7 +2501,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHostedZonesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHostedZonesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListHostedZonesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesOutput>(responseClosure(ListHostedZonesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListHostedZonesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHostedZonesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2644,8 +2530,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func listHostedZonesByName(input: ListHostedZonesByNameInput) async throws -> ListHostedZonesByNameOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listHostedZonesByName")
@@ -2667,7 +2551,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHostedZonesByNameOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHostedZonesByNameOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesByNameOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListHostedZonesByNameOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesByNameOutput>(responseClosure(ListHostedZonesByNameOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListHostedZonesByNameOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHostedZonesByNameOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2704,8 +2588,6 @@ extension Route53Client {
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     public func listHostedZonesByVPC(input: ListHostedZonesByVPCInput) async throws -> ListHostedZonesByVPCOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listHostedZonesByVPC")
@@ -2727,7 +2609,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHostedZonesByVPCOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHostedZonesByVPCOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesByVPCOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListHostedZonesByVPCOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesByVPCOutput>(responseClosure(ListHostedZonesByVPCOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListHostedZonesByVPCOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHostedZonesByVPCOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2749,8 +2631,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func listQueryLoggingConfigs(input: ListQueryLoggingConfigsInput) async throws -> ListQueryLoggingConfigsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listQueryLoggingConfigs")
@@ -2772,7 +2652,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueryLoggingConfigsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueryLoggingConfigsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueryLoggingConfigsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListQueryLoggingConfigsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueryLoggingConfigsOutput>(responseClosure(ListQueryLoggingConfigsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListQueryLoggingConfigsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueryLoggingConfigsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2793,8 +2673,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func listResourceRecordSets(input: ListResourceRecordSetsInput) async throws -> ListResourceRecordSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listResourceRecordSets")
@@ -2817,7 +2695,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceRecordSetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceRecordSetsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceRecordSetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListResourceRecordSetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceRecordSetsOutput>(responseClosure(ListResourceRecordSetsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListResourceRecordSetsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2837,8 +2715,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func listReusableDelegationSets(input: ListReusableDelegationSetsInput) async throws -> ListReusableDelegationSetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listReusableDelegationSets")
@@ -2860,7 +2736,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReusableDelegationSetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReusableDelegationSetsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReusableDelegationSetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListReusableDelegationSetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReusableDelegationSetsOutput>(responseClosure(ListReusableDelegationSetsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListReusableDelegationSetsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReusableDelegationSetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2884,8 +2760,6 @@ extension Route53Client {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTagsForResource")
@@ -2906,7 +2780,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(ListTagsForResourceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTagsForResourceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2930,8 +2804,6 @@ extension Route53Client {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTagsForResources")
@@ -2950,12 +2822,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ListTagsForResourcesRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ListTagsForResourcesInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("ListTagsForResourcesRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: ListTagsForResourcesInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourcesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourcesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutput>(responseClosure(ListTagsForResourcesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTagsForResourcesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourcesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2975,8 +2847,6 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     public func listTrafficPolicies(input: ListTrafficPoliciesInput) async throws -> ListTrafficPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTrafficPolicies")
@@ -2998,7 +2868,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrafficPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrafficPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutput>(responseClosure(ListTrafficPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTrafficPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3019,8 +2889,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func listTrafficPolicyInstances(input: ListTrafficPolicyInstancesInput) async throws -> ListTrafficPolicyInstancesOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTrafficPolicyInstances")
@@ -3042,7 +2910,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrafficPolicyInstancesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyInstancesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrafficPolicyInstancesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesOutput>(responseClosure(ListTrafficPolicyInstancesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTrafficPolicyInstancesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3064,8 +2932,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func listTrafficPolicyInstancesByHostedZone(input: ListTrafficPolicyInstancesByHostedZoneInput) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTrafficPolicyInstancesByHostedZone")
@@ -3087,7 +2953,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrafficPolicyInstancesByHostedZoneOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyInstancesByHostedZoneOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrafficPolicyInstancesByHostedZoneOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>(responseClosure(ListTrafficPolicyInstancesByHostedZoneOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTrafficPolicyInstancesByHostedZoneOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3109,8 +2975,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func listTrafficPolicyInstancesByPolicy(input: ListTrafficPolicyInstancesByPolicyInput) async throws -> ListTrafficPolicyInstancesByPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTrafficPolicyInstancesByPolicy")
@@ -3132,7 +2996,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrafficPolicyInstancesByPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyInstancesByPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrafficPolicyInstancesByPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByPolicyOutput>(responseClosure(ListTrafficPolicyInstancesByPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTrafficPolicyInstancesByPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3153,8 +3017,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     public func listTrafficPolicyVersions(input: ListTrafficPolicyVersionsInput) async throws -> ListTrafficPolicyVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTrafficPolicyVersions")
@@ -3176,7 +3038,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrafficPolicyVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyVersionsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrafficPolicyVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyVersionsOutput>(responseClosure(ListTrafficPolicyVersionsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListTrafficPolicyVersionsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3198,8 +3060,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func listVPCAssociationAuthorizations(input: ListVPCAssociationAuthorizationsInput) async throws -> ListVPCAssociationAuthorizationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listVPCAssociationAuthorizations")
@@ -3222,7 +3082,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVPCAssociationAuthorizationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVPCAssociationAuthorizationsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVPCAssociationAuthorizationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVPCAssociationAuthorizationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVPCAssociationAuthorizationsOutput>(responseClosure(ListVPCAssociationAuthorizationsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListVPCAssociationAuthorizationsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVPCAssociationAuthorizationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3243,8 +3103,6 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func testDNSAnswer(input: TestDNSAnswerInput) async throws -> TestDNSAnswerOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "testDNSAnswer")
@@ -3266,7 +3124,7 @@ extension Route53Client {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestDNSAnswerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestDNSAnswerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestDNSAnswerOutput>(responseClosure(decoder: decoder), responseErrorClosure(TestDNSAnswerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestDNSAnswerOutput>(responseClosure(TestDNSAnswerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TestDNSAnswerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestDNSAnswerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3288,8 +3146,6 @@ extension Route53Client {
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func updateHealthCheck(input: UpdateHealthCheckInput) async throws -> UpdateHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateHealthCheck")
@@ -3308,12 +3164,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateHealthCheckOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateHealthCheckRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateHealthCheckInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateHealthCheckRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateHealthCheckInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateHealthCheckOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHealthCheckOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHealthCheckOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateHealthCheckOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHealthCheckOutput>(responseClosure(UpdateHealthCheckOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateHealthCheckOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHealthCheckOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3335,8 +3191,6 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func updateHostedZoneComment(input: UpdateHostedZoneCommentInput) async throws -> UpdateHostedZoneCommentOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateHostedZoneComment")
@@ -3355,12 +3209,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateHostedZoneCommentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateHostedZoneCommentRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateHostedZoneCommentInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateHostedZoneCommentRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateHostedZoneCommentInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateHostedZoneCommentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHostedZoneCommentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHostedZoneCommentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateHostedZoneCommentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHostedZoneCommentOutput>(responseClosure(UpdateHostedZoneCommentOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateHostedZoneCommentOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHostedZoneCommentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3382,8 +3236,6 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     public func updateTrafficPolicyComment(input: UpdateTrafficPolicyCommentInput) async throws -> UpdateTrafficPolicyCommentOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateTrafficPolicyComment")
@@ -3402,12 +3254,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrafficPolicyCommentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateTrafficPolicyCommentRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateTrafficPolicyCommentInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateTrafficPolicyCommentRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateTrafficPolicyCommentInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrafficPolicyCommentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrafficPolicyCommentOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyCommentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateTrafficPolicyCommentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyCommentOutput>(responseClosure(UpdateTrafficPolicyCommentOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateTrafficPolicyCommentOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyCommentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3437,8 +3289,6 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func updateTrafficPolicyInstance(input: UpdateTrafficPolicyInstanceInput) async throws -> UpdateTrafficPolicyInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateTrafficPolicyInstance")
@@ -3457,12 +3307,12 @@ extension Route53Client {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrafficPolicyInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateTrafficPolicyInstanceRequest", namespace: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateTrafficPolicyInstanceInput.writingClosure(_:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyXML.Writer>(documentWritingClosure: SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: .init("UpdateTrafficPolicyInstanceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/"))), inputWritingClosure: UpdateTrafficPolicyInstanceInput.writingClosure(_:to:)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrafficPolicyInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrafficPolicyInstanceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateTrafficPolicyInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyInstanceOutput>(responseClosure(UpdateTrafficPolicyInstanceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateTrafficPolicyInstanceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result

@@ -11,14 +11,11 @@ public class ElasticLoadBalancingClient {
     let config: ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration
     let serviceName = "Elastic Load Balancing"
     let encoder: ClientRuntime.RequestEncoder
-    let decoder: ClientRuntime.ResponseDecoder
 
     public init(config: ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.FormURLEncoder()
         self.encoder = config.encoder ?? encoder
-        let decoder = ClientRuntime.XMLDecoder()
-        self.decoder = config.decoder ?? decoder
         self.config = config
     }
 
@@ -80,7 +77,6 @@ extension ElasticLoadBalancingClient {
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "addTags")
@@ -104,7 +100,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutput>(responseClosure(AddTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AddTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -127,7 +123,6 @@ extension ElasticLoadBalancingClient {
     public func applySecurityGroupsToLoadBalancer(input: ApplySecurityGroupsToLoadBalancerInput) async throws -> ApplySecurityGroupsToLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "applySecurityGroupsToLoadBalancer")
@@ -151,7 +146,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ApplySecurityGroupsToLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplySecurityGroupsToLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplySecurityGroupsToLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(ApplySecurityGroupsToLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplySecurityGroupsToLoadBalancerOutput>(responseClosure(ApplySecurityGroupsToLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ApplySecurityGroupsToLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplySecurityGroupsToLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -175,7 +170,6 @@ extension ElasticLoadBalancingClient {
     public func attachLoadBalancerToSubnets(input: AttachLoadBalancerToSubnetsInput) async throws -> AttachLoadBalancerToSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachLoadBalancerToSubnets")
@@ -199,7 +193,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachLoadBalancerToSubnetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachLoadBalancerToSubnetsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachLoadBalancerToSubnetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachLoadBalancerToSubnetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachLoadBalancerToSubnetsOutput>(responseClosure(AttachLoadBalancerToSubnetsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AttachLoadBalancerToSubnetsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachLoadBalancerToSubnetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -220,7 +214,6 @@ extension ElasticLoadBalancingClient {
     public func configureHealthCheck(input: ConfigureHealthCheckInput) async throws -> ConfigureHealthCheckOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "configureHealthCheck")
@@ -244,7 +237,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConfigureHealthCheckOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfigureHealthCheckOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureHealthCheckOutput>(responseClosure(decoder: decoder), responseErrorClosure(ConfigureHealthCheckOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureHealthCheckOutput>(responseClosure(ConfigureHealthCheckOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ConfigureHealthCheckOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfigureHealthCheckOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -268,7 +261,6 @@ extension ElasticLoadBalancingClient {
     public func createAppCookieStickinessPolicy(input: CreateAppCookieStickinessPolicyInput) async throws -> CreateAppCookieStickinessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createAppCookieStickinessPolicy")
@@ -292,7 +284,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppCookieStickinessPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppCookieStickinessPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppCookieStickinessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppCookieStickinessPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppCookieStickinessPolicyOutput>(responseClosure(CreateAppCookieStickinessPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateAppCookieStickinessPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppCookieStickinessPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -316,7 +308,6 @@ extension ElasticLoadBalancingClient {
     public func createLBCookieStickinessPolicy(input: CreateLBCookieStickinessPolicyInput) async throws -> CreateLBCookieStickinessPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLBCookieStickinessPolicy")
@@ -340,7 +331,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLBCookieStickinessPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLBCookieStickinessPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLBCookieStickinessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLBCookieStickinessPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLBCookieStickinessPolicyOutput>(responseClosure(CreateLBCookieStickinessPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateLBCookieStickinessPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLBCookieStickinessPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -372,7 +363,6 @@ extension ElasticLoadBalancingClient {
     public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLoadBalancer")
@@ -396,7 +386,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerOutput>(responseClosure(CreateLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -421,7 +411,6 @@ extension ElasticLoadBalancingClient {
     public func createLoadBalancerListeners(input: CreateLoadBalancerListenersInput) async throws -> CreateLoadBalancerListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLoadBalancerListeners")
@@ -445,7 +434,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoadBalancerListenersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerListenersOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerListenersOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoadBalancerListenersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerListenersOutput>(responseClosure(CreateLoadBalancerListenersOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateLoadBalancerListenersOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerListenersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -470,7 +459,6 @@ extension ElasticLoadBalancingClient {
     public func createLoadBalancerPolicy(input: CreateLoadBalancerPolicyInput) async throws -> CreateLoadBalancerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLoadBalancerPolicy")
@@ -494,7 +482,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoadBalancerPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoadBalancerPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerPolicyOutput>(responseClosure(CreateLoadBalancerPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateLoadBalancerPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -510,7 +498,6 @@ extension ElasticLoadBalancingClient {
     public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLoadBalancer")
@@ -534,7 +521,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerOutput>(responseClosure(DeleteLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -555,7 +542,6 @@ extension ElasticLoadBalancingClient {
     public func deleteLoadBalancerListeners(input: DeleteLoadBalancerListenersInput) async throws -> DeleteLoadBalancerListenersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLoadBalancerListeners")
@@ -579,7 +565,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoadBalancerListenersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerListenersOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerListenersOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLoadBalancerListenersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerListenersOutput>(responseClosure(DeleteLoadBalancerListenersOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteLoadBalancerListenersOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerListenersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -601,7 +587,6 @@ extension ElasticLoadBalancingClient {
     public func deleteLoadBalancerPolicy(input: DeleteLoadBalancerPolicyInput) async throws -> DeleteLoadBalancerPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLoadBalancerPolicy")
@@ -625,7 +610,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoadBalancerPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLoadBalancerPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerPolicyOutput>(responseClosure(DeleteLoadBalancerPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteLoadBalancerPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -647,7 +632,6 @@ extension ElasticLoadBalancingClient {
     public func deregisterInstancesFromLoadBalancer(input: DeregisterInstancesFromLoadBalancerInput) async throws -> DeregisterInstancesFromLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deregisterInstancesFromLoadBalancer")
@@ -671,7 +655,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterInstancesFromLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterInstancesFromLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterInstancesFromLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeregisterInstancesFromLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterInstancesFromLoadBalancerOutput>(responseClosure(DeregisterInstancesFromLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeregisterInstancesFromLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterInstancesFromLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -687,7 +671,6 @@ extension ElasticLoadBalancingClient {
     public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeAccountLimits")
@@ -711,7 +694,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountLimitsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountLimitsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccountLimitsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutput>(responseClosure(DescribeAccountLimitsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeAccountLimitsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountLimitsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -733,7 +716,6 @@ extension ElasticLoadBalancingClient {
     public func describeInstanceHealth(input: DescribeInstanceHealthInput) async throws -> DescribeInstanceHealthOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeInstanceHealth")
@@ -757,7 +739,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInstanceHealthOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceHealthOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceHealthOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeInstanceHealthOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceHealthOutput>(responseClosure(DescribeInstanceHealthOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeInstanceHealthOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceHealthOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -779,7 +761,6 @@ extension ElasticLoadBalancingClient {
     public func describeLoadBalancerAttributes(input: DescribeLoadBalancerAttributesInput) async throws -> DescribeLoadBalancerAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLoadBalancerAttributes")
@@ -803,7 +784,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLoadBalancerAttributesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancerAttributesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLoadBalancerAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerAttributesOutput>(responseClosure(DescribeLoadBalancerAttributesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeLoadBalancerAttributesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancerAttributesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -825,7 +806,6 @@ extension ElasticLoadBalancingClient {
     public func describeLoadBalancerPolicies(input: DescribeLoadBalancerPoliciesInput) async throws -> DescribeLoadBalancerPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLoadBalancerPolicies")
@@ -849,7 +829,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLoadBalancerPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancerPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLoadBalancerPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPoliciesOutput>(responseClosure(DescribeLoadBalancerPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeLoadBalancerPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancerPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -870,7 +850,6 @@ extension ElasticLoadBalancingClient {
     public func describeLoadBalancerPolicyTypes(input: DescribeLoadBalancerPolicyTypesInput) async throws -> DescribeLoadBalancerPolicyTypesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLoadBalancerPolicyTypes")
@@ -894,7 +873,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLoadBalancerPolicyTypesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancerPolicyTypesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPolicyTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLoadBalancerPolicyTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPolicyTypesOutput>(responseClosure(DescribeLoadBalancerPolicyTypesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeLoadBalancerPolicyTypesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancerPolicyTypesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -916,7 +895,6 @@ extension ElasticLoadBalancingClient {
     public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLoadBalancers")
@@ -940,7 +918,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLoadBalancersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancersOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancersOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLoadBalancersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancersOutput>(responseClosure(DescribeLoadBalancersOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeLoadBalancersOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -961,7 +939,6 @@ extension ElasticLoadBalancingClient {
     public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeTags")
@@ -985,7 +962,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(responseClosure(DescribeTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1007,7 +984,6 @@ extension ElasticLoadBalancingClient {
     public func detachLoadBalancerFromSubnets(input: DetachLoadBalancerFromSubnetsInput) async throws -> DetachLoadBalancerFromSubnetsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachLoadBalancerFromSubnets")
@@ -1031,7 +1007,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachLoadBalancerFromSubnetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachLoadBalancerFromSubnetsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachLoadBalancerFromSubnetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachLoadBalancerFromSubnetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachLoadBalancerFromSubnetsOutput>(responseClosure(DetachLoadBalancerFromSubnetsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DetachLoadBalancerFromSubnetsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachLoadBalancerFromSubnetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1053,7 +1029,6 @@ extension ElasticLoadBalancingClient {
     public func disableAvailabilityZonesForLoadBalancer(input: DisableAvailabilityZonesForLoadBalancerInput) async throws -> DisableAvailabilityZonesForLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "disableAvailabilityZonesForLoadBalancer")
@@ -1077,7 +1052,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableAvailabilityZonesForLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAvailabilityZonesForLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAvailabilityZonesForLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableAvailabilityZonesForLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAvailabilityZonesForLoadBalancerOutput>(responseClosure(DisableAvailabilityZonesForLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DisableAvailabilityZonesForLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableAvailabilityZonesForLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1098,7 +1073,6 @@ extension ElasticLoadBalancingClient {
     public func enableAvailabilityZonesForLoadBalancer(input: EnableAvailabilityZonesForLoadBalancerInput) async throws -> EnableAvailabilityZonesForLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "enableAvailabilityZonesForLoadBalancer")
@@ -1122,7 +1096,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableAvailabilityZonesForLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAvailabilityZonesForLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAvailabilityZonesForLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableAvailabilityZonesForLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAvailabilityZonesForLoadBalancerOutput>(responseClosure(EnableAvailabilityZonesForLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(EnableAvailabilityZonesForLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAvailabilityZonesForLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1153,7 +1127,6 @@ extension ElasticLoadBalancingClient {
     public func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "modifyLoadBalancerAttributes")
@@ -1177,7 +1150,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyLoadBalancerAttributesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyLoadBalancerAttributesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyLoadBalancerAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ModifyLoadBalancerAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyLoadBalancerAttributesOutput>(responseClosure(ModifyLoadBalancerAttributesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ModifyLoadBalancerAttributesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyLoadBalancerAttributesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1199,7 +1172,6 @@ extension ElasticLoadBalancingClient {
     public func registerInstancesWithLoadBalancer(input: RegisterInstancesWithLoadBalancerInput) async throws -> RegisterInstancesWithLoadBalancerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "registerInstancesWithLoadBalancer")
@@ -1223,7 +1195,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterInstancesWithLoadBalancerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterInstancesWithLoadBalancerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterInstancesWithLoadBalancerOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegisterInstancesWithLoadBalancerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterInstancesWithLoadBalancerOutput>(responseClosure(RegisterInstancesWithLoadBalancerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(RegisterInstancesWithLoadBalancerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterInstancesWithLoadBalancerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1244,7 +1216,6 @@ extension ElasticLoadBalancingClient {
     public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "removeTags")
@@ -1268,7 +1239,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(responseClosure(RemoveTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(RemoveTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1293,7 +1264,6 @@ extension ElasticLoadBalancingClient {
     public func setLoadBalancerListenerSSLCertificate(input: SetLoadBalancerListenerSSLCertificateInput) async throws -> SetLoadBalancerListenerSSLCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setLoadBalancerListenerSSLCertificate")
@@ -1317,7 +1287,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetLoadBalancerListenerSSLCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetLoadBalancerListenerSSLCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerListenerSSLCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetLoadBalancerListenerSSLCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerListenerSSLCertificateOutput>(responseClosure(SetLoadBalancerListenerSSLCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SetLoadBalancerListenerSSLCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetLoadBalancerListenerSSLCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1340,7 +1310,6 @@ extension ElasticLoadBalancingClient {
     public func setLoadBalancerPoliciesForBackendServer(input: SetLoadBalancerPoliciesForBackendServerInput) async throws -> SetLoadBalancerPoliciesForBackendServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setLoadBalancerPoliciesForBackendServer")
@@ -1364,7 +1333,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetLoadBalancerPoliciesForBackendServerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetLoadBalancerPoliciesForBackendServerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesForBackendServerOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetLoadBalancerPoliciesForBackendServerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesForBackendServerOutput>(responseClosure(SetLoadBalancerPoliciesForBackendServerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SetLoadBalancerPoliciesForBackendServerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetLoadBalancerPoliciesForBackendServerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1388,7 +1357,6 @@ extension ElasticLoadBalancingClient {
     public func setLoadBalancerPoliciesOfListener(input: SetLoadBalancerPoliciesOfListenerInput) async throws -> SetLoadBalancerPoliciesOfListenerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setLoadBalancerPoliciesOfListener")
@@ -1412,7 +1380,7 @@ extension ElasticLoadBalancingClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetLoadBalancerPoliciesOfListenerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetLoadBalancerPoliciesOfListenerOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesOfListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetLoadBalancerPoliciesOfListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesOfListenerOutput>(responseClosure(SetLoadBalancerPoliciesOfListenerOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SetLoadBalancerPoliciesOfListenerOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetLoadBalancerPoliciesOfListenerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result

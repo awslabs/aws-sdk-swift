@@ -2634,7 +2634,7 @@ extension StartCallAnalyticsStreamTranscriptionOutput: ClientRuntime.HttpRespons
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.callAnalyticsTranscriptResultStream = decoderStream.toAsyncStream()
         } else {
             self.callAnalyticsTranscriptResultStream = nil
@@ -2908,7 +2908,7 @@ extension StartMedicalStreamTranscriptionOutput: ClientRuntime.HttpResponseBindi
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.transcriptResultStream = decoderStream.toAsyncStream()
         } else {
             self.transcriptResultStream = nil
@@ -3303,7 +3303,7 @@ extension StartStreamTranscriptionOutput: ClientRuntime.HttpResponseBinding {
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.TranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.TranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.transcriptResultStream = decoderStream.toAsyncStream()
         } else {
             self.transcriptResultStream = nil

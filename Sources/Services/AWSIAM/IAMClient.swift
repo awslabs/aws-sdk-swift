@@ -11,14 +11,11 @@ public class IAMClient {
     let config: IAMClient.IAMClientConfiguration
     let serviceName = "IAM"
     let encoder: ClientRuntime.RequestEncoder
-    let decoder: ClientRuntime.ResponseDecoder
 
     public init(config: IAMClient.IAMClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.FormURLEncoder()
         self.encoder = config.encoder ?? encoder
-        let decoder = ClientRuntime.XMLDecoder()
-        self.decoder = config.decoder ?? decoder
         self.config = config
     }
 
@@ -81,7 +78,6 @@ extension IAMClient {
     public func addClientIDToOpenIDConnectProvider(input: AddClientIDToOpenIDConnectProviderInput) async throws -> AddClientIDToOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "addClientIDToOpenIDConnectProvider")
@@ -105,7 +101,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddClientIDToOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddClientIDToOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddClientIDToOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddClientIDToOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddClientIDToOpenIDConnectProviderOutput>(responseClosure(AddClientIDToOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AddClientIDToOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddClientIDToOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -130,7 +126,6 @@ extension IAMClient {
     public func addRoleToInstanceProfile(input: AddRoleToInstanceProfileInput) async throws -> AddRoleToInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "addRoleToInstanceProfile")
@@ -154,7 +149,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddRoleToInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddRoleToInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToInstanceProfileOutput>(responseClosure(AddRoleToInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AddRoleToInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRoleToInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -177,7 +172,6 @@ extension IAMClient {
     public func addUserToGroup(input: AddUserToGroupInput) async throws -> AddUserToGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "addUserToGroup")
@@ -201,7 +195,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddUserToGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddUserToGroupOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddUserToGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddUserToGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddUserToGroupOutput>(responseClosure(AddUserToGroupOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AddUserToGroupOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddUserToGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -226,7 +220,6 @@ extension IAMClient {
     public func attachGroupPolicy(input: AttachGroupPolicyInput) async throws -> AttachGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachGroupPolicy")
@@ -250,7 +243,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachGroupPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachGroupPolicyOutput>(responseClosure(AttachGroupPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AttachGroupPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -276,7 +269,6 @@ extension IAMClient {
     public func attachRolePolicy(input: AttachRolePolicyInput) async throws -> AttachRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachRolePolicy")
@@ -300,7 +292,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachRolePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachRolePolicyOutput>(responseClosure(AttachRolePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AttachRolePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -325,7 +317,6 @@ extension IAMClient {
     public func attachUserPolicy(input: AttachUserPolicyInput) async throws -> AttachUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachUserPolicy")
@@ -349,7 +340,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachUserPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachUserPolicyOutput>(responseClosure(AttachUserPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(AttachUserPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -375,7 +366,6 @@ extension IAMClient {
     public func changePassword(input: ChangePasswordInput) async throws -> ChangePasswordOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "changePassword")
@@ -399,7 +389,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangePasswordOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangePasswordOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangePasswordOutput>(responseClosure(decoder: decoder), responseErrorClosure(ChangePasswordOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangePasswordOutput>(responseClosure(ChangePasswordOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ChangePasswordOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangePasswordOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -422,7 +412,6 @@ extension IAMClient {
     public func createAccessKey(input: CreateAccessKeyInput) async throws -> CreateAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createAccessKey")
@@ -446,7 +435,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccessKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessKeyOutput>(responseClosure(CreateAccessKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateAccessKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -470,7 +459,6 @@ extension IAMClient {
     public func createAccountAlias(input: CreateAccountAliasInput) async throws -> CreateAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createAccountAlias")
@@ -494,7 +482,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountAliasOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAliasOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAliasOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccountAliasOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAliasOutput>(responseClosure(CreateAccountAliasOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateAccountAliasOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAliasOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -518,7 +506,6 @@ extension IAMClient {
     public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createGroup")
@@ -542,7 +529,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(responseClosure(CreateGroupOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateGroupOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -567,7 +554,6 @@ extension IAMClient {
     public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createInstanceProfile")
@@ -591,7 +577,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput>(responseClosure(CreateInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -616,7 +602,6 @@ extension IAMClient {
     public func createLoginProfile(input: CreateLoginProfileInput) async throws -> CreateLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLoginProfile")
@@ -640,7 +625,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoginProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoginProfileOutput>(responseClosure(CreateLoginProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateLoginProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -676,7 +661,6 @@ extension IAMClient {
     public func createOpenIDConnectProvider(input: CreateOpenIDConnectProviderInput) async throws -> CreateOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createOpenIDConnectProvider")
@@ -700,7 +684,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpenIDConnectProviderOutput>(responseClosure(CreateOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -726,7 +710,6 @@ extension IAMClient {
     public func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createPolicy")
@@ -750,7 +733,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(responseClosure(CreatePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreatePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -775,7 +758,6 @@ extension IAMClient {
     public func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createPolicyVersion")
@@ -799,7 +781,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyVersionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutput>(responseClosure(CreatePolicyVersionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreatePolicyVersionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -825,7 +807,6 @@ extension IAMClient {
     public func createRole(input: CreateRoleInput) async throws -> CreateRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createRole")
@@ -849,7 +830,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoleOutput>(responseClosure(CreateRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -874,7 +855,6 @@ extension IAMClient {
     public func createSAMLProvider(input: CreateSAMLProviderInput) async throws -> CreateSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createSAMLProvider")
@@ -898,7 +878,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSAMLProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSAMLProviderOutput>(responseClosure(CreateSAMLProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateSAMLProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -922,7 +902,6 @@ extension IAMClient {
     public func createServiceLinkedRole(input: CreateServiceLinkedRoleInput) async throws -> CreateServiceLinkedRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createServiceLinkedRole")
@@ -946,7 +925,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceLinkedRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceLinkedRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceLinkedRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateServiceLinkedRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceLinkedRoleOutput>(responseClosure(CreateServiceLinkedRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateServiceLinkedRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceLinkedRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -969,7 +948,6 @@ extension IAMClient {
     public func createServiceSpecificCredential(input: CreateServiceSpecificCredentialInput) async throws -> CreateServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createServiceSpecificCredential")
@@ -993,7 +971,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceSpecificCredentialOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceSpecificCredentialOutput>(responseClosure(CreateServiceSpecificCredentialOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateServiceSpecificCredentialOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1019,7 +997,6 @@ extension IAMClient {
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createUser")
@@ -1043,7 +1020,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput>(responseClosure(CreateUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1068,7 +1045,6 @@ extension IAMClient {
     public func createVirtualMFADevice(input: CreateVirtualMFADeviceInput) async throws -> CreateVirtualMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createVirtualMFADevice")
@@ -1092,7 +1068,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVirtualMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVirtualMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVirtualMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVirtualMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVirtualMFADeviceOutput>(responseClosure(CreateVirtualMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(CreateVirtualMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVirtualMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1117,7 +1093,6 @@ extension IAMClient {
     public func deactivateMFADevice(input: DeactivateMFADeviceInput) async throws -> DeactivateMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deactivateMFADevice")
@@ -1141,7 +1116,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeactivateMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeactivateMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateMFADeviceOutput>(responseClosure(DeactivateMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeactivateMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1164,7 +1139,6 @@ extension IAMClient {
     public func deleteAccessKey(input: DeleteAccessKeyInput) async throws -> DeleteAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAccessKey")
@@ -1188,7 +1162,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccessKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessKeyOutput>(responseClosure(DeleteAccessKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteAccessKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1212,7 +1186,6 @@ extension IAMClient {
     public func deleteAccountAlias(input: DeleteAccountAliasInput) async throws -> DeleteAccountAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAccountAlias")
@@ -1236,7 +1209,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountAliasOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAliasOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountAliasOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput>(responseClosure(DeleteAccountAliasOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteAccountAliasOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAliasOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1259,7 +1232,6 @@ extension IAMClient {
     public func deleteAccountPasswordPolicy(input: DeleteAccountPasswordPolicyInput) async throws -> DeleteAccountPasswordPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAccountPasswordPolicy")
@@ -1283,7 +1255,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountPasswordPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountPasswordPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountPasswordPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountPasswordPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountPasswordPolicyOutput>(responseClosure(DeleteAccountPasswordPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteAccountPasswordPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1307,7 +1279,6 @@ extension IAMClient {
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteGroup")
@@ -1331,7 +1302,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(responseClosure(DeleteGroupOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteGroupOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1354,7 +1325,6 @@ extension IAMClient {
     public func deleteGroupPolicy(input: DeleteGroupPolicyInput) async throws -> DeleteGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteGroupPolicy")
@@ -1378,7 +1348,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupPolicyOutput>(responseClosure(DeleteGroupPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteGroupPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1402,7 +1372,6 @@ extension IAMClient {
     public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteInstanceProfile")
@@ -1426,7 +1395,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput>(responseClosure(DeleteInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1450,7 +1419,6 @@ extension IAMClient {
     public func deleteLoginProfile(input: DeleteLoginProfileInput) async throws -> DeleteLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLoginProfile")
@@ -1474,7 +1442,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoginProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoginProfileOutput>(responseClosure(DeleteLoginProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteLoginProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1497,7 +1465,6 @@ extension IAMClient {
     public func deleteOpenIDConnectProvider(input: DeleteOpenIDConnectProviderInput) async throws -> DeleteOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteOpenIDConnectProvider")
@@ -1521,7 +1488,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOpenIDConnectProviderOutput>(responseClosure(DeleteOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1555,7 +1522,6 @@ extension IAMClient {
     public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deletePolicy")
@@ -1579,7 +1545,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(responseClosure(DeletePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeletePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1604,7 +1570,6 @@ extension IAMClient {
     public func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deletePolicyVersion")
@@ -1628,7 +1593,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyVersionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutput>(responseClosure(DeletePolicyVersionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeletePolicyVersionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1665,7 +1630,6 @@ extension IAMClient {
     public func deleteRole(input: DeleteRoleInput) async throws -> DeleteRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteRole")
@@ -1689,7 +1653,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoleOutput>(responseClosure(DeleteRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1712,7 +1676,6 @@ extension IAMClient {
     public func deleteRolePermissionsBoundary(input: DeleteRolePermissionsBoundaryInput) async throws -> DeleteRolePermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteRolePermissionsBoundary")
@@ -1736,7 +1699,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRolePermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePermissionsBoundaryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRolePermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePermissionsBoundaryOutput>(responseClosure(DeleteRolePermissionsBoundaryOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteRolePermissionsBoundaryOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1760,7 +1723,6 @@ extension IAMClient {
     public func deleteRolePolicy(input: DeleteRolePolicyInput) async throws -> DeleteRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteRolePolicy")
@@ -1784,7 +1746,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePolicyOutput>(responseClosure(DeleteRolePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteRolePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1808,7 +1770,6 @@ extension IAMClient {
     public func deleteSAMLProvider(input: DeleteSAMLProviderInput) async throws -> DeleteSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteSAMLProvider")
@@ -1832,7 +1793,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSAMLProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSAMLProviderOutput>(responseClosure(DeleteSAMLProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteSAMLProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1853,7 +1814,6 @@ extension IAMClient {
     public func deleteSSHPublicKey(input: DeleteSSHPublicKeyInput) async throws -> DeleteSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteSSHPublicKey")
@@ -1877,7 +1837,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSSHPublicKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSSHPublicKeyOutput>(responseClosure(DeleteSSHPublicKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteSSHPublicKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1901,7 +1861,6 @@ extension IAMClient {
     public func deleteServerCertificate(input: DeleteServerCertificateInput) async throws -> DeleteServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteServerCertificate")
@@ -1925,7 +1884,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServerCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServerCertificateOutput>(responseClosure(DeleteServerCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteServerCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1948,7 +1907,6 @@ extension IAMClient {
     public func deleteServiceLinkedRole(input: DeleteServiceLinkedRoleInput) async throws -> DeleteServiceLinkedRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteServiceLinkedRole")
@@ -1972,7 +1930,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceLinkedRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceLinkedRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServiceLinkedRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedRoleOutput>(responseClosure(DeleteServiceLinkedRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteServiceLinkedRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceLinkedRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -1993,7 +1951,6 @@ extension IAMClient {
     public func deleteServiceSpecificCredential(input: DeleteServiceSpecificCredentialInput) async throws -> DeleteServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteServiceSpecificCredential")
@@ -2017,7 +1974,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceSpecificCredentialOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceSpecificCredentialOutput>(responseClosure(DeleteServiceSpecificCredentialOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteServiceSpecificCredentialOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2041,7 +1998,6 @@ extension IAMClient {
     public func deleteSigningCertificate(input: DeleteSigningCertificateInput) async throws -> DeleteSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteSigningCertificate")
@@ -2065,7 +2021,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSigningCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSigningCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSigningCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSigningCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSigningCertificateOutput>(responseClosure(DeleteSigningCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteSigningCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2108,7 +2064,6 @@ extension IAMClient {
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteUser")
@@ -2132,7 +2087,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(responseClosure(DeleteUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2154,7 +2109,6 @@ extension IAMClient {
     public func deleteUserPermissionsBoundary(input: DeleteUserPermissionsBoundaryInput) async throws -> DeleteUserPermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteUserPermissionsBoundary")
@@ -2178,7 +2132,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserPermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPermissionsBoundaryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserPermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPermissionsBoundaryOutput>(responseClosure(DeleteUserPermissionsBoundaryOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteUserPermissionsBoundaryOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2201,7 +2155,6 @@ extension IAMClient {
     public func deleteUserPolicy(input: DeleteUserPolicyInput) async throws -> DeleteUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteUserPolicy")
@@ -2225,7 +2178,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPolicyOutput>(responseClosure(DeleteUserPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteUserPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2250,7 +2203,6 @@ extension IAMClient {
     public func deleteVirtualMFADevice(input: DeleteVirtualMFADeviceInput) async throws -> DeleteVirtualMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteVirtualMFADevice")
@@ -2274,7 +2226,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVirtualMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVirtualMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVirtualMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVirtualMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVirtualMFADeviceOutput>(responseClosure(DeleteVirtualMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DeleteVirtualMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVirtualMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2298,7 +2250,6 @@ extension IAMClient {
     public func detachGroupPolicy(input: DetachGroupPolicyInput) async throws -> DetachGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachGroupPolicy")
@@ -2322,7 +2273,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachGroupPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachGroupPolicyOutput>(responseClosure(DetachGroupPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DetachGroupPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2347,7 +2298,6 @@ extension IAMClient {
     public func detachRolePolicy(input: DetachRolePolicyInput) async throws -> DetachRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachRolePolicy")
@@ -2371,7 +2321,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachRolePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachRolePolicyOutput>(responseClosure(DetachRolePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DetachRolePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2395,7 +2345,6 @@ extension IAMClient {
     public func detachUserPolicy(input: DetachUserPolicyInput) async throws -> DetachUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachUserPolicy")
@@ -2419,7 +2368,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachUserPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachUserPolicyOutput>(responseClosure(DetachUserPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DetachUserPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2446,7 +2395,6 @@ extension IAMClient {
     public func enableMFADevice(input: EnableMFADeviceInput) async throws -> EnableMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "enableMFADevice")
@@ -2470,7 +2418,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableMFADeviceOutput>(responseClosure(EnableMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(EnableMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2492,7 +2440,6 @@ extension IAMClient {
     public func generateCredentialReport(input: GenerateCredentialReportInput) async throws -> GenerateCredentialReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "generateCredentialReport")
@@ -2516,7 +2463,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateCredentialReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateCredentialReportOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateCredentialReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateCredentialReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateCredentialReportOutput>(responseClosure(GenerateCredentialReportOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GenerateCredentialReportOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateCredentialReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2559,7 +2506,6 @@ extension IAMClient {
     public func generateOrganizationsAccessReport(input: GenerateOrganizationsAccessReportInput) async throws -> GenerateOrganizationsAccessReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "generateOrganizationsAccessReport")
@@ -2583,7 +2529,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateOrganizationsAccessReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateOrganizationsAccessReportOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateOrganizationsAccessReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateOrganizationsAccessReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateOrganizationsAccessReportOutput>(responseClosure(GenerateOrganizationsAccessReportOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GenerateOrganizationsAccessReportOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateOrganizationsAccessReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2612,7 +2558,6 @@ extension IAMClient {
     public func generateServiceLastAccessedDetails(input: GenerateServiceLastAccessedDetailsInput) async throws -> GenerateServiceLastAccessedDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "generateServiceLastAccessedDetails")
@@ -2636,7 +2581,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateServiceLastAccessedDetailsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateServiceLastAccessedDetailsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateServiceLastAccessedDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateServiceLastAccessedDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateServiceLastAccessedDetailsOutput>(responseClosure(GenerateServiceLastAccessedDetailsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GenerateServiceLastAccessedDetailsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateServiceLastAccessedDetailsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2652,7 +2597,6 @@ extension IAMClient {
     public func getAccessKeyLastUsed(input: GetAccessKeyLastUsedInput) async throws -> GetAccessKeyLastUsedOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAccessKeyLastUsed")
@@ -2676,7 +2620,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccessKeyLastUsedOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessKeyLastUsedOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessKeyLastUsedOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccessKeyLastUsedOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessKeyLastUsedOutput>(responseClosure(GetAccessKeyLastUsedOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetAccessKeyLastUsedOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessKeyLastUsedOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2697,7 +2641,6 @@ extension IAMClient {
     public func getAccountAuthorizationDetails(input: GetAccountAuthorizationDetailsInput) async throws -> GetAccountAuthorizationDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAccountAuthorizationDetails")
@@ -2721,7 +2664,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountAuthorizationDetailsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountAuthorizationDetailsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountAuthorizationDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountAuthorizationDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountAuthorizationDetailsOutput>(responseClosure(GetAccountAuthorizationDetailsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetAccountAuthorizationDetailsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountAuthorizationDetailsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2743,7 +2686,6 @@ extension IAMClient {
     public func getAccountPasswordPolicy(input: GetAccountPasswordPolicyInput) async throws -> GetAccountPasswordPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAccountPasswordPolicy")
@@ -2767,7 +2709,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountPasswordPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountPasswordPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountPasswordPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountPasswordPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountPasswordPolicyOutput>(responseClosure(GetAccountPasswordPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetAccountPasswordPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2788,7 +2730,6 @@ extension IAMClient {
     public func getAccountSummary(input: GetAccountSummaryInput) async throws -> GetAccountSummaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAccountSummary")
@@ -2812,7 +2753,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSummaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSummaryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSummaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountSummaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSummaryOutput>(responseClosure(GetAccountSummaryOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetAccountSummaryOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSummaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2833,7 +2774,6 @@ extension IAMClient {
     public func getContextKeysForCustomPolicy(input: GetContextKeysForCustomPolicyInput) async throws -> GetContextKeysForCustomPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContextKeysForCustomPolicy")
@@ -2857,7 +2797,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContextKeysForCustomPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForCustomPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForCustomPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetContextKeysForCustomPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForCustomPolicyOutput>(responseClosure(GetContextKeysForCustomPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetContextKeysForCustomPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForCustomPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2879,7 +2819,6 @@ extension IAMClient {
     public func getContextKeysForPrincipalPolicy(input: GetContextKeysForPrincipalPolicyInput) async throws -> GetContextKeysForPrincipalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContextKeysForPrincipalPolicy")
@@ -2903,7 +2842,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContextKeysForPrincipalPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForPrincipalPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForPrincipalPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetContextKeysForPrincipalPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForPrincipalPolicyOutput>(responseClosure(GetContextKeysForPrincipalPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetContextKeysForPrincipalPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForPrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2927,7 +2866,6 @@ extension IAMClient {
     public func getCredentialReport(input: GetCredentialReportInput) async throws -> GetCredentialReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getCredentialReport")
@@ -2951,7 +2889,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCredentialReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCredentialReportOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCredentialReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialReportOutput>(responseClosure(GetCredentialReportOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetCredentialReportOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCredentialReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -2973,7 +2911,6 @@ extension IAMClient {
     public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getGroup")
@@ -2997,7 +2934,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutput>(responseClosure(GetGroupOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetGroupOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3019,7 +2956,6 @@ extension IAMClient {
     public func getGroupPolicy(input: GetGroupPolicyInput) async throws -> GetGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getGroupPolicy")
@@ -3043,7 +2979,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupPolicyOutput>(responseClosure(GetGroupPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetGroupPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3065,7 +3001,6 @@ extension IAMClient {
     public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstanceProfile")
@@ -3089,7 +3024,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput>(responseClosure(GetInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3111,7 +3046,6 @@ extension IAMClient {
     public func getLoginProfile(input: GetLoginProfileInput) async throws -> GetLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getLoginProfile")
@@ -3135,7 +3069,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoginProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoginProfileOutput>(responseClosure(GetLoginProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetLoginProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3157,7 +3091,6 @@ extension IAMClient {
     public func getMFADevice(input: GetMFADeviceInput) async throws -> GetMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getMFADevice")
@@ -3181,7 +3114,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMFADeviceOutput>(responseClosure(GetMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3204,7 +3137,6 @@ extension IAMClient {
     public func getOpenIDConnectProvider(input: GetOpenIDConnectProviderInput) async throws -> GetOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getOpenIDConnectProvider")
@@ -3228,7 +3160,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIDConnectProviderOutput>(responseClosure(GetOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3249,7 +3181,6 @@ extension IAMClient {
     public func getOrganizationsAccessReport(input: GetOrganizationsAccessReportInput) async throws -> GetOrganizationsAccessReportOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getOrganizationsAccessReport")
@@ -3273,7 +3204,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationsAccessReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationsAccessReportOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationsAccessReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetOrganizationsAccessReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationsAccessReportOutput>(responseClosure(GetOrganizationsAccessReportOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetOrganizationsAccessReportOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationsAccessReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3296,7 +3227,6 @@ extension IAMClient {
     public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getPolicy")
@@ -3320,7 +3250,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(responseClosure(GetPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3343,7 +3273,6 @@ extension IAMClient {
     public func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getPolicyVersion")
@@ -3367,7 +3296,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyVersionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput>(responseClosure(GetPolicyVersionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetPolicyVersionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3389,7 +3318,6 @@ extension IAMClient {
     public func getRole(input: GetRoleInput) async throws -> GetRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRole")
@@ -3413,7 +3341,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoleOutput>(responseClosure(GetRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3435,7 +3363,6 @@ extension IAMClient {
     public func getRolePolicy(input: GetRolePolicyInput) async throws -> GetRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRolePolicy")
@@ -3459,7 +3386,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRolePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRolePolicyOutput>(responseClosure(GetRolePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetRolePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3482,7 +3409,6 @@ extension IAMClient {
     public func getSAMLProvider(input: GetSAMLProviderInput) async throws -> GetSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getSAMLProvider")
@@ -3506,7 +3432,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSAMLProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSAMLProviderOutput>(responseClosure(GetSAMLProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetSAMLProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3528,7 +3454,6 @@ extension IAMClient {
     public func getSSHPublicKey(input: GetSSHPublicKeyInput) async throws -> GetSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getSSHPublicKey")
@@ -3552,7 +3477,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSSHPublicKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSSHPublicKeyOutput>(responseClosure(GetSSHPublicKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetSSHPublicKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3574,7 +3499,6 @@ extension IAMClient {
     public func getServerCertificate(input: GetServerCertificateInput) async throws -> GetServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getServerCertificate")
@@ -3598,7 +3522,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerCertificateOutput>(responseClosure(GetServerCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetServerCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3631,7 +3555,6 @@ extension IAMClient {
     public func getServiceLastAccessedDetails(input: GetServiceLastAccessedDetailsInput) async throws -> GetServiceLastAccessedDetailsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getServiceLastAccessedDetails")
@@ -3655,7 +3578,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLastAccessedDetailsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceLastAccessedDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsOutput>(responseClosure(GetServiceLastAccessedDetailsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetServiceLastAccessedDetailsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3684,7 +3607,6 @@ extension IAMClient {
     public func getServiceLastAccessedDetailsWithEntities(input: GetServiceLastAccessedDetailsWithEntitiesInput) async throws -> GetServiceLastAccessedDetailsWithEntitiesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getServiceLastAccessedDetailsWithEntities")
@@ -3708,7 +3630,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLastAccessedDetailsWithEntitiesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceLastAccessedDetailsWithEntitiesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(responseClosure(GetServiceLastAccessedDetailsWithEntitiesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetServiceLastAccessedDetailsWithEntitiesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3731,7 +3653,6 @@ extension IAMClient {
     public func getServiceLinkedRoleDeletionStatus(input: GetServiceLinkedRoleDeletionStatusInput) async throws -> GetServiceLinkedRoleDeletionStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getServiceLinkedRoleDeletionStatus")
@@ -3755,7 +3676,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLinkedRoleDeletionStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLinkedRoleDeletionStatusOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceLinkedRoleDeletionStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(responseClosure(GetServiceLinkedRoleDeletionStatusOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetServiceLinkedRoleDeletionStatusOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3777,7 +3698,6 @@ extension IAMClient {
     public func getUser(input: GetUserInput) async throws -> GetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getUser")
@@ -3801,7 +3721,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutput>(responseClosure(GetUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3823,7 +3743,6 @@ extension IAMClient {
     public func getUserPolicy(input: GetUserPolicyInput) async throws -> GetUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getUserPolicy")
@@ -3847,7 +3766,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserPolicyOutput>(responseClosure(GetUserPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetUserPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3869,7 +3788,6 @@ extension IAMClient {
     public func listAccessKeys(input: ListAccessKeysInput) async throws -> ListAccessKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccessKeys")
@@ -3893,7 +3811,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessKeysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessKeysOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccessKeysOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessKeysOutput>(responseClosure(ListAccessKeysOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListAccessKeysOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3914,7 +3832,6 @@ extension IAMClient {
     public func listAccountAliases(input: ListAccountAliasesInput) async throws -> ListAccountAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccountAliases")
@@ -3938,7 +3855,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAliasesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAliasesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAliasesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountAliasesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAliasesOutput>(responseClosure(ListAccountAliasesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListAccountAliasesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAliasesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -3961,7 +3878,6 @@ extension IAMClient {
     public func listAttachedGroupPolicies(input: ListAttachedGroupPoliciesInput) async throws -> ListAttachedGroupPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAttachedGroupPolicies")
@@ -3985,7 +3901,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedGroupPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedGroupPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedGroupPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttachedGroupPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedGroupPoliciesOutput>(responseClosure(ListAttachedGroupPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListAttachedGroupPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedGroupPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4008,7 +3924,6 @@ extension IAMClient {
     public func listAttachedRolePolicies(input: ListAttachedRolePoliciesInput) async throws -> ListAttachedRolePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAttachedRolePolicies")
@@ -4032,7 +3947,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedRolePoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedRolePoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedRolePoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttachedRolePoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedRolePoliciesOutput>(responseClosure(ListAttachedRolePoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListAttachedRolePoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedRolePoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4055,7 +3970,6 @@ extension IAMClient {
     public func listAttachedUserPolicies(input: ListAttachedUserPoliciesInput) async throws -> ListAttachedUserPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAttachedUserPolicies")
@@ -4079,7 +3993,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedUserPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedUserPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedUserPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttachedUserPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedUserPoliciesOutput>(responseClosure(ListAttachedUserPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListAttachedUserPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedUserPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4102,7 +4016,6 @@ extension IAMClient {
     public func listEntitiesForPolicy(input: ListEntitiesForPolicyInput) async throws -> ListEntitiesForPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listEntitiesForPolicy")
@@ -4126,7 +4039,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEntitiesForPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesForPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesForPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEntitiesForPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesForPolicyOutput>(responseClosure(ListEntitiesForPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListEntitiesForPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesForPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4148,7 +4061,6 @@ extension IAMClient {
     public func listGroupPolicies(input: ListGroupPoliciesInput) async throws -> ListGroupPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listGroupPolicies")
@@ -4172,7 +4084,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupPoliciesOutput>(responseClosure(ListGroupPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListGroupPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4193,7 +4105,6 @@ extension IAMClient {
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listGroups")
@@ -4217,7 +4128,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(responseClosure(ListGroupsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListGroupsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4239,7 +4150,6 @@ extension IAMClient {
     public func listGroupsForUser(input: ListGroupsForUserInput) async throws -> ListGroupsForUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listGroupsForUser")
@@ -4263,7 +4173,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsForUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsForUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsForUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupsForUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsForUserOutput>(responseClosure(ListGroupsForUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListGroupsForUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsForUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4285,7 +4195,6 @@ extension IAMClient {
     public func listInstanceProfileTags(input: ListInstanceProfileTagsInput) async throws -> ListInstanceProfileTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listInstanceProfileTags")
@@ -4309,7 +4218,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfileTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfileTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfileTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstanceProfileTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfileTagsOutput>(responseClosure(ListInstanceProfileTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListInstanceProfileTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfileTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4330,7 +4239,6 @@ extension IAMClient {
     public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listInstanceProfiles")
@@ -4354,7 +4262,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstanceProfilesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput>(responseClosure(ListInstanceProfilesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListInstanceProfilesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4376,7 +4284,6 @@ extension IAMClient {
     public func listInstanceProfilesForRole(input: ListInstanceProfilesForRoleInput) async throws -> ListInstanceProfilesForRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listInstanceProfilesForRole")
@@ -4400,7 +4307,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesForRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesForRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesForRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstanceProfilesForRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesForRoleOutput>(responseClosure(ListInstanceProfilesForRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListInstanceProfilesForRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesForRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4423,7 +4330,6 @@ extension IAMClient {
     public func listMFADeviceTags(input: ListMFADeviceTagsInput) async throws -> ListMFADeviceTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listMFADeviceTags")
@@ -4447,7 +4353,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMFADeviceTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADeviceTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADeviceTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMFADeviceTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADeviceTagsOutput>(responseClosure(ListMFADeviceTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListMFADeviceTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMFADeviceTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4469,7 +4375,6 @@ extension IAMClient {
     public func listMFADevices(input: ListMFADevicesInput) async throws -> ListMFADevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listMFADevices")
@@ -4493,7 +4398,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMFADevicesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADevicesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADevicesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMFADevicesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADevicesOutput>(responseClosure(ListMFADevicesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListMFADevicesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMFADevicesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4516,7 +4421,6 @@ extension IAMClient {
     public func listOpenIDConnectProviderTags(input: ListOpenIDConnectProviderTagsInput) async throws -> ListOpenIDConnectProviderTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listOpenIDConnectProviderTags")
@@ -4540,7 +4444,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenIDConnectProviderTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProviderTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProviderTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOpenIDConnectProviderTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProviderTagsOutput>(responseClosure(ListOpenIDConnectProviderTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListOpenIDConnectProviderTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProviderTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4561,7 +4465,6 @@ extension IAMClient {
     public func listOpenIDConnectProviders(input: ListOpenIDConnectProvidersInput) async throws -> ListOpenIDConnectProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listOpenIDConnectProviders")
@@ -4585,7 +4488,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenIDConnectProvidersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProvidersOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProvidersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOpenIDConnectProvidersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProvidersOutput>(responseClosure(ListOpenIDConnectProvidersOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListOpenIDConnectProvidersOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProvidersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4606,7 +4509,6 @@ extension IAMClient {
     public func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPolicies")
@@ -4630,7 +4532,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(responseClosure(ListPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4661,7 +4563,6 @@ extension IAMClient {
     public func listPoliciesGrantingServiceAccess(input: ListPoliciesGrantingServiceAccessInput) async throws -> ListPoliciesGrantingServiceAccessOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPoliciesGrantingServiceAccess")
@@ -4685,7 +4586,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesGrantingServiceAccessOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesGrantingServiceAccessOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesGrantingServiceAccessOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesGrantingServiceAccessOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesGrantingServiceAccessOutput>(responseClosure(ListPoliciesGrantingServiceAccessOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListPoliciesGrantingServiceAccessOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesGrantingServiceAccessOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4708,7 +4609,6 @@ extension IAMClient {
     public func listPolicyTags(input: ListPolicyTagsInput) async throws -> ListPolicyTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPolicyTags")
@@ -4732,7 +4632,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPolicyTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTagsOutput>(responseClosure(ListPolicyTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListPolicyTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4755,7 +4655,6 @@ extension IAMClient {
     public func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPolicyVersions")
@@ -4779,7 +4678,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyVersionsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPolicyVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput>(responseClosure(ListPolicyVersionsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListPolicyVersionsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4801,7 +4700,6 @@ extension IAMClient {
     public func listRolePolicies(input: ListRolePoliciesInput) async throws -> ListRolePoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listRolePolicies")
@@ -4825,7 +4723,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRolePoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolePoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolePoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRolePoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolePoliciesOutput>(responseClosure(ListRolePoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListRolePoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRolePoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4847,7 +4745,6 @@ extension IAMClient {
     public func listRoleTags(input: ListRoleTagsInput) async throws -> ListRoleTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listRoleTags")
@@ -4871,7 +4768,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoleTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoleTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoleTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRoleTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoleTagsOutput>(responseClosure(ListRoleTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListRoleTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoleTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4901,7 +4798,6 @@ extension IAMClient {
     public func listRoles(input: ListRolesInput) async throws -> ListRolesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listRoles")
@@ -4925,7 +4821,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRolesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRolesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolesOutput>(responseClosure(ListRolesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListRolesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRolesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4948,7 +4844,6 @@ extension IAMClient {
     public func listSAMLProviderTags(input: ListSAMLProviderTagsInput) async throws -> ListSAMLProviderTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listSAMLProviderTags")
@@ -4972,7 +4867,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSAMLProviderTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProviderTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProviderTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSAMLProviderTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProviderTagsOutput>(responseClosure(ListSAMLProviderTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListSAMLProviderTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProviderTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -4993,7 +4888,6 @@ extension IAMClient {
     public func listSAMLProviders(input: ListSAMLProvidersInput) async throws -> ListSAMLProvidersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listSAMLProviders")
@@ -5017,7 +4911,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSAMLProvidersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProvidersOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProvidersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSAMLProvidersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProvidersOutput>(responseClosure(ListSAMLProvidersOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListSAMLProvidersOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProvidersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5038,7 +4932,6 @@ extension IAMClient {
     public func listSSHPublicKeys(input: ListSSHPublicKeysInput) async throws -> ListSSHPublicKeysOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listSSHPublicKeys")
@@ -5062,7 +4955,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSSHPublicKeysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSSHPublicKeysOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSSHPublicKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSSHPublicKeysOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSSHPublicKeysOutput>(responseClosure(ListSSHPublicKeysOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListSSHPublicKeysOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSSHPublicKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5084,7 +4977,6 @@ extension IAMClient {
     public func listServerCertificateTags(input: ListServerCertificateTagsInput) async throws -> ListServerCertificateTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listServerCertificateTags")
@@ -5108,7 +5000,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServerCertificateTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificateTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificateTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServerCertificateTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificateTagsOutput>(responseClosure(ListServerCertificateTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListServerCertificateTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificateTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5129,7 +5021,6 @@ extension IAMClient {
     public func listServerCertificates(input: ListServerCertificatesInput) async throws -> ListServerCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listServerCertificates")
@@ -5153,7 +5044,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServerCertificatesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificatesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServerCertificatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificatesOutput>(responseClosure(ListServerCertificatesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListServerCertificatesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5175,7 +5066,6 @@ extension IAMClient {
     public func listServiceSpecificCredentials(input: ListServiceSpecificCredentialsInput) async throws -> ListServiceSpecificCredentialsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listServiceSpecificCredentials")
@@ -5199,7 +5089,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceSpecificCredentialsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceSpecificCredentialsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceSpecificCredentialsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServiceSpecificCredentialsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceSpecificCredentialsOutput>(responseClosure(ListServiceSpecificCredentialsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListServiceSpecificCredentialsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceSpecificCredentialsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5221,7 +5111,6 @@ extension IAMClient {
     public func listSigningCertificates(input: ListSigningCertificatesInput) async throws -> ListSigningCertificatesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listSigningCertificates")
@@ -5245,7 +5134,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningCertificatesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningCertificatesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningCertificatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSigningCertificatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningCertificatesOutput>(responseClosure(ListSigningCertificatesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListSigningCertificatesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningCertificatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5267,7 +5156,6 @@ extension IAMClient {
     public func listUserPolicies(input: ListUserPoliciesInput) async throws -> ListUserPoliciesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listUserPolicies")
@@ -5291,7 +5179,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUserPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoliciesOutput>(responseClosure(ListUserPoliciesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListUserPoliciesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5313,7 +5201,6 @@ extension IAMClient {
     public func listUserTags(input: ListUserTagsInput) async throws -> ListUserTagsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listUserTags")
@@ -5337,7 +5224,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserTagsOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUserTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserTagsOutput>(responseClosure(ListUserTagsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListUserTagsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5365,7 +5252,6 @@ extension IAMClient {
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listUsers")
@@ -5389,7 +5275,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUsersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput>(responseClosure(ListUsersOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListUsersOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5405,7 +5291,6 @@ extension IAMClient {
     public func listVirtualMFADevices(input: ListVirtualMFADevicesInput) async throws -> ListVirtualMFADevicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listVirtualMFADevices")
@@ -5429,7 +5314,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVirtualMFADevicesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMFADevicesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMFADevicesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVirtualMFADevicesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMFADevicesOutput>(responseClosure(ListVirtualMFADevicesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListVirtualMFADevicesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMFADevicesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5453,7 +5338,6 @@ extension IAMClient {
     public func putGroupPolicy(input: PutGroupPolicyInput) async throws -> PutGroupPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putGroupPolicy")
@@ -5477,7 +5361,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutGroupPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGroupPolicyOutput>(responseClosure(PutGroupPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutGroupPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5502,7 +5386,6 @@ extension IAMClient {
     public func putRolePermissionsBoundary(input: PutRolePermissionsBoundaryInput) async throws -> PutRolePermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putRolePermissionsBoundary")
@@ -5526,7 +5409,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRolePermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePermissionsBoundaryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRolePermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePermissionsBoundaryOutput>(responseClosure(PutRolePermissionsBoundaryOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutRolePermissionsBoundaryOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRolePermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5551,7 +5434,6 @@ extension IAMClient {
     public func putRolePolicy(input: PutRolePolicyInput) async throws -> PutRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putRolePolicy")
@@ -5575,7 +5457,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePolicyOutput>(responseClosure(PutRolePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutRolePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5599,7 +5481,6 @@ extension IAMClient {
     public func putUserPermissionsBoundary(input: PutUserPermissionsBoundaryInput) async throws -> PutUserPermissionsBoundaryOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putUserPermissionsBoundary")
@@ -5623,7 +5504,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutUserPermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPermissionsBoundaryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutUserPermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPermissionsBoundaryOutput>(responseClosure(PutUserPermissionsBoundaryOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutUserPermissionsBoundaryOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutUserPermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5647,7 +5528,6 @@ extension IAMClient {
     public func putUserPolicy(input: PutUserPolicyInput) async throws -> PutUserPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putUserPolicy")
@@ -5671,7 +5551,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPolicyOutput>(responseClosure(PutUserPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(PutUserPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5694,7 +5574,6 @@ extension IAMClient {
     public func removeClientIDFromOpenIDConnectProvider(input: RemoveClientIDFromOpenIDConnectProviderInput) async throws -> RemoveClientIDFromOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "removeClientIDFromOpenIDConnectProvider")
@@ -5718,7 +5597,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveClientIDFromOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveClientIDFromOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveClientIDFromOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(responseClosure(RemoveClientIDFromOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(RemoveClientIDFromOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5742,7 +5621,6 @@ extension IAMClient {
     public func removeRoleFromInstanceProfile(input: RemoveRoleFromInstanceProfileInput) async throws -> RemoveRoleFromInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "removeRoleFromInstanceProfile")
@@ -5766,7 +5644,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveRoleFromInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveRoleFromInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromInstanceProfileOutput>(responseClosure(RemoveRoleFromInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(RemoveRoleFromInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5789,7 +5667,6 @@ extension IAMClient {
     public func removeUserFromGroup(input: RemoveUserFromGroupInput) async throws -> RemoveUserFromGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "removeUserFromGroup")
@@ -5813,7 +5690,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveUserFromGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveUserFromGroupOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveUserFromGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveUserFromGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveUserFromGroupOutput>(responseClosure(RemoveUserFromGroupOutput.httpBinding, responseDocumentBinding), responseErrorClosure(RemoveUserFromGroupOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveUserFromGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5834,7 +5711,6 @@ extension IAMClient {
     public func resetServiceSpecificCredential(input: ResetServiceSpecificCredentialInput) async throws -> ResetServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "resetServiceSpecificCredential")
@@ -5858,7 +5734,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetServiceSpecificCredentialOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetServiceSpecificCredentialOutput>(responseClosure(ResetServiceSpecificCredentialOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ResetServiceSpecificCredentialOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5883,7 +5759,6 @@ extension IAMClient {
     public func resyncMFADevice(input: ResyncMFADeviceInput) async throws -> ResyncMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "resyncMFADevice")
@@ -5907,7 +5782,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResyncMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResyncMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResyncMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResyncMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResyncMFADeviceOutput>(responseClosure(ResyncMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ResyncMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResyncMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5931,7 +5806,6 @@ extension IAMClient {
     public func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setDefaultPolicyVersion")
@@ -5955,7 +5829,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultPolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultPolicyVersionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetDefaultPolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutput>(responseClosure(SetDefaultPolicyVersionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SetDefaultPolicyVersionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultPolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -5976,7 +5850,6 @@ extension IAMClient {
     public func setSecurityTokenServicePreferences(input: SetSecurityTokenServicePreferencesInput) async throws -> SetSecurityTokenServicePreferencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setSecurityTokenServicePreferences")
@@ -6000,7 +5873,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSecurityTokenServicePreferencesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSecurityTokenServicePreferencesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSecurityTokenServicePreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetSecurityTokenServicePreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSecurityTokenServicePreferencesOutput>(responseClosure(SetSecurityTokenServicePreferencesOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SetSecurityTokenServicePreferencesOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSecurityTokenServicePreferencesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6022,7 +5895,6 @@ extension IAMClient {
     public func simulateCustomPolicy(input: SimulateCustomPolicyInput) async throws -> SimulateCustomPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "simulateCustomPolicy")
@@ -6046,7 +5918,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SimulateCustomPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulateCustomPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulateCustomPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(SimulateCustomPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulateCustomPolicyOutput>(responseClosure(SimulateCustomPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SimulateCustomPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SimulateCustomPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6069,7 +5941,6 @@ extension IAMClient {
     public func simulatePrincipalPolicy(input: SimulatePrincipalPolicyInput) async throws -> SimulatePrincipalPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "simulatePrincipalPolicy")
@@ -6093,7 +5964,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SimulatePrincipalPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulatePrincipalPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulatePrincipalPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(SimulatePrincipalPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulatePrincipalPolicyOutput>(responseClosure(SimulatePrincipalPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(SimulatePrincipalPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SimulatePrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6129,7 +6000,6 @@ extension IAMClient {
     public func tagInstanceProfile(input: TagInstanceProfileInput) async throws -> TagInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagInstanceProfile")
@@ -6153,7 +6023,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagInstanceProfileOutput>(responseClosure(TagInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6189,7 +6059,6 @@ extension IAMClient {
     public func tagMFADevice(input: TagMFADeviceInput) async throws -> TagMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagMFADevice")
@@ -6213,7 +6082,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMFADeviceOutput>(responseClosure(TagMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6249,7 +6118,6 @@ extension IAMClient {
     public func tagOpenIDConnectProvider(input: TagOpenIDConnectProviderInput) async throws -> TagOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagOpenIDConnectProvider")
@@ -6273,7 +6141,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagOpenIDConnectProviderOutput>(responseClosure(TagOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6309,7 +6177,6 @@ extension IAMClient {
     public func tagPolicy(input: TagPolicyInput) async throws -> TagPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagPolicy")
@@ -6333,7 +6200,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagPolicyOutput>(responseClosure(TagPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6374,7 +6241,6 @@ extension IAMClient {
     public func tagRole(input: TagRoleInput) async throws -> TagRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagRole")
@@ -6398,7 +6264,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagRoleOutput>(responseClosure(TagRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6434,7 +6300,6 @@ extension IAMClient {
     public func tagSAMLProvider(input: TagSAMLProviderInput) async throws -> TagSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagSAMLProvider")
@@ -6458,7 +6323,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagSAMLProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagSAMLProviderOutput>(responseClosure(TagSAMLProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagSAMLProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6496,7 +6361,6 @@ extension IAMClient {
     public func tagServerCertificate(input: TagServerCertificateInput) async throws -> TagServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagServerCertificate")
@@ -6520,7 +6384,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagServerCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagServerCertificateOutput>(responseClosure(TagServerCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagServerCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6561,7 +6425,6 @@ extension IAMClient {
     public func tagUser(input: TagUserInput) async throws -> TagUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagUser")
@@ -6585,7 +6448,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagUserOutput>(responseClosure(TagUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(TagUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6609,7 +6472,6 @@ extension IAMClient {
     public func untagInstanceProfile(input: UntagInstanceProfileInput) async throws -> UntagInstanceProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagInstanceProfile")
@@ -6633,7 +6495,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagInstanceProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagInstanceProfileOutput>(responseClosure(UntagInstanceProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagInstanceProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6657,7 +6519,6 @@ extension IAMClient {
     public func untagMFADevice(input: UntagMFADeviceInput) async throws -> UntagMFADeviceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagMFADevice")
@@ -6681,7 +6542,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMFADeviceOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMFADeviceOutput>(responseClosure(UntagMFADeviceOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagMFADeviceOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6705,7 +6566,6 @@ extension IAMClient {
     public func untagOpenIDConnectProvider(input: UntagOpenIDConnectProviderInput) async throws -> UntagOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagOpenIDConnectProvider")
@@ -6729,7 +6589,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagOpenIDConnectProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagOpenIDConnectProviderOutput>(responseClosure(UntagOpenIDConnectProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagOpenIDConnectProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6753,7 +6613,6 @@ extension IAMClient {
     public func untagPolicy(input: UntagPolicyInput) async throws -> UntagPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagPolicy")
@@ -6777,7 +6636,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagPolicyOutput>(responseClosure(UntagPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6800,7 +6659,6 @@ extension IAMClient {
     public func untagRole(input: UntagRoleInput) async throws -> UntagRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagRole")
@@ -6824,7 +6682,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagRoleOutput>(responseClosure(UntagRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6848,7 +6706,6 @@ extension IAMClient {
     public func untagSAMLProvider(input: UntagSAMLProviderInput) async throws -> UntagSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagSAMLProvider")
@@ -6872,7 +6729,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagSAMLProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagSAMLProviderOutput>(responseClosure(UntagSAMLProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagSAMLProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6896,7 +6753,6 @@ extension IAMClient {
     public func untagServerCertificate(input: UntagServerCertificateInput) async throws -> UntagServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagServerCertificate")
@@ -6920,7 +6776,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagServerCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagServerCertificateOutput>(responseClosure(UntagServerCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagServerCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6943,7 +6799,6 @@ extension IAMClient {
     public func untagUser(input: UntagUserInput) async throws -> UntagUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagUser")
@@ -6967,7 +6822,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagUserOutput>(responseClosure(UntagUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UntagUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -6990,7 +6845,6 @@ extension IAMClient {
     public func updateAccessKey(input: UpdateAccessKeyInput) async throws -> UpdateAccessKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateAccessKey")
@@ -7014,7 +6868,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccessKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccessKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessKeyOutput>(responseClosure(UpdateAccessKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateAccessKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7038,7 +6892,6 @@ extension IAMClient {
     public func updateAccountPasswordPolicy(input: UpdateAccountPasswordPolicyInput) async throws -> UpdateAccountPasswordPolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateAccountPasswordPolicy")
@@ -7062,7 +6915,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountPasswordPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountPasswordPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountPasswordPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccountPasswordPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountPasswordPolicyOutput>(responseClosure(UpdateAccountPasswordPolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateAccountPasswordPolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7087,7 +6940,6 @@ extension IAMClient {
     public func updateAssumeRolePolicy(input: UpdateAssumeRolePolicyInput) async throws -> UpdateAssumeRolePolicyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateAssumeRolePolicy")
@@ -7111,7 +6963,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAssumeRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssumeRolePolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssumeRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAssumeRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssumeRolePolicyOutput>(responseClosure(UpdateAssumeRolePolicyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateAssumeRolePolicyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssumeRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7135,7 +6987,6 @@ extension IAMClient {
     public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateGroup")
@@ -7159,7 +7010,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(responseClosure(UpdateGroupOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateGroupOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7184,7 +7035,6 @@ extension IAMClient {
     public func updateLoginProfile(input: UpdateLoginProfileInput) async throws -> UpdateLoginProfileOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLoginProfile")
@@ -7208,7 +7058,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoginProfileOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoginProfileOutput>(responseClosure(UpdateLoginProfileOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateLoginProfileOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7231,7 +7081,6 @@ extension IAMClient {
     public func updateOpenIDConnectProviderThumbprint(input: UpdateOpenIDConnectProviderThumbprintInput) async throws -> UpdateOpenIDConnectProviderThumbprintOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateOpenIDConnectProviderThumbprint")
@@ -7255,7 +7104,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOpenIDConnectProviderThumbprintOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOpenIDConnectProviderThumbprintOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateOpenIDConnectProviderThumbprintOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(responseClosure(UpdateOpenIDConnectProviderThumbprintOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateOpenIDConnectProviderThumbprintOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7278,7 +7127,6 @@ extension IAMClient {
     public func updateRole(input: UpdateRoleInput) async throws -> UpdateRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateRole")
@@ -7302,7 +7150,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleOutput>(responseClosure(UpdateRoleOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateRoleOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7325,7 +7173,6 @@ extension IAMClient {
     public func updateRoleDescription(input: UpdateRoleDescriptionInput) async throws -> UpdateRoleDescriptionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateRoleDescription")
@@ -7349,7 +7196,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoleDescriptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleDescriptionOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleDescriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRoleDescriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleDescriptionOutput>(responseClosure(UpdateRoleDescriptionOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateRoleDescriptionOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleDescriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7373,7 +7220,6 @@ extension IAMClient {
     public func updateSAMLProvider(input: UpdateSAMLProviderInput) async throws -> UpdateSAMLProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateSAMLProvider")
@@ -7397,7 +7243,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSAMLProviderOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSAMLProviderOutput>(responseClosure(UpdateSAMLProviderOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateSAMLProviderOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7418,7 +7264,6 @@ extension IAMClient {
     public func updateSSHPublicKey(input: UpdateSSHPublicKeyInput) async throws -> UpdateSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateSSHPublicKey")
@@ -7442,7 +7287,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSSHPublicKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSSHPublicKeyOutput>(responseClosure(UpdateSSHPublicKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateSSHPublicKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7466,7 +7311,6 @@ extension IAMClient {
     public func updateServerCertificate(input: UpdateServerCertificateInput) async throws -> UpdateServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateServerCertificate")
@@ -7490,7 +7334,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServerCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerCertificateOutput>(responseClosure(UpdateServerCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateServerCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7511,7 +7355,6 @@ extension IAMClient {
     public func updateServiceSpecificCredential(input: UpdateServiceSpecificCredentialInput) async throws -> UpdateServiceSpecificCredentialOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateServiceSpecificCredential")
@@ -7535,7 +7378,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSpecificCredentialOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSpecificCredentialOutput>(responseClosure(UpdateServiceSpecificCredentialOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateServiceSpecificCredentialOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7558,7 +7401,6 @@ extension IAMClient {
     public func updateSigningCertificate(input: UpdateSigningCertificateInput) async throws -> UpdateSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateSigningCertificate")
@@ -7582,7 +7424,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSigningCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSigningCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSigningCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSigningCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSigningCertificateOutput>(responseClosure(UpdateSigningCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateSigningCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7608,7 +7450,6 @@ extension IAMClient {
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateUser")
@@ -7632,7 +7473,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(responseClosure(UpdateUserOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UpdateUserOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7657,7 +7498,6 @@ extension IAMClient {
     public func uploadSSHPublicKey(input: UploadSSHPublicKeyInput) async throws -> UploadSSHPublicKeyOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadSSHPublicKey")
@@ -7681,7 +7521,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSSHPublicKeyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSSHPublicKeyOutput>(responseClosure(UploadSSHPublicKeyOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadSSHPublicKeyOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7708,7 +7548,6 @@ extension IAMClient {
     public func uploadServerCertificate(input: UploadServerCertificateInput) async throws -> UploadServerCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadServerCertificate")
@@ -7732,7 +7571,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadServerCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadServerCertificateOutput>(responseClosure(UploadServerCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadServerCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
@@ -7760,7 +7599,6 @@ extension IAMClient {
     public func uploadSigningCertificate(input: UploadSigningCertificateInput) async throws -> UploadSigningCertificateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadSigningCertificate")
@@ -7784,7 +7622,7 @@ extension IAMClient {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadSigningCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSigningCertificateOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSigningCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadSigningCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSigningCertificateOutput>(responseClosure(UploadSigningCertificateOutput.httpBinding, responseDocumentBinding), responseErrorClosure(UploadSigningCertificateOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
