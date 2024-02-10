@@ -19,7 +19,7 @@ import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpRespons
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
-class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
+class AWSQueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
     override fun renderServiceError(ctx: ProtocolGenerator.GenerationContext) {
         val serviceShape = ctx.service
         val serviceName = ctx.service.id.name
@@ -89,11 +89,11 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                                 write("if let error = serviceError { return error }")
                             }
                             writer.write("let responseReader = try await responseDocumentClosure(httpResponse)")
-                            writer.write("let reader = responseReader[\"Errors\"][\"Error\"]")
+                            writer.write("let reader = responseReader[\"Error\"]")
                             writer.write("let requestID: String? = try responseReader[\"RequestId\"].readIfPresent()")
-                            writer.write("let errorCode: String? = try reader[\"Code\"].readIfPresent()")
+                            writer.write("let code: String? = try reader[\"Code\"].readIfPresent()")
                             writer.write("let message: String? = try reader[\"Message\"].readIfPresent()")
-                            openBlock("switch errorCode {", "}") {
+                            openBlock("switch code {", "}") {
                                 val errorShapes = op.errors
                                     .map { ctx.model.expectShape(it) as StructureShape }
                                     .toSet()
@@ -108,7 +108,7 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                                     )
                                 }
                                 write(
-                                    "default: return try await \$N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: errorCode)",
+                                    "default: return try await \$N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)",
                                     unknownServiceErrorSymbol
                                 )
                             }

@@ -19,21 +19,27 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-                    let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)
-                    let serviceError = try await EC2ProtocolClientTypes.makeServiceError(httpResponse, decoder, ec2QueryError)
-                    if let error = serviceError { return error }
-                    switch ec2QueryError.errorCode {
-                        case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
-                        case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
-                        default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId, typeName: ec2QueryError.errorCode)
-                    }
-                }
+        val expectedContents = """
+enum GreetingWithErrorsOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let serviceError = try await EC2ProtocolClientTypes.makeServiceError(httpResponse, decoder, ec2QueryError)
+            if let error = serviceError { return error }
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Errors"]["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let errorCode: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch errorCode {
+                case "ComplexError": return try await ComplexError.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidGreeting": return try await InvalidGreeting.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: errorCode)
             }
-            """.trimIndent()
+        }
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -42,24 +48,20 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/ComplexError+Init.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension ComplexError {
-                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-                    if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-                        let output: AWSClientRuntime.Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: data)
-                        self.properties.nested = output.errors.error.nested
-                        self.properties.topLevel = output.errors.error.topLevel
-                    } else {
-                        self.properties.nested = nil
-                        self.properties.topLevel = nil
-                    }
-                    self.httpResponse = httpResponse
-                    self.requestID = requestID
-                    self.message = message
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension ComplexError {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = ComplexError()
+        value.properties.nested = try reader["Nested"].readIfPresent(readingClosure: EC2ProtocolClientTypes.ComplexNestedErrorData.readingClosure)
+        value.properties.topLevel = try reader["TopLevel"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

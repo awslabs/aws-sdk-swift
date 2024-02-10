@@ -19,67 +19,74 @@ class BlobEncodeGeneratorTests {
         val context = setupTests("awsquery/query-blobs.smithy", "aws.protocoltests.query#AwsQuery")
         val contents = getFileContents(context.manifest, "/Example/models/BlobInputParamsInput+Encodable.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension BlobInputParamsInput: Swift.Encodable {
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-                    if let blobList = blobList {
-                        if !blobList.isEmpty {
-                            var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
-                            for (index0, blob0) in blobList.enumerated() {
-                                try blobListContainer.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                            }
-                        }
-                        else {
-                            var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
-                            try blobListContainer.encode("", forKey: ClientRuntime.Key(""))
-                        }
-                    }
-                    if let blobListFlattened = blobListFlattened {
-                        if !blobListFlattened.isEmpty {
-                            for (index0, blob0) in blobListFlattened.enumerated() {
-                                try container.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("BlobListFlattened.\(index0.advanced(by: 1))"))
-                            }
-                        }
-                        else {
-                            var blobListFlattenedContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobListFlattened"))
-                            try blobListFlattenedContainer.encode("", forKey: ClientRuntime.Key(""))
-                        }
-                    }
-                    if let blobMap = blobMap {
-                        var blobMapContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobMap"))
-                        for (index0, element0) in blobMap.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
-                            let stringKey0 = element0.key
-                            let blobValue0 = element0.value
-                            var entryContainer0 = blobMapContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
-                            var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                            try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                            var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
-                            try valueContainer0.encode(blobValue0.base64EncodedString(), forKey: ClientRuntime.Key(""))
-                        }
-                    }
-                    if let blobMapFlattened = blobMapFlattened {
-                        if !blobMapFlattened.isEmpty {
-                            for (index0, element0) in blobMapFlattened.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
-                                let stringKey0 = element0.key
-                                let blobValue0 = element0.value
-                                var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobMapFlattened.\(index0.advanced(by: 1))"))
-                                var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
-                                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                                var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
-                                try valueContainer0.encode(blobValue0.base64EncodedString(), forKey: ClientRuntime.Key(""))
-                            }
-                        }
-                    }
-                    if let blobMember = blobMember {
-                        try container.encode(blobMember.base64EncodedString(), forKey: ClientRuntime.Key("BlobMember"))
-                    }
-                    try container.encode("BlobInputParams", forKey:ClientRuntime.Key("Action"))
-                    try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
+        val expectedContents = """
+extension BlobInputParamsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blobList = "BlobList"
+        case blobListFlattened = "BlobListFlattened"
+        case blobMap = "BlobMap"
+        case blobMapFlattened = "BlobMapFlattened"
+        case blobMember = "BlobMember"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let blobList = blobList {
+            if !blobList.isEmpty {
+                var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
+                for (index0, blob0) in blobList.enumerated() {
+                    try blobListContainer.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
                 }
             }
-            """.trimIndent()
+            else {
+                var blobListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobList"))
+                try blobListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let blobListFlattened = blobListFlattened {
+            if !blobListFlattened.isEmpty {
+                for (index0, blob0) in blobListFlattened.enumerated() {
+                    try container.encode(blob0.base64EncodedString(), forKey: ClientRuntime.Key("BlobListFlattened.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var blobListFlattenedContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobListFlattened"))
+                try blobListFlattenedContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let blobMap = blobMap {
+            var blobMapContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobMap"))
+            for (index0, element0) in blobMap.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
+                let stringKey0 = element0.key
+                let blobValue0 = element0.value
+                var entryContainer0 = blobMapContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(blobValue0.base64EncodedString(), forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let blobMapFlattened = blobMapFlattened {
+            if !blobMapFlattened.isEmpty {
+                for (index0, element0) in blobMapFlattened.sorted(by: { ${'$'}0.key < ${'$'}1.key }).enumerated() {
+                    let stringKey0 = element0.key
+                    let blobValue0 = element0.value
+                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BlobMapFlattened.\(index0.advanced(by: 1))"))
+                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                    try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
+                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                    try valueContainer0.encode(blobValue0.base64EncodedString(), forKey: ClientRuntime.Key(""))
+                }
+            }
+        }
+        if let blobMember = blobMember {
+            try container.encode(blobMember.base64EncodedString(), forKey: ClientRuntime.Key("BlobMember"))
+        }
+        try container.encode("BlobInputParams", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

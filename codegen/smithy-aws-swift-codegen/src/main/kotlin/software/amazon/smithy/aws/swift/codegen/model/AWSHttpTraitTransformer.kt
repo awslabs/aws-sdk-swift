@@ -13,7 +13,6 @@ import software.amazon.smithy.model.traits.HttpTrait
 import software.amazon.smithy.model.transform.ModelTransformer
 import software.amazon.smithy.rulesengine.traits.ContextParamTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
@@ -31,7 +30,7 @@ class AWSHttpTraitTransformer : SwiftIntegration {
                     when (shape) {
                         is OperationShape -> {
                             val shapeBuilder = shape.toBuilder()
-                            shape.input.getOrNull()?.let { input ->
+                            shape.input.orElse(null)?.let { input ->
                                 val inputShape = model.expectShape(input.toShapeId())
                                 shape.getTrait<HttpTrait>()?.let { httpTrait ->
                                     val uriPattern = httpTrait.uri.toString()
