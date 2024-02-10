@@ -140,6 +140,8 @@ func addIntegrationTestTarget(_ name: String) {
         additionalDependencies = ["AWSRoute53"]
     case "AWSCloudFrontKeyValueStore":
         additionalDependencies = ["AWSCloudFront"]
+    case "AWSSTS":
+        additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     default:
         break
     }
