@@ -108,7 +108,11 @@ public struct SigV4Middleware<OperationStackOutput>: Middleware {
     }
 }
 
-private func determineSignedBodyValue(for input: SdkHttpRequestBuilder, with checksum: HashFunction?, using config: SigV4Config) throws -> AWSSignedBodyValue {
+private func determineSignedBodyValue(
+    for input: SdkHttpRequestBuilder,
+    with checksum: HashFunction?,
+    using config: SigV4Config
+) throws -> AWSSignedBodyValue {
     guard case .stream(let stream) = input.getBody(), stream.isEligibleForAwsChunkedStreaming() else {
         return .empty
     }
