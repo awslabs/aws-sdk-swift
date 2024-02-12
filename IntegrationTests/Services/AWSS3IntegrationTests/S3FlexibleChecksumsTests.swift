@@ -11,25 +11,11 @@ import AWSS3
 
 final class S3FlexibleChecksumsTests: S3XCTestCase {
 
-    private enum UploadType {
-        case data(Data)
-        case stream(URL)
-    }
-
-    private func testPutGetObject(withChecksumAlgorithm algorithm: S3ClientTypes.ChecksumAlgorithm, objectNameSuffix: String, uploadType: UploadType) async throws {
-        let objectName = "test-\(objectNameSuffix)"
-        let byteStream: ByteStream
-
-        switch uploadType {
-        case .data(let data):
-            byteStream = ByteStream.data(data)
-        case .stream(let url):
-            let fileHandle = try XCTUnwrap(FileHandle(forReadingAtPath: url.relativePath))
-            byteStream = ByteStream.stream(FileStream(fileHandle: fileHandle))
-        }
+    private func testPutGetObject(withChecksumAlgorithm algorithm: S3ClientTypes.ChecksumAlgorithm, objectNameSuffix: String, upload: ByteStream) async throws {
+        let objectName = "flexible-checksums-s3-test-\(objectNameSuffix)"
 
         let input = PutObjectInput(
-            body: byteStream,
+            body: upload,
             bucket: bucketName,
             checksumAlgorithm: algorithm,
             key: objectName
@@ -46,7 +32,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
         XCTAssertNotNil(responseGet.body) // Ensure there's a body in the response.
 
         // Additional step for stream: Validate stream and read data.
-        if case .stream = uploadType {
+        if case .stream = upload {
             let streamingBody = try XCTUnwrap(responseGet.body)
             if case .stream(let stream) = streamingBody {
                 XCTAssert(stream is ValidatingBufferedStream, "Expected ValidatingBufferedStream for streaming upload")
@@ -76,39 +62,43 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
 
     // Test cases for data uploads
     func test_putGetObject_data_crc32() async throws {
-        try await testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32-data", uploadType: .data(Data("Hello, world!".utf8)))
+        try await testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32-data", upload: .data(Data("Hello, world!".utf8)))
     }
 
     func test_putGetObject_data_crc32c() async throws {
-        try await testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c-data", uploadType: .data(Data("Hello, world!".utf8)))
+        try await testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c-data", upload: .data(Data("Hello, world!".utf8)))
     }
 
     func test_putGetObject_data_sha1() async throws {
-        try await testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1-data", uploadType: .data(Data("Hello, world!".utf8)))
+        try await testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1-data", upload: .data(Data("Hello, world!".utf8)))
     }
 
     func test_putGetObject_data_sha256() async throws {
-        try await testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256-data", uploadType: .data(Data("Hello, world!".utf8)))
+        try await testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256-data", upload: .data(Data("Hello, world!".utf8)))
     }
 
     // Test cases for streaming uploads
     func test_putGetObject_streaming_crc32() async throws {
-        let streamingTestFile = Bundle.module.url(forResource: "put-object-test-1MB", withExtension: ".txt")!
-        try await testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32", uploadType: .stream(streamingTestFile))
+        let oneMBData = Data(repeating: 0, count: 1_024 * 1_024) // 1MB of zeroed data
+        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        try await testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32", upload: .stream(bufferedStream))
     }
 
     func test_putGetObject_streaming_crc32c() async throws {
-        let streamingTestFile = Bundle.module.url(forResource: "put-object-test-1MB", withExtension: ".txt")!
-        try await testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c", uploadType: .stream(streamingTestFile))
+        let oneMBData = Data(repeating: 0, count: 1_024 * 1_024) // 1MB of zeroed data
+        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        try await testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c", upload: .stream(bufferedStream))
     }
 
     func test_putGetObject_streaming_sha1() async throws {
-        let streamingTestFile = Bundle.module.url(forResource: "put-object-test-1MB", withExtension: ".txt")!
-        try await testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1", uploadType: .stream(streamingTestFile))
+        let oneMBData = Data(repeating: 0, count: 1_024 * 1_024) // 1MB of zeroed data
+        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        try await testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1", upload: .stream(bufferedStream))
     }
 
     func test_putGetObject_streaming_sha256() async throws {
-        let streamingTestFile = Bundle.module.url(forResource: "put-object-test-1MB", withExtension: ".txt")!
-        try await testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256", uploadType: .stream(streamingTestFile))
+        let oneMBData = Data(repeating: 0, count: 1_024 * 1_024) // 1MB of zeroed data
+        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        try await testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256", upload: .stream(bufferedStream))
     }
 }
