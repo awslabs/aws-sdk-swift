@@ -14,6 +14,7 @@ import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationJsonName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 
 class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -25,9 +26,9 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
-        AWSRestJson1HttpResponseBindingErrorGeneratable(),
+        HttpResponseBindingOutputGenerator(),
+        AWSRestJson1HttpResponseBindingErrorGeneratable()
     )
-    override val serdeContext = serdeContextJSON
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_restJson1",
         "SDKAppendedGzipAfterProvidedEncoding_restJson1",

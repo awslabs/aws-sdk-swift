@@ -7,7 +7,6 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
@@ -26,7 +25,7 @@ class GlacierAccountIdDefault : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware
     ) {
-        val input = operationShape.input.getOrNull()?.let { ctx.model.expectShape<StructureShape>(it) }
+        val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
         val needsAccountIdMiddleware = input?.memberNames?.any { it.lowercase() == "accountid" } ?: false
         if (needsAccountIdMiddleware) {
             operationMiddleware.prependMiddleware(

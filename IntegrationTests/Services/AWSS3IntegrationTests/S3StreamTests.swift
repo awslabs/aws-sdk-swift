@@ -22,10 +22,10 @@ final class S3StreamTests: S3XCTestCase {
         case .data(let dataOrNil):
             let data = try XCTUnwrap(dataOrNil)
             let actual = String(data: data, encoding: .utf8)
-            XCTAssertEqual(actual, expected)
+            XCTAssertEqual(expected, actual)
         case .stream(let stream):
-            let actual = String(data: try await stream.readToEndAsync()!, encoding: .utf8)
-            XCTAssertEqual(actual, expected)
+            let actual = String(data: try await stream.readToEndAsync() ?? Data(), encoding: .utf8)
+            XCTAssertEqual(expected, actual)
         case .noStream:
             XCTFail("Expected stream")
         }

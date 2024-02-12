@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
 import software.amazon.smithy.aws.swift.codegen.AWSHttpRequestFormURLEncoder
-import software.amazon.smithy.aws.swift.codegen.AWSHttpResponseXMLDecoder
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
@@ -19,9 +18,7 @@ class AWSHttpProtocolAwsQueryCustomizations : AWSHttpProtocolCustomizations() {
     override fun getClientProperties(): List<ClientProperty> {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
-        val responseDecoderOptions = mutableMapOf<String, String>()
         properties.add(AWSHttpRequestFormURLEncoder(requestEncoderOptions))
-        properties.add(AWSHttpResponseXMLDecoder(responseDecoderOptions))
         return properties
     }
 
