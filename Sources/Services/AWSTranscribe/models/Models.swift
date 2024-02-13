@@ -9081,8 +9081,6 @@ extension TranscribeClientTypes {
 
 }
 
-public enum TranscribeClientTypes {}
-
 extension TranscribeClientTypes.Transcript: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case redactedTranscriptFileUri = "RedactedTranscriptFileUri"

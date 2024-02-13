@@ -15226,8 +15226,6 @@ extension KendraClientTypes {
 
 }
 
-public enum KendraClientTypes {}
-
 extension KendraClientTypes {
     public enum KeyLocation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case secretManager

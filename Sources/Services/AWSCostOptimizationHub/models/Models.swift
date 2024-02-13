@@ -387,8 +387,6 @@ extension CostOptimizationHubClientTypes {
 
 }
 
-public enum CostOptimizationHubClientTypes {}
-
 extension CostOptimizationHubClientTypes.EbsVolume: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
@@ -2290,7 +2288,7 @@ extension ListEnrollmentStatusesInput {
 }
 
 public struct ListEnrollmentStatusesInput: Swift.Equatable {
-    /// The enrollment status of a specific account ID in the organization.
+    /// The account ID of a member account in the organization.
     public var accountId: Swift.String?
     /// Indicates whether to return the enrollment status for the organization.
     public var includeOrganizationInfo: Swift.Bool?
@@ -2346,9 +2344,11 @@ extension ListEnrollmentStatusesOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListEnrollmentStatusesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.includeMemberAccounts = output.includeMemberAccounts
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
+            self.includeMemberAccounts = nil
             self.items = nil
             self.nextToken = nil
         }
@@ -2356,16 +2356,20 @@ extension ListEnrollmentStatusesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListEnrollmentStatusesOutput: Swift.Equatable {
-    /// The account enrollment statuses.
+    /// The enrollment status of all member accounts in the organization if the account is the management account.
+    public var includeMemberAccounts: Swift.Bool?
+    /// The enrollment status of a specific account ID, including creation and last updated timestamps.
     public var items: [CostOptimizationHubClientTypes.AccountEnrollmentStatus]?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init(
+        includeMemberAccounts: Swift.Bool? = nil,
         items: [CostOptimizationHubClientTypes.AccountEnrollmentStatus]? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.includeMemberAccounts = includeMemberAccounts
         self.items = items
         self.nextToken = nextToken
     }
@@ -2373,11 +2377,13 @@ public struct ListEnrollmentStatusesOutput: Swift.Equatable {
 
 struct ListEnrollmentStatusesOutputBody: Swift.Equatable {
     let items: [CostOptimizationHubClientTypes.AccountEnrollmentStatus]?
+    let includeMemberAccounts: Swift.Bool?
     let nextToken: Swift.String?
 }
 
 extension ListEnrollmentStatusesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case includeMemberAccounts
         case items
         case nextToken
     }
@@ -2395,6 +2401,8 @@ extension ListEnrollmentStatusesOutputBody: Swift.Decodable {
             }
         }
         items = itemsDecoded0
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
+        includeMemberAccounts = includeMemberAccountsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }

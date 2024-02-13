@@ -1698,8 +1698,6 @@ extension NetworkMonitorClientTypes {
 
 }
 
-public enum NetworkMonitorClientTypes {}
-
 extension NetworkMonitorClientTypes.Probe: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressFamily

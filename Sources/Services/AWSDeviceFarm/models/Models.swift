@@ -3460,8 +3460,6 @@ extension DeviceFarmClientTypes {
     }
 }
 
-public enum DeviceFarmClientTypes {}
-
 extension DeviceFarmClientTypes.DeviceFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attribute

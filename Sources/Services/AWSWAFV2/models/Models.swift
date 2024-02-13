@@ -2397,7 +2397,7 @@ public struct CreateAPIKeyInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// The client application domains that you want to use this API key for. Example JSON: "TokenDomains": ["abc.com", "store.abc.com"] Public suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+    /// The client application domains that you want to use this API key for. Example JSON: "TokenDomains": ["abc.com", "store.abc.com"] Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
     /// This member is required.
     public var tokenDomains: [Swift.String]?
 
@@ -3237,7 +3237,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     public var scope: WAFV2ClientTypes.Scope?
     /// An array of key:value pairs to associate with the resource.
     public var tags: [WAFV2ClientTypes.Tag]?
-    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" } Public suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" } Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
     public var tokenDomains: [Swift.String]?
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     /// This member is required.
@@ -3686,6 +3686,97 @@ extension WAFV2ClientTypes {
         }
     }
 
+}
+
+extension DeleteAPIKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKey = "APIKey"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apiKey = self.apiKey {
+            try encodeContainer.encode(apiKey, forKey: .apiKey)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope.rawValue, forKey: .scope)
+        }
+    }
+}
+
+extension DeleteAPIKeyInput {
+
+    static func urlPathProvider(_ value: DeleteAPIKeyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteAPIKeyInput: Swift.Equatable {
+    /// The encrypted API key that you want to delete.
+    /// This member is required.
+    public var apiKey: Swift.String?
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    ///
+    /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
+    ///
+    /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+
+    public init(
+        apiKey: Swift.String? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil
+    )
+    {
+        self.apiKey = apiKey
+        self.scope = scope
+    }
+}
+
+struct DeleteAPIKeyInputBody: Swift.Equatable {
+    let scope: WAFV2ClientTypes.Scope?
+    let apiKey: Swift.String?
+}
+
+extension DeleteAPIKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiKey = "APIKey"
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Scope.self, forKey: .scope)
+        scope = scopeDecoded
+        let apiKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiKey)
+        apiKey = apiKeyDecoded
+    }
+}
+
+extension DeleteAPIKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAPIKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteAPIKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidOperationException": return try await WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFOptimisticLockException": return try await WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeleteFirewallManagerRuleGroupsInput: Swift.Encodable {
@@ -17072,7 +17163,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" } Public suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" } Public suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
     public var tokenDomains: [Swift.String]?
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     /// This member is required.
@@ -18521,8 +18612,6 @@ extension WAFUnsupportedAggregateKeyTypeExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
-
-public enum WAFV2ClientTypes {}
 
 extension WAFV2ClientTypes.WebACL: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {

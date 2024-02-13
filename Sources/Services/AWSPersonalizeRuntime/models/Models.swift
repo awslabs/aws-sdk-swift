@@ -773,8 +773,6 @@ extension InvalidInputExceptionBody: Swift.Decodable {
     }
 }
 
-public enum PersonalizeRuntimeClientTypes {}
-
 extension PersonalizeRuntimeClientTypes.PredictedAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionId

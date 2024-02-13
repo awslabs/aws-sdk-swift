@@ -3225,8 +3225,6 @@ extension KafkaConnectClientTypes {
     }
 }
 
-public enum KafkaConnectClientTypes {}
-
 extension ListConnectorsInput {
 
     static func queryItemProvider(_ value: ListConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {

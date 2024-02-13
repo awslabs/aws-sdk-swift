@@ -2038,8 +2038,6 @@ enum AssociateAssessmentReportEvidenceFolderOutputError: ClientRuntime.HttpRespo
     }
 }
 
-public enum AuditManagerClientTypes {}
-
 extension BatchAssociateAssessmentReportEvidenceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case evidenceFolderId

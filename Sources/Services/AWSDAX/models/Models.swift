@@ -1068,8 +1068,6 @@ enum CreateSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum DAXClientTypes {}
-
 extension DecreaseReplicationFactorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZones = "AvailabilityZones"

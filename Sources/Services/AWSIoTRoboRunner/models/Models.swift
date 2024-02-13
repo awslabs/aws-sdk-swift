@@ -2179,8 +2179,6 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-public enum IoTRoboRunnerClientTypes {}
-
 extension ListDestinationsInput {
 
     static func queryItemProvider(_ value: ListDestinationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {

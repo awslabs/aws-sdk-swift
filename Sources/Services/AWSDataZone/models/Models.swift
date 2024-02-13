@@ -6140,7 +6140,7 @@ enum CreateProjectMembershipOutputError: ClientRuntime.HttpResponseErrorBinding 
 
 extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
@@ -6152,19 +6152,23 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
             self.createdBy = output.createdBy
             self.description = output.description
             self.domainId = output.domainId
+            self.failureReasons = output.failureReasons
             self.glossaryTerms = output.glossaryTerms
             self.id = output.id
             self.lastUpdatedAt = output.lastUpdatedAt
             self.name = output.name
+            self.projectStatus = output.projectStatus
         } else {
             self.createdAt = nil
             self.createdBy = nil
             self.description = nil
             self.domainId = nil
+            self.failureReasons = nil
             self.glossaryTerms = nil
             self.id = nil
             self.lastUpdatedAt = nil
             self.name = nil
+            self.projectStatus = nil
         }
     }
 }
@@ -6180,6 +6184,8 @@ public struct CreateProjectOutput: Swift.Equatable {
     /// The identifier of the Amazon DataZone domain in which the project was created.
     /// This member is required.
     public var domainId: Swift.String?
+    /// Reasons for failed project deletion
+    public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms that can be used in the project.
     public var glossaryTerms: [Swift.String]?
     /// The ID of the Amazon DataZone project.
@@ -6190,26 +6196,32 @@ public struct CreateProjectOutput: Swift.Equatable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// Status of the project
+    public var projectStatus: DataZoneClientTypes.ProjectStatus?
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        projectStatus: DataZoneClientTypes.ProjectStatus? = nil
     )
     {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
         self.domainId = domainId
+        self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectStatus = projectStatus
     }
 }
 
@@ -6218,6 +6230,8 @@ struct CreateProjectOutputBody: Swift.Equatable {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
+    let projectStatus: DataZoneClientTypes.ProjectStatus?
+    let failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     let createdBy: Swift.String?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
@@ -6230,10 +6244,12 @@ extension CreateProjectOutputBody: Swift.Decodable {
         case createdBy
         case description
         case domainId
+        case failureReasons
         case glossaryTerms
         case id
         case lastUpdatedAt
         case name
+        case projectStatus
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6246,6 +6262,19 @@ extension CreateProjectOutputBody: Swift.Decodable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let projectStatusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.ProjectStatus.self, forKey: .projectStatus)
+        projectStatus = projectStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.ProjectDeletionError?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[DataZoneClientTypes.ProjectDeletionError]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [DataZoneClientTypes.ProjectDeletionError]()
+            for structure0 in failureReasonsContainer {
+                if let structure0 = structure0 {
+                    failureReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
         let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
         createdBy = createdByDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
@@ -8649,8 +8678,6 @@ extension DataZoneClientTypes {
     }
 }
 
-public enum DataZoneClientTypes {}
-
 extension DeleteAssetInput {
 
     static func urlPathProvider(_ value: DeleteAssetInput) -> Swift.String? {
@@ -9108,6 +9135,10 @@ extension DeleteDomainInput {
             let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
+        if let skipDeletionCheck = value.skipDeletionCheck {
+            let skipDeletionCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipDeletionCheck".urlPercentEncoding(), value: Swift.String(skipDeletionCheck).urlPercentEncoding())
+            items.append(skipDeletionCheckQueryItem)
+        }
         return items
     }
 }
@@ -9128,14 +9159,18 @@ public struct DeleteDomainInput: Swift.Equatable {
     /// The identifier of the Amazon Web Services domain that is to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Optional flag to delete all child entities within the domain
+    public var skipDeletionCheck: Swift.Bool?
 
     public init(
         clientToken: Swift.String? = nil,
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        skipDeletionCheck: Swift.Bool? = nil
     )
     {
         self.clientToken = clientToken
         self.identifier = identifier
+        self.skipDeletionCheck = skipDeletionCheck
     }
 }
 
@@ -9680,6 +9715,18 @@ enum DeleteListingOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension DeleteProjectInput {
 
+    static func queryItemProvider(_ value: DeleteProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipDeletionCheck = value.skipDeletionCheck {
+            let skipDeletionCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipDeletionCheck".urlPercentEncoding(), value: Swift.String(skipDeletionCheck).urlPercentEncoding())
+            items.append(skipDeletionCheckQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteProjectInput {
+
     static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
         guard let domainIdentifier = value.domainIdentifier else {
             return nil
@@ -9698,14 +9745,18 @@ public struct DeleteProjectInput: Swift.Equatable {
     /// The identifier of the project that is to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Optional flag to asynchronously delete child entities within the project
+    public var skipDeletionCheck: Swift.Bool?
 
     public init(
         domainIdentifier: Swift.String? = nil,
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        skipDeletionCheck: Swift.Bool? = nil
     )
     {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
+        self.skipDeletionCheck = skipDeletionCheck
     }
 }
 
@@ -15545,7 +15596,7 @@ extension GetProjectInputBody: Swift.Decodable {
 
 extension GetProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension GetProjectOutput: ClientRuntime.HttpResponseBinding {
@@ -15557,19 +15608,23 @@ extension GetProjectOutput: ClientRuntime.HttpResponseBinding {
             self.createdBy = output.createdBy
             self.description = output.description
             self.domainId = output.domainId
+            self.failureReasons = output.failureReasons
             self.glossaryTerms = output.glossaryTerms
             self.id = output.id
             self.lastUpdatedAt = output.lastUpdatedAt
             self.name = output.name
+            self.projectStatus = output.projectStatus
         } else {
             self.createdAt = nil
             self.createdBy = nil
             self.description = nil
             self.domainId = nil
+            self.failureReasons = nil
             self.glossaryTerms = nil
             self.id = nil
             self.lastUpdatedAt = nil
             self.name = nil
+            self.projectStatus = nil
         }
     }
 }
@@ -15585,6 +15640,8 @@ public struct GetProjectOutput: Swift.Equatable {
     /// The ID of the Amazon DataZone domain in which the project exists.
     /// This member is required.
     public var domainId: Swift.String?
+    /// Reasons for failed project deletion
+    public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The business glossary terms that can be used in the project.
     public var glossaryTerms: [Swift.String]?
     /// >The ID of the project.
@@ -15595,26 +15652,32 @@ public struct GetProjectOutput: Swift.Equatable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// Status of the project
+    public var projectStatus: DataZoneClientTypes.ProjectStatus?
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        projectStatus: DataZoneClientTypes.ProjectStatus? = nil
     )
     {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
         self.domainId = domainId
+        self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectStatus = projectStatus
     }
 }
 
@@ -15623,6 +15686,8 @@ struct GetProjectOutputBody: Swift.Equatable {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
+    let projectStatus: DataZoneClientTypes.ProjectStatus?
+    let failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     let createdBy: Swift.String?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
@@ -15635,10 +15700,12 @@ extension GetProjectOutputBody: Swift.Decodable {
         case createdBy
         case description
         case domainId
+        case failureReasons
         case glossaryTerms
         case id
         case lastUpdatedAt
         case name
+        case projectStatus
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -15651,6 +15718,19 @@ extension GetProjectOutputBody: Swift.Decodable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let projectStatusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.ProjectStatus.self, forKey: .projectStatus)
+        projectStatus = projectStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.ProjectDeletionError?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[DataZoneClientTypes.ProjectDeletionError]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [DataZoneClientTypes.ProjectDeletionError]()
+            for structure0 in failureReasonsContainer {
+                if let structure0 = structure0 {
+                    failureReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
         let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
         createdBy = createdByDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
@@ -21065,6 +21145,51 @@ extension DataZoneClientTypes {
 
 }
 
+extension DataZoneClientTypes.ProjectDeletionError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension DataZoneClientTypes {
+    /// Error that occurred during project deletion
+    public struct ProjectDeletionError: Swift.Equatable {
+        /// Project Deletion Error Code
+        public var code: Swift.String?
+        /// Project Deletion Error Message
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
 extension DataZoneClientTypes.ProjectMember: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case designation
@@ -21112,14 +21237,51 @@ extension DataZoneClientTypes {
 
 }
 
+extension DataZoneClientTypes {
+    public enum ProjectStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case deleteFailed
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProjectStatus] {
+            return [
+                .active,
+                .deleteFailed,
+                .deleting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProjectStatus(rawValue: rawValue) ?? ProjectStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataZoneClientTypes.ProjectSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
         case createdBy
         case description
         case domainId
+        case failureReasons
         case id
         case name
+        case projectStatus
         case updatedAt
     }
 
@@ -21137,11 +21299,20 @@ extension DataZoneClientTypes.ProjectSummary: Swift.Codable {
         if let domainId = self.domainId {
             try encodeContainer.encode(domainId, forKey: .domainId)
         }
+        if let failureReasons = failureReasons {
+            var failureReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureReasons)
+            for projectdeletionerror0 in failureReasons {
+                try failureReasonsContainer.encode(projectdeletionerror0)
+            }
+        }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let projectStatus = self.projectStatus {
+            try encodeContainer.encode(projectStatus.rawValue, forKey: .projectStatus)
         }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
@@ -21158,6 +21329,19 @@ extension DataZoneClientTypes.ProjectSummary: Swift.Codable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let projectStatusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.ProjectStatus.self, forKey: .projectStatus)
+        projectStatus = projectStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.ProjectDeletionError?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[DataZoneClientTypes.ProjectDeletionError]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [DataZoneClientTypes.ProjectDeletionError]()
+            for structure0 in failureReasonsContainer {
+                if let structure0 = structure0 {
+                    failureReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
         let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
         createdBy = createdByDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
@@ -21169,7 +21353,7 @@ extension DataZoneClientTypes.ProjectSummary: Swift.Codable {
 
 extension DataZoneClientTypes.ProjectSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -21185,12 +21369,16 @@ extension DataZoneClientTypes {
         /// The identifier of a Amazon DataZone domain where the project exists.
         /// This member is required.
         public var domainId: Swift.String?
+        /// Reasons for failed project deletion
+        public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
         /// The identifier of a project.
         /// This member is required.
         public var id: Swift.String?
         /// The name of a project.
         /// This member is required.
         public var name: Swift.String?
+        /// Status of the project
+        public var projectStatus: DataZoneClientTypes.ProjectStatus?
         /// The timestamp of when the project was updated.
         public var updatedAt: ClientRuntime.Date?
 
@@ -21199,8 +21387,10 @@ extension DataZoneClientTypes {
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
+            failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
@@ -21208,8 +21398,10 @@ extension DataZoneClientTypes {
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.failureReasons = failureReasons
             self.id = id
             self.name = name
+            self.projectStatus = projectStatus
             self.updatedAt = updatedAt
         }
     }
@@ -29172,7 +29364,7 @@ extension UpdateProjectInputBody: Swift.Decodable {
 
 extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
@@ -29184,19 +29376,23 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
             self.createdBy = output.createdBy
             self.description = output.description
             self.domainId = output.domainId
+            self.failureReasons = output.failureReasons
             self.glossaryTerms = output.glossaryTerms
             self.id = output.id
             self.lastUpdatedAt = output.lastUpdatedAt
             self.name = output.name
+            self.projectStatus = output.projectStatus
         } else {
             self.createdAt = nil
             self.createdBy = nil
             self.description = nil
             self.domainId = nil
+            self.failureReasons = nil
             self.glossaryTerms = nil
             self.id = nil
             self.lastUpdatedAt = nil
             self.name = nil
+            self.projectStatus = nil
         }
     }
 }
@@ -29212,6 +29408,8 @@ public struct UpdateProjectOutput: Swift.Equatable {
     /// The identifier of the Amazon DataZone domain in which a project is updated.
     /// This member is required.
     public var domainId: Swift.String?
+    /// Reasons for failed project deletion
+    public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms of the project that are to be updated.
     public var glossaryTerms: [Swift.String]?
     /// The identifier of the project that is to be updated.
@@ -29222,26 +29420,32 @@ public struct UpdateProjectOutput: Swift.Equatable {
     /// The name of the project that is to be updated.
     /// This member is required.
     public var name: Swift.String?
+    /// Status of the project
+    public var projectStatus: DataZoneClientTypes.ProjectStatus?
 
     public init(
         createdAt: ClientRuntime.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: ClientRuntime.Date? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        projectStatus: DataZoneClientTypes.ProjectStatus? = nil
     )
     {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
         self.domainId = domainId
+        self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectStatus = projectStatus
     }
 }
 
@@ -29250,6 +29454,8 @@ struct UpdateProjectOutputBody: Swift.Equatable {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
+    let projectStatus: DataZoneClientTypes.ProjectStatus?
+    let failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     let createdBy: Swift.String?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
@@ -29262,10 +29468,12 @@ extension UpdateProjectOutputBody: Swift.Decodable {
         case createdBy
         case description
         case domainId
+        case failureReasons
         case glossaryTerms
         case id
         case lastUpdatedAt
         case name
+        case projectStatus
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -29278,6 +29486,19 @@ extension UpdateProjectOutputBody: Swift.Decodable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let projectStatusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.ProjectStatus.self, forKey: .projectStatus)
+        projectStatus = projectStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.ProjectDeletionError?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[DataZoneClientTypes.ProjectDeletionError]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [DataZoneClientTypes.ProjectDeletionError]()
+            for structure0 in failureReasonsContainer {
+                if let structure0 = structure0 {
+                    failureReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
         let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
         createdBy = createdByDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)

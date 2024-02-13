@@ -1484,8 +1484,6 @@ enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-public enum DetectiveClientTypes {}
-
 extension DisableOrganizationAdminAccountInput {
 
     static func urlPathProvider(_ value: DisableOrganizationAdminAccountInput) -> Swift.String? {

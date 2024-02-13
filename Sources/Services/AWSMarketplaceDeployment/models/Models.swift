@@ -329,8 +329,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum MarketplaceDeploymentClientTypes {}
-
 extension PutDeploymentParameterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agreementId

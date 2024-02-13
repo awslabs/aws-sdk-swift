@@ -723,8 +723,6 @@ extension AppStreamClientTypes {
     }
 }
 
-public enum AppStreamClientTypes {}
-
 extension AppStreamClientTypes {
     public enum AppVisibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all

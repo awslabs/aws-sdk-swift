@@ -2,8 +2,6 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public enum AppConfigDataClientTypes {}
-
 extension AppConfigDataClientTypes.BadRequestDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invalidparameters = "InvalidParameters"

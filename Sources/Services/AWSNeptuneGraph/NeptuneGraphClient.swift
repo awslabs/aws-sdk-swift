@@ -69,7 +69,7 @@ public struct NeptuneGraphClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 extension NeptuneGraphClient {
     /// Performs the `CancelImportTask` operation on the `AmazonNeptuneGraph` service.
     ///
-    /// Deletes the specified import task
+    /// Deletes the specified import task.
     ///
     /// - Parameter CancelImportTaskInput : [no documentation found]
     ///
@@ -82,7 +82,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -113,6 +113,53 @@ extension NeptuneGraphClient {
         return result
     }
 
+    /// Performs the `CancelQuery` operation on the `AmazonNeptuneGraph` service.
+    ///
+    /// Cancels a specified query.
+    ///
+    /// - Parameter CancelQueryInput : [no documentation found]
+    ///
+    /// - Returns: `CancelQueryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ResourceNotFoundException` : A specified resource could not be located.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelQuery")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CancelQueryInput, CancelQueryOutput>(id: "cancelQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelQueryInput, CancelQueryOutput>(CancelQueryInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelQueryInput, CancelQueryOutput>(hostPrefix: "\(input.graphIdentifier!)."))
+        let endpointParams = EndpointParams(apiType: "DataPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelQueryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CancelQueryInput, CancelQueryOutput>(CancelQueryInput.headerProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelQueryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelQueryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelQueryOutput>(responseClosure(decoder: decoder), responseErrorClosure(CancelQueryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelQueryOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CreateGraph` operation on the `AmazonNeptuneGraph` service.
     ///
     /// Creates a new Neptune Analytics graph.
@@ -128,7 +175,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -178,7 +225,7 @@ extension NeptuneGraphClient {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func createGraphSnapshot(input: CreateGraphSnapshotInput) async throws -> CreateGraphSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -227,7 +274,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func createGraphUsingImportTask(input: CreateGraphUsingImportTaskInput) async throws -> CreateGraphUsingImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -277,7 +324,7 @@ extension NeptuneGraphClient {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func createPrivateGraphEndpoint(input: CreatePrivateGraphEndpointInput) async throws -> CreatePrivateGraphEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -326,7 +373,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -373,7 +420,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func deleteGraphSnapshot(input: DeleteGraphSnapshotInput) async throws -> DeleteGraphSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -419,7 +466,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func deletePrivateGraphEndpoint(input: DeletePrivateGraphEndpointInput) async throws -> DeletePrivateGraphEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -450,6 +497,66 @@ extension NeptuneGraphClient {
         return result
     }
 
+    /// Performs the `ExecuteQuery` operation on the `AmazonNeptuneGraph` service.
+    ///
+    /// Execute an openCypher query. Currently, the SDK does not support parameterized queries. If you want to make a parameterized query call, you can use an HTTP request. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
+    ///
+    /// * neptune-graph:ReadDataViaQuery
+    ///
+    /// * neptune-graph:WriteDataViaQuery
+    ///
+    /// * neptune-graph:DeleteDataViaQuery
+    ///
+    ///
+    /// Non-parametrized queries are not considered for plan caching. You can force plan caching with planCache=enabled. The plan cache will be reused only for the same exact query. Slight variations in the query will not be able to reuse the query plan cache.
+    ///
+    /// - Parameter ExecuteQueryInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `ConflictException` : Raised when a conflict is encountered.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `UnprocessableException` : Request cannot be processed due to known reasons. Eg. partition full.
+    /// - `ValidationException` : A resource could not be validated.
+    public func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "executeQuery")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ExecuteQueryInput, ExecuteQueryOutput>(id: "executeQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(ExecuteQueryInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(hostPrefix: "\(input.graphIdentifier!)."))
+        let endpointParams = EndpointParams(apiType: "DataPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteQueryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(ExecuteQueryInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExecuteQueryInput, ExecuteQueryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteQueryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteQueryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteQueryOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExecuteQueryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteQueryOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetGraph` operation on the `AmazonNeptuneGraph` service.
     ///
     /// Gets information about a specified graph.
@@ -464,7 +571,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func getGraph(input: GetGraphInput) async throws -> GetGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -509,7 +616,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func getGraphSnapshot(input: GetGraphSnapshotInput) async throws -> GetGraphSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -540,6 +647,54 @@ extension NeptuneGraphClient {
         return result
     }
 
+    /// Performs the `GetGraphSummary` operation on the `AmazonNeptuneGraph` service.
+    ///
+    /// Gets a graph summary for a property graph.
+    ///
+    /// - Parameter GetGraphSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetGraphSummaryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ResourceNotFoundException` : A specified resource could not be located.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func getGraphSummary(input: GetGraphSummaryInput) async throws -> GetGraphSummaryOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGraphSummary")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetGraphSummaryInput, GetGraphSummaryOutput>(id: "getGraphSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGraphSummaryInput, GetGraphSummaryOutput>(GetGraphSummaryInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGraphSummaryInput, GetGraphSummaryOutput>(hostPrefix: "\(input.graphIdentifier!)."))
+        let endpointParams = EndpointParams(apiType: "DataPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGraphSummaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetGraphSummaryInput, GetGraphSummaryOutput>(GetGraphSummaryInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetGraphSummaryInput, GetGraphSummaryOutput>(GetGraphSummaryInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphSummaryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGraphSummaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGraphSummaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGraphSummaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGraphSummaryOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetImportTask` operation on the `AmazonNeptuneGraph` service.
     ///
     /// Retrieves a specified import task.
@@ -554,7 +709,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func getImportTask(input: GetImportTaskInput) async throws -> GetImportTaskOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -599,7 +754,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func getPrivateGraphEndpoint(input: GetPrivateGraphEndpointInput) async throws -> GetPrivateGraphEndpointOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -630,6 +785,53 @@ extension NeptuneGraphClient {
         return result
     }
 
+    /// Performs the `GetQuery` operation on the `AmazonNeptuneGraph` service.
+    ///
+    /// Retrieves the status of a specified query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached.
+    ///
+    /// - Parameter GetQueryInput : [no documentation found]
+    ///
+    /// - Returns: `GetQueryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ResourceNotFoundException` : A specified resource could not be located.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func getQuery(input: GetQueryInput) async throws -> GetQueryOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getQuery")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetQueryInput, GetQueryOutput>(id: "getQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryInput, GetQueryOutput>(GetQueryInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryInput, GetQueryOutput>(hostPrefix: "\(input.graphIdentifier!)."))
+        let endpointParams = EndpointParams(apiType: "DataPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetQueryInput, GetQueryOutput>(GetQueryInput.headerProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetQueryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListGraphSnapshots` operation on the `AmazonNeptuneGraph` service.
     ///
     /// Lists available snapshots of a specified Neptune Analytics graph.
@@ -644,7 +846,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func listGraphSnapshots(input: ListGraphSnapshotsInput) async throws -> ListGraphSnapshotsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -735,7 +937,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func listImportTasks(input: ListImportTasksInput) async throws -> ListImportTasksOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -781,7 +983,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func listPrivateGraphEndpoints(input: ListPrivateGraphEndpointsInput) async throws -> ListPrivateGraphEndpointsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -813,6 +1015,53 @@ extension NeptuneGraphClient {
         return result
     }
 
+    /// Performs the `ListQueries` operation on the `AmazonNeptuneGraph` service.
+    ///
+    /// Lists active openCypher queries.
+    ///
+    /// - Parameter ListQueriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListQueriesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func listQueries(input: ListQueriesInput) async throws -> ListQueriesOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listQueries")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListQueriesInput, ListQueriesOutput>(id: "listQueries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueriesInput, ListQueriesOutput>(ListQueriesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueriesInput, ListQueriesOutput>(hostPrefix: "\(input.graphIdentifier!)."))
+        let endpointParams = EndpointParams(apiType: "DataPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListQueriesInput, ListQueriesOutput>(ListQueriesInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListQueriesInput, ListQueriesOutput>(ListQueriesInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueriesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListQueriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueriesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListTagsForResource` operation on the `AmazonNeptuneGraph` service.
     ///
     /// Lists tags associated with a specified resource.
@@ -827,7 +1076,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -873,7 +1122,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func resetGraph(input: ResetGraphInput) async throws -> ResetGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -923,7 +1172,7 @@ extension NeptuneGraphClient {
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ServiceQuotaExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func restoreGraphFromSnapshot(input: RestoreGraphFromSnapshotInput) async throws -> RestoreGraphFromSnapshotOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -971,7 +1220,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1019,7 +1268,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1066,7 +1315,7 @@ extension NeptuneGraphClient {
     /// - `InternalServerException` : A failure occurred on the server.
     /// - `ResourceNotFoundException` : A specified resource could not be located.
     /// - `ThrottlingException` : The exception was interrupted by throttling.
-    /// - `ValidationException` : A resource could not be validated
+    /// - `ValidationException` : A resource could not be validated.
     public func updateGraph(input: UpdateGraphInput) async throws -> UpdateGraphOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)

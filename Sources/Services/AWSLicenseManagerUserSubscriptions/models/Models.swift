@@ -982,8 +982,6 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-public enum LicenseManagerUserSubscriptionsClientTypes {}
-
 extension ListIdentityProvidersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"

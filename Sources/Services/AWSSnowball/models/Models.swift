@@ -6298,8 +6298,6 @@ extension SnowballClientTypes {
     }
 }
 
-public enum SnowballClientTypes {}
-
 extension SnowballClientTypes {
     public enum SnowballType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case edge

@@ -11862,8 +11862,6 @@ extension PersonalizeClientTypes {
 
 }
 
-public enum PersonalizeClientTypes {}
-
 extension PersonalizeClientTypes.Recipe: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case algorithmArn

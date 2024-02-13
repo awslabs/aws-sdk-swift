@@ -2344,8 +2344,6 @@ enum ClassifyDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum ComprehendClientTypes {}
-
 extension ConcurrentModificationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2426,7 +2424,7 @@ extension ContainsPiiEntitiesInput {
 }
 
 public struct ContainsPiiEntitiesInput: Swift.Equatable {
-    /// The language of the input documents. Currently, English is the only valid language.
+    /// The language of the input documents.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
     /// A UTF-8 text string. The maximum string size is 100 KB.
@@ -7011,7 +7009,7 @@ extension DetectPiiEntitiesInput {
 }
 
 public struct DetectPiiEntitiesInput: Swift.Equatable {
-    /// The language of the input documents. Currently, English is the only valid language.
+    /// The language of the input text. Enter the language code for English (en) or Spanish (es).
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
     /// A UTF-8 text string. The maximum string size is 100 KB.
@@ -16319,7 +16317,7 @@ extension ComprehendClientTypes {
         public var jobName: Swift.String?
         /// The current status of the PII entities detection job. If the status is FAILED, the Message field shows the reason for the failure.
         public var jobStatus: ComprehendClientTypes.JobStatus?
-        /// The language code of the input documents
+        /// The language code of the input documents.
         public var languageCode: ComprehendClientTypes.LanguageCode?
         /// A description of the status of a job.
         public var message: Swift.String?
@@ -19057,7 +19055,7 @@ public struct StartPiiEntitiesDetectionJobInput: Swift.Equatable {
     public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
     /// The identifier of the job.
     public var jobName: Swift.String?
-    /// The language of the input documents. Currently, English is the only valid language.
+    /// The language of the input documents. Enter the language code for English (en) or Spanish (es).
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
     /// Specifies whether the output provides the locations (offsets) of PII entities or a file in which PII entities are redacted.

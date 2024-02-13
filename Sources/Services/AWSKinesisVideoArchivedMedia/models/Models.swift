@@ -2172,8 +2172,6 @@ extension InvalidMediaFrameExceptionBody: Swift.Decodable {
     }
 }
 
-public enum KinesisVideoArchivedMediaClientTypes {}
-
 extension ListFragmentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fragmentSelector = "FragmentSelector"

@@ -57,8 +57,6 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-public enum ApplicationCostProfilerClientTypes {}
-
 extension DeleteReportDefinitionInput {
 
     static func urlPathProvider(_ value: DeleteReportDefinitionInput) -> Swift.String? {

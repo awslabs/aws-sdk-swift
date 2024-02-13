@@ -5451,12 +5451,14 @@ extension GlueClientTypes {
     public enum CatalogEncryptionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case ssekms
+        case ssekmswithservicerole
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CatalogEncryptionMode] {
             return [
                 .disabled,
                 .ssekms,
+                .ssekmswithservicerole,
                 .sdkUnknown("")
             ]
         }
@@ -5468,6 +5470,7 @@ extension GlueClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .ssekms: return "SSE-KMS"
+            case .ssekmswithservicerole: return "SSE-KMS-WITH-SERVICE-ROLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8816,7 +8819,13 @@ extension GlueClientTypes {
         ///
         /// * ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).
         ///
-        /// * KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", or "AWS_MSK_IAM". These are the supported [SASL Mechanisms](https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml).
+        /// * KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", "AWS_MSK_IAM", or "PLAIN". These are the supported [SASL Mechanisms](https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml).
+        ///
+        /// * KAFKA_SASL_PLAIN_USERNAME - A plaintext username used to authenticate with the "PLAIN" mechanism.
+        ///
+        /// * KAFKA_SASL_PLAIN_PASSWORD - A plaintext password used to authenticate with the "PLAIN" mechanism.
+        ///
+        /// * ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).
         ///
         /// * KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.
         ///
@@ -9099,6 +9108,7 @@ extension GlueClientTypes {
         case customJdbcCertString
         case encryptedKafkaClientKeystorePassword
         case encryptedKafkaClientKeyPassword
+        case encryptedKafkaSaslPlainPassword
         case encryptedKafkaSaslScramPassword
         case encryptedPassword
         case host
@@ -9119,6 +9129,8 @@ extension GlueClientTypes {
         case kafkaSaslGssapiPrincipal
         case kafkaSaslGssapiService
         case kafkaSaslMechanism
+        case kafkaSaslPlainPassword
+        case kafkaSaslPlainUsername
         case kafkaSaslScramPassword
         case kafkaSaslScramSecretsArn
         case kafkaSaslScramUsername
@@ -9142,6 +9154,7 @@ extension GlueClientTypes {
                 .customJdbcCertString,
                 .encryptedKafkaClientKeystorePassword,
                 .encryptedKafkaClientKeyPassword,
+                .encryptedKafkaSaslPlainPassword,
                 .encryptedKafkaSaslScramPassword,
                 .encryptedPassword,
                 .host,
@@ -9162,6 +9175,8 @@ extension GlueClientTypes {
                 .kafkaSaslGssapiPrincipal,
                 .kafkaSaslGssapiService,
                 .kafkaSaslMechanism,
+                .kafkaSaslPlainPassword,
+                .kafkaSaslPlainUsername,
                 .kafkaSaslScramPassword,
                 .kafkaSaslScramSecretsArn,
                 .kafkaSaslScramUsername,
@@ -9190,6 +9205,7 @@ extension GlueClientTypes {
             case .customJdbcCertString: return "CUSTOM_JDBC_CERT_STRING"
             case .encryptedKafkaClientKeystorePassword: return "ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD"
             case .encryptedKafkaClientKeyPassword: return "ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD"
+            case .encryptedKafkaSaslPlainPassword: return "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD"
             case .encryptedKafkaSaslScramPassword: return "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD"
             case .encryptedPassword: return "ENCRYPTED_PASSWORD"
             case .host: return "HOST"
@@ -9210,6 +9226,8 @@ extension GlueClientTypes {
             case .kafkaSaslGssapiPrincipal: return "KAFKA_SASL_GSSAPI_PRINCIPAL"
             case .kafkaSaslGssapiService: return "KAFKA_SASL_GSSAPI_SERVICE"
             case .kafkaSaslMechanism: return "KAFKA_SASL_MECHANISM"
+            case .kafkaSaslPlainPassword: return "KAFKA_SASL_PLAIN_PASSWORD"
+            case .kafkaSaslPlainUsername: return "KAFKA_SASL_PLAIN_USERNAME"
             case .kafkaSaslScramPassword: return "KAFKA_SASL_SCRAM_PASSWORD"
             case .kafkaSaslScramSecretsArn: return "KAFKA_SASL_SCRAM_SECRETS_ARN"
             case .kafkaSaslScramUsername: return "KAFKA_SASL_SCRAM_USERNAME"
@@ -22181,6 +22199,7 @@ extension GlueClientTypes {
 extension GlueClientTypes.EncryptionAtRest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogEncryptionMode = "CatalogEncryptionMode"
+        case catalogEncryptionServiceRole = "CatalogEncryptionServiceRole"
         case sseAwsKmsKeyId = "SseAwsKmsKeyId"
     }
 
@@ -22188,6 +22207,9 @@ extension GlueClientTypes.EncryptionAtRest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let catalogEncryptionMode = self.catalogEncryptionMode {
             try encodeContainer.encode(catalogEncryptionMode.rawValue, forKey: .catalogEncryptionMode)
+        }
+        if let catalogEncryptionServiceRole = self.catalogEncryptionServiceRole {
+            try encodeContainer.encode(catalogEncryptionServiceRole, forKey: .catalogEncryptionServiceRole)
         }
         if let sseAwsKmsKeyId = self.sseAwsKmsKeyId {
             try encodeContainer.encode(sseAwsKmsKeyId, forKey: .sseAwsKmsKeyId)
@@ -22200,6 +22222,8 @@ extension GlueClientTypes.EncryptionAtRest: Swift.Codable {
         catalogEncryptionMode = catalogEncryptionModeDecoded
         let sseAwsKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sseAwsKmsKeyId)
         sseAwsKmsKeyId = sseAwsKmsKeyIdDecoded
+        let catalogEncryptionServiceRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogEncryptionServiceRole)
+        catalogEncryptionServiceRole = catalogEncryptionServiceRoleDecoded
     }
 }
 
@@ -22209,15 +22233,19 @@ extension GlueClientTypes {
         /// The encryption-at-rest mode for encrypting Data Catalog data.
         /// This member is required.
         public var catalogEncryptionMode: GlueClientTypes.CatalogEncryptionMode?
+        /// The role that Glue assumes to encrypt and decrypt the Data Catalog objects on the caller's behalf.
+        public var catalogEncryptionServiceRole: Swift.String?
         /// The ID of the KMS key to use for encryption at rest.
         public var sseAwsKmsKeyId: Swift.String?
 
         public init(
             catalogEncryptionMode: GlueClientTypes.CatalogEncryptionMode? = nil,
+            catalogEncryptionServiceRole: Swift.String? = nil,
             sseAwsKmsKeyId: Swift.String? = nil
         )
         {
             self.catalogEncryptionMode = catalogEncryptionMode
+            self.catalogEncryptionServiceRole = catalogEncryptionServiceRole
             self.sseAwsKmsKeyId = sseAwsKmsKeyId
         }
     }
@@ -34737,8 +34765,6 @@ enum GetWorkflowRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum GlueClientTypes {}
-
 extension GlueEncryptionException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -37413,7 +37439,7 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// The Python version being used to run a Python shell job. Allowed values are 2 or 3.
         public var pythonVersion: Swift.String?
-        /// In Ray jobs, Runtime is used to specify the versions of Ray, Python and additional libraries available in your environment. This field is not used in other job types. For supported runtime environment values, see [Working with Ray jobs](https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-runtimes.html) in the Glue Developer Guide.
+        /// In Ray jobs, Runtime is used to specify the versions of Ray, Python and additional libraries available in your environment. This field is not used in other job types. For supported runtime environment values, see [Supported Ray runtime environments](https://docs.aws.amazon.com/glue/latest/dg/ray-jobs-section.html) in the Glue Developer Guide.
         public var runtime: Swift.String?
         /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script that runs a job.
         public var scriptLocation: Swift.String?

@@ -4587,8 +4587,6 @@ extension ChimeClientTypes {
 
 }
 
-public enum ChimeClientTypes {}
-
 extension ChimeClientTypes.ChimeSdkMeetingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactsConfiguration = "ArtifactsConfiguration"

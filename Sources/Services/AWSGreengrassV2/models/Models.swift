@@ -4107,8 +4107,6 @@ enum GetServiceRoleForAccountOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-public enum GreengrassV2ClientTypes {}
-
 extension GreengrassV2ClientTypes.InstalledComponent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName

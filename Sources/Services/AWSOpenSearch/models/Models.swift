@@ -1916,6 +1916,155 @@ extension BaseExceptionBody: Swift.Decodable {
     }
 }
 
+extension CancelDomainConfigChangeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
+    }
+}
+
+extension CancelDomainConfigChangeInput {
+
+    static func urlPathProvider(_ value: CancelDomainConfigChangeInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/config/cancel"
+    }
+}
+
+public struct CancelDomainConfigChangeInput: Swift.Equatable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// When set to True, returns the list of change IDs and properties that will be cancelled without actually cancelling the change.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        domainName: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    )
+    {
+        self.domainName = domainName
+        self.dryRun = dryRun
+    }
+}
+
+struct CancelDomainConfigChangeInputBody: Swift.Equatable {
+    let dryRun: Swift.Bool?
+}
+
+extension CancelDomainConfigChangeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
+    }
+}
+
+extension CancelDomainConfigChangeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelDomainConfigChangeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cancelledChangeIds = output.cancelledChangeIds
+            self.cancelledChangeProperties = output.cancelledChangeProperties
+            self.dryRun = output.dryRun
+        } else {
+            self.cancelledChangeIds = nil
+            self.cancelledChangeProperties = nil
+            self.dryRun = nil
+        }
+    }
+}
+
+public struct CancelDomainConfigChangeOutput: Swift.Equatable {
+    /// The unique identifiers of the changes that were cancelled.
+    public var cancelledChangeIds: [Swift.String]?
+    /// The domain change properties that were cancelled.
+    public var cancelledChangeProperties: [OpenSearchClientTypes.CancelledChangeProperty]?
+    /// Whether or not the request was a dry run. If True, the changes were not actually cancelled.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        cancelledChangeIds: [Swift.String]? = nil,
+        cancelledChangeProperties: [OpenSearchClientTypes.CancelledChangeProperty]? = nil,
+        dryRun: Swift.Bool? = nil
+    )
+    {
+        self.cancelledChangeIds = cancelledChangeIds
+        self.cancelledChangeProperties = cancelledChangeProperties
+        self.dryRun = dryRun
+    }
+}
+
+struct CancelDomainConfigChangeOutputBody: Swift.Equatable {
+    let cancelledChangeIds: [Swift.String]?
+    let cancelledChangeProperties: [OpenSearchClientTypes.CancelledChangeProperty]?
+    let dryRun: Swift.Bool?
+}
+
+extension CancelDomainConfigChangeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cancelledChangeIds = "CancelledChangeIds"
+        case cancelledChangeProperties = "CancelledChangeProperties"
+        case dryRun = "DryRun"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cancelledChangeIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cancelledChangeIds)
+        var cancelledChangeIdsDecoded0:[Swift.String]? = nil
+        if let cancelledChangeIdsContainer = cancelledChangeIdsContainer {
+            cancelledChangeIdsDecoded0 = [Swift.String]()
+            for string0 in cancelledChangeIdsContainer {
+                if let string0 = string0 {
+                    cancelledChangeIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        cancelledChangeIds = cancelledChangeIdsDecoded0
+        let cancelledChangePropertiesContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.CancelledChangeProperty?].self, forKey: .cancelledChangeProperties)
+        var cancelledChangePropertiesDecoded0:[OpenSearchClientTypes.CancelledChangeProperty]? = nil
+        if let cancelledChangePropertiesContainer = cancelledChangePropertiesContainer {
+            cancelledChangePropertiesDecoded0 = [OpenSearchClientTypes.CancelledChangeProperty]()
+            for structure0 in cancelledChangePropertiesContainer {
+                if let structure0 = structure0 {
+                    cancelledChangePropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        cancelledChangeProperties = cancelledChangePropertiesDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
+    }
+}
+
+enum CancelDomainConfigChangeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CancelServiceSoftwareUpdateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"
@@ -2021,10 +2170,69 @@ enum CancelServiceSoftwareUpdateOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension OpenSearchClientTypes.CancelledChangeProperty: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeValue = "ActiveValue"
+        case cancelledValue = "CancelledValue"
+        case propertyName = "PropertyName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeValue = self.activeValue {
+            try encodeContainer.encode(activeValue, forKey: .activeValue)
+        }
+        if let cancelledValue = self.cancelledValue {
+            try encodeContainer.encode(cancelledValue, forKey: .cancelledValue)
+        }
+        if let propertyName = self.propertyName {
+            try encodeContainer.encode(propertyName, forKey: .propertyName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let propertyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertyName)
+        propertyName = propertyNameDecoded
+        let cancelledValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cancelledValue)
+        cancelledValue = cancelledValueDecoded
+        let activeValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeValue)
+        activeValue = activeValueDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// A property change that was cancelled for an Amazon OpenSearch Service domain.
+    public struct CancelledChangeProperty: Swift.Equatable {
+        /// The current value of the property, after the change was cancelled.
+        public var activeValue: Swift.String?
+        /// The pending value of the property that was cancelled. This would have been the eventual value of the property if the chance had not been cancelled.
+        public var cancelledValue: Swift.String?
+        /// The name of the property whose change was cancelled.
+        public var propertyName: Swift.String?
+
+        public init(
+            activeValue: Swift.String? = nil,
+            cancelledValue: Swift.String? = nil,
+            propertyName: Swift.String? = nil
+        )
+        {
+            self.activeValue = activeValue
+            self.cancelledValue = cancelledValue
+            self.propertyName = propertyName
+        }
+    }
+
+}
+
 extension OpenSearchClientTypes.ChangeProgressDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeId = "ChangeId"
+        case configChangeStatus = "ConfigChangeStatus"
+        case initiatedBy = "InitiatedBy"
+        case lastUpdatedTime = "LastUpdatedTime"
         case message = "Message"
+        case startTime = "StartTime"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2032,8 +2240,20 @@ extension OpenSearchClientTypes.ChangeProgressDetails: Swift.Codable {
         if let changeId = self.changeId {
             try encodeContainer.encode(changeId, forKey: .changeId)
         }
+        if let configChangeStatus = self.configChangeStatus {
+            try encodeContainer.encode(configChangeStatus.rawValue, forKey: .configChangeStatus)
+        }
+        if let initiatedBy = self.initiatedBy {
+            try encodeContainer.encode(initiatedBy.rawValue, forKey: .initiatedBy)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
         if let message = self.message {
             try encodeContainer.encode(message, forKey: .message)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
     }
 
@@ -2043,6 +2263,14 @@ extension OpenSearchClientTypes.ChangeProgressDetails: Swift.Codable {
         changeId = changeIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let configChangeStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConfigChangeStatus.self, forKey: .configChangeStatus)
+        configChangeStatus = configChangeStatusDecoded
+        let initiatedByDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.InitiatedBy.self, forKey: .initiatedBy)
+        initiatedBy = initiatedByDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
     }
 }
 
@@ -2051,16 +2279,32 @@ extension OpenSearchClientTypes {
     public struct ChangeProgressDetails: Swift.Equatable {
         /// The ID of the configuration change.
         public var changeId: Swift.String?
+        /// The current status of the configuration change.
+        public var configChangeStatus: OpenSearchClientTypes.ConfigChangeStatus?
+        /// The IAM principal who initiated the configuration change.
+        public var initiatedBy: OpenSearchClientTypes.InitiatedBy?
+        /// The last time that the configuration change was updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
         /// A message corresponding to the status of the configuration change.
         public var message: Swift.String?
+        /// The time that the configuration change was initiated, in Universal Coordinated Time (UTC).
+        public var startTime: ClientRuntime.Date?
 
         public init(
             changeId: Swift.String? = nil,
-            message: Swift.String? = nil
+            configChangeStatus: OpenSearchClientTypes.ConfigChangeStatus? = nil,
+            initiatedBy: OpenSearchClientTypes.InitiatedBy? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            message: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil
         )
         {
             self.changeId = changeId
+            self.configChangeStatus = configChangeStatus
+            self.initiatedBy = initiatedBy
+            self.lastUpdatedTime = lastUpdatedTime
             self.message = message
+            self.startTime = startTime
         }
     }
 
@@ -2136,6 +2380,9 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails: Swift.Codable {
         case changeId = "ChangeId"
         case changeProgressStages = "ChangeProgressStages"
         case completedProperties = "CompletedProperties"
+        case configChangeStatus = "ConfigChangeStatus"
+        case initiatedBy = "InitiatedBy"
+        case lastUpdatedTime = "LastUpdatedTime"
         case pendingProperties = "PendingProperties"
         case startTime = "StartTime"
         case status = "Status"
@@ -2158,6 +2405,15 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails: Swift.Codable {
             for string0 in completedProperties {
                 try completedPropertiesContainer.encode(string0)
             }
+        }
+        if let configChangeStatus = self.configChangeStatus {
+            try encodeContainer.encode(configChangeStatus.rawValue, forKey: .configChangeStatus)
+        }
+        if let initiatedBy = self.initiatedBy {
+            try encodeContainer.encode(initiatedBy.rawValue, forKey: .initiatedBy)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
         }
         if let pendingProperties = pendingProperties {
             var pendingPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pendingProperties)
@@ -2219,6 +2475,12 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails: Swift.Codable {
             }
         }
         changeProgressStages = changeProgressStagesDecoded0
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let configChangeStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConfigChangeStatus.self, forKey: .configChangeStatus)
+        configChangeStatus = configChangeStatusDecoded
+        let initiatedByDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.InitiatedBy.self, forKey: .initiatedBy)
+        initiatedBy = initiatedByDecoded
     }
 }
 
@@ -2231,6 +2493,12 @@ extension OpenSearchClientTypes {
         public var changeProgressStages: [OpenSearchClientTypes.ChangeProgressStage]?
         /// The list of properties in the domain configuration change that have completed.
         public var completedProperties: [Swift.String]?
+        /// The current status of the configuration change.
+        public var configChangeStatus: OpenSearchClientTypes.ConfigChangeStatus?
+        /// The IAM principal who initiated the configuration change.
+        public var initiatedBy: OpenSearchClientTypes.InitiatedBy?
+        /// The last time that the status of the configuration change was updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
         /// The list of properties in the domain configuration change that are still pending.
         public var pendingProperties: [Swift.String]?
         /// The time at which the configuration change is made on the domain.
@@ -2244,6 +2512,9 @@ extension OpenSearchClientTypes {
             changeId: Swift.String? = nil,
             changeProgressStages: [OpenSearchClientTypes.ChangeProgressStage]? = nil,
             completedProperties: [Swift.String]? = nil,
+            configChangeStatus: OpenSearchClientTypes.ConfigChangeStatus? = nil,
+            initiatedBy: OpenSearchClientTypes.InitiatedBy? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
             pendingProperties: [Swift.String]? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: OpenSearchClientTypes.OverallChangeStatus? = nil,
@@ -2253,6 +2524,9 @@ extension OpenSearchClientTypes {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
             self.completedProperties = completedProperties
+            self.configChangeStatus = configChangeStatus
+            self.initiatedBy = initiatedBy
+            self.lastUpdatedTime = lastUpdatedTime
             self.pendingProperties = pendingProperties
             self.startTime = startTime
             self.status = status
@@ -2657,6 +2931,56 @@ extension OpenSearchClientTypes {
         }
     }
 
+}
+
+extension OpenSearchClientTypes {
+    public enum ConfigChangeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case applyingChanges
+        case cancelled
+        case completed
+        case initializing
+        case pending
+        case pendingUserInput
+        case validating
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigChangeStatus] {
+            return [
+                .applyingChanges,
+                .cancelled,
+                .completed,
+                .initializing,
+                .pending,
+                .pendingUserInput,
+                .validating,
+                .validationFailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .applyingChanges: return "ApplyingChanges"
+            case .cancelled: return "Cancelled"
+            case .completed: return "Completed"
+            case .initializing: return "Initializing"
+            case .pending: return "Pending"
+            case .pendingUserInput: return "PendingUserInput"
+            case .validating: return "Validating"
+            case .validationFailed: return "ValidationFailed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConfigChangeStatus(rawValue: rawValue) ?? ConfigChangeStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ConflictException {
@@ -6704,6 +7028,7 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         case engineVersion = "EngineVersion"
         case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
+        case modifyingProperties = "ModifyingProperties"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
         case snapshotOptions = "SnapshotOptions"
@@ -6751,6 +7076,12 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         }
         if let logPublishingOptions = self.logPublishingOptions {
             try encodeContainer.encode(logPublishingOptions, forKey: .logPublishingOptions)
+        }
+        if let modifyingProperties = modifyingProperties {
+            var modifyingPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modifyingProperties)
+            for modifyingproperties0 in modifyingProperties {
+                try modifyingPropertiesContainer.encode(modifyingproperties0)
+            }
         }
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
             try encodeContainer.encode(nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
@@ -6807,6 +7138,17 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         offPeakWindowOptions = offPeakWindowOptionsDecoded
         let softwareUpdateOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptionsStatus.self, forKey: .softwareUpdateOptions)
         softwareUpdateOptions = softwareUpdateOptionsDecoded
+        let modifyingPropertiesContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.ModifyingProperties?].self, forKey: .modifyingProperties)
+        var modifyingPropertiesDecoded0:[OpenSearchClientTypes.ModifyingProperties]? = nil
+        if let modifyingPropertiesContainer = modifyingPropertiesContainer {
+            modifyingPropertiesDecoded0 = [OpenSearchClientTypes.ModifyingProperties]()
+            for structure0 in modifyingPropertiesContainer {
+                if let structure0 = structure0 {
+                    modifyingPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        modifyingProperties = modifyingPropertiesDecoded0
     }
 }
 
@@ -6839,6 +7181,8 @@ extension OpenSearchClientTypes {
         public var ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
         public var logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus?
+        /// Information about the domain properties that are currently being modified.
+        public var modifyingProperties: [OpenSearchClientTypes.ModifyingProperties]?
         /// Whether node-to-node encryption is enabled or disabled.
         public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus?
         /// Container for off-peak window options for the domain.
@@ -6864,6 +7208,7 @@ extension OpenSearchClientTypes {
             engineVersion: OpenSearchClientTypes.VersionStatus? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus? = nil,
             logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus? = nil,
+            modifyingProperties: [OpenSearchClientTypes.ModifyingProperties]? = nil,
             nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus? = nil,
             offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptionsStatus? = nil,
             snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus? = nil,
@@ -6884,6 +7229,7 @@ extension OpenSearchClientTypes {
             self.engineVersion = engineVersion
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
+            self.modifyingProperties = modifyingProperties
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
@@ -7507,6 +7853,53 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+    public enum DomainProcessingStatusType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case isolated
+        case modifying
+        case updating
+        case upgrading
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainProcessingStatusType] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .isolated,
+                .modifying,
+                .updating,
+                .upgrading,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .isolated: return "Isolated"
+            case .modifying: return "Modifying"
+            case .updating: return "UpdatingServiceSoftware"
+            case .upgrading: return "UpgradingEngineVersion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DomainProcessingStatusType(rawValue: rawValue) ?? DomainProcessingStatusType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
     public enum DomainState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case notavailable
@@ -7556,6 +7949,7 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         case domainEndpointOptions = "DomainEndpointOptions"
         case domainId = "DomainId"
         case domainName = "DomainName"
+        case domainProcessingStatus = "DomainProcessingStatus"
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case endpoint = "Endpoint"
@@ -7564,6 +7958,7 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         case engineVersion = "EngineVersion"
         case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
+        case modifyingProperties = "ModifyingProperties"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
         case processing = "Processing"
@@ -7618,6 +8013,9 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
         }
+        if let domainProcessingStatus = self.domainProcessingStatus {
+            try encodeContainer.encode(domainProcessingStatus.rawValue, forKey: .domainProcessingStatus)
+        }
         if let ebsOptions = self.ebsOptions {
             try encodeContainer.encode(ebsOptions, forKey: .ebsOptions)
         }
@@ -7646,6 +8044,12 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
             for (dictKey0, logPublishingOptions0) in logPublishingOptions {
                 try logPublishingOptionsContainer.encode(logPublishingOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let modifyingProperties = modifyingProperties {
+            var modifyingPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modifyingProperties)
+            for modifyingproperties0 in modifyingProperties {
+                try modifyingPropertiesContainer.encode(modifyingproperties0)
             }
         }
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
@@ -7761,6 +8165,19 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         offPeakWindowOptions = offPeakWindowOptionsDecoded
         let softwareUpdateOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptions.self, forKey: .softwareUpdateOptions)
         softwareUpdateOptions = softwareUpdateOptionsDecoded
+        let domainProcessingStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DomainProcessingStatusType.self, forKey: .domainProcessingStatus)
+        domainProcessingStatus = domainProcessingStatusDecoded
+        let modifyingPropertiesContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.ModifyingProperties?].self, forKey: .modifyingProperties)
+        var modifyingPropertiesDecoded0:[OpenSearchClientTypes.ModifyingProperties]? = nil
+        if let modifyingPropertiesContainer = modifyingPropertiesContainer {
+            modifyingPropertiesDecoded0 = [OpenSearchClientTypes.ModifyingProperties]()
+            for structure0 in modifyingPropertiesContainer {
+                if let structure0 = structure0 {
+                    modifyingPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        modifyingProperties = modifyingPropertiesDecoded0
     }
 }
 
@@ -7797,6 +8214,8 @@ extension OpenSearchClientTypes {
         /// Name of the domain. Domain names are unique across all domains owned by the same account within an Amazon Web Services Region.
         /// This member is required.
         public var domainName: Swift.String?
+        /// The status of any changes that are currently in progress for the domain.
+        public var domainProcessingStatus: OpenSearchClientTypes.DomainProcessingStatusType?
         /// Container for EBS-based storage settings for the domain.
         public var ebsOptions: OpenSearchClientTypes.EBSOptions?
         /// Encryption at rest settings for the domain.
@@ -7813,6 +8232,8 @@ extension OpenSearchClientTypes {
         public var ipAddressType: OpenSearchClientTypes.IPAddressType?
         /// Log publishing options for the domain.
         public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
+        /// Information about the domain properties that are currently being modified.
+        public var modifyingProperties: [OpenSearchClientTypes.ModifyingProperties]?
         /// Whether node-to-node encryption is enabled or disabled.
         public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
         /// Options that specify a custom 10-hour window during which OpenSearch Service can perform configuration changes on the domain.
@@ -7844,6 +8265,7 @@ extension OpenSearchClientTypes {
             domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions? = nil,
             domainId: Swift.String? = nil,
             domainName: Swift.String? = nil,
+            domainProcessingStatus: OpenSearchClientTypes.DomainProcessingStatusType? = nil,
             ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
             endpoint: Swift.String? = nil,
@@ -7852,6 +8274,7 @@ extension OpenSearchClientTypes {
             engineVersion: Swift.String? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
             logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
+            modifyingProperties: [OpenSearchClientTypes.ModifyingProperties]? = nil,
             nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
             offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
             processing: Swift.Bool? = nil,
@@ -7875,6 +8298,7 @@ extension OpenSearchClientTypes {
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
             self.domainName = domainName
+            self.domainProcessingStatus = domainProcessingStatus
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.endpoint = endpoint
@@ -7883,6 +8307,7 @@ extension OpenSearchClientTypes {
             self.engineVersion = engineVersion
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
+            self.modifyingProperties = modifyingProperties
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.offPeakWindowOptions = offPeakWindowOptions
             self.processing = processing
@@ -8265,7 +8690,7 @@ extension OpenSearchClientTypes.EncryptionAtRestOptions: Swift.Codable {
 }
 
 extension OpenSearchClientTypes {
-    /// Specifies whether the domain should encrypt data at rest, and if so, the Key Management Service (KMS) key to use. Can be used only to create a new domain, not update an existing one.
+    /// Specifies whether the domain should encrypt data at rest, and if so, the Key Management Service (KMS) key to use. Can only be used when creating a new domain or enabling encryption at rest for the first time on an existing domain. You can't modify this parameter after it's already been specified.
     public struct EncryptionAtRestOptions: Swift.Equatable {
         /// True to enable encryption at rest.
         public var enabled: Swift.Bool?
@@ -9538,6 +9963,38 @@ extension OpenSearchClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = InboundConnectionStatusCode(rawValue: rawValue) ?? InboundConnectionStatusCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    public enum InitiatedBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case customer
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InitiatedBy] {
+            return [
+                .customer,
+                .service,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .service: return "SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InitiatedBy(rawValue: rawValue) ?? InitiatedBy.sdkUnknown(rawValue)
         }
     }
 }
@@ -11859,6 +12316,75 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes.ModifyingProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeValue = "ActiveValue"
+        case name = "Name"
+        case pendingValue = "PendingValue"
+        case valueType = "ValueType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeValue = self.activeValue {
+            try encodeContainer.encode(activeValue, forKey: .activeValue)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let pendingValue = self.pendingValue {
+            try encodeContainer.encode(pendingValue, forKey: .pendingValue)
+        }
+        if let valueType = self.valueType {
+            try encodeContainer.encode(valueType.rawValue, forKey: .valueType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let activeValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .activeValue)
+        activeValue = activeValueDecoded
+        let pendingValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pendingValue)
+        pendingValue = pendingValueDecoded
+        let valueTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.PropertyValueType.self, forKey: .valueType)
+        valueType = valueTypeDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Information about the domain properties that are currently being modified.
+    public struct ModifyingProperties: Swift.Equatable {
+        /// The current value of the domain property that is being modified.
+        public var activeValue: Swift.String?
+        /// The name of the property that is currently being modified.
+        public var name: Swift.String?
+        /// The value that the property that is currently being modified will eventually have.
+        public var pendingValue: Swift.String?
+        /// The type of value that is currently being modified. Properties can have two types:
+        ///
+        /// * PLAIN_TEXT: Contain direct values such as "1", "True", or "c5.large.search".
+        ///
+        /// * STRINGIFIED_JSON: Contain content in JSON format, such as {"Enabled":"True"}".
+        public var valueType: OpenSearchClientTypes.PropertyValueType?
+
+        public init(
+            activeValue: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pendingValue: Swift.String? = nil,
+            valueType: OpenSearchClientTypes.PropertyValueType? = nil
+        )
+        {
+            self.activeValue = activeValue
+            self.name = name
+            self.pendingValue = pendingValue
+            self.valueType = valueType
+        }
+    }
+
+}
+
 extension OpenSearchClientTypes {
     public enum NodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -12135,8 +12661,6 @@ extension OpenSearchClientTypes {
     }
 
 }
-
-public enum OpenSearchClientTypes {}
 
 extension OpenSearchClientTypes {
     public enum OpenSearchPartitionInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -13287,6 +13811,38 @@ extension OpenSearchClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = PrincipalType(rawValue: rawValue) ?? PrincipalType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    public enum PropertyValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case plainText
+        case stringifiedJson
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyValueType] {
+            return [
+                .plainText,
+                .stringifiedJson,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .plainText: return "PLAIN_TEXT"
+            case .stringifiedJson: return "STRINGIFIED_JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PropertyValueType(rawValue: rawValue) ?? PropertyValueType.sdkUnknown(rawValue)
         }
     }
 }

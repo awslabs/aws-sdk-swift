@@ -3262,8 +3262,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum MedicalImagingClientTypes {}
-
 extension MedicalImagingClientTypes.MetadataUpdates: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dicomupdates = "DICOMUpdates"

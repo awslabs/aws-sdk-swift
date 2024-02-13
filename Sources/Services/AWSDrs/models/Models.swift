@@ -2621,7 +2621,7 @@ extension DescribeJobLogItemsInput: Swift.Encodable {
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2642,13 +2642,13 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
     /// This member is required.
     public var jobID: Swift.String?
     /// Maximum number of Job log items to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Job log items to retrieve.
     public var nextToken: Swift.String?
 
     public init(
         jobID: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2660,7 +2660,7 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
 
 struct DescribeJobLogItemsInputBody: Swift.Equatable {
     let jobID: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -2675,7 +2675,7 @@ extension DescribeJobLogItemsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobID)
         jobID = jobIDDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -2767,7 +2767,7 @@ extension DescribeJobsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2787,13 +2787,13 @@ public struct DescribeJobsInput: Swift.Equatable {
     /// A set of filters by which to return Jobs.
     public var filters: DrsClientTypes.DescribeJobsRequestFilters?
     /// Maximum number of Jobs to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Job to retrieve.
     public var nextToken: Swift.String?
 
     public init(
         filters: DrsClientTypes.DescribeJobsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2805,7 +2805,7 @@ public struct DescribeJobsInput: Swift.Equatable {
 
 struct DescribeJobsInputBody: Swift.Equatable {
     let filters: DrsClientTypes.DescribeJobsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -2820,7 +2820,7 @@ extension DescribeJobsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(DrsClientTypes.DescribeJobsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -2982,7 +2982,7 @@ extension DescribeLaunchConfigurationTemplatesInput: Swift.Encodable {
                 try launchConfigurationTemplateIDsContainer.encode(launchconfigurationtemplateid0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3002,13 +3002,13 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
     /// Request to filter Launch Configuration Templates list by Launch Configuration Template ID.
     public var launchConfigurationTemplateIDs: [Swift.String]?
     /// Maximum results to be returned in DescribeLaunchConfigurationTemplates.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Launch Configuration Template to retrieve.
     public var nextToken: Swift.String?
 
     public init(
         launchConfigurationTemplateIDs: [Swift.String]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3020,7 +3020,7 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
 
 struct DescribeLaunchConfigurationTemplatesInputBody: Swift.Equatable {
     let launchConfigurationTemplateIDs: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3044,7 +3044,7 @@ extension DescribeLaunchConfigurationTemplatesInputBody: Swift.Decodable {
             }
         }
         launchConfigurationTemplateIDs = launchConfigurationTemplateIDsDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3137,7 +3137,7 @@ extension DescribeRecoveryInstancesInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3157,13 +3157,13 @@ public struct DescribeRecoveryInstancesInput: Swift.Equatable {
     /// A set of filters by which to return Recovery Instances.
     public var filters: DrsClientTypes.DescribeRecoveryInstancesRequestFilters?
     /// Maximum number of Recovery Instances to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Recovery Instance to retrieve.
     public var nextToken: Swift.String?
 
     public init(
         filters: DrsClientTypes.DescribeRecoveryInstancesRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3175,7 +3175,7 @@ public struct DescribeRecoveryInstancesInput: Swift.Equatable {
 
 struct DescribeRecoveryInstancesInputBody: Swift.Equatable {
     let filters: DrsClientTypes.DescribeRecoveryInstancesRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3190,7 +3190,7 @@ extension DescribeRecoveryInstancesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(DrsClientTypes.DescribeRecoveryInstancesRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3353,7 +3353,7 @@ extension DescribeRecoverySnapshotsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3379,7 +3379,7 @@ public struct DescribeRecoverySnapshotsInput: Swift.Equatable {
     /// A set of filters by which to return Recovery Snapshots.
     public var filters: DrsClientTypes.DescribeRecoverySnapshotsRequestFilters?
     /// Maximum number of Recovery Snapshots to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Recovery Snapshot to retrieve.
     public var nextToken: Swift.String?
     /// The sorted ordering by which to return Recovery Snapshots.
@@ -3390,7 +3390,7 @@ public struct DescribeRecoverySnapshotsInput: Swift.Equatable {
 
     public init(
         filters: DrsClientTypes.DescribeRecoverySnapshotsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         order: DrsClientTypes.RecoverySnapshotsOrder? = nil,
         sourceServerID: Swift.String? = nil
@@ -3408,7 +3408,7 @@ struct DescribeRecoverySnapshotsInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
     let filters: DrsClientTypes.DescribeRecoverySnapshotsRequestFilters?
     let order: DrsClientTypes.RecoverySnapshotsOrder?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3429,7 +3429,7 @@ extension DescribeRecoverySnapshotsInputBody: Swift.Decodable {
         filters = filtersDecoded
         let orderDecoded = try containerValues.decodeIfPresent(DrsClientTypes.RecoverySnapshotsOrder.self, forKey: .order)
         order = orderDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3564,7 +3564,7 @@ extension DescribeReplicationConfigurationTemplatesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3588,14 +3588,14 @@ extension DescribeReplicationConfigurationTemplatesInput {
 
 public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
     /// Maximum number of Replication Configuration Templates to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Replication Configuration Template to retrieve.
     public var nextToken: Swift.String?
     /// The IDs of the Replication Configuration Templates to retrieve. An empty list means all Replication Configuration Templates.
     public var replicationConfigurationTemplateIDs: [Swift.String]?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicationConfigurationTemplateIDs: [Swift.String]? = nil
     )
@@ -3608,7 +3608,7 @@ public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
 
 struct DescribeReplicationConfigurationTemplatesInputBody: Swift.Equatable {
     let replicationConfigurationTemplateIDs: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3632,7 +3632,7 @@ extension DescribeReplicationConfigurationTemplatesInputBody: Swift.Decodable {
             }
         }
         replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDsDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3937,7 +3937,7 @@ extension DescribeSourceServersInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3957,13 +3957,13 @@ public struct DescribeSourceServersInput: Swift.Equatable {
     /// A set of filters by which to return Source Servers.
     public var filters: DrsClientTypes.DescribeSourceServersRequestFilters?
     /// Maximum number of Source Servers to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next Source Server to retrieve.
     public var nextToken: Swift.String?
 
     public init(
         filters: DrsClientTypes.DescribeSourceServersRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3975,7 +3975,7 @@ public struct DescribeSourceServersInput: Swift.Equatable {
 
 struct DescribeSourceServersInputBody: Swift.Equatable {
     let filters: DrsClientTypes.DescribeSourceServersRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3990,7 +3990,7 @@ extension DescribeSourceServersInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(DrsClientTypes.DescribeSourceServersRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4516,8 +4516,6 @@ extension DrsClientTypes {
     }
 
 }
-
-public enum DrsClientTypes {}
 
 extension DrsClientTypes {
     public enum EC2InstanceState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -6366,7 +6364,7 @@ extension DrsClientTypes.LaunchAction: Swift.Codable {
         if let `optional` = self.`optional` {
             try encodeContainer.encode(`optional`, forKey: .`optional`)
         }
-        if order != 0 {
+        if let order = self.order {
             try encodeContainer.encode(order, forKey: .order)
         }
         if let parameters = parameters {
@@ -6392,7 +6390,7 @@ extension DrsClientTypes.LaunchAction: Swift.Codable {
         name = nameDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let actionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionVersion)
         actionVersion = actionVersionDecoded
@@ -6436,7 +6434,7 @@ extension DrsClientTypes {
         /// Whether the launch will not be marked as failed if this action fails.
         public var `optional`: Swift.Bool?
         /// Launch action order.
-        public var order: Swift.Int
+        public var order: Swift.Int?
         /// Launch action parameters.
         public var parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
         /// Launch action type.
@@ -6451,7 +6449,7 @@ extension DrsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             `optional`: Swift.Bool? = nil,
-            order: Swift.Int = 0,
+            order: Swift.Int? = nil,
             parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil,
             type: DrsClientTypes.LaunchActionType? = nil
         )
@@ -7306,7 +7304,7 @@ extension ListExtensibleSourceServersInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -7327,7 +7325,7 @@ extension ListExtensibleSourceServersInput {
 
 public struct ListExtensibleSourceServersInput: Swift.Equatable {
     /// The maximum number of extensible source servers to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token of the next extensible source server to retrieve.
     public var nextToken: Swift.String?
     /// The Id of the staging Account to retrieve extensible source servers from.
@@ -7335,7 +7333,7 @@ public struct ListExtensibleSourceServersInput: Swift.Equatable {
     public var stagingAccountID: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stagingAccountID: Swift.String? = nil
     )
@@ -7348,7 +7346,7 @@ public struct ListExtensibleSourceServersInput: Swift.Equatable {
 
 struct ListExtensibleSourceServersInputBody: Swift.Equatable {
     let stagingAccountID: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -7363,7 +7361,7 @@ extension ListExtensibleSourceServersInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stagingAccountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingAccountID)
         stagingAccountID = stagingAccountIDDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7974,10 +7972,10 @@ extension DrsClientTypes.PITPolicyRule: Swift.Codable {
         if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
-        if interval != 0 {
+        if let interval = self.interval {
             try encodeContainer.encode(interval, forKey: .interval)
         }
-        if retentionDuration != 0 {
+        if let retentionDuration = self.retentionDuration {
             try encodeContainer.encode(retentionDuration, forKey: .retentionDuration)
         }
         if ruleID != 0 {
@@ -7994,9 +7992,9 @@ extension DrsClientTypes.PITPolicyRule: Swift.Codable {
         ruleID = ruleIDDecoded
         let unitsDecoded = try containerValues.decodeIfPresent(DrsClientTypes.PITPolicyRuleUnits.self, forKey: .units)
         units = unitsDecoded
-        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval)
         interval = intervalDecoded
-        let retentionDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionDuration) ?? 0
+        let retentionDurationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionDuration)
         retentionDuration = retentionDurationDecoded
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
@@ -8010,10 +8008,10 @@ extension DrsClientTypes {
         public var enabled: Swift.Bool?
         /// How often, in the chosen units, a snapshot should be taken.
         /// This member is required.
-        public var interval: Swift.Int
+        public var interval: Swift.Int?
         /// The duration to retain a snapshot for, in the chosen units.
         /// This member is required.
-        public var retentionDuration: Swift.Int
+        public var retentionDuration: Swift.Int?
         /// The ID of the rule.
         public var ruleID: Swift.Int
         /// The units used to measure the interval and retentionDuration.
@@ -8022,8 +8020,8 @@ extension DrsClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil,
-            interval: Swift.Int = 0,
-            retentionDuration: Swift.Int = 0,
+            interval: Swift.Int? = nil,
+            retentionDuration: Swift.Int? = nil,
             ruleID: Swift.Int = 0,
             units: DrsClientTypes.PITPolicyRuleUnits? = nil
         )
@@ -8436,7 +8434,7 @@ extension PutLaunchActionOutput: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.name = nil
             self.`optional` = nil
-            self.order = 0
+            self.order = nil
             self.parameters = nil
             self.resourceId = nil
             self.type = nil
@@ -8462,7 +8460,7 @@ public struct PutLaunchActionOutput: Swift.Equatable {
     /// Whether the launch will not be marked as failed if this action fails.
     public var `optional`: Swift.Bool?
     /// Launch action order.
-    public var order: Swift.Int
+    public var order: Swift.Int?
     /// Launch action parameters.
     public var parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
     /// Launch configuration template Id or Source Server Id
@@ -8479,7 +8477,7 @@ public struct PutLaunchActionOutput: Swift.Equatable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         `optional`: Swift.Bool? = nil,
-        order: Swift.Int = 0,
+        order: Swift.Int? = nil,
         parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil,
         resourceId: Swift.String? = nil,
         type: DrsClientTypes.LaunchActionType? = nil
@@ -8507,7 +8505,7 @@ struct PutLaunchActionOutputBody: Swift.Equatable {
     let type: DrsClientTypes.LaunchActionType?
     let name: Swift.String?
     let active: Swift.Bool?
-    let order: Swift.Int
+    let order: Swift.Int?
     let actionVersion: Swift.String?
     let `optional`: Swift.Bool?
     let parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
@@ -8545,7 +8543,7 @@ extension PutLaunchActionOutputBody: Swift.Decodable {
         name = nameDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let actionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionVersion)
         actionVersion = actionVersionDecoded

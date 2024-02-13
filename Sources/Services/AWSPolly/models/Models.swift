@@ -1862,8 +1862,6 @@ extension PollyClientTypes {
     }
 }
 
-public enum PollyClientTypes {}
-
 extension PutLexiconInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PutLexiconInput(name: \(Swift.String(describing: name)), content: \"CONTENT_REDACTED\")"}

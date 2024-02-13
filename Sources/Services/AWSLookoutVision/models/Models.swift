@@ -2856,8 +2856,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum LookoutVisionClientTypes {}
-
 extension LookoutVisionClientTypes.ModelDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTimestamp = "CreationTimestamp"

@@ -58,8 +58,6 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-public enum AccountClientTypes {}
-
 extension AccountClientTypes.AlternateContact: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alternateContactType = "AlternateContactType"

@@ -467,8 +467,6 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-public enum ConnectCampaignsClientTypes {}
-
 extension CreateCampaignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectInstanceId

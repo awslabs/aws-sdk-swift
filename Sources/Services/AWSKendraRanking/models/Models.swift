@@ -736,8 +736,6 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-public enum KendraRankingClientTypes {}
-
 extension ListRescoreExecutionPlansInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {

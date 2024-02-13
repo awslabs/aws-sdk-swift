@@ -7612,8 +7612,6 @@ extension PanoramaClientTypes {
     }
 }
 
-public enum PanoramaClientTypes {}
-
 extension PanoramaClientTypes {
     public enum PortType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case boolean

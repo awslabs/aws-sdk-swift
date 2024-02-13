@@ -69,7 +69,7 @@ public struct ManagedBlockchainQueryClientLogHandlerFactory: ClientRuntime.SDKLo
 extension ManagedBlockchainQueryClient {
     /// Performs the `BatchGetTokenBalance` operation on the `TietonChainQueryService` service.
     ///
-    /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+    /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
     /// - Parameter BatchGetTokenBalanceInput : [no documentation found]
     ///
@@ -173,7 +173,7 @@ extension ManagedBlockchainQueryClient {
 
     /// Performs the `GetTokenBalance` operation on the `TietonChainQueryService` service.
     ///
-    /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+    /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
     /// - Parameter GetTokenBalanceInput : [no documentation found]
     ///
@@ -223,7 +223,7 @@ extension ManagedBlockchainQueryClient {
 
     /// Performs the `GetTransaction` operation on the `TietonChainQueryService` service.
     ///
-    /// Get the details of a transaction.
+    /// Gets the details of a transaction. This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
     /// - Parameter GetTransactionInput : [no documentation found]
     ///
@@ -380,7 +380,7 @@ extension ManagedBlockchainQueryClient {
 
     /// Performs the `ListTransactionEvents` operation on the `TietonChainQueryService` service.
     ///
-    /// An array of TransactionEvent objects. Each object contains details about the transaction event.
+    /// An array of TransactionEvent objects. Each object contains details about the transaction event. This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
     /// - Parameter ListTransactionEventsInput : [no documentation found]
     ///

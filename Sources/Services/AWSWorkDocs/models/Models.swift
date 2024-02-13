@@ -11225,5 +11225,3 @@ extension WorkDocsClientTypes {
         }
     }
 }
-
-public enum WorkDocsClientTypes {}

@@ -880,6 +880,7 @@ extension B2biClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -1020,6 +1021,7 @@ extension B2biClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
@@ -1109,7 +1111,7 @@ extension B2biClient {
 
     /// Performs the `TestParsing` operation on the `B2BI` service.
     ///
-    /// Parses the input EDI (electronic data interchange) file.
+    /// Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
     ///
     /// - Parameter TestParsingInput : [no documentation found]
     ///
@@ -1168,6 +1170,7 @@ extension B2biClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {

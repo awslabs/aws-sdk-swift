@@ -5982,8 +5982,6 @@ extension ServiceDiscoveryClientTypes {
 
 }
 
-public enum ServiceDiscoveryClientTypes {}
-
 extension ServiceDiscoveryClientTypes.ServiceFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case condition = "Condition"

@@ -3859,8 +3859,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum MarketplaceCatalogClientTypes {}
-
 extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateRange = "DateRange"

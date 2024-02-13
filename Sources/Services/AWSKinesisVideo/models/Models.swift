@@ -2975,8 +2975,6 @@ extension InvalidResourceFormatExceptionBody: Swift.Decodable {
     }
 }
 
-public enum KinesisVideoClientTypes {}
-
 extension KinesisVideoClientTypes.LastRecorderStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobStatusDetails = "JobStatusDetails"

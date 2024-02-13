@@ -346,6 +346,8 @@ extension CloudWatchLogsClient {
     ///
     /// * Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)
     ///
+    /// * Log group names can't start with the string aws/
+    ///
     ///
     /// When you create a log group, by default the log events in the log group do not expire. To set a retention policy so that events expire and are deleted after a specified time, use [PutRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html). If you associate an KMS key with the log group, ingested data is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key with the log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error. CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
     ///
@@ -1244,7 +1246,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeDeliveries` operation on the `Logs_20140328` service.
     ///
-    /// Retrieves a list of the deliveries that have been created in the account.
+    /// Retrieves a list of the deliveries that have been created in the account. A delivery is a connection between a [ delivery source ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html) and a [ delivery destination ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html). A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Amazon S3, or Kinesis Data Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed in [Enable logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html)
     ///
     /// - Parameter DescribeDeliveriesInput : [no documentation found]
     ///
@@ -1971,7 +1973,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetDelivery` operation on the `Logs_20140328` service.
     ///
-    /// Returns complete information about one delivery. A delivery is a connection between a logical delivery source and a logical delivery destination You need to specify the delivery id in this operation. You can find the IDs of the deliveries in your account with the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html) operation.
+    /// Returns complete information about one logical delivery. A delivery is a connection between a [ delivery source ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html) and a [ delivery destination ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html). A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Amazon S3, or Kinesis Data Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed in [Enable logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) You need to specify the delivery id in this operation. You can find the IDs of the deliveries in your account with the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html) operation.
     ///
     /// - Parameter GetDeliveryInput : [no documentation found]
     ///

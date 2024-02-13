@@ -663,6 +663,7 @@ extension SSMClientTypes.Association: Swift.Codable {
         case associationName = "AssociationName"
         case associationVersion = "AssociationVersion"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case instanceId = "InstanceId"
         case lastExecutionDate = "LastExecutionDate"
         case name = "Name"
@@ -686,6 +687,9 @@ extension SSMClientTypes.Association: Swift.Codable {
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
@@ -758,6 +762,8 @@ extension SSMClientTypes.Association: Swift.Codable {
         associationName = associationNameDecoded
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
         let targetMapsContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String?]?]?].self, forKey: .targetMaps)
         var targetMapsDecoded0:[[Swift.String:[Swift.String]]]? = nil
         if let targetMapsContainer = targetMapsContainer {
@@ -799,6 +805,8 @@ extension SSMClientTypes {
         public var associationVersion: Swift.String?
         /// The version of the document used in the association. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter. State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
         public var documentVersion: Swift.String?
+        /// The number of hours that an association can run on specified targets. After the resulting cutoff time passes, associations that are currently running are cancelled, and no pending executions are started on remaining targets.
+        public var duration: Swift.Int?
         /// The managed node ID.
         public var instanceId: Swift.String?
         /// The date on which the association was last run.
@@ -821,6 +829,7 @@ extension SSMClientTypes {
             associationName: Swift.String? = nil,
             associationVersion: Swift.String? = nil,
             documentVersion: Swift.String? = nil,
+            duration: Swift.Int? = nil,
             instanceId: Swift.String? = nil,
             lastExecutionDate: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
@@ -835,6 +844,7 @@ extension SSMClientTypes {
             self.associationName = associationName
             self.associationVersion = associationVersion
             self.documentVersion = documentVersion
+            self.duration = duration
             self.instanceId = instanceId
             self.lastExecutionDate = lastExecutionDate
             self.name = name
@@ -922,6 +932,7 @@ extension SSMClientTypes.AssociationDescription: Swift.Codable {
         case complianceSeverity = "ComplianceSeverity"
         case date = "Date"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case instanceId = "InstanceId"
         case lastExecutionDate = "LastExecutionDate"
         case lastSuccessfulExecutionDate = "LastSuccessfulExecutionDate"
@@ -976,6 +987,9 @@ extension SSMClientTypes.AssociationDescription: Swift.Codable {
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
@@ -1152,6 +1166,8 @@ extension SSMClientTypes.AssociationDescription: Swift.Codable {
         targetLocations = targetLocationsDecoded0
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
         let targetMapsContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String?]?]?].self, forKey: .targetMaps)
         var targetMapsDecoded0:[[Swift.String:[Swift.String]]]? = nil
         if let targetMapsContainer = targetMapsContainer {
@@ -1197,7 +1213,7 @@ extension SSMClientTypes.AssociationDescription: Swift.Codable {
 
 extension SSMClientTypes.AssociationDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociationDescription(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), date: \(Swift.String(describing: date)), documentVersion: \(Swift.String(describing: documentVersion)), instanceId: \(Swift.String(describing: instanceId)), lastExecutionDate: \(Swift.String(describing: lastExecutionDate)), lastSuccessfulExecutionDate: \(Swift.String(describing: lastSuccessfulExecutionDate)), lastUpdateAssociationDate: \(Swift.String(describing: lastUpdateAssociationDate)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), overview: \(Swift.String(describing: overview)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), status: \(Swift.String(describing: status)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), triggeredAlarms: \(Swift.String(describing: triggeredAlarms)), parameters: \"CONTENT_REDACTED\")"}
+        "AssociationDescription(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), date: \(Swift.String(describing: date)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), lastExecutionDate: \(Swift.String(describing: lastExecutionDate)), lastSuccessfulExecutionDate: \(Swift.String(describing: lastSuccessfulExecutionDate)), lastUpdateAssociationDate: \(Swift.String(describing: lastUpdateAssociationDate)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), overview: \(Swift.String(describing: overview)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), status: \(Swift.String(describing: status)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), triggeredAlarms: \(Swift.String(describing: triggeredAlarms)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension SSMClientTypes {
@@ -1223,6 +1239,8 @@ extension SSMClientTypes {
         public var date: ClientRuntime.Date?
         /// The document version.
         public var documentVersion: Swift.String?
+        /// The number of hours that an association can run on specified targets. After the resulting cutoff time passes, associations that are currently running are cancelled, and no pending executions are started on remaining targets.
+        public var duration: Swift.Int?
         /// The managed node ID.
         public var instanceId: Swift.String?
         /// The date on which the association was last run.
@@ -1271,6 +1289,7 @@ extension SSMClientTypes {
             complianceSeverity: SSMClientTypes.AssociationComplianceSeverity? = nil,
             date: ClientRuntime.Date? = nil,
             documentVersion: Swift.String? = nil,
+            duration: Swift.Int? = nil,
             instanceId: Swift.String? = nil,
             lastExecutionDate: ClientRuntime.Date? = nil,
             lastSuccessfulExecutionDate: ClientRuntime.Date? = nil,
@@ -1301,6 +1320,7 @@ extension SSMClientTypes {
             self.complianceSeverity = complianceSeverity
             self.date = date
             self.documentVersion = documentVersion
+            self.duration = duration
             self.instanceId = instanceId
             self.lastExecutionDate = lastExecutionDate
             self.lastSuccessfulExecutionDate = lastSuccessfulExecutionDate
@@ -2226,6 +2246,7 @@ extension SSMClientTypes.AssociationVersionInfo: Swift.Codable {
         case complianceSeverity = "ComplianceSeverity"
         case createdDate = "CreatedDate"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case maxConcurrency = "MaxConcurrency"
         case maxErrors = "MaxErrors"
         case name = "Name"
@@ -2267,6 +2288,9 @@ extension SSMClientTypes.AssociationVersionInfo: Swift.Codable {
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
         }
         if let maxConcurrency = self.maxConcurrency {
             try encodeContainer.encode(maxConcurrency, forKey: .maxConcurrency)
@@ -2405,6 +2429,8 @@ extension SSMClientTypes.AssociationVersionInfo: Swift.Codable {
         targetLocations = targetLocationsDecoded0
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
         let targetMapsContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String?]?]?].self, forKey: .targetMaps)
         var targetMapsDecoded0:[[Swift.String:[Swift.String]]]? = nil
         if let targetMapsContainer = targetMapsContainer {
@@ -2437,7 +2463,7 @@ extension SSMClientTypes.AssociationVersionInfo: Swift.Codable {
 
 extension SSMClientTypes.AssociationVersionInfo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociationVersionInfo(applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), createdDate: \(Swift.String(describing: createdDate)), documentVersion: \(Swift.String(describing: documentVersion)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "AssociationVersionInfo(applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), createdDate: \(Swift.String(describing: createdDate)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension SSMClientTypes {
@@ -2459,6 +2485,8 @@ extension SSMClientTypes {
         public var createdDate: ClientRuntime.Date?
         /// The version of an Amazon Web Services Systems Manager document (SSM document) used when the association version was created.
         public var documentVersion: Swift.String?
+        /// The number of hours that an association can run on specified targets. After the resulting cutoff time passes, associations that are currently running are cancelled, and no pending executions are started on remaining targets.
+        public var duration: Swift.Int?
         /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public var maxConcurrency: Swift.String?
         /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
@@ -2491,6 +2519,7 @@ extension SSMClientTypes {
             complianceSeverity: SSMClientTypes.AssociationComplianceSeverity? = nil,
             createdDate: ClientRuntime.Date? = nil,
             documentVersion: Swift.String? = nil,
+            duration: Swift.Int? = nil,
             maxConcurrency: Swift.String? = nil,
             maxErrors: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -2512,6 +2541,7 @@ extension SSMClientTypes {
             self.complianceSeverity = complianceSeverity
             self.createdDate = createdDate
             self.documentVersion = documentVersion
+            self.duration = duration
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
             self.name = name
@@ -6891,6 +6921,7 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.Codable {
         case calendarNames = "CalendarNames"
         case complianceSeverity = "ComplianceSeverity"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case instanceId = "InstanceId"
         case maxConcurrency = "MaxConcurrency"
         case maxErrors = "MaxErrors"
@@ -6930,6 +6961,9 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.Codable {
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
@@ -7069,6 +7103,8 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.Codable {
         targetLocations = targetLocationsDecoded0
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
         let targetMapsContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String?]?]?].self, forKey: .targetMaps)
         var targetMapsDecoded0:[[Swift.String:[Swift.String]]]? = nil
         if let targetMapsContainer = targetMapsContainer {
@@ -7103,7 +7139,7 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.Codable {
 
 extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssociationBatchRequestEntry(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationName: \(Swift.String(describing: associationName)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), instanceId: \(Swift.String(describing: instanceId)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "CreateAssociationBatchRequestEntry(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationName: \(Swift.String(describing: associationName)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension SSMClientTypes {
@@ -7123,6 +7159,12 @@ extension SSMClientTypes {
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
         /// The document version.
         public var documentVersion: Swift.String?
+        /// The number of hours the association can run before it is canceled. Duration applies to associations that are currently running, and any pending and in progress commands on all targets. If a target was taken offline for the association to run, it is made available again immediately, without a reboot. The Duration parameter applies only when both these conditions are true:
+        ///
+        /// * The association for which you specify a duration is cancelable according to the parameters of the SSM command document or Automation runbook associated with this execution.
+        ///
+        /// * The command specifies the [ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociationBatchRequestEntry.html#systemsmanager-Type-CreateAssociationBatchRequestEntry-ApplyOnlyAtCronInterval) parameter, which means that the association doesn't run immediately after it is created, but only according to the specified schedule.
+        public var duration: Swift.Int?
         /// The managed node ID. InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public var instanceId: Swift.String?
         /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
@@ -7157,6 +7199,7 @@ extension SSMClientTypes {
             calendarNames: [Swift.String]? = nil,
             complianceSeverity: SSMClientTypes.AssociationComplianceSeverity? = nil,
             documentVersion: Swift.String? = nil,
+            duration: Swift.Int? = nil,
             instanceId: Swift.String? = nil,
             maxConcurrency: Swift.String? = nil,
             maxErrors: Swift.String? = nil,
@@ -7178,6 +7221,7 @@ extension SSMClientTypes {
             self.calendarNames = calendarNames
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
+            self.duration = duration
             self.instanceId = instanceId
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
@@ -7197,7 +7241,7 @@ extension SSMClientTypes {
 
 extension CreateAssociationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationName: \(Swift.String(describing: associationName)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), instanceId: \(Swift.String(describing: instanceId)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), tags: \(Swift.String(describing: tags)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "CreateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationName: \(Swift.String(describing: associationName)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), tags: \(Swift.String(describing: tags)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAssociationInput: Swift.Encodable {
@@ -7209,6 +7253,7 @@ extension CreateAssociationInput: Swift.Encodable {
         case calendarNames = "CalendarNames"
         case complianceSeverity = "ComplianceSeverity"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case instanceId = "InstanceId"
         case maxConcurrency = "MaxConcurrency"
         case maxErrors = "MaxErrors"
@@ -7249,6 +7294,9 @@ extension CreateAssociationInput: Swift.Encodable {
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
@@ -7338,6 +7386,12 @@ public struct CreateAssociationInput: Swift.Equatable {
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
     /// The document version you want to associate with the target(s). Can be a specific version or the default version. State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
     public var documentVersion: Swift.String?
+    /// The number of hours the association can run before it is canceled. Duration applies to associations that are currently running, and any pending and in progress commands on all targets. If a target was taken offline for the association to run, it is made available again immediately, without a reboot. The Duration parameter applies only when both these conditions are true:
+    ///
+    /// * The association for which you specify a duration is cancelable according to the parameters of the SSM command document or Automation runbook associated with this execution.
+    ///
+    /// * The command specifies the [ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociation.html#systemsmanager-CreateAssociation-request-ApplyOnlyAtCronInterval) parameter, which means that the association doesn't run immediately after it is created, but only according to the specified schedule.
+    public var duration: Swift.Int?
     /// The managed node ID. InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
     public var instanceId: Swift.String?
     /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
@@ -7374,6 +7428,7 @@ public struct CreateAssociationInput: Swift.Equatable {
         calendarNames: [Swift.String]? = nil,
         complianceSeverity: SSMClientTypes.AssociationComplianceSeverity? = nil,
         documentVersion: Swift.String? = nil,
+        duration: Swift.Int? = nil,
         instanceId: Swift.String? = nil,
         maxConcurrency: Swift.String? = nil,
         maxErrors: Swift.String? = nil,
@@ -7396,6 +7451,7 @@ public struct CreateAssociationInput: Swift.Equatable {
         self.calendarNames = calendarNames
         self.complianceSeverity = complianceSeverity
         self.documentVersion = documentVersion
+        self.duration = duration
         self.instanceId = instanceId
         self.maxConcurrency = maxConcurrency
         self.maxErrors = maxErrors
@@ -7430,6 +7486,7 @@ struct CreateAssociationInputBody: Swift.Equatable {
     let calendarNames: [Swift.String]?
     let targetLocations: [SSMClientTypes.TargetLocation]?
     let scheduleOffset: Swift.Int?
+    let duration: Swift.Int?
     let targetMaps: [[Swift.String:[Swift.String]]]?
     let tags: [SSMClientTypes.Tag]?
     let alarmConfiguration: SSMClientTypes.AlarmConfiguration?
@@ -7444,6 +7501,7 @@ extension CreateAssociationInputBody: Swift.Decodable {
         case calendarNames = "CalendarNames"
         case complianceSeverity = "ComplianceSeverity"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case instanceId = "InstanceId"
         case maxConcurrency = "MaxConcurrency"
         case maxErrors = "MaxErrors"
@@ -7538,6 +7596,8 @@ extension CreateAssociationInputBody: Swift.Decodable {
         targetLocations = targetLocationsDecoded0
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
         let targetMapsContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String?]?]?].self, forKey: .targetMaps)
         var targetMapsDecoded0:[[Swift.String:[Swift.String]]]? = nil
         if let targetMapsContainer = targetMapsContainer {
@@ -12088,7 +12148,7 @@ public struct DescribeDocumentInput: Swift.Equatable {
     /// The name of the SSM document.
     /// This member is required.
     public var name: Swift.String?
-    /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+    /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
     public var versionName: Swift.String?
 
     public init(
@@ -17211,7 +17271,7 @@ extension SSMClientTypes {
         public var tags: [SSMClientTypes.Tag]?
         /// The target type which defines the kinds of resources the document can run on. For example, /AWS::EC2::Instance. For a list of valid resource types, see [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
         public var targetType: Swift.String?
-        /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+        /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
         public var versionName: Swift.String?
 
         public init(
@@ -17707,7 +17767,7 @@ extension SSMClientTypes {
         public var requireType: Swift.String?
         /// The document version required by the current document.
         public var version: Swift.String?
-        /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+        /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
         public var versionName: Swift.String?
 
         public init(
@@ -18190,7 +18250,7 @@ extension SSMClientTypes {
         public var status: SSMClientTypes.DocumentStatus?
         /// A message returned by Amazon Web Services Systems Manager that explains the Status value. For example, a Failed status might be explained by the StatusInformation message, "The specified S3 bucket doesn't exist. Verify that the URL of the S3 bucket is correct."
         public var statusInformation: Swift.String?
-        /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+        /// The version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
         public var versionName: Swift.String?
 
         public init(
@@ -19414,7 +19474,7 @@ extension GetConnectionStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetConnectionStatusOutput: Swift.Equatable {
-    /// The status of the connection to the managed node. For example, 'Connected' or 'Not Connected'.
+    /// The status of the connection to the managed node.
     public var status: SSMClientTypes.ConnectionStatus?
     /// The ID of the managed node to check connection status.
     public var target: Swift.String?
@@ -19766,7 +19826,7 @@ public struct GetDocumentInput: Swift.Equatable {
     /// The name of the SSM document.
     /// This member is required.
     public var name: Swift.String?
-    /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document and can't be changed.
+    /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document and can't be changed.
     public var versionName: Swift.String?
 
     public init(
@@ -19872,7 +19932,7 @@ public struct GetDocumentOutput: Swift.Equatable {
     public var status: SSMClientTypes.DocumentStatus?
     /// A message returned by Amazon Web Services Systems Manager that explains the Status value. For example, a Failed status might be explained by the StatusInformation message, "The specified S3 bucket doesn't exist. Verify that the URL of the S3 bucket is correct."
     public var statusInformation: Swift.String?
-    /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+    /// The version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
     public var versionName: Swift.String?
 
     public init(
@@ -36622,7 +36682,7 @@ extension SSMClientTypes {
         public var dataType: Swift.String?
         /// Information about the parameter.
         public var description: Swift.String?
-        /// The ID of the query key used for this parameter.
+        /// The alias of the Key Management Service (KMS) key used to encrypt the parameter. Applies to SecureString parameters only
         public var keyId: Swift.String?
         /// Labels assigned to the parameter version.
         public var labels: [Swift.String]?
@@ -36942,7 +37002,7 @@ extension SSMClientTypes {
         public var dataType: Swift.String?
         /// Description of the parameter actions.
         public var description: Swift.String?
-        /// The ID of the query key used for this parameter.
+        /// The alias of the Key Management Service (KMS) key used to encrypt the parameter. Applies to SecureString parameters only.
         public var keyId: Swift.String?
         /// Date the parameter was last changed or updated.
         public var lastModifiedDate: ClientRuntime.Date?
@@ -37976,7 +38036,7 @@ extension SSMClientTypes {
         /// The classification of the patch, such as SecurityUpdates, Updates, and CriticalUpdates.
         /// This member is required.
         public var classification: Swift.String?
-        /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that are resolved by the patch.
+        /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that are resolved by the patch. Currently, CVE ID values are reported only for patches with a status of Missing or Failed.
         public var cveIds: Swift.String?
         /// The date/time the patch was installed on the managed node. Not all operating systems provide this level of information.
         /// This member is required.
@@ -42818,8 +42878,6 @@ extension SSMClientTypes {
 
 }
 
-public enum SSMClientTypes {}
-
 extension SSMClientTypes.ScheduledWindowExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionTime = "ExecutionTime"
@@ -46742,7 +46800,7 @@ extension UnsupportedPlatformTypeBody: Swift.Decodable {
 
 extension UpdateAssociationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "UpdateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAssociationInput: Swift.Encodable {
@@ -46756,6 +46814,7 @@ extension UpdateAssociationInput: Swift.Encodable {
         case calendarNames = "CalendarNames"
         case complianceSeverity = "ComplianceSeverity"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case maxConcurrency = "MaxConcurrency"
         case maxErrors = "MaxErrors"
         case name = "Name"
@@ -46800,6 +46859,9 @@ extension UpdateAssociationInput: Swift.Encodable {
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
         }
         if let maxConcurrency = self.maxConcurrency {
             try encodeContainer.encode(maxConcurrency, forKey: .maxConcurrency)
@@ -46885,6 +46947,12 @@ public struct UpdateAssociationInput: Swift.Equatable {
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
     /// The document version you want update for the association. State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
     public var documentVersion: Swift.String?
+    /// The number of hours the association can run before it is canceled. Duration applies to associations that are currently running, and any pending and in progress commands on all targets. If a target was taken offline for the association to run, it is made available again immediately, without a reboot. The Duration parameter applies only when both these conditions are true:
+    ///
+    /// * The association for which you specify a duration is cancelable according to the parameters of the SSM command document or Automation runbook associated with this execution.
+    ///
+    /// * The command specifies the [ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_UpdateAssociation.html#systemsmanager-UpdateAssociation-request-ApplyOnlyAtCronInterval) parameter, which means that the association doesn't run immediately after it is updated, but only according to the specified schedule.
+    public var duration: Swift.Int?
     /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
     public var maxConcurrency: Swift.String?
     /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
@@ -46918,6 +46986,7 @@ public struct UpdateAssociationInput: Swift.Equatable {
         calendarNames: [Swift.String]? = nil,
         complianceSeverity: SSMClientTypes.AssociationComplianceSeverity? = nil,
         documentVersion: Swift.String? = nil,
+        duration: Swift.Int? = nil,
         maxConcurrency: Swift.String? = nil,
         maxErrors: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -46940,6 +47009,7 @@ public struct UpdateAssociationInput: Swift.Equatable {
         self.calendarNames = calendarNames
         self.complianceSeverity = complianceSeverity
         self.documentVersion = documentVersion
+        self.duration = duration
         self.maxConcurrency = maxConcurrency
         self.maxErrors = maxErrors
         self.name = name
@@ -46973,6 +47043,7 @@ struct UpdateAssociationInputBody: Swift.Equatable {
     let calendarNames: [Swift.String]?
     let targetLocations: [SSMClientTypes.TargetLocation]?
     let scheduleOffset: Swift.Int?
+    let duration: Swift.Int?
     let targetMaps: [[Swift.String:[Swift.String]]]?
     let alarmConfiguration: SSMClientTypes.AlarmConfiguration?
 }
@@ -46988,6 +47059,7 @@ extension UpdateAssociationInputBody: Swift.Decodable {
         case calendarNames = "CalendarNames"
         case complianceSeverity = "ComplianceSeverity"
         case documentVersion = "DocumentVersion"
+        case duration = "Duration"
         case maxConcurrency = "MaxConcurrency"
         case maxErrors = "MaxErrors"
         case name = "Name"
@@ -47082,6 +47154,8 @@ extension UpdateAssociationInputBody: Swift.Decodable {
         targetLocations = targetLocationsDecoded0
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
+        duration = durationDecoded
         let targetMapsContainer = try containerValues.decodeIfPresent([[Swift.String: [Swift.String?]?]?].self, forKey: .targetMaps)
         var targetMapsDecoded0:[[Swift.String:[Swift.String]]]? = nil
         if let targetMapsContainer = targetMapsContainer {
@@ -47492,7 +47566,7 @@ public struct UpdateDocumentInput: Swift.Equatable {
     public var name: Swift.String?
     /// Specify a new target type for the document.
     public var targetType: Swift.String?
-    /// An optional field specifying the version of the artifact you are updating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+    /// An optional field specifying the version of the artifact you are updating with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
     public var versionName: Swift.String?
 
     public init(

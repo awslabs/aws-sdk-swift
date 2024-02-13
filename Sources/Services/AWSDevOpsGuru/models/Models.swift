@@ -3044,8 +3044,6 @@ enum DescribeServiceIntegrationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-public enum DevOpsGuruClientTypes {}
-
 extension DevOpsGuruClientTypes.EndTimeRange: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fromTime = "FromTime"

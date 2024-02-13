@@ -131,6 +131,35 @@ extension PaginatorSequence where OperationStackInput == ListImportsInput, Opera
     }
 }
 extension CloudTrailClient {
+    /// Paginate over `[ListInsightsMetricDataOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInsightsMetricDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInsightsMetricDataOutput`
+    public func listInsightsMetricDataPaginated(input: ListInsightsMetricDataInput) -> ClientRuntime.PaginatorSequence<ListInsightsMetricDataInput, ListInsightsMetricDataOutput> {
+        return ClientRuntime.PaginatorSequence<ListInsightsMetricDataInput, ListInsightsMetricDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInsightsMetricData(input:))
+    }
+}
+
+extension ListInsightsMetricDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInsightsMetricDataInput {
+        return ListInsightsMetricDataInput(
+            dataType: self.dataType,
+            endTime: self.endTime,
+            errorCode: self.errorCode,
+            eventName: self.eventName,
+            eventSource: self.eventSource,
+            insightType: self.insightType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            period: self.period,
+            startTime: self.startTime
+        )}
+}
+extension CloudTrailClient {
     /// Paginate over `[ListPublicKeysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

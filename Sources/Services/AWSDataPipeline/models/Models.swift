@@ -366,8 +366,6 @@ enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum DataPipelineClientTypes {}
-
 extension DeactivatePipelineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cancelActive

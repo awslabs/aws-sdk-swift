@@ -347,8 +347,6 @@ extension BadGatewayExceptionBody: Swift.Decodable {
     }
 }
 
-public enum BedrockAgentRuntimeClientTypes {}
-
 extension BedrockAgentRuntimeClientTypes.Citation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case generatedResponsePart

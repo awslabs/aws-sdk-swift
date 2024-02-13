@@ -94,8 +94,6 @@ extension CloudSearchDomainClientTypes {
 
 }
 
-public enum CloudSearchDomainClientTypes {}
-
 extension CloudSearchDomainClientTypes {
     public enum ContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case applicationJson

@@ -2421,8 +2421,6 @@ enum GetVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum GlacierClientTypes {}
-
 extension GlacierClientTypes.GlacierJobDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "Action"

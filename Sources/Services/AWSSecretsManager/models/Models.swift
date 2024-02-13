@@ -4474,8 +4474,6 @@ extension SecretsManagerClientTypes {
 
 }
 
-public enum SecretsManagerClientTypes {}
-
 extension SecretsManagerClientTypes {
     public enum SortOrderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case asc

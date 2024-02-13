@@ -1028,8 +1028,6 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-public enum LaunchWizardClientTypes {}
-
 extension ListDeploymentEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentId

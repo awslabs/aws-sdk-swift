@@ -4123,8 +4123,6 @@ extension MediaPackageClientTypes {
     }
 }
 
-public enum MediaPackageClientTypes {}
-
 extension MediaPackageClientTypes.MssEncryption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case spekeKeyProvider = "spekeKeyProvider"

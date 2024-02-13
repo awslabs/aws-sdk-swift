@@ -8165,8 +8165,6 @@ extension MediaConnectClientTypes {
     }
 }
 
-public enum MediaConnectClientTypes {}
-
 extension MediaConnectClientTypes.MediaStream: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "attributes"

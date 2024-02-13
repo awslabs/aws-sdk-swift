@@ -1525,9 +1525,9 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
     public var scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum?
     /// [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
     public var securityGroups: [Swift.String]?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
+    /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+    /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnets: [Swift.String]?
     /// The tags to assign to the load balancer.
     public var tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
@@ -4292,8 +4292,6 @@ public struct DuplicateTrustStoreNameException: ClientRuntime.ModeledError, AWSC
         self.properties.message = message
     }
 }
-
-public enum ElasticLoadBalancingv2ClientTypes {}
 
 extension ElasticLoadBalancingv2ClientTypes {
     public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -8580,7 +8578,7 @@ extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig: Swift.Encod
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
     public struct SourceIpConditionConfig: Swift.Equatable {
-        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig].
+        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig]. The total number of values must be less than, or equal to five.
         public var values: [Swift.String]?
 
         public init(
@@ -9274,6 +9272,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true.
         ///
+        /// * target_health_state.unhealthy.draining_interval_seconds - The amount of time for Elastic Load Balancing to wait before changing the state of an unhealthy target from unhealthy.draining to unhealthy. The range is 0-360000 seconds. The default value is 0 seconds. Note: This attribute can only be configured when target_health_state.unhealthy.connection_termination.enabled is false.
+        ///
         ///
         /// The following attributes are supported only by Gateway Load Balancers:
         ///
@@ -9686,6 +9686,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         case initial
         case unavailable
         case unhealthy
+        case unhealthyDraining
         case unused
         case sdkUnknown(Swift.String)
 
@@ -9696,6 +9697,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .initial,
                 .unavailable,
                 .unhealthy,
+                .unhealthyDraining,
                 .unused,
                 .sdkUnknown("")
             ]
@@ -9711,6 +9713,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             case .initial: return "initial"
             case .unavailable: return "unavailable"
             case .unhealthy: return "unhealthy"
+            case .unhealthyDraining: return "unhealthy.draining"
             case .unused: return "unused"
             case let .sdkUnknown(s): return s
             }

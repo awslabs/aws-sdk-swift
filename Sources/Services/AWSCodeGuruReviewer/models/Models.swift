@@ -405,8 +405,6 @@ extension CodeGuruReviewerClientTypes {
 
 }
 
-public enum CodeGuruReviewerClientTypes {}
-
 extension CodeGuruReviewerClientTypes.CodeReview: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analysisTypes = "AnalysisTypes"

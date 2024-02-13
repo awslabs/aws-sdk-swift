@@ -482,9 +482,9 @@ extension Inspector2ClientTypes {
         case repositoryaggregation(Inspector2ClientTypes.RepositoryAggregation)
         /// An object that contains details about an aggregation request based on finding title.
         case titleaggregation(Inspector2ClientTypes.TitleAggregation)
-        /// Returns an object with findings aggregated by AWS Lambda layer.
+        /// Returns an object with findings aggregated by Amazon Web Services Lambda layer.
         case lambdalayeraggregation(Inspector2ClientTypes.LambdaLayerAggregation)
-        /// Returns an object with findings aggregated by AWS Lambda function.
+        /// Returns an object with findings aggregated by Amazon Web Services Lambda function.
         case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregation)
         case sdkUnknown(Swift.String)
     }
@@ -654,9 +654,9 @@ extension Inspector2ClientTypes {
         case repositoryaggregation(Inspector2ClientTypes.RepositoryAggregationResponse)
         /// An object that contains details about an aggregation response based on finding title.
         case titleaggregation(Inspector2ClientTypes.TitleAggregationResponse)
-        /// An aggregation of findings by AWS Lambda layer.
+        /// An aggregation of findings by Amazon Web Services Lambda layer.
         case lambdalayeraggregation(Inspector2ClientTypes.LambdaLayerAggregationResponse)
-        /// An aggregation of findings by AWS Lambda function.
+        /// An aggregation of findings by Amazon Web Services Lambda function.
         case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregationResponse)
         case sdkUnknown(Swift.String)
     }
@@ -1164,9 +1164,9 @@ extension Inspector2ClientTypes {
         /// Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization.
         /// This member is required.
         public var ecr: Swift.Bool?
-        /// Represents whether AWS Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization.
+        /// Represents whether Amazon Web Services Lambda standard scans are automatically enabled for new members of your Amazon Inspector organization.
         public var lambda: Swift.Bool?
-        /// Represents whether AWS Lambda code scans are automatically enabled for new members of your Amazon Inspector organization.
+        /// Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization.
         public var lambdaCode: Swift.Bool?
 
         public init(
@@ -1850,32 +1850,32 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// A summary of information about the AWS Lambda function.
+    /// A summary of information about the Amazon Web Services Lambda function.
     public struct AwsLambdaFunctionDetails: Swift.Equatable {
-        /// The instruction set architecture that the AWS Lambda function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
+        /// The instruction set architecture that the Amazon Web Services Lambda function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public var architectures: [Inspector2ClientTypes.Architecture]?
-        /// The SHA256 hash of the AWS Lambda function's deployment package.
+        /// The SHA256 hash of the Amazon Web Services Lambda function's deployment package.
         /// This member is required.
         public var codeSha256: Swift.String?
-        /// The AWS Lambda function's execution role.
+        /// The Amazon Web Services Lambda function's execution role.
         /// This member is required.
         public var executionRoleArn: Swift.String?
-        /// The name of the AWS Lambda function.
+        /// The name of the Amazon Web Services Lambda function.
         /// This member is required.
         public var functionName: Swift.String?
         /// The date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html)
         public var lastModifiedAt: ClientRuntime.Date?
-        /// The AWS Lambda function's [ layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). A Lambda function can have up to five layers.
+        /// The Amazon Web Services Lambda function's [ layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). A Lambda function can have up to five layers.
         public var layers: [Swift.String]?
         /// The type of deployment package. Set to Image for container image and set Zip for .zip file archive.
         public var packageType: Inspector2ClientTypes.PackageType?
-        /// The runtime environment for the AWS Lambda function.
+        /// The runtime environment for the Amazon Web Services Lambda function.
         /// This member is required.
         public var runtime: Inspector2ClientTypes.Runtime?
-        /// The version of the AWS Lambda function.
+        /// The version of the Amazon Web Services Lambda function.
         /// This member is required.
         public var version: Swift.String?
-        /// The AWS Lambda function's networking configuration.
+        /// The Amazon Web Services Lambda function's networking configuration.
         public var vpcConfig: Inspector2ClientTypes.LambdaVpcConfig?
 
         public init(
@@ -3031,6 +3031,2345 @@ enum CancelSbomExportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension Inspector2ClientTypes.CisCheckAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case checkDescription
+        case checkId
+        case level
+        case platform
+        case scanArn
+        case statusCounts
+        case title
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let checkDescription = self.checkDescription {
+            try encodeContainer.encode(checkDescription, forKey: .checkDescription)
+        }
+        if let checkId = self.checkId {
+            try encodeContainer.encode(checkId, forKey: .checkId)
+        }
+        if let level = self.level {
+            try encodeContainer.encode(level.rawValue, forKey: .level)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform, forKey: .platform)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let statusCounts = self.statusCounts {
+            try encodeContainer.encode(statusCounts, forKey: .statusCounts)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
+        checkId = checkIdDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let checkDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkDescription)
+        checkDescription = checkDescriptionDecoded
+        let levelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .level)
+        level = levelDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let statusCountsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StatusCounts.self, forKey: .statusCounts)
+        statusCounts = statusCountsDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platform)
+        platform = platformDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A CIS check.
+    public struct CisCheckAggregation: Swift.Equatable {
+        /// The account ID for the CIS check.
+        public var accountId: Swift.String?
+        /// The description for the CIS check.
+        public var checkDescription: Swift.String?
+        /// The check ID for the CIS check.
+        public var checkId: Swift.String?
+        /// The CIS check level.
+        public var level: Inspector2ClientTypes.CisSecurityLevel?
+        /// The CIS check platform.
+        public var platform: Swift.String?
+        /// The scan ARN for the CIS check scan ARN.
+        /// This member is required.
+        public var scanArn: Swift.String?
+        /// The CIS check status counts.
+        public var statusCounts: Inspector2ClientTypes.StatusCounts?
+        /// The CIS check title.
+        public var title: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            checkDescription: Swift.String? = nil,
+            checkId: Swift.String? = nil,
+            level: Inspector2ClientTypes.CisSecurityLevel? = nil,
+            platform: Swift.String? = nil,
+            scanArn: Swift.String? = nil,
+            statusCounts: Inspector2ClientTypes.StatusCounts? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.checkDescription = checkDescription
+            self.checkId = checkId
+            self.level = level
+            self.platform = platform
+            self.scanArn = scanArn
+            self.statusCounts = statusCounts
+            self.title = title
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisDateFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case earliestScanStartTime
+        case latestScanStartTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let earliestScanStartTime = self.earliestScanStartTime {
+            try encodeContainer.encodeTimestamp(earliestScanStartTime, format: .epochSeconds, forKey: .earliestScanStartTime)
+        }
+        if let latestScanStartTime = self.latestScanStartTime {
+            try encodeContainer.encodeTimestamp(latestScanStartTime, format: .epochSeconds, forKey: .latestScanStartTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let earliestScanStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .earliestScanStartTime)
+        earliestScanStartTime = earliestScanStartTimeDecoded
+        let latestScanStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestScanStartTime)
+        latestScanStartTime = latestScanStartTimeDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS date filter.
+    public struct CisDateFilter: Swift.Equatable {
+        /// The CIS date filter's earliest scan start time.
+        public var earliestScanStartTime: ClientRuntime.Date?
+        /// The CIS date filter's latest scan start time.
+        public var latestScanStartTime: ClientRuntime.Date?
+
+        public init(
+            earliestScanStartTime: ClientRuntime.Date? = nil,
+            latestScanStartTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.earliestScanStartTime = earliestScanStartTime
+            self.latestScanStartTime = latestScanStartTime
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisFindingStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case passed
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisFindingStatus] {
+            return [
+                .failed,
+                .passed,
+                .skipped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .passed: return "PASSED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisFindingStatus(rawValue: rawValue) ?? CisFindingStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisFindingStatusComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisFindingStatusComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisFindingStatusComparison(rawValue: rawValue) ?? CisFindingStatusComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisFindingStatusFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value.rawValue, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisFindingStatusComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisFindingStatus.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS finding status filter.
+    public struct CisFindingStatusFilter: Swift.Equatable {
+        /// The comparison value of the CIS finding status filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisFindingStatusComparison?
+        /// The value of the CIS finding status filter.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.CisFindingStatus?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisFindingStatusComparison? = nil,
+            value: Inspector2ClientTypes.CisFindingStatus? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisNumberFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lowerInclusive
+        case upperInclusive
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lowerInclusive = self.lowerInclusive {
+            try encodeContainer.encode(lowerInclusive, forKey: .lowerInclusive)
+        }
+        if let upperInclusive = self.upperInclusive {
+            try encodeContainer.encode(upperInclusive, forKey: .upperInclusive)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let upperInclusiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .upperInclusive)
+        upperInclusive = upperInclusiveDecoded
+        let lowerInclusiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lowerInclusive)
+        lowerInclusive = lowerInclusiveDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS number filter.
+    public struct CisNumberFilter: Swift.Equatable {
+        /// The CIS number filter's lower inclusive.
+        public var lowerInclusive: Swift.Int?
+        /// The CIS number filter's upper inclusive.
+        public var upperInclusive: Swift.Int?
+
+        public init(
+            lowerInclusive: Swift.Int? = nil,
+            upperInclusive: Swift.Int? = nil
+        )
+        {
+            self.lowerInclusive = lowerInclusive
+            self.upperInclusive = upperInclusive
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisReportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisReportStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisReportStatus(rawValue: rawValue) ?? CisReportStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisResultStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case passed
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisResultStatus] {
+            return [
+                .failed,
+                .passed,
+                .skipped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .passed: return "PASSED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisResultStatus(rawValue: rawValue) ?? CisResultStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisResultStatusComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisResultStatusComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisResultStatusComparison(rawValue: rawValue) ?? CisResultStatusComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisResultStatusFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value.rawValue, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisResultStatusComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisResultStatus.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS result status filter.
+    public struct CisResultStatusFilter: Swift.Equatable {
+        /// The comparison value of the CIS result status filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisResultStatusComparison?
+        /// The value of the CIS result status filter.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.CisResultStatus?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisResultStatusComparison? = nil,
+            value: Inspector2ClientTypes.CisResultStatus? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisRuleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case error
+        case failed
+        case informational
+        case notApplicable
+        case notEvaluated
+        case passed
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisRuleStatus] {
+            return [
+                .error,
+                .failed,
+                .informational,
+                .notApplicable,
+                .notEvaluated,
+                .passed,
+                .unknown,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .failed: return "FAILED"
+            case .informational: return "INFORMATIONAL"
+            case .notApplicable: return "NOT_APPLICABLE"
+            case .notEvaluated: return "NOT_EVALUATED"
+            case .passed: return "PASSED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisRuleStatus(rawValue: rawValue) ?? CisRuleStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisScan: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failedChecks
+        case scanArn
+        case scanConfigurationArn
+        case scanDate
+        case scanName
+        case scheduledBy
+        case securityLevel
+        case status
+        case targets
+        case totalChecks
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failedChecks = self.failedChecks {
+            try encodeContainer.encode(failedChecks, forKey: .failedChecks)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let scanConfigurationArn = self.scanConfigurationArn {
+            try encodeContainer.encode(scanConfigurationArn, forKey: .scanConfigurationArn)
+        }
+        if let scanDate = self.scanDate {
+            try encodeContainer.encodeTimestamp(scanDate, format: .epochSeconds, forKey: .scanDate)
+        }
+        if let scanName = self.scanName {
+            try encodeContainer.encode(scanName, forKey: .scanName)
+        }
+        if let scheduledBy = self.scheduledBy {
+            try encodeContainer.encode(scheduledBy, forKey: .scheduledBy)
+        }
+        if let securityLevel = self.securityLevel {
+            try encodeContainer.encode(securityLevel.rawValue, forKey: .securityLevel)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let targets = self.targets {
+            try encodeContainer.encode(targets, forKey: .targets)
+        }
+        if let totalChecks = self.totalChecks {
+            try encodeContainer.encode(totalChecks, forKey: .totalChecks)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanStatus.self, forKey: .status)
+        status = statusDecoded
+        let scanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanName)
+        scanName = scanNameDecoded
+        let scanDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .scanDate)
+        scanDate = scanDateDecoded
+        let failedChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedChecks)
+        failedChecks = failedChecksDecoded
+        let totalChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalChecks)
+        totalChecks = totalChecksDecoded
+        let targetsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargets.self, forKey: .targets)
+        targets = targetsDecoded
+        let scheduledByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduledBy)
+        scheduledBy = scheduledByDecoded
+        let securityLevelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .securityLevel)
+        securityLevel = securityLevelDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS scan.
+    public struct CisScan: Swift.Equatable {
+        /// The CIS scan's failed checks.
+        public var failedChecks: Swift.Int?
+        /// The CIS scan's ARN.
+        /// This member is required.
+        public var scanArn: Swift.String?
+        /// The CIS scan's configuration ARN.
+        /// This member is required.
+        public var scanConfigurationArn: Swift.String?
+        /// The CIS scan's date.
+        public var scanDate: ClientRuntime.Date?
+        /// The the name of the scan configuration that's associated with this scan.
+        public var scanName: Swift.String?
+        /// The account or organization that schedules the CIS scan.
+        public var scheduledBy: Swift.String?
+        /// The security level for the CIS scan. Security level refers to the Benchmark levels that CIS assigns to a profile.
+        public var securityLevel: Inspector2ClientTypes.CisSecurityLevel?
+        /// The CIS scan's status.
+        public var status: Inspector2ClientTypes.CisScanStatus?
+        /// The CIS scan's targets.
+        public var targets: Inspector2ClientTypes.CisTargets?
+        /// The CIS scan's total checks.
+        public var totalChecks: Swift.Int?
+
+        public init(
+            failedChecks: Swift.Int? = nil,
+            scanArn: Swift.String? = nil,
+            scanConfigurationArn: Swift.String? = nil,
+            scanDate: ClientRuntime.Date? = nil,
+            scanName: Swift.String? = nil,
+            scheduledBy: Swift.String? = nil,
+            securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
+            status: Inspector2ClientTypes.CisScanStatus? = nil,
+            targets: Inspector2ClientTypes.CisTargets? = nil,
+            totalChecks: Swift.Int? = nil
+        )
+        {
+            self.failedChecks = failedChecks
+            self.scanArn = scanArn
+            self.scanConfigurationArn = scanConfigurationArn
+            self.scanDate = scanDate
+            self.scanName = scanName
+            self.scheduledBy = scheduledBy
+            self.securityLevel = securityLevel
+            self.status = status
+            self.targets = targets
+            self.totalChecks = totalChecks
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisScanConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ownerId
+        case scanConfigurationArn
+        case scanName
+        case schedule
+        case securityLevel
+        case tags
+        case targets
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let scanConfigurationArn = self.scanConfigurationArn {
+            try encodeContainer.encode(scanConfigurationArn, forKey: .scanConfigurationArn)
+        }
+        if let scanName = self.scanName {
+            try encodeContainer.encode(scanName, forKey: .scanName)
+        }
+        if let schedule = self.schedule {
+            try encodeContainer.encode(schedule, forKey: .schedule)
+        }
+        if let securityLevel = self.securityLevel {
+            try encodeContainer.encode(securityLevel.rawValue, forKey: .securityLevel)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, cisTagMap0) in tags {
+                try tagsContainer.encode(cisTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targets = self.targets {
+            try encodeContainer.encode(targets, forKey: .targets)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let scanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanName)
+        scanName = scanNameDecoded
+        let securityLevelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .securityLevel)
+        securityLevel = securityLevelDecoded
+        let scheduleDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Schedule.self, forKey: .schedule)
+        schedule = scheduleDecoded
+        let targetsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargets.self, forKey: .targets)
+        targets = targetsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, mapvalue0) in tagsContainer {
+                if let mapvalue0 = mapvalue0 {
+                    tagsDecoded0?[key0] = mapvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS scan configuration.
+    public struct CisScanConfiguration: Swift.Equatable {
+        /// The CIS scan configuration's owner ID.
+        public var ownerId: Swift.String?
+        /// The CIS scan configuration's scan configuration ARN.
+        /// This member is required.
+        public var scanConfigurationArn: Swift.String?
+        /// The name of the CIS scan configuration.
+        public var scanName: Swift.String?
+        /// The CIS scan configuration's schedule.
+        public var schedule: Inspector2ClientTypes.Schedule?
+        /// The CIS scan configuration's security level.
+        public var securityLevel: Inspector2ClientTypes.CisSecurityLevel?
+        /// The CIS scan configuration's tags.
+        public var tags: [Swift.String:Swift.String]?
+        /// The CIS scan configuration's targets.
+        public var targets: Inspector2ClientTypes.CisTargets?
+
+        public init(
+            ownerId: Swift.String? = nil,
+            scanConfigurationArn: Swift.String? = nil,
+            scanName: Swift.String? = nil,
+            schedule: Inspector2ClientTypes.Schedule? = nil,
+            securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            targets: Inspector2ClientTypes.CisTargets? = nil
+        )
+        {
+            self.ownerId = ownerId
+            self.scanConfigurationArn = scanConfigurationArn
+            self.scanName = scanName
+            self.schedule = schedule
+            self.securityLevel = securityLevel
+            self.tags = tags
+            self.targets = targets
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisScanConfigurationsSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case scanConfigurationArn
+        case scanName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisScanConfigurationsSortBy] {
+            return [
+                .scanConfigurationArn,
+                .scanName,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .scanConfigurationArn: return "SCAN_CONFIGURATION_ARN"
+            case .scanName: return "SCAN_NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisScanConfigurationsSortBy(rawValue: rawValue) ?? CisScanConfigurationsSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisScanResultDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case checkDescription
+        case checkId
+        case findingArn
+        case level
+        case platform
+        case remediation
+        case scanArn
+        case status
+        case statusReason
+        case targetResourceId
+        case title
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let checkDescription = self.checkDescription {
+            try encodeContainer.encode(checkDescription, forKey: .checkDescription)
+        }
+        if let checkId = self.checkId {
+            try encodeContainer.encode(checkId, forKey: .checkId)
+        }
+        if let findingArn = self.findingArn {
+            try encodeContainer.encode(findingArn, forKey: .findingArn)
+        }
+        if let level = self.level {
+            try encodeContainer.encode(level.rawValue, forKey: .level)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform, forKey: .platform)
+        }
+        if let remediation = self.remediation {
+            try encodeContainer.encode(remediation, forKey: .remediation)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let targetResourceId = self.targetResourceId {
+            try encodeContainer.encode(targetResourceId, forKey: .targetResourceId)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let targetResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetResourceId)
+        targetResourceId = targetResourceIdDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platform)
+        platform = platformDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisFindingStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let checkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkId)
+        checkId = checkIdDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let checkDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checkDescription)
+        checkDescription = checkDescriptionDecoded
+        let remediationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediation)
+        remediation = remediationDecoded
+        let levelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .level)
+        level = levelDecoded
+        let findingArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingArn)
+        findingArn = findingArnDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS scan result details.
+    public struct CisScanResultDetails: Swift.Equatable {
+        /// The CIS scan result details' account ID.
+        public var accountId: Swift.String?
+        /// The account ID that's associated with the CIS scan result details.
+        public var checkDescription: Swift.String?
+        /// The CIS scan result details' check ID.
+        public var checkId: Swift.String?
+        /// The CIS scan result details' finding ARN.
+        public var findingArn: Swift.String?
+        /// The CIS scan result details' level.
+        public var level: Inspector2ClientTypes.CisSecurityLevel?
+        /// The CIS scan result details' platform.
+        public var platform: Swift.String?
+        /// The CIS scan result details' remediation.
+        public var remediation: Swift.String?
+        /// The CIS scan result details' scan ARN.
+        /// This member is required.
+        public var scanArn: Swift.String?
+        /// The CIS scan result details' status.
+        public var status: Inspector2ClientTypes.CisFindingStatus?
+        /// The CIS scan result details' status reason.
+        public var statusReason: Swift.String?
+        /// The CIS scan result details' target resource ID.
+        public var targetResourceId: Swift.String?
+        /// The CIS scan result details' title.
+        public var title: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            checkDescription: Swift.String? = nil,
+            checkId: Swift.String? = nil,
+            findingArn: Swift.String? = nil,
+            level: Inspector2ClientTypes.CisSecurityLevel? = nil,
+            platform: Swift.String? = nil,
+            remediation: Swift.String? = nil,
+            scanArn: Swift.String? = nil,
+            status: Inspector2ClientTypes.CisFindingStatus? = nil,
+            statusReason: Swift.String? = nil,
+            targetResourceId: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.checkDescription = checkDescription
+            self.checkId = checkId
+            self.findingArn = findingArn
+            self.level = level
+            self.platform = platform
+            self.remediation = remediation
+            self.scanArn = scanArn
+            self.status = status
+            self.statusReason = statusReason
+            self.targetResourceId = targetResourceId
+            self.title = title
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisScanResultDetailsFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checkIdFilters
+        case findingArnFilters
+        case findingStatusFilters
+        case securityLevelFilters
+        case titleFilters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let checkIdFilters = checkIdFilters {
+            var checkIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIdFilters)
+            for cisstringfilter0 in checkIdFilters {
+                try checkIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let findingArnFilters = findingArnFilters {
+            var findingArnFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArnFilters)
+            for cisstringfilter0 in findingArnFilters {
+                try findingArnFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let findingStatusFilters = findingStatusFilters {
+            var findingStatusFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingStatusFilters)
+            for cisfindingstatusfilter0 in findingStatusFilters {
+                try findingStatusFiltersContainer.encode(cisfindingstatusfilter0)
+            }
+        }
+        if let securityLevelFilters = securityLevelFilters {
+            var securityLevelFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityLevelFilters)
+            for cissecuritylevelfilter0 in securityLevelFilters {
+                try securityLevelFiltersContainer.encode(cissecuritylevelfilter0)
+            }
+        }
+        if let titleFilters = titleFilters {
+            var titleFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .titleFilters)
+            for cisstringfilter0 in titleFilters {
+                try titleFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingStatusFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisFindingStatusFilter?].self, forKey: .findingStatusFilters)
+        var findingStatusFiltersDecoded0:[Inspector2ClientTypes.CisFindingStatusFilter]? = nil
+        if let findingStatusFiltersContainer = findingStatusFiltersContainer {
+            findingStatusFiltersDecoded0 = [Inspector2ClientTypes.CisFindingStatusFilter]()
+            for structure0 in findingStatusFiltersContainer {
+                if let structure0 = structure0 {
+                    findingStatusFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        findingStatusFilters = findingStatusFiltersDecoded0
+        let checkIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .checkIdFilters)
+        var checkIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let checkIdFiltersContainer = checkIdFiltersContainer {
+            checkIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in checkIdFiltersContainer {
+                if let structure0 = structure0 {
+                    checkIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        checkIdFilters = checkIdFiltersDecoded0
+        let titleFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .titleFilters)
+        var titleFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let titleFiltersContainer = titleFiltersContainer {
+            titleFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in titleFiltersContainer {
+                if let structure0 = structure0 {
+                    titleFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        titleFilters = titleFiltersDecoded0
+        let securityLevelFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisSecurityLevelFilter?].self, forKey: .securityLevelFilters)
+        var securityLevelFiltersDecoded0:[Inspector2ClientTypes.CisSecurityLevelFilter]? = nil
+        if let securityLevelFiltersContainer = securityLevelFiltersContainer {
+            securityLevelFiltersDecoded0 = [Inspector2ClientTypes.CisSecurityLevelFilter]()
+            for structure0 in securityLevelFiltersContainer {
+                if let structure0 = structure0 {
+                    securityLevelFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityLevelFilters = securityLevelFiltersDecoded0
+        let findingArnFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .findingArnFilters)
+        var findingArnFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let findingArnFiltersContainer = findingArnFiltersContainer {
+            findingArnFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in findingArnFiltersContainer {
+                if let structure0 = structure0 {
+                    findingArnFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        findingArnFilters = findingArnFiltersDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS scan result details filter criteria.
+    public struct CisScanResultDetailsFilterCriteria: Swift.Equatable {
+        /// The criteria's check ID filters.
+        public var checkIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's finding ARN filters.
+        public var findingArnFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's finding status filters.
+        public var findingStatusFilters: [Inspector2ClientTypes.CisFindingStatusFilter]?
+        /// The criteria's security level filters. . Security level refers to the Benchmark levels that CIS assigns to a profile.
+        public var securityLevelFilters: [Inspector2ClientTypes.CisSecurityLevelFilter]?
+        /// The criteria's title filters.
+        public var titleFilters: [Inspector2ClientTypes.CisStringFilter]?
+
+        public init(
+            checkIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            findingArnFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            findingStatusFilters: [Inspector2ClientTypes.CisFindingStatusFilter]? = nil,
+            securityLevelFilters: [Inspector2ClientTypes.CisSecurityLevelFilter]? = nil,
+            titleFilters: [Inspector2ClientTypes.CisStringFilter]? = nil
+        )
+        {
+            self.checkIdFilters = checkIdFilters
+            self.findingArnFilters = findingArnFilters
+            self.findingStatusFilters = findingStatusFilters
+            self.securityLevelFilters = securityLevelFilters
+            self.titleFilters = titleFilters
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisScanResultDetailsSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case checkId
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisScanResultDetailsSortBy] {
+            return [
+                .checkId,
+                .status,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .checkId: return "CHECK_ID"
+            case .status: return "STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisScanResultDetailsSortBy(rawValue: rawValue) ?? CisScanResultDetailsSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdFilters
+        case checkIdFilters
+        case failedResourcesFilters
+        case platformFilters
+        case securityLevelFilters
+        case titleFilters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIdFilters = accountIdFilters {
+            var accountIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIdFilters)
+            for cisstringfilter0 in accountIdFilters {
+                try accountIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let checkIdFilters = checkIdFilters {
+            var checkIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIdFilters)
+            for cisstringfilter0 in checkIdFilters {
+                try checkIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let failedResourcesFilters = failedResourcesFilters {
+            var failedResourcesFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedResourcesFilters)
+            for cisnumberfilter0 in failedResourcesFilters {
+                try failedResourcesFiltersContainer.encode(cisnumberfilter0)
+            }
+        }
+        if let platformFilters = platformFilters {
+            var platformFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformFilters)
+            for cisstringfilter0 in platformFilters {
+                try platformFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let securityLevelFilters = securityLevelFilters {
+            var securityLevelFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityLevelFilters)
+            for cissecuritylevelfilter0 in securityLevelFilters {
+                try securityLevelFiltersContainer.encode(cissecuritylevelfilter0)
+            }
+        }
+        if let titleFilters = titleFilters {
+            var titleFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .titleFilters)
+            for cisstringfilter0 in titleFilters {
+                try titleFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .accountIdFilters)
+        var accountIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let accountIdFiltersContainer = accountIdFiltersContainer {
+            accountIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in accountIdFiltersContainer {
+                if let structure0 = structure0 {
+                    accountIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIdFilters = accountIdFiltersDecoded0
+        let checkIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .checkIdFilters)
+        var checkIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let checkIdFiltersContainer = checkIdFiltersContainer {
+            checkIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in checkIdFiltersContainer {
+                if let structure0 = structure0 {
+                    checkIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        checkIdFilters = checkIdFiltersDecoded0
+        let titleFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .titleFilters)
+        var titleFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let titleFiltersContainer = titleFiltersContainer {
+            titleFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in titleFiltersContainer {
+                if let structure0 = structure0 {
+                    titleFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        titleFilters = titleFiltersDecoded0
+        let platformFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .platformFilters)
+        var platformFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let platformFiltersContainer = platformFiltersContainer {
+            platformFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in platformFiltersContainer {
+                if let structure0 = structure0 {
+                    platformFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        platformFilters = platformFiltersDecoded0
+        let failedResourcesFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisNumberFilter?].self, forKey: .failedResourcesFilters)
+        var failedResourcesFiltersDecoded0:[Inspector2ClientTypes.CisNumberFilter]? = nil
+        if let failedResourcesFiltersContainer = failedResourcesFiltersContainer {
+            failedResourcesFiltersDecoded0 = [Inspector2ClientTypes.CisNumberFilter]()
+            for structure0 in failedResourcesFiltersContainer {
+                if let structure0 = structure0 {
+                    failedResourcesFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedResourcesFilters = failedResourcesFiltersDecoded0
+        let securityLevelFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisSecurityLevelFilter?].self, forKey: .securityLevelFilters)
+        var securityLevelFiltersDecoded0:[Inspector2ClientTypes.CisSecurityLevelFilter]? = nil
+        if let securityLevelFiltersContainer = securityLevelFiltersContainer {
+            securityLevelFiltersDecoded0 = [Inspector2ClientTypes.CisSecurityLevelFilter]()
+            for structure0 in securityLevelFiltersContainer {
+                if let structure0 = structure0 {
+                    securityLevelFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityLevelFilters = securityLevelFiltersDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The scan results aggregated by checks filter criteria.
+    public struct CisScanResultsAggregatedByChecksFilterCriteria: Swift.Equatable {
+        /// The criteria's account ID filters.
+        public var accountIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's check ID filters.
+        public var checkIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's failed resources filters.
+        public var failedResourcesFilters: [Inspector2ClientTypes.CisNumberFilter]?
+        /// The criteria's platform filters.
+        public var platformFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's security level filters.
+        public var securityLevelFilters: [Inspector2ClientTypes.CisSecurityLevelFilter]?
+        /// The criteria's title filters.
+        public var titleFilters: [Inspector2ClientTypes.CisStringFilter]?
+
+        public init(
+            accountIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            checkIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            failedResourcesFilters: [Inspector2ClientTypes.CisNumberFilter]? = nil,
+            platformFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            securityLevelFilters: [Inspector2ClientTypes.CisSecurityLevelFilter]? = nil,
+            titleFilters: [Inspector2ClientTypes.CisStringFilter]? = nil
+        )
+        {
+            self.accountIdFilters = accountIdFilters
+            self.checkIdFilters = checkIdFilters
+            self.failedResourcesFilters = failedResourcesFilters
+            self.platformFilters = platformFilters
+            self.securityLevelFilters = securityLevelFilters
+            self.titleFilters = titleFilters
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisScanResultsAggregatedByChecksSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case checkId
+        case failedCounts
+        case platform
+        case securityLevel
+        case title
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisScanResultsAggregatedByChecksSortBy] {
+            return [
+                .checkId,
+                .failedCounts,
+                .platform,
+                .securityLevel,
+                .title,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .checkId: return "CHECK_ID"
+            case .failedCounts: return "FAILED_COUNTS"
+            case .platform: return "PLATFORM"
+            case .securityLevel: return "SECURITY_LEVEL"
+            case .title: return "TITLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisScanResultsAggregatedByChecksSortBy(rawValue: rawValue) ?? CisScanResultsAggregatedByChecksSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIdFilters
+        case checkIdFilters
+        case failedChecksFilters
+        case platformFilters
+        case statusFilters
+        case targetResourceIdFilters
+        case targetResourceTagFilters
+        case targetStatusFilters
+        case targetStatusReasonFilters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIdFilters = accountIdFilters {
+            var accountIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIdFilters)
+            for cisstringfilter0 in accountIdFilters {
+                try accountIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let checkIdFilters = checkIdFilters {
+            var checkIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIdFilters)
+            for cisstringfilter0 in checkIdFilters {
+                try checkIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let failedChecksFilters = failedChecksFilters {
+            var failedChecksFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedChecksFilters)
+            for cisnumberfilter0 in failedChecksFilters {
+                try failedChecksFiltersContainer.encode(cisnumberfilter0)
+            }
+        }
+        if let platformFilters = platformFilters {
+            var platformFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformFilters)
+            for cisstringfilter0 in platformFilters {
+                try platformFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let statusFilters = statusFilters {
+            var statusFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statusFilters)
+            for cisresultstatusfilter0 in statusFilters {
+                try statusFiltersContainer.encode(cisresultstatusfilter0)
+            }
+        }
+        if let targetResourceIdFilters = targetResourceIdFilters {
+            var targetResourceIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetResourceIdFilters)
+            for cisstringfilter0 in targetResourceIdFilters {
+                try targetResourceIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let targetResourceTagFilters = targetResourceTagFilters {
+            var targetResourceTagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetResourceTagFilters)
+            for tagfilter0 in targetResourceTagFilters {
+                try targetResourceTagFiltersContainer.encode(tagfilter0)
+            }
+        }
+        if let targetStatusFilters = targetStatusFilters {
+            var targetStatusFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetStatusFilters)
+            for cistargetstatusfilter0 in targetStatusFilters {
+                try targetStatusFiltersContainer.encode(cistargetstatusfilter0)
+            }
+        }
+        if let targetStatusReasonFilters = targetStatusReasonFilters {
+            var targetStatusReasonFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetStatusReasonFilters)
+            for cistargetstatusreasonfilter0 in targetStatusReasonFilters {
+                try targetStatusReasonFiltersContainer.encode(cistargetstatusreasonfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .accountIdFilters)
+        var accountIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let accountIdFiltersContainer = accountIdFiltersContainer {
+            accountIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in accountIdFiltersContainer {
+                if let structure0 = structure0 {
+                    accountIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountIdFilters = accountIdFiltersDecoded0
+        let statusFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisResultStatusFilter?].self, forKey: .statusFilters)
+        var statusFiltersDecoded0:[Inspector2ClientTypes.CisResultStatusFilter]? = nil
+        if let statusFiltersContainer = statusFiltersContainer {
+            statusFiltersDecoded0 = [Inspector2ClientTypes.CisResultStatusFilter]()
+            for structure0 in statusFiltersContainer {
+                if let structure0 = structure0 {
+                    statusFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        statusFilters = statusFiltersDecoded0
+        let checkIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .checkIdFilters)
+        var checkIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let checkIdFiltersContainer = checkIdFiltersContainer {
+            checkIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in checkIdFiltersContainer {
+                if let structure0 = structure0 {
+                    checkIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        checkIdFilters = checkIdFiltersDecoded0
+        let targetResourceIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .targetResourceIdFilters)
+        var targetResourceIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let targetResourceIdFiltersContainer = targetResourceIdFiltersContainer {
+            targetResourceIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in targetResourceIdFiltersContainer {
+                if let structure0 = structure0 {
+                    targetResourceIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetResourceIdFilters = targetResourceIdFiltersDecoded0
+        let targetResourceTagFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.TagFilter?].self, forKey: .targetResourceTagFilters)
+        var targetResourceTagFiltersDecoded0:[Inspector2ClientTypes.TagFilter]? = nil
+        if let targetResourceTagFiltersContainer = targetResourceTagFiltersContainer {
+            targetResourceTagFiltersDecoded0 = [Inspector2ClientTypes.TagFilter]()
+            for structure0 in targetResourceTagFiltersContainer {
+                if let structure0 = structure0 {
+                    targetResourceTagFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetResourceTagFilters = targetResourceTagFiltersDecoded0
+        let platformFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .platformFilters)
+        var platformFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let platformFiltersContainer = platformFiltersContainer {
+            platformFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in platformFiltersContainer {
+                if let structure0 = structure0 {
+                    platformFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        platformFilters = platformFiltersDecoded0
+        let targetStatusFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisTargetStatusFilter?].self, forKey: .targetStatusFilters)
+        var targetStatusFiltersDecoded0:[Inspector2ClientTypes.CisTargetStatusFilter]? = nil
+        if let targetStatusFiltersContainer = targetStatusFiltersContainer {
+            targetStatusFiltersDecoded0 = [Inspector2ClientTypes.CisTargetStatusFilter]()
+            for structure0 in targetStatusFiltersContainer {
+                if let structure0 = structure0 {
+                    targetStatusFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetStatusFilters = targetStatusFiltersDecoded0
+        let targetStatusReasonFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisTargetStatusReasonFilter?].self, forKey: .targetStatusReasonFilters)
+        var targetStatusReasonFiltersDecoded0:[Inspector2ClientTypes.CisTargetStatusReasonFilter]? = nil
+        if let targetStatusReasonFiltersContainer = targetStatusReasonFiltersContainer {
+            targetStatusReasonFiltersDecoded0 = [Inspector2ClientTypes.CisTargetStatusReasonFilter]()
+            for structure0 in targetStatusReasonFiltersContainer {
+                if let structure0 = structure0 {
+                    targetStatusReasonFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetStatusReasonFilters = targetStatusReasonFiltersDecoded0
+        let failedChecksFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisNumberFilter?].self, forKey: .failedChecksFilters)
+        var failedChecksFiltersDecoded0:[Inspector2ClientTypes.CisNumberFilter]? = nil
+        if let failedChecksFiltersContainer = failedChecksFiltersContainer {
+            failedChecksFiltersDecoded0 = [Inspector2ClientTypes.CisNumberFilter]()
+            for structure0 in failedChecksFiltersContainer {
+                if let structure0 = structure0 {
+                    failedChecksFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedChecksFilters = failedChecksFiltersDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The scan results aggregated by target resource filter criteria.
+    public struct CisScanResultsAggregatedByTargetResourceFilterCriteria: Swift.Equatable {
+        /// The criteria's account ID filters.
+        public var accountIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's check ID filters.
+        public var checkIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's failed checks filters.
+        public var failedChecksFilters: [Inspector2ClientTypes.CisNumberFilter]?
+        /// The criteria's platform filters.
+        public var platformFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's status filter.
+        public var statusFilters: [Inspector2ClientTypes.CisResultStatusFilter]?
+        /// The criteria's target resource ID filters.
+        public var targetResourceIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The criteria's target resource tag filters.
+        public var targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]?
+        /// The criteria's target status filters.
+        public var targetStatusFilters: [Inspector2ClientTypes.CisTargetStatusFilter]?
+        /// The criteria's target status reason filters.
+        public var targetStatusReasonFilters: [Inspector2ClientTypes.CisTargetStatusReasonFilter]?
+
+        public init(
+            accountIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            checkIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            failedChecksFilters: [Inspector2ClientTypes.CisNumberFilter]? = nil,
+            platformFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            statusFilters: [Inspector2ClientTypes.CisResultStatusFilter]? = nil,
+            targetResourceIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]? = nil,
+            targetStatusFilters: [Inspector2ClientTypes.CisTargetStatusFilter]? = nil,
+            targetStatusReasonFilters: [Inspector2ClientTypes.CisTargetStatusReasonFilter]? = nil
+        )
+        {
+            self.accountIdFilters = accountIdFilters
+            self.checkIdFilters = checkIdFilters
+            self.failedChecksFilters = failedChecksFilters
+            self.platformFilters = platformFilters
+            self.statusFilters = statusFilters
+            self.targetResourceIdFilters = targetResourceIdFilters
+            self.targetResourceTagFilters = targetResourceTagFilters
+            self.targetStatusFilters = targetStatusFilters
+            self.targetStatusReasonFilters = targetStatusReasonFilters
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisScanResultsAggregatedByTargetResourceSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountId
+        case failedCounts
+        case platform
+        case resourceId
+        case targetStatus
+        case targetStatusReason
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisScanResultsAggregatedByTargetResourceSortBy] {
+            return [
+                .accountId,
+                .failedCounts,
+                .platform,
+                .resourceId,
+                .targetStatus,
+                .targetStatusReason,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "ACCOUNT_ID"
+            case .failedCounts: return "FAILED_COUNTS"
+            case .platform: return "PLATFORM"
+            case .resourceId: return "RESOURCE_ID"
+            case .targetStatus: return "TARGET_STATUS"
+            case .targetStatusReason: return "TARGET_STATUS_REASON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisScanResultsAggregatedByTargetResourceSortBy(rawValue: rawValue) ?? CisScanResultsAggregatedByTargetResourceSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisScanStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisScanStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .inProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisScanStatus(rawValue: rawValue) ?? CisScanStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisScanStatusComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisScanStatusComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisScanStatusComparison(rawValue: rawValue) ?? CisScanStatusComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisScanStatusFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value.rawValue, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanStatusComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanStatus.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS scan status filter.
+    public struct CisScanStatusFilter: Swift.Equatable {
+        /// The filter comparison value.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisScanStatusComparison?
+        /// The filter value.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.CisScanStatus?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisScanStatusComparison? = nil,
+            value: Inspector2ClientTypes.CisScanStatus? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisSecurityLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case level1
+        case level2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisSecurityLevel] {
+            return [
+                .level1,
+                .level2,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .level1: return "LEVEL_1"
+            case .level2: return "LEVEL_2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisSecurityLevel(rawValue: rawValue) ?? CisSecurityLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisSecurityLevelComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisSecurityLevelComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisSecurityLevelComparison(rawValue: rawValue) ?? CisSecurityLevelComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisSecurityLevelFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value.rawValue, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevelComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS security level filter. Security level refers to the Benchmark levels that CIS assigns to a profile.
+    public struct CisSecurityLevelFilter: Swift.Equatable {
+        /// The CIS security filter comparison value.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisSecurityLevelComparison?
+        /// The CIS security filter value.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.CisSecurityLevel?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisSecurityLevelComparison? = nil,
+            value: Inspector2ClientTypes.CisSecurityLevel? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisSessionMessage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cisRuleDetails
+        case ruleId
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cisRuleDetails = self.cisRuleDetails {
+            try encodeContainer.encode(cisRuleDetails.base64EncodedString(), forKey: .cisRuleDetails)
+        }
+        if let ruleId = self.ruleId {
+            try encodeContainer.encode(ruleId, forKey: .ruleId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleId)
+        ruleId = ruleIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisRuleStatus.self, forKey: .status)
+        status = statusDecoded
+        let cisRuleDetailsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .cisRuleDetails)
+        cisRuleDetails = cisRuleDetailsDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS session message.
+    public struct CisSessionMessage: Swift.Equatable {
+        /// The CIS rule details for the CIS session message.
+        /// This member is required.
+        public var cisRuleDetails: ClientRuntime.Data?
+        /// The rule ID for the CIS session message.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The status of the CIS session message.
+        /// This member is required.
+        public var status: Inspector2ClientTypes.CisRuleStatus?
+
+        public init(
+            cisRuleDetails: ClientRuntime.Data? = nil,
+            ruleId: Swift.String? = nil,
+            status: Inspector2ClientTypes.CisRuleStatus? = nil
+        )
+        {
+            self.cisRuleDetails = cisRuleDetails
+            self.ruleId = ruleId
+            self.status = status
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisSortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisSortOrder] {
+            return [
+                .asc,
+                .desc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisSortOrder(rawValue: rawValue) ?? CisSortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisStringComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case notEquals
+        case `prefix`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisStringComparison] {
+            return [
+                .equals,
+                .notEquals,
+                .prefix,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .notEquals: return "NOT_EQUALS"
+            case .prefix: return "PREFIX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisStringComparison(rawValue: rawValue) ?? CisStringComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisStringFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisStringComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS string filter.
+    public struct CisStringFilter: Swift.Equatable {
+        /// The comparison value of the CIS string filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisStringComparison?
+        /// The value of the CIS string filter.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisStringComparison? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisTargetResourceAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case platform
+        case scanArn
+        case statusCounts
+        case targetResourceId
+        case targetResourceTags
+        case targetStatus
+        case targetStatusReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform, forKey: .platform)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let statusCounts = self.statusCounts {
+            try encodeContainer.encode(statusCounts, forKey: .statusCounts)
+        }
+        if let targetResourceId = self.targetResourceId {
+            try encodeContainer.encode(targetResourceId, forKey: .targetResourceId)
+        }
+        if let targetResourceTags = targetResourceTags {
+            var targetResourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targetResourceTags)
+            for (dictKey0, targetResourceTags0) in targetResourceTags {
+                var targetResourceTags0Container = targetResourceTagsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in targetResourceTags0 {
+                    try targetResourceTags0Container.encode(string1)
+                }
+            }
+        }
+        if let targetStatus = self.targetStatus {
+            try encodeContainer.encode(targetStatus.rawValue, forKey: .targetStatus)
+        }
+        if let targetStatusReason = self.targetStatusReason {
+            try encodeContainer.encode(targetStatusReason.rawValue, forKey: .targetStatusReason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let targetResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetResourceId)
+        targetResourceId = targetResourceIdDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let targetResourceTagsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .targetResourceTags)
+        var targetResourceTagsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let targetResourceTagsContainer = targetResourceTagsContainer {
+            targetResourceTagsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, tagvaluelist0) in targetResourceTagsContainer {
+                var tagvaluelist0Decoded0: [Swift.String]? = nil
+                if let tagvaluelist0 = tagvaluelist0 {
+                    tagvaluelist0Decoded0 = [Swift.String]()
+                    for string1 in tagvaluelist0 {
+                        if let string1 = string1 {
+                            tagvaluelist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                targetResourceTagsDecoded0?[key0] = tagvaluelist0Decoded0
+            }
+        }
+        targetResourceTags = targetResourceTagsDecoded0
+        let statusCountsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StatusCounts.self, forKey: .statusCounts)
+        statusCounts = statusCountsDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platform)
+        platform = platformDecoded
+        let targetStatusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargetStatus.self, forKey: .targetStatus)
+        targetStatus = targetStatusDecoded
+        let targetStatusReasonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargetStatusReason.self, forKey: .targetStatusReason)
+        targetStatusReason = targetStatusReasonDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS target resource aggregation.
+    public struct CisTargetResourceAggregation: Swift.Equatable {
+        /// The account ID for the CIS target resource.
+        public var accountId: Swift.String?
+        /// The platform for the CIS target resource.
+        public var platform: Swift.String?
+        /// The scan ARN for the CIS target resource.
+        /// This member is required.
+        public var scanArn: Swift.String?
+        /// The target resource status counts.
+        public var statusCounts: Inspector2ClientTypes.StatusCounts?
+        /// The ID of the target resource.
+        public var targetResourceId: Swift.String?
+        /// The tag for the target resource.
+        public var targetResourceTags: [Swift.String:[Swift.String]]?
+        /// The status of the target resource.
+        public var targetStatus: Inspector2ClientTypes.CisTargetStatus?
+        /// The reason for the target resource.
+        public var targetStatusReason: Inspector2ClientTypes.CisTargetStatusReason?
+
+        public init(
+            accountId: Swift.String? = nil,
+            platform: Swift.String? = nil,
+            scanArn: Swift.String? = nil,
+            statusCounts: Inspector2ClientTypes.StatusCounts? = nil,
+            targetResourceId: Swift.String? = nil,
+            targetResourceTags: [Swift.String:[Swift.String]]? = nil,
+            targetStatus: Inspector2ClientTypes.CisTargetStatus? = nil,
+            targetStatusReason: Inspector2ClientTypes.CisTargetStatusReason? = nil
+        )
+        {
+            self.accountId = accountId
+            self.platform = platform
+            self.scanArn = scanArn
+            self.statusCounts = statusCounts
+            self.targetResourceId = targetResourceId
+            self.targetResourceTags = targetResourceTags
+            self.targetStatus = targetStatus
+            self.targetStatusReason = targetStatusReason
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisTargetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
+        case completed
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisTargetStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .timedOut,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisTargetStatus(rawValue: rawValue) ?? CisTargetStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum CisTargetStatusComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisTargetStatusComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisTargetStatusComparison(rawValue: rawValue) ?? CisTargetStatusComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisTargetStatusFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value.rawValue, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargetStatusComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargetStatus.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS target status filter.
+    public struct CisTargetStatusFilter: Swift.Equatable {
+        /// The comparison value of the CIS target status filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisTargetStatusComparison?
+        /// The value of the CIS target status filter.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.CisTargetStatus?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisTargetStatusComparison? = nil,
+            value: Inspector2ClientTypes.CisTargetStatus? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum CisTargetStatusReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case scanInProgress
+        case ssmUnmanaged
+        case unsupportedOs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CisTargetStatusReason] {
+            return [
+                .scanInProgress,
+                .ssmUnmanaged,
+                .unsupportedOs,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .scanInProgress: return "SCAN_IN_PROGRESS"
+            case .ssmUnmanaged: return "SSM_UNMANAGED"
+            case .unsupportedOs: return "UNSUPPORTED_OS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CisTargetStatusReason(rawValue: rawValue) ?? CisTargetStatusReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CisTargetStatusReasonFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value.rawValue, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargetStatusComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisTargetStatusReason.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS target status reason filter.
+    public struct CisTargetStatusReasonFilter: Swift.Equatable {
+        /// The comparison value of the CIS target status reason filter.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.CisTargetStatusComparison?
+        /// The value of the CIS target status reason filter.
+        /// This member is required.
+        public var value: Inspector2ClientTypes.CisTargetStatusReason?
+
+        public init(
+            comparison: Inspector2ClientTypes.CisTargetStatusComparison? = nil,
+            value: Inspector2ClientTypes.CisTargetStatusReason? = nil
+        )
+        {
+            self.comparison = comparison
+            self.value = value
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.CisTargets: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case targetResourceTags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let targetResourceTags = targetResourceTags {
+            var targetResourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targetResourceTags)
+            for (dictKey0, targetResourceTags0) in targetResourceTags {
+                var targetResourceTags0Container = targetResourceTagsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in targetResourceTags0 {
+                    try targetResourceTags0Container.encode(string1)
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let targetResourceTagsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .targetResourceTags)
+        var targetResourceTagsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let targetResourceTagsContainer = targetResourceTagsContainer {
+            targetResourceTagsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, tagvaluelist0) in targetResourceTagsContainer {
+                var tagvaluelist0Decoded0: [Swift.String]? = nil
+                if let tagvaluelist0 = tagvaluelist0 {
+                    tagvaluelist0Decoded0 = [Swift.String]()
+                    for string1 in tagvaluelist0 {
+                        if let string1 = string1 {
+                            tagvaluelist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                targetResourceTagsDecoded0?[key0] = tagvaluelist0Decoded0
+            }
+        }
+        targetResourceTags = targetResourceTagsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The CIS targets.
+    public struct CisTargets: Swift.Equatable {
+        /// The CIS target account ids.
+        public var accountIds: [Swift.String]?
+        /// The CIS target resource tags.
+        public var targetResourceTags: [Swift.String:[Swift.String]]?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            targetResourceTags: [Swift.String:[Swift.String]]? = nil
+        )
+        {
+            self.accountIds = accountIds
+            self.targetResourceTags = targetResourceTags
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.CisaData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action
@@ -3542,6 +5881,61 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.ComputePlatform: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case product
+        case vendor
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let product = self.product {
+            try encodeContainer.encode(product, forKey: .product)
+        }
+        if let vendor = self.vendor {
+            try encodeContainer.encode(vendor, forKey: .vendor)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vendorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendor)
+        vendor = vendorDecoded
+        let productDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .product)
+        product = productDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A compute platform.
+    public struct ComputePlatform: Swift.Equatable {
+        /// The compute platform product.
+        public var product: Swift.String?
+        /// The compute platform vendor.
+        public var vendor: Swift.String?
+        /// The compute platform version.
+        public var version: Swift.String?
+
+        public init(
+            product: Swift.String? = nil,
+            vendor: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.product = product
+            self.vendor = vendor
+            self.version = version
+        }
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3716,6 +6110,7 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         case ec2InstanceTags
         case ecrImageTags
         case ecrRepositoryName
+        case imagePulledAt
         case lambdaFunctionName
         case lambdaFunctionRuntime
         case lambdaFunctionTags
@@ -3751,6 +6146,12 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             var ecrRepositoryNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrRepositoryName)
             for coveragestringfilter0 in ecrRepositoryName {
                 try ecrRepositoryNameContainer.encode(coveragestringfilter0)
+            }
+        }
+        if let imagePulledAt = imagePulledAt {
+            var imagePulledAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imagePulledAt)
+            for coveragedatefilter0 in imagePulledAt {
+                try imagePulledAtContainer.encode(coveragedatefilter0)
             }
         }
         if let lambdaFunctionName = lambdaFunctionName {
@@ -3954,6 +6355,17 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
             }
         }
         lastScannedAt = lastScannedAtDecoded0
+        let imagePulledAtContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CoverageDateFilter?].self, forKey: .imagePulledAt)
+        var imagePulledAtDecoded0:[Inspector2ClientTypes.CoverageDateFilter]? = nil
+        if let imagePulledAtContainer = imagePulledAtContainer {
+            imagePulledAtDecoded0 = [Inspector2ClientTypes.CoverageDateFilter]()
+            for structure0 in imagePulledAtContainer {
+                if let structure0 = structure0 {
+                    imagePulledAtDecoded0?.append(structure0)
+                }
+            }
+        }
+        imagePulledAt = imagePulledAtDecoded0
     }
 }
 
@@ -3968,17 +6380,19 @@ extension Inspector2ClientTypes {
         public var ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The Amazon ECR repository name to filter on.
         public var ecrRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// Returns coverage statistics for AWS Lambda functions filtered by function names.
+        /// The date an image was last pulled at.
+        public var imagePulledAt: [Inspector2ClientTypes.CoverageDateFilter]?
+        /// Returns coverage statistics for Amazon Web Services Lambda functions filtered by function names.
         public var lambdaFunctionName: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// Returns coverage statistics for AWS Lambda functions filtered by runtime.
+        /// Returns coverage statistics for Amazon Web Services Lambda functions filtered by runtime.
         public var lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// Returns coverage statistics for AWS Lambda functions filtered by tag.
+        /// Returns coverage statistics for Amazon Web Services Lambda functions filtered by tag.
         public var lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]?
         /// Filters Amazon Web Services resources based on whether Amazon Inspector has checked them for vulnerabilities within the specified time range.
         public var lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION or AWS_ECR_REPOSITORY.
+        /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -3992,6 +6406,7 @@ extension Inspector2ClientTypes {
             ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             ecrRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            imagePulledAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
             lambdaFunctionName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
@@ -4007,6 +6422,7 @@ extension Inspector2ClientTypes {
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
+            self.imagePulledAt = imagePulledAt
             self.lambdaFunctionName = lambdaFunctionName
             self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lambdaFunctionTags = lambdaFunctionTags
@@ -4318,6 +6734,253 @@ extension Inspector2ClientTypes {
             self.resourceType = resourceType
             self.scanStatus = scanStatus
             self.scanType = scanType
+        }
+    }
+
+}
+
+extension CreateCisScanConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanName
+        case schedule
+        case securityLevel
+        case tags
+        case targets
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanName = self.scanName {
+            try encodeContainer.encode(scanName, forKey: .scanName)
+        }
+        if let schedule = self.schedule {
+            try encodeContainer.encode(schedule, forKey: .schedule)
+        }
+        if let securityLevel = self.securityLevel {
+            try encodeContainer.encode(securityLevel.rawValue, forKey: .securityLevel)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, cisTagMap0) in tags {
+                try tagsContainer.encode(cisTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targets = self.targets {
+            try encodeContainer.encode(targets, forKey: .targets)
+        }
+    }
+}
+
+extension CreateCisScanConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateCisScanConfigurationInput) -> Swift.String? {
+        return "/cis/scan-configuration/create"
+    }
+}
+
+public struct CreateCisScanConfigurationInput: Swift.Equatable {
+    /// The scan name for the CIS scan configuration.
+    /// This member is required.
+    public var scanName: Swift.String?
+    /// The schedule for the CIS scan configuration.
+    /// This member is required.
+    public var schedule: Inspector2ClientTypes.Schedule?
+    /// The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile.
+    /// This member is required.
+    public var securityLevel: Inspector2ClientTypes.CisSecurityLevel?
+    /// The tags for the CIS scan configuration.
+    public var tags: [Swift.String:Swift.String]?
+    /// The targets for the CIS scan configuration.
+    /// This member is required.
+    public var targets: Inspector2ClientTypes.CreateCisTargets?
+
+    public init(
+        scanName: Swift.String? = nil,
+        schedule: Inspector2ClientTypes.Schedule? = nil,
+        securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targets: Inspector2ClientTypes.CreateCisTargets? = nil
+    )
+    {
+        self.scanName = scanName
+        self.schedule = schedule
+        self.securityLevel = securityLevel
+        self.tags = tags
+        self.targets = targets
+    }
+}
+
+struct CreateCisScanConfigurationInputBody: Swift.Equatable {
+    let scanName: Swift.String?
+    let securityLevel: Inspector2ClientTypes.CisSecurityLevel?
+    let schedule: Inspector2ClientTypes.Schedule?
+    let targets: Inspector2ClientTypes.CreateCisTargets?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateCisScanConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanName
+        case schedule
+        case securityLevel
+        case tags
+        case targets
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanName)
+        scanName = scanNameDecoded
+        let securityLevelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .securityLevel)
+        securityLevel = securityLevelDecoded
+        let scheduleDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Schedule.self, forKey: .schedule)
+        schedule = scheduleDecoded
+        let targetsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CreateCisTargets.self, forKey: .targets)
+        targets = targetsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, mapvalue0) in tagsContainer {
+                if let mapvalue0 = mapvalue0 {
+                    tagsDecoded0?[key0] = mapvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCisScanConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCisScanConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.scanConfigurationArn = output.scanConfigurationArn
+        } else {
+            self.scanConfigurationArn = nil
+        }
+    }
+}
+
+public struct CreateCisScanConfigurationOutput: Swift.Equatable {
+    /// The scan configuration ARN for the CIS scan configuration.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    )
+    {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+struct CreateCisScanConfigurationOutputBody: Swift.Equatable {
+    let scanConfigurationArn: Swift.String?
+}
+
+extension CreateCisScanConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+    }
+}
+
+enum CreateCisScanConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CreateCisTargets: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case targetResourceTags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for targetaccount0 in accountIds {
+                try accountIdsContainer.encode(targetaccount0)
+            }
+        }
+        if let targetResourceTags = targetResourceTags {
+            var targetResourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targetResourceTags)
+            for (dictKey0, targetResourceTags0) in targetResourceTags {
+                var targetResourceTags0Container = targetResourceTagsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in targetResourceTags0 {
+                    try targetResourceTags0Container.encode(string1)
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let targetResourceTagsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .targetResourceTags)
+        var targetResourceTagsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let targetResourceTagsContainer = targetResourceTagsContainer {
+            targetResourceTagsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, tagvaluelist0) in targetResourceTagsContainer {
+                var tagvaluelist0Decoded0: [Swift.String]? = nil
+                if let tagvaluelist0 = tagvaluelist0 {
+                    tagvaluelist0Decoded0 = [Swift.String]()
+                    for string1 in tagvaluelist0 {
+                        if let string1 = string1 {
+                            tagvaluelist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                targetResourceTagsDecoded0?[key0] = tagvaluelist0Decoded0
+            }
+        }
+        targetResourceTags = targetResourceTagsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Creates CIS targets.
+    public struct CreateCisTargets: Swift.Equatable {
+        /// The CIS target account ids.
+        /// This member is required.
+        public var accountIds: [Swift.String]?
+        /// The CIS target resource tags.
+        /// This member is required.
+        public var targetResourceTags: [Swift.String:[Swift.String]]?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            targetResourceTags: [Swift.String:[Swift.String]]? = nil
+        )
+        {
+            self.accountIds = accountIds
+            self.targetResourceTags = targetResourceTags
         }
     }
 
@@ -5097,6 +7760,42 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.DailySchedule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Time.self, forKey: .startTime)
+        startTime = startTimeDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A daily schedule.
+    public struct DailySchedule: Swift.Equatable {
+        /// The schedule start time.
+        /// This member is required.
+        public var startTime: Inspector2ClientTypes.Time?
+
+        public init(
+            startTime: Inspector2ClientTypes.Time? = nil
+        )
+        {
+            self.startTime = startTime
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.DateFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endInclusive
@@ -5140,6 +7839,53 @@ extension Inspector2ClientTypes {
         }
     }
 
+}
+
+extension Inspector2ClientTypes {
+    public enum Day: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fri
+        case mon
+        case sat
+        case sun
+        case thu
+        case tue
+        case wed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Day] {
+            return [
+                .fri,
+                .mon,
+                .sat,
+                .sun,
+                .thu,
+                .tue,
+                .wed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fri: return "FRI"
+            case .mon: return "MON"
+            case .sat: return "SAT"
+            case .sun: return "SUN"
+            case .thu: return "THU"
+            case .tue: return "TUE"
+            case .wed: return "WED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Day(rawValue: rawValue) ?? Day.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension Inspector2ClientTypes.DelegatedAdmin: Swift.Codable {
@@ -5260,6 +8006,111 @@ extension Inspector2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DelegatedAdminStatus(rawValue: rawValue) ?? DelegatedAdminStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DeleteCisScanConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanConfigurationArn = self.scanConfigurationArn {
+            try encodeContainer.encode(scanConfigurationArn, forKey: .scanConfigurationArn)
+        }
+    }
+}
+
+extension DeleteCisScanConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteCisScanConfigurationInput) -> Swift.String? {
+        return "/cis/scan-configuration/delete"
+    }
+}
+
+public struct DeleteCisScanConfigurationInput: Swift.Equatable {
+    /// The ARN of the CIS scan configuration.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    )
+    {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+struct DeleteCisScanConfigurationInputBody: Swift.Equatable {
+    let scanConfigurationArn: Swift.String?
+}
+
+extension DeleteCisScanConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+    }
+}
+
+extension DeleteCisScanConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteCisScanConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.scanConfigurationArn = output.scanConfigurationArn
+        } else {
+            self.scanConfigurationArn = nil
+        }
+    }
+}
+
+public struct DeleteCisScanConfigurationOutput: Swift.Equatable {
+    /// The ARN of the CIS scan configuration.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    )
+    {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+struct DeleteCisScanConfigurationOutputBody: Swift.Equatable {
+    let scanConfigurationArn: Swift.String?
+}
+
+extension DeleteCisScanConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+    }
+}
+
+enum DeleteCisScanConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -6313,11 +9164,15 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.EcrConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullDateRescanDuration
         case rescanDuration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pullDateRescanDuration = self.pullDateRescanDuration {
+            try encodeContainer.encode(pullDateRescanDuration.rawValue, forKey: .pullDateRescanDuration)
+        }
         if let rescanDuration = self.rescanDuration {
             try encodeContainer.encode(rescanDuration.rawValue, forKey: .rescanDuration)
         }
@@ -6327,20 +9182,26 @@ extension Inspector2ClientTypes.EcrConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let rescanDurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrRescanDuration.self, forKey: .rescanDuration)
         rescanDuration = rescanDurationDecoded
+        let pullDateRescanDurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrPullDateRescanDuration.self, forKey: .pullDateRescanDuration)
+        pullDateRescanDuration = pullDateRescanDurationDecoded
     }
 }
 
 extension Inspector2ClientTypes {
     /// Details about the ECR automated re-scan duration setting for your environment.
     public struct EcrConfiguration: Swift.Equatable {
-        /// The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
+        /// The rescan duration configured for image pull date.
+        public var pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration?
+        /// The rescan duration configured for image push date.
         /// This member is required.
         public var rescanDuration: Inspector2ClientTypes.EcrRescanDuration?
 
         public init(
+            pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration? = nil,
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil
         )
         {
+            self.pullDateRescanDuration = pullDateRescanDuration
             self.rescanDuration = rescanDuration
         }
     }
@@ -6369,7 +9230,7 @@ extension Inspector2ClientTypes.EcrConfigurationState: Swift.Codable {
 extension Inspector2ClientTypes {
     /// Details about the state of the ECR scans for your environment.
     public struct EcrConfigurationState: Swift.Equatable {
-        /// An object that contains details about the state of the ECR automated re-scan setting.
+        /// An object that contains details about the state of the ECR re-scan settings.
         public var rescanDurationState: Inspector2ClientTypes.EcrRescanDurationState?
 
         public init(
@@ -6384,11 +9245,15 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.EcrContainerImageMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imagePulledAt
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imagePulledAt = self.imagePulledAt {
+            try encodeContainer.encodeTimestamp(imagePulledAt, format: .epochSeconds, forKey: .imagePulledAt)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
             for string0 in tags {
@@ -6410,23 +9275,70 @@ extension Inspector2ClientTypes.EcrContainerImageMetadata: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let imagePulledAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .imagePulledAt)
+        imagePulledAt = imagePulledAtDecoded
     }
 }
 
 extension Inspector2ClientTypes {
     /// Information on the Amazon ECR image metadata associated with a finding.
     public struct EcrContainerImageMetadata: Swift.Equatable {
+        /// The date an image was last pulled at.
+        public var imagePulledAt: ClientRuntime.Date?
         /// Tags associated with the Amazon ECR image metadata.
         public var tags: [Swift.String]?
 
         public init(
+            imagePulledAt: ClientRuntime.Date? = nil,
             tags: [Swift.String]? = nil
         )
         {
+            self.imagePulledAt = imagePulledAt
             self.tags = tags
         }
     }
 
+}
+
+extension Inspector2ClientTypes {
+    public enum EcrPullDateRescanDuration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days14
+        case days180
+        case days30
+        case days60
+        case days90
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EcrPullDateRescanDuration] {
+            return [
+                .days14,
+                .days180,
+                .days30,
+                .days60,
+                .days90,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days14: return "DAYS_14"
+            case .days180: return "DAYS_180"
+            case .days30: return "DAYS_30"
+            case .days60: return "DAYS_60"
+            case .days90: return "DAYS_90"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EcrPullDateRescanDuration(rawValue: rawValue) ?? EcrPullDateRescanDuration.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension Inspector2ClientTypes.EcrRepositoryMetadata: Swift.Codable {
@@ -6476,15 +9388,21 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
     public enum EcrRescanDuration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days14
         case days180
         case days30
+        case days60
+        case days90
         case lifetime
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EcrRescanDuration] {
             return [
+                .days14,
                 .days180,
                 .days30,
+                .days60,
+                .days90,
                 .lifetime,
                 .sdkUnknown("")
             ]
@@ -6495,8 +9413,11 @@ extension Inspector2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .days14: return "DAYS_14"
             case .days180: return "DAYS_180"
             case .days30: return "DAYS_30"
+            case .days60: return "DAYS_60"
+            case .days90: return "DAYS_90"
             case .lifetime: return "LIFETIME"
             case let .sdkUnknown(s): return s
             }
@@ -6511,6 +9432,7 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes.EcrRescanDurationState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullDateRescanDuration
         case rescanDuration
         case status
         case updatedAt
@@ -6518,6 +9440,9 @@ extension Inspector2ClientTypes.EcrRescanDurationState: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pullDateRescanDuration = self.pullDateRescanDuration {
+            try encodeContainer.encode(pullDateRescanDuration.rawValue, forKey: .pullDateRescanDuration)
+        }
         if let rescanDuration = self.rescanDuration {
             try encodeContainer.encode(rescanDuration.rawValue, forKey: .rescanDuration)
         }
@@ -6537,13 +9462,17 @@ extension Inspector2ClientTypes.EcrRescanDurationState: Swift.Codable {
         status = statusDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let pullDateRescanDurationDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.EcrPullDateRescanDuration.self, forKey: .pullDateRescanDuration)
+        pullDateRescanDuration = pullDateRescanDurationDecoded
     }
 }
 
 extension Inspector2ClientTypes {
-    /// Details about the state of any changes to the ECR automated re-scan duration setting.
+    /// Details about the state of your ECR re-scan duration settings. The ECR re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the duration configured for image pull date, and the duration configured for image pull date, the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
     public struct EcrRescanDurationState: Swift.Equatable {
-        /// The ECR automated re-scan duration defines how long an ECR image will be actively scanned by Amazon Inspector. When the number of days since an image was last pushed exceeds the automated re-scan duration the monitoring state of that image becomes inactive and all associated findings are scheduled for closure.
+        /// The rescan duration configured for image pull date.
+        public var pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration?
+        /// The rescan duration configured for image push date.
         public var rescanDuration: Inspector2ClientTypes.EcrRescanDuration?
         /// The status of changes to the ECR automated re-scan duration.
         public var status: Inspector2ClientTypes.EcrRescanDurationStatus?
@@ -6551,11 +9480,13 @@ extension Inspector2ClientTypes {
         public var updatedAt: ClientRuntime.Date?
 
         public init(
+            pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration? = nil,
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil,
             status: Inspector2ClientTypes.EcrRescanDurationStatus? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
+            self.pullDateRescanDuration = pullDateRescanDuration
             self.rescanDuration = rescanDuration
             self.status = status
             self.updatedAt = updatedAt
@@ -8390,7 +11321,7 @@ extension Inspector2ClientTypes {
         public var ecrImageTags: [Inspector2ClientTypes.StringFilter]?
         /// The EPSS score used to filter findings.
         public var epssScore: [Inspector2ClientTypes.NumberFilter]?
-        /// Filters the list of AWS Lambda findings by the availability of exploits.
+        /// Filters the list of Amazon Web Services Lambda findings by the availability of exploits.
         public var exploitAvailable: [Inspector2ClientTypes.StringFilter]?
         /// Details on the finding ARNs used to filter findings.
         public var findingArn: [Inspector2ClientTypes.StringFilter]?
@@ -8404,15 +11335,15 @@ extension Inspector2ClientTypes {
         public var fixAvailable: [Inspector2ClientTypes.StringFilter]?
         /// The Amazon Inspector score to filter on.
         public var inspectorScore: [Inspector2ClientTypes.NumberFilter]?
-        /// Filters the list of AWS Lambda functions by execution role.
+        /// Filters the list of Amazon Web Services Lambda functions by execution role.
         public var lambdaFunctionExecutionRoleArn: [Inspector2ClientTypes.StringFilter]?
-        /// Filters the list of AWS Lambda functions by the date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html)
+        /// Filters the list of Amazon Web Services Lambda functions by the date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html)
         public var lambdaFunctionLastModifiedAt: [Inspector2ClientTypes.DateFilter]?
-        /// Filters the list of AWS Lambda functions by the function's [ layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). A Lambda function can have up to five layers.
+        /// Filters the list of Amazon Web Services Lambda functions by the function's [ layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). A Lambda function can have up to five layers.
         public var lambdaFunctionLayers: [Inspector2ClientTypes.StringFilter]?
-        /// Filters the list of AWS Lambda functions by the name of the function.
+        /// Filters the list of Amazon Web Services Lambda functions by the name of the function.
         public var lambdaFunctionName: [Inspector2ClientTypes.StringFilter]?
-        /// Filters the list of AWS Lambda functions by the runtime environment for the Lambda function.
+        /// Filters the list of Amazon Web Services Lambda functions by the runtime environment for the Lambda function.
         public var lambdaFunctionRuntime: [Inspector2ClientTypes.StringFilter]?
         /// Details on the date and time a finding was last seen used to filter findings.
         public var lastObservedAt: [Inspector2ClientTypes.DateFilter]?
@@ -9611,6 +12542,351 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension GetCisScanReportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanArn
+        case targetAccounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let targetAccounts = targetAccounts {
+            var targetAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetAccounts)
+            for accountid0 in targetAccounts {
+                try targetAccountsContainer.encode(accountid0)
+            }
+        }
+    }
+}
+
+extension GetCisScanReportInput {
+
+    static func urlPathProvider(_ value: GetCisScanReportInput) -> Swift.String? {
+        return "/cis/scan/report/get"
+    }
+}
+
+public struct GetCisScanReportInput: Swift.Equatable {
+    /// The scan ARN.
+    /// This member is required.
+    public var scanArn: Swift.String?
+    /// The target accounts.
+    public var targetAccounts: [Swift.String]?
+
+    public init(
+        scanArn: Swift.String? = nil,
+        targetAccounts: [Swift.String]? = nil
+    )
+    {
+        self.scanArn = scanArn
+        self.targetAccounts = targetAccounts
+    }
+}
+
+struct GetCisScanReportInputBody: Swift.Equatable {
+    let scanArn: Swift.String?
+    let targetAccounts: [Swift.String]?
+}
+
+extension GetCisScanReportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanArn
+        case targetAccounts
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let targetAccountsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targetAccounts)
+        var targetAccountsDecoded0:[Swift.String]? = nil
+        if let targetAccountsContainer = targetAccountsContainer {
+            targetAccountsDecoded0 = [Swift.String]()
+            for string0 in targetAccountsContainer {
+                if let string0 = string0 {
+                    targetAccountsDecoded0?.append(string0)
+                }
+            }
+        }
+        targetAccounts = targetAccountsDecoded0
+    }
+}
+
+extension GetCisScanReportOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCisScanReportOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+            self.url = output.url
+        } else {
+            self.status = nil
+            self.url = nil
+        }
+    }
+}
+
+public struct GetCisScanReportOutput: Swift.Equatable {
+    /// The status.
+    public var status: Inspector2ClientTypes.CisReportStatus?
+    /// The URL where the CIS scan report PDF can be downloaded.
+    public var url: Swift.String?
+
+    public init(
+        status: Inspector2ClientTypes.CisReportStatus? = nil,
+        url: Swift.String? = nil
+    )
+    {
+        self.status = status
+        self.url = url
+    }
+}
+
+struct GetCisScanReportOutputBody: Swift.Equatable {
+    let url: Swift.String?
+    let status: Inspector2ClientTypes.CisReportStatus?
+}
+
+extension GetCisScanReportOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+        case url
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisReportStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum GetCisScanReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCisScanResultDetailsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case scanArn
+        case sortBy
+        case sortOrder
+        case targetResourceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+        if let targetResourceId = self.targetResourceId {
+            try encodeContainer.encode(targetResourceId, forKey: .targetResourceId)
+        }
+    }
+}
+
+extension GetCisScanResultDetailsInput {
+
+    static func urlPathProvider(_ value: GetCisScanResultDetailsInput) -> Swift.String? {
+        return "/cis/scan-result/details/get"
+    }
+}
+
+public struct GetCisScanResultDetailsInput: Swift.Equatable {
+    /// The account ID.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The filter criteria.
+    public var filterCriteria: Inspector2ClientTypes.CisScanResultDetailsFilterCriteria?
+    /// The maximum number of CIS scan result details to be returned in a single page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The scan ARN.
+    /// This member is required.
+    public var scanArn: Swift.String?
+    /// The sort by order.
+    public var sortBy: Inspector2ClientTypes.CisScanResultDetailsSortBy?
+    /// The sort order.
+    public var sortOrder: Inspector2ClientTypes.CisSortOrder?
+    /// The target resource ID.
+    /// This member is required.
+    public var targetResourceId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        filterCriteria: Inspector2ClientTypes.CisScanResultDetailsFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scanArn: Swift.String? = nil,
+        sortBy: Inspector2ClientTypes.CisScanResultDetailsSortBy? = nil,
+        sortOrder: Inspector2ClientTypes.CisSortOrder? = nil,
+        targetResourceId: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scanArn = scanArn
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.targetResourceId = targetResourceId
+    }
+}
+
+struct GetCisScanResultDetailsInputBody: Swift.Equatable {
+    let scanArn: Swift.String?
+    let targetResourceId: Swift.String?
+    let accountId: Swift.String?
+    let filterCriteria: Inspector2ClientTypes.CisScanResultDetailsFilterCriteria?
+    let sortBy: Inspector2ClientTypes.CisScanResultDetailsSortBy?
+    let sortOrder: Inspector2ClientTypes.CisSortOrder?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension GetCisScanResultDetailsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case scanArn
+        case sortBy
+        case sortOrder
+        case targetResourceId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let targetResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetResourceId)
+        targetResourceId = targetResourceIdDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanResultDetailsFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanResultDetailsSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension GetCisScanResultDetailsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCisScanResultDetailsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scanResultDetails = output.scanResultDetails
+        } else {
+            self.nextToken = nil
+            self.scanResultDetails = nil
+        }
+    }
+}
+
+public struct GetCisScanResultDetailsOutput: Swift.Equatable {
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The scan result details.
+    public var scanResultDetails: [Inspector2ClientTypes.CisScanResultDetails]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scanResultDetails: [Inspector2ClientTypes.CisScanResultDetails]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scanResultDetails = scanResultDetails
+    }
+}
+
+struct GetCisScanResultDetailsOutputBody: Swift.Equatable {
+    let scanResultDetails: [Inspector2ClientTypes.CisScanResultDetails]?
+    let nextToken: Swift.String?
+}
+
+extension GetCisScanResultDetailsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case scanResultDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanResultDetailsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisScanResultDetails?].self, forKey: .scanResultDetails)
+        var scanResultDetailsDecoded0:[Inspector2ClientTypes.CisScanResultDetails]? = nil
+        if let scanResultDetailsContainer = scanResultDetailsContainer {
+            scanResultDetailsDecoded0 = [Inspector2ClientTypes.CisScanResultDetails]()
+            for structure0 in scanResultDetailsContainer {
+                if let structure0 = structure0 {
+                    scanResultDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanResultDetails = scanResultDetailsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum GetCisScanResultDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetConfigurationInput {
 
     static func urlPathProvider(_ value: GetConfigurationInput) -> Swift.String? {
@@ -10681,8 +13957,6 @@ extension Inspector2ClientTypes {
     }
 }
 
-public enum Inspector2ClientTypes {}
-
 extension Inspector2ClientTypes.InspectorScoreDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adjustedCvss
@@ -10881,15 +14155,15 @@ extension Inspector2ClientTypes.LambdaFunctionAggregation: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// The details that define a findings aggregation based on AWS Lambda functions.
+    /// The details that define a findings aggregation based on Amazon Web Services Lambda functions.
     public struct LambdaFunctionAggregation: Swift.Equatable {
-        /// The AWS Lambda function names to include in the aggregation results.
+        /// The Amazon Web Services Lambda function names to include in the aggregation results.
         public var functionNames: [Inspector2ClientTypes.StringFilter]?
         /// The tags to include in the aggregation results.
         public var functionTags: [Inspector2ClientTypes.MapFilter]?
         /// The resource IDs to include in the aggregation results.
         public var resourceIds: [Inspector2ClientTypes.StringFilter]?
-        /// Returns findings aggregated by AWS Lambda function runtime environments.
+        /// Returns findings aggregated by Amazon Web Services Lambda function runtime environments.
         public var runtimes: [Inspector2ClientTypes.StringFilter]?
         /// The finding severity to use for sorting the results.
         public var sortBy: Inspector2ClientTypes.LambdaFunctionSortBy?
@@ -10984,15 +14258,15 @@ extension Inspector2ClientTypes.LambdaFunctionAggregationResponse: Swift.Codable
 }
 
 extension Inspector2ClientTypes {
-    /// A response that contains the results of an AWS Lambda function finding aggregation.
+    /// A response that contains the results of an Amazon Web Services Lambda function finding aggregation.
     public struct LambdaFunctionAggregationResponse: Swift.Equatable {
-        /// The ID of the AWS account that owns the AWS Lambda function.
+        /// The ID of the Amazon Web Services account that owns the Amazon Web Services Lambda function.
         public var accountId: Swift.String?
-        /// The AWS Lambda function names included in the aggregation results.
+        /// The Amazon Web Services Lambda function names included in the aggregation results.
         public var functionName: Swift.String?
         /// The tags included in the aggregation results.
         public var lambdaTags: [Swift.String:Swift.String]?
-        /// The date that the AWS Lambda function included in the aggregation results was last changed.
+        /// The date that the Amazon Web Services Lambda function included in the aggregation results was last changed.
         public var lastModifiedAt: ClientRuntime.Date?
         /// The resource IDs included in the aggregation results.
         /// This member is required.
@@ -11086,15 +14360,15 @@ extension Inspector2ClientTypes.LambdaFunctionMetadata: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// The AWS Lambda function metadata.
+    /// The Amazon Web Services Lambda function metadata.
     public struct LambdaFunctionMetadata: Swift.Equatable {
         /// The name of a function.
         public var functionName: Swift.String?
-        /// The resource tags on an AWS Lambda function.
+        /// The resource tags on an Amazon Web Services Lambda function.
         public var functionTags: [Swift.String:Swift.String]?
-        /// The layers for an AWS Lambda function. A Lambda function can have up to five layers.
+        /// The layers for an Amazon Web Services Lambda function. A Lambda function can have up to five layers.
         public var layers: [Swift.String]?
-        /// An AWS Lambda function's runtime.
+        /// An Amazon Web Services Lambda function's runtime.
         public var runtime: Inspector2ClientTypes.Runtime?
 
         public init(
@@ -11228,13 +14502,13 @@ extension Inspector2ClientTypes.LambdaLayerAggregation: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// The details that define a findings aggregation based on an AWS Lambda function's layers.
+    /// The details that define a findings aggregation based on an Amazon Web Services Lambda function's layers.
     public struct LambdaLayerAggregation: Swift.Equatable {
-        /// The names of the AWS Lambda functions associated with the layers.
+        /// The names of the Amazon Web Services Lambda functions associated with the layers.
         public var functionNames: [Inspector2ClientTypes.StringFilter]?
-        /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function layer.
         public var layerArns: [Inspector2ClientTypes.StringFilter]?
-        /// The resource IDs for the AWS Lambda function layers.
+        /// The resource IDs for the Amazon Web Services Lambda function layers.
         public var resourceIds: [Inspector2ClientTypes.StringFilter]?
         /// The finding severity to use for sorting the results.
         public var sortBy: Inspector2ClientTypes.LambdaLayerSortBy?
@@ -11303,18 +14577,18 @@ extension Inspector2ClientTypes.LambdaLayerAggregationResponse: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// A response that contains the results of an AWS Lambda function layer finding aggregation.
+    /// A response that contains the results of an Amazon Web Services Lambda function layer finding aggregation.
     public struct LambdaLayerAggregationResponse: Swift.Equatable {
-        /// The account ID of the AWS Lambda function layer.
+        /// The account ID of the Amazon Web Services Lambda function layer.
         /// This member is required.
         public var accountId: Swift.String?
-        /// The names of the AWS Lambda functions associated with the layers.
+        /// The names of the Amazon Web Services Lambda functions associated with the layers.
         /// This member is required.
         public var functionName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function layer.
         /// This member is required.
         public var layerArn: Swift.String?
-        /// The Resource ID of the AWS Lambda function layer.
+        /// The Resource ID of the Amazon Web Services Lambda function layer.
         /// This member is required.
         public var resourceId: Swift.String?
         /// An object that contains the counts of aggregated finding per severity.
@@ -11429,9 +14703,9 @@ extension Inspector2ClientTypes.LambdaVpcConfig: Swift.Codable {
 }
 
 extension Inspector2ClientTypes {
-    /// The VPC security groups and subnets that are attached to an AWS Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
+    /// The VPC security groups and subnets that are attached to an Amazon Web Services Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
     public struct LambdaVpcConfig: Swift.Equatable {
-        /// The VPC security groups and subnets that are attached to an AWS Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
+        /// The VPC security groups and subnets that are attached to an Amazon Web Services Lambda function. For more information, see [VPC Settings](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
         public var securityGroupIds: [Swift.String]?
         /// A list of VPC subnet IDs.
         public var subnetIds: [Swift.String]?
@@ -11594,6 +14868,1126 @@ enum ListAccountPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArnFilters
+        case scanNameFilters
+        case targetResourceTagFilters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanConfigurationArnFilters = scanConfigurationArnFilters {
+            var scanConfigurationArnFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanConfigurationArnFilters)
+            for cisstringfilter0 in scanConfigurationArnFilters {
+                try scanConfigurationArnFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let scanNameFilters = scanNameFilters {
+            var scanNameFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanNameFilters)
+            for cisstringfilter0 in scanNameFilters {
+                try scanNameFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let targetResourceTagFilters = targetResourceTagFilters {
+            var targetResourceTagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetResourceTagFilters)
+            for tagfilter0 in targetResourceTagFilters {
+                try targetResourceTagFiltersContainer.encode(tagfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanNameFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .scanNameFilters)
+        var scanNameFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let scanNameFiltersContainer = scanNameFiltersContainer {
+            scanNameFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in scanNameFiltersContainer {
+                if let structure0 = structure0 {
+                    scanNameFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanNameFilters = scanNameFiltersDecoded0
+        let targetResourceTagFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.TagFilter?].self, forKey: .targetResourceTagFilters)
+        var targetResourceTagFiltersDecoded0:[Inspector2ClientTypes.TagFilter]? = nil
+        if let targetResourceTagFiltersContainer = targetResourceTagFiltersContainer {
+            targetResourceTagFiltersDecoded0 = [Inspector2ClientTypes.TagFilter]()
+            for structure0 in targetResourceTagFiltersContainer {
+                if let structure0 = structure0 {
+                    targetResourceTagFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetResourceTagFilters = targetResourceTagFiltersDecoded0
+        let scanConfigurationArnFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .scanConfigurationArnFilters)
+        var scanConfigurationArnFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let scanConfigurationArnFiltersContainer = scanConfigurationArnFiltersContainer {
+            scanConfigurationArnFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in scanConfigurationArnFiltersContainer {
+                if let structure0 = structure0 {
+                    scanConfigurationArnFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanConfigurationArnFilters = scanConfigurationArnFiltersDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A list of CIS scan configurations filter criteria.
+    public struct ListCisScanConfigurationsFilterCriteria: Swift.Equatable {
+        /// The list of scan configuration ARN filters.
+        public var scanConfigurationArnFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of scan name filters.
+        public var scanNameFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of target resource tag filters.
+        public var targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]?
+
+        public init(
+            scanConfigurationArnFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            scanNameFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]? = nil
+        )
+        {
+            self.scanConfigurationArnFilters = scanConfigurationArnFilters
+            self.scanNameFilters = scanNameFilters
+            self.targetResourceTagFilters = targetResourceTagFilters
+        }
+    }
+
+}
+
+extension ListCisScanConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+}
+
+extension ListCisScanConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListCisScanConfigurationsInput) -> Swift.String? {
+        return "/cis/scan-configuration/list"
+    }
+}
+
+public struct ListCisScanConfigurationsInput: Swift.Equatable {
+    /// The CIS scan configuration filter criteria.
+    public var filterCriteria: Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria?
+    /// The maximum number of CIS scan configurations to be returned in a single page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The CIS scan configuration sort by order.
+    public var sortBy: Inspector2ClientTypes.CisScanConfigurationsSortBy?
+    /// The CIS scan configuration sort order order.
+    public var sortOrder: Inspector2ClientTypes.CisSortOrder?
+
+    public init(
+        filterCriteria: Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: Inspector2ClientTypes.CisScanConfigurationsSortBy? = nil,
+        sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
+    )
+    {
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+struct ListCisScanConfigurationsInputBody: Swift.Equatable {
+    let filterCriteria: Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria?
+    let sortBy: Inspector2ClientTypes.CisScanConfigurationsSortBy?
+    let sortOrder: Inspector2ClientTypes.CisSortOrder?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCisScanConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case sortBy
+        case sortOrder
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanConfigurationsSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCisScanConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCisScanConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scanConfigurations = output.scanConfigurations
+        } else {
+            self.nextToken = nil
+            self.scanConfigurations = nil
+        }
+    }
+}
+
+public struct ListCisScanConfigurationsOutput: Swift.Equatable {
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The CIS scan configuration scan configurations.
+    public var scanConfigurations: [Inspector2ClientTypes.CisScanConfiguration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scanConfigurations: [Inspector2ClientTypes.CisScanConfiguration]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scanConfigurations = scanConfigurations
+    }
+}
+
+struct ListCisScanConfigurationsOutputBody: Swift.Equatable {
+    let scanConfigurations: [Inspector2ClientTypes.CisScanConfiguration]?
+    let nextToken: Swift.String?
+}
+
+extension ListCisScanConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case scanConfigurations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisScanConfiguration?].self, forKey: .scanConfigurations)
+        var scanConfigurationsDecoded0:[Inspector2ClientTypes.CisScanConfiguration]? = nil
+        if let scanConfigurationsContainer = scanConfigurationsContainer {
+            scanConfigurationsDecoded0 = [Inspector2ClientTypes.CisScanConfiguration]()
+            for structure0 in scanConfigurationsContainer {
+                if let structure0 = structure0 {
+                    scanConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanConfigurations = scanConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCisScanConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCisScanResultsAggregatedByChecksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case scanArn
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+}
+
+extension ListCisScanResultsAggregatedByChecksInput {
+
+    static func urlPathProvider(_ value: ListCisScanResultsAggregatedByChecksInput) -> Swift.String? {
+        return "/cis/scan-result/check/list"
+    }
+}
+
+public struct ListCisScanResultsAggregatedByChecksInput: Swift.Equatable {
+    /// The filter criteria.
+    public var filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria?
+    /// The maximum number of scan results aggregated by checks to be returned in a single page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The scan ARN.
+    /// This member is required.
+    public var scanArn: Swift.String?
+    /// The sort by order.
+    public var sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByChecksSortBy?
+    /// The sort order.
+    public var sortOrder: Inspector2ClientTypes.CisSortOrder?
+
+    public init(
+        filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scanArn: Swift.String? = nil,
+        sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByChecksSortBy? = nil,
+        sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
+    )
+    {
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scanArn = scanArn
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+struct ListCisScanResultsAggregatedByChecksInputBody: Swift.Equatable {
+    let scanArn: Swift.String?
+    let filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria?
+    let sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByChecksSortBy?
+    let sortOrder: Inspector2ClientTypes.CisSortOrder?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCisScanResultsAggregatedByChecksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case scanArn
+        case sortBy
+        case sortOrder
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanResultsAggregatedByChecksFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanResultsAggregatedByChecksSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCisScanResultsAggregatedByChecksOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCisScanResultsAggregatedByChecksOutputBody = try responseDecoder.decode(responseBody: data)
+            self.checkAggregations = output.checkAggregations
+            self.nextToken = output.nextToken
+        } else {
+            self.checkAggregations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCisScanResultsAggregatedByChecksOutput: Swift.Equatable {
+    /// The check aggregations.
+    public var checkAggregations: [Inspector2ClientTypes.CisCheckAggregation]?
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        checkAggregations: [Inspector2ClientTypes.CisCheckAggregation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.checkAggregations = checkAggregations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCisScanResultsAggregatedByChecksOutputBody: Swift.Equatable {
+    let checkAggregations: [Inspector2ClientTypes.CisCheckAggregation]?
+    let nextToken: Swift.String?
+}
+
+extension ListCisScanResultsAggregatedByChecksOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checkAggregations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let checkAggregationsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisCheckAggregation?].self, forKey: .checkAggregations)
+        var checkAggregationsDecoded0:[Inspector2ClientTypes.CisCheckAggregation]? = nil
+        if let checkAggregationsContainer = checkAggregationsContainer {
+            checkAggregationsDecoded0 = [Inspector2ClientTypes.CisCheckAggregation]()
+            for structure0 in checkAggregationsContainer {
+                if let structure0 = structure0 {
+                    checkAggregationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        checkAggregations = checkAggregationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCisScanResultsAggregatedByChecksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCisScanResultsAggregatedByTargetResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case scanArn
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let scanArn = self.scanArn {
+            try encodeContainer.encode(scanArn, forKey: .scanArn)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+}
+
+extension ListCisScanResultsAggregatedByTargetResourceInput {
+
+    static func urlPathProvider(_ value: ListCisScanResultsAggregatedByTargetResourceInput) -> Swift.String? {
+        return "/cis/scan-result/resource/list"
+    }
+}
+
+public struct ListCisScanResultsAggregatedByTargetResourceInput: Swift.Equatable {
+    /// The filter criteria.
+    public var filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria?
+    /// The maximum number of scan results aggregated by a target resource to be returned in a single page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The scan ARN.
+    /// This member is required.
+    public var scanArn: Swift.String?
+    /// The sort by order.
+    public var sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceSortBy?
+    /// The sort order.
+    public var sortOrder: Inspector2ClientTypes.CisSortOrder?
+
+    public init(
+        filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scanArn: Swift.String? = nil,
+        sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceSortBy? = nil,
+        sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
+    )
+    {
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scanArn = scanArn
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+struct ListCisScanResultsAggregatedByTargetResourceInputBody: Swift.Equatable {
+    let scanArn: Swift.String?
+    let filterCriteria: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria?
+    let sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceSortBy?
+    let sortOrder: Inspector2ClientTypes.CisSortOrder?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCisScanResultsAggregatedByTargetResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case scanArn
+        case sortBy
+        case sortOrder
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanArn)
+        scanArn = scanArnDecoded
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCisScanResultsAggregatedByTargetResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCisScanResultsAggregatedByTargetResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.targetResourceAggregations = output.targetResourceAggregations
+        } else {
+            self.nextToken = nil
+            self.targetResourceAggregations = nil
+        }
+    }
+}
+
+public struct ListCisScanResultsAggregatedByTargetResourceOutput: Swift.Equatable {
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The resource aggregations.
+    public var targetResourceAggregations: [Inspector2ClientTypes.CisTargetResourceAggregation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        targetResourceAggregations: [Inspector2ClientTypes.CisTargetResourceAggregation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.targetResourceAggregations = targetResourceAggregations
+    }
+}
+
+struct ListCisScanResultsAggregatedByTargetResourceOutputBody: Swift.Equatable {
+    let targetResourceAggregations: [Inspector2ClientTypes.CisTargetResourceAggregation]?
+    let nextToken: Swift.String?
+}
+
+extension ListCisScanResultsAggregatedByTargetResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case targetResourceAggregations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetResourceAggregationsContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisTargetResourceAggregation?].self, forKey: .targetResourceAggregations)
+        var targetResourceAggregationsDecoded0:[Inspector2ClientTypes.CisTargetResourceAggregation]? = nil
+        if let targetResourceAggregationsContainer = targetResourceAggregationsContainer {
+            targetResourceAggregationsDecoded0 = [Inspector2ClientTypes.CisTargetResourceAggregation]()
+            for structure0 in targetResourceAggregationsContainer {
+                if let structure0 = structure0 {
+                    targetResourceAggregationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetResourceAggregations = targetResourceAggregationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCisScanResultsAggregatedByTargetResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum ListCisScansDetailLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case member
+        case organization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListCisScansDetailLevel] {
+            return [
+                .member,
+                .organization,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .member: return "MEMBER"
+            case .organization: return "ORGANIZATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListCisScansDetailLevel(rawValue: rawValue) ?? ListCisScansDetailLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.ListCisScansFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failedChecksFilters
+        case scanArnFilters
+        case scanAtFilters
+        case scanConfigurationArnFilters
+        case scanNameFilters
+        case scanStatusFilters
+        case scheduledByFilters
+        case targetAccountIdFilters
+        case targetResourceIdFilters
+        case targetResourceTagFilters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failedChecksFilters = failedChecksFilters {
+            var failedChecksFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedChecksFilters)
+            for cisnumberfilter0 in failedChecksFilters {
+                try failedChecksFiltersContainer.encode(cisnumberfilter0)
+            }
+        }
+        if let scanArnFilters = scanArnFilters {
+            var scanArnFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanArnFilters)
+            for cisstringfilter0 in scanArnFilters {
+                try scanArnFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let scanAtFilters = scanAtFilters {
+            var scanAtFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanAtFilters)
+            for cisdatefilter0 in scanAtFilters {
+                try scanAtFiltersContainer.encode(cisdatefilter0)
+            }
+        }
+        if let scanConfigurationArnFilters = scanConfigurationArnFilters {
+            var scanConfigurationArnFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanConfigurationArnFilters)
+            for cisstringfilter0 in scanConfigurationArnFilters {
+                try scanConfigurationArnFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let scanNameFilters = scanNameFilters {
+            var scanNameFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanNameFilters)
+            for cisstringfilter0 in scanNameFilters {
+                try scanNameFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let scanStatusFilters = scanStatusFilters {
+            var scanStatusFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanStatusFilters)
+            for cisscanstatusfilter0 in scanStatusFilters {
+                try scanStatusFiltersContainer.encode(cisscanstatusfilter0)
+            }
+        }
+        if let scheduledByFilters = scheduledByFilters {
+            var scheduledByFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduledByFilters)
+            for cisstringfilter0 in scheduledByFilters {
+                try scheduledByFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let targetAccountIdFilters = targetAccountIdFilters {
+            var targetAccountIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetAccountIdFilters)
+            for cisstringfilter0 in targetAccountIdFilters {
+                try targetAccountIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let targetResourceIdFilters = targetResourceIdFilters {
+            var targetResourceIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetResourceIdFilters)
+            for cisstringfilter0 in targetResourceIdFilters {
+                try targetResourceIdFiltersContainer.encode(cisstringfilter0)
+            }
+        }
+        if let targetResourceTagFilters = targetResourceTagFilters {
+            var targetResourceTagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetResourceTagFilters)
+            for tagfilter0 in targetResourceTagFilters {
+                try targetResourceTagFiltersContainer.encode(tagfilter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanNameFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .scanNameFilters)
+        var scanNameFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let scanNameFiltersContainer = scanNameFiltersContainer {
+            scanNameFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in scanNameFiltersContainer {
+                if let structure0 = structure0 {
+                    scanNameFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanNameFilters = scanNameFiltersDecoded0
+        let targetResourceTagFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.TagFilter?].self, forKey: .targetResourceTagFilters)
+        var targetResourceTagFiltersDecoded0:[Inspector2ClientTypes.TagFilter]? = nil
+        if let targetResourceTagFiltersContainer = targetResourceTagFiltersContainer {
+            targetResourceTagFiltersDecoded0 = [Inspector2ClientTypes.TagFilter]()
+            for structure0 in targetResourceTagFiltersContainer {
+                if let structure0 = structure0 {
+                    targetResourceTagFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetResourceTagFilters = targetResourceTagFiltersDecoded0
+        let targetResourceIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .targetResourceIdFilters)
+        var targetResourceIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let targetResourceIdFiltersContainer = targetResourceIdFiltersContainer {
+            targetResourceIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in targetResourceIdFiltersContainer {
+                if let structure0 = structure0 {
+                    targetResourceIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetResourceIdFilters = targetResourceIdFiltersDecoded0
+        let scanStatusFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisScanStatusFilter?].self, forKey: .scanStatusFilters)
+        var scanStatusFiltersDecoded0:[Inspector2ClientTypes.CisScanStatusFilter]? = nil
+        if let scanStatusFiltersContainer = scanStatusFiltersContainer {
+            scanStatusFiltersDecoded0 = [Inspector2ClientTypes.CisScanStatusFilter]()
+            for structure0 in scanStatusFiltersContainer {
+                if let structure0 = structure0 {
+                    scanStatusFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanStatusFilters = scanStatusFiltersDecoded0
+        let scanAtFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisDateFilter?].self, forKey: .scanAtFilters)
+        var scanAtFiltersDecoded0:[Inspector2ClientTypes.CisDateFilter]? = nil
+        if let scanAtFiltersContainer = scanAtFiltersContainer {
+            scanAtFiltersDecoded0 = [Inspector2ClientTypes.CisDateFilter]()
+            for structure0 in scanAtFiltersContainer {
+                if let structure0 = structure0 {
+                    scanAtFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanAtFilters = scanAtFiltersDecoded0
+        let scanConfigurationArnFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .scanConfigurationArnFilters)
+        var scanConfigurationArnFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let scanConfigurationArnFiltersContainer = scanConfigurationArnFiltersContainer {
+            scanConfigurationArnFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in scanConfigurationArnFiltersContainer {
+                if let structure0 = structure0 {
+                    scanConfigurationArnFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanConfigurationArnFilters = scanConfigurationArnFiltersDecoded0
+        let scanArnFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .scanArnFilters)
+        var scanArnFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let scanArnFiltersContainer = scanArnFiltersContainer {
+            scanArnFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in scanArnFiltersContainer {
+                if let structure0 = structure0 {
+                    scanArnFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scanArnFilters = scanArnFiltersDecoded0
+        let scheduledByFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .scheduledByFilters)
+        var scheduledByFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let scheduledByFiltersContainer = scheduledByFiltersContainer {
+            scheduledByFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in scheduledByFiltersContainer {
+                if let structure0 = structure0 {
+                    scheduledByFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        scheduledByFilters = scheduledByFiltersDecoded0
+        let failedChecksFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisNumberFilter?].self, forKey: .failedChecksFilters)
+        var failedChecksFiltersDecoded0:[Inspector2ClientTypes.CisNumberFilter]? = nil
+        if let failedChecksFiltersContainer = failedChecksFiltersContainer {
+            failedChecksFiltersDecoded0 = [Inspector2ClientTypes.CisNumberFilter]()
+            for structure0 in failedChecksFiltersContainer {
+                if let structure0 = structure0 {
+                    failedChecksFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedChecksFilters = failedChecksFiltersDecoded0
+        let targetAccountIdFiltersContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisStringFilter?].self, forKey: .targetAccountIdFilters)
+        var targetAccountIdFiltersDecoded0:[Inspector2ClientTypes.CisStringFilter]? = nil
+        if let targetAccountIdFiltersContainer = targetAccountIdFiltersContainer {
+            targetAccountIdFiltersDecoded0 = [Inspector2ClientTypes.CisStringFilter]()
+            for structure0 in targetAccountIdFiltersContainer {
+                if let structure0 = structure0 {
+                    targetAccountIdFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetAccountIdFilters = targetAccountIdFiltersDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A list of CIS scans filter criteria.
+    public struct ListCisScansFilterCriteria: Swift.Equatable {
+        /// The list of failed checks filters.
+        public var failedChecksFilters: [Inspector2ClientTypes.CisNumberFilter]?
+        /// The list of scan ARN filters.
+        public var scanArnFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of scan at filters.
+        public var scanAtFilters: [Inspector2ClientTypes.CisDateFilter]?
+        /// The list of scan configuration ARN filters.
+        public var scanConfigurationArnFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of scan name filters.
+        public var scanNameFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of scan status filters.
+        public var scanStatusFilters: [Inspector2ClientTypes.CisScanStatusFilter]?
+        /// The list of scheduled by filters.
+        public var scheduledByFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of target account ID filters.
+        public var targetAccountIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of target resource ID filters.
+        public var targetResourceIdFilters: [Inspector2ClientTypes.CisStringFilter]?
+        /// The list of target resource tag filters.
+        public var targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]?
+
+        public init(
+            failedChecksFilters: [Inspector2ClientTypes.CisNumberFilter]? = nil,
+            scanArnFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            scanAtFilters: [Inspector2ClientTypes.CisDateFilter]? = nil,
+            scanConfigurationArnFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            scanNameFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            scanStatusFilters: [Inspector2ClientTypes.CisScanStatusFilter]? = nil,
+            scheduledByFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            targetAccountIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            targetResourceIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
+            targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]? = nil
+        )
+        {
+            self.failedChecksFilters = failedChecksFilters
+            self.scanArnFilters = scanArnFilters
+            self.scanAtFilters = scanAtFilters
+            self.scanConfigurationArnFilters = scanConfigurationArnFilters
+            self.scanNameFilters = scanNameFilters
+            self.scanStatusFilters = scanStatusFilters
+            self.scheduledByFilters = scheduledByFilters
+            self.targetAccountIdFilters = targetAccountIdFilters
+            self.targetResourceIdFilters = targetResourceIdFilters
+            self.targetResourceTagFilters = targetResourceTagFilters
+        }
+    }
+
+}
+
+extension ListCisScansInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detailLevel
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let detailLevel = self.detailLevel {
+            try encodeContainer.encode(detailLevel.rawValue, forKey: .detailLevel)
+        }
+        if let filterCriteria = self.filterCriteria {
+            try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+}
+
+extension ListCisScansInput {
+
+    static func urlPathProvider(_ value: ListCisScansInput) -> Swift.String? {
+        return "/cis/scan/list"
+    }
+}
+
+public struct ListCisScansInput: Swift.Equatable {
+    /// The detail applied to the CIS scan.
+    public var detailLevel: Inspector2ClientTypes.ListCisScansDetailLevel?
+    /// The CIS scan filter criteria.
+    public var filterCriteria: Inspector2ClientTypes.ListCisScansFilterCriteria?
+    /// The maximum number of results to be returned.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The CIS scans sort by order.
+    public var sortBy: Inspector2ClientTypes.ListCisScansSortBy?
+    /// The CIS scans sort order.
+    public var sortOrder: Inspector2ClientTypes.CisSortOrder?
+
+    public init(
+        detailLevel: Inspector2ClientTypes.ListCisScansDetailLevel? = nil,
+        filterCriteria: Inspector2ClientTypes.ListCisScansFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: Inspector2ClientTypes.ListCisScansSortBy? = nil,
+        sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
+    )
+    {
+        self.detailLevel = detailLevel
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+struct ListCisScansInputBody: Swift.Equatable {
+    let filterCriteria: Inspector2ClientTypes.ListCisScansFilterCriteria?
+    let detailLevel: Inspector2ClientTypes.ListCisScansDetailLevel?
+    let sortBy: Inspector2ClientTypes.ListCisScansSortBy?
+    let sortOrder: Inspector2ClientTypes.CisSortOrder?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCisScansInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detailLevel
+        case filterCriteria
+        case maxResults
+        case nextToken
+        case sortBy
+        case sortOrder
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterCriteriaDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ListCisScansFilterCriteria.self, forKey: .filterCriteria)
+        filterCriteria = filterCriteriaDecoded
+        let detailLevelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ListCisScansDetailLevel.self, forKey: .detailLevel)
+        detailLevel = detailLevelDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ListCisScansSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCisScansOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCisScansOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scans = output.scans
+        } else {
+            self.nextToken = nil
+            self.scans = nil
+        }
+    }
+}
+
+public struct ListCisScansOutput: Swift.Equatable {
+    /// The pagination token from a previous request that's used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The CIS scans.
+    public var scans: [Inspector2ClientTypes.CisScan]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scans: [Inspector2ClientTypes.CisScan]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scans = scans
+    }
+}
+
+struct ListCisScansOutputBody: Swift.Equatable {
+    let scans: [Inspector2ClientTypes.CisScan]?
+    let nextToken: Swift.String?
+}
+
+extension ListCisScansOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case scans
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scansContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisScan?].self, forKey: .scans)
+        var scansDecoded0:[Inspector2ClientTypes.CisScan]? = nil
+        if let scansContainer = scansContainer {
+            scansDecoded0 = [Inspector2ClientTypes.CisScan]()
+            for structure0 in scansContainer {
+                if let structure0 = structure0 {
+                    scansDecoded0?.append(structure0)
+                }
+            }
+        }
+        scans = scansDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCisScansOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum ListCisScansSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failedChecks
+        case scanStartDate
+        case scheduledBy
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListCisScansSortBy] {
+            return [
+                .failedChecks,
+                .scanStartDate,
+                .scheduledBy,
+                .status,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedChecks: return "FAILED_CHECKS"
+            case .scanStartDate: return "SCAN_START_DATE"
+            case .scheduledBy: return "SCHEDULED_BY"
+            case .status: return "STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListCisScansSortBy(rawValue: rawValue) ?? ListCisScansSortBy.sdkUnknown(rawValue)
         }
     }
 }
@@ -13199,6 +17593,53 @@ extension Inspector2ClientTypes {
 
 }
 
+extension Inspector2ClientTypes.MonthlySchedule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case day
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let day = self.day {
+            try encodeContainer.encode(day.rawValue, forKey: .day)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Time.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let dayDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Day.self, forKey: .day)
+        day = dayDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A monthly schedule.
+    public struct MonthlySchedule: Swift.Equatable {
+        /// The monthly schedule's day.
+        /// This member is required.
+        public var day: Inspector2ClientTypes.Day?
+        /// The monthly schedule's start time.
+        /// This member is required.
+        public var startTime: Inspector2ClientTypes.Time?
+
+        public init(
+            day: Inspector2ClientTypes.Day? = nil,
+            startTime: Inspector2ClientTypes.Time? = nil
+        )
+        {
+            self.day = day
+            self.startTime = startTime
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.NetworkPath: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case steps
@@ -13377,6 +17818,26 @@ extension Inspector2ClientTypes {
             self.lowerInclusive = lowerInclusive
             self.upperInclusive = upperInclusive
         }
+    }
+
+}
+
+extension Inspector2ClientTypes.OneTimeSchedule: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A one time schedule.
+    public struct OneTimeSchedule: Swift.Equatable {
+
+        public init() { }
     }
 
 }
@@ -14708,7 +19169,7 @@ extension Inspector2ClientTypes {
         public var awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails?
         /// An object that contains details about the Amazon ECR container image involved in the finding.
         public var awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails?
-        /// A summary of the information about an AWS Lambda function affected by a finding.
+        /// A summary of the information about an Amazon Web Services Lambda function affected by a finding.
         public var awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails?
 
         public init(
@@ -14893,9 +19354,9 @@ extension Inspector2ClientTypes {
         public var ecrImageTags: [Inspector2ClientTypes.ResourceStringFilter]?
         /// The ECR repository names used as resource filter criteria.
         public var ecrRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The AWS Lambda function name used as resource filter criteria.
+        /// The Amazon Web Services Lambda function name used as resource filter criteria.
         public var lambdaFunctionName: [Inspector2ClientTypes.ResourceStringFilter]?
-        /// The AWS Lambda function tags used as resource filter criteria.
+        /// The Amazon Web Services Lambda function tags used as resource filter criteria.
         public var lambdaFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]?
         /// The resource IDs used as resource filter criteria.
         public var resourceId: [Inspector2ClientTypes.ResourceStringFilter]?
@@ -15114,7 +19575,7 @@ extension Inspector2ClientTypes {
         public var ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata?
         /// An object that contains details about the repository an Amazon ECR image resides in.
         public var ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata?
-        /// An object that contains metadata details for an AWS Lambda function.
+        /// An object that contains metadata details for an Amazon Web Services Lambda function.
         public var lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata?
 
         public init(
@@ -15284,7 +19745,7 @@ extension Inspector2ClientTypes {
         /// The status of Amazon Inspector scanning for Amazon ECR resources.
         /// This member is required.
         public var ecr: Inspector2ClientTypes.Status?
-        /// The status of Amazon Inspector scanning for AWS Lambda function.
+        /// The status of Amazon Inspector scanning for Amazon Web Services Lambda function.
         public var lambda: Inspector2ClientTypes.Status?
         /// The status of Amazon Inspector scanning for custom application code for Amazon Web Services Lambda functions.
         public var lambdaCode: Inspector2ClientTypes.Status?
@@ -15737,6 +20198,73 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes.Schedule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case daily
+        case monthly
+        case onetime = "oneTime"
+        case sdkUnknown
+        case weekly
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .daily(daily):
+                try container.encode(daily, forKey: .daily)
+            case let .monthly(monthly):
+                try container.encode(monthly, forKey: .monthly)
+            case let .onetime(onetime):
+                try container.encode(onetime, forKey: .onetime)
+            case let .weekly(weekly):
+                try container.encode(weekly, forKey: .weekly)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let onetimeDecoded = try values.decodeIfPresent(Inspector2ClientTypes.OneTimeSchedule.self, forKey: .onetime)
+        if let onetime = onetimeDecoded {
+            self = .onetime(onetime)
+            return
+        }
+        let dailyDecoded = try values.decodeIfPresent(Inspector2ClientTypes.DailySchedule.self, forKey: .daily)
+        if let daily = dailyDecoded {
+            self = .daily(daily)
+            return
+        }
+        let weeklyDecoded = try values.decodeIfPresent(Inspector2ClientTypes.WeeklySchedule.self, forKey: .weekly)
+        if let weekly = weeklyDecoded {
+            self = .weekly(weekly)
+            return
+        }
+        let monthlyDecoded = try values.decodeIfPresent(Inspector2ClientTypes.MonthlySchedule.self, forKey: .monthly)
+        if let monthly = monthlyDecoded {
+            self = .monthly(monthly)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A schedule.
+    public enum Schedule: Swift.Equatable {
+        /// The schedule's one time.
+        case onetime(Inspector2ClientTypes.OneTimeSchedule)
+        /// The schedule's daily.
+        case daily(Inspector2ClientTypes.DailySchedule)
+        /// The schedule's weekly.
+        case weekly(Inspector2ClientTypes.WeeklySchedule)
+        /// The schedule's monthly.
+        case monthly(Inspector2ClientTypes.MonthlySchedule)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case vulnerabilityIds
@@ -15912,6 +20440,205 @@ enum SearchVulnerabilitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SendCisSessionHealthInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanJobId
+        case sessionToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanJobId = self.scanJobId {
+            try encodeContainer.encode(scanJobId, forKey: .scanJobId)
+        }
+        if let sessionToken = self.sessionToken {
+            try encodeContainer.encode(sessionToken, forKey: .sessionToken)
+        }
+    }
+}
+
+extension SendCisSessionHealthInput {
+
+    static func urlPathProvider(_ value: SendCisSessionHealthInput) -> Swift.String? {
+        return "/cissession/health/send"
+    }
+}
+
+public struct SendCisSessionHealthInput: Swift.Equatable {
+    /// A unique identifier for the scan job.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+    /// The unique token that identifies the CIS session.
+    /// This member is required.
+    public var sessionToken: Swift.String?
+
+    public init(
+        scanJobId: Swift.String? = nil,
+        sessionToken: Swift.String? = nil
+    )
+    {
+        self.scanJobId = scanJobId
+        self.sessionToken = sessionToken
+    }
+}
+
+struct SendCisSessionHealthInputBody: Swift.Equatable {
+    let scanJobId: Swift.String?
+    let sessionToken: Swift.String?
+}
+
+extension SendCisSessionHealthInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanJobId
+        case sessionToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanJobId)
+        scanJobId = scanJobIdDecoded
+        let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
+        sessionToken = sessionTokenDecoded
+    }
+}
+
+extension SendCisSessionHealthOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SendCisSessionHealthOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SendCisSessionHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SendCisSessionTelemetryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messages
+        case scanJobId
+        case sessionToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let messages = messages {
+            var messagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messages)
+            for cissessionmessage0 in messages {
+                try messagesContainer.encode(cissessionmessage0)
+            }
+        }
+        if let scanJobId = self.scanJobId {
+            try encodeContainer.encode(scanJobId, forKey: .scanJobId)
+        }
+        if let sessionToken = self.sessionToken {
+            try encodeContainer.encode(sessionToken, forKey: .sessionToken)
+        }
+    }
+}
+
+extension SendCisSessionTelemetryInput {
+
+    static func urlPathProvider(_ value: SendCisSessionTelemetryInput) -> Swift.String? {
+        return "/cissession/telemetry/send"
+    }
+}
+
+public struct SendCisSessionTelemetryInput: Swift.Equatable {
+    /// The CIS session telemetry messages.
+    /// This member is required.
+    public var messages: [Inspector2ClientTypes.CisSessionMessage]?
+    /// A unique identifier for the scan job.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+    /// The unique token that identifies the CIS session.
+    /// This member is required.
+    public var sessionToken: Swift.String?
+
+    public init(
+        messages: [Inspector2ClientTypes.CisSessionMessage]? = nil,
+        scanJobId: Swift.String? = nil,
+        sessionToken: Swift.String? = nil
+    )
+    {
+        self.messages = messages
+        self.scanJobId = scanJobId
+        self.sessionToken = sessionToken
+    }
+}
+
+struct SendCisSessionTelemetryInputBody: Swift.Equatable {
+    let scanJobId: Swift.String?
+    let sessionToken: Swift.String?
+    let messages: [Inspector2ClientTypes.CisSessionMessage]?
+}
+
+extension SendCisSessionTelemetryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messages
+        case scanJobId
+        case sessionToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanJobId)
+        scanJobId = scanJobIdDecoded
+        let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
+        sessionToken = sessionTokenDecoded
+        let messagesContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.CisSessionMessage?].self, forKey: .messages)
+        var messagesDecoded0:[Inspector2ClientTypes.CisSessionMessage]? = nil
+        if let messagesContainer = messagesContainer {
+            messagesDecoded0 = [Inspector2ClientTypes.CisSessionMessage]()
+            for structure0 in messagesContainer {
+                if let structure0 = structure0 {
+                    messagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        messages = messagesDecoded0
+    }
+}
+
+extension SendCisSessionTelemetryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SendCisSessionTelemetryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SendCisSessionTelemetryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -16287,6 +21014,129 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension StartCisSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case scanJobId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let scanJobId = self.scanJobId {
+            try encodeContainer.encode(scanJobId, forKey: .scanJobId)
+        }
+    }
+}
+
+extension StartCisSessionInput {
+
+    static func urlPathProvider(_ value: StartCisSessionInput) -> Swift.String? {
+        return "/cissession/start"
+    }
+}
+
+public struct StartCisSessionInput: Swift.Equatable {
+    /// The start CIS session message.
+    /// This member is required.
+    public var message: Inspector2ClientTypes.StartCisSessionMessage?
+    /// A unique identifier for the scan job.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+
+    public init(
+        message: Inspector2ClientTypes.StartCisSessionMessage? = nil,
+        scanJobId: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.scanJobId = scanJobId
+    }
+}
+
+struct StartCisSessionInputBody: Swift.Equatable {
+    let scanJobId: Swift.String?
+    let message: Inspector2ClientTypes.StartCisSessionMessage?
+}
+
+extension StartCisSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case scanJobId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanJobId)
+        scanJobId = scanJobIdDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StartCisSessionMessage.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension Inspector2ClientTypes.StartCisSessionMessage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionToken = self.sessionToken {
+            try encodeContainer.encode(sessionToken, forKey: .sessionToken)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
+        sessionToken = sessionTokenDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The start CIS session message.
+    public struct StartCisSessionMessage: Swift.Equatable {
+        /// The unique token that identifies the CIS session.
+        /// This member is required.
+        public var sessionToken: Swift.String?
+
+        public init(
+            sessionToken: Swift.String? = nil
+        )
+        {
+            self.sessionToken = sessionToken
+        }
+    }
+
+}
+
+extension StartCisSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartCisSessionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StartCisSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension Inspector2ClientTypes.State: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode
@@ -16389,6 +21239,61 @@ extension Inspector2ClientTypes {
     }
 }
 
+extension Inspector2ClientTypes.StatusCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failed
+        case passed
+        case skipped
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failed = self.failed {
+            try encodeContainer.encode(failed, forKey: .failed)
+        }
+        if let passed = self.passed {
+            try encodeContainer.encode(passed, forKey: .passed)
+        }
+        if let skipped = self.skipped {
+            try encodeContainer.encode(skipped, forKey: .skipped)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let failedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failed)
+        failed = failedDecoded
+        let skippedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .skipped)
+        skipped = skippedDecoded
+        let passedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .passed)
+        passed = passedDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The status counts.
+    public struct StatusCounts: Swift.Equatable {
+        /// The number of checks that failed.
+        public var failed: Swift.Int?
+        /// The number of checks that passed.
+        public var passed: Swift.Int?
+        /// The number of checks that were skipped.
+        public var skipped: Swift.Int?
+
+        public init(
+            failed: Swift.Int? = nil,
+            passed: Swift.Int? = nil,
+            skipped: Swift.Int? = nil
+        )
+        {
+            self.failed = failed
+            self.passed = passed
+            self.skipped = skipped
+        }
+    }
+
+}
+
 extension Inspector2ClientTypes.Step: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentId
@@ -16434,6 +21339,336 @@ extension Inspector2ClientTypes {
         }
     }
 
+}
+
+extension Inspector2ClientTypes.StopCisMessageProgress: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorChecks
+        case failedChecks
+        case informationalChecks
+        case notApplicableChecks
+        case notEvaluatedChecks
+        case successfulChecks
+        case totalChecks
+        case unknownChecks
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if errorChecks != 0 {
+            try encodeContainer.encode(errorChecks, forKey: .errorChecks)
+        }
+        if failedChecks != 0 {
+            try encodeContainer.encode(failedChecks, forKey: .failedChecks)
+        }
+        if informationalChecks != 0 {
+            try encodeContainer.encode(informationalChecks, forKey: .informationalChecks)
+        }
+        if notApplicableChecks != 0 {
+            try encodeContainer.encode(notApplicableChecks, forKey: .notApplicableChecks)
+        }
+        if notEvaluatedChecks != 0 {
+            try encodeContainer.encode(notEvaluatedChecks, forKey: .notEvaluatedChecks)
+        }
+        if successfulChecks != 0 {
+            try encodeContainer.encode(successfulChecks, forKey: .successfulChecks)
+        }
+        if totalChecks != 0 {
+            try encodeContainer.encode(totalChecks, forKey: .totalChecks)
+        }
+        if unknownChecks != 0 {
+            try encodeContainer.encode(unknownChecks, forKey: .unknownChecks)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalChecks) ?? 0
+        totalChecks = totalChecksDecoded
+        let successfulChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successfulChecks) ?? 0
+        successfulChecks = successfulChecksDecoded
+        let failedChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedChecks) ?? 0
+        failedChecks = failedChecksDecoded
+        let notEvaluatedChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .notEvaluatedChecks) ?? 0
+        notEvaluatedChecks = notEvaluatedChecksDecoded
+        let unknownChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unknownChecks) ?? 0
+        unknownChecks = unknownChecksDecoded
+        let notApplicableChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .notApplicableChecks) ?? 0
+        notApplicableChecks = notApplicableChecksDecoded
+        let informationalChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .informationalChecks) ?? 0
+        informationalChecks = informationalChecksDecoded
+        let errorChecksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .errorChecks) ?? 0
+        errorChecks = errorChecksDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The stop CIS message progress.
+    public struct StopCisMessageProgress: Swift.Equatable {
+        /// The progress' error checks.
+        public var errorChecks: Swift.Int
+        /// The progress' failed checks.
+        public var failedChecks: Swift.Int
+        /// The progress' informational checks.
+        public var informationalChecks: Swift.Int
+        /// The progress' not applicable checks.
+        public var notApplicableChecks: Swift.Int
+        /// The progress' not evaluated checks.
+        public var notEvaluatedChecks: Swift.Int
+        /// The progress' successful checks.
+        public var successfulChecks: Swift.Int
+        /// The progress' total checks.
+        public var totalChecks: Swift.Int
+        /// The progress' unknown checks.
+        public var unknownChecks: Swift.Int
+
+        public init(
+            errorChecks: Swift.Int = 0,
+            failedChecks: Swift.Int = 0,
+            informationalChecks: Swift.Int = 0,
+            notApplicableChecks: Swift.Int = 0,
+            notEvaluatedChecks: Swift.Int = 0,
+            successfulChecks: Swift.Int = 0,
+            totalChecks: Swift.Int = 0,
+            unknownChecks: Swift.Int = 0
+        )
+        {
+            self.errorChecks = errorChecks
+            self.failedChecks = failedChecks
+            self.informationalChecks = informationalChecks
+            self.notApplicableChecks = notApplicableChecks
+            self.notEvaluatedChecks = notEvaluatedChecks
+            self.successfulChecks = successfulChecks
+            self.totalChecks = totalChecks
+            self.unknownChecks = unknownChecks
+        }
+    }
+
+}
+
+extension StopCisSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case scanJobId
+        case sessionToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let scanJobId = self.scanJobId {
+            try encodeContainer.encode(scanJobId, forKey: .scanJobId)
+        }
+        if let sessionToken = self.sessionToken {
+            try encodeContainer.encode(sessionToken, forKey: .sessionToken)
+        }
+    }
+}
+
+extension StopCisSessionInput {
+
+    static func urlPathProvider(_ value: StopCisSessionInput) -> Swift.String? {
+        return "/cissession/stop"
+    }
+}
+
+public struct StopCisSessionInput: Swift.Equatable {
+    /// The stop CIS session message.
+    /// This member is required.
+    public var message: Inspector2ClientTypes.StopCisSessionMessage?
+    /// A unique identifier for the scan job.
+    /// This member is required.
+    public var scanJobId: Swift.String?
+    /// The unique token that identifies the CIS session.
+    /// This member is required.
+    public var sessionToken: Swift.String?
+
+    public init(
+        message: Inspector2ClientTypes.StopCisSessionMessage? = nil,
+        scanJobId: Swift.String? = nil,
+        sessionToken: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.scanJobId = scanJobId
+        self.sessionToken = sessionToken
+    }
+}
+
+struct StopCisSessionInputBody: Swift.Equatable {
+    let scanJobId: Swift.String?
+    let sessionToken: Swift.String?
+    let message: Inspector2ClientTypes.StopCisSessionMessage?
+}
+
+extension StopCisSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case scanJobId
+        case sessionToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanJobId)
+        scanJobId = scanJobIdDecoded
+        let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
+        sessionToken = sessionTokenDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StopCisSessionMessage.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension Inspector2ClientTypes.StopCisSessionMessage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case benchmarkProfile
+        case benchmarkVersion
+        case computePlatform
+        case progress
+        case reason
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let benchmarkProfile = self.benchmarkProfile {
+            try encodeContainer.encode(benchmarkProfile, forKey: .benchmarkProfile)
+        }
+        if let benchmarkVersion = self.benchmarkVersion {
+            try encodeContainer.encode(benchmarkVersion, forKey: .benchmarkVersion)
+        }
+        if let computePlatform = self.computePlatform {
+            try encodeContainer.encode(computePlatform, forKey: .computePlatform)
+        }
+        if let progress = self.progress {
+            try encodeContainer.encode(progress, forKey: .progress)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StopCisSessionStatus.self, forKey: .status)
+        status = statusDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let progressDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.StopCisMessageProgress.self, forKey: .progress)
+        progress = progressDecoded
+        let computePlatformDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.ComputePlatform.self, forKey: .computePlatform)
+        computePlatform = computePlatformDecoded
+        let benchmarkVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .benchmarkVersion)
+        benchmarkVersion = benchmarkVersionDecoded
+        let benchmarkProfileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .benchmarkProfile)
+        benchmarkProfile = benchmarkProfileDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The stop CIS session message.
+    public struct StopCisSessionMessage: Swift.Equatable {
+        /// The message benchmark profile.
+        public var benchmarkProfile: Swift.String?
+        /// The message benchmark version.
+        public var benchmarkVersion: Swift.String?
+        /// The message compute platform.
+        public var computePlatform: Inspector2ClientTypes.ComputePlatform?
+        /// The progress of the message.
+        /// This member is required.
+        public var progress: Inspector2ClientTypes.StopCisMessageProgress?
+        /// The reason for the message.
+        public var reason: Swift.String?
+        /// The status of the message.
+        /// This member is required.
+        public var status: Inspector2ClientTypes.StopCisSessionStatus?
+
+        public init(
+            benchmarkProfile: Swift.String? = nil,
+            benchmarkVersion: Swift.String? = nil,
+            computePlatform: Inspector2ClientTypes.ComputePlatform? = nil,
+            progress: Inspector2ClientTypes.StopCisMessageProgress? = nil,
+            reason: Swift.String? = nil,
+            status: Inspector2ClientTypes.StopCisSessionStatus? = nil
+        )
+        {
+            self.benchmarkProfile = benchmarkProfile
+            self.benchmarkVersion = benchmarkVersion
+            self.computePlatform = computePlatform
+            self.progress = progress
+            self.reason = reason
+            self.status = status
+        }
+    }
+
+}
+
+extension StopCisSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopCisSessionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopCisSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+    public enum StopCisSessionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case interrupted
+        case success
+        case unsupportedOs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StopCisSessionStatus] {
+            return [
+                .failed,
+                .interrupted,
+                .success,
+                .unsupportedOs,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .interrupted: return "INTERRUPTED"
+            case .success: return "SUCCESS"
+            case .unsupportedOs: return "UNSUPPORTED_OS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StopCisSessionStatus(rawValue: rawValue) ?? StopCisSessionStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension Inspector2ClientTypes {
@@ -16558,6 +21793,93 @@ extension Inspector2ClientTypes {
         {
             self.code = code
             self.description = description
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes {
+    public enum TagComparison: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagComparison] {
+            return [
+                .equals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TagComparison(rawValue: rawValue) ?? TagComparison.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.TagFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparison
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparison = self.comparison {
+            try encodeContainer.encode(comparison.rawValue, forKey: .comparison)
+        }
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.TagComparison.self, forKey: .comparison)
+        comparison = comparisonDecoded
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The tag filter.
+    public struct TagFilter: Swift.Equatable {
+        /// The tag filter comparison value.
+        /// This member is required.
+        public var comparison: Inspector2ClientTypes.TagComparison?
+        /// The tag filter key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The tag filter value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            comparison: Inspector2ClientTypes.TagComparison? = nil,
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparison = comparison
+            self.key = key
+            self.value = value
         }
     }
 
@@ -16720,6 +22042,53 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension Inspector2ClientTypes.Time: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case timeOfDay
+        case timezone
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let timeOfDay = self.timeOfDay {
+            try encodeContainer.encode(timeOfDay, forKey: .timeOfDay)
+        }
+        if let timezone = self.timezone {
+            try encodeContainer.encode(timezone, forKey: .timezone)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timeOfDayDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeOfDay)
+        timeOfDay = timeOfDayDecoded
+        let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
+        timezone = timezoneDecoded
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// The time.
+    public struct Time: Swift.Equatable {
+        /// The time of day in 24-hour format (00:00).
+        /// This member is required.
+        public var timeOfDay: Swift.String?
+        /// The timezone.
+        /// This member is required.
+        public var timezone: Swift.String?
+
+        public init(
+            timeOfDay: Swift.String? = nil,
+            timezone: Swift.String? = nil
+        )
+        {
+            self.timeOfDay = timeOfDay
+            self.timezone = timezone
+        }
+    }
+
 }
 
 extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
@@ -17007,6 +22376,238 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension UpdateCisScanConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+        case scanName
+        case schedule
+        case securityLevel
+        case targets
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scanConfigurationArn = self.scanConfigurationArn {
+            try encodeContainer.encode(scanConfigurationArn, forKey: .scanConfigurationArn)
+        }
+        if let scanName = self.scanName {
+            try encodeContainer.encode(scanName, forKey: .scanName)
+        }
+        if let schedule = self.schedule {
+            try encodeContainer.encode(schedule, forKey: .schedule)
+        }
+        if let securityLevel = self.securityLevel {
+            try encodeContainer.encode(securityLevel.rawValue, forKey: .securityLevel)
+        }
+        if let targets = self.targets {
+            try encodeContainer.encode(targets, forKey: .targets)
+        }
+    }
+}
+
+extension UpdateCisScanConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateCisScanConfigurationInput) -> Swift.String? {
+        return "/cis/scan-configuration/update"
+    }
+}
+
+public struct UpdateCisScanConfigurationInput: Swift.Equatable {
+    /// The CIS scan configuration ARN.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+    /// The scan name for the CIS scan configuration.
+    public var scanName: Swift.String?
+    /// The schedule for the CIS scan configuration.
+    public var schedule: Inspector2ClientTypes.Schedule?
+    /// The security level for the CIS scan configuration. Security level refers to the Benchmark levels that CIS assigns to a profile.
+    public var securityLevel: Inspector2ClientTypes.CisSecurityLevel?
+    /// The targets for the CIS scan configuration.
+    public var targets: Inspector2ClientTypes.UpdateCisTargets?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil,
+        scanName: Swift.String? = nil,
+        schedule: Inspector2ClientTypes.Schedule? = nil,
+        securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
+        targets: Inspector2ClientTypes.UpdateCisTargets? = nil
+    )
+    {
+        self.scanConfigurationArn = scanConfigurationArn
+        self.scanName = scanName
+        self.schedule = schedule
+        self.securityLevel = securityLevel
+        self.targets = targets
+    }
+}
+
+struct UpdateCisScanConfigurationInputBody: Swift.Equatable {
+    let scanConfigurationArn: Swift.String?
+    let scanName: Swift.String?
+    let securityLevel: Inspector2ClientTypes.CisSecurityLevel?
+    let schedule: Inspector2ClientTypes.Schedule?
+    let targets: Inspector2ClientTypes.UpdateCisTargets?
+}
+
+extension UpdateCisScanConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+        case scanName
+        case schedule
+        case securityLevel
+        case targets
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+        let scanNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanName)
+        scanName = scanNameDecoded
+        let securityLevelDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.CisSecurityLevel.self, forKey: .securityLevel)
+        securityLevel = securityLevelDecoded
+        let scheduleDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Schedule.self, forKey: .schedule)
+        schedule = scheduleDecoded
+        let targetsDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.UpdateCisTargets.self, forKey: .targets)
+        targets = targetsDecoded
+    }
+}
+
+extension UpdateCisScanConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCisScanConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.scanConfigurationArn = output.scanConfigurationArn
+        } else {
+            self.scanConfigurationArn = nil
+        }
+    }
+}
+
+public struct UpdateCisScanConfigurationOutput: Swift.Equatable {
+    /// The CIS scan configuration ARN.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    )
+    {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+struct UpdateCisScanConfigurationOutputBody: Swift.Equatable {
+    let scanConfigurationArn: Swift.String?
+}
+
+extension UpdateCisScanConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scanConfigurationArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scanConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scanConfigurationArn)
+        scanConfigurationArn = scanConfigurationArnDecoded
+    }
+}
+
+enum UpdateCisScanConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.UpdateCisTargets: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case targetResourceTags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for targetaccount0 in accountIds {
+                try accountIdsContainer.encode(targetaccount0)
+            }
+        }
+        if let targetResourceTags = targetResourceTags {
+            var targetResourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targetResourceTags)
+            for (dictKey0, targetResourceTags0) in targetResourceTags {
+                var targetResourceTags0Container = targetResourceTagsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in targetResourceTags0 {
+                    try targetResourceTags0Container.encode(string1)
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let targetResourceTagsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .targetResourceTags)
+        var targetResourceTagsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let targetResourceTagsContainer = targetResourceTagsContainer {
+            targetResourceTagsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, tagvaluelist0) in targetResourceTagsContainer {
+                var tagvaluelist0Decoded0: [Swift.String]? = nil
+                if let tagvaluelist0 = tagvaluelist0 {
+                    tagvaluelist0Decoded0 = [Swift.String]()
+                    for string1 in tagvaluelist0 {
+                        if let string1 = string1 {
+                            tagvaluelist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                targetResourceTagsDecoded0?[key0] = tagvaluelist0Decoded0
+            }
+        }
+        targetResourceTags = targetResourceTagsDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// Updates CIS targets.
+    public struct UpdateCisTargets: Swift.Equatable {
+        /// The target account ids.
+        public var accountIds: [Swift.String]?
+        /// The target resource tags.
+        public var targetResourceTags: [Swift.String:[Swift.String]]?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            targetResourceTags: [Swift.String:[Swift.String]]? = nil
+        )
+        {
+            self.accountIds = accountIds
+            self.targetResourceTags = targetResourceTags
+        }
+    }
+
 }
 
 extension UpdateConfigurationInput: Swift.Encodable {
@@ -18413,7 +24014,7 @@ extension Inspector2ClientTypes {
         public var release: Swift.String?
         /// The code to run in your environment to update packages with a fix available.
         public var remediation: Swift.String?
-        /// The Amazon Resource Number (ARN) of the AWS Lambda function affected by a finding.
+        /// The Amazon Resource Number (ARN) of the Amazon Web Services Lambda function affected by a finding.
         public var sourceLambdaLayerArn: Swift.String?
         /// The source layer hash of the vulnerable package.
         public var sourceLayerHash: Swift.String?
@@ -18446,6 +24047,65 @@ extension Inspector2ClientTypes {
             self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
+        }
+    }
+
+}
+
+extension Inspector2ClientTypes.WeeklySchedule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case days
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let days = days {
+            var daysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .days)
+            for day0 in days {
+                try daysContainer.encode(day0.rawValue)
+            }
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeIfPresent(Inspector2ClientTypes.Time.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let daysContainer = try containerValues.decodeIfPresent([Inspector2ClientTypes.Day?].self, forKey: .days)
+        var daysDecoded0:[Inspector2ClientTypes.Day]? = nil
+        if let daysContainer = daysContainer {
+            daysDecoded0 = [Inspector2ClientTypes.Day]()
+            for enum0 in daysContainer {
+                if let enum0 = enum0 {
+                    daysDecoded0?.append(enum0)
+                }
+            }
+        }
+        days = daysDecoded0
+    }
+}
+
+extension Inspector2ClientTypes {
+    /// A weekly schedule.
+    public struct WeeklySchedule: Swift.Equatable {
+        /// The weekly schedule's days.
+        /// This member is required.
+        public var days: [Inspector2ClientTypes.Day]?
+        /// The weekly schedule's start time.
+        /// This member is required.
+        public var startTime: Inspector2ClientTypes.Time?
+
+        public init(
+            days: [Inspector2ClientTypes.Day]? = nil,
+            startTime: Inspector2ClientTypes.Time? = nil
+        )
+        {
+            self.days = days
+            self.startTime = startTime
         }
     }
 

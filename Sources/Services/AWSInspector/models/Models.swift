@@ -5193,8 +5193,6 @@ enum GetTelemetryMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum InspectorClientTypes {}
-
 extension InspectorClientTypes {
     public enum InspectorEvent: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case assessmentRunCompleted

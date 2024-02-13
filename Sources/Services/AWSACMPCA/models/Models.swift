@@ -2,8 +2,6 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public enum ACMPCAClientTypes {}
-
 extension ACMPCAClientTypes.ASN1Subject: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commonName = "CommonName"
@@ -1396,6 +1394,7 @@ enum CreatePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ACMPCAClientTypes.CrlConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crlDistributionPointExtensionConfiguration = "CrlDistributionPointExtensionConfiguration"
         case customCname = "CustomCname"
         case enabled = "Enabled"
         case expirationInDays = "ExpirationInDays"
@@ -1405,6 +1404,9 @@ extension ACMPCAClientTypes.CrlConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let crlDistributionPointExtensionConfiguration = self.crlDistributionPointExtensionConfiguration {
+            try encodeContainer.encode(crlDistributionPointExtensionConfiguration, forKey: .crlDistributionPointExtensionConfiguration)
+        }
         if let customCname = self.customCname {
             try encodeContainer.encode(customCname, forKey: .customCname)
         }
@@ -1434,11 +1436,13 @@ extension ACMPCAClientTypes.CrlConfiguration: Swift.Codable {
         s3BucketName = s3BucketNameDecoded
         let s3ObjectAclDecoded = try containerValues.decodeIfPresent(ACMPCAClientTypes.S3ObjectAcl.self, forKey: .s3ObjectAcl)
         s3ObjectAcl = s3ObjectAclDecoded
+        let crlDistributionPointExtensionConfigurationDecoded = try containerValues.decodeIfPresent(ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration.self, forKey: .crlDistributionPointExtensionConfiguration)
+        crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfigurationDecoded
     }
 }
 
 extension ACMPCAClientTypes {
-    /// Contains configuration information for a certificate revocation list (CRL). Your private certificate authority (CA) creates base CRLs. Delta CRLs are not supported. You can enable CRLs for your new or an existing private CA by setting the Enabled parameter to true. Your private CA writes CRLs to an S3 bucket that you specify in the S3BucketName parameter. You can hide the name of your bucket by specifying a value for the CustomCname parameter. Your private CA copies the CNAME or the S3 bucket name to the CRL Distribution Points extension of each certificate it issues. Your S3 bucket policy must give write permission to Amazon Web Services Private CA. Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption). Your private CA uses the value in the ExpirationInDays parameter to calculate the nextUpdate field in the CRL. The CRL is refreshed prior to a certificate's expiration date or when a certificate is revoked. When a certificate is revoked, it appears in the CRL until the certificate expires, and then in one additional CRL after expiration, and it always appears in the audit report. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts every 15 minutes. CRLs contain the following fields:
+    /// Contains configuration information for a certificate revocation list (CRL). Your private certificate authority (CA) creates base CRLs. Delta CRLs are not supported. You can enable CRLs for your new or an existing private CA by setting the Enabled parameter to true. Your private CA writes CRLs to an S3 bucket that you specify in the S3BucketName parameter. You can hide the name of your bucket by specifying a value for the CustomCname parameter. Your private CA by default copies the CNAME or the S3 bucket name to the CRL Distribution Points extension of each certificate it issues. If you want to configure this default behavior to be something different, you can set the CrlDistributionPointExtensionConfiguration parameter. Your S3 bucket policy must give write permission to Amazon Web Services Private CA. Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption). Your private CA uses the value in the ExpirationInDays parameter to calculate the nextUpdate field in the CRL. The CRL is refreshed prior to a certificate's expiration date or when a certificate is revoked. When a certificate is revoked, it appears in the CRL until the certificate expires, and then in one additional CRL after expiration, and it always appears in the audit report. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts every 15 minutes. CRLs contain the following fields:
     ///
     /// * Version: The current version number defined in RFC 5280 is V2. The integer value is 0x1.
     ///
@@ -1482,6 +1486,8 @@ extension ACMPCAClientTypes {
     ///
     /// Certificate revocation lists created by Amazon Web Services Private CA are DER-encoded. You can use the following OpenSSL command to list a CRL. openssl crl -inform DER -text -in crl_path -noout For more information, see [Planning a certificate revocation list (CRL)](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html) in the Amazon Web Services Private Certificate Authority User Guide
     public struct CrlConfiguration: Swift.Equatable {
+        /// Configures the behavior of the CRL Distribution Point extension for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL.
+        public var crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration?
         /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public. The content of a Canonical Name (CNAME) record must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "https://".
         public var customCname: Swift.String?
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action or for an existing CA when you call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action.
@@ -1495,6 +1501,7 @@ extension ACMPCAClientTypes {
         public var s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl?
 
         public init(
+            crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration? = nil,
             customCname: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             expirationInDays: Swift.Int? = nil,
@@ -1502,11 +1509,48 @@ extension ACMPCAClientTypes {
             s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl? = nil
         )
         {
+            self.crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfiguration
             self.customCname = customCname
             self.enabled = enabled
             self.expirationInDays = expirationInDays
             self.s3BucketName = s3BucketName
             self.s3ObjectAcl = s3ObjectAcl
+        }
+    }
+
+}
+
+extension ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case omitExtension = "OmitExtension"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let omitExtension = self.omitExtension {
+            try encodeContainer.encode(omitExtension, forKey: .omitExtension)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let omitExtensionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .omitExtension)
+        omitExtension = omitExtensionDecoded
+    }
+}
+
+extension ACMPCAClientTypes {
+    /// Contains configuration information for the default behavior of the CRL Distribution Point (CDP) extension in certificates issued by your CA. This extension contains a link to download the CRL, so you can check whether a certificate has been revoked. To choose whether you want this extension omitted or not in certificates issued by your CA, you can set the OmitExtension parameter.
+    public struct CrlDistributionPointExtensionConfiguration: Swift.Equatable {
+        /// Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true, then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough. Only set this if you have another way to distribute the CRL Distribution Points ffor certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
+        /// This member is required.
+        public var omitExtension: Swift.Bool?
+
+        public init(
+            omitExtension: Swift.Bool? = nil
+        )
+        {
+            self.omitExtension = omitExtension
         }
     }
 
@@ -3979,7 +4023,7 @@ extension ListCertificateAuthoritiesInput {
 }
 
 public struct ListCertificateAuthoritiesInput: Swift.Equatable {
-    /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
+    /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items. Although the maximum value is 1000, the action only returns a maximum of 100 items.
     public var maxResults: Swift.Int?
     /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
     public var nextToken: Swift.String?

@@ -2836,6 +2836,7 @@ extension LightsailClientTypes.Bundle: Swift.Codable {
         case name
         case power
         case price
+        case publicIpv4AddressCount
         case ramSizeInGb
         case supportedAppCategories
         case supportedPlatforms
@@ -2867,6 +2868,9 @@ extension LightsailClientTypes.Bundle: Swift.Codable {
         }
         if let price = self.price {
             try encodeContainer.encode(price, forKey: .price)
+        }
+        if let publicIpv4AddressCount = self.publicIpv4AddressCount {
+            try encodeContainer.encode(publicIpv4AddressCount, forKey: .publicIpv4AddressCount)
         }
         if let ramSizeInGb = self.ramSizeInGb {
             try encodeContainer.encode(ramSizeInGb, forKey: .ramSizeInGb)
@@ -2932,6 +2936,8 @@ extension LightsailClientTypes.Bundle: Swift.Codable {
             }
         }
         supportedAppCategories = supportedAppCategoriesDecoded0
+        let publicIpv4AddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .publicIpv4AddressCount)
+        publicIpv4AddressCount = publicIpv4AddressCountDecoded
     }
 }
 
@@ -2954,6 +2960,8 @@ extension LightsailClientTypes {
         public var power: Swift.Int?
         /// The price in US dollars (5.0) of the bundle.
         public var price: Swift.Float?
+        /// An integer that indicates the public ipv4 address count included in the bundle, the value is either 0 or 1.
+        public var publicIpv4AddressCount: Swift.Int?
         /// The amount of RAM in GB (2.0).
         public var ramSizeInGb: Swift.Float?
         /// Virtual computer blueprints that are supported by a Lightsail for Research bundle. This parameter only applies to Lightsail for Research resources.
@@ -2972,6 +2980,7 @@ extension LightsailClientTypes {
             name: Swift.String? = nil,
             power: Swift.Int? = nil,
             price: Swift.Float? = nil,
+            publicIpv4AddressCount: Swift.Int? = nil,
             ramSizeInGb: Swift.Float? = nil,
             supportedAppCategories: [LightsailClientTypes.AppCategory]? = nil,
             supportedPlatforms: [LightsailClientTypes.InstancePlatform]? = nil,
@@ -2986,6 +2995,7 @@ extension LightsailClientTypes {
             self.name = name
             self.power = power
             self.price = price
+            self.publicIpv4AddressCount = publicIpv4AddressCount
             self.ramSizeInGb = ramSizeInGb
             self.supportedAppCategories = supportedAppCategories
             self.supportedPlatforms = supportedPlatforms
@@ -24821,6 +24831,7 @@ extension LightsailClientTypes.InstanceAccessDetails: Swift.Codable {
         case hostKeys
         case instanceName
         case ipAddress
+        case ipv6Addresses
         case password
         case passwordData
         case privateKey
@@ -24848,6 +24859,12 @@ extension LightsailClientTypes.InstanceAccessDetails: Swift.Codable {
         if let ipAddress = self.ipAddress {
             try encodeContainer.encode(ipAddress, forKey: .ipAddress)
         }
+        if let ipv6Addresses = ipv6Addresses {
+            var ipv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Addresses)
+            for ipv6address0 in ipv6Addresses {
+                try ipv6AddressesContainer.encode(ipv6address0)
+            }
+        }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
         }
@@ -24873,6 +24890,17 @@ extension LightsailClientTypes.InstanceAccessDetails: Swift.Codable {
         expiresAt = expiresAtDecoded
         let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
         ipAddress = ipAddressDecoded
+        let ipv6AddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ipv6Addresses)
+        var ipv6AddressesDecoded0:[Swift.String]? = nil
+        if let ipv6AddressesContainer = ipv6AddressesContainer {
+            ipv6AddressesDecoded0 = [Swift.String]()
+            for string0 in ipv6AddressesContainer {
+                if let string0 = string0 {
+                    ipv6AddressesDecoded0?.append(string0)
+                }
+            }
+        }
+        ipv6Addresses = ipv6AddressesDecoded0
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
         let passwordDataDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.PasswordData.self, forKey: .passwordData)
@@ -24912,6 +24940,8 @@ extension LightsailClientTypes {
         public var instanceName: Swift.String?
         /// The public IP address of the Amazon Lightsail instance.
         public var ipAddress: Swift.String?
+        /// The IPv6 address of the Amazon Lightsail instance.
+        public var ipv6Addresses: [Swift.String]?
         /// For RDP access, the password for your Amazon Lightsail instance. Password will be an empty string if the password for your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready. If you create an instance using any key pair other than the default (LightsailDefaultKeyPair), password will always be an empty string. If you change the Administrator password on the instance, Lightsail will continue to return the original password value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default.
         public var password: Swift.String?
         /// For a Windows Server-based instance, an object with the data you can use to retrieve your password. This is only needed if password is empty and the instance is not new (and therefore the password is not ready yet). When you create an instance, it can take up to 15 minutes for the instance to be ready.
@@ -24929,6 +24959,7 @@ extension LightsailClientTypes {
             hostKeys: [LightsailClientTypes.HostKeyAttributes]? = nil,
             instanceName: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
+            ipv6Addresses: [Swift.String]? = nil,
             password: Swift.String? = nil,
             passwordData: LightsailClientTypes.PasswordData? = nil,
             privateKey: Swift.String? = nil,
@@ -24941,6 +24972,7 @@ extension LightsailClientTypes {
             self.hostKeys = hostKeys
             self.instanceName = instanceName
             self.ipAddress = ipAddress
+            self.ipv6Addresses = ipv6Addresses
             self.password = password
             self.passwordData = passwordData
             self.privateKey = privateKey
@@ -26586,8 +26618,6 @@ extension LightsailClientTypes {
     }
 
 }
-
-public enum LightsailClientTypes {}
 
 extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {

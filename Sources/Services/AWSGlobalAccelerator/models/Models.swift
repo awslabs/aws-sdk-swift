@@ -5983,8 +5983,6 @@ extension EndpointNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum GlobalAcceleratorClientTypes {}
-
 extension GlobalAcceleratorClientTypes {
     public enum HealthCheckProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case http

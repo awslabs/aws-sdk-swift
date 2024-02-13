@@ -3330,8 +3330,6 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-public enum TrustedAdvisorClientTypes {}
-
 extension UpdateOrganizationRecommendationLifecycleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdateOrganizationRecommendationLifecycleInput(lifecycleStage: \(Swift.String(describing: lifecycleStage)), organizationRecommendationIdentifier: \(Swift.String(describing: organizationRecommendationIdentifier)), updateReasonCode: \(Swift.String(describing: updateReasonCode)), updateReason: \"CONTENT_REDACTED\")"}

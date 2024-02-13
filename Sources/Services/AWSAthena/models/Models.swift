@@ -95,8 +95,6 @@ extension AthenaClientTypes {
 
 }
 
-public enum AthenaClientTypes {}
-
 extension AthenaClientTypes.AthenaError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCategory = "ErrorCategory"
@@ -5867,6 +5865,7 @@ extension ImportNotebookInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
         case name = "Name"
+        case notebookS3LocationUri = "NotebookS3LocationUri"
         case payload = "Payload"
         case type = "Type"
         case workGroup = "WorkGroup"
@@ -5879,6 +5878,9 @@ extension ImportNotebookInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let notebookS3LocationUri = self.notebookS3LocationUri {
+            try encodeContainer.encode(notebookS3LocationUri, forKey: .notebookS3LocationUri)
         }
         if let payload = self.payload {
             try encodeContainer.encode(payload, forKey: .payload)
@@ -5905,8 +5907,9 @@ public struct ImportNotebookInput: Swift.Equatable {
     /// The name of the notebook to import.
     /// This member is required.
     public var name: Swift.String?
-    /// The notebook content to be imported.
-    /// This member is required.
+    /// A URI that specifies the Amazon S3 location of a notebook file in ipynb format.
+    public var notebookS3LocationUri: Swift.String?
+    /// The notebook content to be imported. The payload must be in ipynb format.
     public var payload: Swift.String?
     /// The notebook content type. Currently, the only valid type is IPYNB.
     /// This member is required.
@@ -5918,6 +5921,7 @@ public struct ImportNotebookInput: Swift.Equatable {
     public init(
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        notebookS3LocationUri: Swift.String? = nil,
         payload: Swift.String? = nil,
         type: AthenaClientTypes.NotebookType? = nil,
         workGroup: Swift.String? = nil
@@ -5925,6 +5929,7 @@ public struct ImportNotebookInput: Swift.Equatable {
     {
         self.clientRequestToken = clientRequestToken
         self.name = name
+        self.notebookS3LocationUri = notebookS3LocationUri
         self.payload = payload
         self.type = type
         self.workGroup = workGroup
@@ -5936,6 +5941,7 @@ struct ImportNotebookInputBody: Swift.Equatable {
     let name: Swift.String?
     let payload: Swift.String?
     let type: AthenaClientTypes.NotebookType?
+    let notebookS3LocationUri: Swift.String?
     let clientRequestToken: Swift.String?
 }
 
@@ -5943,6 +5949,7 @@ extension ImportNotebookInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
         case name = "Name"
+        case notebookS3LocationUri = "NotebookS3LocationUri"
         case payload = "Payload"
         case type = "Type"
         case workGroup = "WorkGroup"
@@ -5958,6 +5965,8 @@ extension ImportNotebookInputBody: Swift.Decodable {
         payload = payloadDecoded
         let typeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookType.self, forKey: .type)
         type = typeDecoded
+        let notebookS3LocationUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookS3LocationUri)
+        notebookS3LocationUri = notebookS3LocationUriDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
     }
@@ -13252,7 +13261,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
+        /// The ARN of the execution role used to access user resources for Spark sessions and IAM Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and IAM Identity Center enabled workgroups. The property is required for IAM Identity Center enabled workgroups.
         public var executionRole: Swift.String?
         /// Specifies whether the workgroup is IAM Identity Center supported.
         public var identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration?

@@ -6908,8 +6908,6 @@ enum DescribePendingMaintenanceActionsOutputError {
     }
 }
 
-public enum DocDBClientTypes {}
-
 extension DocDBClientTypes.Endpoint: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"

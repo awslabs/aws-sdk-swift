@@ -1895,8 +1895,6 @@ enum GetScreenDataOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum HoneycodeClientTypes {}
-
 extension HoneycodeClientTypes {
     public enum ImportDataCharacterEncoding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case iso88591

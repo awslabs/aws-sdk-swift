@@ -6845,8 +6845,6 @@ extension IoTTwinMakerClientTypes {
     }
 }
 
-public enum IoTTwinMakerClientTypes {}
-
 extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters

@@ -5383,8 +5383,6 @@ extension ShieldClientTypes {
 
 }
 
-public enum ShieldClientTypes {}
-
 extension ShieldClientTypes.SubResourceSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attackVectors = "AttackVectors"

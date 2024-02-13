@@ -2,8 +2,6 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public enum ApiGatewayManagementApiClientTypes {}
-
 extension DeleteConnectionInput {
 
     static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {

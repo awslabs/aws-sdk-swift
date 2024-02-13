@@ -4678,8 +4678,6 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum SQSClientTypes {}
-
 extension SendMessageBatchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entries = "Entries"

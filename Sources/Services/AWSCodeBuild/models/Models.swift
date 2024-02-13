@@ -611,6 +611,146 @@ enum BatchGetBuildsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension BatchGetFleetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case names
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let names = names {
+            var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
+            for nonemptystring0 in names {
+                try namesContainer.encode(nonemptystring0)
+            }
+        }
+    }
+}
+
+extension BatchGetFleetsInput {
+
+    static func urlPathProvider(_ value: BatchGetFleetsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchGetFleetsInput: Swift.Equatable {
+    /// The names or ARNs of the compute fleets.
+    /// This member is required.
+    public var names: [Swift.String]?
+
+    public init(
+        names: [Swift.String]? = nil
+    )
+    {
+        self.names = names
+    }
+}
+
+struct BatchGetFleetsInputBody: Swift.Equatable {
+    let names: [Swift.String]?
+}
+
+extension BatchGetFleetsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case names
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .names)
+        var namesDecoded0:[Swift.String]? = nil
+        if let namesContainer = namesContainer {
+            namesDecoded0 = [Swift.String]()
+            for string0 in namesContainer {
+                if let string0 = string0 {
+                    namesDecoded0?.append(string0)
+                }
+            }
+        }
+        names = namesDecoded0
+    }
+}
+
+extension BatchGetFleetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetFleetsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fleets = output.fleets
+            self.fleetsNotFound = output.fleetsNotFound
+        } else {
+            self.fleets = nil
+            self.fleetsNotFound = nil
+        }
+    }
+}
+
+public struct BatchGetFleetsOutput: Swift.Equatable {
+    /// Information about the requested compute fleets.
+    public var fleets: [CodeBuildClientTypes.Fleet]?
+    /// The names of compute fleets for which information could not be found.
+    public var fleetsNotFound: [Swift.String]?
+
+    public init(
+        fleets: [CodeBuildClientTypes.Fleet]? = nil,
+        fleetsNotFound: [Swift.String]? = nil
+    )
+    {
+        self.fleets = fleets
+        self.fleetsNotFound = fleetsNotFound
+    }
+}
+
+struct BatchGetFleetsOutputBody: Swift.Equatable {
+    let fleets: [CodeBuildClientTypes.Fleet]?
+    let fleetsNotFound: [Swift.String]?
+}
+
+extension BatchGetFleetsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fleets
+        case fleetsNotFound
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fleetsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Fleet?].self, forKey: .fleets)
+        var fleetsDecoded0:[CodeBuildClientTypes.Fleet]? = nil
+        if let fleetsContainer = fleetsContainer {
+            fleetsDecoded0 = [CodeBuildClientTypes.Fleet]()
+            for structure0 in fleetsContainer {
+                if let structure0 = structure0 {
+                    fleetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fleets = fleetsDecoded0
+        let fleetsNotFoundContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fleetsNotFound)
+        var fleetsNotFoundDecoded0:[Swift.String]? = nil
+        if let fleetsNotFoundContainer = fleetsNotFoundContainer {
+            fleetsNotFoundDecoded0 = [Swift.String]()
+            for string0 in fleetsNotFoundContainer {
+                if let string0 = string0 {
+                    fleetsNotFoundDecoded0?.append(string0)
+                }
+            }
+        }
+        fleetsNotFound = fleetsNotFoundDecoded0
+    }
+}
+
+enum BatchGetFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension BatchGetProjectsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case names
@@ -2884,8 +3024,6 @@ extension CodeBuildClientTypes {
 
 }
 
-public enum CodeBuildClientTypes {}
-
 extension CodeBuildClientTypes.CodeCoverage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branchCoveragePercentage
@@ -3148,6 +3286,227 @@ extension CodeBuildClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ComputeType(rawValue: rawValue) ?? ComputeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CreateFleetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseCapacity
+        case computeType
+        case environmentType
+        case name
+        case scalingConfiguration
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baseCapacity = self.baseCapacity {
+            try encodeContainer.encode(baseCapacity, forKey: .baseCapacity)
+        }
+        if let computeType = self.computeType {
+            try encodeContainer.encode(computeType.rawValue, forKey: .computeType)
+        }
+        if let environmentType = self.environmentType {
+            try encodeContainer.encode(environmentType.rawValue, forKey: .environmentType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let scalingConfiguration = self.scalingConfiguration {
+            try encodeContainer.encode(scalingConfiguration, forKey: .scalingConfiguration)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateFleetInput {
+
+    static func urlPathProvider(_ value: CreateFleetInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateFleetInput: Swift.Equatable {
+    /// The initial number of machines allocated to the ﬂeet, which deﬁnes the number of builds that can run in parallel.
+    /// This member is required.
+    public var baseCapacity: Swift.Int?
+    /// Information about the compute resources the compute fleet uses. Available values include:
+    ///
+    /// * BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.
+    ///
+    /// * BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
+    ///
+    /// * BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.
+    ///
+    /// * BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.
+    ///
+    /// * BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.
+    ///
+    ///
+    /// If you use BUILD_GENERAL1_SMALL:
+    ///
+    /// * For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.
+    ///
+    /// * For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+    ///
+    /// * For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.
+    ///
+    ///
+    /// If you use BUILD_GENERAL1_LARGE:
+    ///
+    /// * For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
+    ///
+    /// * For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+    ///
+    /// * For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.
+    ///
+    ///
+    /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide.
+    /// This member is required.
+    public var computeType: CodeBuildClientTypes.ComputeType?
+    /// The environment type of the compute fleet.
+    ///
+    /// * The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).
+    ///
+    /// * The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).
+    ///
+    /// * The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).
+    ///
+    /// * The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
+    ///
+    /// * The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+    ///
+    ///
+    /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
+    /// This member is required.
+    public var environmentType: CodeBuildClientTypes.EnvironmentType?
+    /// The name of the compute fleet.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The scaling configuration of the compute fleet.
+    public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
+    /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
+    public var tags: [CodeBuildClientTypes.Tag]?
+
+    public init(
+        baseCapacity: Swift.Int? = nil,
+        computeType: CodeBuildClientTypes.ComputeType? = nil,
+        environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+        name: Swift.String? = nil,
+        scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
+        tags: [CodeBuildClientTypes.Tag]? = nil
+    )
+    {
+        self.baseCapacity = baseCapacity
+        self.computeType = computeType
+        self.environmentType = environmentType
+        self.name = name
+        self.scalingConfiguration = scalingConfiguration
+        self.tags = tags
+    }
+}
+
+struct CreateFleetInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let baseCapacity: Swift.Int?
+    let environmentType: CodeBuildClientTypes.EnvironmentType?
+    let computeType: CodeBuildClientTypes.ComputeType?
+    let scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
+    let tags: [CodeBuildClientTypes.Tag]?
+}
+
+extension CreateFleetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseCapacity
+        case computeType
+        case environmentType
+        case name
+        case scalingConfiguration
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let baseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseCapacity)
+        baseCapacity = baseCapacityDecoded
+        let environmentTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.EnvironmentType.self, forKey: .environmentType)
+        environmentType = environmentTypeDecoded
+        let computeTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ComputeType.self, forKey: .computeType)
+        computeType = computeTypeDecoded
+        let scalingConfigurationDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ScalingConfigurationInput.self, forKey: .scalingConfiguration)
+        scalingConfiguration = scalingConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CodeBuildClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CodeBuildClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateFleetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fleet = output.fleet
+        } else {
+            self.fleet = nil
+        }
+    }
+}
+
+public struct CreateFleetOutput: Swift.Equatable {
+    /// Information about the compute fleet
+    public var fleet: CodeBuildClientTypes.Fleet?
+
+    public init(
+        fleet: CodeBuildClientTypes.Fleet? = nil
+    )
+    {
+        self.fleet = fleet
+    }
+}
+
+struct CreateFleetOutputBody: Swift.Equatable {
+    let fleet: CodeBuildClientTypes.Fleet?
+}
+
+extension CreateFleetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fleet
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fleetDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Fleet.self, forKey: .fleet)
+        fleet = fleetDecoded
+    }
+}
+
+enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -4086,6 +4445,76 @@ extension DeleteBuildBatchOutputBody: Swift.Decodable {
 }
 
 enum DeleteBuildBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteFleetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension DeleteFleetInput {
+
+    static func urlPathProvider(_ value: DeleteFleetInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteFleetInput: Swift.Equatable {
+    /// The ARN of the compute fleet.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DeleteFleetInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension DeleteFleetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFleetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -5304,6 +5733,442 @@ extension CodeBuildClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = FileSystemType(rawValue: rawValue) ?? FileSystemType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeBuildClientTypes.Fleet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case baseCapacity
+        case computeType
+        case created
+        case environmentType
+        case id
+        case lastModified
+        case name
+        case scalingConfiguration
+        case status
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let baseCapacity = self.baseCapacity {
+            try encodeContainer.encode(baseCapacity, forKey: .baseCapacity)
+        }
+        if let computeType = self.computeType {
+            try encodeContainer.encode(computeType.rawValue, forKey: .computeType)
+        }
+        if let created = self.created {
+            try encodeContainer.encodeTimestamp(created, format: .epochSeconds, forKey: .created)
+        }
+        if let environmentType = self.environmentType {
+            try encodeContainer.encode(environmentType.rawValue, forKey: .environmentType)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModified = self.lastModified {
+            try encodeContainer.encodeTimestamp(lastModified, format: .epochSeconds, forKey: .lastModified)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let scalingConfiguration = self.scalingConfiguration {
+            try encodeContainer.encode(scalingConfiguration, forKey: .scalingConfiguration)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let createdDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .created)
+        created = createdDecoded
+        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModified)
+        lastModified = lastModifiedDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetStatus.self, forKey: .status)
+        status = statusDecoded
+        let baseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseCapacity)
+        baseCapacity = baseCapacityDecoded
+        let environmentTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.EnvironmentType.self, forKey: .environmentType)
+        environmentType = environmentTypeDecoded
+        let computeTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ComputeType.self, forKey: .computeType)
+        computeType = computeTypeDecoded
+        let scalingConfigurationDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ScalingConfigurationOutput.self, forKey: .scalingConfiguration)
+        scalingConfiguration = scalingConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CodeBuildClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CodeBuildClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// A set of dedicated instances for your build environment.
+    public struct Fleet: Swift.Equatable {
+        /// The ARN of the compute fleet.
+        public var arn: Swift.String?
+        /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
+        public var baseCapacity: Swift.Int?
+        /// Information about the compute resources the compute fleet uses. Available values include:
+        ///
+        /// * BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.
+        ///
+        /// * BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
+        ///
+        /// * BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.
+        ///
+        /// * BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.
+        ///
+        /// * BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.
+        ///
+        ///
+        /// If you use BUILD_GENERAL1_SMALL:
+        ///
+        /// * For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.
+        ///
+        /// * For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+        ///
+        /// * For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.
+        ///
+        ///
+        /// If you use BUILD_GENERAL1_LARGE:
+        ///
+        /// * For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
+        ///
+        /// * For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+        ///
+        /// * For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.
+        ///
+        ///
+        /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide.
+        public var computeType: CodeBuildClientTypes.ComputeType?
+        /// The time at which the compute fleet was created.
+        public var created: ClientRuntime.Date?
+        /// The environment type of the compute fleet.
+        ///
+        /// * The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).
+        ///
+        /// * The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).
+        ///
+        /// * The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).
+        ///
+        /// * The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
+        ///
+        /// * The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+        ///
+        ///
+        /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
+        public var environmentType: CodeBuildClientTypes.EnvironmentType?
+        /// The ID of the compute fleet.
+        public var id: Swift.String?
+        /// The time at which the compute fleet was last modified.
+        public var lastModified: ClientRuntime.Date?
+        /// The name of the compute fleet.
+        public var name: Swift.String?
+        /// The scaling configuration of the compute fleet.
+        public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput?
+        /// The status of the compute fleet.
+        public var status: CodeBuildClientTypes.FleetStatus?
+        /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
+        public var tags: [CodeBuildClientTypes.Tag]?
+
+        public init(
+            arn: Swift.String? = nil,
+            baseCapacity: Swift.Int? = nil,
+            computeType: CodeBuildClientTypes.ComputeType? = nil,
+            created: ClientRuntime.Date? = nil,
+            environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+            id: Swift.String? = nil,
+            lastModified: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput? = nil,
+            status: CodeBuildClientTypes.FleetStatus? = nil,
+            tags: [CodeBuildClientTypes.Tag]? = nil
+        )
+        {
+            self.arn = arn
+            self.baseCapacity = baseCapacity
+            self.computeType = computeType
+            self.created = created
+            self.environmentType = environmentType
+            self.id = id
+            self.lastModified = lastModified
+            self.name = name
+            self.scalingConfiguration = scalingConfiguration
+            self.status = status
+            self.tags = tags
+        }
+    }
+
+}
+
+extension CodeBuildClientTypes {
+    public enum FleetContextCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createFailed
+        case updateFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetContextCode] {
+            return [
+                .createFailed,
+                .updateFailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FleetContextCode(rawValue: rawValue) ?? FleetContextCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+    public enum FleetScalingMetricType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fleetUtilizationRate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetScalingMetricType] {
+            return [
+                .fleetUtilizationRate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fleetUtilizationRate: return "FLEET_UTILIZATION_RATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FleetScalingMetricType(rawValue: rawValue) ?? FleetScalingMetricType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+    public enum FleetScalingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case targetTrackingScaling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetScalingType] {
+            return [
+                .targetTrackingScaling,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .targetTrackingScaling: return "TARGET_TRACKING_SCALING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FleetScalingType(rawValue: rawValue) ?? FleetScalingType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+    public enum FleetSortByType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdTime
+        case lastModifiedTime
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetSortByType] {
+            return [
+                .createdTime,
+                .lastModifiedTime,
+                .name,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdTime: return "CREATED_TIME"
+            case .lastModifiedTime: return "LAST_MODIFIED_TIME"
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FleetSortByType(rawValue: rawValue) ?? FleetSortByType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeBuildClientTypes.FleetStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case context
+        case message
+        case statusCode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let context = self.context {
+            try encodeContainer.encode(context.rawValue, forKey: .context)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let statusCode = self.statusCode {
+            try encodeContainer.encode(statusCode.rawValue, forKey: .statusCode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetStatusCode.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let contextDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetContextCode.self, forKey: .context)
+        context = contextDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// The status of the compute fleet.
+    public struct FleetStatus: Swift.Equatable {
+        /// Additional information about a compute fleet. Valid values include:
+        ///
+        /// * CREATE_FAILED: The compute fleet has failed to create.
+        ///
+        /// * UPDATE_FAILED: The compute fleet has failed to update.
+        public var context: CodeBuildClientTypes.FleetContextCode?
+        /// A message associated with the status of a compute fleet.
+        public var message: Swift.String?
+        /// The status code of the compute fleet. Valid values include:
+        ///
+        /// * CREATING: The compute fleet is being created.
+        ///
+        /// * UPDATING: The compute fleet is being updated.
+        ///
+        /// * ROTATING: The compute fleet is being rotated.
+        ///
+        /// * DELETING: The compute fleet is being deleted.
+        ///
+        /// * CREATE_FAILED: The compute fleet has failed to create.
+        ///
+        /// * UPDATE_ROLLBACK_FAILED: The compute fleet has failed to update and could not rollback to previous state.
+        ///
+        /// * ACTIVE: The compute fleet has succeeded and is active.
+        public var statusCode: CodeBuildClientTypes.FleetStatusCode?
+
+        public init(
+            context: CodeBuildClientTypes.FleetContextCode? = nil,
+            message: Swift.String? = nil,
+            statusCode: CodeBuildClientTypes.FleetStatusCode? = nil
+        )
+        {
+            self.context = context
+            self.message = message
+            self.statusCode = statusCode
+        }
+    }
+
+}
+
+extension CodeBuildClientTypes {
+    public enum FleetStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleting
+        case rotating
+        case updateRollbackFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetStatusCode] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleting,
+                .rotating,
+                .updateRollbackFailed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .rotating: return "ROTATING"
+            case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FleetStatusCode(rawValue: rawValue) ?? FleetStatusCode.sdkUnknown(rawValue)
         }
     }
 }
@@ -6658,6 +7523,181 @@ enum ListCuratedEnvironmentImagesOutputError: ClientRuntime.HttpResponseErrorBin
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListFleetsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListFleetsInput(maxResults: \(Swift.String(describing: maxResults)), sortBy: \(Swift.String(describing: sortBy)), sortOrder: \(Swift.String(describing: sortOrder)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+extension ListFleetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+}
+
+extension ListFleetsInput {
+
+    static func urlPathProvider(_ value: ListFleetsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListFleetsInput: Swift.Equatable {
+    /// The maximum number of paginated compute fleets returned per response. Use nextToken to iterate pages in the list of returned compute fleets.
+    public var maxResults: Swift.Int?
+    /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
+    public var nextToken: Swift.String?
+    /// The criterion to be used to list compute fleet names. Valid values include:
+    ///
+    /// * CREATED_TIME: List based on when each compute fleet was created.
+    ///
+    /// * LAST_MODIFIED_TIME: List based on when information about each compute fleet was last changed.
+    ///
+    /// * NAME: List based on each compute fleet's name.
+    ///
+    ///
+    /// Use sortOrder to specify in what order to list the compute fleet names based on the preceding criteria.
+    public var sortBy: CodeBuildClientTypes.FleetSortByType?
+    /// The order in which to list compute fleets. Valid values include:
+    ///
+    /// * ASCENDING: List in ascending order.
+    ///
+    /// * DESCENDING: List in descending order.
+    ///
+    ///
+    /// Use sortBy to specify the criterion to be used to list compute fleet names.
+    public var sortOrder: CodeBuildClientTypes.SortOrderType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: CodeBuildClientTypes.FleetSortByType? = nil,
+        sortOrder: CodeBuildClientTypes.SortOrderType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+struct ListFleetsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let sortOrder: CodeBuildClientTypes.SortOrderType?
+    let sortBy: CodeBuildClientTypes.FleetSortByType?
+}
+
+extension ListFleetsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+        case sortOrder
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.SortOrderType.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetSortByType.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+    }
+}
+
+extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListFleetsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fleets = output.fleets
+            self.nextToken = output.nextToken
+        } else {
+            self.fleets = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFleetsOutput: Swift.Equatable {
+    /// The list of compute fleet names.
+    public var fleets: [Swift.String]?
+    /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
+    public var nextToken: Swift.String?
+
+    public init(
+        fleets: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.fleets = fleets
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFleetsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let fleets: [Swift.String]?
+}
+
+extension ListFleetsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fleets
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let fleetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fleets)
+        var fleetsDecoded0:[Swift.String]? = nil
+        if let fleetsContainer = fleetsContainer {
+            fleetsDecoded0 = [Swift.String]()
+            for string0 in fleetsContainer {
+                if let string0 = string0 {
+                    fleetsDecoded0?.append(string0)
+                }
+            }
+        }
+        fleets = fleetsDecoded0
+    }
+}
+
+enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -8874,6 +9914,7 @@ extension CodeBuildClientTypes.ProjectEnvironment: Swift.Codable {
         case certificate
         case computeType
         case environmentVariables
+        case fleet
         case image
         case imagePullCredentialsType
         case privilegedMode
@@ -8894,6 +9935,9 @@ extension CodeBuildClientTypes.ProjectEnvironment: Swift.Codable {
             for environmentvariable0 in environmentVariables {
                 try environmentVariablesContainer.encode(environmentvariable0)
             }
+        }
+        if let fleet = self.fleet {
+            try encodeContainer.encode(fleet, forKey: .fleet)
         }
         if let image = self.image {
             try encodeContainer.encode(image, forKey: .image)
@@ -8920,6 +9964,8 @@ extension CodeBuildClientTypes.ProjectEnvironment: Swift.Codable {
         image = imageDecoded
         let computeTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ComputeType.self, forKey: .computeType)
         computeType = computeTypeDecoded
+        let fleetDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ProjectFleet.self, forKey: .fleet)
+        fleet = fleetDecoded
         let environmentVariablesContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.EnvironmentVariable?].self, forKey: .environmentVariables)
         var environmentVariablesDecoded0:[CodeBuildClientTypes.EnvironmentVariable]? = nil
         if let environmentVariablesContainer = environmentVariablesContainer {
@@ -8988,11 +10034,13 @@ extension CodeBuildClientTypes {
         /// * For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.
         ///
         ///
-        /// For more information, see [Build Environment Compute Types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide.
+        /// If you're using compute fleets during project creation, computeType will be ignored. For more information, see [Build Environment Compute Types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide.
         /// This member is required.
         public var computeType: CodeBuildClientTypes.ComputeType?
         /// A set of environment variables to make available to builds for this build project.
         public var environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]?
+        /// A ProjectFleet object to use for this build project.
+        public var fleet: CodeBuildClientTypes.ProjectFleet?
         /// The image tag or image digest that identifies the Docker image to use for this build project. Use the following formats:
         ///
         /// * For an image tag: /:. For example, in the Docker repository that CodeBuild uses to manage its Docker images, this would be aws/codebuild/standard:4.0.
@@ -9021,7 +10069,7 @@ extension CodeBuildClientTypes {
         ///
         /// * The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).
         ///
-        /// * The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).
+        /// * The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).
         ///
         /// * The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).
         ///
@@ -9036,7 +10084,7 @@ extension CodeBuildClientTypes {
         /// * The environment types WINDOWS_CONTAINER and WINDOWS_SERVER_2019_CONTAINER are available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).
         ///
         ///
-        /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
+        /// If you're using compute fleets during project creation, type will be ignored. For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
         /// This member is required.
         public var type: CodeBuildClientTypes.EnvironmentType?
 
@@ -9044,6 +10092,7 @@ extension CodeBuildClientTypes {
             certificate: Swift.String? = nil,
             computeType: CodeBuildClientTypes.ComputeType? = nil,
             environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]? = nil,
+            fleet: CodeBuildClientTypes.ProjectFleet? = nil,
             image: Swift.String? = nil,
             imagePullCredentialsType: CodeBuildClientTypes.ImagePullCredentialsType? = nil,
             privilegedMode: Swift.Bool? = nil,
@@ -9054,6 +10103,7 @@ extension CodeBuildClientTypes {
             self.certificate = certificate
             self.computeType = computeType
             self.environmentVariables = environmentVariables
+            self.fleet = fleet
             self.image = image
             self.imagePullCredentialsType = imagePullCredentialsType
             self.privilegedMode = privilegedMode
@@ -9134,6 +10184,41 @@ extension CodeBuildClientTypes {
             self.mountOptions = mountOptions
             self.mountPoint = mountPoint
             self.type = type
+        }
+    }
+
+}
+
+extension CodeBuildClientTypes.ProjectFleet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fleetArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fleetArn = self.fleetArn {
+            try encodeContainer.encode(fleetArn, forKey: .fleetArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fleetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fleetArn)
+        fleetArn = fleetArnDecoded
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// Information about the compute fleet of the build project. For more information, see [Working with reserved capacity in CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html).
+    public struct ProjectFleet: Swift.Equatable {
+        /// Specifies the compute fleet ARN for the build project.
+        public var fleetArn: Swift.String?
+
+        public init(
+            fleetArn: Swift.String? = nil
+        )
+        {
+            self.fleetArn = fleetArn
         }
     }
 
@@ -10928,6 +12013,150 @@ extension CodeBuildClientTypes {
 
 }
 
+extension CodeBuildClientTypes.ScalingConfigurationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxCapacity
+        case scalingType
+        case targetTrackingScalingConfigs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxCapacity = self.maxCapacity {
+            try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
+        }
+        if let scalingType = self.scalingType {
+            try encodeContainer.encode(scalingType.rawValue, forKey: .scalingType)
+        }
+        if let targetTrackingScalingConfigs = targetTrackingScalingConfigs {
+            var targetTrackingScalingConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetTrackingScalingConfigs)
+            for targettrackingscalingconfiguration0 in targetTrackingScalingConfigs {
+                try targetTrackingScalingConfigsContainer.encode(targettrackingscalingconfiguration0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetScalingType.self, forKey: .scalingType)
+        scalingType = scalingTypeDecoded
+        let targetTrackingScalingConfigsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.TargetTrackingScalingConfiguration?].self, forKey: .targetTrackingScalingConfigs)
+        var targetTrackingScalingConfigsDecoded0:[CodeBuildClientTypes.TargetTrackingScalingConfiguration]? = nil
+        if let targetTrackingScalingConfigsContainer = targetTrackingScalingConfigsContainer {
+            targetTrackingScalingConfigsDecoded0 = [CodeBuildClientTypes.TargetTrackingScalingConfiguration]()
+            for structure0 in targetTrackingScalingConfigsContainer {
+                if let structure0 = structure0 {
+                    targetTrackingScalingConfigsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetTrackingScalingConfigs = targetTrackingScalingConfigsDecoded0
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
+        maxCapacity = maxCapacityDecoded
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// The scaling configuration input of a compute fleet.
+    public struct ScalingConfigurationInput: Swift.Equatable {
+        /// The maximum number of instances in the ﬂeet when auto-scaling.
+        public var maxCapacity: Swift.Int?
+        /// The scaling type for a compute fleet.
+        public var scalingType: CodeBuildClientTypes.FleetScalingType?
+        /// A list of TargetTrackingScalingConfiguration objects.
+        public var targetTrackingScalingConfigs: [CodeBuildClientTypes.TargetTrackingScalingConfiguration]?
+
+        public init(
+            maxCapacity: Swift.Int? = nil,
+            scalingType: CodeBuildClientTypes.FleetScalingType? = nil,
+            targetTrackingScalingConfigs: [CodeBuildClientTypes.TargetTrackingScalingConfiguration]? = nil
+        )
+        {
+            self.maxCapacity = maxCapacity
+            self.scalingType = scalingType
+            self.targetTrackingScalingConfigs = targetTrackingScalingConfigs
+        }
+    }
+
+}
+
+extension CodeBuildClientTypes.ScalingConfigurationOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredCapacity
+        case maxCapacity
+        case scalingType
+        case targetTrackingScalingConfigs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let desiredCapacity = self.desiredCapacity {
+            try encodeContainer.encode(desiredCapacity, forKey: .desiredCapacity)
+        }
+        if let maxCapacity = self.maxCapacity {
+            try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
+        }
+        if let scalingType = self.scalingType {
+            try encodeContainer.encode(scalingType.rawValue, forKey: .scalingType)
+        }
+        if let targetTrackingScalingConfigs = targetTrackingScalingConfigs {
+            var targetTrackingScalingConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetTrackingScalingConfigs)
+            for targettrackingscalingconfiguration0 in targetTrackingScalingConfigs {
+                try targetTrackingScalingConfigsContainer.encode(targettrackingscalingconfiguration0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetScalingType.self, forKey: .scalingType)
+        scalingType = scalingTypeDecoded
+        let targetTrackingScalingConfigsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.TargetTrackingScalingConfiguration?].self, forKey: .targetTrackingScalingConfigs)
+        var targetTrackingScalingConfigsDecoded0:[CodeBuildClientTypes.TargetTrackingScalingConfiguration]? = nil
+        if let targetTrackingScalingConfigsContainer = targetTrackingScalingConfigsContainer {
+            targetTrackingScalingConfigsDecoded0 = [CodeBuildClientTypes.TargetTrackingScalingConfiguration]()
+            for structure0 in targetTrackingScalingConfigsContainer {
+                if let structure0 = structure0 {
+                    targetTrackingScalingConfigsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetTrackingScalingConfigs = targetTrackingScalingConfigsDecoded0
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
+        maxCapacity = maxCapacityDecoded
+        let desiredCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredCapacity)
+        desiredCapacity = desiredCapacityDecoded
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// The scaling configuration output of a compute fleet.
+    public struct ScalingConfigurationOutput: Swift.Equatable {
+        /// The desired number of instances in the ﬂeet when auto-scaling.
+        public var desiredCapacity: Swift.Int?
+        /// The maximum number of instances in the ﬂeet when auto-scaling.
+        public var maxCapacity: Swift.Int?
+        /// The scaling type for a compute fleet.
+        public var scalingType: CodeBuildClientTypes.FleetScalingType?
+        /// A list of TargetTrackingScalingConfiguration objects.
+        public var targetTrackingScalingConfigs: [CodeBuildClientTypes.TargetTrackingScalingConfiguration]?
+
+        public init(
+            desiredCapacity: Swift.Int? = nil,
+            maxCapacity: Swift.Int? = nil,
+            scalingType: CodeBuildClientTypes.FleetScalingType? = nil,
+            targetTrackingScalingConfigs: [CodeBuildClientTypes.TargetTrackingScalingConfiguration]? = nil
+        )
+        {
+            self.desiredCapacity = desiredCapacity
+            self.maxCapacity = maxCapacity
+            self.scalingType = scalingType
+            self.targetTrackingScalingConfigs = targetTrackingScalingConfigs
+        }
+    }
+
+}
+
 extension CodeBuildClientTypes {
     public enum ServerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bitbucket
@@ -11725,6 +12954,7 @@ extension StartBuildInput: Swift.Encodable {
         case encryptionKeyOverride
         case environmentTypeOverride
         case environmentVariablesOverride
+        case fleetOverride
         case gitCloneDepthOverride
         case gitSubmodulesConfigOverride
         case idempotencyToken
@@ -11782,6 +13012,9 @@ extension StartBuildInput: Swift.Encodable {
             for environmentvariable0 in environmentVariablesOverride {
                 try environmentVariablesOverrideContainer.encode(environmentvariable0)
             }
+        }
+        if let fleetOverride = self.fleetOverride {
+            try encodeContainer.encode(fleetOverride, forKey: .fleetOverride)
         }
         if let gitCloneDepthOverride = self.gitCloneDepthOverride {
             try encodeContainer.encode(gitCloneDepthOverride, forKey: .gitCloneDepthOverride)
@@ -11886,6 +13119,8 @@ public struct StartBuildInput: Swift.Equatable {
     public var environmentTypeOverride: CodeBuildClientTypes.EnvironmentType?
     /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
     public var environmentVariablesOverride: [CodeBuildClientTypes.EnvironmentVariable]?
+    /// A ProjectFleet object specified for this build that overrides the one defined in the build project.
+    public var fleetOverride: CodeBuildClientTypes.ProjectFleet?
     /// The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
     public var gitCloneDepthOverride: Swift.Int?
     /// Information about the Git submodules configuration for this build of an CodeBuild build project.
@@ -11941,6 +13176,7 @@ public struct StartBuildInput: Swift.Equatable {
         encryptionKeyOverride: Swift.String? = nil,
         environmentTypeOverride: CodeBuildClientTypes.EnvironmentType? = nil,
         environmentVariablesOverride: [CodeBuildClientTypes.EnvironmentVariable]? = nil,
+        fleetOverride: CodeBuildClientTypes.ProjectFleet? = nil,
         gitCloneDepthOverride: Swift.Int? = nil,
         gitSubmodulesConfigOverride: CodeBuildClientTypes.GitSubmodulesConfig? = nil,
         idempotencyToken: Swift.String? = nil,
@@ -11974,6 +13210,7 @@ public struct StartBuildInput: Swift.Equatable {
         self.encryptionKeyOverride = encryptionKeyOverride
         self.environmentTypeOverride = environmentTypeOverride
         self.environmentVariablesOverride = environmentVariablesOverride
+        self.fleetOverride = fleetOverride
         self.gitCloneDepthOverride = gitCloneDepthOverride
         self.gitSubmodulesConfigOverride = gitSubmodulesConfigOverride
         self.idempotencyToken = idempotencyToken
@@ -12030,6 +13267,7 @@ struct StartBuildInputBody: Swift.Equatable {
     let registryCredentialOverride: CodeBuildClientTypes.RegistryCredential?
     let imagePullCredentialsTypeOverride: CodeBuildClientTypes.ImagePullCredentialsType?
     let debugSessionEnabled: Swift.Bool?
+    let fleetOverride: CodeBuildClientTypes.ProjectFleet?
 }
 
 extension StartBuildInputBody: Swift.Decodable {
@@ -12044,6 +13282,7 @@ extension StartBuildInputBody: Swift.Decodable {
         case encryptionKeyOverride
         case environmentTypeOverride
         case environmentVariablesOverride
+        case fleetOverride
         case gitCloneDepthOverride
         case gitSubmodulesConfigOverride
         case idempotencyToken
@@ -12167,6 +13406,8 @@ extension StartBuildInputBody: Swift.Decodable {
         imagePullCredentialsTypeOverride = imagePullCredentialsTypeOverrideDecoded
         let debugSessionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .debugSessionEnabled)
         debugSessionEnabled = debugSessionEnabledDecoded
+        let fleetOverrideDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ProjectFleet.self, forKey: .fleetOverride)
+        fleetOverride = fleetOverrideDecoded
     }
 }
 
@@ -12514,6 +13755,51 @@ extension CodeBuildClientTypes {
 
 }
 
+extension CodeBuildClientTypes.TargetTrackingScalingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricType
+        case targetValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricType = self.metricType {
+            try encodeContainer.encode(metricType.rawValue, forKey: .metricType)
+        }
+        if let targetValue = self.targetValue {
+            try encodeContainer.encode(targetValue, forKey: .targetValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetScalingMetricType.self, forKey: .metricType)
+        metricType = metricTypeDecoded
+        let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue)
+        targetValue = targetValueDecoded
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// Defines when a new instance is auto-scaled into the compute fleet.
+    public struct TargetTrackingScalingConfiguration: Swift.Equatable {
+        /// The metric type to determine auto-scaling.
+        public var metricType: CodeBuildClientTypes.FleetScalingMetricType?
+        /// The value of metricType when to start scaling.
+        public var targetValue: Swift.Double?
+
+        public init(
+            metricType: CodeBuildClientTypes.FleetScalingMetricType? = nil,
+            targetValue: Swift.Double? = nil
+        )
+        {
+            self.metricType = metricType
+            self.targetValue = targetValue
+        }
+    }
+
+}
+
 extension CodeBuildClientTypes.TestCase: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case durationInNanoSeconds
@@ -12742,6 +14028,224 @@ extension CodeBuildClientTypes {
         }
     }
 
+}
+
+extension UpdateFleetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case baseCapacity
+        case computeType
+        case environmentType
+        case scalingConfiguration
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let baseCapacity = self.baseCapacity {
+            try encodeContainer.encode(baseCapacity, forKey: .baseCapacity)
+        }
+        if let computeType = self.computeType {
+            try encodeContainer.encode(computeType.rawValue, forKey: .computeType)
+        }
+        if let environmentType = self.environmentType {
+            try encodeContainer.encode(environmentType.rawValue, forKey: .environmentType)
+        }
+        if let scalingConfiguration = self.scalingConfiguration {
+            try encodeContainer.encode(scalingConfiguration, forKey: .scalingConfiguration)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension UpdateFleetInput {
+
+    static func urlPathProvider(_ value: UpdateFleetInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateFleetInput: Swift.Equatable {
+    /// The ARN of the compute fleet.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
+    public var baseCapacity: Swift.Int?
+    /// Information about the compute resources the compute fleet uses. Available values include:
+    ///
+    /// * BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.
+    ///
+    /// * BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
+    ///
+    /// * BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.
+    ///
+    /// * BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.
+    ///
+    /// * BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.
+    ///
+    ///
+    /// If you use BUILD_GENERAL1_SMALL:
+    ///
+    /// * For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.
+    ///
+    /// * For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+    ///
+    /// * For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.
+    ///
+    ///
+    /// If you use BUILD_GENERAL1_LARGE:
+    ///
+    /// * For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
+    ///
+    /// * For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+    ///
+    /// * For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.
+    ///
+    ///
+    /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide.
+    public var computeType: CodeBuildClientTypes.ComputeType?
+    /// The environment type of the compute fleet.
+    ///
+    /// * The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).
+    ///
+    /// * The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).
+    ///
+    /// * The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).
+    ///
+    /// * The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
+    ///
+    /// * The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+    ///
+    ///
+    /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
+    public var environmentType: CodeBuildClientTypes.EnvironmentType?
+    /// The scaling configuration of the compute fleet.
+    public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
+    /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
+    public var tags: [CodeBuildClientTypes.Tag]?
+
+    public init(
+        arn: Swift.String? = nil,
+        baseCapacity: Swift.Int? = nil,
+        computeType: CodeBuildClientTypes.ComputeType? = nil,
+        environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+        scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
+        tags: [CodeBuildClientTypes.Tag]? = nil
+    )
+    {
+        self.arn = arn
+        self.baseCapacity = baseCapacity
+        self.computeType = computeType
+        self.environmentType = environmentType
+        self.scalingConfiguration = scalingConfiguration
+        self.tags = tags
+    }
+}
+
+struct UpdateFleetInputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let baseCapacity: Swift.Int?
+    let environmentType: CodeBuildClientTypes.EnvironmentType?
+    let computeType: CodeBuildClientTypes.ComputeType?
+    let scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
+    let tags: [CodeBuildClientTypes.Tag]?
+}
+
+extension UpdateFleetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case baseCapacity
+        case computeType
+        case environmentType
+        case scalingConfiguration
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let baseCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseCapacity)
+        baseCapacity = baseCapacityDecoded
+        let environmentTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.EnvironmentType.self, forKey: .environmentType)
+        environmentType = environmentTypeDecoded
+        let computeTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ComputeType.self, forKey: .computeType)
+        computeType = computeTypeDecoded
+        let scalingConfigurationDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ScalingConfigurationInput.self, forKey: .scalingConfiguration)
+        scalingConfiguration = scalingConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CodeBuildClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CodeBuildClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension UpdateFleetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateFleetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fleet = output.fleet
+        } else {
+            self.fleet = nil
+        }
+    }
+}
+
+public struct UpdateFleetOutput: Swift.Equatable {
+    /// A Fleet object.
+    public var fleet: CodeBuildClientTypes.Fleet?
+
+    public init(
+        fleet: CodeBuildClientTypes.Fleet? = nil
+    )
+    {
+        self.fleet = fleet
+    }
+}
+
+struct UpdateFleetOutputBody: Swift.Equatable {
+    let fleet: CodeBuildClientTypes.Fleet?
+}
+
+extension UpdateFleetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fleet
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fleetDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.Fleet.self, forKey: .fleet)
+        fleet = fleetDecoded
+    }
+}
+
+enum UpdateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountLimitExceededException": return try await AccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension UpdateProjectInput: Swift.Encodable {

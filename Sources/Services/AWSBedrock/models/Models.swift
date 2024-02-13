@@ -57,8 +57,6 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-public enum BedrockClientTypes {}
-
 extension BedrockClientTypes.CloudWatchConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case largeDataDeliveryS3Config

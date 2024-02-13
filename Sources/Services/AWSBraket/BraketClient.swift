@@ -178,6 +178,7 @@ extension BraketClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : An error occurred due to a conflict.
+    /// - `DeviceOfflineException` : The specified device is currently offline.
     /// - `DeviceRetiredException` : The specified device has been retired.
     /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.

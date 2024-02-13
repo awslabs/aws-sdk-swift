@@ -520,8 +520,6 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
-public enum IoTDataPlaneClientTypes {}
-
 extension ListNamedShadowsForThingInput {
 
     static func queryItemProvider(_ value: ListNamedShadowsForThingInput) throws -> [ClientRuntime.SDKURLQueryItem] {

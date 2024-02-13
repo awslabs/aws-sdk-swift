@@ -293,5 +293,3 @@ extension SageMakerMetricsClientTypes {
     }
 
 }
-
-public enum SageMakerMetricsClientTypes {}

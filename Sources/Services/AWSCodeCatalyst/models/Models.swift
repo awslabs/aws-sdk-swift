@@ -129,8 +129,6 @@ extension CodeCatalystClientTypes {
     }
 }
 
-public enum CodeCatalystClientTypes {}
-
 extension CodeCatalystClientTypes {
     public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case beginsWith

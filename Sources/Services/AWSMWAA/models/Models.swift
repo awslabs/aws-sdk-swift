@@ -1066,7 +1066,7 @@ extension MWAAClientTypes {
         public var environmentClass: Swift.String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
         public var executionRoleArn: Swift.String?
-        /// The Amazon Web Services Key Management Service (KMS) encryption key used to encrypt the data in your environment.
+        /// The KMS encryption key used to encrypt the data in your environment.
         public var kmsKey: Swift.String?
         /// The status of the last update on the environment.
         public var lastUpdate: MWAAClientTypes.LastUpdate?
@@ -1118,9 +1118,11 @@ extension MWAAClientTypes {
         ///
         /// * DELETED - Indicates the request to delete the environment is complete, and the environment has been deleted.
         ///
-        /// * UNAVAILABLE - Indicates the request failed, but the environment was unable to rollback and is not in a stable state.
+        /// * UNAVAILABLE - Indicates the request failed, but the environment did not return to its previous state and is not stable.
         ///
-        /// * UPDATE_FAILED - Indicates the request to update the environment failed, and the environment has rolled back successfully and is ready to use.
+        /// * UPDATE_FAILED - Indicates the request to update the environment failed, and the environment was restored to its previous state successfully and is ready to use.
+        ///
+        /// * MAINTENANCE - Indicates that the environment is undergoing maintenance. Depending on the type of work Amazon MWAA is performing, your environment might become unavailable during this process. After all operations are done, your environment will return to its status prior to mainteneace operations.
         ///
         ///
         /// We recommend reviewing our troubleshooting guide for a list of common errors and their solutions. For more information, see [Amazon MWAA troubleshooting](https://docs.aws.amazon.com/mwaa/latest/userguide/troubleshooting.html).
@@ -1129,7 +1131,7 @@ extension MWAAClientTypes {
         public var tags: [Swift.String:Swift.String]?
         /// The Apache Airflow web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
         public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
-        /// The Apache Airflow Web server host name for the Amazon MWAA environment. For more information, see [Accessing the Apache Airflow UI](https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
+        /// The Apache Airflow web server host name for the Amazon MWAA environment. For more information, see [Accessing the Apache Airflow UI](https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
         public var webserverUrl: Swift.String?
         /// The VPC endpoint for the environment's web server.
         public var webserverVpcEndpointService: Swift.String?
@@ -1216,6 +1218,7 @@ extension MWAAClientTypes {
         case creatingSnapshot
         case deleted
         case deleting
+        case maintenance
         case pending
         case rollingBack
         case unavailable
@@ -1231,6 +1234,7 @@ extension MWAAClientTypes {
                 .creatingSnapshot,
                 .deleted,
                 .deleting,
+                .maintenance,
                 .pending,
                 .rollingBack,
                 .unavailable,
@@ -1251,6 +1255,7 @@ extension MWAAClientTypes {
             case .creatingSnapshot: return "CREATING_SNAPSHOT"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .maintenance: return "MAINTENANCE"
             case .pending: return "PENDING"
             case .rollingBack: return "ROLLING_BACK"
             case .unavailable: return "UNAVAILABLE"
@@ -1876,8 +1881,6 @@ extension MWAAClientTypes {
         }
     }
 }
-
-public enum MWAAClientTypes {}
 
 extension MWAAClientTypes.MetricDatum: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {

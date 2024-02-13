@@ -3492,8 +3492,6 @@ extension ManagedBlockchainClientTypes {
 
 }
 
-public enum ManagedBlockchainClientTypes {}
-
 extension ManagedBlockchainClientTypes.Member: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"

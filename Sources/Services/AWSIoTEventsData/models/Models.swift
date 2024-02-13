@@ -2840,8 +2840,6 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
-public enum IoTEventsDataClientTypes {}
-
 extension ListAlarmsInput {
 
     static func queryItemProvider(_ value: ListAlarmsInput) throws -> [ClientRuntime.SDKURLQueryItem] {

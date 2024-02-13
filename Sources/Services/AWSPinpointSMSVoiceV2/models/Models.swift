@@ -10582,8 +10582,6 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 }
 
-public enum PinpointSMSVoiceV2ClientTypes {}
-
 extension PinpointSMSVoiceV2ClientTypes.PoolFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"

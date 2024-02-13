@@ -17188,6 +17188,41 @@ extension RedshiftClientTypes {
 
 }
 
+extension RedshiftClientTypes {
+    public enum ImpactRankingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpactRankingType] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImpactRankingType(rawValue: rawValue) ?? ImpactRankingType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InProgressTableRestoreQuotaExceededFault {
 
     static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
@@ -18772,6 +18807,112 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     )
     {
         self.properties.message = message
+    }
+}
+
+extension ListRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case namespaceArn = "NamespaceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        if let namespaceArn = namespaceArn {
+            try container.encode(namespaceArn, forKey: ClientRuntime.Key("NamespaceArn"))
+        }
+        try container.encode("ListRecommendations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListRecommendationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRecommendationsInput: Swift.Equatable {
+    /// The unique identifier of the Amazon Redshift cluster for which the list of Advisor recommendations is returned. If the neither the cluster identifier and the cluster namespace ARN parameters are specified, then recommendations for all clusters in the account are returned.
+    public var clusterIdentifier: Swift.String?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+    public var maxRecords: Swift.Int?
+    /// The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for which the list of Advisor recommendations is returned. If the neither the cluster identifier and the cluster namespace ARN parameters are specified, then recommendations for all clusters in the account are returned.
+    public var namespaceArn: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        namespaceArn: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.namespaceArn = namespaceArn
+    }
+}
+
+extension ListRecommendationsOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListRecommendationsOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ListRecommendationsResult"]
+            var value = ListRecommendationsOutput()
+            value.marker = try reader["Marker"].readIfPresent()
+            value.recommendations = try reader["Recommendations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Recommendation.readingClosure, memberNodeInfo: "Recommendation", isFlattened: false)
+            return value
+        }
+    }
+}
+
+public struct ListRecommendationsOutput: Swift.Equatable {
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+    /// The Advisor recommendations for action on the Amazon Redshift cluster.
+    public var recommendations: [RedshiftClientTypes.Recommendation]?
+
+    public init(
+        marker: Swift.String? = nil,
+        recommendations: [RedshiftClientTypes.Recommendation]? = nil
+    )
+    {
+        self.marker = marker
+        self.recommendations = recommendations
+    }
+}
+
+enum ListRecommendationsOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "ClusterNotFound": return try await ClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "UnsupportedOperation": return try await UnsupportedOperationFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
     }
 }
 
@@ -22513,6 +22654,258 @@ enum RebootClusterOutputError {
     }
 }
 
+extension RedshiftClientTypes.Recommendation: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case id = "Id"
+        case impactRanking = "ImpactRanking"
+        case namespaceArn = "NamespaceArn"
+        case observation = "Observation"
+        case recommendationText = "RecommendationText"
+        case recommendationType = "RecommendationType"
+        case recommendedActions = "RecommendedActions"
+        case referenceLinks = "ReferenceLinks"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        if let createdAt = createdAt {
+            try container.encodeTimestamp(createdAt, format: .dateTime, forKey: ClientRuntime.Key("CreatedAt"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let id = id {
+            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        }
+        if let impactRanking = impactRanking {
+            try container.encode(impactRanking, forKey: ClientRuntime.Key("ImpactRanking"))
+        }
+        if let namespaceArn = namespaceArn {
+            try container.encode(namespaceArn, forKey: ClientRuntime.Key("NamespaceArn"))
+        }
+        if let observation = observation {
+            try container.encode(observation, forKey: ClientRuntime.Key("Observation"))
+        }
+        if let recommendationText = recommendationText {
+            try container.encode(recommendationText, forKey: ClientRuntime.Key("RecommendationText"))
+        }
+        if let recommendationType = recommendationType {
+            try container.encode(recommendationType, forKey: ClientRuntime.Key("RecommendationType"))
+        }
+        if let recommendedActions = recommendedActions {
+            if !recommendedActions.isEmpty {
+                var recommendedActionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RecommendedActions"))
+                for (index0, recommendedaction0) in recommendedActions.enumerated() {
+                    try recommendedActionsContainer.encode(recommendedaction0, forKey: ClientRuntime.Key("RecommendedAction.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var recommendedActionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RecommendedActions"))
+                try recommendedActionsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let referenceLinks = referenceLinks {
+            if !referenceLinks.isEmpty {
+                var referenceLinksContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ReferenceLinks"))
+                for (index0, referencelink0) in referenceLinks.enumerated() {
+                    try referenceLinksContainer.encode(referencelink0, forKey: ClientRuntime.Key("ReferenceLink.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var referenceLinksContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ReferenceLinks"))
+                try referenceLinksContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let title = title {
+            try container.encode(title, forKey: ClientRuntime.Key("Title"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<RedshiftClientTypes.Recommendation, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = RedshiftClientTypes.Recommendation()
+            value.id = try reader["Id"].readIfPresent()
+            value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+            value.namespaceArn = try reader["NamespaceArn"].readIfPresent()
+            value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .dateTime)
+            value.recommendationType = try reader["RecommendationType"].readIfPresent()
+            value.title = try reader["Title"].readIfPresent()
+            value.description = try reader["Description"].readIfPresent()
+            value.observation = try reader["Observation"].readIfPresent()
+            value.impactRanking = try reader["ImpactRanking"].readIfPresent()
+            value.recommendationText = try reader["RecommendationText"].readIfPresent()
+            value.recommendedActions = try reader["RecommendedActions"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RecommendedAction.readingClosure, memberNodeInfo: "RecommendedAction", isFlattened: false)
+            value.referenceLinks = try reader["ReferenceLinks"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ReferenceLink.readingClosure, memberNodeInfo: "ReferenceLink", isFlattened: false)
+            return value
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// An Amazon Redshift Advisor recommended action on the Amazon Redshift cluster.
+    public struct Recommendation: Swift.Equatable {
+        /// The unique identifier of the cluster for which the recommendation is returned.
+        public var clusterIdentifier: Swift.String?
+        /// The date and time (UTC) that the recommendation was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The description of the recommendation.
+        public var description: Swift.String?
+        /// A unique identifier of the Advisor recommendation.
+        public var id: Swift.String?
+        /// The scale of the impact that the Advisor recommendation has to the performance and cost of the cluster.
+        public var impactRanking: RedshiftClientTypes.ImpactRankingType?
+        /// The Amazon Redshift cluster namespace ARN for which the recommendations is returned.
+        public var namespaceArn: Swift.String?
+        /// The description of what was observed about your cluster.
+        public var observation: Swift.String?
+        /// The description of the recommendation.
+        public var recommendationText: Swift.String?
+        /// The type of Advisor recommendation.
+        public var recommendationType: Swift.String?
+        /// List of Amazon Redshift recommended actions.
+        public var recommendedActions: [RedshiftClientTypes.RecommendedAction]?
+        /// List of helpful links for more information about the Advisor recommendation.
+        public var referenceLinks: [RedshiftClientTypes.ReferenceLink]?
+        /// The title of the recommendation.
+        public var title: Swift.String?
+
+        public init(
+            clusterIdentifier: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            impactRanking: RedshiftClientTypes.ImpactRankingType? = nil,
+            namespaceArn: Swift.String? = nil,
+            observation: Swift.String? = nil,
+            recommendationText: Swift.String? = nil,
+            recommendationType: Swift.String? = nil,
+            recommendedActions: [RedshiftClientTypes.RecommendedAction]? = nil,
+            referenceLinks: [RedshiftClientTypes.ReferenceLink]? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.clusterIdentifier = clusterIdentifier
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.impactRanking = impactRanking
+            self.namespaceArn = namespaceArn
+            self.observation = observation
+            self.recommendationText = recommendationText
+            self.recommendationType = recommendationType
+            self.recommendedActions = recommendedActions
+            self.referenceLinks = referenceLinks
+            self.title = title
+        }
+    }
+
+}
+
+extension RedshiftClientTypes.RecommendedAction: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command = "Command"
+        case database = "Database"
+        case text = "Text"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let command = command {
+            try container.encode(command, forKey: ClientRuntime.Key("Command"))
+        }
+        if let database = database {
+            try container.encode(database, forKey: ClientRuntime.Key("Database"))
+        }
+        if let text = text {
+            try container.encode(text, forKey: ClientRuntime.Key("Text"))
+        }
+        if let type = type {
+            try container.encode(type, forKey: ClientRuntime.Key("Type"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<RedshiftClientTypes.RecommendedAction, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = RedshiftClientTypes.RecommendedAction()
+            value.text = try reader["Text"].readIfPresent()
+            value.database = try reader["Database"].readIfPresent()
+            value.command = try reader["Command"].readIfPresent()
+            value.type = try reader["Type"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The recommended action from the Amazon Redshift Advisor recommendation.
+    public struct RecommendedAction: Swift.Equatable {
+        /// The command to run.
+        public var command: Swift.String?
+        /// The database name to perform the action on. Only applicable if the type of command is SQL.
+        public var database: Swift.String?
+        /// The specific instruction about the command.
+        public var text: Swift.String?
+        /// The type of command.
+        public var type: RedshiftClientTypes.RecommendedActionType?
+
+        public init(
+            command: Swift.String? = nil,
+            database: Swift.String? = nil,
+            text: Swift.String? = nil,
+            type: RedshiftClientTypes.RecommendedActionType? = nil
+        )
+        {
+            self.command = command
+            self.database = database
+            self.text = text
+            self.type = type
+        }
+    }
+
+}
+
+extension RedshiftClientTypes {
+    public enum RecommendedActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cli
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendedActionType] {
+            return [
+                .cli,
+                .sql,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cli: return "CLI"
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecommendedActionType(rawValue: rawValue) ?? RecommendedActionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension RedshiftClientTypes.RecurringCharge: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recurringChargeAmount = "RecurringChargeAmount"
@@ -22559,8 +22952,6 @@ extension RedshiftClientTypes {
     }
 
 }
-
-public enum RedshiftClientTypes {}
 
 extension RedshiftClientTypes.RedshiftIdcApplication: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -22805,6 +23196,53 @@ public struct RedshiftIdcApplicationQuotaExceededFault: ClientRuntime.ModeledErr
     {
         self.properties.message = message
     }
+}
+
+extension RedshiftClientTypes.ReferenceLink: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case link = "Link"
+        case text = "Text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let link = link {
+            try container.encode(link, forKey: ClientRuntime.Key("Link"))
+        }
+        if let text = text {
+            try container.encode(text, forKey: ClientRuntime.Key("Text"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<RedshiftClientTypes.ReferenceLink, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = RedshiftClientTypes.ReferenceLink()
+            value.text = try reader["Text"].readIfPresent()
+            value.link = try reader["Link"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// A link to an Amazon Redshift Advisor reference for more information about a recommendation.
+    public struct ReferenceLink: Swift.Equatable {
+        /// The URL address to find more information.
+        public var link: Swift.String?
+        /// The hyperlink text that describes the link to more information.
+        public var text: Swift.String?
+
+        public init(
+            link: Swift.String? = nil,
+            text: Swift.String? = nil
+        )
+        {
+            self.link = link
+            self.text = text
+        }
+    }
+
 }
 
 extension RejectDataShareInput: Swift.Encodable {

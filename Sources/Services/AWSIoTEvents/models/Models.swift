@@ -4272,8 +4272,6 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
-public enum IoTEventsClientTypes {}
-
 extension IoTEventsClientTypes.IotEventsAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputName
