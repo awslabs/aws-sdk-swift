@@ -88,8 +88,10 @@ jobs:
           set -o pipefail && \
           NSUnbufferedIO=YES \
           xcodebuild \
-            -list \
+            -scheme aws-sdk-swift-Package \
             -destination 'platform=OS X'
+            build-for-testing 2>&1 \
+            | xcpretty
       - name: Run Integration Tests
         run: |
           set -o pipefail && \
